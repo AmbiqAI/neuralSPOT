@@ -1,6 +1,7 @@
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
+build
 CMakeScripts
 Testing
 Makefile

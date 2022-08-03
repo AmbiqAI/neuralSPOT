@@ -27,6 +27,18 @@ SECTIONS
         _etext = .;
     } > MCU_MRAM
 
+    .ARM.extab :
+    {
+        *(.ARM.extab* .gnu.linkonce.armextab.*)
+    } > MCU_MRAM
+
+    __exidx_start = .;
+    .ARM.exidx :
+    {
+        *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+    } > MCU_MRAM
+    __exidx_end = .;
+
     /* User stack section initialized by startup code. */
     .stack (NOLOAD):
     {

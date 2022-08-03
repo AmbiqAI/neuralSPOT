@@ -6,8 +6,13 @@ set(CPU                       "cortex-m4")
 set(FPU                       "fpv4-sp-d16")
 set(FABI                      "hard")
 
-add_compile_definitions(PART_apollo4b)
-add_compile_definitions(AM_PART_APOLLO4B)
-add_compile_definitions(DAM_PACKAGE_BGA)
+set(part                      apollo4b)
+string(TOUPPER ${part}        PART) # AmbiqSuite uses both upper and lower case defs
+set(EVB                       evb)
+
+add_compile_definitions(PART_${part})
+add_compile_definitions(AM_PART_${PART})
+add_compile_definitions(AM_PACKAGE_BGA)
 add_compile_definitions(gcc)
-add_compile_definitions(DTF_LITE_STATIC_MEMORY)
+add_compile_definitions(TF_LITE_STATIC_MEMORY)
+add_compile_definitions(TF_LITE_STRIP_ERROR_STRINGS)

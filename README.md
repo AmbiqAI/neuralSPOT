@@ -16,3 +16,13 @@ To build the example:
 3. build the example: 'make'
 
 NOTE: you need cmake 3.24
+
+
+
+# Makefile Planning
+Using recursionless makefiles
+1. foo/module.mk for each subdirectory artifact
+2. generate .a or .axf per each module.mk
+3. top level makefile just stiches stuff together
+
+Started on a skeleton - currently writing ns-ipc module.mk, still figuring out how to generate objects 

@@ -11,11 +11,11 @@ add_library(ambiqsuite STATIC
 
 # Pre-compiled AmbiqSuite static libraries
 add_library(libam_hal STATIC IMPORTED)
-set_target_properties(libam_hal PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/apollo4b/libam_hal.a)
+set_target_properties(libam_hal PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/${part}/libam_hal.a)
 add_library(libam_bsp STATIC IMPORTED)
-set_target_properties(libam_bsp PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/apollo4b/libam_bsp.a)
-add_library(libarm_cortexM4l_math STATIC IMPORTED)
-set_target_properties(libarm_cortexM4l_math PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/libarm_cortexM4l_math.a)
+set_target_properties(libam_bsp PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/${part}/${EVB}/libam_bsp.a)
+#add_library(libarm_cortexM4l_math STATIC IMPORTED)
+#set_target_properties(libarm_cortexM4l_math PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/libarm_cortexM4l_math.a)
 add_library(libarm_cortexM4lf_math STATIC IMPORTED)
 set_target_properties(libarm_cortexM4lf_math PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib/libarm_cortexM4lf_math.a)
 
@@ -31,7 +31,8 @@ target_include_directories(ambiqsuite PUBLIC
 
 # Force linked to resolve circular library dependencies -
 target_link_libraries(ambiqsuite PRIVATE
-    "$<LINK_GROUP:RESCAN,-lm,-lc,-lgcc,-lnosys,libam_hal,libam_bsp,libarm_cortexM4l_math,libarm_cortexM4lf_math>"
+#"$<LINK_GROUP:RESCAN,-lm,-lc,-lgcc,-lnosys,libam_hal,libam_bsp,libarm_cortexM4l_math,libarm_cortexM4lf_math>"
+"$<LINK_GROUP:RESCAN,-lm,-lc,-lgcc,-lnosys,libam_hal,libam_bsp,libarm_cortexM4lf_math>"
 )
 
 target_link_options(ambiqsuite PUBLIC -T ${CMAKE_CURRENT_SOURCE_DIR}/src/linker_script.ld)

@@ -26,3 +26,18 @@ Using recursionless makefiles
 3. top level makefile just stiches stuff together
 
 Started on a skeleton - currently writing ns-ipc module.mk, still figuring out how to generate objects 
+
+Our 'externs' are special cases, not really covered by most examples
+1. AS has some code, and an ton of include paths, and some libs
+2. TF is a lib and some include paths
+
+Ideas:
+1. create a 'global_inc' var which is populated by extern modules.mk (and don't try to make 'em too smart)
+2. Change the includes to <> and have a single top level -I per extern
+	1. Don't know if this will work for extern headers including extern headers
+
+We need to do the same for 'libs' - the subdirs know what libs should be included by examples/apps
+
+May be easier to do recursive with the ideas listed above.
+
+I want customers to be able to link this in easily. NS should export a linkable library with limited set of API headers ('make neuralspot' creates a standalone NS directory).

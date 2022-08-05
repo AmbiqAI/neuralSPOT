@@ -2,11 +2,11 @@
 ##### Toolchain Defaults #####
 TOOLCHAIN ?= arm-none-eabi
 COMPILERNAME := gcc
-BINDIR := bin
-SHELL:=/bin/bash
+BINDIR := build
+SHELL  :=/bin/bash
 
 ##### Target Hardware Defaults #####
-BOARD   := apollo4p     # apollo4p or apollo4b
+BOARD   :=apollo4p
 PART     = $(BOARD)
 CPU      = cortex-m4
 FPU      = fpv4-sp-d16
@@ -16,7 +16,7 @@ FPU      = fpv4-sp-d16
 FABI     = hard
 
 ##### Extern Library Defaults #####
-AMBIQSUITE_VERSION := R4.1.0
+AS_VERSION := R4.1.0
 
 ##### Application Defaults #####
 TARGET      := examples     # set to 'examples' to compile app inside 

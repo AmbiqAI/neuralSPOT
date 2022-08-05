@@ -10,23 +10,9 @@ subdirectory = $(patsubst %/module.mk,%,                        \
 
 # $(call make-library, library-name, source-file-list)
 define make-library
-  libraries += $1
-  sources   += $2
+libraries += $1
+sources   += $2
 
-  $1: $(call source-to-object,$2)
-        $(AR) $(ARFLAGS) $$@ $$^
-endef
-
-# $(call make-bin, bin-name, object-list, library-list)
-define make-bin
-  libraries += $1
-  sources   += $2
-
-  $1: 
-  	$(Q) $(CP) $(CPFLAGS) $< $@
-	$(Q) $(OD) $(ODFLAGS) $< > $(CONFIG)/$(TARGET).lst
-	$(Q) $(SIZE) $(OBJS) $(LIBS) $(CONFIG)/$(TARGET).axf >$(CONFIG)/$(TARGET).size
- 
-  $1: $(call source-to-object,$2)
-        $(AR) $(ARFLAGS) $$@ $$^
+$1: $(call source-to-object,$2)
+	$(AR) $(ARFLAGS) $$@ $$^
 endef

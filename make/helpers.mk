@@ -14,5 +14,5 @@ libraries += $1
 sources   += $2
 
 $1: $(call source-to-object,$2)
-	$(AR) $(ARFLAGS) $$@ $$^
+	$(Q) $(AR) rsc $$@ $$^
 endef

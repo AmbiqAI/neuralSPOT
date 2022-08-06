@@ -7,6 +7,7 @@ SHELL  :=/bin/bash
 
 ##### Target Hardware Defaults #####
 BOARD   :=apollo4p
+EVB   :=evb
 PART     = $(BOARD)
 CPU      = cortex-m4
 FPU      = fpv4-sp-d16
@@ -17,6 +18,7 @@ FABI     = hard
 
 ##### Extern Library Defaults #####
 AS_VERSION := R4.1.0
+TF_VERSION := R2.3.1
 
 ##### Application Defaults #####
 TARGET      := examples     # set to 'examples' to compile app inside 

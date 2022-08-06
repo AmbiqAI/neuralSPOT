@@ -18,9 +18,6 @@ AR = $(TOOLCHAIN)-ar
 SIZE = $(TOOLCHAIN)-size
 RM = $(shell which rm 2>/dev/null)
 
-LINKER_FILE := ./linker_script.ld
-STARTUP_FILE := ./startup_$(COMPILERNAME).c
-
 # EXECUTABLES = CC LD CP OD AR RD SIZE GCC JLINK JLINK_SWO
 # K := $(foreach exec,$(EXECUTABLES),\
 #         $(if $(shell which $($(exec)) 2>/dev/null),,\
@@ -40,17 +37,18 @@ CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99 
 #CFLAGS+= -O3
 CFLAGS+= -g -O0
-#CFLAGS+= $(DEFINES)
-#CFLAGS+= $(INCLUDES)
 CFLAGS+= 
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -lstdc++ -fno-exceptions
-LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(CONFIG)/$(TARGET).map
-LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(LIBS) -Wl,--end-group
+LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,output.map
+LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(lib_prebuilt) $(libraries) -Wl,--end-group
 LFLAGS+=
 
-$(info --$(PART)--)
+CPFLAGS = -Obinary
+ODFLAGS = -S
+
+$(info Building for $(PART))
 DEFINES += PART_$(PART)
 ifeq ($(PART),apollo4b)
 DEFINES+= AM_PART_APOLLO4B

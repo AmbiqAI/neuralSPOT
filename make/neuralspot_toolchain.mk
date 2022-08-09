@@ -6,6 +6,8 @@ ifneq ($(VERBOSE),1)
 Q:=@
 endif
 
+.PRECIOUS: %.o
+
 #### Required Executables ####
 CC = $(TOOLCHAIN)-gcc
 GCC = $(TOOLCHAIN)-gcc

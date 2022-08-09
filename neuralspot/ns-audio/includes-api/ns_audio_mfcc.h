@@ -58,9 +58,9 @@ extern float g_audioMinInt;
 extern float g_audioSumInt;
 
 extern void
-mfcc_init(void);
+ns_mfcc_init(void);
 extern void
-mfcc_compute(const int16_t *audio_data, float *mfcc_out);
+ns_mfcc_compute(const int16_t *audio_data, float *mfcc_out);
 
 #ifdef __cplusplus
 }

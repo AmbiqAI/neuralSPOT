@@ -41,64 +41,53 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-// This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
+// This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite
+// Development Package.
 //
 //*****************************************************************************
 
-#include "am_mcu_apollo.h"
 #include "am_bsp.h"
+#include "am_mcu_apollo.h"
 #include "am_util.h"
-#include "power.h"
+#include "ns_peripherals_power.h"
 
-const am_ai_power_config_t am_ai_development_default =
-{
-        .eAIPowerMode         = AM_AI_MAXIMUM_PERF,
-        .bNeedAudAdc          = true,
-        .bNeedSharedSRAM      = true,
-        .bNeedCrypto          = true,
-        .bNeedBluetooth       = true,
-        .bNeedAlternativeUART = true
-};
+const ns_power_config_t ns_development_default = {.eAIPowerMode =
+                                                      NS_MAXIMUM_PERF,
+                                                  .bNeedAudAdc = true,
+                                                  .bNeedSharedSRAM = true,
+                                                  .bNeedCrypto = true,
+                                                  .bNeedBluetooth = true,
+                                                  .bNeedAlternativeUART = true};
 
-const am_ai_power_config_t am_ai_good_default =
-{
-        .eAIPowerMode         = AM_AI_MAXIMUM_PERF,
-        .bNeedAudAdc          = false,
-        .bNeedSharedSRAM      = false,
-        .bNeedCrypto          = true,
-        .bNeedBluetooth       = false,
-        .bNeedAlternativeUART = false
-};
+const ns_power_config_t ns_good_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .bNeedAudAdc = false,
+                                           .bNeedSharedSRAM = false,
+                                           .bNeedCrypto = true,
+                                           .bNeedBluetooth = false,
+                                           .bNeedAlternativeUART = false};
 
-const am_ai_power_config_t am_ai_mlperf_recommended_default =
-{
-        .eAIPowerMode         = AM_AI_MAXIMUM_PERF,
-        .bNeedAudAdc          = false,
-        .bNeedSharedSRAM      = false,
-        .bNeedCrypto          = false,
-        .bNeedBluetooth       = false,
-        .bNeedAlternativeUART = true
-};
+const ns_power_config_t ns_mlperf_recommended_default = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedAlternativeUART = true};
 
-const am_ai_power_config_t am_ai_mlperf_ulp_default =
-{
-        .eAIPowerMode         = AM_AI_MINIMUM_PERF,
-        .bNeedAudAdc          = false,
-        .bNeedSharedSRAM      = false,
-        .bNeedCrypto          = false,
-        .bNeedBluetooth       = false,
-        .bNeedAlternativeUART = true
-};
+const ns_power_config_t ns_mlperf_ulp_default = {.eAIPowerMode =
+                                                     NS_MINIMUM_PERF,
+                                                 .bNeedAudAdc = false,
+                                                 .bNeedSharedSRAM = false,
+                                                 .bNeedCrypto = false,
+                                                 .bNeedBluetooth = false,
+                                                 .bNeedAlternativeUART = true};
 
-const am_ai_power_config_t am_ai_audio_default =
-{
-        .eAIPowerMode         = AM_AI_MAXIMUM_PERF,
-        .bNeedAudAdc          = true,
-        .bNeedSharedSRAM      = false,
-        .bNeedCrypto          = false,
-        .bNeedBluetooth       = false,
-        .bNeedAlternativeUART = false
-};
+const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                            .bNeedAudAdc = true,
+                                            .bNeedSharedSRAM = false,
+                                            .bNeedCrypto = false,
+                                            .bNeedBluetooth = false,
+                                            .bNeedAlternativeUART = false};
 
 //*****************************************************************************
 //
@@ -106,36 +95,40 @@ const am_ai_power_config_t am_ai_audio_default =
 //
 //*****************************************************************************
 void
-am_ai_power_down_peripherals(const am_ai_power_config_t *pCfg) {
+ns_power_down_peripherals(const ns_power_config_t *pCfg) {
 
     //
     // Disable the XTAL.
-    // 
+    //
     am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_RTC_SEL_LFRC, 0);
 
     //
     // Turn off the voltage comparator.
     //
     VCOMP->PWDKEY = _VAL2FLD(VCOMP_PWDKEY_PWDKEY, VCOMP_PWDKEY_PWDKEY_Key);
- 
+
 #if defined(AM_PART_APOLLO4)
     //
     // Configure the MRAM for low power mode
     //
     MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 0;
-    MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN   = 0;
-    MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN   = 1;
+    MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
+    MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
 #endif
 
 #ifdef AM_DEVICES_BLECTRLR_RESET_PIN
     if (pCfg->bNeedBluetooth == false) {
-    //
-    // For SiP packages, put the BLE Controller in reset.
-    //
-    am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
-    am_hal_gpio_pinconfig(AM_DEVICES_BLECTRLR_RESET_PIN,   am_hal_gpio_pincfg_output);
-    am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_SET);
-    am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
+        //
+        // For SiP packages, put the BLE Controller in reset.
+        //
+        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN,
+                                AM_HAL_GPIO_OUTPUT_CLEAR);
+        am_hal_gpio_pinconfig(AM_DEVICES_BLECTRLR_RESET_PIN,
+                              am_hal_gpio_pincfg_output);
+        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN,
+                                AM_HAL_GPIO_OUTPUT_SET);
+        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN,
+                                AM_HAL_GPIO_OUTPUT_CLEAR);
     }
 #endif // AM_DEVICES_BLECTRLR_RESET_PIN
 
@@ -196,34 +189,33 @@ am_ai_power_down_peripherals(const am_ai_power_config_t *pCfg) {
     am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
 }
 
-uint32_t am_ai_set_power_mode(const am_ai_power_config_t *pCfg)
-{
+uint32_t
+ns_power_config(const ns_power_config_t *pCfg) {
     uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
     am_bsp_low_power_init();
 
     // configure SRAM & other memories
-    if (pCfg->bNeedSharedSRAM == false)
-    {
-        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg =
-        {
-            .eSRAMCfg         = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eActiveWithDSP   = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eSRAMRetain      = AM_HAL_PWRCTRL_SRAM_NONE
-        };
+    if (pCfg->bNeedSharedSRAM == false) {
+        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
+            .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithMCU = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithDSP = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
         am_hal_pwrctrl_sram_config(&SRAMMemCfg);
     }
 
     // The following two lines cause audio capture to be distorted - TBI
-    //am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-    //am_hal_cachectrl_enable();
+    // am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+    // am_hal_cachectrl_enable();
 
     // configure peripherals
-    am_ai_power_down_peripherals(pCfg);
+    ns_power_down_peripherals(pCfg);
 
     // Configure power mode
-    if ((pCfg->eAIPowerMode == AM_AI_MAXIMUM_PERF) || (pCfg->eAIPowerMode == AM_AI_MEDIUM_PERF))
-        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+    if ((pCfg->eAIPowerMode == NS_MAXIMUM_PERF) ||
+        (pCfg->eAIPowerMode == NS_MEDIUM_PERF))
+        am_hal_pwrctrl_mcu_mode_select(
+            AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
     else
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 

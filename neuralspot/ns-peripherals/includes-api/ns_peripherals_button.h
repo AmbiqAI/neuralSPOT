@@ -1,20 +1,16 @@
 //*****************************************************************************
 //
-//! @file hello_world_uart.c
+//! @file button.h
 //!
-//! @brief A simple "Hello World" example using the UART peripheral.
+//! @brief Utility for reading EVB Buttons.
 //!
-//! This example prints a "Hello World" message with some device info
-//! over UART at 115200 baud.
-//! To see the output of this program, run a terminal appl such as
-//! Tera Term or PuTTY, and configure the console for UART.
-//! The example sleeps after it is done printing.
+//! Purpose: Reading EVB buttons
 //
 //*****************************************************************************
 
 //*****************************************************************************
 //
-// Copyright (c) 2021, Ambiq Micro, Inc.
+// Copyright (c) 2022, Ambiq Micro, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -49,45 +45,25 @@
 // This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
-#ifndef MLPERF_POWER
-#define MLPERF_POWER
+#ifndef NS_PERIPHERAL_BUTTON
+#define NS_PERIPHERAL_BUTTON
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
+typedef struct {
+    bool    button_0_enable;
+    bool    button_1_enable;
+    int     *button_0_flag;
+    int     *button_1_flag;
+} ns_button_config_t;
 
-typedef enum
-{
-    AM_AI_MINIMUM_PERF = 0, // slowest clock
-    AM_AI_MEDIUM_PERF  = 1, // ~100Mhz clock
-    AM_AI_MAXIMUM_PERF = 2  // ~200Mhz clock
-} am_ai_power_mode_e;
-
-typedef struct
-{
-    am_ai_power_mode_e eAIPowerMode;
-    bool               bNeedAudAdc;
-    bool               bNeedSharedSRAM;
-    bool               bNeedCrypto;
-    bool               bNeedBluetooth;
-    bool               bNeedAlternativeUART; // for EEMBC Power Control Module and similar
-} am_ai_power_config_t;
-
-extern const am_ai_power_config_t am_ai_development_default;
-extern const am_ai_power_config_t am_ai_good_default;
-extern const am_ai_power_config_t am_ai_mlperf_recommended_default;
-extern const am_ai_power_config_t am_ai_mlperf_ulp_default;
-extern const am_ai_power_config_t am_ai_audio_default;
-
-extern uint32_t am_ai_set_power_mode(const am_ai_power_config_t*);
+extern void ns_peripheral_button_init(ns_button_config_t*);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // MLPERF_POWER
+#endif // NS_PERIPHERAL_BUTTON

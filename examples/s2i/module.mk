@@ -1,4 +1,4 @@
-local_app_name := s2i_relu6
+local_app_name := s2i_example
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_bin := $(subdirectory)/$(BINDIR)

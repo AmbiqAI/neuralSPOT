@@ -1,16 +1,20 @@
 //*****************************************************************************
 //
-//! @file button.h
+//! @file hello_world_uart.c
 //!
-//! @brief Utility for reading EVB Buttons.
+//! @brief A simple "Hello World" example using the UART peripheral.
 //!
-//! Purpose: Reading EVB buttons
+//! This example prints a "Hello World" message with some device info
+//! over UART at 115200 baud.
+//! To see the output of this program, run a terminal appl such as
+//! Tera Term or PuTTY, and configure the console for UART.
+//! The example sleeps after it is done printing.
 //
 //*****************************************************************************
 
 //*****************************************************************************
 //
-// Copyright (c) 2022, Ambiq Micro, Inc.
+// Copyright (c) 2021, Ambiq Micro, Inc.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -45,8 +49,8 @@
 // This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
-#ifndef AI_BUTTON
-#define AI_BUTTON
+#ifndef MLPERF_POWER
+#define MLPERF_POWER
 
 #ifdef __cplusplus
 extern "C"
@@ -56,12 +60,34 @@ extern "C"
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
-extern int g_intButtonPressed;
-extern void am_gpio0_001f_isr(void);
-extern void button_init(void);
+
+typedef enum
+{
+    NS_MINIMUM_PERF = 0, // slowest clock
+    NS_MEDIUM_PERF  = 1, // ~100Mhz clock
+    NS_MAXIMUM_PERF = 2  // ~200Mhz clock
+} ns_power_mode_e;
+
+typedef struct
+{
+    ns_power_mode_e    eAIPowerMode;
+    bool               bNeedAudAdc;
+    bool               bNeedSharedSRAM;
+    bool               bNeedCrypto;
+    bool               bNeedBluetooth;
+    bool               bNeedAlternativeUART; // for EEMBC Power Control Module and similar
+} ns_power_config_t;
+
+extern const ns_power_config_t ns_development_default;
+extern const ns_power_config_t ns_good_default;
+extern const ns_power_config_t ns_mlperf_recommended_default;
+extern const ns_power_config_t ns_mlperf_ulp_default;
+extern const ns_power_config_t ns_audio_default;
+
+extern uint32_t ns_power_config(const ns_power_config_t*);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // AI_AUDIO
+#endif // MLPERF_POWER

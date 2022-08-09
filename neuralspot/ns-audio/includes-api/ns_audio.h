@@ -41,60 +41,59 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-// This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
+// This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite
+// Development Package.
 //
 //*****************************************************************************
 #ifndef AI_AUDIO
 #define AI_AUDIO
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-#include "am_mcu_apollo.h"
 #include "am_bsp.h"
+#include "am_mcu_apollo.h"
 #include "am_util.h"
-#include "am_app_utils_ring_buffer.h"
+#include "ns_ipc_ring_buffer.h"
 
 // ******** new API
 typedef enum {
-    AM_AI_AUDIO_API_CALLBACK,
-    AM_AI_AUDIO_API_RINGBUFFER,
-    AM_AI_AUDIO_API_TASK,
-} am_ai_audio_api_mode_e;
+    NS_AUDIO_API_CALLBACK,
+    NS_AUDIO_API_RINGBUFFER,
+    NS_AUDIO_API_TASK,
+} ns_audio_api_mode_e;
 
-typedef enum {
-    AM_AI_AUDIO_SOURCE_AUDADC
-} am_ai_audio_source_e;
+typedef enum { NS_AUDIO_SOURCE_AUDADC } ns_audio_source_e;
 
 struct am_ai_acfg;
-typedef void (*am_ai_audio_callback_cb)(struct am_ai_acfg*, uint16_t);
+typedef void (*ns_audio_callback_cb)(struct am_ai_acfg *, uint16_t);
 
-//typedef uint16_t audio_buffer_t[][];
+// typedef uint16_t audio_buffer_t[][];
 
 typedef struct am_ai_acfg {
     // API Config
-    am_ai_audio_api_mode_e  eAudioApiMode;
+    ns_audio_api_mode_e eAudioApiMode;
 
     // IPC
-    am_ai_audio_callback_cb callback;
-    void                   *audioBuffer;
+    ns_audio_callback_cb callback;
+    void *audioBuffer;
 
     // Audio Config
-    am_ai_audio_source_e    eAudioSource;
-    uint8_t                 numChannels; // 1 or 2
-    uint16_t                numSamples;  // Samples collected per callback
-    uint16_t                sampleRate;  // Hz
+    ns_audio_source_e eAudioSource;
+    uint8_t numChannels; // 1 or 2
+    uint16_t numSamples; // Samples collected per callback
+    uint16_t sampleRate; // Hz
 
     // Internals
-    void                    *audioSystemHandle; // filled by init
+    void *audioSystemHandle;                  // filled by init
     am_app_utils_ring_buffer_t *bufferHandle; // filled by init
 
-} am_ai_audio_config_t;
+} ns_audio_config_t;
 
-extern am_ai_audio_config_t am_ai_audio_config;
-extern void audio_init(am_ai_audio_config_t*);
+extern ns_audio_config_t g_ns_audio_config;
+extern void
+ns_audio_init(ns_audio_config_t *);
 
 #ifdef __cplusplus
 }

@@ -3,6 +3,7 @@
 TOOLCHAIN ?= arm-none-eabi
 COMPILERNAME := gcc
 BINDIR := build
+NESTDIR := nest
 SHELL  :=/bin/bash
 
 ##### Target Hardware Defaults #####

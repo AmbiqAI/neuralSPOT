@@ -41,3 +41,18 @@ We need to do the same for 'libs' - the subdirs know what libs should be include
 May be easier to do recursive with the ideas listed above.
 
 I want customers to be able to link this in easily. NS should export a linkable library with limited set of API headers ('make neuralspot' creates a standalone NS directory).
+
+
+# More Ideas
+OK, everything is working! I even re-factored the code to have a consistent pattern.
+
+Next step: get NS to install as a 'nest' for arbitrary AI projects. Something like
+
+make install
+
+It would create a new directory with an example makefile and a stub main().
+
+make install-audio
+make install-all
+make install-tf
+etc.

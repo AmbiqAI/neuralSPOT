@@ -73,10 +73,9 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
 #ifdef RINGBUFFER_MODE
-#include "ns_ipc_ring_buffer.h"
+    #include "ns_ipc_ring_buffer.h"
 #endif
 #include "ns_peripherals_button.h"
-#include "ns_audio_mfcc.h"
 #include "ns_peripherals_power.h"
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
@@ -87,24 +86,48 @@
 
 #include "slu_model_act8.h"
 
+//*****************************************************************************
+//*** Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
-#define NUM_FRAMES 100
-#define NUM_MFCC_COEFFS 13
-#define NUM_MFCC_FEATURES NUM_MFCC_COEFFS
-#define MFCC_DEC_BITS 4
-#define FRAME_SHIFT_MS 30
-#define FRAME_SHIFT ((int16_t)(SAMP_FREQ * 0.001 * FRAME_SHIFT_MS))
-#define MFCC_BUFFER_SIZE (NUM_FRAMES * NUM_MFCC_COEFFS)
-#define FRAME_LEN_MS 30
-#define FRAME_LEN 480 // ((int16_t)(SAMP_FREQ * 0.001 * FRAME_LEN_MS))
 
+#define NUM_CHANNELS 1
+#define NUM_FRAMES 100
+#define SAMPLES_IN_FRAME 480
+#define SAMPLE_RATE 16000
+//*****************************************************************************
+
+
+//*****************************************************************************
+//*** MFCC Config (define-based for perf)
+#define MFCC_OVERRIDE_DEFAULTS 
+    #define MFCC_SAMP_FREQ SAMPLE_RATE
+    #define MFCC_NUM_FBANK_BINS 40
+    #define MFCC_MEL_LOW_FREQ 20
+    #define MFCC_MEL_HIGH_FREQ 8000
+    #define MFCC_NUM_FRAMES NUM_FRAMES
+    #define MFCC_NUM_MFCC_COEFFS 13
+    #define MFCC_NUM_MFCC_FEATURES MFCC_NUM_MFCC_COEFFS
+    #define MFCC_MFCC_DEC_BITS 4
+    #define MFCC_FRAME_SHIFT_MS 30
+    #define MFCC_FRAME_SHIFT ((int16_t)(MFCC_SAMP_FREQ * 0.001 * MFCC_FRAME_SHIFT_MS))
+    #define MFCC_MFCC_BUFFER_SIZE (MFCC_NUM_FRAMES * MFCC_NUM_MFCC_COEFFS)
+    #define MFCC_FRAME_LEN_MS 30
+    #define MFCC_FRAME_LEN SAMPLES_IN_FRAME // ((int16_t)(SAMP_FREQ * 0.001 * FRAME_LEN_MS))
+    #define MFCC_FRAME_LEN_POW2 512
+#include "ns_audio_mfcc.h"
+//*** End of MFCC config
+//*****************************************************************************
+
+
+//*****************************************************************************
+//*** Model-specific Stuff
 int recording_win = NUM_FRAMES;
 int num_frames = NUM_FRAMES;
-int num_mfcc_features = NUM_MFCC_COEFFS;
-int frame_shift = FRAME_SHIFT;
-int frame_len = FRAME_LEN;
-int mfcc_dec_bits = MFCC_DEC_BITS;
+int num_mfcc_features = MFCC_NUM_MFCC_COEFFS;
+int frame_shift = MFCC_FRAME_SHIFT;
+int frame_len = MFCC_FRAME_LEN;
+int mfcc_dec_bits = MFCC_MFCC_DEC_BITS;
 
 const char *intents[] = {
     "decrease",        "deactivate", "increase",
@@ -116,8 +139,12 @@ const char *slots[] = {
     "music",  "heat",     "lights",  "kitchen", "newspaper", "lamp",
     "german", "korean",   "english", "bedroom", "none",
 };
+//***
+//*****************************************************************************
 
-// Tensorflow Globals (somewhat boilerplate)
+
+//*****************************************************************************
+//*** Tensorflow Globals (somewhat boilerplate)
 tflite::ErrorReporter *error_reporter = nullptr;
 const tflite::Model *model = nullptr;
 tflite::MicroInterpreter *interpreter = nullptr;
@@ -127,6 +154,9 @@ TfLiteTensor *output_slot = nullptr;
 
 constexpr int kTensorArenaSize = 1024 * 70;
 alignas(16) uint8_t tensor_arena[kTensorArenaSize];
+//***
+//*****************************************************************************
+
 
 /**
  * @brief Initialize TF with s2i model
@@ -171,38 +201,9 @@ model_init(void) {
     input = interpreter->input(0);
     output_slot = interpreter->output(0);
     output_intent = interpreter->output(1);
-
-#ifdef DEBUG
-    am_util_stdio_printf("input->dims->size %d\n", input->dims->size);
-    am_util_stdio_printf("input->dims->data[0] %d\n", input->dims->data[0]);
-    am_util_stdio_printf("input->dims->data[1] %d\n", input->dims->data[1]);
-    am_util_stdio_printf("input->dims->data[2] %d\n", input->dims->data[2]);
-    am_util_stdio_printf("type input->type %d\n", input->type);
-
-    am_util_stdio_printf("\n");
-
-    am_util_stdio_printf("output_intent->dims->size %d\n",
-                         output_intent->dims->size);
-    am_util_stdio_printf("output_intent->dims->data[0] %d\n",
-                         output_intent->dims->data[0]);
-    am_util_stdio_printf("debug: output_intent->dims->data[1] %d\n",
-                         output_intent->dims->data[1]);
-    am_util_stdio_printf("output_intent->type %d\n", output_intent->type);
-
-    am_util_stdio_printf("\n");
-
-    am_util_stdio_printf("output_slot->dims->size %d\n",
-                         output_slot->dims->size);
-    am_util_stdio_printf("output_slot->dims->data[0] %d\n",
-                         output_slot->dims->data[0]);
-    am_util_stdio_printf("output_slot->dims->data[1] %d\n",
-                         output_slot->dims->data[1]);
-    am_util_stdio_printf("output_slot->dims->data[2] %d\n",
-                         output_slot->dims->data[2]);
-    am_util_stdio_printf("output_slot->type %d\n", output_slot->type);
-#endif
 }
 
+//*****************************************************************************
 //*** Button Config
 int g_intButtonPressed = 0;
 /**
@@ -215,17 +216,14 @@ ns_button_config_t button_config = {
     .button_0_flag = &g_intButtonPressed,
     .button_1_flag = NULL
 };
+//*****************************************************************************
 
-//*** Audio Config
-#define NUM_CHANNELS 1
-#define NUM_FRAMES 100
-#define SAMPLES_IN_FRAME 480
-#define SAMPLE_RATE 16000
 
-//** IPC Globals
+//*****************************************************************************
+//*** Audio and IPC Config
 bool static g_audioRecording = false;
 bool static g_audioReady = false;
-//#define RINGBUFFER_MODE
+
 #ifdef RINGBUFFER_MODE
 am_app_utils_ring_buffer_t audioBuf[1];
 static uint8_t
@@ -298,6 +296,8 @@ ns_audio_config_t audio_config = {
     .bufferHandle = NULL
 #endif
 };
+//***
+//*****************************************************************************
 
 /**
  * @brief Main function - infinite loop listening and inferring
@@ -307,7 +307,7 @@ ns_audio_config_t audio_config = {
 int
 main(void) {
     float tmp;
-    float mfcc_buffer[NUM_FRAMES * NUM_MFCC_COEFFS];
+    float mfcc_buffer[NUM_FRAMES * MFCC_NUM_MFCC_COEFFS];
     float y_intent[6];
     float y_slot[2][17];
     uint8_t y_slot_max[2];
@@ -391,20 +391,7 @@ main(void) {
             g_intButtonPressed = 0;
             recording_win = 100;
 
-#ifdef DEBUG
-            am_util_stdio_printf("MFCC: \n");
-            for (int i = 0; i < 100; i++) {
-                am_util_stdio_printf("%f ", mfcc_buffer[i]);
-                if (i % 13 == 0)
-                    am_util_stdio_printf("\n ");
-            }
-
-            for (uint16_t f = 0; f < num_frames * num_mfcc_features; f++) {
-                am_util_stdio_printf("mfcc_buff: %d\n", mfcc_buffer[f]);
-            }
-#endif
-
-            for (uint16_t i = 0; i < MFCC_BUFFER_SIZE; i = i + 1) {
+            for (uint16_t i = 0; i < MFCC_MFCC_BUFFER_SIZE; i = i + 1) {
                 tmp = mfcc_buffer[i] / input->params.scale +
                       input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);

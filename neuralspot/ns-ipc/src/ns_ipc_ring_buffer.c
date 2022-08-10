@@ -41,8 +41,6 @@
 //
 //*****************************************************************************
 
-//#include "am_vos_sys_config.h"
-
 #include <stdbool.h>
 #include <stdint.h>
 

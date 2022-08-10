@@ -48,7 +48,7 @@ OK, everything is working! I even re-factored the code to have a consistent patt
 
 Next step: get NS to install as a 'nest' for arbitrary AI projects. Something like
 
-make install
+make install directory=my_directory TF_VERSION=R2.5.2
 
 It would create a new directory with an example makefile and a stub main().
 
@@ -56,3 +56,23 @@ make install-audio
 make install-all
 make install-tf
 etc.
+
+How would someone get latest NS code?
+
+<nest-dir>
+Makefile
+README
+neuralspot/
+	/include
+	/libs/*.a
+deploy/
+	main.c
+	model.h
+
+How do I generate only required include files? The .d for main.c has all the dependencies
+
+
+Next
+1. Automatically create stub makefile
+2. Document everything purty
+3. Ask for a PR

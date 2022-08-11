@@ -1,78 +1,47 @@
 # neuralSPOT
 NeuralSPOT is Ambiq's AI Enablement Library
 
-Quick and Dirty Content Overview
-1. cmake: directory containing comming .cmake helper files, including the toolchain definition and common ambiq compiler directives
-2. examples: contains the 'application' you're building, today this is a basic hello_world, it doesn't even have tensorflow yet
-3. extern: any external libraries go here. This is where AmbiqSuite and Tensorflow live.
-	1. Only minimum code (header files and a handful of code files)
-	2. Static libraries
-	3. Organized by version
-4. libraries: contains neuralSpot, modularized into libraries (IPC, Audio for now, power coming soon)
+# Building and Deploying NeuralSPOT
+NeuralSPOT can be used in two ways:
+1. As the 'base of operations' for your AI development. Intended for stand-alone EVB development, you can add new binary (axf) targets to the /examples directory
+2. As a seed for adding NeuralSPOT to a larger project. In this mode of operations, you would use NeuralSPOT to create a stub project with everything needed to start running AI on EVBs
 
-To build the example:
-1. make a build directory, typically off of ./neuralSPOT
-2. set up cmake build env by: cd to build directory, run 'cmake ..'
-3. build the example: 'make'
+## Build Options
+'make' - builds everything, including every target in example
+'make clean' - deletes every build directory and artifact
+'make nest' - creates a minimal 'nest' with a basic main.cc stub file
 
-NOTE: you need cmake 3.24
+# Structure
+/neuralspot - contains all code for NeuralSPOT libraries
+/extern - contains external dependencies, including TF and AmbiqSuite
+/examples - contains several examples, each of which can be compiled to a deployable axf
+/make - contains makefile helpers, including neuralspot-config.mk
 
+## Configuring NeuralSPOT
+I want to make this a YAML interface, but for now it is makefile based. Options are the same you are used to from the AI repo
 
+# The Nest
+The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application.
 
-# Makefile Planning
-Using recursionless makefiles
-1. foo/module.mk for each subdirectory artifact
-2. generate .a or .axf per each module.mk
-3. top level makefile just stiches stuff together
+# Building Nest
+1. cd NeuralSpot
+2. make
+3. make nest
+4. cd nest
+5. make
 
-Started on a skeleton - currently writing ns-ipc module.mk, still figuring out how to generate objects 
-
-Our 'externs' are special cases, not really covered by most examples
-1. AS has some code, and an ton of include paths, and some libs
-2. TF is a lib and some include paths
-
-Ideas:
-1. create a 'global_inc' var which is populated by extern modules.mk (and don't try to make 'em too smart)
-2. Change the includes to <> and have a single top level -I per extern
-	1. Don't know if this will work for extern headers including extern headers
-
-We need to do the same for 'libs' - the subdirs know what libs should be included by examples/apps
-
-May be easier to do recursive with the ideas listed above.
-
-I want customers to be able to link this in easily. NS should export a linkable library with limited set of API headers ('make neuralspot' creates a standalone NS directory).
-
-
-# More Ideas
-OK, everything is working! I even re-factored the code to have a consistent pattern.
-
-Next step: get NS to install as a 'nest' for arbitrary AI projects. Something like
-
-make install directory=my_directory TF_VERSION=R2.5.2
-
-It would create a new directory with an example makefile and a stub main().
-
-make install-audio
-make install-all
-make install-tf
-etc.
-
-How would someone get latest NS code?
-
-<nest-dir>
-Makefile
-README
-neuralspot/
-	/include
-	/libs/*.a
-deploy/
+### Nest Directory Contents
+./Makefile
+./autogen.mk
+make/
+	helpers
+includes/
+	*.h with preserved original directory structure
+libs/
+	*.a
+src/
 	main.c
 	model.h
 
-How do I generate only required include files? The .d for main.c has all the dependencies
-
-
-Next
-1. Automatically create stub makefile
-2. Document everything purty
-3. Ask for a PR
+# Todo
+Jlink Support - still figuring out how to do that with multiple axf targets. Maybe a cache system

@@ -1,13 +1,6 @@
-CMakeLists.txt.user
-CMakeCache.txt
-CMakeFiles
 build
-CMakeScripts
+nest
 Testing
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-CTestTestfile.cmake
 _deps
 *.o
 *.old

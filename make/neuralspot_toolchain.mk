@@ -44,7 +44,7 @@ CFLAGS+=
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -lstdc++ -fno-exceptions
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
-LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(lib_prebuilt) $(libraries) -Wl,--end-group
+LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(libraries) $(lib_prebuilt) -Wl,--end-group
 LFLAGS+=
 
 CPFLAGS = -Obinary

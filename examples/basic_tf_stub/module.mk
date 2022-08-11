@@ -1,4 +1,4 @@
-local_app_name := basic_stub 
+local_app_name := main
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_bin := $(subdirectory)/$(BINDIR)

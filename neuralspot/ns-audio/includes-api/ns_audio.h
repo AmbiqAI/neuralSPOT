@@ -1,11 +1,13 @@
-//*****************************************************************************
-//
-//! @file am_ai_audio.h
-//!
-//! @brief NeuralSPOT Audio API
-//!
-//
-//*****************************************************************************
+/**
+ * @file ns_audio.h
+ * @author Carlos Morales
+ * @brief API Definition for NeuralSPOT Audio library
+ * @version 0.1
+ * @date 2022-08-12
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 
 //*****************************************************************************
 //
@@ -45,8 +47,8 @@
 // Development Package.
 //
 //*****************************************************************************
-#ifndef AI_AUDIO
-#define AI_AUDIO
+#ifndef NS_AUDIO
+#define NS_AUDIO
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,37 +59,48 @@ extern "C" {
 #include "am_util.h"
 #include "ns_ipc_ring_buffer.h"
 
-// ******** new API
+/// Audio IPC Modes
 typedef enum {
-    NS_AUDIO_API_CALLBACK,
-    NS_AUDIO_API_RINGBUFFER,
-    NS_AUDIO_API_TASK,
+    NS_AUDIO_API_CALLBACK,   ///< App-defined callback is invoked when audio is ready
+    NS_AUDIO_API_RINGBUFFER, ///< FreeRTOS ringbuffer is used to send audio to app
+    NS_AUDIO_API_TASK,       ///< FreeRTOS task event (TODO)
 } ns_audio_api_mode_e;
 
-typedef enum { NS_AUDIO_SOURCE_AUDADC } ns_audio_source_e;
+/// Audio Source (current only AUDADC is supported)
+typedef enum {
+    NS_AUDIO_SOURCE_AUDADC  ///< Collect data from AUDADC
+} ns_audio_source_e;
 
 struct am_ai_acfg;
+
+/// Invoked by IRQ when audio buffer is ready
 typedef void (*ns_audio_callback_cb)(struct am_ai_acfg *, uint16_t);
 
-// typedef uint16_t audio_buffer_t[][];
-
+/**
+ * NeuralSPOT Audio API Configuration Struct
+ *
+ * All configuration is via this struct, which also serves
+ * as a handle after ns_audio_init() has been invoked
+ *
+ */
 typedef struct am_ai_acfg {
-    // API Config
-    ns_audio_api_mode_e eAudioApiMode;
+    /** API Config */
+    ns_audio_api_mode_e eAudioApiMode; /**< Defines how the audio system will
+                                          interact with the applications */
 
-    // IPC
-    ns_audio_callback_cb callback;
-    void *audioBuffer;
+    /** IPC */
+    ns_audio_callback_cb callback; ////< Invoked when there is audio in buffer
+    void *audioBuffer; ///< Where the audio will be located when callback occurs
 
-    // Audio Config
-    ns_audio_source_e eAudioSource;
-    uint8_t numChannels; // 1 or 2
-    uint16_t numSamples; // Samples collected per callback
-    uint16_t sampleRate; // Hz
+    /** Audio Config */
+    ns_audio_source_e eAudioSource; ///< Choose audio source such as AUDADC
+    uint8_t numChannels; ///< Number of audio channels, currently 1 or 2
+    uint16_t numSamples; ///< Samples collected per callback
+    uint16_t sampleRate; ///< In Hz
 
-    // Internals
-    void *audioSystemHandle;                  // filled by init
-    am_app_utils_ring_buffer_t *bufferHandle; // filled by init
+    /** Internals */
+    void *audioSystemHandle;                  /**< Handle, filled by init */
+    am_app_utils_ring_buffer_t *bufferHandle; /**< Filled by init */
 
 } ns_audio_config_t;
 
@@ -99,4 +112,4 @@ ns_audio_init(ns_audio_config_t *);
 }
 #endif
 
-#endif // AI_AUDIO
+#endif // NS_AUDIO

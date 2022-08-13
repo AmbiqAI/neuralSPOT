@@ -64,6 +64,8 @@ all_includes = $(shell awk '/^ .*\.h/ {print $$1}' $(NESTSOURCE))
 nest_dirs = $(sort $(dir $(all_includes)))
 nest_libs = $(addprefix libs/,$(notdir $(libraries)))
 nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
+doc_sources = $(addprefix ../../,$(sources))
+doc_sources += $(addprefix ../../,$(includes_api))
 
 $(bindirs):
 	@mkdir -p $@
@@ -94,6 +96,14 @@ $(bindirs):
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
+
+.PHONY: docs
+docs:
+	@echo " Making Documents"
+	@echo "INCLUDES = $(doc_sources)"
+	@echo "EXCLUDE_PATTERNS = */AmbiqSuite/* */tensorflow/* */$(BINDIR)/* */$(NESTDIR)/*"
+#	@echo "H_INCLUDES = $(all_includes)"
+#	$(Q) $(DOX) docs/Doxyfile
 
 .PHONY: nest
 nest: all $(NESTSOURCE)

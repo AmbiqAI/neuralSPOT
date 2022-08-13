@@ -3,6 +3,8 @@ nest
 Testing
 _deps
 *.o
+./docs/docs/user_guide
+./docs/doxygen/doxy_out/rtf
 *.old
 *.log
 *.wav

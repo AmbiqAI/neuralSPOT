@@ -1,3 +1,17 @@
+/**
+ * @file ns_audio_mfcc.h
+ * @author Carlos Morales
+ * @brief Confifurable MFCC Calculator
+ * @version 0.1
+ * @date 2022-08-12
+ * 
+ * This MFCC utility is adapted from Arm's example C++ implementation.
+ * It can be configured via DEFINES, but better config support is planned.
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 /*
  * Copyright (C) 2018 Arm Limited or its affiliates. All rights reserved.
  *

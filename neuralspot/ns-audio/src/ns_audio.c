@@ -1,23 +1,12 @@
-//*****************************************************************************
-//
-//! @file audio.c
-//!
-//! @brief A set of libraries for capturing audio from AUDADC.
-//!
-//! Purpose: Utitlies for initializing the AUDADC and capturing audio to a
-//! buffer
-//!
-//! Additional Information:
-//! @RTT Streaming: Run rtt_logger.py to capture pcm raw data via PC.
-//!                 Should modify -RTTAddress in rtt_logger.py to _SEGGER_RTT
-//!                 address in audadc_rtt_stream.map The data saved as
-//!                 stereo(L:low gain/R: high gain)
-//!
-//! @pcm_to_wav.py:  Convert pcm raw data to wav file.
-//!                  Save mono left channel to destination file.
-//!
-//
-//*****************************************************************************
+/**
+ *
+ *  @file ns_audio.c
+ *
+ *  @brief Implementation of the NeuralSPOT ns-audio API
+ *
+ *  Purpose: A single point of entry for capture Ambiq Audio
+ *
+ **/
 
 //*****************************************************************************
 //
@@ -27,15 +16,17 @@
 //
 //*****************************************************************************
 
+#include "ns_audio.h"
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_audadc.h"
-#include "ns_audio.h"
 #include "ns_ipc_ring_buffer.h"
 
 //
-// RTT streaming buffer
+// Enable dumping audio to RTT via the AUDIODEBUG flag.
+//
+// Requires SSRAM to be enabled, so not compatible with some power modes
 //
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
@@ -47,7 +38,13 @@ AM_SHARED_RW int16_t g_in16SampleToRTT[AUDIO_SAMPLE_TO_RTT];
 uint32_t g_ui32SampleToRTT = 0;
 #endif
 
-// Populate with sane defaults
+/**
+ * @brief Audio Configuration and State
+ *
+ * This is populated here with some sane results, but it
+ * isn't valid until futher initialized by ns_audio_init
+ *
+ */
 ns_audio_config_t g_ns_audio_config = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
                                        .callback = NULL,
                                        .audioBuffer = NULL,
@@ -58,11 +55,11 @@ ns_audio_config_t g_ns_audio_config = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
                                        .audioSystemHandle = NULL,
                                        .bufferHandle = NULL};
 
-//*****************************************************************************
-//
-// Initialize audio system
-//
-//*****************************************************************************
+/**
+ * @brief Initialize NeuralSPOT audio capture library
+ *
+ * @param cfg : desired confiugration
+ */
 void
 ns_audio_init(ns_audio_config_t *cfg) {
     // Copy in config

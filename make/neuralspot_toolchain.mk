@@ -19,6 +19,7 @@ RD = $(TOOLCHAIN)-readelf
 AR = $(TOOLCHAIN)-ar
 SIZE = $(TOOLCHAIN)-size
 RM = $(shell which rm 2>/dev/null)
+DOX = doxygen
 
 # EXECUTABLES = CC LD CP OD AR RD SIZE GCC JLINK JLINK_SWO
 # K := $(foreach exec,$(EXECUTABLES),\

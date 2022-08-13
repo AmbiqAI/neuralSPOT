@@ -1,16 +1,14 @@
-//*****************************************************************************
-//
-//! @file s2i.cc
-//!
-//! @brief Speech-to-Intent using NeuralSPOT
-//!
-//! Speech-to-Intent is a neural-network-based Tensorflow model that listens
-//! for 3-5 second phrases and infers the intent of that phrase. It uses
-//! NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power 
-//! modes, read button state, and print to the Jlink SWO.
-//! 
-//
-//*****************************************************************************
+/**
+ @file s2i_example.cc
+
+ @brief Speech-to-Intent using NeuralSPOT
+
+ Speech-to-Intent is a neural-network-based Tensorflow model that listens
+ for 3-5 second phrases and infers the intent of that phrase. It uses
+ NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power 
+ modes, read button state, and print to the Jlink SWO.
+
+**/
 
 //*****************************************************************************
 //
@@ -51,8 +49,7 @@
 //
 //*****************************************************************************
 
-//*****************************************************************************
-// Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
+/// Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 //#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
@@ -64,12 +61,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-//
-//*****************************************************************************
 
-
-//*****************************************************************************
-// NeuralSPOT Includes
+/// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
 #ifdef RINGBUFFER_MODE
@@ -80,26 +73,23 @@
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
 #endif
-//
-//*****************************************************************************
 
-
+/// TFLM model
 #include "slu_model_act8.h"
 
-//*****************************************************************************
-//*** Assorted Configs and helpers
+/// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
+/// High level audio parameters
 #define NUM_CHANNELS 1
 #define NUM_FRAMES 100
 #define SAMPLES_IN_FRAME 480
 #define SAMPLE_RATE 16000
-//*****************************************************************************
 
-
-//*****************************************************************************
-//*** MFCC Config (define-based for perf)
+/// MFCC Config (define-based for perf)
+/// (must be done before including ns_audio_mfcc())
+///@{
 #define MFCC_OVERRIDE_DEFAULTS 
     #define MFCC_SAMP_FREQ SAMPLE_RATE
     #define MFCC_NUM_FBANK_BINS 40
@@ -116,12 +106,9 @@
     #define MFCC_FRAME_LEN SAMPLES_IN_FRAME // ((int16_t)(SAMP_FREQ * 0.001 * FRAME_LEN_MS))
     #define MFCC_FRAME_LEN_POW2 512
 #include "ns_audio_mfcc.h"
-//*** End of MFCC config
-//*****************************************************************************
+///@}
 
-
-//*****************************************************************************
-//*** Model-specific Stuff
+/// Model-specific Stuff
 int recording_win = NUM_FRAMES;
 int num_frames = NUM_FRAMES;
 int num_mfcc_features = MFCC_NUM_MFCC_COEFFS;
@@ -139,12 +126,8 @@ const char *slots[] = {
     "music",  "heat",     "lights",  "kitchen", "newspaper", "lamp",
     "german", "korean",   "english", "bedroom", "none",
 };
-//***
-//*****************************************************************************
 
-
-//*****************************************************************************
-//*** Tensorflow Globals (somewhat boilerplate)
+/// Tensorflow Globals (somewhat boilerplate)
 tflite::ErrorReporter *error_reporter = nullptr;
 const tflite::Model *model = nullptr;
 tflite::MicroInterpreter *interpreter = nullptr;
@@ -154,12 +137,13 @@ TfLiteTensor *output_slot = nullptr;
 
 constexpr int kTensorArenaSize = 1024 * 70;
 alignas(16) uint8_t tensor_arena[kTensorArenaSize];
-//***
-//*****************************************************************************
-
 
 /**
  * @brief Initialize TF with s2i model
+ * 
+ * This code is fairly common across most TF-based models.
+ * The major differences relate to input and output tensor
+ * handling.
  * 
  */
 void
@@ -203,32 +187,35 @@ model_init(void) {
     output_intent = interpreter->output(1);
 }
 
-//*****************************************************************************
-//*** Button Config
+/// Button global - will be set by neuralSPOT button helper
 int g_intButtonPressed = 0;
-/**
- * @brief Button Peripheral Config Struct
- * 
- */
+
+///Button Peripheral Config Struct
 ns_button_config_t button_config = {
     .button_0_enable = true,
     .button_1_enable = false,
     .button_0_flag = &g_intButtonPressed,
     .button_1_flag = NULL
 };
-//*****************************************************************************
 
 
-//*****************************************************************************
-//*** Audio and IPC Config
+// Audio and IPC Config
+
+/// Set by app when it wants to start recording, used by callback
 bool static g_audioRecording = false;
+
+/// Set by callback when audio buffer has been copied, cleared by
+/// app when the buffer has been consumed.
 bool static g_audioReady = false;
 
 #ifdef RINGBUFFER_MODE
+/// Ringbuffer storage
 am_app_utils_ring_buffer_t audioBuf[1];
 static uint8_t
     pui8AudioBuff[SAMPLES_IN_FRAME * 2 * 2]; // two buffers, 2 bytes/entry
 #endif
+
+/// Audio buffer for application
 int16_t static g_in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
 
 /**
@@ -296,8 +283,6 @@ ns_audio_config_t audio_config = {
     .bufferHandle = NULL
 #endif
 };
-//***
-//*****************************************************************************
 
 /**
  * @brief Main function - infinite loop listening and inferring

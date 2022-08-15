@@ -1,6 +1,6 @@
 /**
  * @file ns_ambiqsuite_harness.h
- * @author your name (you@domain.com)
+ * @author Carlos Morales
  * @brief Abstract common AmbiqSuite function calls
  * @version 0.1
  * @date 2022-08-09

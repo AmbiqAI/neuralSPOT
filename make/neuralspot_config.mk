@@ -22,7 +22,7 @@ AS_VERSION := R4.1.0
 TF_VERSION := R2.3.1
 
 ##### Application Defaults #####
-TARGET      := s2i_example # default target for binary-specific operations such as 'deploy' 
+TARGET      := main# default target for binary-specific operations such as 'deploy' 
 
 ##### Common AI Precompiler Directives #####
 MLDEBUG     := 0    # 1 = load TF library with debug info, turn on TF debug statements

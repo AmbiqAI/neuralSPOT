@@ -27,10 +27,10 @@
 //
 //*****************************************************************************
 
+#include "ns_audadc.h"
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
-#include "ns_audadc.h"
 #include "ns_audio.h"
 
 // #define HFRC2_ADJ            0
@@ -139,7 +139,7 @@ audadc_slot_config(void) {
     #if defined(AM_PART_APOLLO4P)
     AUDADCSlotConfig.ui32TrkCyc = 30;
     #else
-    AUDADCSlotConfig.ui32TrkCyc = 24;
+    AUDADCSlotConfig.ui32TrkCyc = 30;
     #endif
 #endif
     AUDADCSlotConfig.eChannel = AM_HAL_AUDADC_SLOT_CHSEL_SE0;

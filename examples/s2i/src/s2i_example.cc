@@ -367,7 +367,7 @@ main(void) {
                     g_audioReady = false;
 #ifdef AUDIODEBUG
                     SEGGER_RTT_Write(1, g_in16AudioDataBuffer,
-                                     AUDADC_SAMPLE_BUF_SIZE * sizeof(int16_t));
+                                     SAMPLES_IN_FRAME * sizeof(int16_t));
 #endif
                 }
             }

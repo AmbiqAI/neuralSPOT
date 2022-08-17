@@ -4,7 +4,7 @@
  *
  *  @brief Implementation of the NeuralSPOT ns-audio API
  *
- *  Purpose: A single point of entry for capture Ambiq Audio
+ *  Purpose: A single point of entry for capturing Ambiq Audio
  *
  **/
 

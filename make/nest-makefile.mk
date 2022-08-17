@@ -1,8 +1,8 @@
-include ../make/helpers.mk
-include ../make/neuralspot_config.mk
-include ../make/neuralspot_toolchain.mk
+include make/helpers.mk
+include make/neuralspot_config.mk
+include make/neuralspot_toolchain.mk
+include make/jlink.mk
 include autogen.mk
-#include make/jlink.mk
 
 local_app_name := main
 sources := $(wildcard src/*.c)

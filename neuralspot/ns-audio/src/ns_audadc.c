@@ -494,12 +494,4 @@ audadc_init() {
     if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_sw_trigger(g_AUDADCHandle)) {
         am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
     }
-
-#ifdef AUDIODEBUG
-    SEGGER_RTT_Init();
-    SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer,
-                              RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
-    am_util_stdio_printf("RTT Control Block Address:  0x%08X\n",
-                         (uint32_t)&_SEGGER_RTT);
-#endif
 }

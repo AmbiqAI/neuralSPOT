@@ -28,6 +28,7 @@ include make/jlink.mk
 # External Component Modules
 modules      := extern/AmbiqSuite/$(AS_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
+modules      += extern/SEGGER_RTT/$(SR_VERSION)
 
 # NeuralSPOT Library Modules
 modules      += neuralspot/ns-harness 
@@ -86,7 +87,7 @@ ifeq ($(OS),Windows_NT)
 	@echo $(Q) $(RM) -rf $(CONFIG)/*
 	$(Q) $(RM) -rf $(bindirs)/*
 else
-	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF)
+	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF) $(NESTDIR)
 endif
 
 ifneq "$(MAKECMDGOALS)" "clean"

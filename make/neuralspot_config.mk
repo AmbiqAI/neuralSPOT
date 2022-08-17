@@ -20,6 +20,7 @@ FABI     = hard
 ##### Extern Library Defaults #####
 AS_VERSION := R4.1.0
 TF_VERSION := R2.3.1
+SR_VERSION := R7.70a
 
 ##### Application Defaults #####
 TARGET      := main# default target for binary-specific operations such as 'deploy' 

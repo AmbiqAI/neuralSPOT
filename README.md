@@ -106,6 +106,3 @@ src/
 	main.cc
 	model.h
 ```
-
-# Todo
-Jlink Support - still figuring out how to do that with multiple axf targets. Maybe a cache system

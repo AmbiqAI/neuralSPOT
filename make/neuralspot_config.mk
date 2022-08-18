@@ -25,6 +25,10 @@ SR_VERSION := R7.70a
 ##### Application Defaults #####
 TARGET      := main# default target for binary-specific operations such as 'deploy' 
 
+##### TinyUSB Default Config #####
+DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
+DEFINES+= CFG_TUSB_DEBUG=2
+
 ##### Common AI Precompiler Directives #####
 MLDEBUG     := 0    # 1 = load TF library with debug info, turn on TF debug statements
 AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console

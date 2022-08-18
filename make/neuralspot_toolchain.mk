@@ -52,7 +52,7 @@ CPFLAGS = -Obinary
 ODFLAGS = -S
 
 $(info Building for $(PART))
-DEFINES += PART_$(PART)
+DEFINES+= PART_$(PART)
 ifeq ($(PART),apollo4b)
 DEFINES+= AM_PART_APOLLO4B
 endif

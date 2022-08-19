@@ -106,3 +106,13 @@ src/
 	main.cc
 	model.h
 ```
+
+# WIP
+## Adding malloc support
+Malloc support is non-deterministic, and should only be used for debug environments such as erpc
+
+It has 3 components
+1. ns-malloc
+2. example/basic_tf_stub modified to include it
+3. ns-harness maps standard malloc/etc to ns-malloc equivalents
+

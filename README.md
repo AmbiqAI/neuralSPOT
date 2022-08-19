@@ -116,3 +116,11 @@ It has 3 components
 2. example/basic_tf_stub modified to include it
 3. ns-harness maps standard malloc/etc to ns-malloc equivalents
 
+### Status
+Added malloc and usb to ambiqsuite.a
+Created ns-usb with init, send, and rx routines
+Next
+1. create ns-util malloc stuff, get it compiling (should be easy wrapper around freertos malloc) (DONE)
+2. Create new nest in erpc, taking care to not obliterate work in current nest (DONE)
+3. Modify erpc transport code to use all of the above
+4. Test in main.cc

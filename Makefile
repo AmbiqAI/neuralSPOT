@@ -36,6 +36,7 @@ modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-usb
+modules      += neuralspot/ns-utils
 
 # Example (executable binary) Modules
 modules      += examples/hello_world
@@ -109,6 +110,11 @@ $(bindirs):
 	@mkdir -p $@
 
 %.o: ../src/%.cc
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	@mkdir -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
+
+%.o: ../src/%.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@

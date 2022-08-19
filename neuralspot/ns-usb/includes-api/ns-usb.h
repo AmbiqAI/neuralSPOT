@@ -4,9 +4,9 @@
  * @brief API definition for NeuralSPOT USB
  * @version 0.1
  * @date 2022-08-18
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #ifndef NS_USB
@@ -18,6 +18,7 @@ extern "C" {
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "tusb.h"
 
 typedef void *usb_handle_t;
 
@@ -29,15 +30,15 @@ typedef enum {
 
 typedef struct {
     usb_handle_t handle;
-    void         *buffer;
-    uint8_t      status;
-    uint8_t      itf;
-    bool         dtr;
-    bool         rts;
+    void *buffer;
+    uint8_t status;
+    uint8_t itf;
+    bool dtr;
+    bool rts;
 } ns_usb_transaction_t;
 
-typedef void (*ns_usb_rx_cb)(ns_usb_transaction_t*);
-typedef void (*ns_usb_tx_cb)(ns_usb_transaction_t*);
+typedef void (*ns_usb_rx_cb)(ns_usb_transaction_t *);
+typedef void (*ns_usb_tx_cb)(ns_usb_transaction_t *);
 
 typedef struct {
     ns_usb_device_type_e deviceType;
@@ -47,9 +48,24 @@ typedef struct {
     ns_usb_tx_cb tx_cb;
 } ns_usb_config_t;
 
-extern usb_handle_t ns_init_usb(ns_usb_config_t*);
-extern void ns_usb_send_data();
-extern void ns_usb_recieve_data();
+extern usb_handle_t
+ns_usb_init(ns_usb_config_t *);
+
+extern void ns_usb_register_callbacks(usb_handle_t, ns_usb_rx_cb, ns_usb_tx_cb);
+
+extern uint32_t
+ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
+
+extern uint32_t
+ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
+
+// // Only here to get rid of compiler warning - this is defined in TinyUSB
+// extern void
+// tusb_init();
+// extern uint32_t
+// tud_cdc_read(void *buffer, uint32_t bufsize);
+// extern uint32_t
+// tud_cdc_write(void const *buffer, uint32_t bufsize);
 
 #ifdef __cplusplus
 }

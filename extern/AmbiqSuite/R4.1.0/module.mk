@@ -23,6 +23,7 @@ includes_api += $(subdirectory)/third_party/tinyusb/src
 includes_api += $(subdirectory)/third_party/tinyusb/src/common
 includes_api += $(subdirectory)/third_party/tinyusb/src/osal
 includes_api += $(subdirectory)/third_party/tinyusb/src/class/cdc
+includes_api += $(subdirectory)/third_party/tinyusb/src/device
 
 
 local_bin := $(subdirectory)/$(BINDIR)

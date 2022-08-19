@@ -81,6 +81,7 @@
 #include "FreeRTOS.h"
 #include "portable.h"
 #include "portmacro.h"
+#include "ns-usb.h"
 
 /// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -306,11 +307,22 @@ main(void) {
 
     g_audioRecording = false;
 
+    // Test Malloc
     uint8_t *foo;
     foo = (uint8_t*)pvPortMalloc(100);
     foo[5] = 0xDE;
     foo[0] = 0xAD;
     uint8_t moo = foo[5];
+
+    uint8_t buf[50];
+    ns_usb_config_t uc = {
+        .deviceType = NS_USB_CDC_DEVICE,
+        .buffer = buf,
+        .bufferLength = 50,
+        .rx_cb = NULL,
+        .tx_cb = NULL
+    };
+    ns_init_usb(&uc);
 
     ns_itm_printf_enable();
 

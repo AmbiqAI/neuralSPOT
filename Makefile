@@ -35,6 +35,7 @@ modules      += neuralspot/ns-harness
 modules      += neuralspot/ns-peripherals 
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
+modules      += neuralspot/ns-usb
 
 # Example (executable binary) Modules
 modules      += examples/hello_world

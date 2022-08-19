@@ -7,6 +7,7 @@ include autogen.mk
 local_app_name := main
 sources := $(wildcard src/*.c)
 sources += $(wildcard src/*.cc)
+sources += $(wildcard src/*.cpp)
 sources += $(wildcard src/*.s)
 
 targets  := $(BINDIR)/$(local_app_name).axf
@@ -40,6 +41,11 @@ $(BINDIR):
 	@mkdir -p $@
 
 %.o: ../src/%.cc
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	@mkdir -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
+
+%.o: ../src/%.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@

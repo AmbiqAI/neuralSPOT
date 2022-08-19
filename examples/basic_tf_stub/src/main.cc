@@ -77,11 +77,8 @@
 /// TFLM model
 #include "model.h"
 
-#include "rtos.h"
-#include "FreeRTOS.h"
-#include "portable.h"
-#include "portmacro.h"
 #include "ns-usb.h"
+#include "ns-malloc.h"
 
 /// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -309,7 +306,7 @@ main(void) {
 
     // Test Malloc
     uint8_t *foo;
-    foo = (uint8_t*)pvPortMalloc(100);
+    foo = (uint8_t*)ns_malloc(100);
     foo[5] = 0xDE;
     foo[0] = 0xAD;
     uint8_t moo = foo[5];
@@ -322,7 +319,7 @@ main(void) {
         .rx_cb = NULL,
         .tx_cb = NULL
     };
-    ns_init_usb(&uc);
+    ns_usb_init(&uc);
 
     ns_itm_printf_enable();
 
@@ -350,6 +347,7 @@ main(void) {
 #endif
 
     am_util_stdio_printf("moo is %d, at %x\n", moo, &(foo[5]));
+    ns_free(foo);
 
     // Initialize everything else
     model_init();

@@ -2,6 +2,7 @@
 source-to-object = $(subst src,$(BINDIR),$(subst .c,.o,$(filter %.c,$1))) \
                    $(subst src,$(BINDIR),$(subst .s,.o,$(filter %.s,$1))) \
                    $(subst src,$(BINDIR),$(subst .cc,.o,$(filter %.cc,$1))) \
+                   $(subst src,$(BINDIR),$(subst .cpp,.o,$(filter %.cpp,$1))) \
 
 src-to-build = $(subst src,$(BINDIR),$1)
 

@@ -106,6 +106,10 @@ nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
 doc_sources = $(addprefix ../../,$(sources))
 doc_sources += $(addprefix ../../,$(includes_api))
 
+# Find the full path of $(TARGET) for deploy:
+deploy_target = $(filter %$(TARGET).bin, $(examples))
+$(info 77$(examples)77)
+
 $(bindirs):
 	@mkdir -p $@
 
@@ -181,14 +185,13 @@ nest: all $(NESTSOURCE)
 	@echo "libraries += $(nest_libs)" >> $(NESTDIR)/autogen.mk
 
 $(JLINK_CF):
-	@echo " Creating JLink command sequence input file..."
+	@echo " Creating JLink command sequence input file... $(deploy_target)"
 	$(Q) echo "ExitOnError 1" > $@
 	$(Q) echo "Reset" >> $@
-	$(Q) echo "LoadFile examples/basic_tf_stub/$(BINDIR)/$(TARGET).bin, $(JLINK_PF_ADDR)" >> $@
+	$(Q) echo "LoadFile $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 	$(Q) echo "Exit" >> $@
 
 .PHONY: deploy
-# deploy: examples/basic_tf_stub/$(BINDIR)/$(TARGET).bin $(JLINK_CF)
 deploy: $(JLINK_CF)
 	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."
 	$(Q) $(JLINK) $(JLINK_CMD)

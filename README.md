@@ -124,3 +124,28 @@ Next
 2. Create new nest in erpc, taking care to not obliterate work in current nest (DONE)
 3. Modify erpc transport code to use all of the above
 4. Test in main.cc
+
+### New Next
+Did 1, 2, 3, and a bit of 4 (don't really have a usb test). Next:
+1. Now that ERPC client is compiling, get the python server instantiated
+2. Add a simple TempAlarm invocations from evb to python.
+3. Profit! Or, more realistically, implement a bulk dump of an audiobuffer.
+4. Can we get rid of all the #ifdef DEBUG-style stuff and make it more inline? e.g. use a macro to only dump if a DEFINE is enabled?
+
+### Doozy of a Bug
+OK, so the 'don't really have a usb test' above turned out to be a problem. 
+USB wasn't working at all, for the following reasons:
+1. I wasn't calling the usb_service task (needs to be called in app loop)
+2. Missing src files popped up when I added that.
+3. TinyUSB needed a missing define, added that to makefile
+4. Malloc and TinyUSB weren't getting along. If I did a malloc before initializing USB, nothing happened
+	1. This was a doozy of a bug. It turns out FreeRTOS malloc assumes the task manager has been initialized, which sets, among other things, a variable for tracking nested entry/exit of critical regions, during which interrupts are disabled. If the variable wasn't initialized, it disabled interrupts without complaint, but it didn't reenable them.
+	2. My solution was to create pvTasklessPort Malloc and vTasklessFree, and modify the original functions to only suspend/resume tasks if a new parameter was set.
+
+TLDR: remember that heap_4.c has been modified, and portable.h! Also, when we add task support to NS, we need to add a config variable to ns-malloc that calls the right malloc/free.
+
+Before I was derailed by Mr. Doozy, I made some progress on ERPC, researching the python endpoint. I switched to the matrix_multiple example which is simpler than tempalarm and closer to what we need anyway.
+
+Now that I have this kind of working, go back to New Next step 2, above.
+
+Regarding nests: we really need an upgrade mechanism (record date of nest creation, look for files in the nest that are newer to that so might get overridden, warn if I find any (maybe back them up automatically))

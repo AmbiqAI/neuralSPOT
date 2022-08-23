@@ -59,14 +59,6 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
 extern uint32_t
 ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
 
-// // Only here to get rid of compiler warning - this is defined in TinyUSB
-// extern void
-// tusb_init();
-// extern uint32_t
-// tud_cdc_read(void *buffer, uint32_t bufsize);
-// extern uint32_t
-// tud_cdc_write(void const *buffer, uint32_t bufsize);
-
 #ifdef __cplusplus
 }
 #endif

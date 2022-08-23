@@ -40,7 +40,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-// This is part of revision release_sdk_4_1_0-8020bdf229 of the AmbiqSuite Development Package.
+// This is part of revision release_sdk_4_1_0-8020bdf229 of the AmbiqSuite
+// Development Package.
 //
 //*****************************************************************************
 
@@ -50,7 +51,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 //*****************************************************************************
 //
@@ -63,14 +63,12 @@ extern "C" {
 //! @{
 //
 //*****************************************************************************
-typedef enum
-{
+typedef enum {
     AM_HAL_USB_SPEED_LOW,
     AM_HAL_USB_SPEED_FULL,
     AM_HAL_USB_SPEED_HIGH,
     AM_HAL_USB_SPEED_UNKNOWN
-}
-am_hal_usb_dev_speed_e;
+} am_hal_usb_dev_speed_e;
 //! @}
 
 //*****************************************************************************
@@ -78,14 +76,14 @@ am_hal_usb_dev_speed_e;
 //! @name USB device state.
 //! @brief Macro definitions for the USB device state.
 //!
-//! These macros partially correspond to the defintions in the USB specification.
-//! They may be used with the \e am_hal_usb_set_dev_state() function.
+//! These macros partially correspond to the defintions in the USB
+//! specification. They may be used with the \e am_hal_usb_set_dev_state()
+//! function.
 //!
 //! @{
 //
 //*****************************************************************************
-typedef enum
-{
+typedef enum {
     AM_HAL_USB_DEV_STATE_INIT,
     AM_HAL_USB_DEV_STATE_ADDRESSED,
     AM_HAL_USB_DEV_STATE_CONFIGED,
@@ -93,8 +91,7 @@ typedef enum
     AM_HAL_USB_DEV_STATE_ACTIVE,
     AM_HAL_USB_DEV_STATE_SUSPENDING,
     AM_HAL_USB_DEV_STATE_SUSPENDED
-}
-am_hal_usb_dev_state_e;
+} am_hal_usb_dev_state_e;
 //! @}
 
 //*****************************************************************************
@@ -109,15 +106,13 @@ am_hal_usb_dev_state_e;
 //! @{
 //
 //*****************************************************************************
-typedef enum
-{
+typedef enum {
     AM_HAL_USB_DEV_EVT_BUS_RESET,
     AM_HAL_USB_DEV_EVT_SOF,
     AM_HAL_USB_DEV_EVT_RESUME,
     AM_HAL_USB_DEV_EVT_SUSPEND,
     AM_HAL_USB_DEV_EVT_NUM
-}
-am_hal_usb_dev_event_e;
+} am_hal_usb_dev_event_e;
 //! @}
 
 //*****************************************************************************
@@ -132,8 +127,7 @@ am_hal_usb_dev_event_e;
 //! @{
 //
 //*****************************************************************************
-typedef enum
-{
+typedef enum {
     // Transfer is done without error, for ctrl it means status packet done
     USB_XFER_DONE,
     // For control transfer only, data stage is done without error
@@ -148,18 +142,16 @@ typedef enum
     USB_XFER_RESET,
     // There was an error
     USB_XFER_ERROR
-}
-am_hal_usb_xfer_code_e;
+} am_hal_usb_xfer_code_e;
 //! @}
-
 
 //*****************************************************************************
 //
 //! @brief device event callback function pointer type
 //!
 //! upper layer USB stack uses it to define a callback function to receive the
-//! the USB bus events and registers it by 'am_hal_usb_register_dev_evt_callback'
-//! function.
+//! the USB bus events and registers it by
+//! 'am_hal_usb_register_dev_evt_callback' function.
 //
 //*****************************************************************************
 typedef void (*am_hal_usb_dev_evt_callback)(am_hal_usb_dev_event_e eDevState);
@@ -174,7 +166,6 @@ typedef void (*am_hal_usb_dev_evt_callback)(am_hal_usb_dev_event_e eDevState);
 //*****************************************************************************
 typedef void (*am_hal_usb_ep0_setup_received_callback)(uint8_t *pui8Setup);
 
-
 //*****************************************************************************
 //
 //! @brief ctrl/bulk/intr/iso transfer callback function pointer type
@@ -183,8 +174,9 @@ typedef void (*am_hal_usb_ep0_setup_received_callback)(uint8_t *pui8Setup);
 //! the transfer status.
 //
 //*****************************************************************************
-typedef void (*am_hal_usb_ep_xfer_complete_callback)(uint8_t ui8EpAddr, uint16_t ui16XferLen, am_hal_usb_xfer_code_e eXferCode, void *param);
-
+typedef void (*am_hal_usb_ep_xfer_complete_callback)(
+    uint8_t ui8EpAddr, uint16_t ui16XferLen, am_hal_usb_xfer_code_e eXferCode,
+    void *param);
 
 //*****************************************************************************
 //
@@ -193,14 +185,15 @@ typedef void (*am_hal_usb_ep_xfer_complete_callback)(uint8_t ui8EpAddr, uint16_t
 //! @param pHandle - handle for the module instance.
 //! @param cb      - a USB bus event callback function.
 //!
-//! This function registers a USB bus event callback function defined in the upper layer
-//! USB stack.
+//! This function registers a USB bus event callback function defined in the
+//! upper layer USB stack.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_register_dev_evt_callback(void *pHandle, am_hal_usb_dev_evt_callback cb);
-
+uint32_t
+am_hal_usb_register_dev_evt_callback(void *pHandle,
+                                     am_hal_usb_dev_evt_callback cb);
 
 //*****************************************************************************
 //
@@ -209,14 +202,15 @@ uint32_t am_hal_usb_register_dev_evt_callback(void *pHandle, am_hal_usb_dev_evt_
 //! @param pHandle - handle for the module instance.
 //! @param cb      - setup request callback function.
 //!
-//! This function registers a setup request callback function defined in the upper layer
-//! USB stack.
+//! This function registers a setup request callback function defined in the
+//! upper layer USB stack.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_register_ep0_setup_received_callback(void *pHandle, am_hal_usb_ep0_setup_received_callback cb);
-
+uint32_t
+am_hal_usb_register_ep0_setup_received_callback(
+    void *pHandle, am_hal_usb_ep0_setup_received_callback cb);
 
 //*****************************************************************************
 //
@@ -225,14 +219,15 @@ uint32_t am_hal_usb_register_ep0_setup_received_callback(void *pHandle, am_hal_u
 //! @param pHandle - handle for the module instance.
 //! @param cb      - transfer completion callback function.
 //!
-//! This function registers a bulk/intr/iso transfer completion callback function.
+//! This function registers a bulk/intr/iso transfer completion callback
+//! function.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_register_ep_xfer_complete_callback(void *pHandle, am_hal_usb_ep_xfer_complete_callback cb);
-
-
+uint32_t
+am_hal_usb_register_ep_xfer_complete_callback(
+    void *pHandle, am_hal_usb_ep_xfer_complete_callback cb);
 
 //*****************************************************************************
 //
@@ -246,7 +241,8 @@ uint32_t am_hal_usb_register_ep_xfer_complete_callback(void *pHandle, am_hal_usb
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_set_dev_state(void *pHandle, am_hal_usb_dev_state_e eDevState);
+uint32_t
+am_hal_usb_set_dev_state(void *pHandle, am_hal_usb_dev_state_e eDevState);
 
 //*****************************************************************************
 //
@@ -254,12 +250,14 @@ uint32_t am_hal_usb_set_dev_state(void *pHandle, am_hal_usb_dev_state_e eDevStat
 //!
 //! @param pHandle - handle for the module instance.
 //!
-//! This function is used by upper layer USB stack to start a remote wakeup action.
+//! This function is used by upper layer USB stack to start a remote wakeup
+//! action.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_start_remote_wakeup(void *pHandle);
+uint32_t
+am_hal_usb_start_remote_wakeup(void *pHandle);
 
 //*****************************************************************************
 //
@@ -267,12 +265,14 @@ uint32_t am_hal_usb_start_remote_wakeup(void *pHandle);
 //!
 //! @param pHandle - handle for the module instance.
 //!
-//! This function is used by upper layer USB stack to end a remote wakeup action.
+//! This function is used by upper layer USB stack to end a remote wakeup
+//! action.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_end_remote_wakeup(void *pHandle);
+uint32_t
+am_hal_usb_end_remote_wakeup(void *pHandle);
 
 //*****************************************************************************
 //
@@ -281,14 +281,14 @@ uint32_t am_hal_usb_end_remote_wakeup(void *pHandle);
 //! @param pHandle   - handle for the module instance.
 //! @param ui8EpAddr - set the USB device address
 //!
-//! This function is used by upper layer USB stack to set the device address allocated
-//! by the USB host during the enumeration.
+//! This function is used by upper layer USB stack to set the device address
+//! allocated by the USB host during the enumeration.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_set_addr(void *pHandle, uint8_t ui8EpAddr);
-
+uint32_t
+am_hal_usb_set_addr(void *pHandle, uint8_t ui8EpAddr);
 
 //*****************************************************************************
 //
@@ -299,7 +299,8 @@ uint32_t am_hal_usb_set_addr(void *pHandle, uint8_t ui8EpAddr);
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_attach(void *pHandle);
+uint32_t
+am_hal_usb_attach(void *pHandle);
 
 //
 //*****************************************************************************
@@ -311,7 +312,8 @@ uint32_t am_hal_usb_attach(void *pHandle);
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_detach(void *pHandle);
+uint32_t
+am_hal_usb_detach(void *pHandle);
 
 //*****************************************************************************
 //
@@ -324,7 +326,8 @@ uint32_t am_hal_usb_detach(void *pHandle);
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_get_frame_number(void *pHandle);
+uint32_t
+am_hal_get_frame_number(void *pHandle);
 
 //*****************************************************************************
 //
@@ -337,8 +340,8 @@ uint32_t am_hal_get_frame_number(void *pHandle);
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_enable_sof_intr(void *pHandle);
-
+uint32_t
+am_hal_usb_enable_sof_intr(void *pHandle);
 
 //*****************************************************************************
 //
@@ -351,7 +354,8 @@ uint32_t am_hal_usb_enable_sof_intr(void *pHandle);
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_disable_sof_intr(void *pHandle);
+uint32_t
+am_hal_usb_disable_sof_intr(void *pHandle);
 
 #define AM_HAL_USB_GET_HW_INFO_ENABLED
 #ifdef AM_HAL_USB_GET_HW_INFO_ENABLED
@@ -368,18 +372,17 @@ uint32_t am_hal_usb_disable_sof_intr(void *pHandle);
 //! @{
 //
 //*****************************************************************************
-typedef struct
-{
+typedef struct {
     // the major version number
-    uint8_t  ui8Major;
+    uint8_t ui8Major;
     // the minor version number
     uint16_t ui16Minor;
     // the number of OUT endpoints
-    uint8_t  ui8OutEpNum;
+    uint8_t ui8OutEpNum;
     // the number of IN endpoints
-    uint8_t  ui8InEpNum;
+    uint8_t ui8InEpNum;
     // the width of RAM bus address
-    uint8_t  ui8RamBits;
+    uint8_t ui8RamBits;
 } am_hal_usb_hw_info;
 //! @}
 
@@ -388,12 +391,14 @@ typedef struct
 //! @brief get the hardware information
 //!
 //! @param pHandle - handle for the module instance.
-//! @param sHWInfo - the information about the USB device hardware configuration.
+//! @param sHWInfo - the information about the USB device hardware
+//! configuration.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_get_hw_infor(void *pHandle, am_hal_usb_hw_info *sHWInfo);
+uint32_t
+am_hal_usb_get_hw_infor(void *pHandle, am_hal_usb_hw_info *sHWInfo);
 
 #endif
 
@@ -411,16 +416,13 @@ uint32_t am_hal_usb_get_hw_infor(void *pHandle, am_hal_usb_hw_info *sHWInfo);
 //! @{
 //
 //*****************************************************************************
-typedef enum
-{
+typedef enum {
     AM_HAL_USB_TEST_SE0_NAK,
     AM_HAL_USB_TEST_J,
     AM_HAL_USB_TEST_K,
     AM_HAL_USB_TEST_PACKET
-}
-am_hal_usb_test_mode_e;
+} am_hal_usb_test_mode_e;
 //! @}
-
 
 //
 // Upper layer USB stack should call below functions
@@ -432,27 +434,33 @@ am_hal_usb_test_mode_e;
 //!
 //! @param pHandle - handle for the module instance.
 //!
-//! set a flag in the handle to indicate the current USB device in the test mode.
+//! set a flag in the handle to indicate the current USB device in the test
+//! mode.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_enter_test_mode(const void *pHandle);
+uint32_t
+am_hal_usb_enter_test_mode(const void *pHandle);
 
 //*****************************************************************************
 //
 //! @brief do the USB test
 //!
 //! @param pHandle   - handle for the module instance.
-//! @param eTestMode - one of the test mode like TEST_SE0_NAK, TEST_J, TEST_K and TEST_PACKET.
+//! @param eTestMode - one of the test mode like TEST_SE0_NAK, TEST_J, TEST_K
+//! and TEST_PACKET.
 //!
-//! This function is used by upper layer USB stack to order the USB device controller
-//! to send the specific USB packet or signals to verify the timing and signal quaility.
+//! This function is used by upper layer USB stack to order the USB device
+//! controller to send the specific USB packet or signals to verify the timing
+//! and signal quaility.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_test_mode(const void *pHandle, const am_hal_usb_test_mode_e eTestMode);
+uint32_t
+am_hal_usb_test_mode(const void *pHandle,
+                     const am_hal_usb_test_mode_e eTestMode);
 #endif
 
 //*****************************************************************************
@@ -470,7 +478,9 @@ uint32_t am_hal_usb_test_mode(const void *pHandle, const am_hal_usb_test_mode_e 
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_ep_init(void *pHandle, uint8_t ui8EpAddr, uint8_t ui8EpAttr, uint16_t ui16MaxPacket);
+uint32_t
+am_hal_usb_ep_init(void *pHandle, uint8_t ui8EpAddr, uint8_t ui8EpAttr,
+                   uint16_t ui16MaxPacket);
 
 //*****************************************************************************
 //
@@ -485,7 +495,8 @@ uint32_t am_hal_usb_ep_init(void *pHandle, uint8_t ui8EpAddr, uint8_t ui8EpAttr,
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_ep_stall(void *pHandle, uint8_t ui8EpAddr);
+uint32_t
+am_hal_usb_ep_stall(void *pHandle, uint8_t ui8EpAddr);
 
 //*****************************************************************************
 //
@@ -501,7 +512,8 @@ uint32_t am_hal_usb_ep_stall(void *pHandle, uint8_t ui8EpAddr);
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_ep_clear_stall(void *pHandle, uint8_t ui8EpAddr);
+uint32_t
+am_hal_usb_ep_clear_stall(void *pHandle, uint8_t ui8EpAddr);
 
 //*****************************************************************************
 //
@@ -513,14 +525,15 @@ uint32_t am_hal_usb_ep_clear_stall(void *pHandle, uint8_t ui8EpAddr);
 //!                    sending data to the USB host.
 //! @param ui16Len   - the length of the buffer.
 //!
-//! This function is used by the upper layer USB stack to submit a transfer requst
-//! to the USB device controller.
+//! This function is used by the upper layer USB stack to submit a transfer
+//! requst to the USB device controller.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //
 //*****************************************************************************
-uint32_t am_hal_usb_ep_xfer(void *pHandle, uint8_t ui8EpAddr, uint8_t *pui8Buf, uint16_t ui16Len);
-
+uint32_t
+am_hal_usb_ep_xfer(void *pHandle, uint8_t ui8EpAddr, uint8_t *pui8Buf,
+                   uint16_t ui16Len);
 
 //*****************************************************************************
 //
@@ -528,14 +541,15 @@ uint32_t am_hal_usb_ep_xfer(void *pHandle, uint8_t ui8EpAddr, uint8_t *pui8Buf, 
 //!
 //! @param pHandle - handle for the module instance.
 //!
-//! This function is used by the upper layer USB stack to get the current USB speed type
-//! like full-speed or high-speed.
+//! This function is used by the upper layer USB stack to get the current USB
+//! speed type like full-speed or high-speed.
 //!
-//! @return one of am_hal_usb_dev_speed_e like AM_HAL_USB_SPEED_FULL, AM_HAL_USB_SPEED_HIGH, etc.
+//! @return one of am_hal_usb_dev_speed_e like AM_HAL_USB_SPEED_FULL,
+//! AM_HAL_USB_SPEED_HIGH, etc.
 //
 //*****************************************************************************
-am_hal_usb_dev_speed_e am_hal_get_usb_dev_speed(void *pHandle);
-
+am_hal_usb_dev_speed_e
+am_hal_get_usb_dev_speed(void *pHandle);
 
 //*****************************************************************************
 //
@@ -544,14 +558,14 @@ am_hal_usb_dev_speed_e am_hal_get_usb_dev_speed(void *pHandle);
 //! @param pHandle - handle for the module instance.
 //! @param eSpeed  - speed type of the USB device
 //!
-//! This function is used by the upper layer USB stack to force USB device controller
-//! to run under a certain speed, for example full-speed by ignoring the controller
-//! high-speed capability.
+//! This function is used by the upper layer USB stack to force USB device
+//! controller to run under a certain speed, for example full-speed by ignoring
+//! the controller high-speed capability.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_set_dev_speed(void *pHandle, am_hal_usb_dev_speed_e eSpeed);
-
+uint32_t
+am_hal_usb_set_dev_speed(void *pHandle, am_hal_usb_dev_speed_e eSpeed);
 
 //*****************************************************************************
 //
@@ -560,13 +574,13 @@ uint32_t am_hal_usb_set_dev_speed(void *pHandle, am_hal_usb_dev_speed_e eSpeed);
 //! @param ui32Module - the index to the USB module
 //! @param ppHandle   - the handle of initialized USB instance
 //!
-//! This function should be called firstly before we use any other USB HAL driver
-//! functions.
+//! This function should be called firstly before we use any other USB HAL
+//! driver functions.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_initialize(uint32_t ui32Module, void **ppHandle);
-
+uint32_t
+am_hal_usb_initialize(uint32_t ui32Module, void **ppHandle);
 
 //*****************************************************************************
 //
@@ -579,8 +593,8 @@ uint32_t am_hal_usb_initialize(uint32_t ui32Module, void **ppHandle);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_deinitialize(void *pHandle);
-
+uint32_t
+am_hal_usb_deinitialize(void *pHandle);
 
 //*****************************************************************************
 //
@@ -590,12 +604,15 @@ uint32_t am_hal_usb_deinitialize(void *pHandle);
 //! @param ePowerState  - the power state of USB device controller
 //! @param bRetainState - wether retain the USB registers or not
 //!
-//! This function should be called after USB device controller has been initalized
-//! successfully by 'am_hal_usb_initialize'.
+//! This function should be called after USB device controller has been
+//! initalized successfully by 'am_hal_usb_initialize'.
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_power_control(void *pHandle, am_hal_sysctrl_power_state_e ePowerState, bool bRetainState);
+uint32_t
+am_hal_usb_power_control(void *pHandle,
+                         am_hal_sysctrl_power_state_e ePowerState,
+                         bool bRetainState);
 
 //*****************************************************************************
 //
@@ -608,7 +625,8 @@ uint32_t am_hal_usb_power_control(void *pHandle, am_hal_sysctrl_power_state_e eP
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_in_enable(void *pHandle, uint32_t ui32IntMask);
+uint32_t
+am_hal_usb_intr_ep_in_enable(void *pHandle, uint32_t ui32IntMask);
 
 //*****************************************************************************
 //
@@ -621,8 +639,8 @@ uint32_t am_hal_usb_intr_ep_in_enable(void *pHandle, uint32_t ui32IntMask);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_in_disable(void *pHandle, uint32_t ui32IntMask);
-
+uint32_t
+am_hal_usb_intr_ep_in_disable(void *pHandle, uint32_t ui32IntMask);
 
 //*****************************************************************************
 //
@@ -634,7 +652,8 @@ uint32_t am_hal_usb_intr_ep_in_disable(void *pHandle, uint32_t ui32IntMask);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_in_clear(void *pHandle);
+uint32_t
+am_hal_usb_intr_ep_in_clear(void *pHandle);
 
 //*****************************************************************************
 //
@@ -648,7 +667,9 @@ uint32_t am_hal_usb_intr_ep_in_clear(void *pHandle);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_in_status_get(void *pHandle, uint32_t *ui32IntStatus, bool bEnabledOnly);
+uint32_t
+am_hal_usb_intr_ep_in_status_get(void *pHandle, uint32_t *ui32IntStatus,
+                                 bool bEnabledOnly);
 
 //*****************************************************************************
 //
@@ -661,7 +682,8 @@ uint32_t am_hal_usb_intr_ep_in_status_get(void *pHandle, uint32_t *ui32IntStatus
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_out_enable(void *pHandle, uint32_t ui32IntMask);
+uint32_t
+am_hal_usb_intr_ep_out_enable(void *pHandle, uint32_t ui32IntMask);
 
 //*****************************************************************************
 //
@@ -674,7 +696,8 @@ uint32_t am_hal_usb_intr_ep_out_enable(void *pHandle, uint32_t ui32IntMask);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_out_disable(void *pHandle, uint32_t ui32IntMask);
+uint32_t
+am_hal_usb_intr_ep_out_disable(void *pHandle, uint32_t ui32IntMask);
 
 //*****************************************************************************
 //
@@ -686,7 +709,8 @@ uint32_t am_hal_usb_intr_ep_out_disable(void *pHandle, uint32_t ui32IntMask);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_out_clear(void *pHandle);
+uint32_t
+am_hal_usb_intr_ep_out_clear(void *pHandle);
 
 //*****************************************************************************
 //
@@ -700,8 +724,9 @@ uint32_t am_hal_usb_intr_ep_out_clear(void *pHandle);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_ep_out_status_get(void *pHandle, uint32_t *ui32IntStatus, bool bEnabledOnly);
-
+uint32_t
+am_hal_usb_intr_ep_out_status_get(void *pHandle, uint32_t *ui32IntStatus,
+                                  bool bEnabledOnly);
 
 //*****************************************************************************
 //
@@ -714,7 +739,8 @@ uint32_t am_hal_usb_intr_ep_out_status_get(void *pHandle, uint32_t *ui32IntStatu
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_usb_enable(void *pHandle, uint32_t ui32IntMask);
+uint32_t
+am_hal_usb_intr_usb_enable(void *pHandle, uint32_t ui32IntMask);
 
 //*****************************************************************************
 //
@@ -727,7 +753,8 @@ uint32_t am_hal_usb_intr_usb_enable(void *pHandle, uint32_t ui32IntMask);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_usb_disable(void *pHandle, uint32_t ui32IntMask);
+uint32_t
+am_hal_usb_intr_usb_disable(void *pHandle, uint32_t ui32IntMask);
 
 //*****************************************************************************
 //
@@ -739,7 +766,8 @@ uint32_t am_hal_usb_intr_usb_disable(void *pHandle, uint32_t ui32IntMask);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_usb_clear(void *pHandle);
+uint32_t
+am_hal_usb_intr_usb_clear(void *pHandle);
 
 //*****************************************************************************
 //
@@ -753,7 +781,9 @@ uint32_t am_hal_usb_intr_usb_clear(void *pHandle);
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_usb_status_get(void *pHandle, uint32_t *ui32IntStatus, bool bEnabledOnly);
+uint32_t
+am_hal_usb_intr_usb_status_get(void *pHandle, uint32_t *ui32IntStatus,
+                               bool bEnabledOnly);
 
 //*****************************************************************************
 //
@@ -765,13 +795,12 @@ uint32_t am_hal_usb_intr_usb_status_get(void *pHandle, uint32_t *ui32IntStatus, 
 //! @{
 //
 //*****************************************************************************
-enum
-{
+enum {
     USB_INTRUSB_Suspend_Msk = 0x1,
-    USB_INTRUSB_Resume_Msk  = 0x2,
-    USB_INTRUSB_Reset_Msk   = 0x4,
-    USB_INTRUSB_SOF_Msk     = 0x8,
-    USB_INTRIN_EP0_Msk      = 0x1,
+    USB_INTRUSB_Resume_Msk = 0x2,
+    USB_INTRUSB_Reset_Msk = 0x4,
+    USB_INTRUSB_SOF_Msk = 0x8,
+    USB_INTRIN_EP0_Msk = 0x1,
 };
 //! @}
 
@@ -788,7 +817,10 @@ enum
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-uint32_t am_hal_usb_intr_status_get(void *pHandle, uint32_t *ui32IntrUsbStatus, uint32_t *ui32IntrInStatus, uint32_t *ui32IntrOutStatus);
+uint32_t
+am_hal_usb_intr_status_get(void *pHandle, uint32_t *ui32IntrUsbStatus,
+                           uint32_t *ui32IntrInStatus,
+                           uint32_t *ui32IntrOutStatus);
 
 //*****************************************************************************
 //
@@ -803,8 +835,10 @@ uint32_t am_hal_usb_intr_status_get(void *pHandle, uint32_t *ui32IntrUsbStatus, 
 //!
 //! @return one of am_hal_status_e like AM_HAL_STATUS_SUCCESS
 //*****************************************************************************
-void am_hal_usb_interrupt_service(void *pHandle, uint32_t ui32IntrUsbStatus, uint32_t ui32IntrInStatus, uint32_t ui32IntrOutStatus);
-
+void
+am_hal_usb_interrupt_service(void *pHandle, uint32_t ui32IntrUsbStatus,
+                             uint32_t ui32IntrInStatus,
+                             uint32_t ui32IntrOutStatus);
 
 #ifdef __cplusplus
 }

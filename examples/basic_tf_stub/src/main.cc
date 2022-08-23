@@ -303,6 +303,7 @@ main(void) {
     float max_val = 0.0;
 
     g_audioRecording = false;
+    am_hal_interrupt_master_enable();
 
     // Test Malloc
     uint8_t *foo;
@@ -310,7 +311,12 @@ main(void) {
     foo[5] = 0xDE;
     foo[0] = 0xAD;
     uint8_t moo = foo[5];
+    ns_itm_printf_enable();
+    ns_debug_printf_enable();
 
+    am_util_stdio_printf("moo is %d, at %x\n", moo, &(foo[5]));
+    ns_free(foo);
+    
     uint8_t buf[50];
     ns_usb_config_t uc = {
         .deviceType = NS_USB_CDC_DEVICE,
@@ -320,7 +326,10 @@ main(void) {
         .tx_cb = NULL
     };
     ns_usb_init(&uc);
-
+    while (1)
+    {
+        tud_task(); // tinyusb device task
+    }
     ns_itm_printf_enable();
 
     // Configure power - different use modes
@@ -345,9 +354,6 @@ main(void) {
     ns_power_config(&ns_development_default);
     #endif
 #endif
-
-    am_util_stdio_printf("moo is %d, at %x\n", moo, &(foo[5]));
-    ns_free(foo);
 
     // Initialize everything else
     model_init();

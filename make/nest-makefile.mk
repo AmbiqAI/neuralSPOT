@@ -72,4 +72,14 @@ $(BINDIR):
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
 
+.PHONY: deploy
+deploy: $(JLINK_CF)
+	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."
+	$(Q) $(JLINK) $(JLINK_CMD)
+
+.PHONY: view
+view:
+	@echo " Printing SWO output (ensure JLink USB connected and powered on)..."
+	$(Q) $(JLINK_SWO) $(JLINK_SWO_CMD)
+
 %.d: ;

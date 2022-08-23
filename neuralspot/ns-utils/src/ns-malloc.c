@@ -23,7 +23,7 @@ ns_malloc(size_t size) {
     void *ptr = NULL;
 
     if (size > 0) {
-        ptr = pvPortMalloc(size);
+        ptr = pvTasklessPortMalloc(size);
     } // else NULL if there was an error
 
     return ptr;
@@ -33,6 +33,6 @@ ns_malloc(size_t size) {
 void
 ns_free(void *ptr) {
     if (ptr) {
-        vPortFree(ptr);
+        vTasklessPortFree(ptr);
     }
 }

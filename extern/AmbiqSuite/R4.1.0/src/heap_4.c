@@ -110,12 +110,21 @@ static size_t xBlockAllocatedBit = 0;
 
 /*-----------------------------------------------------------*/
 
-void *pvPortMalloc( size_t xWantedSize )
+/// pvPortMalloc has a bug where it assumes that the task scheduler
+/// is running:
+/// The culprit is ResumeAll, which calls enterCritical/exitCritical - 
+/// these functions, in port.c, assume the task scheduler is running, 
+/// and the exit is not enabling interrupts because of the nested critical assert.
+///
+/// NeuralSPOT solution is to create a new version of malloc
+
+void *prvPortMalloc( size_t xWantedSize, uint8_t enableSuspendResume )
 {
 BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
 void *pvReturn = NULL;
 
-	vTaskSuspendAll();
+
+	if (enableSuspendResume) vTaskSuspendAll();
 	{
 		/* If this is the first call to malloc then the heap will require
 		initialisation to setup the list of free blocks. */
@@ -199,7 +208,7 @@ void *pvReturn = NULL;
 						pxBlock->xBlockSize = xWantedSize;
 
 						/* Insert the new block into the list of free blocks. */
-						prvInsertBlockIntoFreeList( pxNewBlockLink );
+						// prvInsertBlockIntoFreeList( pxNewBlockLink );
 					}
 					else
 					{
@@ -239,7 +248,7 @@ void *pvReturn = NULL;
 
 		traceMALLOC( pvReturn, xWantedSize );
 	}
-	( void ) xTaskResumeAll();
+	if (enableSuspendResume)  {( void ) xTaskResumeAll();}
 
 	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
 	{
@@ -258,9 +267,18 @@ void *pvReturn = NULL;
 	configASSERT( ( ( ( size_t ) pvReturn ) & ( size_t ) portBYTE_ALIGNMENT_MASK ) == 0 );
 	return pvReturn;
 }
+
+void *pvPortMalloc( size_t xWantedSize ) {
+	return prvPortMalloc( xWantedSize, 1);
+}
+
+void *pvTasklessPortMalloc( size_t xWantedSize ) {
+	return prvPortMalloc( xWantedSize, 0);
+}
+
 /*-----------------------------------------------------------*/
 
-void vPortFree( void *pv )
+void prvPortFree( void *pv, uint8_t enableSuspendResume )
 {
 uint8_t *puc = ( uint8_t * ) pv;
 BlockLink_t *pxLink;
@@ -286,14 +304,14 @@ BlockLink_t *pxLink;
 				allocated. */
 				pxLink->xBlockSize &= ~xBlockAllocatedBit;
 
-				vTaskSuspendAll();
+				if (enableSuspendResume) vTaskSuspendAll();
 				{
 					/* Add this block to the list of free blocks. */
 					xFreeBytesRemaining += pxLink->xBlockSize;
 					traceFREE( pv, pxLink->xBlockSize );
 					prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
 				}
-				( void ) xTaskResumeAll();
+				if (enableSuspendResume) {( void ) xTaskResumeAll();}
 			}
 			else
 			{
@@ -306,6 +324,18 @@ BlockLink_t *pxLink;
 		}
 	}
 }
+
+
+void vPortFree( void *pv )
+{
+	prvPortFree( pv, 1 );
+}
+
+void vTasklessPortFree( void *pv )
+{
+	prvPortFree( pv, 0 );
+}
+
 /*-----------------------------------------------------------*/
 
 size_t xPortGetFreeHeapSize( void )

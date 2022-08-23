@@ -66,4 +66,21 @@ $(BINDIR):
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
 
+$(JLINK_CF):
+	@echo " Creating JLink command sequence input file..."
+	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "Reset" >> $@
+	$(Q) echo "LoadFile $(BINDIR)/$(TARGET).bin, $(JLINK_PF_ADDR)" >> $@
+	$(Q) echo "Exit" >> $@
+
+.PHONY: deploy
+deploy: $(JLINK_CF)
+	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."
+	$(Q) $(JLINK) $(JLINK_CMD)
+
+.PHONY: view
+view:
+	@echo " Printing SWO output (ensure JLink USB connected and powered on)..."
+	$(Q) $(JLINK_SWO) $(JLINK_SWO_CMD)
+
 %.d: ;

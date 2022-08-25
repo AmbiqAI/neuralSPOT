@@ -108,7 +108,6 @@ doc_sources += $(addprefix ../../,$(includes_api))
 
 # Find the full path of $(TARGET) for deploy:
 deploy_target = $(filter %$(TARGET).bin, $(examples))
-$(info 77$(examples)77)
 
 $(bindirs):
 	@mkdir -p $@

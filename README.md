@@ -149,3 +149,34 @@ Before I was derailed by Mr. Doozy, I made some progress on ERPC, researching th
 Now that I have this kind of working, go back to New Next step 2, above.
 
 Regarding nests: we really need an upgrade mechanism (record date of nest creation, look for files in the nest that are newer to that so might get overridden, warn if I find any (maybe back them up automatically))
+
+### New new next
+Quick status: kind of have ERPC server/client talking. Server sees RPC after a couple of tries from client, and sees the right data. Eventually it starts getting CRC errors. The RPC response is all zeros on client side.
+1. Debug why it takes a few requests.
+	1. Clue: the read after the request right doesn't seem to get any data. It could be that the server isn't seeing the first few.
+2. Add prints everywhere. Send/receive on client and server sides.
+4. Fix send/receive status to return error if data doesn't match requested size
+5. Figure out why crc errors start happening, probably some corruption going on.
+
+almost there!
+
+### Works!
+I was missing a flush in the usb send. Here is a list of cleanup items:
+1. Add flush to ns-usb.h (DONE)
+2. Get rid of all the prints I sprinkled everywhere
+3. Put NS-specific erpc code in it's own directory for documentation purposes
+4. Implement audio interface (instead of matrix multiply) (STARTED)
+5. Move code into ns (see below)
+
+### ERPC Flow
+1. NS/extern/erpc contains base code needed for ERPC clients, including erpc python
+2. NS/ns-audio-dump - add ns-audio-dump.h and all erpc audio-specific code (including erpc for documentation)
+3. NS/tools - add audio_erpc_example.py
+
+### Status
+1. Cleaned up erpc, created an audio.erpc and a python app that is listening
+
+Next:
+1. create new nest, massage code needed to only copy new stuff over
+2. Modify main.cc to call audio dump in real world inference loop
+3. Copy erpc code over to ns as described above

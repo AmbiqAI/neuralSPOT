@@ -39,11 +39,13 @@ modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-usb
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-rpc
+modules      += neuralspot/ns-i2c
 
 # Example (executable binary) Modules
 modules      += examples/hello_world
 modules      += examples/s2i
 modules      += examples/basic_tf_stub
+modules      += examples/har
 
 NESTSOURCE    := examples/basic_tf_stub/build/main.d
 NESTSOURCEDIR := examples/basic_tf_stub/src

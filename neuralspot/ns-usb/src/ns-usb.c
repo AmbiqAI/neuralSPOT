@@ -66,15 +66,48 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
         usb_config.tx_cb(&rx);
     }
 }
-
+/**
+ * @brief Blocking USB Receive Data
+ * 
+ * @param handle USB handle
+ * @param buffer Pointer to buffer where data will be placed
+ * @param bufsize Requested number of bytes
+ * @return uint32_t 
+ */
 uint32_t
 ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
-    return tud_cdc_read(buffer, bufsize);
+
+    // USB reads one block at a time, loop until we get full
+    // request
+    uint32_t bytes_rx = 0;
+
+    while (bytes_rx < bufsize) {
+        tud_task(); // tinyusb device task
+        bytes_rx += tud_cdc_read((void*)(buffer+bytes_rx), bufsize - bytes_rx);
+    }
+    return bytes_rx;
 }
 
+/**
+ * @brief Blocking USB Send Data
+ * 
+ * @param handle USB handle
+ * @param buffer Pointer to buffer with data to be sent
+ * @param bufsize Requested number of bytes
+ * @return uint32_t 
+ */
 uint32_t
 ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
-    uint32_t retval =  tud_cdc_write(buffer, bufsize);
-    tud_cdc_write_flush();
-    return retval;
+
+    uint32_t bytes_tx = 0;
+    while (bytes_tx < bufsize) {
+        tud_task(); // tinyusb device task
+        bytes_tx += tud_cdc_write((void*)(buffer+bytes_tx), bufsize - bytes_tx); // blocking
+        tud_cdc_write_flush();
+        // ns_printf("NS USB  asked to send %d, sent %d bytes\n", size, bytes_tx);
+    }
+
+    // uint32_t retval =  tud_cdc_write(buffer, bufsize);
+    // tud_cdc_write_flush();
+    return bytes_tx;
 }

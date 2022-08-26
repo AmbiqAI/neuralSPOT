@@ -73,6 +73,7 @@
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
 #endif
+#include "ns-rpc-audio.h"
 
 /// TFLM model
 #include "model.h"
@@ -305,31 +306,6 @@ main(void) {
     g_audioRecording = false;
     am_hal_interrupt_master_enable();
 
-    // Test Malloc
-    uint8_t *foo;
-    foo = (uint8_t*)ns_malloc(100);
-    foo[5] = 0xDE;
-    foo[0] = 0xAD;
-    uint8_t moo = foo[5];
-    ns_itm_printf_enable();
-    ns_debug_printf_enable();
-
-    am_util_stdio_printf("moo is %d, at %x\n", moo, &(foo[5]));
-    ns_free(foo);
-    
-    uint8_t buf[50];
-    ns_usb_config_t uc = {
-        .deviceType = NS_USB_CDC_DEVICE,
-        .buffer = buf,
-        .bufferLength = 50,
-        .rx_cb = NULL,
-        .tx_cb = NULL
-    };
-    ns_usb_init(&uc);
-    while (1)
-    {
-        tud_task(); // tinyusb device task
-    }
     ns_itm_printf_enable();
 
     // Configure power - different use modes
@@ -337,29 +313,30 @@ main(void) {
     // This examples uses pre-populated power config structs - 
     // to modify create a local struct and pass it to
     // ns_power_config()
-#ifdef AUDIODEBUG
-    // This mode uses RTT, which needs SRAM
-    ns_debug_printf_enable();
-    ns_power_config(&ns_development_default);
-#else
-    #ifdef ENERGYMODE
-    ns_uart_printf_enable(); // use uart to print, turn off crypto
-    // This is only for measuring power using an external power monitor such as
-    // Joulescope - it sets GPIO pins so the state can be observed externally
-    // to help line up the waveforms. It has nothing to do with AI...
-    ns_init_power_monitor_state();
-    ns_power_set_monitor_state(&am_ai_audio_default);
-    #else
-    ns_debug_printf_enable(); // Leave crypto on for ease of debugging
-    ns_power_config(&ns_development_default);
-    #endif
-#endif
+// #ifdef AUDIODEBUG
+//     // This mode uses RTT, which needs SRAM
+//     ns_debug_printf_enable();
+//     ns_power_config(&ns_development_default);
+// #else
+//     #ifdef ENERGYMODE
+//     ns_uart_printf_enable(); // use uart to print, turn off crypto
+//     // This is only for measuring power using an external power monitor such as
+//     // Joulescope - it sets GPIO pins so the state can be observed externally
+//     // to help line up the waveforms. It has nothing to do with AI...
+//     ns_init_power_monitor_state();
+//     ns_power_set_monitor_state(&am_ai_audio_default);
+//     #else
+//     ns_debug_printf_enable(); // Leave crypto on for ease of debugging
+//     ns_power_config(&ns_development_default);
+//     #endif
+// #endif
 
     // Initialize everything else
     model_init();
     ns_audio_init(&audio_config);
     ns_peripheral_button_init(&button_config);
     ns_mfcc_init();
+    ns_rpc_audio_init();
 
     ns_printf("Press button to start listening...\n");
 
@@ -368,6 +345,8 @@ main(void) {
 #endif
 
     while (1) {
+        tud_task(); // tinyusb device task
+
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             ns_delay_us(1000);
             g_audioRecording = true;
@@ -398,6 +377,8 @@ main(void) {
                     SEGGER_RTT_Write(1, g_in16AudioDataBuffer,
                                      SAMPLES_IN_FRAME * sizeof(int16_t));
 #endif
+                   tud_task(); // tinyusb device task
+                   ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));
                 }
             }
 

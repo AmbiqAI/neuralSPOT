@@ -21,6 +21,7 @@ FABI     = hard
 AS_VERSION := R4.1.0
 TF_VERSION := R2.3.1
 SR_VERSION := R7.70a
+ERPC_VERSION := R1.9.1
 
 ##### Application Defaults #####
 TARGET      := main# default target for binary-specific operations such as 'deploy' 

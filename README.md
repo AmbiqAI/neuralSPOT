@@ -180,3 +180,4 @@ Next:
 1. create new nest, massage code needed to only copy new stuff over
 2. Modify main.cc to call audio dump in real world inference loop
 3. Copy erpc code over to ns as described above
+4. Clean up main.cc by breaking out into multiple files

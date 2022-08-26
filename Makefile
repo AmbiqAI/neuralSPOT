@@ -29,12 +29,16 @@ include make/jlink.mk
 modules      := extern/AmbiqSuite/$(AS_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
+modules      += extern/erpc/$(ERPC_VERSION)
 
 # NeuralSPOT Library Modules
 modules      += neuralspot/ns-harness 
 modules      += neuralspot/ns-peripherals 
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
+modules      += neuralspot/ns-usb
+modules      += neuralspot/ns-utils
+modules      += neuralspot/ns-rpc
 
 # Example (executable binary) Modules
 modules      += examples/hello_world
@@ -106,12 +110,16 @@ doc_sources += $(addprefix ../../,$(includes_api))
 
 # Find the full path of $(TARGET) for deploy:
 deploy_target = $(filter %$(TARGET).bin, $(examples))
-$(info 77$(examples)77)
 
 $(bindirs):
 	@mkdir -p $@
 
 %.o: ../src/%.cc
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	@mkdir -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
+
+%.o: ../src/%.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@

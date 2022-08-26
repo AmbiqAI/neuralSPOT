@@ -74,5 +74,7 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
 uint32_t
 ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
-    return tud_cdc_write(buffer, bufsize);
+    uint32_t retval =  tud_cdc_write(buffer, bufsize);
+    tud_cdc_write_flush();
+    return retval;
 }

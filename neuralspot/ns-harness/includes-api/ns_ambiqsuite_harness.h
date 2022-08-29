@@ -8,6 +8,9 @@
  * @copyright Copyright (c) 2022
  * 
  */
+#include "am_bsp.h"
+#include "am_mcu_apollo.h"
+#include "am_util.h"
 #include <am_util_stdio.h>
 
 #define ns_itm_printf_enable am_bsp_itm_printf_enable

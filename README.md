@@ -181,3 +181,13 @@ Next:
 2. Modify main.cc to call audio dump in real world inference loop
 3. Copy erpc code over to ns as described above
 4. Clean up main.cc by breaking out into multiple files
+
+
+### Latest Status
+RPC for audio works and has been checked in and merged. Now working on i2c drivers.
+
+Next:
+1. Get i2c mpu driver running
+2. Get i2c dumping via RPC running
+3. Write decent documentation on all of that
+4. Start clearing out my small item backlog

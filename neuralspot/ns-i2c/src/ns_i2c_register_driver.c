@@ -18,7 +18,7 @@
 static ns_i2cDriverConfig_t ns_i2cDriverConfig;
 
 uint32_t
-ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, uint32_t *pBuf, uint32_t size)
+ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t size)
 {
     am_hal_iom_transfer_t       Transaction;
 
@@ -26,7 +26,7 @@ ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, uint32_t *pBuf, uint3
     Transaction.ui64Instr       = regAddr;
     Transaction.eDirection      = AM_HAL_IOM_RX;
     Transaction.ui32NumBytes    = size;
-    Transaction.pui32RxBuffer   = pBuf;
+    Transaction.pui32RxBuffer   = (uint32_t*)pBuf;
     Transaction.bContinue       = false;
     Transaction.ui8RepeatCount  = 0;
     Transaction.ui32PauseCondition = 0;
@@ -42,7 +42,7 @@ ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, uint32_t *pBuf, uint3
 }
 
 uint32_t
-ns_i2c_reg_write(ns_i2cDriverConfig_t *h, uint32_t regAddr, uint32_t *pBuf, uint32_t size)
+ns_i2c_reg_write(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t size)
 {
     am_hal_iom_transfer_t       Transaction;
 
@@ -51,7 +51,7 @@ ns_i2c_reg_write(ns_i2cDriverConfig_t *h, uint32_t regAddr, uint32_t *pBuf, uint
     Transaction.ui64Instr       = regAddr;
     Transaction.eDirection      = AM_HAL_IOM_TX;
     Transaction.ui32NumBytes    = size;
-    Transaction.pui32TxBuffer   = pBuf;
+    Transaction.pui32TxBuffer   = (uint32_t*)pBuf;
     Transaction.bContinue       = false;
     Transaction.ui8RepeatCount  = 0;
     Transaction.ui32PauseCondition = 0;
@@ -70,7 +70,7 @@ uint32_t
 ns_i2c_write_bits(ns_i2cDriverConfig_t *h, uint8_t regAddr, uint8_t val, uint8_t bitOffset, uint8_t len) {
 	uint32_t regVal;
     //uint8_t finalRegVal;
-    if(ns_i2c_reg_read(h, regAddr, &regVal, 1)) {
+    if(ns_i2c_reg_read(h, regAddr, (uint8_t*)&regVal, 1)) {
         return NS_I2C_STATUS_ERROR;
     }
 
@@ -88,7 +88,7 @@ ns_i2c_write_bits(ns_i2cDriverConfig_t *h, uint8_t regAddr, uint8_t val, uint8_t
 }
 
 uint32_t
-ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **ppIomHandle)
+ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **pIomHandle)
 {
     if ( ui32Module > AM_REG_IOM_NUM_MODULES )
     {
@@ -98,12 +98,10 @@ ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **ppIomHandl
     // Initialize local state
     ns_i2cDriverConfig.address = devAddress;
     ns_i2cDriverConfig.iom = ui32Module;
-    ns_i2cDriverConfig.g_sIomCfg = {
-        .eInterfaceMode       = AM_HAL_IOM_I2C_MODE,
-        .ui32ClockFreq        = AM_HAL_IOM_100KHZ,
-        .pNBTxnBuf = NULL,
-        .ui32NBTxnBufLength = 0 
-    };
+    ns_i2cDriverConfig.sIomCfg.eInterfaceMode = AM_HAL_IOM_I2C_MODE;
+    ns_i2cDriverConfig.sIomCfg.ui32ClockFreq  = AM_HAL_IOM_100KHZ;
+    ns_i2cDriverConfig.sIomCfg.pNBTxnBuf = NULL;
+    ns_i2cDriverConfig.sIomCfg.ui32NBTxnBufLength = 0; 
 
     am_hal_pwrctrl_periph_enable((am_hal_pwrctrl_periph_e)(AM_HAL_PWRCTRL_PERIPH_IOM0 + ui32Module));
 
@@ -115,7 +113,7 @@ ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **ppIomHandl
     //
     if (am_hal_iom_initialize(ui32Module, &(ns_i2cDriverConfig.iom_handle)) ||
         am_hal_iom_power_ctrl(ns_i2cDriverConfig.iom_handle, AM_HAL_SYSCTRL_WAKE, false) ||
-        am_hal_iom_configure(ns_i2cDriverConfig.iom_handle, psIOMSettings) ||
+        am_hal_iom_configure(ns_i2cDriverConfig.iom_handle, &(ns_i2cDriverConfig.sIomCfg)) ||
         am_hal_iom_enable(ns_i2cDriverConfig.iom_handle))
     {
         return NS_I2C_STATUS_ERROR;
@@ -126,6 +124,7 @@ ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **ppIomHandl
     //
     am_bsp_iom_pins_enable(ui32Module, AM_HAL_IOM_I2C_MODE);
 
-    *ppIomHandle = ns_i2cDriverConfig.iom_handle;
+    *pIomHandle = &(ns_i2cDriverConfig);
+    // *ppIomHandle = ns_i2cDriverConfig.iom_handle;
     return NS_I2C_STATUS_SUCCESS;
 }

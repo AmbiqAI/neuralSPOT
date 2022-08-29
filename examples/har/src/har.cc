@@ -26,7 +26,7 @@ main(void) {
     ns_debug_printf_enable();
 
     ns_delay_us(1000000);
-    ns_i2c_interface_init(0, MPU_I2CADDRESS_AD0_LOW, &mpuHandle);
+    ns_i2c_interface_init(1, MPU_I2CADDRESS_AD0_LOW, &mpuHandle);
     mpu6050_finish_init(mpuHandle);
 
     ns_printf("Beginning MPU Calibration!\n\n");
@@ -55,5 +55,7 @@ main(void) {
         ns_printf("Raw Accel Data: [%d %d %d]  \t", accelX, accelY, accelZ);
         ns_printf("Raw Gyro Data: [%d %d %d] \t", gyroX, gyroY, gyroZ);
         ns_printf("Temperature: [%f]\n", temperature);
+        ns_delay_us(1000000);
+
     }
 }

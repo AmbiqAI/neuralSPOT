@@ -3,11 +3,12 @@ local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.s)
 
 # Base AmbiqSuite
-includes_api += $(subdirectory)/boards/apollo4b_evb/bsp
+includes_api += $(subdirectory)/boards/$(BOARD)_$(EVB)/bsp
 includes_api += $(subdirectory)/CMSIS/ARM/Include
 includes_api += $(subdirectory)/CMSIS/AmbiqMicro/Include
 includes_api += $(subdirectory)/devices
-includes_api += $(subdirectory)/mcu/apollo4b
+includes_api += $(subdirectory)/mcu/$(BOARD)
+includes_api += $(subdirectory)/mcu/$(BOARD)/hal/mcu
 includes_api += $(subdirectory)/utils
 
 lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.a

@@ -1,3 +1,15 @@
+/**
+ * @file mpu6050_i2c_driver.c
+ * @author Rohan
+ * @brief Driver of MPU6050
+ * @version 0.1
+ * @date 2022-08-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+#include <stdlib.h>
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
@@ -31,13 +43,13 @@ setSampleRate(uint16_t rate) {
     // Check for rate match
     // uint32_t finalRate = (internalSampleRate / (1 + divider));
     // Write divider to register
-    return ns_i2c_reg_write(&mpu6050Handle, SMPLRT_DIV,  &divider, 1); 
+    return ns_i2c_reg_write(mpu6050Handle, SMPLRT_DIV,  &divider, 1); 
 }
 
 uint32_t
 testConnection() {
     uint32_t regValue;
-    if (ns_i2c_reg_read(&mpu6050Handle, WHO_AM_I, &regValue, 1)) {
+    if (ns_i2c_reg_read(mpu6050Handle, WHO_AM_I, &regValue, 1)) {
         return AM_DEVICES_mpu6050_STATUS_ERROR;
     }
     return (int) regValue == 0x68;
@@ -46,35 +58,35 @@ testConnection() {
 uint32_t
 setAccelFullScale(accel_fs_t fsr)
 {
-    return mpu6050_write_bits(ACCEL_CONFIG, fsr, ACONFIG_FS_SEL_BIT, ACONFIG_FS_SEL_LENGTH);
+    return ns_i2c_write_bits(mpu6050Handle, ACCEL_CONFIG, fsr, ACONFIG_FS_SEL_BIT, ACONFIG_FS_SEL_LENGTH);
 }
 
 uint32_t
 setGyroFullScale(accel_fs_t fsr)
 {
-    return mpu6050_write_bits(GYRO_CONFIG,  fsr, GCONFIG_FS_SEL_BIT, GCONFIG_FS_SEL_LENGTH);
+    return ns_i2c_write_bits(mpu6050Handle, GYRO_CONFIG,  fsr, GCONFIG_FS_SEL_BIT, GCONFIG_FS_SEL_LENGTH);
 }
 
 uint32_t
 mpu6050_finish_init(void *h)
 {    
     mpu6050Handle = h;
-    
+
     // Toggle reset bit, then set sleep and clock bits
     uint32_t val = 0x80;
-    ns_i2c_reg_write(&mpu6050Handle, PWR_MGMT1, &val,1);
+    ns_i2c_reg_write(mpu6050Handle, PWR_MGMT1, &val,1);
     am_hal_delay_us(10000);
 
     val = 0x03; int i;
     for (i=0;i<1;i++) {
-        ns_i2c_reg_write(&mpu6050Handle, PWR_MGMT1, &val,1);
-        ns_i2c_reg_read(&mpu6050Handle, PWR_MGMT1, &val, 1);
+        ns_i2c_reg_write(mpu6050Handle, PWR_MGMT1, &val,1);
+        ns_i2c_reg_read(mpu6050Handle, PWR_MGMT1, &val, 1);
         am_util_stdio_printf("PWR VAL: 0x%x\n", val); 
         am_hal_delay_us(100000);
-        ns_i2c_reg_write(&mpu6050Handle, CONFIG, &val,1);
+        ns_i2c_reg_write(mpu6050Handle, CONFIG, &val,1);
     }
 
-    ns_i2c_reg_read(&mpu6050Handle, WHO_AM_I, &val, 1);
+    ns_i2c_reg_read(mpu6050Handle, WHO_AM_I, &val, 1);
     am_util_stdio_printf("MPU ID: 0x%x\n", val); 
 
     am_hal_delay_us(100000);
@@ -88,7 +100,7 @@ mpu6050_finish_init(void *h)
 
 uint32_t
 read_sensors(uint8_t *buffer) {
-    if (ns_i2c_reg_read(&mpu6050Handle, ACCEL_XOUT_H, buffer,14))
+    if (ns_i2c_reg_read(mpu6050Handle, ACCEL_XOUT_H, buffer,14))
     {
         return AM_DEVICES_mpu6050_STATUS_ERROR;
     }
@@ -137,43 +149,43 @@ void gyroDegPerSec(float* store, int x, int y, int z, gyro_fs_t range)
 uint32_t setAccelOffsetX(int offset) {
     int8_t low = getLowBits(offset);
     int8_t high = getHighBits(offset);
-    return (ns_i2c_reg_write(&mpu6050Handle, MPU6050_RA_XA_OFFS_H, &high, 1) ||
-        ns_i2c_reg_write(&mpu6050Handle, MPU6050_RA_XA_OFFS_L , &low, 1));
+    return (ns_i2c_reg_write(mpu6050Handle, MPU6050_RA_XA_OFFS_H, &high, 1) ||
+        ns_i2c_reg_write(mpu6050Handle, MPU6050_RA_XA_OFFS_L , &low, 1));
 }
 
 uint32_t setAccelOffsetY(int offset) {
     int8_t low = getLowBits(offset);
     int8_t high = getHighBits(offset);
-    return (ns_i2c_reg_write(&mpu6050Handle, MPU6050_RA_YA_OFFS_H, &high, 1) ||
-        ns_i2c_reg_write(&mpu6050Handle, MPU6050_RA_YA_OFFS_L , &low, 1));
+    return (ns_i2c_reg_write(mpu6050Handle, MPU6050_RA_YA_OFFS_H, &high, 1) ||
+        ns_i2c_reg_write(mpu6050Handle, MPU6050_RA_YA_OFFS_L , &low, 1));
 }
 
 uint32_t setAccelOffsetZ(int offset) {
     int8_t low = getLowBits(offset);
     int8_t high = getHighBits(offset);
-    return (ns_i2c_reg_write(&mpu6050Handle, MPU6050_RA_ZA_OFFS_H, &high, 1) ||
-        ns_i2c_reg_write(&mpu6050Handle, MPU6050_RA_ZA_OFFS_L , &low, 1));
+    return (ns_i2c_reg_write(mpu6050Handle, MPU6050_RA_ZA_OFFS_H, &high, 1) ||
+        ns_i2c_reg_write(mpu6050Handle, MPU6050_RA_ZA_OFFS_L , &low, 1));
 }
 
 uint32_t setGyroOffsetX(int offset) {
     int8_t low = getLowBits(offset);
     int8_t high = getHighBits(offset);
-    return (ns_i2c_reg_write(&mpu6050Handle, XG_OFFSET_H , &high, 1) ||
-        ns_i2c_reg_write(&mpu6050Handle, XG_OFFSET_L , &low, 1));
+    return (ns_i2c_reg_write(mpu6050Handle, XG_OFFSET_H , &high, 1) ||
+        ns_i2c_reg_write(mpu6050Handle, XG_OFFSET_L , &low, 1));
 }
 
 uint32_t setGyroOffsetY(int offset) {
     int8_t low = getLowBits(offset);
     int8_t high = getHighBits(offset);
-    return (ns_i2c_reg_write(&mpu6050Handle, YG_OFFSET_H , &high, 1) ||
-        ns_i2c_reg_write(&mpu6050Handle, YG_OFFSET_L , &low, 1));
+    return (ns_i2c_reg_write(mpu6050Handle, YG_OFFSET_H , &high, 1) ||
+        ns_i2c_reg_write(mpu6050Handle, YG_OFFSET_L , &low, 1));
 }
 
 uint32_t setGyroOffsetZ(int offset) {
     int8_t low = getLowBits(offset);
     int8_t high = getHighBits(offset);
-    return (ns_i2c_reg_write(&mpu6050Handle, ZG_OFFSET_H , &high, 1) ||
-        ns_i2c_reg_write(&mpu6050Handle, ZG_OFFSET_L , &low, 1));
+    return (ns_i2c_reg_write(mpu6050Handle, ZG_OFFSET_H , &high, 1) ||
+        ns_i2c_reg_write(mpu6050Handle, ZG_OFFSET_L , &low, 1));
 }
 
 uint32_t meanSensors(int* meanAX, int* meanAY, int* meanAZ, int* meanGX, int* meanGY, int* meanGZ) {

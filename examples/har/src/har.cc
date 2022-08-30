@@ -13,10 +13,10 @@
 
 #include "ns_ambiqsuite_harness.h"
 #include "ns_i2c_register_driver.h"
-#include "mpu6050_i2c_driver.h"
-#include "ns-rpc-audio.h"
+#include "ns_mpu6050_i2c_driver.h"
+#include "ns_rpc_audio.h"
 #include "ns_peripherals_button.h"
-#include "ns-usb.h"
+#include "ns_usb.h"
 #include "ns_peripherals_power.h"
 
 #define NUMSAMPLES 32

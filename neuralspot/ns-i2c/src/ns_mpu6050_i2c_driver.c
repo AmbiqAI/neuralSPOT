@@ -15,7 +15,7 @@
 #include "am_util.h"
 //#include "am_hal_iom.h"
 #include "ns_i2c_register_driver.h"
-#include "mpu6050_i2c_driver.h"
+#include "ns_mpu6050_i2c_driver.h"
 #include <limits.h>
 
 static void *mpu6050Handle;

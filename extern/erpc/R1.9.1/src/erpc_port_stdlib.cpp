@@ -12,7 +12,7 @@
 
 #include <cstdlib>
 #include <new>
-#include "ns-malloc.h"
+#include "ns_malloc.h"
 #include "ns_ambiqsuite_harness.h"
 
 using namespace std;

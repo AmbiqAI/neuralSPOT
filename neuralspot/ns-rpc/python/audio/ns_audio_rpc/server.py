@@ -25,7 +25,6 @@ class ns_audio_rpcService(erpc.server.Service):
     def _handle_erpcDumpAudioBuffer(self, sequence, codec):
         # Read incoming parameters.
         buf = common.audioCommand_t()._read(codec)
-
         # Invoke user implementation of remote function.
         _result = self._handler.erpcDumpAudioBuffer(buf)
 

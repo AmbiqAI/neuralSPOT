@@ -79,11 +79,17 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     // USB reads one block at a time, loop until we get full
     // request
-    uint32_t bytes_rx = 0;
+    uint32_t bytes_rx, old_rx = 0;
+    uint32_t retries = 100;
 
     while (bytes_rx < bufsize) {
         tud_task(); // tinyusb device task
+        old_rx = bytes_rx;
         bytes_rx += tud_cdc_read((void*)(buffer+bytes_rx), bufsize - bytes_rx);
+        if (bytes_rx == old_rx) {
+            retries--;
+        }
+        if (retries == 0) {break;}
     }
     return bytes_rx;
 }

@@ -73,13 +73,13 @@
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
 #endif
-#include "ns-rpc-audio.h"
+#include "ns_rpc_audio.h"
 
 /// TFLM model
 #include "model.h"
 
-#include "ns-usb.h"
-#include "ns-malloc.h"
+#include "ns_usb.h"
+#include "ns_malloc.h"
 
 /// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))

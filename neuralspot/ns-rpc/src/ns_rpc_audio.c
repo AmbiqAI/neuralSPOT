@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2022
  * 
  */
-#include "ns-usb.h"
-#include "ns-rpc-audio.h"
+#include "ns_usb.h"
+#include "ns_rpc_audio.h"
 #include "erpc_client_setup.h"
 #include "ns_audio_rpc.h"
 #include "ns_ambiqsuite_harness.h"

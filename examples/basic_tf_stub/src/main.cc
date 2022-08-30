@@ -238,9 +238,9 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
 
     if (g_audioRecording) {
-        if (g_audioReady) {
-            ns_printf("Warning - audio buffer wasnt consumed in time\n");
-        }
+        // if (g_audioReady) {
+        //     ns_printf("Warning - audio buffer wasnt consumed in time\n");
+        // }
 
         // Raw PCM data is 32b (14b/channel) - here we only care about one
         // channel For ringbuffer mode, this loop may feel extraneous, but it is
@@ -316,7 +316,7 @@ main(void) {
 // #ifdef AUDIODEBUG
 //     // This mode uses RTT, which needs SRAM
 //     ns_debug_printf_enable();
-//     ns_power_config(&ns_development_default);
+     ns_power_config(&ns_development_default);
 // #else
 //     #ifdef ENERGYMODE
 //     ns_uart_printf_enable(); // use uart to print, turn off crypto

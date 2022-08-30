@@ -28,7 +28,7 @@ TARGET      := main# default target for binary-specific operations such as 'depl
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
-DEFINES+= CFG_TUSB_DEBUG=2
+# DEFINES+= CFG_TUSB_DEBUG=2
 
 ##### Common AI Precompiler Directives #####
 MLDEBUG     := 0    # 1 = load TF library with debug info, turn on TF debug statements

@@ -187,7 +187,7 @@ Next:
 RPC for audio works and has been checked in and merged. Now working on i2c drivers.
 
 Next:
-1. Get i2c mpu driver running
+1. Get i2c mpu driver running DONE
 2. Get i2c dumping via RPC running
 3. Write decent documentation on all of that
 4. Start clearing out my small item backlog

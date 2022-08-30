@@ -33,7 +33,7 @@ static UsbCdcTransport *s_usbcdc_instance = NULL;
 
 static void ERPC_ns_usb_tx_cb(ns_usb_transaction_t *tr)
 {
-    ns_printf("NS USB TX CB\n");
+    // ns_printf("NS USB TX CB\n");
 
     UsbCdcTransport *transport = s_usbcdc_instance;
     if (NULL != tr)
@@ -51,7 +51,7 @@ static void ERPC_ns_usb_tx_cb(ns_usb_transaction_t *tr)
 
 static void ERPC_ns_usb_rx_cb(ns_usb_transaction_t *tr)
 {
-    ns_printf("NS USB RX CB\n");
+    // ns_printf("NS USB RX CB\n");
 
     UsbCdcTransport *transport = s_usbcdc_instance;
     if (NULL != tr)
@@ -124,10 +124,12 @@ erpc_status_t UsbCdcTransport::underlyingReceive(uint8_t *data, uint32_t size)
 
     tud_task(); // tinyusb device task
     bytes_rx = ns_usb_recieve_data(m_usbHandle, data, size);
+    // ns_printf("NS USB RX asked for %d, Rec %d bytes\n", size, bytes_rx);
 
-    // if (bytes_rx != size) {
-        ns_printf("NS USB asked for %d, Rec %d bytes\n", size, bytes_rx);
-    // }
+    if (bytes_rx < size) {
+        ns_printf("NS USB ERROR: asked for %d, Rec %d bytes\n", size, bytes_rx);
+        status = kErpcStatus_ReceiveFailed;
+    }
 
     return status;
 }
@@ -145,12 +147,13 @@ erpc_status_t UsbCdcTransport::underlyingSend(const uint8_t *data, uint32_t size
         tud_cdc_write_flush();
         tud_task(); // tinyusb device task
 
-        ns_printf("NS USB  asked to send %d, sent %d bytes\n", size, bytes_tx);
+        // ns_printf("NS USB TX asked to send %d, sent %d bytes\n", size, bytes_tx);
     }
 
-    // if (bytes_tx != size) {
-        // ns_printf("NS USB  asked to send %d, sent %d bytes\n", size, bytes_tx);
-    // }
+    if (bytes_tx != size) {
+        ns_printf("NS USB ERROR: asked to send %d, sent %d bytes\n", size, bytes_tx);
+        status = kErpcStatus_ReceiveFailed;
+    }
     tud_cdc_write_flush();
 
     return status;

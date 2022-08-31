@@ -8,7 +8,7 @@ SHELL  :=/bin/bash
 
 ##### Target Hardware Defaults #####
 BOARD  :=apollo4p
-EVB    :=evb
+EVB    :=blue_evb
 PART   = $(BOARD)
 CPU    = cortex-m4
 FPU    = fpv4-sp-d16

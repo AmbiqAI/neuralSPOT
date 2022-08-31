@@ -11,7 +11,7 @@
  *
  */
 
-#include "ns-usb.h"
+#include "ns_usb.h"
 
 static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
                                      .buffer = NULL,

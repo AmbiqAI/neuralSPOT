@@ -73,13 +73,13 @@
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
 #endif
-#include "ns-rpc-audio.h"
+#include "ns_rpc_audio.h"
 
 /// TFLM model
 #include "model.h"
 
-#include "ns-usb.h"
-#include "ns-malloc.h"
+#include "ns_usb.h"
+#include "ns_malloc.h"
 
 /// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -250,12 +250,12 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
             g_in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
         }
 
-#ifdef RINGBUFFER_MODE
-        ns_ring_buffer_push(&(config->bufferHandle[0]),
-                                      g_in16AudioDataBuffer,
-                                      (config->numSamples * 2), // in bytes
-                                      false);
-#endif
+        #ifdef RINGBUFFER_MODE
+                ns_ring_buffer_push(&(config->bufferHandle[0]),
+                                            g_in16AudioDataBuffer,
+                                            (config->numSamples * 2), // in bytes
+                                            false);
+        #endif
         g_audioReady = true;
     }
 }
@@ -267,25 +267,25 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
  * 
  */
 ns_audio_config_t audio_config = {
-#ifdef RINGBUFFER_MODE
-    .eAudioApiMode = NS_AUDIO_API_RINGBUFFER,
-    .callback = audio_frame_callback,
-    .audioBuffer = (void *)&pui8AudioBuff,
-#else
-    .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-    .callback = audio_frame_callback,
-    .audioBuffer = (void *)&g_in16AudioDataBuffer,
-#endif
+    #ifdef RINGBUFFER_MODE
+        .eAudioApiMode = NS_AUDIO_API_RINGBUFFER,
+        .callback = audio_frame_callback,
+        .audioBuffer = (void *)&pui8AudioBuff,
+    #else
+        .eAudioApiMode = NS_AUDIO_API_CALLBACK,
+        .callback = audio_frame_callback,
+        .audioBuffer = (void *)&g_in16AudioDataBuffer,
+    #endif
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
     .numChannels = NUM_CHANNELS,
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
     .audioSystemHandle = NULL, // filled in by audio_init()
-#ifdef RINGBUFFER_MODE
-    .bufferHandle = audioBuf
-#else
-    .bufferHandle = NULL
-#endif
+    #ifdef RINGBUFFER_MODE
+        .bufferHandle = audioBuf
+    #else
+        .bufferHandle = NULL
+    #endif
 };
 
 /**
@@ -340,9 +340,9 @@ main(void) {
 
     ns_printf("Press button to start listening...\n");
 
-#ifdef ENERGYMODE
-    ns_power_set_monitor_state(AM_AI_DATA_COLLECTION);
-#endif
+    #ifdef ENERGYMODE
+        ns_power_set_monitor_state(AM_AI_DATA_COLLECTION);
+    #endif
 
     while (1) {
         tud_task(); // tinyusb device task
@@ -352,9 +352,9 @@ main(void) {
             g_audioRecording = true;
             ns_printf("Listening for 3 seconds.\n");
 
-#ifdef ENERGYMODE
-            ns_power_set_monitor_state(AM_AI_FEATURE_EXTRACTION);
-#endif
+            #ifdef ENERGYMODE
+                ns_power_set_monitor_state(AM_AI_FEATURE_EXTRACTION);
+            #endif
 
             while (recording_win > 0) {
                 ns_delay_us(1);
@@ -362,25 +362,27 @@ main(void) {
                     int32_t mfcc_buffer_head =
                         (num_frames - recording_win) * num_mfcc_features;
 
-#ifdef RINGBUFFER_MODE
-                    ns_ring_buffer_pop(audioBuf,
+                    #ifdef RINGBUFFER_MODE
+                        ns_ring_buffer_pop(audioBuf,
                                                  &g_in16AudioDataBuffer,
                                                  audio_config.numSamples * 2);
-#endif
+                    #endif
 
                     ns_mfcc_compute(g_in16AudioDataBuffer,
                                  &mfcc_buffer[mfcc_buffer_head]);
 
                     recording_win--;
                     g_audioReady = false;
-#ifdef AUDIODEBUG
-                    SEGGER_RTT_Write(1, g_in16AudioDataBuffer,
-                                     SAMPLES_IN_FRAME * sizeof(int16_t));
-#endif
-                   tud_task(); // tinyusb device task
-                   ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));
+                    #ifdef AUDIODEBUG
+                        SEGGER_RTT_Write(1, g_in16AudioDataBuffer,
+                                       SAMPLES_IN_FRAME * sizeof(int16_t));
+                    #endif
+                    tud_task(); // tinyusb device task
+                    ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));
+                    ns_printf(".");
                 }
             }
+            ns_printf("\n");
 
             g_audioRecording = false;
             g_intButtonPressed = 0;
@@ -393,9 +395,9 @@ main(void) {
                 input->data.int8[i] = (int8_t)tmp;
             }
 
-#ifdef ENERGYMODE
-            am_set_power_monitor_state(AM_AI_INFERING);
-#endif
+            #ifdef ENERGYMODE
+                am_set_power_monitor_state(AM_AI_INFERING);
+            #endif
 
             TfLiteStatus invoke_status = interpreter->Invoke();
             if (invoke_status != kTfLiteOk) {
@@ -404,11 +406,10 @@ main(void) {
                 };
             }
 
-#ifdef ENERGYMODE
-            am_set_power_monitor_state(AM_AI_DATA_COLLECTION);
-#endif
+            #ifdef ENERGYMODE
+                am_set_power_monitor_state(AM_AI_DATA_COLLECTION);
+            #endif
 
-            ns_printf("\n");
             for (uint8_t i = 0; i < 6; i = i + 1) {
                 y_intent[i] = (output_intent->data.int8[i] -
                                output_intent->params.zero_point) *

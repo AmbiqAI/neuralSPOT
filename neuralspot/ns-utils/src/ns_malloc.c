@@ -9,7 +9,7 @@
  *
  */
 
-#include "ns-malloc.h"
+#include "ns_malloc.h"
 
 /// Empty for now, but placeholder in case we need multi-heap support
 uint8_t

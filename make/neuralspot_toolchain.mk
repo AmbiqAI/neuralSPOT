@@ -51,7 +51,7 @@ LFLAGS+=
 CPFLAGS = -Obinary
 ODFLAGS = -S
 
-$(info Building for $(PART))
+$(info Building for $(PART)_$(EVB))
 DEFINES+= $(PART)_$(EVB)
 DEFINES+= PART_$(PART)
 ifeq ($(PART),apollo4b)

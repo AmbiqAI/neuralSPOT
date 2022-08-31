@@ -36,7 +36,7 @@ extern "C" {
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "ns-usb.h"
+#include "ns_usb.h"
 
 //! @name Transport setup
 //@{

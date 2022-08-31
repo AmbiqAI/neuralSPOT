@@ -37,7 +37,7 @@ main(void) {
     ns_debug_printf_enable();
 
     am_hal_interrupt_master_enable();
-    ns_power_config(&ns_development_default);
+    //ns_power_config(&ns_development_default);
 
     #ifdef NS_RPC_AUDIO
         ns_rpc_audio_init();

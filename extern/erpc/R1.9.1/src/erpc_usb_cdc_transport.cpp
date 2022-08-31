@@ -8,7 +8,7 @@
 
 #include <cstdio>
 #include "erpc_usb_cdc_transport.hpp"
-#include "ns-usb.h"
+#include "ns_usb.h"
 #include "ns_ambiqsuite_harness.h"
 
 using namespace erpc;

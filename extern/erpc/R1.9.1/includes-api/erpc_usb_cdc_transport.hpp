@@ -18,7 +18,7 @@
 #include "erpc_framed_transport.hpp"
 
 extern "C" {
-#include "ns-usb.h"
+#include "ns_usb.h"
 }
 
 /*!

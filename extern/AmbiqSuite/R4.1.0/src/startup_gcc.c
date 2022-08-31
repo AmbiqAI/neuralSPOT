@@ -154,7 +154,7 @@ __attribute__ ((section(".stack")))
 static uint32_t g_pui32Stack[4096];
 
 __attribute__ ((section(".heap"))) __attribute__ ((__used__))
-static uint32_t g_pui32Heap[4096];
+static uint32_t g_pui32Heap[0];
 
 //*****************************************************************************
 //

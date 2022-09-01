@@ -1,8 +1,9 @@
 /**
- @file s2i_example.cc
+ @file main.cc
 
  @brief Speech-to-Intent using NeuralSPOT
 
+The basic_tf_stub example is based on a speech to intent model.
  Speech-to-Intent is a neural-network-based Tensorflow model that listens
  for 3-5 second phrases and infers the intent of that phrase. It uses
  NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power 
@@ -65,21 +66,20 @@
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
+#include "ns_peripherals_button.h"
+#include "ns_peripherals_power.h"
+#include "ns_rpc_audio.h"
+#include "ns_usb.h"
+#include "ns_malloc.h"
 #ifdef RINGBUFFER_MODE
     #include "ns_ipc_ring_buffer.h"
 #endif
-#include "ns_peripherals_button.h"
-#include "ns_peripherals_power.h"
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
 #endif
-#include "ns_rpc_audio.h"
 
 /// TFLM model
 #include "model.h"
-
-#include "ns_usb.h"
-#include "ns_malloc.h"
 
 /// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -203,8 +203,7 @@ ns_button_config_t button_config = {
 };
 
 
-// Audio and IPC Config
-
+/// Audio and IPC Config
 /// Set by app when it wants to start recording, used by callback
 bool static g_audioRecording = false;
 
@@ -313,23 +312,23 @@ main(void) {
     // This examples uses pre-populated power config structs - 
     // to modify create a local struct and pass it to
     // ns_power_config()
-// #ifdef AUDIODEBUG
-//     // This mode uses RTT, which needs SRAM
-//     ns_debug_printf_enable();
-     ns_power_config(&ns_development_default);
-// #else
-//     #ifdef ENERGYMODE
-//     ns_uart_printf_enable(); // use uart to print, turn off crypto
-//     // This is only for measuring power using an external power monitor such as
-//     // Joulescope - it sets GPIO pins so the state can be observed externally
-//     // to help line up the waveforms. It has nothing to do with AI...
-//     ns_init_power_monitor_state();
-//     ns_power_set_monitor_state(&am_ai_audio_default);
-//     #else
-//     ns_debug_printf_enable(); // Leave crypto on for ease of debugging
-//     ns_power_config(&ns_development_default);
-//     #endif
-// #endif
+    #ifdef AUDIODEBUG
+        // This mode uses RTT, which needs SRAM
+        ns_debug_printf_enable();
+        ns_power_config(&ns_development_default);
+    #else
+        #ifdef ENERGYMODE
+            ns_uart_printf_enable(); // use uart to print, turn off crypto
+            // This is only for measuring power using an external power monitor such as
+            // Joulescope - it sets GPIO pins so the state can be observed externally
+            // to help line up the waveforms. It has nothing to do with AI...
+            ns_init_power_monitor_state();
+            ns_power_set_monitor_state(&am_ai_audio_default);
+        #else
+            ns_debug_printf_enable(); // Leave crypto on for ease of debugging
+            ns_power_config(&ns_development_default);
+        #endif
+    #endif
 
     // Initialize everything else
     model_init();

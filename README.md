@@ -124,5 +124,3 @@ With this in mind, the nest upgrade workflow goes something like this:
 	3. Any changes in pack/
 2. Upgrade the nest by running `make nest` with the same NESTDIR you are already using
 3. Compare $(NESTDIR)/src/preserved to new files in $(NESTDIR)/src, and copy in or merge as needed
-
-

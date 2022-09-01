@@ -1,0 +1,48 @@
+// Interface proposal for bulk data transfer
+
+program GenericDataOperations
+
+enum status {
+    ns_rpc_data_success = 0,
+    ns_rpc_data_failure = 1,
+    ns_rpc_data_blockTooLarge = 2
+}
+
+enum dataType {
+    uint8,
+    uint16,
+    uint32,
+    int8,
+    int16,
+    int32,    
+    float32,
+    float64
+}
+
+enum command {
+    generic,    //!< The sender doesn't have an opinion about what to do with data
+    visualize,  //!< Block intended for visualization
+    write,      //!< Block intended for writing to a file
+    read        //!< Fetch block from a file
+}
+
+struct dataBlock {
+    uint32 length;      //!< In bytes
+    dataType type;      //!< Type of data in block
+    string description; //!< Textual description/metadata
+    command cmd;        //!< Suggestion of what to do with data
+    binary buffer;      //!< The data
+}
+
+interface evb_to_pc {
+    ns_rpc_data_sendBlockToPC(dataBlock) -> status
+    ns_rpc_data_fetchBlockFromPC(&dataBlock) -> status
+    ns_rpc_data_computeOnPC(dataBlock in_block, &dataBlock result_block) -> status
+    ns_rpc_data_remotePrintOnPC(string) -> status
+}
+
+interface pc_to_evb {
+    ns_rpc_data_sendBlockToEVB(dataBlock) -> status
+    ns_rpc_data_fetchBlockFromEVM(&dataBlock) -> status
+    ns_rpc_data_computeOnEVB(dataBlock in_block, &dataBlock result_block) -> status
+}

@@ -51,20 +51,27 @@
 #include "am_util.h"
 #include "ns_peripherals_power.h"
 
-const ns_power_config_t ns_development_default = {.eAIPowerMode =
-                                                      NS_MAXIMUM_PERF,
-                                                  .bNeedAudAdc = true,
-                                                  .bNeedSharedSRAM = true,
-                                                  .bNeedCrypto = true,
-                                                  .bNeedBluetooth = true,
-                                                  .bNeedAlternativeUART = true};
+const ns_power_config_t ns_development_default = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = true,
+    .bNeedCrypto = true,
+    .bNeedBluetooth = true,
+    .bNeedUSB = true,
+    .bNeedIOM = true,
+    .bNeedAlternativeUART = true
+};
 
-const ns_power_config_t ns_good_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                           .bNeedAudAdc = false,
-                                           .bNeedSharedSRAM = false,
-                                           .bNeedCrypto = true,
-                                           .bNeedBluetooth = false,
-                                           .bNeedAlternativeUART = false};
+const ns_power_config_t ns_good_default =        {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = true,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false
+};
 
 const ns_power_config_t ns_mlperf_recommended_default = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -72,22 +79,32 @@ const ns_power_config_t ns_mlperf_recommended_default = {
     .bNeedSharedSRAM = false,
     .bNeedCrypto = false,
     .bNeedBluetooth = false,
-    .bNeedAlternativeUART = true};
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true
+};
 
-const ns_power_config_t ns_mlperf_ulp_default = {.eAIPowerMode =
-                                                     NS_MINIMUM_PERF,
-                                                 .bNeedAudAdc = false,
-                                                 .bNeedSharedSRAM = false,
-                                                 .bNeedCrypto = false,
-                                                 .bNeedBluetooth = false,
-                                                 .bNeedAlternativeUART = true};
+const ns_power_config_t ns_mlperf_ulp_default = {
+    .eAIPowerMode = NS_MINIMUM_PERF,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true
+};
 
-const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                            .bNeedAudAdc = true,
-                                            .bNeedSharedSRAM = false,
-                                            .bNeedCrypto = false,
-                                            .bNeedBluetooth = false,
-                                            .bNeedAlternativeUART = false};
+const ns_power_config_t ns_audio_default = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false
+};
 
 //*****************************************************************************
 //
@@ -136,14 +153,17 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     // Disable all peripherals
     //
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOS);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM0);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM1);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM2);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM3);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM4);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM5);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM6);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM7);
+
+    if (pCfg->bNeedAlternativeUART == false) {
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM0);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM1);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM2);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM3);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM4);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM5);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM6);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM7);
+    };
 
     if (pCfg->bNeedAlternativeUART == false) {
         am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_UART0);

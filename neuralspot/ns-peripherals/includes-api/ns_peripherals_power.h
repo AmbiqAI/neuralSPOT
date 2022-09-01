@@ -75,6 +75,8 @@ typedef struct
     bool               bNeedSharedSRAM;
     bool               bNeedCrypto;
     bool               bNeedBluetooth;
+    bool               bNeedUSB;
+    bool               bNeedIOM;
     bool               bNeedAlternativeUART; // for EEMBC Power Control Module and similar
 } ns_power_config_t;
 

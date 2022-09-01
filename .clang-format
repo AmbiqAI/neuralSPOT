@@ -6,7 +6,7 @@ IndentWidth: 4
 IndentPPDirectives: BeforeHash
 
 AlignAfterOpenBracket: Align
-AlignArrayOfStructures: true
+AlignArrayOfStructures: Left
 AlignConsecutiveMacros: All
 AlignConsecutiveAssignments: All
 AlignConsecutiveBitFields: All

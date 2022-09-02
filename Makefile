@@ -161,6 +161,7 @@ nest: all $(NESTSOURCE)
 	@echo " Building Nest at $(NESTDIR) based on $< ..."
 	@mkdir -p $(NESTDIR)
 	@mkdir -p $(NESTDIR)/src	
+	@mkdir -p $(NESTDIR)/src/preserved
 	@mkdir -p $(NESTDIR)/libs	
 	@mkdir -p $(NESTDIR)/make	
 	@mkdir -p $(NESTDIR)/pack/svd	
@@ -176,7 +177,8 @@ nest: all $(NESTSOURCE)
 	@for file in $(lib_prebuilt); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
-	@cp $(NESTSOURCEDIR)/* $(NESTDIR)/src
+	@cp $(NESTDIR)/src/*.* $(NESTDIR)/src/preserved
+	@cp $(NESTSOURCEDIR)/*.* $(NESTDIR)/src
 	@cp make/helpers.mk $(NESTDIR)/make
 	@cp make/neuralspot_config.mk $(NESTDIR)/make
 	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make

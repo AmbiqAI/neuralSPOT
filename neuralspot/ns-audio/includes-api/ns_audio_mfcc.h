@@ -10,6 +10,9 @@
  * 
  * @copyright Copyright (c) 2022
  * 
+ *  \addtogroup NeuralSPOT-MFCC
+ *  @{
+ *  @ingroup NeuralSPOT-Audio
  */
 
 /*

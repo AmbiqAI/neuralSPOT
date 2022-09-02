@@ -1,16 +1,16 @@
-//*****************************************************************************
-//
-//! @file hello_world_uart.c
-//!
-//! @brief A simple "Hello World" example using the UART peripheral.
-//!
-//! This example prints a "Hello World" message with some device info
-//! over UART at 115200 baud.
-//! To see the output of this program, run a terminal appl such as
-//! Tera Term or PuTTY, and configure the console for UART.
-//! The example sleeps after it is done printing.
-//
-//*****************************************************************************
+/**
+ * @file ns_peripherals_power.h
+ * @author Carlos Morales
+ * @brief NeuralSPOT Power Management Library
+ * @version 0.1
+ * @date 2022-09-02
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * \addtogroup NeuralSPOT-Power
+ *  @{
+ * @ingroup NeuralSPOT-Peripherals
+ */
 
 //*****************************************************************************
 //
@@ -49,8 +49,8 @@
 // This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
-#ifndef MLPERF_POWER
-#define MLPERF_POWER
+#ifndef NS_POWER
+#define NS_POWER
 
 #ifdef __cplusplus
 extern "C"
@@ -63,33 +63,40 @@ extern "C"
 
 typedef enum
 {
-    NS_MINIMUM_PERF = 0, // slowest clock
-    NS_MEDIUM_PERF  = 1, // ~100Mhz clock
-    NS_MAXIMUM_PERF = 2  // ~200Mhz clock
+    NS_MINIMUM_PERF = 0, ///< slowest clock
+    NS_MEDIUM_PERF  = 1, ///< ~100Mhz clock
+    NS_MAXIMUM_PERF = 2  ///< ~200Mhz clock
 } ns_power_mode_e;
 
+/// Power Mode Definitino
 typedef struct
 {
-    ns_power_mode_e    eAIPowerMode;
-    bool               bNeedAudAdc;
-    bool               bNeedSharedSRAM;
-    bool               bNeedCrypto;
-    bool               bNeedBluetooth;
-    bool               bNeedUSB;
-    bool               bNeedIOM;
-    bool               bNeedAlternativeUART; // for EEMBC Power Control Module and similar
+    ns_power_mode_e    eAIPowerMode;        ///< CPU power mode (controls clock speed, etc)
+    bool               bNeedAudAdc;         ///< Prevents AUDADC from being powered off
+    bool               bNeedSharedSRAM;     ///< Prevents SSRAM from being powered off
+    bool               bNeedCrypto;         ///< Prevents Crypto from being powered off
+    bool               bNeedBluetooth;      ///< Prevents BLE from being powered off
+    bool               bNeedUSB;            ///< Prevents USB from being powered off
+    bool               bNeedIOM;            ///< Prevents IOMx from being powered off
+    bool               bNeedAlternativeUART; ///< for EEMBC Power Control Module and similar
 } ns_power_config_t;
 
-extern const ns_power_config_t ns_development_default;
-extern const ns_power_config_t ns_good_default;
-extern const ns_power_config_t ns_mlperf_recommended_default;
-extern const ns_power_config_t ns_mlperf_ulp_default;
-extern const ns_power_config_t ns_audio_default;
+extern const ns_power_config_t ns_development_default; ///< Enables most things
+extern const ns_power_config_t ns_good_default; ///< Reasonable settings for more applications
+extern const ns_power_config_t ns_mlperf_recommended_default; ///< Good power/perf setting
+extern const ns_power_config_t ns_mlperf_ulp_default; ///< Absolute lowest power with slight perf impact
+extern const ns_power_config_t ns_audio_default; ///< Good for AI that uses audio peripherals
 
+/**
+ * @brief Set SOC Power Mode
+ * 
+ * @param ns_power_config_t Desired power mode
+ * @return uint32_t success/failure
+ */
 extern uint32_t ns_power_config(const ns_power_config_t*);
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif // MLPERF_POWER
+/** @}*/
+#endif // NS_POWER

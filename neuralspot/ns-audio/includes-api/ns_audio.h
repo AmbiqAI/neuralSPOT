@@ -7,6 +7,8 @@
  *
  * @copyright Copyright (c) 2022
  *
+ * \addtogroup NeuralSPOT-Audio
+ *  @{
  */
 
 //*****************************************************************************
@@ -71,18 +73,17 @@ typedef enum {
     NS_AUDIO_SOURCE_AUDADC  ///< Collect data from AUDADC
 } ns_audio_source_e;
 
+// Forward declaration to get around using it in cb
 struct am_ai_acfg;
 
 /// Invoked by IRQ when audio buffer is ready
 typedef void (*ns_audio_callback_cb)(struct am_ai_acfg *, uint16_t);
 
-/**
- * NeuralSPOT Audio API Configuration Struct
- *
- * All configuration is via this struct, which also serves
- * as a handle after ns_audio_init() has been invoked
- *
- */
+/// NeuralSPOT Audio API Configuration Struct
+/// 
+/// Audio configuration is via this struct, which also serves
+/// as a handle after ns_audio_init() has been invoked
+/// 
 typedef struct am_ai_acfg {
     /** API Config */
     ns_audio_api_mode_e eAudioApiMode; /**< Defines how the audio system will
@@ -99,17 +100,22 @@ typedef struct am_ai_acfg {
     uint16_t sampleRate; ///< In Hz
 
     /** Internals */
-    void *audioSystemHandle;                  /**< Handle, filled by init */
-    am_app_utils_ring_buffer_t *bufferHandle; /**< Filled by init */
+    void *audioSystemHandle;                  ///< Handle, filled by init
+    am_app_utils_ring_buffer_t *bufferHandle; ///< Filled by init
 
 } ns_audio_config_t;
 
 extern ns_audio_config_t g_ns_audio_config;
-extern void
-ns_audio_init(ns_audio_config_t *);
+
+/**
+ * @brief Initialize NeuralSPOT audio capture library
+ *
+ * @param cfg : desired confiugration
+ */
+extern void ns_audio_init(ns_audio_config_t *);
 
 #ifdef __cplusplus
 }
 #endif
-
+/** @}*/
 #endif // NS_AUDIO

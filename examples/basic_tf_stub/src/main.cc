@@ -71,6 +71,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_rpc_audio.h"
 #include "ns_usb.h"
 #include "ns_malloc.h"
+#define RINGBUFFER_MODE
 #ifdef RINGBUFFER_MODE
     #include "ns_ipc_ring_buffer.h"
 #endif
@@ -213,7 +214,7 @@ bool static g_audioReady = false;
 
 #ifdef RINGBUFFER_MODE
 /// Ringbuffer storage
-am_app_utils_ring_buffer_t audioBuf[1];
+ns_ipc_ring_buffer_t audioBuf[1];
 static uint8_t
     pui8AudioBuff[SAMPLES_IN_FRAME * 2 * 2]; // two buffers, 2 bytes/entry
 #endif
@@ -250,7 +251,7 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         }
 
         #ifdef RINGBUFFER_MODE
-                ns_ring_buffer_push(&(config->bufferHandle[0]),
+                ns_ipc_ring_buffer_push(&(config->bufferHandle[0]),
                                             g_in16AudioDataBuffer,
                                             (config->numSamples * 2), // in bytes
                                             false);
@@ -362,7 +363,7 @@ main(void) {
                         (num_frames - recording_win) * num_mfcc_features;
 
                     #ifdef RINGBUFFER_MODE
-                        ns_ring_buffer_pop(audioBuf,
+                        ns_ipc_ring_buffer_pop(audioBuf,
                                                  &g_in16AudioDataBuffer,
                                                  audio_config.numSamples * 2);
                     #endif

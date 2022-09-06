@@ -101,7 +101,7 @@ typedef struct am_ai_acfg {
 
     /** Internals */
     void *audioSystemHandle;                  ///< Handle, filled by init
-    am_app_utils_ring_buffer_t *bufferHandle; ///< Filled by init
+    ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
 
 } ns_audio_config_t;
 

@@ -55,13 +55,7 @@ ns_audio_config_t g_ns_audio_config = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
                                        .audioSystemHandle = NULL,
                                        .bufferHandle = NULL};
 
-/**
- * @brief Initialize NeuralSPOT audio capture library
- *
- * @param cfg : desired confiugration
- */
-void
-ns_audio_init(ns_audio_config_t *cfg) {
+void ns_audio_init(ns_audio_config_t *cfg) {
     // Copy in config
     g_ns_audio_config.eAudioApiMode = cfg->eAudioApiMode;
     g_ns_audio_config.callback = cfg->callback;
@@ -74,12 +68,13 @@ ns_audio_init(ns_audio_config_t *cfg) {
 
     if (g_ns_audio_config.eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
         // init a ringbuffer
-        am_app_utils_ringbuff_setup_t setup = {
+        ns_ipc_ringbuff_setup_t setup = {
             .indx = 0,
             .pData = g_ns_audio_config.audioBuffer,
-            .ui32ByteSize = g_ns_audio_config.numSamples * 2 * 2};
+            .ui32ByteSize = g_ns_audio_config.numSamples * 2 * 2
+        };
 
-        am_app_utils_ring_buffer_init(cfg->bufferHandle, setup);
+        ns_ipc_ring_buffer_init(cfg->bufferHandle, setup);
         g_ns_audio_config.bufferHandle = cfg->bufferHandle;
     }
 
@@ -87,11 +82,11 @@ ns_audio_init(ns_audio_config_t *cfg) {
         audadc_init();
     }
 
-#ifdef AUDIODEBUG
-    SEGGER_RTT_Init();
-    SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer,
-                              RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
-    am_util_stdio_printf("RTT Control Block Address:  0x%08X\n",
-                         (uint32_t)&_SEGGER_RTT);
-#endif
+    #ifdef AUDIODEBUG
+        SEGGER_RTT_Init();
+        SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer,
+                                RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+        am_util_stdio_printf("RTT Control Block Address:  0x%08X\n",
+                            (uint32_t)&_SEGGER_RTT);
+    #endif
 }

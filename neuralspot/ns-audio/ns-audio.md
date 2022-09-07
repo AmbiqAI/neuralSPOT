@@ -73,7 +73,7 @@ Capturing audio is an asynchronous task, partially handled by hardware periphera
 2. Callback-based: Invokes an IRQ-context callback defined by the application developer. The developer is responsible for buffer management.
 3. Ringbuffer-based: adds a ping-ponging ringbuffer allowing the application to run while the next audio buffer is acquired. It builds on the callback approach, preserving flexibility.
 
-### Choosing IPC Mode
+### Audio IPC Modes
 Audio IPC behavior is controlled by the ns_audio_config_t configuration parameter passed into `ns_audio_init'. The above example illustrates the callback approach, while the following example shows the ringbuffer approach.
 
 ```c

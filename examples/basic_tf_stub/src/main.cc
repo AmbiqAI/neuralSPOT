@@ -187,8 +187,8 @@ model_init(void) {
     }
 
     // Obtain pointers to the model's input and output tensors.
-    input = interpreter->input(0);
-    output_slot = interpreter->output(0);
+    input         = interpreter->input(0);
+    output_slot   = interpreter->output(0);
     output_intent = interpreter->output(1);
 }
 
@@ -202,7 +202,6 @@ ns_button_config_t button_config = {
     .button_0_flag = &g_intButtonPressed,
     .button_1_flag = NULL
 };
-
 
 /// Audio and IPC Config
 /// Set by app when it wants to start recording, used by callback
@@ -340,10 +339,6 @@ main(void) {
 
     ns_printf("Press button to start listening...\n");
 
-    #ifdef ENERGYMODE
-        ns_power_set_monitor_state(AM_AI_DATA_COLLECTION);
-    #endif
-
     while (1) {
         tud_task(); // tinyusb device task
 
@@ -351,10 +346,6 @@ main(void) {
             ns_delay_us(1000);
             g_audioRecording = true;
             ns_printf("Listening for 3 seconds.\n");
-
-            #ifdef ENERGYMODE
-                ns_power_set_monitor_state(AM_AI_FEATURE_EXTRACTION);
-            #endif
 
             while (recording_win > 0) {
                 ns_delay_us(1);
@@ -373,10 +364,7 @@ main(void) {
 
                     recording_win--;
                     g_audioReady = false;
-                    #ifdef AUDIODEBUG
-                        SEGGER_RTT_Write(1, g_in16AudioDataBuffer,
-                                       SAMPLES_IN_FRAME * sizeof(int16_t));
-                    #endif
+
                     tud_task(); // tinyusb device task
                     ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));
                     ns_printf(".");
@@ -395,20 +383,12 @@ main(void) {
                 input->data.int8[i] = (int8_t)tmp;
             }
 
-            #ifdef ENERGYMODE
-                am_set_power_monitor_state(AM_AI_INFERING);
-            #endif
-
             TfLiteStatus invoke_status = interpreter->Invoke();
             if (invoke_status != kTfLiteOk) {
                 ns_printf("Invoke failed\n");
                 while (1) { // hang
                 };
             }
-
-            #ifdef ENERGYMODE
-                am_set_power_monitor_state(AM_AI_DATA_COLLECTION);
-            #endif
 
             for (uint8_t i = 0; i < 6; i = i + 1) {
                 y_intent[i] = (output_intent->data.int8[i] -

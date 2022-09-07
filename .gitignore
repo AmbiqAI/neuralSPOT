@@ -5,6 +5,7 @@ _deps
 *.o
 ./docs/docs/user_guide
 ./docs/doxygen/doxy_out/rtf
+./make/local_overrides.mk
 *.old
 *.log
 *.wav

@@ -1,6 +1,6 @@
 //*****************************************************************************
 //
-//! @file am_app_utils_ring_buffer.h
+//! @file ns_ipc_ring_buffer.h
 //!
 //! @brief Some helper functions for implementing and managing a ring buffer.
 //
@@ -58,7 +58,7 @@ typedef struct
     int32_t indx;
     volatile uint8_t* pData;
     volatile uint32_t ui32ByteSize;
-}am_app_utils_ringbuff_setup_t;
+} ns_ipc_ringbuff_setup_t;
 
 //*****************************************************************************
 //
@@ -72,7 +72,7 @@ typedef struct
     volatile uint32_t ui32BufferHead_read;
     volatile uint32_t ui32OverWriting;
     volatile uint32_t ui32Capacity;
-}am_app_utils_ring_buffer_t;
+} ns_ipc_ring_buffer_t;
 
 //*****************************************************************************
 //
@@ -80,24 +80,24 @@ typedef struct
 //
 //*****************************************************************************
 
-void am_app_utils_ring_buffer_init(am_app_utils_ring_buffer_t* ring_buffs, am_app_utils_ringbuff_setup_t setup);
+extern void ns_ipc_ring_buffer_init(ns_ipc_ring_buffer_t* ring_buffs, ns_ipc_ringbuff_setup_t setup);
 
-void am_app_utils_ring_buffer_init_all(am_app_utils_ring_buffer_t* ring_buffs, const am_app_utils_ringbuff_setup_t* setup_array, uint32_t ui32BufferCount);
-
-
-uint32_t am_app_utils_ring_buffer_push(am_app_utils_ring_buffer_t *psBuffer, void *pvSource, uint32_t ui32Bytes, bool bFullCheck);
+// void ns_ipc_ring_buffer_init_all(ns_ipc_ring_buffer_t* ring_buffs, const ns_ipc_ringbuff_setup_t* setup_array, uint32_t ui32BufferCount);
 
 
-uint32_t am_app_utils_ring_buffer_pop(am_app_utils_ring_buffer_t *psBuffer, void *pvDest,
+extern uint32_t ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer, void *pvSource, uint32_t ui32Bytes, bool bFullCheck);
+
+
+extern uint32_t ns_ipc_ring_buffer_pop(ns_ipc_ring_buffer_t *psBuffer, void *pvDest,
                          uint32_t ui32Bytes);
 
-uint32_t am_app_utils_get_ring_buffer_status(am_app_utils_ring_buffer_t *psBuffer);
+uint32_t ns_ipc_get_ring_buffer_status(ns_ipc_ring_buffer_t *psBuffer);
 
-uint8_t am_app_utils_ring_buffer_empty(am_app_utils_ring_buffer_t *psBuffer);
+uint8_t ns_ipc_ring_buffer_empty(ns_ipc_ring_buffer_t *psBuffer);
 
-void am_app_utils_flush_ring_buffer(am_app_utils_ring_buffer_t *psBuffer);
+void ns_ipc_flush_ring_buffer(ns_ipc_ring_buffer_t *psBuffer);
 
-uint32_t am_app_utils_ring_process(am_app_utils_ring_buffer_t *psSource, void *pvDest, uint32_t process_frame_bytes);
+uint32_t ns_ipc_ring_process(ns_ipc_ring_buffer_t *psSource, void *pvDest, uint32_t process_frame_bytes);
 
 #endif // AM_UTIL_RING_BUFFER_H
 

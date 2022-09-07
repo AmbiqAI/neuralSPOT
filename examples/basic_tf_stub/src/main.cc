@@ -71,6 +71,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_rpc_audio.h"
 #include "ns_usb.h"
 #include "ns_malloc.h"
+#define RINGBUFFER_MODE
 #ifdef RINGBUFFER_MODE
     #include "ns_ipc_ring_buffer.h"
 #endif
@@ -186,8 +187,8 @@ model_init(void) {
     }
 
     // Obtain pointers to the model's input and output tensors.
-    input = interpreter->input(0);
-    output_slot = interpreter->output(0);
+    input         = interpreter->input(0);
+    output_slot   = interpreter->output(0);
     output_intent = interpreter->output(1);
 }
 
@@ -202,7 +203,6 @@ ns_button_config_t button_config = {
     .button_1_flag = NULL
 };
 
-
 /// Audio and IPC Config
 /// Set by app when it wants to start recording, used by callback
 bool static g_audioRecording = false;
@@ -213,7 +213,7 @@ bool static g_audioReady = false;
 
 #ifdef RINGBUFFER_MODE
 /// Ringbuffer storage
-am_app_utils_ring_buffer_t audioBuf[1];
+ns_ipc_ring_buffer_t audioBuf[1];
 static uint8_t
     pui8AudioBuff[SAMPLES_IN_FRAME * 2 * 2]; // two buffers, 2 bytes/entry
 #endif
@@ -250,7 +250,7 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         }
 
         #ifdef RINGBUFFER_MODE
-                ns_ring_buffer_push(&(config->bufferHandle[0]),
+                ns_ipc_ring_buffer_push(&(config->bufferHandle[0]),
                                             g_in16AudioDataBuffer,
                                             (config->numSamples * 2), // in bytes
                                             false);
@@ -339,10 +339,6 @@ main(void) {
 
     ns_printf("Press button to start listening...\n");
 
-    #ifdef ENERGYMODE
-        ns_power_set_monitor_state(AM_AI_DATA_COLLECTION);
-    #endif
-
     while (1) {
         tud_task(); // tinyusb device task
 
@@ -351,10 +347,6 @@ main(void) {
             g_audioRecording = true;
             ns_printf("Listening for 3 seconds.\n");
 
-            #ifdef ENERGYMODE
-                ns_power_set_monitor_state(AM_AI_FEATURE_EXTRACTION);
-            #endif
-
             while (recording_win > 0) {
                 ns_delay_us(1);
                 if (g_audioReady) {
@@ -362,7 +354,7 @@ main(void) {
                         (num_frames - recording_win) * num_mfcc_features;
 
                     #ifdef RINGBUFFER_MODE
-                        ns_ring_buffer_pop(audioBuf,
+                        ns_ipc_ring_buffer_pop(audioBuf,
                                                  &g_in16AudioDataBuffer,
                                                  audio_config.numSamples * 2);
                     #endif
@@ -372,10 +364,7 @@ main(void) {
 
                     recording_win--;
                     g_audioReady = false;
-                    #ifdef AUDIODEBUG
-                        SEGGER_RTT_Write(1, g_in16AudioDataBuffer,
-                                       SAMPLES_IN_FRAME * sizeof(int16_t));
-                    #endif
+
                     tud_task(); // tinyusb device task
                     ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));
                     ns_printf(".");
@@ -394,20 +383,12 @@ main(void) {
                 input->data.int8[i] = (int8_t)tmp;
             }
 
-            #ifdef ENERGYMODE
-                am_set_power_monitor_state(AM_AI_INFERING);
-            #endif
-
             TfLiteStatus invoke_status = interpreter->Invoke();
             if (invoke_status != kTfLiteOk) {
                 ns_printf("Invoke failed\n");
                 while (1) { // hang
                 };
             }
-
-            #ifdef ENERGYMODE
-                am_set_power_monitor_state(AM_AI_DATA_COLLECTION);
-            #endif
 
             for (uint8_t i = 0; i < 6; i = i + 1) {
                 y_intent[i] = (output_intent->data.int8[i] -

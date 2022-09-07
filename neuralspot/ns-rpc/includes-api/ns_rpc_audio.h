@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef NS_RPC_AUDIO
-#define NS_RPC_AUDIO
+#ifndef NS_RPC_AUDIO_H
+#define NS_RPC_AUDIO_H
 
 #ifdef __cplusplus
 extern "C"
@@ -26,4 +26,4 @@ extern nsAudioStatus_e ns_rpc_audio_send_buffer(uint8_t *buf, uint32_t len);
 }
 #endif
 
-#endif // NS_PERIPHERAL_BUTTON
+#endif // NS_RPC_AUDIO_H

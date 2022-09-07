@@ -1,6 +1,19 @@
-#ifndef AI_MPU
-#define AI_MPU
+/**
+ * @file ns_mpu6050_i2c_driver.h
+ * @author Ambiq
+ * @brief Simple driver for Invensense MPU6050
+ * @version 0.1
+ * @date 2022-09-02
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ *  \addtogroup NeuralSPOT-MPU6050
+ *  @{
+ *  @ingroup NeuralSPOT-i2c
+ */
 
+#ifndef NS_MPU6050
+#define NS_MPU6050
 
 #ifdef __cplusplus
 extern "C"
@@ -317,8 +330,10 @@ typedef enum {
 #define  FIFO_R_W        0x74
 #define  WHO_AM_I        0x75
 
-extern uint32_t
-read_sensors(uint8_t *buffer);
+/// Read the accelerator, gyroscope, and temperature registers
+/// 
+/// @param buffer Array of 6 16b values containing ax, ay, az, temp, gx, gy, gz
+extern uint32_t read_sensors(uint8_t *buffer);
 
 extern uint32_t
 rotation(int16_t* x, int16_t* y, int16_t* z, rt_uint8_t *buffer);
@@ -355,6 +370,5 @@ extern int8_t getHighBits(int16_t regReading);
 #ifdef __cplusplus
 }
 #endif
-
-
-#endif // MPU6050
+/** @}*/
+#endif // NS_MPU6050

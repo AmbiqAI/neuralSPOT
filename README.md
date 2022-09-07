@@ -3,7 +3,6 @@ NeuralSPOT is Ambiq's AI Enablement Library. It implements an AI-centric API for
 
 ![image-20220811095223908](./docs/image-20220811095223908.png)
 
-
 # Building and Deploying NeuralSPOT
 
 NeuralSPOT is designed to be used in two ways:
@@ -32,7 +31,7 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | MLDEBUG | Setting to '1' turns on TF debug prints | 0 |
 | AUDIO_DEBUG | Setting to '1' turns on RTT audio dump | 0 |
 
-Note that defaults for these values are set in `./make/neuralspot_config.mk`.
+Note that defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo).
 
 # NeuralSPOT Repo Structure
 
@@ -70,7 +69,7 @@ NeuralSPOT is a SDK for AI development on Ambiq products via an AI-friendly API.
 
 NeuralSPOT is continuously growing, and offers the following libraries today:
 
-1. `ns-audio`: API for collected audio from Ambiq's audio interfaces and sending them to an AI application via several IPC methods. This library also contains audio-centric common AI feature helpers such as configurable Mel-spectogram computation.
+1. `ns-audio`: [Library for sampling audio](neuralspot/ns-audio/ns-audio.md) from Ambiq's audio interfaces and sending them to an AI application via several IPC methods. This library also contains audio-centric common AI feature helpers such as configurable Mel-spectogram computation.
 2. `ns-peripherals`: API for controlling Ambiq's power modes, performance modes, and helpers for commonly used I/O devices such as EVB buttons.
 3. `ns-harness`: a simple harness for abstracting common AmbiqSuite code, meant to be replaced when NeuralSPOT is not being used by AmbiqSuite.
 4. `ns-ipc`: Common mechanisms for presenting collected sensor data to AI applications

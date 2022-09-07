@@ -210,7 +210,7 @@ bool static g_audioReady = false;
 
 #ifdef RINGBUFFER_MODE
 /// Ringbuffer storage
-am_app_utils_ring_buffer_t audioBuf[1];
+ns_ipc_ring_buffer_t audioBuf[1];
 static uint8_t
     pui8AudioBuff[SAMPLES_IN_FRAME * 2 * 2]; // two buffers, 2 bytes/entry
 #endif

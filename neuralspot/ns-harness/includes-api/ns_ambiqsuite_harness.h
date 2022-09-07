@@ -8,6 +8,10 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+#ifndef NS_AMBIQSUITE_HARNESS_H
+#define NS_AMBIQSUITE_HARNESS_H
+
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
@@ -18,3 +22,5 @@
 #define ns_printf am_util_stdio_printf
 
 #define ns_delay_us am_hal_delay_us
+
+#endif

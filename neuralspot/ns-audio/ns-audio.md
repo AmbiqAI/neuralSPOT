@@ -69,12 +69,11 @@ main(void) {
 
 ## Audio Inter-process Communication (IPC)
 Capturing audio is an asynchronous task, partially handled by hardware peripherals. AI features which sample audio need a way to run in parallel with the capturing process - NeuralSPOT Audio leverages NeuralSPOT IPC to enable a few ways of doing this:
-1. Simple: defines a simple mailbox system where the application only needs to access a couple of global variables to receive audio buffers. This is the simplest IPC, but least flexible. It doesn't ping-pong audio buffers, so the application must consume the buffer before the next sample interrupt occurs. (NOTE: not implemented yet!)
-2. Callback-based: Invokes an IRQ-context callback defined by the application developer. The developer is responsible for buffer management.
-3. Ringbuffer-based: adds a ping-ponging ringbuffer allowing the application to run while the next audio buffer is acquired. It builds on the callback approach, preserving flexibility.
+1. **Callback-based**: Invokes an IRQ-context callback defined by the application developer. The developer is responsible for buffer management.
+2. **Ringbuffer-based**: adds a ping-ponging ringbuffer allowing the application to run while the next audio buffer is acquired. It builds on the callback approach, preserving flexibility.
 
 ### Audio IPC Modes
-Audio IPC behavior is controlled by the ns_audio_config_t configuration parameter passed into `ns_audio_init'. The above example illustrates the callback approach, while the following example shows the ringbuffer approach.
+Audio IPC behavior is controlled by the ns_audio_config_t configuration parameter passed into `ns_audio_init`. The above example illustrates the callback approach, while the following example shows the `ringbuffer` approach.
 
 ```c
 #include "ns_audio.h"

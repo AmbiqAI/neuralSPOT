@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['pdata_0',['pData',['../structns__ipc__ringbuff__setup__t.html#a3581fd7f6093c6831c927af8edc62f53',1,'ns_ipc_ringbuff_setup_t']]],
+  ['preamp_5ffull_5fgain_1',['PREAMP_FULL_GAIN',['../ns__audadc_8c.html#a789bcb6da61eff5a1d2bbadac383877c',1,'ns_audadc.c']]],
+  ['prgm_5fstart_5fh_2',['PRGM_START_H',['../group___neural_s_p_o_t-_m_p_u6050.html#gaa9818e89baad670497c794477a2a4198',1,'ns_mpu6050_i2c_driver.h']]],
+  ['prgm_5fstart_5fl_3',['PRGM_START_L',['../group___neural_s_p_o_t-_m_p_u6050.html#ga4fc9e035ac59b363976b3e489db16c70',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pui8data_4',['pui8Data',['../structns__ipc__ring__buffer__t.html#a29dec0bd4ba5fe5f346900c452ddd3c0',1,'ns_ipc_ring_buffer_t']]],
+  ['pwr1_5fclksel_5fbit_5',['PWR1_CLKSEL_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gaaedc7ddc7d7f95075effe104ded40b58',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr1_5fclksel_5flength_6',['PWR1_CLKSEL_LENGTH',['../group___neural_s_p_o_t-_m_p_u6050.html#ga0f7d9b2766384e7e712bac6d22642da4',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr1_5fcycle_5fbit_7',['PWR1_CYCLE_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga8f55c3481c2517efbdead82d3d5e7ebc',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr1_5fdevice_5freset_5fbit_8',['PWR1_DEVICE_RESET_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga08093e5ef2b04249b1d77a1c5d2b577d',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr1_5fgyro_5fstandby_5fbit_9',['PWR1_GYRO_STANDBY_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga734df89327ecf4823467f2e9e215ca10',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr1_5fsleep_5fbit_10',['PWR1_SLEEP_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gad4dfb36be790a93bea0aeb8c385f6af0',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr1_5ftemp_5fdis_5fbit_11',['PWR1_TEMP_DIS_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga524acd1afeec75e6bf9bbcfb0b183790',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5flp_5fwake_5fctrl_5fbit_12',['PWR2_LP_WAKE_CTRL_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gad851d37c32cf5206d4a9a057c7982196',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5flp_5fwake_5fctrl_5flength_13',['PWR2_LP_WAKE_CTRL_LENGTH',['../group___neural_s_p_o_t-_m_p_u6050.html#ga0c253ec22459c2d70988d4607bc5a385',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fxa_5fbit_14',['PWR2_STBY_XA_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gaa11026d8859cf840517c5894137f9421',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fxg_5fbit_15',['PWR2_STBY_XG_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga24ca431a238cf36e1ea0f8a23f0d1225',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fxyza_5fbits_16',['PWR2_STBY_XYZA_BITS',['../group___neural_s_p_o_t-_m_p_u6050.html#ga8e1ec9dfe8519f7262f3cf557747043f',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fxyzg_5fbits_17',['PWR2_STBY_XYZG_BITS',['../group___neural_s_p_o_t-_m_p_u6050.html#ga3b530b39ea8450a90ef75b90aa9697c8',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fya_5fbit_18',['PWR2_STBY_YA_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga110cae2a66b9016d2e2750a02453006e',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fyg_5fbit_19',['PWR2_STBY_YG_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga15c19bfa1d9b26409cff836dccb3204c',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fza_5fbit_20',['PWR2_STBY_ZA_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gacfab7b2d69109df179686499c656b4b2',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr2_5fstby_5fzg_5fbit_21',['PWR2_STBY_ZG_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gaa7ee746986525056fb0cc200c7c92bf3',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr_5fmgmt1_22',['PWR_MGMT1',['../group___neural_s_p_o_t-_m_p_u6050.html#ga7b6ae7b296808d3807e8b471bdb050f1',1,'ns_mpu6050_i2c_driver.h']]],
+  ['pwr_5fmgmt2_23',['PWR_MGMT2',['../group___neural_s_p_o_t-_m_p_u6050.html#ga019dadd0b6445f92e9e4f058761e150e',1,'ns_mpu6050_i2c_driver.h']]]
+];

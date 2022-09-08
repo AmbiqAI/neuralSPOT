@@ -1,5 +1,23 @@
 # NeuralSPOT Developer's Guide
 
+[TOC]
+
+## FAQs
+
+#### Where is main()?
+
+NeuralSPOT [examples]() each contain a `main()`, and each example produces a different binary.
+
+#### Where are the linker script and reset handlers?
+
+NeuralSPOT uses the AmbiqSuite [linker script](https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/linker_script.ld) and [startup_gcc](https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/startup_gcc.c) (which defines reset handlers, vector tables, etc.). 
+
+#### How do the makefiles work?
+
+This is documented in the [main makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile).
+
+# Adding Components
+
 This guide describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:
 
 1. NeuralSPOT Libraries
@@ -42,10 +60,7 @@ local_bin := $(subdirectory)/$(BINDIR)
 bindirs   += $(local_bin)
 $(eval $(call make-library, $(local_bin)/ns-<componentName>.a, $(local_src))) # only change needed
 ```
-
 The only thing that normally differs between library's `module.mk` is the `<componentName>`
-
-
 
 ## Adding NeuralSPOT Examples
 
@@ -53,15 +68,9 @@ NeuralSPOT Examples are pared-down examples showcasing NueralSPOT functionality.
 
 For every Example, NeuralSPOT will compile all the binary artifacts needed to load the application onto an EVB, such as main.axf, main.bin, and so on. These artifacts are stored in the example's temporary build directory. 
 
----
-** Note **
-
-The name of the artifact is derived from the example's `module.mk` not the directory it resides in.
-
----
+>  **Note** The name of the artifact is derived from the example's `module.mk` not the directory it resides in.
 
 ### Example Component Structure
-
 Every neuralspot library has a similar structure - some of this is dictated by neuralspot's makefile architecture, and some is by convention. The typical structure is as follows:
 
 ```bash
@@ -73,7 +82,6 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 ```
 
 ### Example Component Module definition
-
 Each component includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
 
 ```make
@@ -93,13 +101,88 @@ mains     += $(local_bin)/$(local_app_name).o
 
 Except for first line, this is all boilerplate.
 
-
-
 ## Adding External Component
+External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, and Embedded RPC.
 
+The structure of an external component included in NeuralSPOT depends on the component - for example, `extern/AmbiqSuite` doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.
 
+NeuralSPOT will support multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in `make/neuralspot_config.mk`.
+
+Generally, the structure of an external component within NeuralSPOT is:
+```bash
+.../extern/
+	<componentName>/
+		<version>/
+			lib/   # Contains static libraries if there are any
+			src/   # source and header files
+			module.mk
+```
+
+Because external components don't have a well-defined structure, the module.mk is less boilerplate than that of other types of components. The critical parts of a typical module.mk are:
+1. Defining the local source files that need compilation
+2. Add required header files to `includes_api`
+3. Adding any pre-built static libraries to `lib_prebuilt`
+4. If the component generates object files, they need to be linked into a static library via the `make-library` makefile function.
+
+Here is a simple example which adds tensorflow to NeuralSPOT:
+```make
+includes_api += $(subdirectory)/tensorflow
+includes_api += $(subdirectory)/third_party
+includes_api += $(subdirectory)/third_party/flatbuffers/include
+
+lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite.a
+```
+
+On the other hand, here is AmbiqSuite's module.mk:
+```make
+# Add source files
+local_src := $(wildcard $(subdirectory)/src/*.c)
+local_src += $(wildcard $(subdirectory)/src/*.cc)
+local_src += $(wildcard $(subdirectory)/src/*.s)
+
+# Base AmbiqSuite include files (note the $ variables)
+includes_api += $(subdirectory)/boards/$(BOARD)_$(EVB)/bsp
+includes_api += $(subdirectory)/CMSIS/ARM/Include
+includes_api += $(subdirectory)/CMSIS/AmbiqMicro/Include
+includes_api += $(subdirectory)/devices
+includes_api += $(subdirectory)/mcu/$(BOARD)
+includes_api += $(subdirectory)/mcu/$(BOARD)/hal/mcu
+includes_api += $(subdirectory)/utils
+
+# Pre-built static libraries
+lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.a
+lib_prebuilt += $(subdirectory)/lib/$(PART)/$(EVB)/libam_bsp.a
+lib_prebuilt += $(subdirectory)/lib/libarm_cortexM4lf_math.a
+
+# Third-Party (FreeRTOS)
+includes_api += $(subdirectory)/third_party/FreeRTOSv10.1.1/Source/include
+includes_api += $(subdirectory)/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4
+
+# Third-Party (TinyUSB)
+includes_api += $(subdirectory)/third_party/tinyusb/src
+includes_api += $(subdirectory)/third_party/tinyusb/src/common
+includes_api += $(subdirectory)/third_party/tinyusb/src/osal
+includes_api += $(subdirectory)/third_party/tinyusb/src/class/cdc
+includes_api += $(subdirectory)/third_party/tinyusb/src/device
+
+local_bin := $(subdirectory)/$(BINDIR)
+bindirs   += $(local_bin)
+
+# Special link and compiler overrides
+LINKER_FILE := $(subdirectory)/src/linker_script.ld
+STARTUP_FILE := ./startup_$(COMPILERNAME).c
+
+$(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))
+```
 
 ## Adding RPC Interfaces
+RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:
+1. Defining the interface using an IDL (interface definition language)
+2. Processing that definition to generate server and client code. The client 'calls' functions on the server.
+3. Copying the generated client code to neuralSPOT, generally as a new neuralspot library
+4. Implementing the server code that will respond to the client.
 
+NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference) and how servers are implemented are outside the scope of this document. The relevant parts of eRPC's client infrastructure reside in `extern/erpc`, and an example of a generic audio interface library can be found in `neuralspot/ns-rpc`, including a python server for receiving data from `example/basic_tf_stub`. 
 
+Instructions for how to use it in NeuralSPOT can be found [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/har/har.md) and [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/basic_tf_stub.md).
 

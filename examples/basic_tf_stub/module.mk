@@ -1,6 +1,8 @@
 local_app_name := main
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
+local_src += $(wildcard $(subdirectory)/src/*.cpp)
+local_src += $(wildcard $(subdirectory)/src/*.s)
 local_bin := $(subdirectory)/$(BINDIR)
 
 bindirs   += $(local_bin)

@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['erpcdumpaudiobuffer_0',['erpcDumpAudioBuffer',['../classaudio_1_1_audio_service_handler.html#ae48a0d945aeebeb3290d87e48330f644',1,'audio.AudioServiceHandler.erpcDumpAudioBuffer()'],['../classmpu_1_1_audio_service_handler.html#ae48a0d945aeebeb3290d87e48330f644',1,'mpu.AudioServiceHandler.erpcDumpAudioBuffer()'],['../classns__audio__rpc_1_1client_1_1ns__audio__rpc_client.html#a84534f963ca8b5abcb05a1e2e41c9544',1,'ns_audio_rpc.client.ns_audio_rpcClient.erpcDumpAudioBuffer()'],['../classns__audio__rpc_1_1interface_1_1_ins__audio__rpc.html#a84534f963ca8b5abcb05a1e2e41c9544',1,'ns_audio_rpc.interface.Ins_audio_rpc.erpcDumpAudioBuffer()'],['../ns__audio__rpc_8h.html#a662f56533f13d03083cac09650534000',1,'erpcDumpAudioBuffer(const audioCommand_t *buf):&#160;ns_audio_rpc_client.cpp'],['../ns__audio__rpc__client_8cpp.html#a662f56533f13d03083cac09650534000',1,'erpcDumpAudioBuffer(const audioCommand_t *buf):&#160;ns_audio_rpc_client.cpp']]]
+];

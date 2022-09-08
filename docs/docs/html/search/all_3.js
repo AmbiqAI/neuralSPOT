@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['calibrate_0',['calibrate',['../group___neural_s_p_o_t-_m_p_u6050.html#gaae4acd481caa6cbc97c8f0702ab762ae',1,'calibrate(int meanAX, int meanAY, int meanAZ, int meanGX, int meanGY, int meanGZ):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#gaae4acd481caa6cbc97c8f0702ab762ae',1,'calibrate(int meanAX, int meanAY, int meanAZ, int meanGX, int meanGY, int meanGZ):&#160;ns_mpu6050_i2c_driver.c']]],
+  ['callback_1',['callback',['../structam__ai__acfg.html#a512fe8057c398118d0e89be5dcec6f31',1,'am_ai_acfg']]],
+  ['ch_5fa0_5fen_2',['CH_A0_EN',['../ns__audadc_8c.html#a5bf22de0c25bcb09758719cfc85bc6e0',1,'ns_audadc.c']]],
+  ['ch_5fa1_5fen_3',['CH_A1_EN',['../ns__audadc_8c.html#ab2fbbb078f5c0f9bfbd23f7f549e93d0',1,'ns_audadc.c']]],
+  ['ch_5fb0_5fen_4',['CH_B0_EN',['../ns__audadc_8c.html#a60dc15e7ca7ed3224aef489dd4edaa08',1,'ns_audadc.c']]],
+  ['ch_5fb1_5fen_5',['CH_B1_EN',['../ns__audadc_8c.html#a9564c17224209912491ef3be02ea0dc6',1,'ns_audadc.c']]],
+  ['client_2epy_6',['client.py',['../client_8py.html',1,'']]],
+  ['clk_5fsrc_7',['CLK_SRC',['../ns__audadc_8c.html#a7b12acf0c1601c3f44c95ca8d93d4f8c',1,'ns_audadc.c']]],
+  ['clock_5finternal_8',['CLOCK_INTERNAL',['../group___neural_s_p_o_t-_m_p_u6050.html#gga9e167800b3c5de236db8667b17bf4cb5a8bdec1634c9e8e37a678c5a12f87df78',1,'ns_mpu6050_i2c_driver.h']]],
+  ['clock_5fkeep_5freset_9',['CLOCK_KEEP_RESET',['../group___neural_s_p_o_t-_m_p_u6050.html#gga9e167800b3c5de236db8667b17bf4cb5ab1c7ec78efae2310aa35221cbe2682ad',1,'ns_mpu6050_i2c_driver.h']]],
+  ['clock_5fpll_10',['CLOCK_PLL',['../group___neural_s_p_o_t-_m_p_u6050.html#gga9e167800b3c5de236db8667b17bf4cb5a14eebc7672bdd5c1225faf6d957fcfc8',1,'ns_mpu6050_i2c_driver.h']]],
+  ['clock_5fsrc_5ft_11',['clock_src_t',['../group___neural_s_p_o_t-_m_p_u6050.html#ga9e167800b3c5de236db8667b17bf4cb5',1,'ns_mpu6050_i2c_driver.h']]],
+  ['cmd_12',['cmd',['../classns__audio__rpc_1_1common_1_1audio_command__t.html#adfc5ba7e22f5e4a6221c12a70503bef3',1,'ns_audio_rpc.common.audioCommand_t.cmd()'],['../structaudio_command__t.html#a7f763370f78a222f8978d9b011c97e57',1,'audioCommand_t::cmd()']]],
+  ['common_2epy_13',['common.py',['../common_8py.html',1,'']]],
+  ['config_14',['CONFIG',['../group___neural_s_p_o_t-_m_p_u6050.html#ga76ea3cf49247a07c54b3db005a3c7f57',1,'ns_mpu6050_i2c_driver.h']]],
+  ['config_5fdlpf_5fcfg_5fbit_15',['CONFIG_DLPF_CFG_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga69682a66fd9da6bdb8cb63861cf67a7b',1,'ns_mpu6050_i2c_driver.h']]],
+  ['config_5fdlpf_5fcfg_5flength_16',['CONFIG_DLPF_CFG_LENGTH',['../group___neural_s_p_o_t-_m_p_u6050.html#ga35502ed12fb5d81de99ccc69d4d56c8b',1,'ns_mpu6050_i2c_driver.h']]],
+  ['config_5fext_5fsync_5fset_5fbit_17',['CONFIG_EXT_SYNC_SET_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#ga198f26cd5c9877400550a4ebc94a3374',1,'ns_mpu6050_i2c_driver.h']]],
+  ['config_5fext_5fsync_5fset_5flength_18',['CONFIG_EXT_SYNC_SET_LENGTH',['../group___neural_s_p_o_t-_m_p_u6050.html#ga70f1cc1f331de3672e7464983107e82a',1,'ns_mpu6050_i2c_driver.h']]],
+  ['config_5ffifo_5fmode_5fbit_19',['CONFIG_FIFO_MODE_BIT',['../group___neural_s_p_o_t-_m_p_u6050.html#gac2587c8b33dc27590adf8d2b3fa309c7',1,'ns_mpu6050_i2c_driver.h']]],
+  ['create_5fdct_5fmatrix_20',['create_dct_matrix',['../ns__mfcc_8c.html#ab7066143ed19f9bb24861d0de204a618',1,'ns_mfcc.c']]],
+  ['create_5fmel_5ffbank_21',['create_mel_fbank',['../ns__mfcc_8c.html#a00c41c9ba57789c944911859c3c2a394',1,'ns_mfcc.c']]]
+];

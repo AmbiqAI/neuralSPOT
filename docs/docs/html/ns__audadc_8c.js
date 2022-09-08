@@ -1,0 +1,25 @@
+var ns__audadc_8c =
+[
+    [ "CH_A0_EN", "ns__audadc_8c.html#a5bf22de0c25bcb09758719cfc85bc6e0", null ],
+    [ "CH_A1_EN", "ns__audadc_8c.html#ab2fbbb078f5c0f9bfbd23f7f549e93d0", null ],
+    [ "CH_B0_EN", "ns__audadc_8c.html#a60dc15e7ca7ed3224aef489dd4edaa08", null ],
+    [ "CH_B1_EN", "ns__audadc_8c.html#a9564c17224209912491ef3be02ea0dc6", null ],
+    [ "CLK_SRC", "ns__audadc_8c.html#a7b12acf0c1601c3f44c95ca8d93d4f8c", null ],
+    [ "HFRC", "ns__audadc_8c.html#a298326c7c4e91a4396e9d60f04bc4592", null ],
+    [ "HFRC2", "ns__audadc_8c.html#a128c51f84d339a401f5fa8f8c88ab1f3", null ],
+    [ "HFRC2_ADJ", "ns__audadc_8c.html#af9751565e57ec6b40de37452277a25bc", null ],
+    [ "PREAMP_FULL_GAIN", "ns__audadc_8c.html#a789bcb6da61eff5a1d2bbadac383877c", null ],
+    [ "XTHS", "ns__audadc_8c.html#ab2d503d4c7071ad9cccadf75f3794750", null ],
+    [ "am_audadc0_isr", "ns__audadc_8c.html#a06188e453dafb69bddaf6925537ba9d3", null ],
+    [ "audadc_config", "ns__audadc_8c.html#ac7688829bbb0b177c8b3713988a6dbb3", null ],
+    [ "audadc_init", "group___neural_s_p_o_t-_a_u_d_a_d_c.html#gad68e6783b7a31d4f40110b38c3061ac1", null ],
+    [ "audadc_slot_config", "ns__audadc_8c.html#a64833e8534ac7177d076174a01c34668", null ],
+    [ "axiScratchBuf", "ns__audadc_8c.html#a84ac566ddd71c2f714e9447e7c4f5632", null ],
+    [ "g_adc", "ns__audadc_8c.html#a160f33bae19246569bfecec3ac889ffe", null ],
+    [ "g_bAUDADCDMAComplete", "ns__audadc_8c.html#a245f6058185f8dfeeec99b835f4ef2b2", null ],
+    [ "g_bAUDADCDMAError", "ns__audadc_8c.html#a08d724446ac7324973c4492e13a1f79f", null ],
+    [ "g_mcuctrl", "ns__audadc_8c.html#ac472e36e3e8c2ea3c002fffe9b132060", null ],
+    [ "g_sAUDADCDMAConfig", "ns__audadc_8c.html#a32a3784ca3236b590009f1dce1a173ac", null ],
+    [ "g_sAudadcGainConfig", "ns__audadc_8c.html#af3329a446b57015a50cc08b29b02f047", null ],
+    [ "g_ui32AUDADCSampleBuffer", "ns__audadc_8c.html#a4d4732fe05019219a944b93e8707e524", null ]
+];

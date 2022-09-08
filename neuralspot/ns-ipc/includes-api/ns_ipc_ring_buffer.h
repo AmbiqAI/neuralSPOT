@@ -40,10 +40,8 @@
 // This is part of revision 1.2.9 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
-#ifndef AM_UTIL_RING_BUFFER_H
-#define AM_UTIL_RING_BUFFER_H
-
-//#include "am_vos_sys_config.h"
+#ifndef NS_IPC_RING_BUFFER_H
+#define NS_IPC_RING_BUFFER_H
 
 #include <stdint.h>
 #include <string.h>
@@ -99,5 +97,5 @@ void ns_ipc_flush_ring_buffer(ns_ipc_ring_buffer_t *psBuffer);
 
 uint32_t ns_ipc_ring_process(ns_ipc_ring_buffer_t *psSource, void *pvDest, uint32_t process_frame_bytes);
 
-#endif // AM_UTIL_RING_BUFFER_H
+#endif // NS_IPC_RING_BUFFER_H
 

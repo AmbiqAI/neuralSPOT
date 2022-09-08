@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['main_0',['main',['../main_8cc.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.cc'],['../har_8cc.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;har.cc'],['../s2i__example_8cc.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;s2i_example.cc']]],
+  ['meansensors_1',['meanSensors',['../group___neural_s_p_o_t-_m_p_u6050.html#ga28ebe35cc52949179314c334f68c7b2a',1,'meanSensors(int *meanAX, int *meanAY, int *meanAZ, int *meanGX, int *meanGY, int *meanGZ):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga28ebe35cc52949179314c334f68c7b2a',1,'meanSensors(int *meanAX, int *meanAY, int *meanAZ, int *meanGX, int *meanGY, int *meanGZ):&#160;ns_mpu6050_i2c_driver.c']]],
+  ['model_5finit_2',['model_init',['../main_8cc.html#a92ab49d8853a9a721eb4d7ea66d977c4',1,'model_init(void):&#160;main.cc'],['../s2i__example_8cc.html#a92ab49d8853a9a721eb4d7ea66d977c4',1,'model_init(void):&#160;s2i_example.cc']]],
+  ['mpu6050_5fcalibration_3',['mpu6050_calibration',['../group___neural_s_p_o_t-_m_p_u6050.html#ga88da19152308e63084246434a62f3a4f',1,'mpu6050_calibration():&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga88da19152308e63084246434a62f3a4f',1,'mpu6050_calibration():&#160;ns_mpu6050_i2c_driver.c']]],
+  ['mpu6050_5ffinish_5finit_4',['mpu6050_finish_init',['../group___neural_s_p_o_t-_m_p_u6050.html#ga76ee269810d4ea56905de0343d5d1cfc',1,'mpu6050_finish_init(void *h):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga76ee269810d4ea56905de0343d5d1cfc',1,'mpu6050_finish_init(void *h):&#160;ns_mpu6050_i2c_driver.c']]]
+];

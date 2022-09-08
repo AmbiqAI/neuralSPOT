@@ -1,0 +1,26 @@
+var ns__mpu6050__i2c__driver_8c =
+[
+    [ "accelFSRvalue", "ns__mpu6050__i2c__driver_8c.html#af3d3e1bd8fba28fb24eceb6b6d321c39", null ],
+    [ "accelGravity", "group___neural_s_p_o_t-_m_p_u6050.html#ga8b08d5925c85bdb512c08228c66b8844", null ],
+    [ "accelResolution", "ns__mpu6050__i2c__driver_8c.html#ac2cabd55be485c47094a59cecdae7819", null ],
+    [ "calibrate", "group___neural_s_p_o_t-_m_p_u6050.html#gaae4acd481caa6cbc97c8f0702ab762ae", null ],
+    [ "getHighBits", "group___neural_s_p_o_t-_m_p_u6050.html#ga13031ec02b4abb4f53c0281e77b4e755", null ],
+    [ "getLowBits", "group___neural_s_p_o_t-_m_p_u6050.html#ga9358059e1108e3e403b09cce87e26edb", null ],
+    [ "gyroDegPerSec", "group___neural_s_p_o_t-_m_p_u6050.html#ga8282c5175766c9ebf5a9f574b4a32340", null ],
+    [ "gyroFSRvalue", "ns__mpu6050__i2c__driver_8c.html#ac492640f3c2a0f281244276b515193f4", null ],
+    [ "gyroResolution", "ns__mpu6050__i2c__driver_8c.html#a475a1b6fdbd57617f8312985a691cd86", null ],
+    [ "meanSensors", "group___neural_s_p_o_t-_m_p_u6050.html#ga28ebe35cc52949179314c334f68c7b2a", null ],
+    [ "mpu6050_calibration", "group___neural_s_p_o_t-_m_p_u6050.html#ga88da19152308e63084246434a62f3a4f", null ],
+    [ "mpu6050_finish_init", "group___neural_s_p_o_t-_m_p_u6050.html#ga76ee269810d4ea56905de0343d5d1cfc", null ],
+    [ "read_sensors", "group___neural_s_p_o_t-_m_p_u6050.html#ga84fedf3cdecc15b8e1193f5e25f4e395", null ],
+    [ "setAccelFullScale", "ns__mpu6050__i2c__driver_8c.html#a0e0d897a41ffa42335a12211555fa3ac", null ],
+    [ "setAccelOffsetX", "group___neural_s_p_o_t-_m_p_u6050.html#ga1aa1da0cbf469ad4aa03e042d8e325ce", null ],
+    [ "setAccelOffsetY", "group___neural_s_p_o_t-_m_p_u6050.html#ga7ae6ff8b13b94a54a06baf61cf932e84", null ],
+    [ "setAccelOffsetZ", "group___neural_s_p_o_t-_m_p_u6050.html#gad92c34f37d26fd963577bc9f8b35769b", null ],
+    [ "setGyroFullScale", "ns__mpu6050__i2c__driver_8c.html#adf76b4452df47eb3e18e3a7177a2a38f", null ],
+    [ "setGyroOffsetX", "group___neural_s_p_o_t-_m_p_u6050.html#ga0d3e74a52fd686a769018508dce26cec", null ],
+    [ "setGyroOffsetY", "group___neural_s_p_o_t-_m_p_u6050.html#gaff7be4856bbe4e1e70cd5e982989376e", null ],
+    [ "setGyroOffsetZ", "group___neural_s_p_o_t-_m_p_u6050.html#ga5265cae7095ce6053b1a50ee414362cb", null ],
+    [ "setSampleRate", "ns__mpu6050__i2c__driver_8c.html#abf55f65c6c311d6170d12b1671387135", null ],
+    [ "testConnection", "ns__mpu6050__i2c__driver_8c.html#ac528c824f97677eedface13570f36d49", null ]
+];

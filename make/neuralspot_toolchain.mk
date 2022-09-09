@@ -1,5 +1,4 @@
 # Makefile include for common toolchain definitions
-#include jlink.mk
 
 # Enable printing explicit commands with 'make VERBOSE=1'
 ifneq ($(VERBOSE),1)

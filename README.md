@@ -31,7 +31,7 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | MLDEBUG | Setting to '1' turns on TF debug prints | 0 |
 | AUDIO_DEBUG | Setting to '1' turns on RTT audio dump | 0 |
 
-Note that defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo).
+> **Note**  Defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo).
 
 # NeuralSPOT Repo Structure
 

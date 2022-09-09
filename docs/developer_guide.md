@@ -85,7 +85,7 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 Each component includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
 
 ```make
-local_app_name := <exampleArtifactName>   # This defines the name of the artifacts being produced
+local_app_name := <exampleArtifactName>   # Must match name of src file containing main, e.g. "rpc" if main is in "rpc.cc"
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.cpp)
@@ -186,3 +186,19 @@ NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of
 
 Instructions for how to use it in NeuralSPOT can be found [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/har/har.md) and [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/basic_tf_stub.md).
 
+1. Compile the erpc interface definition file (`foo.erpc`)
+This has to be done twice, once for C and once for python.
+`erpcgen -g py ../../interfaces/data-transfer.erpc` - Python, run from inside the ns-rpc/python/foo directory
+`erpcgen ../interfaces/data-transfer.erpc` - Run from inside the ns-rpc/src directory
+2. Create an ns wrapper to init the interfaces and invoke the RPC
+3. 
+
+So, here is a mind-twister: how does erpc handle to declared services, one a server and the other a client?
+Answer: use @group around each interface - erpcgen will create separate client and server code for each group, and you only link in/include what you need. See GenericData as an example.
+
+Status or GenericData:
+1. Have EVb->PC path working for one way data
+2. The *compute function gets the data, but i don't get the result Block - DEBUG THIS NEXT
+3. the remotePrint works
+
+This could be a python problem or maybe a pointer problem.

@@ -1,0 +1,54 @@
+// Interface proposal for bulk data transfer
+
+program GenericDataOperations
+
+enum status {
+    ns_rpc_data_success = 0,
+    ns_rpc_data_failure = 1,
+    ns_rpc_data_blockTooLarge = 2
+}
+
+enum dataType {
+    uint8_e,
+    uint16_e,
+    uint32_e,
+    int8_e,
+    int16_e,
+    int32_e,    
+    float32_e,
+    float64_e
+}
+
+enum command {
+    generic_cmd,    //!< The sender doesn't have an opinion about what to do with data
+    visualize_cmd,  //!< Block intended for visualization
+    infer_cmd,      //!< Compute inference for block
+    extract_cmd,    //!< Compute feature from block
+    write_cmd,      //!< Block intended for writing to a file
+    read        //!< Fetch block from a file
+}
+
+// Datablocks are nominally of one single dataType, but this is more of a hint
+// If both sides know how to unpack the block, they can represent anything
+struct dataBlock {
+    uint32 length;      //!< In bytes
+    dataType dType;      //!< Type of data in block
+    string description; //!< Textual description/metadata
+    command cmd;        //!< Suggestion of what to do with data
+    binary buffer;      //!< The data
+}
+
+@group("EvbToPc")
+interface evb_to_pc {
+    ns_rpc_data_sendBlockToPC(in dataBlock block) -> status
+    ns_rpc_data_fetchBlockFromPC(out dataBlock block) -> status
+    ns_rpc_data_computeOnPC(in dataBlock in_block, out dataBlock result_block) -> status
+    ns_rpc_data_remotePrintOnPC(string msg) -> status
+}
+
+@group("PcToEvb")
+interface pc_to_evb {
+    ns_rpc_data_sendBlockToEVB(in dataBlock block) -> status
+    ns_rpc_data_fetchBlockFromEVB(out dataBlock block) -> status
+    ns_rpc_data_computeOnEVB(in dataBlock in_block, out dataBlock result_block) -> status
+}

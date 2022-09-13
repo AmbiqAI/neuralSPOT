@@ -41,6 +41,8 @@ ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb,
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
 
+uint8_t static gGotUSBRx = 0;
+
 // Invoked when CDC interface received data from host
 void
 tud_cdc_rx_cb(uint8_t itf) {
@@ -53,6 +55,7 @@ tud_cdc_rx_cb(uint8_t itf) {
         rx.itf = itf;
         usb_config.rx_cb(&rx);
     }
+    gGotUSBRx = 1;
 }
 
 void
@@ -67,6 +70,7 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
         usb_config.tx_cb(&rx);
     }
 }
+
 /**
  * @brief Blocking USB Receive Data
  * 
@@ -81,23 +85,41 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     // USB reads one block at a time, loop until we get full
     // request
     uint32_t bytes_rx = 0;
-    uint32_t old_rx = 0;
-    uint32_t retries = 1000;
+    // uint32_t old_rx = 0;
+    uint32_t retries = 10000;
 
-    while (bytes_rx < bufsize) {
-        tud_task(); // tinyusb device task
-        ns_delay_us(1000);
+    tud_task();
 
-        old_rx = bytes_rx;
-        bytes_rx += tud_cdc_read((void*)(buffer+bytes_rx), bufsize - bytes_rx);
-        if (bytes_rx == old_rx) {
+    // ns_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(), gGotUSBRx);
+    if (tud_cdc_available() < bufsize) {
+        while (gGotUSBRx == 0) {
+            tud_task();
+            ns_delay_us(10);
             retries--;
-        }
-        if (retries == 0) {break;} 
+            if (retries == 0) {break;} 
+        };
     }
-    if (retries > 0)
-        ns_printf("Got retries %d\n", retries);
+    gGotUSBRx = 0;
+    bytes_rx = tud_cdc_read((void*)buffer, bufsize);
+    // ns_printf("Got bytes %d\n", bytes_rx);
     return bytes_rx;
+    // while (bytes_rx < bufsize) {
+    //     tud_task(); // tinyusb device task
+    //     ns_delay_us(100);
+
+    //     old_rx = bytes_rx;
+    //     bytes_rx += tud_cdc_read((void*)(buffer+bytes_rx), bufsize - bytes_rx);
+    //     if (bytes_rx == old_rx) {
+    //         retries--;
+    //     }
+    //     if (retries == 0) {break;} 
+    // }
+    // // if (retries == 0)
+    // //     ns_printf("Got retries %d\n", retries);
+    // // else
+    //      ns_printf("Got bytes %d\n", bytes_rx);
+
+    // return bytes_rx;
 }
 
 /**
@@ -116,7 +138,7 @@ ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
         tud_task(); // tinyusb device task
         bytes_tx += tud_cdc_write((void*)(buffer+bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
-        // ns_printf("NS USB  asked to send %d, sent %d bytes\n", size, bytes_tx);
+        // ns_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
 
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);

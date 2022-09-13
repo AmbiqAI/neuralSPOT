@@ -51,7 +51,7 @@ static void ERPC_ns_usb_tx_cb(ns_usb_transaction_t *tr)
 
 static void ERPC_ns_usb_rx_cb(ns_usb_transaction_t *tr)
 {
-    ns_printf("NS USB RX CB\n");
+    // ns_printf("NS USB RX CB\n");
 
     UsbCdcTransport *transport = s_usbcdc_instance;
     if (NULL != tr)

@@ -169,7 +169,7 @@ int main(void) {
     // 
     while (1) {
         tud_task();         // service USB
-        erpc_server_poll(); // service RPC server
+        // erpc_server_poll(); // service RPC server
 
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             ns_delay_us(1000);
@@ -179,7 +179,7 @@ int main(void) {
 
             while (recordingWin > 0) {
                 tud_task();         // service USB
-                erpc_server_poll(); // service RPC server
+                // erpc_server_poll(); // service RPC server
 
                 ns_delay_us(1);
 
@@ -190,12 +190,12 @@ int main(void) {
                     ns_rpc_data_sendBlockToPC(&outBlock);
 
                     // Compute something remotely based on the collected sample (e.g. MFCC)
-                    resultBlock.description = foo;
-                    stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    if (stat == ns_rpc_data_success)
-                        ns_printf("%s-",resultBlock.description);
-                    else
-                        ns_printf("%s+",resultBlock.description);
+                    // resultBlock.description = foo;
+                    // stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
+                    // if (stat == ns_rpc_data_success)
+                    //     ns_printf("%s-",resultBlock.description);
+                    // else
+                    //     ns_printf("%s+",resultBlock.description);
 
                 }
             }

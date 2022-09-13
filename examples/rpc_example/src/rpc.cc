@@ -112,12 +112,14 @@ int main(void) {
     ns_audio_init(&audioConfig);
 
     // Vars and init the RPC system - note this also inits the USB interface
+    status stat;
     binary_t binaryBlock = {
         .data = (uint8_t *) g_in16AudioDataBuffer, // point this to audio buffer
         .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)
     };
     char msg_store[30] = "Audio16bPCM_to_WAV";
     char msg_compute[30] = "CalculateMFCC_Please";
+    char foo[10] = "foo";
 
     // Block sent to PC
     dataBlock outBlock = {
@@ -188,8 +190,13 @@ int main(void) {
                     ns_rpc_data_sendBlockToPC(&outBlock);
 
                     // Compute something remotely based on the collected sample (e.g. MFCC)
-                    ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    ns_printf("%s-",resultBlock.description);
+                    resultBlock.description = foo;
+                    stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
+                    if (stat == ns_rpc_data_success)
+                        ns_printf("%s-",resultBlock.description);
+                    else
+                        ns_printf("%s+",resultBlock.description);
+
                 }
             }
             ns_printf("\n");

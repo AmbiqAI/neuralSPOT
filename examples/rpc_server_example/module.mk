@@ -1,4 +1,4 @@
-local_app_name := rpc
+local_app_name := rpc_server
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.cpp)

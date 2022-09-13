@@ -14,8 +14,6 @@ import os
 class DataServiceHandler(GenericDataOperations_EVB_to_PC.interface.Ievb_to_pc):
     def ns_rpc_data_sendBlockToPC(self, block):
         # Example decode of incoming block
-        return 1
-
         if ((block.cmd == GenericDataOperations_EVB_to_PC.common.command.write_cmd) and 
             (block.description == "Audio16bPCM_to_WAV")):
             # AudioCommand.buf.buf is a 16 bit PCM sample
@@ -33,8 +31,8 @@ class DataServiceHandler(GenericDataOperations_EVB_to_PC.interface.Ievb_to_pc):
                     wfile.write(wData)
             else:
                 sf.write(outFileName, wData, samplerate = 16000) # writes to the new file
-            sys.stdout.flush()
-            return 1
+        sys.stdout.flush()
+        return 1
 
     
     def ns_rpc_data_fetchBlockFromPC(self, block):

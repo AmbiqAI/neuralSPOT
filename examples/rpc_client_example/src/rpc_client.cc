@@ -29,30 +29,6 @@
 #define AXES 3
 float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp 
 
-// GenericDataOperations implements 3 function calls that service
-// remote calls from a PC. They must be instantiated to enable them.
-// Datatypes, function prototypes, etc, are defined in the RPC's include files
-status ns_rpc_data_sendBlockToEVB(const dataBlock * block) {
-    ns_printf("Received call to sendBlockToEVB\n");
-    // Grab block and do something with it
-    // ...
-    return ns_rpc_data_success;
-}
-
-status ns_rpc_data_fetchBlockFromEVB(dataBlock * block) {
-    ns_printf("Received call to fetchBlockFromEVB\n");
-    // Fill in block
-    // blah...
-    return ns_rpc_data_success;  
-}
-
-status ns_rpc_data_computeOnEVB(const dataBlock * in_block, dataBlock * result_block) {
-    ns_printf("Received call to computeOnEVB\n");
-    // Compute result_block based on in_block
-    // blah...
-    return ns_rpc_data_success;      
-}
-
 // -- Audio Stuff - needed for demo, not RPC ----------------------
 #define NUM_CHANNELS 1
 #define NUM_FRAMES 100
@@ -119,7 +95,6 @@ int main(void) {
     };
     char msg_store[30] = "Audio16bPCM_to_WAV";
     char msg_compute[30] = "CalculateMFCC_Please";
-    char foo[10] = "foo";
 
     // Block sent to PC
     dataBlock outBlock = {
@@ -139,9 +114,15 @@ int main(void) {
         .buffer = binaryBlock
     };
 
+    ns_rpc_config_t rpcConfig = {
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL
+    };
     // Result of computation
     dataBlock resultBlock;
-    ns_rpc_genericDataOperations_init(); // init RPC and USB
+    ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
 
     // There is a chicken-and-egg thing involved in getting the RPC
     // started. The PC-side server cant start until the USB TTY interface
@@ -191,11 +172,11 @@ int main(void) {
 
                     // Compute something remotely based on the collected sample (e.g. MFCC)
                     // resultBlock.description = foo;
-                    // stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    // if (stat == ns_rpc_data_success)
-                    //     ns_printf("%s-",resultBlock.description);
-                    // else
-                    //     ns_printf("%s+",resultBlock.description);
+                    stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
+                    if (stat == ns_rpc_data_success)
+                        ns_printf("%s-",resultBlock.description);
+                    else
+                        ns_printf("%s+",resultBlock.description);
 
                 }
             }

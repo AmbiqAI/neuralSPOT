@@ -12,6 +12,7 @@
  */
 
 #include "ns_usb.h"
+#include "ns_ambiqsuite_harness.h"
 
 static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
                                      .buffer = NULL,
@@ -79,18 +80,23 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     // USB reads one block at a time, loop until we get full
     // request
-    uint32_t bytes_rx, old_rx = 0;
-    uint32_t retries = 100;
+    uint32_t bytes_rx = 0;
+    uint32_t old_rx = 0;
+    uint32_t retries = 1000;
 
     while (bytes_rx < bufsize) {
         tud_task(); // tinyusb device task
+        ns_delay_us(1000);
+
         old_rx = bytes_rx;
         bytes_rx += tud_cdc_read((void*)(buffer+bytes_rx), bufsize - bytes_rx);
         if (bytes_rx == old_rx) {
             retries--;
         }
-        if (retries == 0) {break;}
+        if (retries == 0) {break;} 
     }
+    if (retries > 0)
+        ns_printf("Got retries %d\n", retries);
     return bytes_rx;
 }
 

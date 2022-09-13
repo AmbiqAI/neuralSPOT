@@ -51,7 +51,7 @@ static void ERPC_ns_usb_tx_cb(ns_usb_transaction_t *tr)
 
 static void ERPC_ns_usb_rx_cb(ns_usb_transaction_t *tr)
 {
-    // ns_printf("NS USB RX CB\n");
+    ns_printf("NS USB RX CB\n");
 
     UsbCdcTransport *transport = s_usbcdc_instance;
     if (NULL != tr)
@@ -127,7 +127,7 @@ erpc_status_t UsbCdcTransport::underlyingReceive(uint8_t *data, uint32_t size)
     // ns_printf("NS USB RX asked for %d, Rec %d bytes\n", size, bytes_rx);
 
     if (bytes_rx < size) {
-        ns_printf("NS USB ERROR: asked for %d, Rec %d bytes\n", size, bytes_rx);
+        //ns_printf("NS USB ERROR: asked for %d, Rec %d bytes\n", size, bytes_rx);
         status = kErpcStatus_ReceiveFailed;
     }
 

@@ -31,8 +31,8 @@ class DataServiceHandler(GenericDataOperations_EVB_to_PC.interface.Ievb_to_pc):
                     wfile.write(wData)
             else:
                 sf.write(outFileName, wData, samplerate = 16000) # writes to the new file
-            sys.stdout.flush()
-            return 1
+        sys.stdout.flush()
+        return 1
 
     
     def ns_rpc_data_fetchBlockFromPC(self, block):
@@ -53,7 +53,7 @@ class DataServiceHandler(GenericDataOperations_EVB_to_PC.interface.Ievb_to_pc):
                 ,buffer = bytearray([0, 1, 2, 3])
                 ,length = 4)
 
-
+        # print(result_block)
         sys.stdout.flush()
         return 1
         
@@ -61,29 +61,6 @@ class DataServiceHandler(GenericDataOperations_EVB_to_PC.interface.Ievb_to_pc):
         print("%s" % msg)
         sys.stdout.flush()
         return 1
-
-    # def erpcDumpAudioBuffer(self, audioCommand):
-    #     # print(self.s, end="")
-    #     print(".", end="")
-    #     # self.s = self.s + 1
-    #     # AudioCommand.buf.buf is a 16 bit PCM sample
-    #     data = struct.unpack('<'+'h'*(len(audioCommand.buf.buf)//2), audioCommand.buf.buf)
-    #     data = np.array(data)
-    #     wData = np.array([0]*(audioCommand.buf.bufferLength//2), dtype=float)
-
-    #     # Copy it into numpy array as a float
-    #     for i in range(audioCommand.buf.bufferLength//2):
-    #         wData[i] = data[i]
-    #     wData = wData / 32768.
-    #     if (os.path.isfile(outFileName)):
-    #         with sf.SoundFile(outFileName, mode = 'r+') as wfile:
-    #             wfile.seek(0,sf.SEEK_END)
-    #             wfile.write(wData)
-    #     else:
-    #         sf.write(outFileName, wData, samplerate = 16000) # writes to the new file 
-    #     sys.stdout.flush()
-    #     return 1
-        # return ns_audio_rpc.common.nsAudioRPCStatus_success
 
 if __name__ == "__main__":
     # parse cmd parameters

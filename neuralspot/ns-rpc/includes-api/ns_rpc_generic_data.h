@@ -20,7 +20,25 @@ extern "C"
 #include "../src/GenericDataOperations_EvbToPc.h"
 #include "../src/GenericDataOperations_PcToEvb.h"
 
-extern uint16_t ns_rpc_genericDataOperations_init();
+typedef status (*ns_rpc_data_sendBlockToEVB_cb)(const dataBlock * block);
+
+typedef status (*ns_rpc_data_fetchBlockFromEVB_cb)(dataBlock * block);
+
+typedef status (*ns_rpc_data_computeOnEVB_cb)(const dataBlock * in_block, dataBlock * result_block);
+
+typedef enum {
+    NS_RPC_GENERICDATA_CLIENT,
+    NS_RPC_GENERICDATA_SERVER
+} rpcGenericDataMode_e;
+
+typedef struct {
+    rpcGenericDataMode_e mode;
+    ns_rpc_data_sendBlockToEVB_cb sendBlockToEVB_cb;
+    ns_rpc_data_fetchBlockFromEVB_cb fetchBlockFromEVB_cb;
+    ns_rpc_data_computeOnEVB_cb computeOnEVB_cb;
+} ns_rpc_config_t;
+
+extern uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg);
 
 #ifdef __cplusplus
 }

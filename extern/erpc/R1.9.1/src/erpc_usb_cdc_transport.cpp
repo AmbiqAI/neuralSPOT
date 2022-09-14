@@ -127,7 +127,7 @@ erpc_status_t UsbCdcTransport::underlyingReceive(uint8_t *data, uint32_t size)
     // ns_printf("NS USB RX asked for %d, Rec %d bytes\n", size, bytes_rx);
 
     if (bytes_rx < size) {
-        ns_printf("NS USB ERROR: asked for %d, Rec %d bytes\n", size, bytes_rx);
+        //ns_printf("NS USB ERROR: asked for %d, Rec %d bytes\n", size, bytes_rx);
         status = kErpcStatus_ReceiveFailed;
     }
 

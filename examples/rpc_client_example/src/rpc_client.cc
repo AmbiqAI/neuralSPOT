@@ -29,30 +29,6 @@
 #define AXES 3
 float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp 
 
-// GenericDataOperations implements 3 function calls that service
-// remote calls from a PC. They must be instantiated to enable them.
-// Datatypes, function prototypes, etc, are defined in the RPC's include files
-status ns_rpc_data_sendBlockToEVB(const dataBlock * block) {
-    ns_printf("Received call to sendBlockToEVB\n");
-    // Grab block and do something with it
-    // ...
-    return ns_rpc_data_success;
-}
-
-status ns_rpc_data_fetchBlockFromEVB(dataBlock * block) {
-    ns_printf("Received call to fetchBlockFromEVB\n");
-    // Fill in block
-    // blah...
-    return ns_rpc_data_success;  
-}
-
-status ns_rpc_data_computeOnEVB(const dataBlock * in_block, dataBlock * result_block) {
-    ns_printf("Received call to computeOnEVB\n");
-    // Compute result_block based on in_block
-    // blah...
-    return ns_rpc_data_success;      
-}
-
 // -- Audio Stuff - needed for demo, not RPC ----------------------
 #define NUM_CHANNELS 1
 #define NUM_FRAMES 100
@@ -112,6 +88,7 @@ int main(void) {
     ns_audio_init(&audioConfig);
 
     // Vars and init the RPC system - note this also inits the USB interface
+    status stat;
     binary_t binaryBlock = {
         .data = (uint8_t *) g_in16AudioDataBuffer, // point this to audio buffer
         .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)
@@ -137,9 +114,15 @@ int main(void) {
         .buffer = binaryBlock
     };
 
+    ns_rpc_config_t rpcConfig = {
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL
+    };
     // Result of computation
     dataBlock resultBlock;
-    ns_rpc_genericDataOperations_init(); // init RPC and USB
+    ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
 
     // There is a chicken-and-egg thing involved in getting the RPC
     // started. The PC-side server cant start until the USB TTY interface
@@ -167,7 +150,7 @@ int main(void) {
     // 
     while (1) {
         tud_task();         // service USB
-        erpc_server_poll(); // service RPC server
+        // erpc_server_poll(); // service RPC server
 
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             ns_delay_us(1000);
@@ -177,7 +160,7 @@ int main(void) {
 
             while (recordingWin > 0) {
                 tud_task();         // service USB
-                erpc_server_poll(); // service RPC server
+                // erpc_server_poll(); // service RPC server
 
                 ns_delay_us(1);
 
@@ -188,8 +171,13 @@ int main(void) {
                     ns_rpc_data_sendBlockToPC(&outBlock);
 
                     // Compute something remotely based on the collected sample (e.g. MFCC)
-                    ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    ns_printf("%s-",resultBlock.description);
+                    // resultBlock.description = foo;
+                    stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
+                    if (stat == ns_rpc_data_success)
+                        ns_printf("%s-",resultBlock.description);
+                    else
+                        ns_printf("%s+",resultBlock.description);
+
                 }
             }
             ns_printf("\n");

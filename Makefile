@@ -46,7 +46,8 @@ modules      += neuralspot/ns-i2c
 modules      += examples/s2i
 modules      += examples/basic_tf_stub
 modules      += examples/har
-modules      += examples/rpc_example
+modules      += examples/rpc_client_example
+modules      += examples/rpc_server_example
 
 NESTSOURCE    := examples/basic_tf_stub/build/main.d
 NESTSOURCEDIR := examples/basic_tf_stub/src

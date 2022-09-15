@@ -5,6 +5,10 @@
  * @version 0.1
  * @date 2022-08-26
  * 
+ * This supports both server and client modes in a single source file,
+ * but these modes are currently exclusive in NeuralSPOT - choose one
+ * at init time.
+ * 
  * @copyright Copyright (c) 2022
  * 
  */
@@ -30,9 +34,54 @@ ns_usb_config_t g_RpcGenericUSBHandle = {
         .tx_cb = NULL
 };
 
-uint16_t ns_rpc_genericDataOperations_init() {
+ns_rpc_config_t g_RpcGenericDataConfig = {
+    .mode = NS_RPC_GENERICDATA_CLIENT,
+    .sendBlockToEVB_cb = NULL,
+    .fetchBlockFromEVB_cb = NULL,
+    .computeOnEVB_cb = NULL
+};
+
+// GenericDataOperations implements 3 function calls that service
+// remote calls from a PC. They must be instantiated to enable them.
+// Datatypes, function prototypes, etc, are defined in the RPC's include files
+status ns_rpc_data_sendBlockToEVB(const dataBlock * block) {
+    ns_printf("Received call to sendBlockToEVB\n");
+
+    if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
+        return g_RpcGenericDataConfig.sendBlockToEVB_cb(block);
+    } else { 
+        return ns_rpc_data_success;
+    }
+}
+
+status ns_rpc_data_fetchBlockFromEVB(dataBlock * block) {
+    ns_printf("Received call to fetchBlockFromEVB\n");
+
+    if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
+        return g_RpcGenericDataConfig.fetchBlockFromEVB_cb(block);
+    } else { 
+        return ns_rpc_data_success;
+    }
+}
+
+status ns_rpc_data_computeOnEVB(const dataBlock * in_block, dataBlock * result_block) {
+    ns_printf("Received call to computeOnEVB\n");
+
+    if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
+        return g_RpcGenericDataConfig.computeOnEVB_cb(in_block, result_block);
+    } else { 
+        return ns_rpc_data_success;
+    }
+}
+
+uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
 
     usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
+
+    g_RpcGenericDataConfig.mode = cfg->mode;
+    g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
+    g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
+    g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
 
     // Common ERPC init
     /* USB transport layer initialization */
@@ -41,16 +90,15 @@ uint16_t ns_rpc_genericDataOperations_init() {
     /* MessageBufferFactory initialization */
     erpc_mbf_t message_buffer_factory = erpc_mbf_dynamic_init();
 
-    /* Init eRPC client environment */
-    /* eRPC client side initialization */
-    erpc_client_init(transport, message_buffer_factory);
-
-    // Now initialize the server
-    erpc_server_init(transport, message_buffer_factory);
-
-    /* connect generated service into server, look into erpc_matrix_multiply_server.h */
-    erpc_service_t service = create_pc_to_evb_service();
-    erpc_add_service_to_server(service);
+    if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
+        /* Init eRPC client environment */
+        erpc_client_init(transport, message_buffer_factory);
+    } else {
+        // Initialize the server and service
+        erpc_server_init(transport, message_buffer_factory);
+        erpc_service_t service = create_pc_to_evb_service();
+        erpc_add_service_to_server(service);
+    }
 
     /* run server (IN MAIN LOOP) */
     //erpc_server_run(); /* or erpc_server_poll(); */

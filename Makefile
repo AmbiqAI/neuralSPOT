@@ -180,7 +180,7 @@ nest: all $(NESTSOURCE)
 	@for file in $(lib_prebuilt); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
-	@cp $(NESTDIR)/src/*.* $(NESTDIR)/src/preserved
+	@cp $(NESTDIR)/src/*.* $(NESTDIR)/src/preserved/ 2>/dev/null || true
 	@cp $(NESTSOURCEDIR)/*.* $(NESTDIR)/src
 	@cp make/helpers.mk $(NESTDIR)/make
 	@cp make/neuralspot_config.mk $(NESTDIR)/make

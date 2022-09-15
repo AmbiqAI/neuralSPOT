@@ -38,7 +38,20 @@ typedef struct {
     ns_rpc_data_computeOnEVB_cb computeOnEVB_cb;
 } ns_rpc_config_t;
 
+/**
+ * @brief Initialize the GenericDataOperations RPC system
+ * 
+ * @param cfg 
+ * @return uint16_t Status
+ */
 extern uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg);
+
+/**
+ * @brief Helper function for printing a block's contents
+ * 
+ * @param block 
+ */
+extern void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block);
 
 #ifdef __cplusplus
 }

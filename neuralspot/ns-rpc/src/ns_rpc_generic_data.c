@@ -100,11 +100,19 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
         erpc_add_service_to_server(service);
     }
 
-    /* run server (IN MAIN LOOP) */
-    //erpc_server_run(); /* or erpc_server_poll(); */
-    //erpc_server_run(); /* or erpc_server_poll(); */
-
     return 1;
+}
+
+void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
+    uint32_t i = 0;
+    ns_printf("Descriptor: %s\n", block->description);
+    ns_printf("Length: %d\n", block->length);
+    ns_printf("buffer.dataLength: %d\n", block->buffer.dataLength);
+    ns_printf("Contents:\n");
+    for (i=0;i<block->buffer.dataLength;i++) {
+        ns_printf("0x%x, ", block->buffer.data[i]);
+    }
+    ns_printf("\n");
 }
 
 #else

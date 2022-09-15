@@ -40,5 +40,20 @@ Server started - waiting for client to send a eRPC request
 ```
 If all went well, you can press Button 0, which will record a 3 second audio sample and send it to the PC over the ERPC USB interface. The server will write it out to the data file you specified (in this case, `myaudio.wav`).
 
+## Theory of Operations
 
+```mermaid
+sequenceDiagram
+    participant PC
+    participant EVB
+    EVB->>+PC: ns_rpc_data_remotePrintOnPC(string)
+    note right of EVB: generic_data example prints string on terminal;
+    PC->>-EVB: ns_rpc_data_success;
+    EVB->>+PC: ns_rpc_data_sendBlockToPC(&outBlock);
+    Note right of EVB: generic_data example converts sample<br>  in dataBlock to WAV and appends to wav file;
+    PC->>-EVB: ns_rpc_data_success
+    EVB->>+PC: ns_rpc_data_computeOnPC(&outBlock, &resultBlock)
+    Note right of EVB: generic_data example consumes <br/> dataBlock and returns mocked up resultBlock
+    PC->>-EVB: ns_rpc_data_success
+```
 

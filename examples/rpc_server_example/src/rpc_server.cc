@@ -24,69 +24,95 @@
 #include "ns_peripherals_button.h"
 #include "ns_usb.h"
 #include "ns_peripherals_power.h"
+#include "ns_malloc.h"
 
-#define NUMSAMPLES 32
-#define AXES 3
-float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp 
 
 // GenericDataOperations implements 3 function calls that service
 // remote calls from a PC. They must be instantiated to enable them.
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
+// These functions are passed to ns_rpc init as callbacks.
+
+// Handler for sendBlockToEVB, invoked by PC
 status example_sendBlockToEVB(const dataBlock * block) {
-    ns_printf("Received call to sendBlockToEVB\n");
+    ns_printf("LOCAL Received call to sendBlockToEVB\n");
     // Grab block and do something with it
     // ...
+    ns_rpc_genericDataOperations_printDatablock(block);
     return ns_rpc_data_success;
 }
 
+// Handler for fetchBlockFromEVB, invoked by PC
 status example_fetchBlockFromEVB(dataBlock * block) {
-    ns_printf("Received call to fetchBlockFromEVB\n");
-    // Fill in block
-    // blah...
+    ns_printf("LOCAL Received call to fetchBlockFromEVB\n");
+
+    // For strings and binary structs (which block->buffer is)
+    // ERPC will attempt to free() the memory - this is kind
+    // of an ERPC bug IMHO. Nevertheless, strings & structs must be
+    // malloc'd using erpc_malloc.
+
+    uint32_t len = 4;
+    uint16_t *retBuffer = (uint16_t *)ns_malloc(len * sizeof(uint16_t));
+    char *msg_store = (char *)ns_malloc(sizeof(char)*30); // arbitrary size
+
+    uint16_t db[] = {0xCA, 0x01, 0x73, 0x50};
+    memcpy(retBuffer, db, len*sizeof(uint16_t));
+
+    char msg[] = "DisplayThis\0";
+    memcpy(msg_store, msg, sizeof(msg));
+    
+    binary_t binaryBlock = {
+        .data = (uint8_t *) retBuffer,
+        .dataLength = len*sizeof(uint16_t)
+    };
+
+    // Populate the block to be sent to PC
+    block->length = len*sizeof(uint16_t);
+    block->dType = uint16_e;
+    block->description = msg_store;
+    block->cmd = generic_cmd;
+    block->buffer = binaryBlock;
+    ns_rpc_genericDataOperations_printDatablock(block);
+
     return ns_rpc_data_success;  
 }
 
-status example_computeOnEVB(const dataBlock * in_block, dataBlock * result_block) {
-    ns_printf("Received call to computeOnEVB\n");
-    // Compute result_block based on in_block
-    // blah...
+// Handler for computeOnEVB, invoked by PC
+status example_computeOnEVB(const dataBlock * in, dataBlock * res) {
+    uint32_t i;
+
+    ns_printf("LOCAL Received call to computeOnEVB\n");
+
+    // Compute res block based on in block
+    ns_printf("Incoming Data Block:\n");
+    ns_rpc_genericDataOperations_printDatablock(in);
+    uint32_t len = in->buffer.dataLength;
+    uint8_t *resultBuffer = (uint8_t *)ns_malloc(len * sizeof(uint8_t)); // see above for explanation of why we need malloc
+    char *msg_store = (char *)ns_malloc(sizeof(char)*30);
+    char msg[] = "Multiplied by 2\0";
+    memcpy(msg_store, msg, sizeof(msg));
+
+    // Multiply the incoming block * 2
+    for (i=0;i<len;i++) {
+        resultBuffer[i] = in->buffer.data[i]*2;
+    }
+
+    binary_t binaryBlock = {
+        .data = (uint8_t *) resultBuffer,
+        .dataLength = len*sizeof(uint8_t)
+    };
+
+    // Build the block sent to PC
+    res->length = len*sizeof(uint8_t);
+    res->dType = uint8_e;
+    res->description = msg_store;
+    res->cmd = generic_cmd;
+    res->buffer = binaryBlock;
+
+    ns_printf("Resulting Data Block To Be Sent:\n");
+    ns_rpc_genericDataOperations_printDatablock(res);
+
     return ns_rpc_data_success;      
 }
-
-// -- Audio Stuff - needed for demo, not RPC ----------------------
-#define NUM_CHANNELS 1
-#define NUM_FRAMES 100
-#define SAMPLES_IN_FRAME 480
-#define SAMPLE_RATE 16000
-
-bool static g_audioReady = false;
-bool static g_audioRecording = false;
-int16_t static g_in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
-
-void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *pui32_buffer =
-        (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
-
-    if (g_audioRecording) {
-        for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-        }
-        g_audioReady = true;
-    }
-}
-
-ns_audio_config_t audioConfig = {
-    .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-    .callback = audio_frame_callback,
-    .audioBuffer = (void *)&g_in16AudioDataBuffer,
-    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-    .numChannels = NUM_CHANNELS,
-    .numSamples = SAMPLES_IN_FRAME,
-    .sampleRate = SAMPLE_RATE,
-    .audioSystemHandle = NULL, 
-    .bufferHandle = NULL
-};
-// -- Audio Stuff Ends ----------------------
 
 int main(void) {
     ns_itm_printf_enable();
@@ -107,111 +133,30 @@ int main(void) {
     };
     ns_peripheral_button_init(&button_config);
 
-    // -- Audio init
-    int recordingWin = NUM_FRAMES;
-    ns_audio_init(&audioConfig);
-
-    // Vars and init the RPC system - note this also inits the USB interface
-    status stat;
-    binary_t binaryBlock = {
-        .data = (uint8_t *) g_in16AudioDataBuffer, // point this to audio buffer
-        .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)
-    };
-    char msg_store[30] = "Audio16bPCM_to_WAV";
-    char msg_compute[30] = "CalculateMFCC_Please";
-
-    // Block sent to PC
-    dataBlock outBlock = {
-        .length = SAMPLES_IN_FRAME * sizeof(int16_t),
-        .dType = uint8_e,
-        .description = msg_store,
-        .cmd = write_cmd,
-        .buffer = binaryBlock
-    };
-
-    // Block sent to PC for computation
-    dataBlock computeBlock = {
-        .length = SAMPLES_IN_FRAME * sizeof(int16_t),
-        .dType = uint8_e,
-        .description = msg_compute,
-        .cmd = extract_cmd,
-        .buffer = binaryBlock
-    };
-
+    // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {
-        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .mode = NS_RPC_GENERICDATA_SERVER,  // Puts EVB in RPC server mode
         .sendBlockToEVB_cb = example_sendBlockToEVB,
         .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
         .computeOnEVB_cb = example_computeOnEVB
     };
+    ns_rpc_genericDataOperations_init(&rpcConfig);
 
-    // Result of computation
-    dataBlock resultBlock;
-    ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
-
-    // There is a chicken-and-egg thing involved in getting the RPC
-    // started. The PC-side server cant start until the USB TTY interface
-    // shows up as a device, and that doesn't happen until we start servicing
-    // TinyUSB, and even then it doesn't happen immediately.
-    //
-    // To address this, we loop waiting for a button press, servicing
-    // USB. This gives the user a chance to start the server then
-    // pressing the button to let the EVB it is ready to start RPCing.
-
-    ns_printf("Start the PC-side server, then press Button 0 to get started\n");
+    ns_printf("Start the PC-side client, then press Button 0 to get started\n");
     while (g_intButtonPressed == 0) {
         tud_task(); // tinyusb device task for RPC
         ns_delay_us(1000);
     }
-    // g_intButtonPressed = 0;
-    g_audioRecording = false;
 
-    ns_printf("Starting remote procedure call demo.\n");
+    ns_printf("Ready to receive RPC Calls\n");
 
-    // In the app loop we service USB and the RPC server while
-    // we collect data and send it over the various RPC
-    // interfaces. Any incoming RPC calls will result in calls to the 
+    // In the app loop we service USB and the RPC server
+    // Any incoming RPC calls will result in calls to the 
     // RPC handler functions defined above.
     // 
     while (1) {
         tud_task();         // service USB
-        // erpc_server_poll(); // service RPC server
-
-        if ((g_intButtonPressed) == 1 && !g_audioRecording) {
-            ns_delay_us(1000);
-            g_audioRecording = true;
-            ns_printf("Listening for 3 seconds.\n");
-            ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 3 seconds.\n");
-
-            while (recordingWin > 0) {
-                tud_task();         // service USB
-                // erpc_server_poll(); // service RPC server
-
-                ns_delay_us(1);
-
-                if (g_audioReady) { // got an audio sample
-                    recordingWin--;
-                    g_audioReady = false;
-                    
-                    ns_rpc_data_sendBlockToPC(&outBlock);
-
-                    // Compute something remotely based on the collected sample (e.g. MFCC)
-                    // resultBlock.description = foo;
-                    stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    if (stat == ns_rpc_data_success)
-                        ns_printf("%s-",resultBlock.description);
-                    else
-                        ns_printf("%s+",resultBlock.description);
-
-                }
-            }
-            ns_printf("\n");
-            ns_rpc_data_remotePrintOnPC("EVB Says this: 3s Sample Sent. Press button for next sample\n");
-
-            g_audioRecording = false;
-            g_intButtonPressed = 0;
-            recordingWin = 100;
-        }
-        ns_delay_us(5000);
+        erpc_server_poll(); // service RPC server
+        ns_delay_us(1);
     }
 }

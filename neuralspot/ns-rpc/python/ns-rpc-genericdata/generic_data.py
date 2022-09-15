@@ -90,7 +90,7 @@ if __name__ == "__main__":
     argParser = argparse.ArgumentParser(description='NeuralSPOT GenericData RPC Demo')
     argParser.add_argument('-t', '--tty', default=None, help='Serial device (default value is None)')
     argParser.add_argument('-B', '--baud', default='115200', help='Baud (default value is 115200)')
-    argParser.add_argument('-o', '--out', default='audio.wav', help='File where data will be written (default is data.csv')
+    argParser.add_argument('-o', '--out', default='audio.wav', help='File where data will be written (default is audio.wav')
 
     args = argParser.parse_args()
     transport = erpc.transport.SerialTransport(args.tty, int(args.baud))

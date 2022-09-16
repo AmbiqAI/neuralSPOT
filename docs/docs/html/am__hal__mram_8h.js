@@ -1,0 +1,25 @@
+var am__hal__mram_8h =
+[
+    [ "AM_HAL_INFO0_SIZE_BYTES", "group___m_r_a_m4.html#ga2dee20739172e55a211c5b9126a572e9", null ],
+    [ "AM_HAL_INFO1_SIZE_BYTES", "group___m_r_a_m4.html#ga8b5fb835d3fb625f4cc14e9aae8634a4", null ],
+    [ "AM_HAL_INFO1_VISIBLE_OFFSET", "group___m_r_a_m4.html#ga6afca53f19b88125ecf9d294be0d2c7c", null ],
+    [ "AM_HAL_MRAM_ADDR", "group___m_r_a_m4.html#ga8c029e4a66bf4049e9a1beec69a8a7be", null ],
+    [ "AM_HAL_MRAM_DTCM_END", "group___m_r_a_m4.html#ga621616b85142432880347342fdf638cb", null ],
+    [ "AM_HAL_MRAM_DTCM_START", "group___m_r_a_m4.html#gadc8f9f1544003a8565e0fbdd9ab3d0da", null ],
+    [ "AM_HAL_MRAM_INFO_KEY", "group___m_r_a_m4.html#gab2b608e888f00e3990505c7acf27db28", null ],
+    [ "AM_HAL_MRAM_INSTANCE_SIZE", "group___m_r_a_m4.html#gae172031c4a188c7cc3662cbfb94d7b0f", null ],
+    [ "AM_HAL_MRAM_LARGEST_VALID_ADDR", "group___m_r_a_m4.html#gaf2f4712794a3af10f8e85db9f3f0c1c5", null ],
+    [ "AM_HAL_MRAM_NUM_INSTANCES", "group___m_r_a_m4.html#ga38deb8fce280670e346a26d296d4121c", null ],
+    [ "AM_HAL_MRAM_PROGRAM_KEY", "group___m_r_a_m4.html#ga73b1fb042fe010842f6071a2a1d92ddb", null ],
+    [ "AM_HAL_MRAM_SRAM_ADDR", "group___m_r_a_m4.html#ga01c118a37fa20c7d2ac6847894a526d2", null ],
+    [ "AM_HAL_MRAM_SRAM_LARGEST_VALID_ADDR", "group___m_r_a_m4.html#ga9f6dfcbf5bf7d87f04e3f1f777aa6423", null ],
+    [ "AM_HAL_MRAM_SRAM_SIZE", "group___m_r_a_m4.html#gac1227b4315679316e2f5e356f8838848", null ],
+    [ "AM_HAL_MRAM_TOTAL_SIZE", "group___m_r_a_m4.html#gad631418f1412cde6b0aa886369678f39", null ],
+    [ "am_hal_mram_ds_init", "group___m_r_a_m4.html#gafb378945c989e93f305a646941254bdd", null ],
+    [ "am_hal_mram_info_program", "group___m_r_a_m4.html#ga00f5637620afbddc5f51fb6be7c7bd42", null ],
+    [ "am_hal_mram_info_read", "group___m_r_a_m4.html#ga60fe9c954e3173c89c8f917c094f8ec8", null ],
+    [ "am_hal_mram_main_fill", "group___m_r_a_m4.html#ga7db3af403e23b7689949b7ce0ddff998", null ],
+    [ "am_hal_mram_main_program", "group___m_r_a_m4.html#ga86c9da4e84cc1e54bff41e8893ee4d4b", null ],
+    [ "am_hal_mram_main_words_program", "group___m_r_a_m4.html#ga2c36ac60e1e72ff8e86f3498d861875d", null ],
+    [ "am_hal_mram_recovery", "group___m_r_a_m4.html#ga59eef07981ce587fb4ebf5e2876f7c47", null ]
+];

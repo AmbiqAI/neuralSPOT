@@ -1,37 +1,37 @@
 # NeuralSPOT Developer's Guide
 
-[TOC]
+This document covers various guidelines for creating and modifying NeuralSPOT's various types of components. Its intended audience are NeuralSPOT developers and contributors.
 
 ## FAQs
 
-#### Where is main()?
+##### Where is main()?
 
 NeuralSPOT [examples]() each contain a `main()`, and each example produces a different binary.
 
-#### Where are the linker script and reset handlers?
+##### Where are the linker script and reset handlers?
 
 NeuralSPOT uses the AmbiqSuite [linker script](https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/linker_script.ld) and [startup_gcc](https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/startup_gcc.c) (which defines reset handlers, vector tables, etc.). 
 
-#### How do the makefiles work?
+##### How do the makefiles work?
 
 This is documented in the [main makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile).
 
-# Adding Components
+## Adding Components to NeuralSPOT
 
-This guide describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:
+This section describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:
 
 1. NeuralSPOT Libraries
 2. NeuralSPOT Examples
 3. External Components
 4. RPC Interfaces
 
-## Adding NeuralSPOT Library Components
+### Adding NeuralSPOT Library Components
 
 NeuralSPOT Libraries are small, task-specific components. They're located in `./neuralspot`, and are generally organized by function. For example, current components include ns-audio, ns-ipc, ns-i2c, ns-rpc, and so on. Some libraries are collections of very simple functions - ns_peripherals includes both ns-power and ns-button, components which are too simple to warrant their on libraries.
 
 Each library compiles to a static lib (e.g. `ns-audio.a`), and has a defined API (e.g. `ns-audio.h`). When linking, only code which is invoked is actually linked into the binary.
 
-### Library Component Structure
+#### Library Component Structure
 
 Every neuralspot library has a similar structure - some of this is dictated by neuralspot's makefile architecture, and some is by convention. The typical structure is as follows:
 
@@ -45,7 +45,7 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 		build/       # temporary working directory for storing static libs, object files and other compile artifacts
 ```
 
-### Library Component Module definition
+#### Library Component Module definition
 
 Each component includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
 
@@ -62,7 +62,7 @@ $(eval $(call make-library, $(local_bin)/ns-<componentName>.a, $(local_src))) # 
 ```
 The only thing that normally differs between library's `module.mk` is the `<componentName>`
 
-## Adding NeuralSPOT Examples
+### Adding NeuralSPOT Examples
 
 NeuralSPOT Examples are pared-down examples showcasing NueralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.
 
@@ -70,7 +70,7 @@ For every Example, NeuralSPOT will compile all the binary artifacts needed to lo
 
 >  **Note** The name of the artifact is derived from the example's `module.mk` not the directory it resides in.
 
-### Example Component Structure
+#### Example Component Structure
 Every neuralspot library has a similar structure - some of this is dictated by neuralspot's makefile architecture, and some is by convention. The typical structure is as follows:
 
 ```bash
@@ -81,7 +81,7 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 		<exampleName>.md # Local documentation
 ```
 
-### Example Component Module definition
+#### Example Component Module definition
 Each component includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
 
 ```make
@@ -101,12 +101,14 @@ mains     += $(local_bin)/$(local_app_name).o
 
 Except for first line, this is all boilerplate.
 
-## Adding External Component
+### Adding External Component
 External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, and Embedded RPC.
 
 The structure of an external component included in NeuralSPOT depends on the component - for example, `extern/AmbiqSuite` doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.
 
 NeuralSPOT will support multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in `make/neuralspot_config.mk`.
+
+#### External Component Structure
 
 Generally, the structure of an external component within NeuralSPOT is:
 ```bash
@@ -123,6 +125,8 @@ Because external components don't have a well-defined structure, the module.mk i
 2. Add required header files to `includes_api`
 3. Adding any pre-built static libraries to `lib_prebuilt`
 4. If the component generates object files, they need to be linked into a static library via the `make-library` makefile function.
+
+#### External Component Module Definition
 
 Here is a simple example which adds tensorflow to NeuralSPOT:
 ```make
@@ -175,30 +179,75 @@ STARTUP_FILE := ./startup_$(COMPILERNAME).c
 $(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))
 ```
 
-## Adding RPC Interfaces
+### Adding RPC Interfaces
+> **LIMITATIONS** ns-rpc only works as client or server, exclusively.
+
 RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:
+
 1. Defining the interface using an IDL (interface definition language)
-2. Processing that definition to generate server and client code. The client 'calls' functions on the server.
+2. Processing that definition to generate server and client code.
 3. Copying the generated client code to neuralSPOT, generally as a new neuralspot library
 4. Implementing the server code that will respond to the client.
 
-NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference) and how servers are implemented are outside the scope of this document. The relevant parts of eRPC's client infrastructure reside in `extern/erpc`, and an example of a generic audio interface library can be found in `neuralspot/ns-rpc`, including a python server for receiving data from `example/basic_tf_stub`. 
+NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference), is outside the scope of this document. 
 
-Instructions for how to use it in NeuralSPOT can be found [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/har/har.md) and [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/basic_tf_stub.md).
+#### RPC Structure
 
-1. Compile the erpc interface definition file (`foo.erpc`)
-This has to be done twice, once for C and once for python.
-`erpcgen -g py ../../interfaces/data-transfer.erpc` - Python, run from inside the ns-rpc/python/foo directory
-`erpcgen ../interfaces/data-transfer.erpc` - Run from inside the ns-rpc/src directory
-2. Create an ns wrapper to init the interfaces and invoke the RPC
-3. 
+RPC in NeuralSPOT is structured as follows:
 
-So, here is a mind-twister: how does erpc handle to declared services, one a server and the other a client?
-Answer: use @group around each interface - erpcgen will create separate client and server code for each group, and you only link in/include what you need. See GenericData as an example.
+1.  The relevant parts of eRPC's infrastructure reside in `extern/erpc`
+2. Interface library implementations reside in `neuralspot/ns-rpc`
+3. Examples of generic RPC utilization reside in `examples/rpc-client`, and`examples/rpc-server`.
+4. Examples of practical utilization of RPC to capture data can be found in `examples/har` (for i2c) and `examples/basic_tf_stub` (for audio)
 
-Status or GenericData:
-1. Have EVb->PC path working for one way data
-2. The *compute function gets the data, but i don't get the result Block - DEBUG THIS NEXT
-3. the remotePrint works
+##### NS-RPC Structure
 
-This could be a python problem or maybe a pointer problem.
+```bash
+ns-rpc/
+	interfaces/ # contains IDL definition files
+	includes-api/ # API for each interface
+	python/ # PC-side code implementing the interface and example client/servers using it
+	src/ # Code implementing the interface and wrapping it for neuralspot
+```
+
+#### Creating a New Interface
+
+As briefly described above, creating a new interface involves multiple steps, some of which generate CPP and Python code that need to be wrapped usefully for integration with NeuralSPOT. 
+
+##### Step 1 - Defining the Interface
+
+eRPC definitions start from an ERPC file which is written in an IDL (defined [here](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference)). eRPC doesn't have a lot of good examples in the wild, so we recommend you start from an existing definition such as [`GenericDataOperations.erpc`](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/interfaces/GenericDataOperations.erpc). 
+
+##### Step 2 - Generating the code
+
+eRPC can generate both C and Python client and server code (of course, the Python code is only for use on the PC). You only have to generate Python if you plan on implementing Python-based PC applications. Currently, NeuralSPOT only includes Python PC examples.
+
+```bash
+$> cd neuralspot/ns-rpc
+$> mkdir python/foo
+$> erpcgen -g py -o python/foo interfaces/foo.erpc # Generate Python client/server code
+$> erpcgen -o src interfaces/foo.erpc # Generate C client/server code
+
+```
+
+> **NOTE** The Client C code contains prototypes for the remote procedures. This will cause linking errors if you are not implementing those procedures. If you don't plan on implementing EVB-side client procedures, delete the file or give it a non-source extension to avoid compiling it.
+
+At this point you'll have everything you need to implement the interface.
+
+##### Step 3 - Wrap the Interface
+
+When the EVB is acting as a client (i.e. it is calling procedures that reside on the PC), all you really need to do is add an `init()` and a header file that includes everything needed for the application to find the remote procedures. The `init()` should initialize the USB interface and the erpc client.
+
+When the EVB is acting as a server, the `ns-rpc` wrapper should also include implementations for the remotely called procedures. One way to implement this is to have those procedures invoke callbacks, which can be defined via the `init()`.
+
+See the GenericDataOperations [wrapper](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/src/ns_rpc_generic_data.c) for an example of how to wrap both client and server interfaces.
+
+##### Step 4 - Write a PC-side RPC application
+
+Your new interface will need a PC-side application (server or client, depending on your needs). NeuralSPOT includes [an example PC side application](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py) that can be configured as either a server or client. The code is fairly self-explanatory. 
+
+> **Note** that the eRPC Python implementation is not well documented or tested. NeuralSPOT's GenericDataOperation RPC interface has been tested to work well after fixing a few bugs in our eRPC fork, but other types of interfaces have not be stressed.
+
+#### Modifying an Existing Interface
+
+Modifying an interface involves changing the existing interface's eRPC file, generating new interface files, and modifying the wrappers to accomodate those changes.

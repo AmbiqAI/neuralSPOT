@@ -26,22 +26,22 @@ var NAVTREE =
 [
   [ "Ambiq NeuralSPOT", "index.html", [
     [ "NeuralSPOT", "index.html", [
-      [ "Building and Deploying NeuralSPOT", "index.html#autotoc_md42", [
-        [ "Build Options", "index.html#autotoc_md43", null ]
+      [ "Building and Deploying NeuralSPOT", "index.html#autotoc_md60", [
+        [ "Build Options", "index.html#autotoc_md61", null ]
       ] ],
-      [ "NeuralSPOT Repo Structure", "index.html#autotoc_md44", null ],
-      [ "NeuralSPOT Theory of Operations.", "index.html#autotoc_md45", [
-        [ "NeuralSPOT Libraries", "index.html#autotoc_md46", null ],
-        [ "The Nest", "index.html#autotoc_md47", [
-          [ "Building Nest", "index.html#autotoc_md48", null ],
-          [ "Nest Directory Contents", "index.html#autotoc_md49", null ],
-          [ "Updgrading a Nest", "index.html#autotoc_md50", null ]
+      [ "NeuralSPOT Repo Structure", "index.html#autotoc_md62", null ],
+      [ "NeuralSPOT Theory of Operations.", "index.html#autotoc_md63", [
+        [ "NeuralSPOT Libraries", "index.html#autotoc_md64", null ],
+        [ "The Nest", "index.html#autotoc_md65", [
+          [ "Building Nest", "index.html#autotoc_md66", null ],
+          [ "Nest Directory Contents", "index.html#autotoc_md67", null ],
+          [ "Updgrading a Nest", "index.html#autotoc_md68", null ]
         ] ]
       ] ]
     ] ],
     [ "NeuralSPOT Developer's Guide", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html", [
       [ "FAQs", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md1", null ],
-      [ "Adding Components", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md5", [
+      [ "Adding Components to NeuralSPOT", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md5", [
         [ "Adding NeuralSPOT Library Components", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md6", [
           [ "Library Component Structure", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md7", null ],
           [ "Library Component Module definition", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md8", null ]
@@ -50,55 +50,81 @@ var NAVTREE =
           [ "Example Component Structure", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md10", null ],
           [ "Example Component Module definition", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md11", null ]
         ] ],
-        [ "Adding External Component", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md12", null ],
-        [ "Adding RPC Interfaces", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md13", null ]
+        [ "Adding External Component", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md12", [
+          [ "External Component Structure", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md13", null ],
+          [ "External Component Module Definition", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md14", null ]
+        ] ],
+        [ "Adding RPC Interfaces", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md15", [
+          [ "RPC Structure", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md16", [
+            [ "NS-RPC Structure", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md17", null ]
+          ] ],
+          [ "Creating a New Interface", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md18", [
+            [ "Step 1 - Defining the Interface", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md19", null ],
+            [ "Step 2 - Generating the code", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md20", null ],
+            [ "Step 3 - Wrap the Interface", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md21", null ],
+            [ "Step 4 - Write a PC-side RPC application", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md22", null ]
+          ] ],
+          [ "Modifying an Existing Interface", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_guide.html#autotoc_md23", null ]
+        ] ]
       ] ]
     ] ],
     [ "WIP Notes (Pay no attention to anything below this line)", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html", [
-      [ "Adding malloc support", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md15", [
-        [ "Status", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md16", null ],
-        [ "New Next", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md17", null ],
-        [ "Doozy of a Bug", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md18", null ],
-        [ "New new next", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md19", null ],
-        [ "Works!", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md20", null ],
-        [ "ERPC Flow", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md21", null ],
-        [ "Status", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md22", null ],
-        [ "Latest Status", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md23", null ]
+      [ "Adding malloc support", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md25", [
+        [ "Status", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md26", null ],
+        [ "New Next", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md27", null ],
+        [ "Doozy of a Bug", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md28", null ],
+        [ "New new next", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md29", null ],
+        [ "Works!", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md30", null ],
+        [ "ERPC Flow", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md31", null ],
+        [ "Status", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md32", null ],
+        [ "Latest Status", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md33", null ]
       ] ],
-      [ "NS Upgrades and Versions", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md24", [
-        [ "Versioning", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md25", [
-          [ "Proposal", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md26", null ]
+      [ "NS Upgrades and Versions", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md34", [
+        [ "Versioning", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md35", [
+          [ "Proposal", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md36", null ]
         ] ],
-        [ "Upgrades", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md27", null ]
+        [ "Upgrades", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html#autotoc_md37", null ]
       ] ]
     ] ],
     [ "Basic TF Stub", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html", [
-      [ "Audio Data Capture", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md29", [
-        [ "Installation and Setup", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md30", null ],
-        [ "Capturing Data", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md31", [
-          [ "Details", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md32", null ]
+      [ "Audio Data Capture", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md39", [
+        [ "Installation and Setup", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md40", null ],
+        [ "Capturing Data", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md41", [
+          [ "Details", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_basic_tf_stub_basic_tf_stub.html#autotoc_md42", null ]
         ] ]
       ] ]
     ] ],
     [ "MPU Data Capture", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html", [
-      [ "Installation and Setup", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html#autotoc_md34", null ],
-      [ "Capturing Data", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html#autotoc_md35", [
-        [ "Details", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html#autotoc_md36", null ]
+      [ "Installation and Setup", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html#autotoc_md44", null ],
+      [ "Capturing Data", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html#autotoc_md45", [
+        [ "Details", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_har_har.html#autotoc_md46", null ]
       ] ]
     ] ],
+    [ "RPC Generic Data Operations Client Example", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_rpc_client_example_rpc_client.html", [
+      [ "Installation and Setup", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_rpc_client_example_rpc_client.html#autotoc_md48", null ],
+      [ "Running the RPC-client example", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_rpc_client_example_rpc_client.html#autotoc_md49", null ]
+    ] ],
+    [ "RPC Generic Data Operations Server Example", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_rpc_server_example_rpc_server.html", [
+      [ "Installation and Setup", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_rpc_server_example_rpc_server.html#autotoc_md51", null ],
+      [ "Running the RPC-server example", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_examples_rpc_server_example_rpc_server.html#autotoc_md52", null ]
+    ] ],
     [ "NeuralSPOT Audio Library", "_n_s-_audio.html", [
-      [ "NeuralSPOT Audio Library Subsystem", "_n_s-_audio.html#autotoc_md37", [
-        [ "Using NS Audio to Sample Audio", "_n_s-_audio.html#autotoc_md38", null ],
-        [ "Audio Inter-process Communication (IPC)", "_n_s-_audio.html#autotoc_md39", [
-          [ "Audio IPC Modes", "_n_s-_audio.html#autotoc_md40", null ]
+      [ "NeuralSPOT Audio Library Subsystem", "_n_s-_audio.html#autotoc_md53", [
+        [ "Using NS Audio to Sample Audio", "_n_s-_audio.html#autotoc_md54", null ],
+        [ "Audio Inter-process Communication (IPC)", "_n_s-_audio.html#autotoc_md55", [
+          [ "Audio IPC Modes", "_n_s-_audio.html#autotoc_md56", null ]
         ] ]
       ] ]
+    ] ],
+    [ "NeuralSPOT RPC Library", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_neuralspot_ns_rpc_ns_rpc.html", [
+      [ "NS-RPC Directory Structure", "md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_neuralspot_ns_rpc_ns_rpc.html#autotoc_md58", null ]
     ] ],
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
@@ -130,9 +156,11 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "____init_____8py.html",
-"group___neural_s_p_o_t-_m_p_u6050.html#ga26d680f52fbdaa0623d16292e9c40d4c",
-"group___neural_s_p_o_t-i2c.html#gga1db6e615145715f14f5f769628081a49a8d25b898ecf4c30887bdeeb9c793b3e4",
-"ns__malloc_8c.html#abf1c042e70be409ee2d41838f83bb8d3"
+"classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1status.html",
+"group___neural_s_p_o_t-_m_p_u6050.html#ga196bfed385b52946afee1a1e6c52ff9c",
+"group___neural_s_p_o_t-_power.html#gabd0847bd4ffca2198c2099c2b9888348",
+"ns__audadc_8c.html#a5bf22de0c25bcb09758719cfc85bc6e0",
+"slu__model__act8_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

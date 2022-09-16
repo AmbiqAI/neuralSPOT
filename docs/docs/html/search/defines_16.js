@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['xcoroutinehandle_0',['xCoRoutineHandle',['../_free_r_t_o_s_8h.html#ac6d7ef270d5c85eb91906683157ffc13',1,'FreeRTOS.h']]],
+  ['xlist_1',['xList',['../_free_r_t_o_s_8h.html#a990e46a268202dae9f09ca56c35cc17c',1,'FreeRTOS.h']]],
+  ['xlistitem_2',['xListItem',['../_free_r_t_o_s_8h.html#a62b284ca8496de2faf0157e6c8be94b6',1,'FreeRTOS.h']]],
+  ['xmemoryregion_3',['xMemoryRegion',['../_free_r_t_o_s_8h.html#a5971b85d409766aa17def6cc275c15cd',1,'FreeRTOS.h']]],
+  ['xportpendsvhandler_4',['xPortPendSVHandler',['../_free_r_t_o_s_config_8h.html#a6f30022da7d797dd31f1b8a11cae9a35',1,'FreeRTOSConfig.h']]],
+  ['xportsystickhandler_5',['xPortSysTickHandler',['../_free_r_t_o_s_config_8h.html#ae42e6318b5d564e44f97f8c765859448',1,'FreeRTOSConfig.h']]],
+  ['xqueuehandle_6',['xQueueHandle',['../_free_r_t_o_s_8h.html#a2b4ea2af4cc24db3cbd458722e96fa2f',1,'FreeRTOS.h']]],
+  ['xqueuesethandle_7',['xQueueSetHandle',['../_free_r_t_o_s_8h.html#ab8d6acee206b02a6a4cf4e63d035b3fd',1,'FreeRTOS.h']]],
+  ['xqueuesetmemberhandle_8',['xQueueSetMemberHandle',['../_free_r_t_o_s_8h.html#a009d2d6ce8ab8635eaf9f3e507866f6c',1,'FreeRTOS.h']]],
+  ['xsemaphorehandle_9',['xSemaphoreHandle',['../_free_r_t_o_s_8h.html#a520d8cf032327581ece00e5bd8e03a75',1,'FreeRTOS.h']]],
+  ['xtaskhandle_10',['xTaskHandle',['../_free_r_t_o_s_8h.html#af7cd8f53b62f0c497b442b504c30f2ec',1,'FreeRTOS.h']]],
+  ['xtaskparameters_11',['xTaskParameters',['../_free_r_t_o_s_8h.html#aba476594b7c76708495313b143d7edde',1,'FreeRTOS.h']]],
+  ['xtaskstatustype_12',['xTaskStatusType',['../_free_r_t_o_s_8h.html#a86ae1e476b7df91b0b58f7cc0f1ce7ea',1,'FreeRTOS.h']]],
+  ['xths_13',['XTHS',['../ns__audadc_8c.html#ab2d503d4c7071ad9cccadf75f3794750',1,'ns_audadc.c']]],
+  ['xtimeouttype_14',['xTimeOutType',['../_free_r_t_o_s_8h.html#a819785230f5d9368aec050ac661d12e0',1,'FreeRTOS.h']]],
+  ['xtimerhandle_15',['xTimerHandle',['../_free_r_t_o_s_8h.html#a9fa57c444af781c3b6286f5cc9e4982d',1,'FreeRTOS.h']]]
+];

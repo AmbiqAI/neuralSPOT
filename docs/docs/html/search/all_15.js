@@ -1,5 +1,6 @@
 var searchData=
 [
   ['who_5fam_5fi_0',['WHO_AM_I',['../group___neural_s_p_o_t-_m_p_u6050.html#ga9fcb9e460d175bfc7ab4d80bf788b43a',1,'ns_mpu6050_i2c_driver.h']]],
-  ['wip_20notes_20_28pay_20no_20attention_20to_20anything_20below_20this_20line_29_1',['WIP Notes (Pay no attention to anything below this line)',['../md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html',1,'']]]
+  ['wip_20notes_20_28pay_20no_20attention_20to_20anything_20below_20this_20line_29_1',['WIP Notes (Pay no attention to anything below this line)',['../md___users_carlosmorales__ambiq_dev_neural_s_p_o_t_docs_developer_notes.html',1,'']]],
+  ['write_5fcmd_2',['write_cmd',['../classns-rpc-genericdata_1_1_generic_data_operations___evb_to_pc_1_1common_1_1command.html#aeaf460e812fd784cbccd04cd20a4e476',1,'ns-rpc-genericdata.GenericDataOperations_EvbToPc.common.command.write_cmd()'],['../classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1command.html#aeaf460e812fd784cbccd04cd20a4e476',1,'ns-rpc-genericdata.GenericDataOperations_PcToEvb.common.command.write_cmd()'],['../_generic_data_operations___evb_to_pc_8h.html#a9e0992eae3950adccaf4847fbff4231da53dccddbcaff4a176d4e75663fbed0ec',1,'write_cmd():&#160;GenericDataOperations_EvbToPc.h'],['../_generic_data_operations___pc_to_evb_8h.html#a9e0992eae3950adccaf4847fbff4231da53dccddbcaff4a176d4e75663fbed0ec',1,'write_cmd():&#160;GenericDataOperations_PcToEvb.h']]]
 ];

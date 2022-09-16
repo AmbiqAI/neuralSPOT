@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['ns_5faudio_5fapi_5fcallback_0',['NS_AUDIO_API_CALLBACK',['../group___neural_s_p_o_t-_audio.html#ggac323b3153cc1c87ccdacca907cc10ba7af90a19e63376aaee138c8d50b8a88989',1,'ns_audio.h']]],
+  ['ns_5faudio_5fapi_5fringbuffer_1',['NS_AUDIO_API_RINGBUFFER',['../group___neural_s_p_o_t-_audio.html#ggac323b3153cc1c87ccdacca907cc10ba7a8eb59c4834d29717a738c5714cc8551e',1,'ns_audio.h']]],
+  ['ns_5faudio_5fapi_5ftask_2',['NS_AUDIO_API_TASK',['../group___neural_s_p_o_t-_audio.html#ggac323b3153cc1c87ccdacca907cc10ba7a3f118ec6ecb3950af04fa8ddea9297e2',1,'ns_audio.h']]],
+  ['ns_5faudio_5fsource_5faudadc_3',['NS_AUDIO_SOURCE_AUDADC',['../group___neural_s_p_o_t-_audio.html#ggac60456a745861cbe75be2504b3071f32a51878572d9b7fe3281b28a8f8856b658',1,'ns_audio.h']]],
+  ['ns_5fi2c_5fstatus_5ferror_4',['NS_I2C_STATUS_ERROR',['../group___neural_s_p_o_t-i2c.html#gga1db6e615145715f14f5f769628081a49a8d25b898ecf4c30887bdeeb9c793b3e4',1,'ns_i2c_register_driver.h']]],
+  ['ns_5fi2c_5fstatus_5fsuccess_5',['NS_I2C_STATUS_SUCCESS',['../group___neural_s_p_o_t-i2c.html#gga1db6e615145715f14f5f769628081a49a3d48caef0a84f4e688f802248204b873',1,'ns_i2c_register_driver.h']]],
+  ['ns_5fmaximum_5fperf_6',['NS_MAXIMUM_PERF',['../group___neural_s_p_o_t-_power.html#ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901',1,'ns_peripherals_power.h']]],
+  ['ns_5fmedium_5fperf_7',['NS_MEDIUM_PERF',['../group___neural_s_p_o_t-_power.html#ggabd0847bd4ffca2198c2099c2b9888348a41478b7baf8d5dba7b87214644dd9e96',1,'ns_peripherals_power.h']]],
+  ['ns_5fminimum_5fperf_8',['NS_MINIMUM_PERF',['../group___neural_s_p_o_t-_power.html#ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186',1,'ns_peripherals_power.h']]],
+  ['ns_5frpc_5fdata_5fblocktoolarge_9',['ns_rpc_data_blockTooLarge',['../_generic_data_operations___evb_to_pc_8h.html#a015eb90e0de9f16e87bd149d4b9ce959a0b0fd1b5a9a13c7913c9eb94d2543721',1,'ns_rpc_data_blockTooLarge():&#160;GenericDataOperations_EvbToPc.h'],['../_generic_data_operations___pc_to_evb_8h.html#a015eb90e0de9f16e87bd149d4b9ce959a0b0fd1b5a9a13c7913c9eb94d2543721',1,'ns_rpc_data_blockTooLarge():&#160;GenericDataOperations_PcToEvb.h']]],
+  ['ns_5frpc_5fdata_5ffailure_10',['ns_rpc_data_failure',['../_generic_data_operations___evb_to_pc_8h.html#a015eb90e0de9f16e87bd149d4b9ce959ae6343ac7a77a5512fe6dc1e0cbd0ad08',1,'ns_rpc_data_failure():&#160;GenericDataOperations_EvbToPc.h'],['../_generic_data_operations___pc_to_evb_8h.html#a015eb90e0de9f16e87bd149d4b9ce959ae6343ac7a77a5512fe6dc1e0cbd0ad08',1,'ns_rpc_data_failure():&#160;GenericDataOperations_PcToEvb.h']]],
+  ['ns_5frpc_5fdata_5fsuccess_11',['ns_rpc_data_success',['../_generic_data_operations___evb_to_pc_8h.html#a015eb90e0de9f16e87bd149d4b9ce959a21beb31982d22628265f5fa53825500c',1,'ns_rpc_data_success():&#160;GenericDataOperations_EvbToPc.h'],['../_generic_data_operations___pc_to_evb_8h.html#a015eb90e0de9f16e87bd149d4b9ce959a21beb31982d22628265f5fa53825500c',1,'ns_rpc_data_success():&#160;GenericDataOperations_PcToEvb.h']]],
+  ['ns_5frpc_5fgenericdata_5fclient_12',['NS_RPC_GENERICDATA_CLIENT',['../ns__rpc__generic__data_8h.html#a99b5a0f4eb7ab45fe7963d3ee14e4d61a6aa731452095877a31c6b6e1d7e55cd0',1,'ns_rpc_generic_data.h']]],
+  ['ns_5frpc_5fgenericdata_5fserver_13',['NS_RPC_GENERICDATA_SERVER',['../ns__rpc__generic__data_8h.html#a99b5a0f4eb7ab45fe7963d3ee14e4d61a032b185053f6de099dc70b5a17cca9ee',1,'ns_rpc_generic_data.h']]],
+  ['ns_5fusb_5fcdc_5fdevice_14',['NS_USB_CDC_DEVICE',['../ns__usb_8h.html#a4aca6e5a14e39094d9f64c7c5835acc8a290f77ae7c1a594db71a1b9f7f900c19',1,'ns_usb.h']]],
+  ['ns_5fusb_5fhid_5fdevice_15',['NS_USB_HID_DEVICE',['../ns__usb_8h.html#a4aca6e5a14e39094d9f64c7c5835acc8aac724d0ec83dd5a46cf39ca0fb506935',1,'ns_usb.h']]],
+  ['ns_5fusb_5fmsc_5fdevice_16',['NS_USB_MSC_DEVICE',['../ns__usb_8h.html#a4aca6e5a14e39094d9f64c7c5835acc8a35a79373fafde4c20951c7f89d810be6',1,'ns_usb.h']]],
+  ['nsaudioappendtoaudiofile_17',['nsAudioAppendToAudioFile',['../ns__audio__rpc_8h.html#ac6651e95109fc07de81ed3e20ef180d4a0fa08d55a43fe622ce0e3c5f89b387b4',1,'ns_audio_rpc.h']]],
+  ['nsaudiodisplayaudio_18',['nsAudioDisplayAudio',['../ns__audio__rpc_8h.html#ac6651e95109fc07de81ed3e20ef180d4a662316b0478c61d7de36cf6420058bf6',1,'ns_audio_rpc.h']]],
+  ['nsaudioplayaudio_19',['nsAudioPlayAudio',['../ns__audio__rpc_8h.html#ac6651e95109fc07de81ed3e20ef180d4a9e13e6aa30890f869c4790b919f5bd2f',1,'ns_audio_rpc.h']]],
+  ['nsaudiorpcstatus_5ffailure_20',['nsAudioRPCStatus_failure',['../ns__audio__rpc_8h.html#ae42076e2adec39e7e958476df427994ba3e43128932b3434d7cb717f08a6c9d68',1,'ns_audio_rpc.h']]],
+  ['nsaudiorpcstatus_5fsuccess_21',['nsAudioRPCStatus_success',['../ns__audio__rpc_8h.html#ae42076e2adec39e7e958476df427994ba9df5aecfe9de3cb9404a861c6e9e645d',1,'ns_audio_rpc.h']]]
+];

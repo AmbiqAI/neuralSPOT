@@ -97,15 +97,15 @@ $(document).ready(function(){initNavTree('_n_s-_audio.html',''); initResizable()
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md37">NeuralSPOT Audio Library Subsystem</a><ul><li class="level2"><a href="#autotoc_md38">Using NS Audio to Sample Audio</a></li>
-<li class="level2"><a href="#autotoc_md39">Audio Inter-process Communication (IPC)</a><ul><li class="level3"><a href="#autotoc_md40">Audio IPC Modes</a></li>
+<ul><li class="level1"><a href="#autotoc_md53">NeuralSPOT Audio Library Subsystem</a><ul><li class="level2"><a href="#autotoc_md54">Using NS Audio to Sample Audio</a></li>
+<li class="level2"><a href="#autotoc_md55">Audio Inter-process Communication (IPC)</a><ul><li class="level3"><a href="#autotoc_md56">Audio IPC Modes</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="autotoc_md37"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md53"></a>
 NeuralSPOT Audio Library Subsystem</h1>
 <p >This library helps implement audio-based AI features on Ambiq's platform by simplifying common operations such as:</p><ol type="1">
 <li>Reading audio data from peripherals such as the low-power analog microphone input (AUDADC)</li>
@@ -117,7 +117,7 @@ NeuralSPOT Audio Library Subsystem</h1>
 <li><code>ns_audadc</code>: facilities for initializing and operating the AUDADC. Developers shouldn't have to access this system directly</li>
 <li><code>ns_mfcc</code>: implements an optimized, C-based MFCC calculator.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md38"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
 Using NS Audio to Sample Audio</h2>
 <p >Briefly, sampling audio is a matter of initializing this library, hooking into its IPC, and collecting data when it is available.</p>
 <p >There are several IPC methods available (see the IPC section below for more details). The following example starts sampling audio when the user presses button 0 on the EVB, and uses the NS_AUDIO_API_CALLBACK IPC method:</p>
@@ -184,13 +184,13 @@ Using NS Audio to Sample Audio</h2>
 <div class="ttc" id="astructam__ai__acfg_html_a3eef71b06c97959fde3aabdd4871dcde"><div class="ttname"><a href="structam__ai__acfg.html#a3eef71b06c97959fde3aabdd4871dcde">am_ai_acfg::audioSystemHandle</a></div><div class="ttdeci">void * audioSystemHandle</div><div class="ttdoc">Internals.</div><div class="ttdef"><b>Definition:</b> ns_audio.h:103</div></div>
 <div class="ttc" id="astructam__ai__acfg_html_a6cd8a1e15974a310b7e61116c3efee5c"><div class="ttname"><a href="structam__ai__acfg.html#a6cd8a1e15974a310b7e61116c3efee5c">am_ai_acfg::numSamples</a></div><div class="ttdeci">uint16_t numSamples</div><div class="ttdoc">Samples collected per callback.</div><div class="ttdef"><b>Definition:</b> ns_audio.h:99</div></div>
 <div class="ttc" id="astructam__ai__acfg_html_ab6bbd9fc037873dca9e838408f1399e7"><div class="ttname"><a href="structam__ai__acfg.html#ab6bbd9fc037873dca9e838408f1399e7">am_ai_acfg::eAudioApiMode</a></div><div class="ttdeci">ns_audio_api_mode_e eAudioApiMode</div><div class="ttdoc">API Config.</div><div class="ttdef"><b>Definition:</b> ns_audio.h:89</div></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md39"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md55"></a>
 Audio Inter-process Communication (IPC)</h2>
 <p >Capturing audio is an asynchronous task, partially handled by hardware peripherals. AI features which sample audio need a way to run in parallel with the capturing process - NeuralSPOT Audio leverages NeuralSPOT IPC to enable a few ways of doing this:</p><ol type="1">
 <li><b>Callback-based</b>: Invokes an IRQ-context callback defined by the application developer. The developer is responsible for buffer management.</li>
 <li><b>Ringbuffer-based</b>: adds a ping-ponging ringbuffer allowing the application to run while the next audio buffer is acquired. It builds on the callback approach, preserving flexibility.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md40"></a>
+<h3><a class="anchor" id="autotoc_md56"></a>
 Audio IPC Modes</h3>
 <p >Audio IPC behavior is controlled by the ns_audio_config_t configuration parameter passed into <code>ns_audio_init</code>. The above example illustrates the callback approach, while the following example shows the <code>ringbuffer</code> approach.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="ns__audio_8h.html">ns_audio.h</a>&quot;</span></div>

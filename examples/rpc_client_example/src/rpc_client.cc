@@ -1,5 +1,5 @@
 /**
- * @file har.cc
+ * @file rpc_client.cc
  * @author Carlos Morales
  * @brief Generic Data Operations RPC Example
  * @version 0.1
@@ -24,10 +24,6 @@
 #include "ns_peripherals_button.h"
 #include "ns_usb.h"
 #include "ns_peripherals_power.h"
-
-#define NUMSAMPLES 32
-#define AXES 3
-float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp 
 
 // -- Audio Stuff - needed for demo, not RPC ----------------------
 #define NUM_CHANNELS 1

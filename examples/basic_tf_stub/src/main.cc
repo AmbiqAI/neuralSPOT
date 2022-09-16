@@ -68,8 +68,6 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_audio.h"
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
-#include "ns_rpc_audio.h"
-#include "ns_usb.h"
 #include "ns_malloc.h"
 #define RINGBUFFER_MODE
 #ifdef RINGBUFFER_MODE
@@ -77,6 +75,12 @@ The basic_tf_stub example is based on a speech to intent model.
 #endif
 #ifdef AUDIODEBUG
     #include "SEGGER_RTT.h"
+#endif
+
+#define RPC_ENABLED
+#ifdef RPC_ENABLED
+    #include "ns_rpc_generic_data.h"
+    #include "ns_usb.h"
 #endif
 
 /// TFLM model
@@ -330,17 +334,52 @@ main(void) {
         #endif
     #endif
 
+    ns_peripheral_button_init(&button_config);
+
+
+    #ifdef RPC_ENABLED
+        // Vars and init the RPC system - note this also inits the USB interface
+        binary_t binaryBlock = {
+            .data = (uint8_t *) g_in16AudioDataBuffer, // point this to audio buffer
+            .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)
+        };
+        char msg_store[30] = "Audio16bPCM_to_WAV";
+
+        // Block sent to PC
+        dataBlock outBlock = {
+            .length = SAMPLES_IN_FRAME * sizeof(int16_t),
+            .dType = uint8_e,
+            .description = msg_store,
+            .cmd = write_cmd,
+            .buffer = binaryBlock
+        };
+
+        ns_rpc_config_t rpcConfig = {
+            .mode = NS_RPC_GENERICDATA_CLIENT,
+            .sendBlockToEVB_cb = NULL,
+            .fetchBlockFromEVB_cb = NULL,
+            .computeOnEVB_cb = NULL
+        };
+        ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
+
+        ns_printf("Start the PC-side server, then press Button 0 to get started\n");
+        while (g_intButtonPressed == 0) {
+            tud_task(); // tinyusb device task for RPC
+            ns_delay_us(1000);
+        }
+    #endif
+
     // Initialize everything else
     model_init();
     ns_audio_init(&audio_config);
-    ns_peripheral_button_init(&button_config);
     ns_mfcc_init();
-    ns_rpc_audio_init();
 
     ns_printf("Press button to start listening...\n");
 
     while (1) {
-        tud_task(); // tinyusb device task
+        #ifdef RPC_ENABLED
+            tud_task(); // tinyusb device task
+        #endif
 
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             ns_delay_us(1000);
@@ -365,8 +404,10 @@ main(void) {
                     recording_win--;
                     g_audioReady = false;
 
-                    tud_task(); // tinyusb device task
-                    ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));
+                    #ifdef RPC_ENABLED
+                        tud_task();
+                        ns_rpc_data_sendBlockToPC(&outBlock);
+                    #endif
                     ns_printf(".");
                 }
             }

@@ -161,7 +161,7 @@ docs:
 
 .PHONY: nest
 nest: all $(NESTSOURCE)
-	@echo " Building Nest at $(NESTDIR) based on $< ..."
+	@echo " Building Nest without src/ at $(NESTDIR) based on $< ..."
 	@mkdir -p $(NESTDIR)
 	@mkdir -p $(NESTDIR)/src	
 	@mkdir -p $(NESTDIR)/src/preserved
@@ -181,7 +181,6 @@ nest: all $(NESTSOURCE)
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
 	@cp $(NESTDIR)/src/*.* $(NESTDIR)/src/preserved/ 2>/dev/null || true
-	@cp $(NESTSOURCEDIR)/*.* $(NESTDIR)/src
 	@cp make/helpers.mk $(NESTDIR)/make
 	@cp make/neuralspot_config.mk $(NESTDIR)/make
 	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make
@@ -193,6 +192,11 @@ nest: all $(NESTSOURCE)
 	@echo "DEFINES += $(pp_defines)" >> $(NESTDIR)/autogen.mk
 	@echo "INCLUDES += $(includes_api)" >> $(NESTDIR)/autogen.mk
 	@echo "libraries += $(nest_libs)" >> $(NESTDIR)/autogen.mk
+
+.PHONY: nestall
+nestall: nest
+	@echo " Building Nestall including src/ at $(NESTDIR) based on $< ..."
+	@cp $(NESTSOURCEDIR)/*.* $(NESTDIR)/src
 
 $(JLINK_CF):
 	@echo " Creating JLink command sequence input file... $(deploy_target)"

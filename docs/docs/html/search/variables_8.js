@@ -1,10 +1,16 @@
 var searchData=
 [
   ['indx_0',['indx',['../structns__ipc__ringbuff__setup__t.html#a8f3f70e7dca5484816fa0a7a34f75aa2',1,'ns_ipc_ringbuff_setup_t']]],
-  ['input_1',['input',['../main_8cc.html#a9cebfb3d6ddd692fbdd268cf4b9ad024',1,'input():&#160;main.cc'],['../s2i__example_8cc.html#a9cebfb3d6ddd692fbdd268cf4b9ad024',1,'input():&#160;s2i_example.cc']]],
-  ['intents_2',['intents',['../main_8cc.html#a430812fb75b192743e34d27f6d408715',1,'intents():&#160;main.cc'],['../s2i__example_8cc.html#a430812fb75b192743e34d27f6d408715',1,'intents():&#160;s2i_example.cc']]],
-  ['interpreter_3',['interpreter',['../main_8cc.html#ad2e7e53e14d95ee12ddc482713d86977',1,'interpreter():&#160;main.cc'],['../s2i__example_8cc.html#ad2e7e53e14d95ee12ddc482713d86977',1,'interpreter():&#160;s2i_example.cc']]],
-  ['iom_4',['iom',['../structns__i2c_driver_config__t.html#adb856073a4ec3934e9af871dcc7fc3ab',1,'ns_i2cDriverConfig_t']]],
-  ['iom_5fhandle_5',['iom_handle',['../structns__i2c_driver_config__t.html#a7120156b3beec9ba41915ee73d9d32c0',1,'ns_i2cDriverConfig_t']]],
-  ['itf_6',['itf',['../structns__usb__transaction__t.html#a527dad62b17b4b1b6e81c2a21c26eb21',1,'ns_usb_transaction_t']]]
+  ['infer_5fcmd_1',['infer_cmd',['../classns-rpc-genericdata_1_1_generic_data_operations___evb_to_pc_1_1common_1_1command.html#af6df6b4d4af89a5ba7ef6d236ab4a5d5',1,'ns-rpc-genericdata.GenericDataOperations_EvbToPc.common.command.infer_cmd()'],['../classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1command.html#af6df6b4d4af89a5ba7ef6d236ab4a5d5',1,'ns-rpc-genericdata.GenericDataOperations_PcToEvb.common.command.infer_cmd()']]],
+  ['input_2',['input',['../main_8cc.html#a9cebfb3d6ddd692fbdd268cf4b9ad024',1,'input():&#160;main.cc'],['../s2i__example_8cc.html#a9cebfb3d6ddd692fbdd268cf4b9ad024',1,'input():&#160;s2i_example.cc']]],
+  ['input_5ffn_3',['input_fn',['../namespacens-rpc-genericdata_1_1generic__data.html#a169c6201029c6edeca81e82728a9e32b',1,'ns-rpc-genericdata::generic_data']]],
+  ['install_5frequires_4',['install_requires',['../namespacesetup.html#a047d4e9f7b152e767f7bd459218fe1fd',1,'setup']]],
+  ['int16_5fe_5',['int16_e',['../classns-rpc-genericdata_1_1_generic_data_operations___evb_to_pc_1_1common_1_1data_type.html#a1087120c91b1cd8bd26de7b0b87b96f6',1,'ns-rpc-genericdata.GenericDataOperations_EvbToPc.common.dataType.int16_e()'],['../classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1data_type.html#a1087120c91b1cd8bd26de7b0b87b96f6',1,'ns-rpc-genericdata.GenericDataOperations_PcToEvb.common.dataType.int16_e()']]],
+  ['int32_5fe_6',['int32_e',['../classns-rpc-genericdata_1_1_generic_data_operations___evb_to_pc_1_1common_1_1data_type.html#aa75eb86da941f5b157cd9d78dabec54c',1,'ns-rpc-genericdata.GenericDataOperations_EvbToPc.common.dataType.int32_e()'],['../classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1data_type.html#aa75eb86da941f5b157cd9d78dabec54c',1,'ns-rpc-genericdata.GenericDataOperations_PcToEvb.common.dataType.int32_e()']]],
+  ['int8_5fe_7',['int8_e',['../classns-rpc-genericdata_1_1_generic_data_operations___evb_to_pc_1_1common_1_1data_type.html#aad750cf09b504aedc1d8529797ee95f4',1,'ns-rpc-genericdata.GenericDataOperations_EvbToPc.common.dataType.int8_e()'],['../classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1data_type.html#aad750cf09b504aedc1d8529797ee95f4',1,'ns-rpc-genericdata.GenericDataOperations_PcToEvb.common.dataType.int8_e()']]],
+  ['intents_8',['intents',['../main_8cc.html#a430812fb75b192743e34d27f6d408715',1,'intents():&#160;main.cc'],['../s2i__example_8cc.html#a430812fb75b192743e34d27f6d408715',1,'intents():&#160;s2i_example.cc']]],
+  ['interpreter_9',['interpreter',['../main_8cc.html#ad2e7e53e14d95ee12ddc482713d86977',1,'interpreter():&#160;main.cc'],['../s2i__example_8cc.html#ad2e7e53e14d95ee12ddc482713d86977',1,'interpreter():&#160;s2i_example.cc']]],
+  ['iom_10',['iom',['../structns__i2c_driver_config__t.html#adb856073a4ec3934e9af871dcc7fc3ab',1,'ns_i2cDriverConfig_t']]],
+  ['iom_5fhandle_11',['iom_handle',['../structns__i2c_driver_config__t.html#a7120156b3beec9ba41915ee73d9d32c0',1,'ns_i2cDriverConfig_t']]],
+  ['itf_12',['itf',['../structns__usb__transaction__t.html#a527dad62b17b4b1b6e81c2a21c26eb21',1,'ns_usb_transaction_t']]]
 ];

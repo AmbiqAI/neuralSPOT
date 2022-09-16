@@ -98,16 +98,16 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p ><a class="anchor" id="md__Users_carlosmorales_AmbiqDev_neuralSPOT_README"></a>NeuralSPOT is Ambiq's AI Enablement Library. It implements an AI-centric API for common tasks such as collecting audio from Ambiq's peripherals, computing features from that audio, controlling power modes, reading accelerometer and gyroscopic data from i2c sensors, and a variety of helper functions and tools which make developing AI features on Ambiq hardware easier.</p>
 <p ><img src="image-20220811095223908.png" alt="" class="inline" title="image-20220811095223908"/></p>
-<h1><a class="anchor" id="autotoc_md42"></a>
+<h1><a class="anchor" id="autotoc_md60"></a>
 Building and Deploying NeuralSPOT</h1>
 <p >NeuralSPOT is designed to be used in two ways:</p><ol type="1">
 <li><b>As the 'base of operations' for your AI development</b>. Intended for stand-alone EVB development, you can add new binary (axf) targets to the /examples directory</li>
 <li><b>As a seed for adding NeuralSPOT to a larger project</b>. In this mode of operations, you would use NeuralSPOT to create a stub project (a <a href="#The Nest">nest</a>) with everything needed to start running AI on EVBs</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md61"></a>
 Build Options</h2>
 <p >All <code>make</code> invocations for NS must be done from the base directory ("nest" makes are different, and defined below). The primary targets are:</p>
-<p ><code>make</code> - builds everything, including libraries and every target in examples directory <code>make libraries</code> - builds the neuralspot and extern libraries <code>make clean</code> - deletes every build directory and artifact <code>make nest</code> - creates a minimal '<a href="#The Nest">nest</a>' with a basic <a class="el" href="main_8cc.html" title="Speech-to-Intent using NeuralSPOT.">main.cc</a> stub file</p>
+<p ><code>make</code> - builds everything, including libraries and every target in examples directory <code>make libraries</code> - builds the neuralspot and extern libraries <code>make clean</code> - deletes every build directory and artifact <code>make nestall</code> - creates a minimal '<a href="#The Nest">nest</a>' with a basic <a class="el" href="main_8cc.html" title="Speech-to-Intent using NeuralSPOT.">main.cc</a> stub file <code>make nest</code> - creates a minimal '<a href="#The Nest">nest</a>' <em>without</em> a basic <a class="el" href="main_8cc.html" title="Speech-to-Intent using NeuralSPOT.">main.cc</a> stub file</p>
 <p >Besides targets, NeuralSPOT has a standard set of compile-time switches to help you configure the build exactly the way you need. These are set via the normal make convention, e.g. <code>make BOARD=apollo4b</code>.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -131,8 +131,10 @@ Build Options</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">AUDIO_DEBUG   </td><td class="markdownTableBodyNone">Setting to '1' turns on RTT audio dump   </td><td class="markdownTableBodyNone">0   </td></tr>
 </table>
-<p >Note that defaults for these values are set in <code>./make/neuralspot_config.mk</code>. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in <code>./make/local_overrides.mk</code> (note that this file is ignored by git to prevent inadvertent overrides making it into the repo).</p>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<blockquote class="doxtable">
+<p ><b>Note</b> Defaults for these values are set in <code>./make/neuralspot_config.mk</code>. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in <code>./make/local_overrides.mk</code> (note that this file is ignored by git to prevent inadvertent overrides making it into the repo). To make changes to this file without tracking them in git, you can do the following: <code>$&gt; git update-index --assume-unchanged make/local_overrides.mk</code> </p>
+</blockquote>
+<h1><a class="anchor" id="autotoc_md62"></a>
 NeuralSPOT Repo Structure</h1>
 <p >NeuralSPOT consists of the neuralspot library, required external components, and examples.</p>
 <div class="fragment"><div class="line"> {/neuralspot}</div>
@@ -151,11 +153,11 @@ NeuralSPOT Repo Structure</h1>
 <div class="line">        &lt;version&gt;/</div>
 <div class="line">/examples - contains several examples, each of which can be compiled to a deployable axf</div>
 <div class="line">/make     - contains makefile helpers, including neuralspot-config.mk</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md45"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md63"></a>
 NeuralSPOT Theory of Operations.</h1>
 <p >NeuralSPOT is a SDK for AI development on Ambiq products via an AI-friendly API. It offers a set of libraries for accessing hardware, pre-configured instances of external dependencies such as AmbiqSuite and Tensorflow Lite for Microcontrollers, and a handful of examples which compile into deployable binaries.</p>
 <p ><img src="image-20220811161922376.png" alt="" class="inline" title="image-20220811161922376"/></p>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="autotoc_md64"></a>
 NeuralSPOT Libraries</h2>
 <p >NeuralSPOT is continuously growing, and offers the following libraries today:</p>
 <ol type="1">
@@ -165,10 +167,10 @@ NeuralSPOT Libraries</h2>
 <li><code>ns-ipc</code>: Common mechanisms for presenting collected sensor data to AI applications</li>
 <li>(soon)<code>ns-experimental-drivers</code>: Drivers for 3rd party sensors that have not yet been incorporated into mainline AmbiqSuite.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md47"></a>
+<h2><a class="anchor" id="autotoc_md65"></a>
 The Nest</h2>
 <p >The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files, along with a basic application stub with a <a class="el" href="main_8cc.html#a840291bc02cba5474a4cb46a9b9566fe" title="Main function - infinite loop listening and inferring.">main()</a>.</p>
-<h3><a class="anchor" id="autotoc_md48"></a>
+<h3><a class="anchor" id="autotoc_md66"></a>
 Building Nest</h3>
 <p >Before building a nest, you must first build NeuralSPOT for your desired target. By default, the nest will be created in NeuralSPOT's root directory - set NESTDIR to change where it is built.</p>
 <div class="fragment"><div class="line">$&gt; cd neuralSpot</div>
@@ -176,7 +178,7 @@ Building Nest</h3>
 <div class="line">$&gt; make nest            # this creates the nest, use BINDIR=&lt;your directory&gt; to change where</div>
 <div class="line">$&gt; cd nest</div>
 <div class="line">$&gt; make                     # this builds the Nest stub. </div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md49"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md67"></a>
 Nest Directory Contents</h3>
 <div class="fragment"><div class="line">Makefile</div>
 <div class="line">autogen.mk # Automatically generated by &#39;make nest&#39;</div>
@@ -191,7 +193,7 @@ Nest Directory Contents</h3>
 <div class="line">    model.h</div>
 <div class="line">    preserved/</div>
 <div class="line">        &lt;previous contents of src - see &#39;upgrade&#39; section below&gt;</div>
-</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md50"></a>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md68"></a>
 Updgrading a Nest</h3>
 <p >When you create a nest, all source files (include_apis, example source code, libraries, etc.) are copied to NESTDIR. If you are working within a previously created nest, creating a new one with the same NESTDIR destination will overwrite these files. This is necessary for certain files (libraries, include_apis) that are required for NeuralSPOT's functionality, but not critical for the example code.</p>
 <p >To ease upgrading existing nests, the makefile will create a /src/preserved directory and copy the existing contents of /src to it.</p>

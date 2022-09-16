@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gyro_5ffs_5ft_0',['gyro_fs_t',['../group___neural_s_p_o_t-_m_p_u6050.html#ga52f650269baa30bed1cfba2a6792036d',1,'ns_mpu6050_i2c_driver.h']]]
+  ['datatype_0',['dataType',['../_generic_data_operations___evb_to_pc_8h.html#a617ddb88ebf58e2f0add63ae88a9f705',1,'dataType():&#160;GenericDataOperations_EvbToPc.h'],['../_generic_data_operations___pc_to_evb_8h.html#a617ddb88ebf58e2f0add63ae88a9f705',1,'dataType():&#160;GenericDataOperations_PcToEvb.h']]]
 ];

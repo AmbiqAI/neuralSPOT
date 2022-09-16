@@ -1,20 +1,8 @@
 var searchData=
 [
-  ['ns_5faudio_5fapi_5fcallback_0',['NS_AUDIO_API_CALLBACK',['../group___neural_s_p_o_t-_audio.html#ggac323b3153cc1c87ccdacca907cc10ba7af90a19e63376aaee138c8d50b8a88989',1,'ns_audio.h']]],
-  ['ns_5faudio_5fapi_5fringbuffer_1',['NS_AUDIO_API_RINGBUFFER',['../group___neural_s_p_o_t-_audio.html#ggac323b3153cc1c87ccdacca907cc10ba7a8eb59c4834d29717a738c5714cc8551e',1,'ns_audio.h']]],
-  ['ns_5faudio_5fapi_5ftask_2',['NS_AUDIO_API_TASK',['../group___neural_s_p_o_t-_audio.html#ggac323b3153cc1c87ccdacca907cc10ba7a3f118ec6ecb3950af04fa8ddea9297e2',1,'ns_audio.h']]],
-  ['ns_5faudio_5fsource_5faudadc_3',['NS_AUDIO_SOURCE_AUDADC',['../group___neural_s_p_o_t-_audio.html#ggac60456a745861cbe75be2504b3071f32a51878572d9b7fe3281b28a8f8856b658',1,'ns_audio.h']]],
-  ['ns_5fi2c_5fstatus_5ferror_4',['NS_I2C_STATUS_ERROR',['../group___neural_s_p_o_t-i2c.html#gga1db6e615145715f14f5f769628081a49a8d25b898ecf4c30887bdeeb9c793b3e4',1,'ns_i2c_register_driver.h']]],
-  ['ns_5fi2c_5fstatus_5fsuccess_5',['NS_I2C_STATUS_SUCCESS',['../group___neural_s_p_o_t-i2c.html#gga1db6e615145715f14f5f769628081a49a3d48caef0a84f4e688f802248204b873',1,'ns_i2c_register_driver.h']]],
-  ['ns_5fmaximum_5fperf_6',['NS_MAXIMUM_PERF',['../group___neural_s_p_o_t-_power.html#ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901',1,'ns_peripherals_power.h']]],
-  ['ns_5fmedium_5fperf_7',['NS_MEDIUM_PERF',['../group___neural_s_p_o_t-_power.html#ggabd0847bd4ffca2198c2099c2b9888348a41478b7baf8d5dba7b87214644dd9e96',1,'ns_peripherals_power.h']]],
-  ['ns_5fminimum_5fperf_8',['NS_MINIMUM_PERF',['../group___neural_s_p_o_t-_power.html#ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186',1,'ns_peripherals_power.h']]],
-  ['ns_5fusb_5fcdc_5fdevice_9',['NS_USB_CDC_DEVICE',['../ns__usb_8h.html#a4aca6e5a14e39094d9f64c7c5835acc8a290f77ae7c1a594db71a1b9f7f900c19',1,'ns_usb.h']]],
-  ['ns_5fusb_5fhid_5fdevice_10',['NS_USB_HID_DEVICE',['../ns__usb_8h.html#a4aca6e5a14e39094d9f64c7c5835acc8aac724d0ec83dd5a46cf39ca0fb506935',1,'ns_usb.h']]],
-  ['ns_5fusb_5fmsc_5fdevice_11',['NS_USB_MSC_DEVICE',['../ns__usb_8h.html#a4aca6e5a14e39094d9f64c7c5835acc8a35a79373fafde4c20951c7f89d810be6',1,'ns_usb.h']]],
-  ['nsaudioappendtoaudiofile_12',['nsAudioAppendToAudioFile',['../ns__audio__rpc_8h.html#ac6651e95109fc07de81ed3e20ef180d4a0fa08d55a43fe622ce0e3c5f89b387b4',1,'ns_audio_rpc.h']]],
-  ['nsaudiodisplayaudio_13',['nsAudioDisplayAudio',['../ns__audio__rpc_8h.html#ac6651e95109fc07de81ed3e20ef180d4a662316b0478c61d7de36cf6420058bf6',1,'ns_audio_rpc.h']]],
-  ['nsaudioplayaudio_14',['nsAudioPlayAudio',['../ns__audio__rpc_8h.html#ac6651e95109fc07de81ed3e20ef180d4a9e13e6aa30890f869c4790b919f5bd2f',1,'ns_audio_rpc.h']]],
-  ['nsaudiorpcstatus_5ffailure_15',['nsAudioRPCStatus_failure',['../ns__audio__rpc_8h.html#ae42076e2adec39e7e958476df427994ba3e43128932b3434d7cb717f08a6c9d68',1,'ns_audio_rpc.h']]],
-  ['nsaudiorpcstatus_5fsuccess_16',['nsAudioRPCStatus_success',['../ns__audio__rpc_8h.html#ae42076e2adec39e7e958476df427994ba9df5aecfe9de3cb9404a861c6e9e645d',1,'ns_audio_rpc.h']]]
+  ['generic_5fcmd_0',['generic_cmd',['../_generic_data_operations___evb_to_pc_8h.html#a9e0992eae3950adccaf4847fbff4231da10695a06e287c7380ca3e7b96a2b2f19',1,'generic_cmd():&#160;GenericDataOperations_EvbToPc.h'],['../_generic_data_operations___pc_to_evb_8h.html#a9e0992eae3950adccaf4847fbff4231da10695a06e287c7380ca3e7b96a2b2f19',1,'generic_cmd():&#160;GenericDataOperations_PcToEvb.h']]],
+  ['gyro_5ffs_5f1000dps_1',['GYRO_FS_1000DPS',['../group___neural_s_p_o_t-_m_p_u6050.html#gga52f650269baa30bed1cfba2a6792036da259e99cd576941911266076adaff31f8',1,'ns_mpu6050_i2c_driver.h']]],
+  ['gyro_5ffs_5f2000dps_2',['GYRO_FS_2000DPS',['../group___neural_s_p_o_t-_m_p_u6050.html#gga52f650269baa30bed1cfba2a6792036da13877729d71c8805aea6041e0b6ba5e8',1,'ns_mpu6050_i2c_driver.h']]],
+  ['gyro_5ffs_5f250dps_3',['GYRO_FS_250DPS',['../group___neural_s_p_o_t-_m_p_u6050.html#gga52f650269baa30bed1cfba2a6792036da13a506e5980394eef0c9efa8de2b3f65',1,'ns_mpu6050_i2c_driver.h']]],
+  ['gyro_5ffs_5f500dps_4',['GYRO_FS_500DPS',['../group___neural_s_p_o_t-_m_p_u6050.html#gga52f650269baa30bed1cfba2a6792036da620762917758cd41d56958e76191c28c',1,'ns_mpu6050_i2c_driver.h']]]
 ];

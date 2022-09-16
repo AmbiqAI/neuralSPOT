@@ -8,6 +8,9 @@ enum status {
     ns_rpc_data_blockTooLarge = 2
 }
 
+/// These are the possible data types for the contents of dataBlock.buffer
+/// They don't have any implicit functionality, serving merely as guides
+/// to the consumer of the block for how to unpack the buffer.
 enum dataType {
     uint8_e,
     uint16_e,
@@ -19,13 +22,15 @@ enum dataType {
     float64_e
 }
 
+/// These are the possible commands. Again, they don't have any implicit functionality, 
+/// serving merely as guides for what to do with the dataBlock
 enum command {
     generic_cmd,    //!< The sender doesn't have an opinion about what to do with data
     visualize_cmd,  //!< Block intended for visualization
     infer_cmd,      //!< Compute inference for block
     extract_cmd,    //!< Compute feature from block
     write_cmd,      //!< Block intended for writing to a file
-    read        //!< Fetch block from a file
+    read_cmd        //!< Fetch block from a file
 }
 
 // Datablocks are nominally of one single dataType, but this is more of a hint
@@ -37,6 +42,15 @@ struct dataBlock {
     command cmd;        //!< Suggestion of what to do with data
     binary buffer;      //!< The data
 }
+
+// Using groups to distinguish between outgoing and incoming services
+// generates two sets of C and Python code, allowing us to only link in the
+// code corresponding to the direction we need. Note that it will generate both the
+// server and client code for each group - you'll have to choose which to use for your 
+// application.
+
+// In the following definitions we use 'in' and 'out' to distinguish how the code
+// is intended to be modified. 'in' parameters generate 'const' parameters in C.
 
 @group("EvbToPc")
 interface evb_to_pc {

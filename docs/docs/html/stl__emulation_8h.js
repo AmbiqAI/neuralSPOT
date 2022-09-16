@@ -1,0 +1,26 @@
+var stl__emulation_8h =
+[
+    [ "numeric_limits< T >", "classflatbuffers_1_1numeric__limits.html", null ],
+    [ "is_scalar< T >", "structflatbuffers_1_1is__scalar.html", null ],
+    [ "is_same< T, U >", "structflatbuffers_1_1is__same.html", null ],
+    [ "is_floating_point< T >", "structflatbuffers_1_1is__floating__point.html", null ],
+    [ "is_unsigned< T >", "structflatbuffers_1_1is__unsigned.html", null ],
+    [ "is_enum< T >", "structflatbuffers_1_1is__enum.html", null ],
+    [ "make_unsigned< T >", "structflatbuffers_1_1make__unsigned.html", null ],
+    [ "conditional< B, T, F >", "structflatbuffers_1_1conditional.html", null ],
+    [ "integral_constant< T, v >", "structflatbuffers_1_1integral__constant.html", null ],
+    [ "bool_constant< B >", "structflatbuffers_1_1bool__constant.html", null ],
+    [ "unique_ptr< T >", "classflatbuffers_1_1unique__ptr.html", "classflatbuffers_1_1unique__ptr" ],
+    [ "nullopt_t", "structflatbuffers_1_1nullopt__t.html", "structflatbuffers_1_1nullopt__t" ],
+    [ "nullopt_holder< class >", "structflatbuffers_1_1internal_1_1nullopt__holder.html", null ],
+    [ "FLATBUFFERS_FINAL_CLASS< T >", "classflatbuffers_1_1_f_l_a_t_b_u_f_f_e_r_s___f_i_n_a_l___c_l_a_s_s.html", "classflatbuffers_1_1_f_l_a_t_b_u_f_f_e_r_s___f_i_n_a_l___c_l_a_s_s" ],
+    [ "FLATBUFFERS_SPAN_MINIMAL", "stl__emulation_8h.html#adea6e47f3d70e26a8e8bd54be3b5a53e", null ],
+    [ "false_type", "stl__emulation_8h.html#ab61a3c5613617716022def8f91021337", null ],
+    [ "true_type", "stl__emulation_8h.html#ad663f0bbe85b7d046ffa72eda758583b", null ],
+    [ "operator==", "stl__emulation_8h.html#ad1b658f23447e727200e08ac137284a7", null ],
+    [ "operator==", "stl__emulation_8h.html#abe75ce3e63302304f52dbe897afe2f7e", null ],
+    [ "operator==", "stl__emulation_8h.html#a1518908b6c54c8bd3258ba6373544401", null ],
+    [ "operator==", "stl__emulation_8h.html#aee0245f352d29dc54e9541f658533472", null ],
+    [ "operator==", "stl__emulation_8h.html#a3f75573e1f49c4ec2c56089d06bb7578", null ],
+    [ "dynamic_extent", "stl__emulation_8h.html#a781eafb8547eae7b65231f1d77fa433e", null ]
+];

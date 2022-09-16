@@ -96,41 +96,21 @@ $(document).ready(function(){initNavTree('md___users_carlosmorales__ambiq_dev_ne
   <div class="headertitle"><div class="title">NeuralSPOT Developer's Guide </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md1">FAQs</a><ul><ul><li class="level3"><a href="#autotoc_md2">Where is main()?</a></li>
-<li class="level3"><a href="#autotoc_md3">Where are the linker script and reset handlers?</a></li>
-<li class="level3"><a href="#autotoc_md4">How do the makefiles work?</a></li>
-</ul>
-</ul>
-</li>
-<li class="level1"><a href="#autotoc_md5">Adding Components</a><ul><li class="level2"><a href="#autotoc_md6">Adding NeuralSPOT Library Components</a><ul><li class="level3"><a href="#autotoc_md7">Library Component Structure</a></li>
-<li class="level3"><a href="#autotoc_md8">Library Component Module definition</a></li>
-</ul>
-</li>
-<li class="level2"><a href="#autotoc_md9">Adding NeuralSPOT Examples</a><ul><li class="level3"><a href="#autotoc_md10">Example Component Structure</a></li>
-<li class="level3"><a href="#autotoc_md11">Example Component Module definition</a></li>
-</ul>
-</li>
-<li class="level2"><a href="#autotoc_md12">Adding External Component</a></li>
-<li class="level2"><a href="#autotoc_md13">Adding RPC Interfaces</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
+<div class="textblock"><p >This document covers various guidelines for creating and modifying NeuralSPOT's various types of components. Its intended audience are NeuralSPOT developers and contributors.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
 FAQs</h1>
-<h3><a class="anchor" id="autotoc_md2"></a>
-Where is main()?</h3>
+<h4><a class="anchor" id="autotoc_md2"></a>
+Where is main()?</h4>
 <p >NeuralSPOT [examples]() each contain a <code><a class="el" href="main_8cc.html#a840291bc02cba5474a4cb46a9b9566fe" title="Main function - infinite loop listening and inferring.">main()</a></code>, and each example produces a different binary.</p>
-<h3><a class="anchor" id="autotoc_md3"></a>
-Where are the linker script and reset handlers?</h3>
+<h4><a class="anchor" id="autotoc_md3"></a>
+Where are the linker script and reset handlers?</h4>
 <p >NeuralSPOT uses the AmbiqSuite <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/linker_script.ld">linker script</a> and <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/startup_gcc.c">startup_gcc</a> (which defines reset handlers, vector tables, etc.).</p>
-<h3><a class="anchor" id="autotoc_md4"></a>
-How do the makefiles work?</h3>
+<h4><a class="anchor" id="autotoc_md4"></a>
+How do the makefiles work?</h4>
 <p >This is documented in the <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile">main makefile</a>.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
-Adding Components</h1>
-<p >This guide describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:</p>
+Adding Components to NeuralSPOT</h1>
+<p >This section describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:</p>
 <ol type="1">
 <li>NeuralSPOT Libraries</li>
 <li>NeuralSPOT Examples</li>
@@ -182,7 +162,7 @@ Example Component Structure</h3>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md11"></a>
 Example Component Module definition</h3>
 <p >Each component includes a local <code>module.mk</code>. These are fairly similar in structure, and tend to follow this pattern:</p>
-<div class="fragment"><div class="line">local_app_name := &lt;exampleArtifactName&gt;   # This defines the name of the artifacts being produced</div>
+<div class="fragment"><div class="line">local_app_name := &lt;exampleArtifactName&gt;   # Must match name of src file containing main, e.g. &quot;rpc&quot; if main is in &quot;rpc.cc&quot;</div>
 <div class="line">local_src := $(wildcard $(subdirectory)/src/*.c)</div>
 <div class="line">local_src += $(wildcard $(subdirectory)/src/*.cc)</div>
 <div class="line">local_src += $(wildcard $(subdirectory)/src/*.cpp)</div>
@@ -200,6 +180,8 @@ Adding External Component</h2>
 <p >External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, and Embedded RPC.</p>
 <p >The structure of an external component included in NeuralSPOT depends on the component - for example, <code>extern/AmbiqSuite</code> doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.</p>
 <p >NeuralSPOT will support multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in <code>make/neuralspot_config.mk</code>.</p>
+<h3><a class="anchor" id="autotoc_md13"></a>
+External Component Structure</h3>
 <p >Generally, the structure of an external component within NeuralSPOT is: </p><div class="fragment"><div class="line">.../extern/</div>
 <div class="line">    &lt;componentName&gt;/</div>
 <div class="line">        &lt;version&gt;/</div>
@@ -212,6 +194,8 @@ Adding External Component</h2>
 <li>Adding any pre-built static libraries to <code>lib_prebuilt</code></li>
 <li>If the component generates object files, they need to be linked into a static library via the <code>make-library</code> makefile function.</li>
 </ol>
+<h3><a class="anchor" id="autotoc_md14"></a>
+External Component Module Definition</h3>
 <p >Here is a simple example which adds tensorflow to NeuralSPOT: </p><div class="fragment"><div class="line">includes_api += $(subdirectory)/tensorflow</div>
 <div class="line">includes_api += $(subdirectory)/third_party</div>
 <div class="line">includes_api += $(subdirectory)/third_party/flatbuffers/include</div>
@@ -255,16 +239,66 @@ Adding External Component</h2>
 <div class="line">STARTUP_FILE := ./startup_$(COMPILERNAME).c</div>
 <div class="line"> </div>
 <div class="line">$(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md13"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md15"></a>
 Adding RPC Interfaces</h2>
-<p >RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:</p><ol type="1">
+<blockquote class="doxtable">
+<p ><b>LIMITATIONS</b> ns-rpc only works as client or server, exclusively. </p>
+</blockquote>
+<p>RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:</p>
+<ol type="1">
 <li>Defining the interface using an IDL (interface definition language)</li>
-<li>Processing that definition to generate server and client code. The client 'calls' functions on the server.</li>
+<li>Processing that definition to generate server and client code.</li>
 <li>Copying the generated client code to neuralSPOT, generally as a new neuralspot library</li>
 <li>Implementing the server code that will respond to the client.</li>
 </ol>
-<p >NeuralSPOT RPC is based on <a href="https://github.com/AmbiqAI/erpc">a modified fork</a> of <a href="https://github.com/EmbeddedRPC/erpc">EmbeddedRPC (eRPC)</a> which supports RPC-over-TinyUSB. How eRPC works, including the <a href="https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference">specifics of IDL definition</a> and how servers are implemented are outside the scope of this document. The relevant parts of eRPC's client infrastructure reside in <code>extern/erpc</code>, and an example of a generic audio interface library can be found in <code>neuralspot/ns-rpc</code>, including a python server for receiving data from <code>example/basic_tf_stub</code>.</p>
-<p >Instructions for how to use it in NeuralSPOT can be found <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/har/har.md">here</a> and <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/basic_tf_stub.md">here</a>. </p>
+<p >NeuralSPOT RPC is based on <a href="https://github.com/AmbiqAI/erpc">a modified fork</a> of <a href="https://github.com/EmbeddedRPC/erpc">EmbeddedRPC (eRPC)</a> which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the <a href="https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference">specifics of IDL definition</a>, is outside the scope of this document.</p>
+<h3><a class="anchor" id="autotoc_md16"></a>
+RPC Structure</h3>
+<p >RPC in NeuralSPOT is structured as follows:</p>
+<ol type="1">
+<li>The relevant parts of eRPC's infrastructure reside in <code>extern/erpc</code></li>
+<li>Interface library implementations reside in <code>neuralspot/ns-rpc</code></li>
+<li>Examples of generic RPC utilization reside in <code>examples/rpc-client</code>, and<code>examples/rpc-server</code>.</li>
+<li>Examples of practical utilization of RPC to capture data can be found in <code>examples/har</code> (for i2c) and <code>examples/basic_tf_stub</code> (for audio)</li>
+</ol>
+<h4><a class="anchor" id="autotoc_md17"></a>
+NS-RPC Structure</h4>
+<div class="fragment"><div class="line">ns-rpc/</div>
+<div class="line">    interfaces/ # contains IDL definition files</div>
+<div class="line">    includes-api/ # API for each interface</div>
+<div class="line">    python/ # PC-side code implementing the interface and example client/servers using it</div>
+<div class="line">    src/ # Code implementing the interface and wrapping it for neuralspot</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md18"></a>
+Creating a New Interface</h3>
+<p >As briefly described above, creating a new interface involves multiple steps, some of which generate CPP and Python code that need to be wrapped usefully for integration with NeuralSPOT.</p>
+<h4><a class="anchor" id="autotoc_md19"></a>
+Step 1 - Defining the Interface</h4>
+<p >eRPC definitions start from an ERPC file which is written in an IDL (defined <a href="https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference">here</a>). eRPC doesn't have a lot of good examples in the wild, so we recommend you start from an existing definition such as <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/interfaces/GenericDataOperations.erpc"><code>GenericDataOperations.erpc</code></a>.</p>
+<h4><a class="anchor" id="autotoc_md20"></a>
+Step 2 - Generating the code</h4>
+<p >eRPC can generate both C and Python client and server code (of course, the Python code is only for use on the PC). You only have to generate Python if you plan on implementing Python-based PC applications. Currently, NeuralSPOT only includes Python PC examples.</p>
+<div class="fragment"><div class="line">$&gt; cd neuralspot/ns-rpc</div>
+<div class="line">$&gt; mkdir python/foo</div>
+<div class="line">$&gt; erpcgen -g py -o python/foo interfaces/foo.erpc # Generate Python client/server code</div>
+<div class="line">$&gt; erpcgen -o src interfaces/foo.erpc # Generate C client/server code</div>
+</div><!-- fragment --><blockquote class="doxtable">
+<p ><b>NOTE</b> The Client C code contains prototypes for the remote procedures. This will cause linking errors if you are not implementing those procedures. If you don't plan on implementing EVB-side client procedures, delete the file or give it a non-source extension to avoid compiling it. </p>
+</blockquote>
+<p>At this point you'll have everything you need to implement the interface.</p>
+<h4><a class="anchor" id="autotoc_md21"></a>
+Step 3 - Wrap the Interface</h4>
+<p >When the EVB is acting as a client (i.e. it is calling procedures that reside on the PC), all you really need to do is add an <code>init()</code> and a header file that includes everything needed for the application to find the remote procedures. The <code>init()</code> should initialize the USB interface and the erpc client.</p>
+<p >When the EVB is acting as a server, the <code>ns-rpc</code> wrapper should also include implementations for the remotely called procedures. One way to implement this is to have those procedures invoke callbacks, which can be defined via the <code>init()</code>.</p>
+<p >See the GenericDataOperations <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/src/ns_rpc_generic_data.c">wrapper</a> for an example of how to wrap both client and server interfaces.</p>
+<h4><a class="anchor" id="autotoc_md22"></a>
+Step 4 - Write a PC-side RPC application</h4>
+<p >Your new interface will need a PC-side application (server or client, depending on your needs). NeuralSPOT includes <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py">an example PC side application</a> that can be configured as either a server or client. The code is fairly self-explanatory.</p>
+<blockquote class="doxtable">
+<p ><b>Note</b> that the eRPC Python implementation is not well documented or tested. NeuralSPOT's GenericDataOperation RPC interface has been tested to work well after fixing a few bugs in our eRPC fork, but other types of interfaces have not be stressed. </p>
+</blockquote>
+<h3><a class="anchor" id="autotoc_md23"></a>
+Modifying an Existing Interface</h3>
+<p >Modifying an interface involves changing the existing interface's eRPC file, generating new interface files, and modifying the wrappers to accomodate those changes. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

@@ -1,0 +1,25 @@
+var am__hal__sdhc_8h =
+[
+    [ "SDHCn", "group___s_d_h_c.html#gaee370282aad2bcb5347a94749f09b293", null ],
+    [ "am_hal_sdhc_card_busy", "group___s_d_h_c.html#ga33c99c2da415152c1b499cbe64768818", null ],
+    [ "am_hal_sdhc_deinitialize", "group___s_d_h_c.html#ga6317031d8cdd21a3d957eac433a64c30", null ],
+    [ "am_hal_sdhc_disable", "group___s_d_h_c.html#gaab15c4631e8d243cacdaac45036cba49", null ],
+    [ "am_hal_sdhc_enable", "group___s_d_h_c.html#ga3fb41df9e2afc5f57421d5440d2d3da0", null ],
+    [ "am_hal_sdhc_execute_cmd", "group___s_d_h_c.html#ga83476d50e383d0b1f92ece1911b17ce7", null ],
+    [ "am_hal_sdhc_get_cd", "group___s_d_h_c.html#ga14ae579333491c4154fe938466f9c3a5", null ],
+    [ "am_hal_sdhc_initialize", "group___s_d_h_c.html#gac5bfbaefe7fd6ade1f3b2f3ed7629197", null ],
+    [ "am_hal_sdhc_interrupt_service", "group___s_d_h_c.html#ga07636c8f09dc742cbd41a5a9103e8ef7", null ],
+    [ "am_hal_sdhc_intr_signal_disable", "group___s_d_h_c.html#ga3585a6817286c1ee162d55939bac3aec", null ],
+    [ "am_hal_sdhc_intr_signal_enable", "group___s_d_h_c.html#ga27ca2c7d3aec0662829a9c71f531da91", null ],
+    [ "am_hal_sdhc_intr_status_clear", "group___s_d_h_c.html#ga6232ffdafcb96c61ad74346a6260692b", null ],
+    [ "am_hal_sdhc_intr_status_disable", "group___s_d_h_c.html#ga71ddbc1ffeeefeb402c96f2c874b4e67", null ],
+    [ "am_hal_sdhc_intr_status_enable", "group___s_d_h_c.html#ga16c31b38029de9bde4a37272e4f1dad0", null ],
+    [ "am_hal_sdhc_intr_status_get", "group___s_d_h_c.html#ga5acc65188408f86b5a822f5ddc3e495d", null ],
+    [ "am_hal_sdhc_power_control", "group___s_d_h_c.html#gaf7e26344f124775163d0d283ba07bd72", null ],
+    [ "am_hal_sdhc_set_bus_clock", "group___s_d_h_c.html#ga89a6840e13db8a3f343262c65d13b62e", null ],
+    [ "am_hal_sdhc_set_bus_voltage", "group___s_d_h_c.html#ga049eee3cac6d99014400d40c2e998ed4", null ],
+    [ "am_hal_sdhc_set_bus_width", "group___s_d_h_c.html#ga01ccb78a5387ca1d3f5617c204a12450", null ],
+    [ "am_hal_sdhc_set_txrx_delay", "group___s_d_h_c.html#gacae815dd973c9adfefb3077675d3451a", null ],
+    [ "am_hal_sdhc_set_uhs_mode", "group___s_d_h_c.html#gac2603fcf2b726b10672ee672d497a35e", null ],
+    [ "am_hal_sdhc_setup_host", "group___s_d_h_c.html#ga7cb1e024988445a9564e1d114ea4cf84", null ]
+];

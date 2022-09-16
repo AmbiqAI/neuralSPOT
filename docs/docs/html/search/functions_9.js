@@ -1,12 +1,7 @@
 var searchData=
 [
-  ['setaccelfullscale_0',['setAccelFullScale',['../ns__mpu6050__i2c__driver_8c.html#a0e0d897a41ffa42335a12211555fa3ac',1,'ns_mpu6050_i2c_driver.c']]],
-  ['setacceloffsetx_1',['setAccelOffsetX',['../group___neural_s_p_o_t-_m_p_u6050.html#ga1aa1da0cbf469ad4aa03e042d8e325ce',1,'setAccelOffsetX(int offset):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga1aa1da0cbf469ad4aa03e042d8e325ce',1,'setAccelOffsetX(int offset):&#160;ns_mpu6050_i2c_driver.c']]],
-  ['setacceloffsety_2',['setAccelOffsetY',['../group___neural_s_p_o_t-_m_p_u6050.html#ga7ae6ff8b13b94a54a06baf61cf932e84',1,'setAccelOffsetY(int offset):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga7ae6ff8b13b94a54a06baf61cf932e84',1,'setAccelOffsetY(int offset):&#160;ns_mpu6050_i2c_driver.c']]],
-  ['setacceloffsetz_3',['setAccelOffsetZ',['../group___neural_s_p_o_t-_m_p_u6050.html#gad92c34f37d26fd963577bc9f8b35769b',1,'setAccelOffsetZ(int offset):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#gad92c34f37d26fd963577bc9f8b35769b',1,'setAccelOffsetZ(int offset):&#160;ns_mpu6050_i2c_driver.c']]],
-  ['setgyrofullscale_4',['setGyroFullScale',['../ns__mpu6050__i2c__driver_8c.html#adf76b4452df47eb3e18e3a7177a2a38f',1,'ns_mpu6050_i2c_driver.c']]],
-  ['setgyrooffsetx_5',['setGyroOffsetX',['../group___neural_s_p_o_t-_m_p_u6050.html#ga0d3e74a52fd686a769018508dce26cec',1,'setGyroOffsetX(int offset):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga0d3e74a52fd686a769018508dce26cec',1,'setGyroOffsetX(int offset):&#160;ns_mpu6050_i2c_driver.c']]],
-  ['setgyrooffsety_6',['setGyroOffsetY',['../group___neural_s_p_o_t-_m_p_u6050.html#gaff7be4856bbe4e1e70cd5e982989376e',1,'setGyroOffsetY(int offset):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#gaff7be4856bbe4e1e70cd5e982989376e',1,'setGyroOffsetY(int offset):&#160;ns_mpu6050_i2c_driver.c']]],
-  ['setgyrooffsetz_7',['setGyroOffsetZ',['../group___neural_s_p_o_t-_m_p_u6050.html#ga5265cae7095ce6053b1a50ee414362cb',1,'setGyroOffsetZ(int offset):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga5265cae7095ce6053b1a50ee414362cb',1,'setGyroOffsetZ(int offset):&#160;ns_mpu6050_i2c_driver.c']]],
-  ['setsamplerate_8',['setSampleRate',['../ns__mpu6050__i2c__driver_8c.html#abf55f65c6c311d6170d12b1671387135',1,'ns_mpu6050_i2c_driver.c']]]
+  ['read_5fsensors_0',['read_sensors',['../group___neural_s_p_o_t-_m_p_u6050.html#ga84fedf3cdecc15b8e1193f5e25f4e395',1,'read_sensors(uint8_t *buffer):&#160;ns_mpu6050_i2c_driver.c'],['../group___neural_s_p_o_t-_m_p_u6050.html#ga84fedf3cdecc15b8e1193f5e25f4e395',1,'read_sensors(uint8_t *buffer):&#160;ns_mpu6050_i2c_driver.c']]],
+  ['rotation_1',['rotation',['../group___neural_s_p_o_t-_m_p_u6050.html#gac6b2b535b2591ca20d9437802b149a87',1,'ns_mpu6050_i2c_driver.h']]],
+  ['runclient_2',['runClient',['../namespacens-rpc-genericdata_1_1generic__data.html#ae069f96223aff8a5f494fd237840b9a0',1,'ns-rpc-genericdata::generic_data']]],
+  ['runserver_3',['runServer',['../namespacens-rpc-genericdata_1_1generic__data.html#adcc26a7683baa2e196af816131ac0a5d',1,'ns-rpc-genericdata::generic_data']]]
 ];

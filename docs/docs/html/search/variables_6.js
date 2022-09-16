@@ -3,7 +3,7 @@ var searchData=
   ['g_5fadc_0',['g_adc',['../ns__audadc_8c.html#a160f33bae19246569bfecec3ac889ffe',1,'ns_audadc.c']]],
   ['g_5fbaudadcdmacomplete_1',['g_bAUDADCDMAComplete',['../ns__audadc_8c.html#a245f6058185f8dfeeec99b835f4ef2b2',1,'ns_audadc.c']]],
   ['g_5fbaudadcdmaerror_2',['g_bAUDADCDMAError',['../ns__audadc_8c.html#a08d724446ac7324973c4492e13a1f79f',1,'ns_audadc.c']]],
-  ['g_5fclient_3',['g_client',['../ns__audio__rpc__client_8cpp.html#af145de7c027138865ee52dad179e7232',1,'ns_audio_rpc_client.cpp']]],
+  ['g_5fclient_3',['g_client',['../_generic_data_operations___evb_to_pc__client_8cpp.html#af145de7c027138865ee52dad179e7232',1,'g_client():&#160;GenericDataOperations_EvbToPc_client.cpp'],['../ns__audio__rpc__client_8cpp.html#af145de7c027138865ee52dad179e7232',1,'g_client():&#160;ns_audio_rpc_client.cpp']]],
   ['g_5fintbuttonpressed_4',['g_intButtonPressed',['../main_8cc.html#ad82f2cf0e099382942e06c6beed540e6',1,'g_intButtonPressed():&#160;main.cc'],['../s2i__example_8cc.html#ad82f2cf0e099382942e06c6beed540e6',1,'g_intButtonPressed():&#160;s2i_example.cc']]],
   ['g_5fmcuctrl_5',['g_mcuctrl',['../ns__audadc_8c.html#ac472e36e3e8c2ea3c002fffe9b132060',1,'ns_audadc.c']]],
   ['g_5fmfccbuffer_6',['g_mfccBuffer',['../ns__mfcc_8c.html#ad162fc282d67f58e0f98a637f67011ca',1,'ns_mfcc.c']]],
@@ -18,8 +18,11 @@ var searchData=
   ['g_5fns_5faudio_5fconfig_15',['g_ns_audio_config',['../group___neural_s_p_o_t-_audio.html#ga982ba8af47287c62d44fa22f3db658a6',1,'g_ns_audio_config():&#160;ns_audio.c'],['../group___neural_s_p_o_t-_audio.html#ga982ba8af47287c62d44fa22f3db658a6',1,'g_ns_audio_config():&#160;ns_audio.c']]],
   ['g_5fns_5fperipheral_5fbutton0_16',['g_ns_peripheral_button0',['../ns__button_8c.html#a0b03b90934b901b30268c64c5bc21349',1,'ns_button.c']]],
   ['g_5fns_5fperipheral_5fbutton1_17',['g_ns_peripheral_button1',['../ns__button_8c.html#af17d98b75001b3708889e421ac215e81',1,'ns_button.c']]],
-  ['g_5fsaudadcdmaconfig_18',['g_sAUDADCDMAConfig',['../ns__audadc_8c.html#a32a3784ca3236b590009f1dce1a173ac',1,'ns_audadc.c']]],
-  ['g_5fsaudadcgainconfig_19',['g_sAudadcGainConfig',['../ns__audadc_8c.html#af3329a446b57015a50cc08b29b02f047',1,'ns_audadc.c']]],
-  ['g_5fsensordata_20',['g_sensorData',['../har_8cc.html#a28033ef8d99a6b20083996467b659f57',1,'har.cc']]],
-  ['g_5fui32audadcsamplebuffer_21',['g_ui32AUDADCSampleBuffer',['../ns__audadc_8c.html#a4d4732fe05019219a944b93e8707e524',1,'ns_audadc.c']]]
+  ['g_5frpcgenericdataconfig_18',['g_RpcGenericDataConfig',['../ns__rpc__generic__data_8c.html#a78a836bdd6d5398dc108697e877a3367',1,'ns_rpc_generic_data.c']]],
+  ['g_5frpcgenericusbhandle_19',['g_RpcGenericUSBHandle',['../ns__rpc__generic__data_8c.html#a73b3d1eafb069aac44c0b5c89984b584',1,'ns_rpc_generic_data.c']]],
+  ['g_5fsaudadcdmaconfig_20',['g_sAUDADCDMAConfig',['../ns__audadc_8c.html#a32a3784ca3236b590009f1dce1a173ac',1,'ns_audadc.c']]],
+  ['g_5fsaudadcgainconfig_21',['g_sAudadcGainConfig',['../ns__audadc_8c.html#af3329a446b57015a50cc08b29b02f047',1,'ns_audadc.c']]],
+  ['g_5fsensordata_22',['g_sensorData',['../har_8cc.html#a28033ef8d99a6b20083996467b659f57',1,'g_sensorData():&#160;har.cc'],['../rpc__client_8cc.html#a28033ef8d99a6b20083996467b659f57',1,'g_sensorData():&#160;rpc_client.cc']]],
+  ['g_5fui32audadcsamplebuffer_23',['g_ui32AUDADCSampleBuffer',['../ns__audadc_8c.html#a4d4732fe05019219a944b93e8707e524',1,'ns_audadc.c']]],
+  ['generic_5fcmd_24',['generic_cmd',['../classns-rpc-genericdata_1_1_generic_data_operations___evb_to_pc_1_1common_1_1command.html#a75178289befcc862a087c51495528916',1,'ns-rpc-genericdata.GenericDataOperations_EvbToPc.common.command.generic_cmd()'],['../classns-rpc-genericdata_1_1_generic_data_operations___pc_to_evb_1_1common_1_1command.html#a75178289befcc862a087c51495528916',1,'ns-rpc-genericdata.GenericDataOperations_PcToEvb.common.command.generic_cmd()']]]
 ];

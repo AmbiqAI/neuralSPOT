@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['s2i_5fexample_2ecc_0',['s2i_example.cc',['../s2i__example_8cc.html',1,'']]],
-  ['s2i_5fexample_2ed_1',['s2i_example.d',['../s2i__example_8d.html',1,'']]],
-  ['server_2epy_2',['server.py',['../server_8py.html',1,'']]],
-  ['slu_5fmodel_5fact8_2eh_3',['slu_model_act8.h',['../slu__model__act8_8h.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
+  ['rpc_2dclient_2emd_1',['rpc-client.md',['../rpc-client_8md.html',1,'']]],
+  ['rpc_5fclient_2ecc_2',['rpc_client.cc',['../rpc__client_8cc.html',1,'']]],
+  ['rpc_5fclient_2ed_3',['rpc_client.d',['../rpc__client_8d.html',1,'']]],
+  ['rpc_5fserver_2ecc_4',['rpc_server.cc',['../rpc__server_8cc.html',1,'']]],
+  ['rpc_5fserver_2ed_5',['rpc_server.d',['../rpc__server_8d.html',1,'']]],
+  ['rpc_5fserver_2emd_6',['rpc_server.md',['../rpc__server_8md.html',1,'']]]
 ];

@@ -42,10 +42,10 @@ CFLAGS+= -g -O0
 CFLAGS+= 
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
-LFLAGS+= -nostartfiles -static -lstdc++ -fno-exceptions
+LFLAGS+= -nostartfiles -static -fno-exceptions
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
-LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(libraries) $(lib_prebuilt) -Wl,--end-group
-LFLAGS+=
+LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
+LFLAGS+= 
 
 CPFLAGS = -Obinary
 ODFLAGS = -S

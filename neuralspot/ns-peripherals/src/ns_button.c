@@ -120,7 +120,7 @@ ns_peripheral_button_init(ns_button_config_t *cfg) {
         //
         // Enable the GPIO/button interrupt.
         //
-        am_hal_gpio_interrupt_control(AM_HAL_GPIO_INT_CHANNEL_0,
+        am_hal_gpio_interrupt_control(AM_HAL_GPIO_INT_CHANNEL_1,
                                       AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
                                       (void *)&ui32BUTTON1GpioNum);
 

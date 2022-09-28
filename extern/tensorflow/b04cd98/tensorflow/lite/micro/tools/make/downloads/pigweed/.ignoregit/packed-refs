@@ -1,0 +1,5 @@
+# pack-refs with: peeled fully-peeled sorted 
+d4a9abc4d7b42ef6b20b77b46cc3b736e2067e77 refs/remotes/origin/main
+d4a9abc4d7b42ef6b20b77b46cc3b736e2067e77 refs/remotes/origin/master
+06a7626e1fb37dfe9666b4670fc154fa0c96c504 refs/remotes/origin/sandbox/i2c
+9a5838ceb511d4d5086747767f590cbda74a9700 refs/remotes/origin/sandbox/pwconsole

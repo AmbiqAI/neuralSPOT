@@ -1,4 +1,0 @@
-tensorflow-cpu
-mako
-pillow
-yapf

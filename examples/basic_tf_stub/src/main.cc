@@ -298,12 +298,12 @@ ns_audio_config_t audio_config = {
  */
 int
 main(void) {
-    float tmp;
+    float tmp = 0;
     float mfcc_buffer[NUM_FRAMES * MFCC_NUM_MFCC_COEFFS];
     float y_intent[6];
     float y_slot[2][17];
     uint8_t y_slot_max[2];
-    uint8_t y_intent_max;
+    uint8_t y_intent_max = 0;
     float max_val = 0.0;
 
     g_audioRecording = false;

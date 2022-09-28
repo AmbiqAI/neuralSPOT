@@ -22,6 +22,7 @@
 #include "GenericDataOperations_PcToEvb.h"
 #include "GenericDataOperations_PcToEvb_server.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_malloc.h"
 
 #define NS_RPC_GENERIC_DATA
 #ifdef NS_RPC_GENERIC_DATA
@@ -113,6 +114,11 @@ void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
         ns_printf("0x%x, ", block->buffer.data[i]);
     }
     ns_printf("\n");
+}
+
+void ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
+    ns_free(block->description);
+    ns_free(block->buffer.data);
 }
 
 #else

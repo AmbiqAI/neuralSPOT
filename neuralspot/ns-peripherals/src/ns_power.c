@@ -59,7 +59,8 @@ const ns_power_config_t ns_development_default = {
     .bNeedBluetooth = true,
     .bNeedUSB = true,
     .bNeedIOM = true,
-    .bNeedAlternativeUART = true
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false
 };
 
 const ns_power_config_t ns_good_default =        {
@@ -70,10 +71,11 @@ const ns_power_config_t ns_good_default =        {
     .bNeedBluetooth = false,
     .bNeedUSB = false,
     .bNeedIOM = false,
-    .bNeedAlternativeUART = false
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false
 };
 
-const ns_power_config_t ns_mlperf_recommended_default = {
+const ns_power_config_t ns_mlperf_mode1 = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
     .bNeedAudAdc = false,
     .bNeedSharedSRAM = false,
@@ -81,10 +83,11 @@ const ns_power_config_t ns_mlperf_recommended_default = {
     .bNeedBluetooth = false,
     .bNeedUSB = false,
     .bNeedIOM = false,
-    .bNeedAlternativeUART = true
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false
 };
 
-const ns_power_config_t ns_mlperf_ulp_default = {
+const ns_power_config_t ns_mlperf_mode2 = {
     .eAIPowerMode = NS_MINIMUM_PERF,
     .bNeedAudAdc = false,
     .bNeedSharedSRAM = false,
@@ -92,7 +95,20 @@ const ns_power_config_t ns_mlperf_ulp_default = {
     .bNeedBluetooth = false,
     .bNeedUSB = false,
     .bNeedIOM = false,
-    .bNeedAlternativeUART = true
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false
+};
+
+const ns_power_config_t ns_mlperf_mode3 = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = true
 };
 
 const ns_power_config_t ns_audio_default = {
@@ -103,7 +119,8 @@ const ns_power_config_t ns_audio_default = {
     .bNeedBluetooth = false,
     .bNeedUSB = false,
     .bNeedIOM = false,
-    .bNeedAlternativeUART = false
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false
 };
 
 //*****************************************************************************
@@ -154,7 +171,7 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     //
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOS);
 
-    if (pCfg->bNeedAlternativeUART == false) {
+    if (pCfg->bNeedIOM == false) {
         am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM0);
         am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM1);
         am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM2);
@@ -201,6 +218,8 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
         // Power down Crypto.
         //
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
+
     }
 
     //
@@ -225,8 +244,8 @@ ns_power_config(const ns_power_config_t *pCfg) {
     }
 
     // The following two lines cause audio capture to be distorted - TBI
-    // am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-    // am_hal_cachectrl_enable();
+    am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+    am_hal_cachectrl_enable();
 
     // configure peripherals
     ns_power_down_peripherals(pCfg);
@@ -238,6 +257,21 @@ ns_power_config(const ns_power_config_t *pCfg) {
             AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
     else
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+
+    if (pCfg->b128kTCM == true) {
+
+        am_hal_pwrctrl_mcu_memory_config_t McuMemCfg =
+        {
+            .eCacheCfg    = AM_HAL_PWRCTRL_CACHE_ALL,
+            .bRetainCache = false,
+            .eDTCMCfg     = AM_HAL_PWRCTRL_DTCM_128K,
+            .eRetainDTCM  = AM_HAL_PWRCTRL_DTCM_128K,
+            .bEnableNVM0  = true,
+            .bRetainNVM0  = true
+        };
+
+        am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
+    }
 
     return ui32ReturnStatus;
 }

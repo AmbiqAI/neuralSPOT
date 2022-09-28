@@ -37,8 +37,8 @@ CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exception
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99 
-#CFLAGS+= -O3
-CFLAGS+= -g -O0
+CFLAGS+= -g -O3
+#CFLAGS+= -g -O0
 CFLAGS+= 
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
@@ -60,6 +60,7 @@ ifeq ($(PART),apollo4p)
 DEFINES+= AM_PART_APOLLO4P
 endif
 DEFINES+= AM_PACKAGE_BGA
+DEFINES+= __FPU_PRESENT
 DEFINES+= gcc
 DEFINES+= TF_LITE_STATIC_MEMORY
 # Enable ML Debug and Symbols with 'make MLDEBUG=1'

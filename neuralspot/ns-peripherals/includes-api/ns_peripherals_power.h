@@ -79,12 +79,14 @@ typedef struct
     bool               bNeedUSB;            ///< Prevents USB from being powered off
     bool               bNeedIOM;            ///< Prevents IOMx from being powered off
     bool               bNeedAlternativeUART; ///< for EEMBC Power Control Module and similar
+    bool               b128kTCM;            ///< Only need 128k
 } ns_power_config_t;
 
 extern const ns_power_config_t ns_development_default; ///< Enables most things
 extern const ns_power_config_t ns_good_default; ///< Reasonable settings for more applications
-extern const ns_power_config_t ns_mlperf_recommended_default; ///< Good power/perf setting
-extern const ns_power_config_t ns_mlperf_ulp_default; ///< Absolute lowest power with slight perf impact
+extern const ns_power_config_t ns_mlperf_mode1; ///< Good power/perf setting
+extern const ns_power_config_t ns_mlperf_mode2; ///< Good power/perf setting
+extern const ns_power_config_t ns_mlperf_mode3; ///< Good power/perf setting
 extern const ns_power_config_t ns_audio_default; ///< Good for AI that uses audio peripherals
 
 /**

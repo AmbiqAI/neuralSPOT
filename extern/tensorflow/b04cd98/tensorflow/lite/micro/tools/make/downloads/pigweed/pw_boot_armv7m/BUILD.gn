@@ -1,0 +1,53 @@
+# Copyright 2020 The Pigweed Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not
+# use this file except in compliance with the License. You may obtain a copy of
+# the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations under
+# the License.
+
+import("//build_overrides/pigweed.gni")
+
+import("$dir_pw_build/linker_script.gni")
+import("$dir_pw_build/target_types.gni")
+import("$dir_pw_docgen/docs.gni")
+
+declare_args() {
+  # TODO(frolv): Move this into pw_boot module when it is created.
+  pw_boot_BACKEND = ""
+
+  # This list should contain the necessary defines for setting pw_boot linker
+  # script memory regions.
+  pw_boot_armv7m_LINK_CONFIG_DEFINES = []
+}
+
+if (pw_boot_BACKEND == dir_pw_boot_armv7m) {
+  config("default_config") {
+    include_dirs = [ "public" ]
+  }
+
+  pw_linker_script("armv7m_linker_script") {
+    # pw_boot_armv7m_LINK_CONFIG_DEFINES is a list of defines provided by the
+    # target.
+    defines = pw_boot_armv7m_LINK_CONFIG_DEFINES
+    linker_script = "basic_armv7m.ld"
+  }
+
+  pw_source_set("pw_boot_armv7m") {
+    public_configs = [ ":default_config" ]
+    public = [ "public/pw_boot_armv7m/boot.h" ]
+    public_deps = [ "$dir_pw_preprocessor" ]
+    deps = [ ":armv7m_linker_script" ]
+    sources = [ "core_init.c" ]
+  }
+}
+
+pw_doc_group("docs") {
+  sources = [ "docs.rst" ]
+}

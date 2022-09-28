@@ -1,7 +1,7 @@
 /**
- * @file ns-rpc-audio.h
+ * @file ns_rpc_generic_data.h
  * @author Carlos Morales
- * @brief API for using Audio RPC interface
+ * @brief API for using generic data RPC interface
  * @version 0.1
  * @date 2022-08-26
  * 

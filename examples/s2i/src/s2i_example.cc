@@ -74,22 +74,21 @@
     #include "SEGGER_RTT.h"
 #endif
 
-/// TFLM model
+// TFLM model
 #include "slu_model_act8.h"
 
-/// Assorted Configs and helpers
+// Assorted Configs and helpers
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
-/// High level audio parameters
+// High level audio parameters
 #define NUM_CHANNELS 1
 #define NUM_FRAMES 100
 #define SAMPLES_IN_FRAME 480
 #define SAMPLE_RATE 16000
 
-/// MFCC Config (define-based for perf)
-/// (must be done before including ns_audio_mfcc())
-///@{
+// MFCC Config (define-based for perf)
+// (must be done before including ns_audio_mfcc())
 #define MFCC_OVERRIDE_DEFAULTS 
     #define MFCC_SAMP_FREQ SAMPLE_RATE
     #define MFCC_NUM_FBANK_BINS 40
@@ -106,9 +105,8 @@
     #define MFCC_FRAME_LEN SAMPLES_IN_FRAME // ((int16_t)(SAMP_FREQ * 0.001 * FRAME_LEN_MS))
     #define MFCC_FRAME_LEN_POW2 512
 #include "ns_audio_mfcc.h"
-///@}
 
-/// Model-specific Stuff
+// Model-specific Stuff
 int recording_win = NUM_FRAMES;
 int num_frames = NUM_FRAMES;
 int num_mfcc_features = MFCC_NUM_MFCC_COEFFS;
@@ -127,7 +125,7 @@ const char *slots[] = {
     "german", "korean",   "english", "bedroom", "none",
 };
 
-/// Tensorflow Globals (somewhat boilerplate)
+// Tensorflow Globals (somewhat boilerplate)
 tflite::ErrorReporter *error_reporter = nullptr;
 const tflite::Model *model = nullptr;
 tflite::MicroInterpreter *interpreter = nullptr;
@@ -291,12 +289,12 @@ ns_audio_config_t audio_config = {
  */
 int
 main(void) {
-    float tmp;
+    float tmp = 0;
     float mfcc_buffer[NUM_FRAMES * MFCC_NUM_MFCC_COEFFS];
     float y_intent[6];
     float y_slot[2][17];
     uint8_t y_slot_max[2];
-    uint8_t y_intent_max;
+    uint8_t y_intent_max = 0;
     float max_val = 0.0;
 
     g_audioRecording = false;

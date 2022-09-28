@@ -14,7 +14,7 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_i2c_register_driver.h"
 #include "ns_mpu6050_i2c_driver.h"
-#include "ns_rpc_audio.h"
+#include "ns_rpc_generic_data.h"
 #include "ns_peripherals_button.h"
 #include "ns_usb.h"
 #include "ns_peripherals_power.h"
@@ -28,20 +28,41 @@ main(void) {
     uint8_t buffer[32];
     void *mpuHandle;
     int16_t accelX, accelY, accelZ, gyroX, gyroY, gyroZ, temperature_regval;
-    float temperature;
+    float temperature = 0.0;
     float accelVals[AXES];
     float gyroVals[AXES];
-    uint32_t i, axis = 0;
+    uint32_t i = 0;
+    uint32_t axis = 0;
 
     ns_itm_printf_enable();
     ns_debug_printf_enable();
 
     am_hal_interrupt_master_enable();
-    //ns_power_config(&ns_development_default);
 
-    #ifdef NS_RPC_AUDIO
-        ns_rpc_audio_init();
-    #endif
+    // DataBlock init
+    binary_t binaryBlock = {
+        .data = (uint8_t *) g_sensorData, // point this to audio buffer
+        .dataLength = NUMSAMPLES * 7 * sizeof(float)
+    };
+    char msg_store[30] = "MPU650-Data-Sample";
+
+    // Block sent to PC
+    dataBlock outBlock = {
+        .length = NUMSAMPLES * 7 * sizeof(float),
+        .dType = float32_e,
+        .description = msg_store,
+        .cmd = write_cmd,
+        .buffer = binaryBlock
+    };
+
+    // Initialize the Generic RPC Client interface
+    ns_rpc_config_t rpcConfig = {
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL
+    };
+    ns_rpc_genericDataOperations_init(&rpcConfig); // inits RPC and USB
 
     // Button global - will be set by neuralSPOT button helper
     int g_intButtonPressed = 0;
@@ -98,13 +119,14 @@ main(void) {
         g_sensorData[i][6] = temperature;
         i++;
 
-        #ifdef NS_RPC_AUDIO
-            tud_task(); // tinyusb device task for RPC
-            if (i==NUMSAMPLES) {
-                ns_rpc_audio_send_buffer((uint8_t*)g_sensorData, NUMSAMPLES * 7 * sizeof(float));
-                i = 0;
-            }
-        #endif
+        ns_rpc_data_sendBlockToPC(&outBlock);
+        // #ifdef NS_RPC_AUDIO
+        //     tud_task(); // tinyusb device task for RPC
+        //     if (i==NUMSAMPLES) {
+        //         ns_rpc_audio_send_buffer((uint8_t*)g_sensorData, NUMSAMPLES * 7 * sizeof(float));
+        //         i = 0;
+        //     }
+        // #endif
         // am_util_stdio_printf("%d] %f, %f, %f\n", i, accelVals[0], accelVals[1], accelVals[2]);
         // for (axis = 0; axis<AXES; axis++) {
         //     ns_printf("%f, %f, %f, ", g_sensorData[i][axis]);

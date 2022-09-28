@@ -25,15 +25,15 @@ setup(
     url="https://github.com/ambiqai/neuralSPOT",
     packages=["neuralspot",
         "neuralspot.rpc",
-        "neuralspot.rpc.GenericDataOperations_EVB_to_PC",
-        "neuralspot.rpc.GenericDataOperations_PC_to_EVB"
+        "neuralspot.rpc.GenericDataOperations_EvbToPc",
+        "neuralspot.rpc.GenericDataOperations_PcToEvb"
     ],
     package_dir={
         "neuralspot.rpc": "neuralspot/ns-rpc/python/ns-rpc-genericdata",
-        "neuralspot.rpc.GenericDataOperations_EVB_to_PC": 
-            "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_EVB_to_PC",
-        "neuralspot.rpc.GenericDataOperations_PC_to_EVB": 
-            "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_PC_to_EVB"
+        "neuralspot.rpc.GenericDataOperations_EvbToPc":
+            "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_EvbToPc",
+        "neuralspot.rpc.GenericDataOperations_PcToEvb":
+            "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_PcToEvb"
     },
     install_requires = [
         "numpy>=1.21.6",

@@ -1,0 +1,15 @@
+# ninja log v5
+1	998	6837612534630984	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/main.o	98d7e5f22d0a1bcb
+1031	1069	6837612535500989	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nema_event.o	e5164a50d36715cc
+1098	1575	6837612540430991	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nema_dc_hal.o	258d16f47c9b2c4f
+1601	2051	6837612545210995	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/am_util_delay.o	c17ad34d4e032cac
+2078	2228	6837612547060988	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/am_util_stdio.o	b25a51c302e4a54d
+2254	2770	6837612552390990	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/am_devices_nemadc_rm67162.o	9c07ff2ed7b690e1
+2796	3356	6837612558241023	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/am_devices_dsi_rm67162.o	d8a6078295f99354
+3383	3828	6837612562990991	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/am_resources.o	d9dbd39140863fcb
+3856	4337	6837612568060990	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nemagfx_tsc_fb.o	5f8035969f89f82d
+4375	4872	6837612573400985	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nema_utils.o	5adcc0dad15d1937
+4900	4954	6837612574340999	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/startup_iar.o	2843b647446d296e
+4994	5485	6837612579530982	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nema_hal.o	ac9c580c0b069749
+5511	5683	6837612581570992	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nemagfx_tsc_fb.out	34a48eec2ad9a4ee
+5706	5716	6837612582010969	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_tsc_fb/iar/bin/nemagfx_tsc_fb.bin	a90b1666aebf4a9c

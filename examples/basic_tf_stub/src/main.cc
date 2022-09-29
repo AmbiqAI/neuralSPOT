@@ -77,7 +77,7 @@ The basic_tf_stub example is based on a speech to intent model.
     #include "SEGGER_RTT.h"
 #endif
 
-#define RPC_ENABLED
+//#define RPC_ENABLED
 #ifdef RPC_ENABLED
     #include "ns_rpc_generic_data.h"
     #include "ns_usb.h"
@@ -197,7 +197,7 @@ model_init(void) {
 }
 
 /// Button global - will be set by neuralSPOT button helper
-int g_intButtonPressed = 0;
+int volatile g_intButtonPressed = 0;
 
 ///Button Peripheral Config Struct
 ns_button_config_t button_config = {
@@ -209,11 +209,11 @@ ns_button_config_t button_config = {
 
 /// Audio and IPC Config
 /// Set by app when it wants to start recording, used by callback
-bool static g_audioRecording = false;
+bool volatile static g_audioRecording = false;
 
 /// Set by callback when audio buffer has been copied, cleared by
 /// app when the buffer has been consumed.
-bool static g_audioReady = false;
+bool volatile static g_audioReady = false;
 
 #ifdef RINGBUFFER_MODE
 /// Ringbuffer storage

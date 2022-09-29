@@ -1,0 +1,489 @@
+**********************************************************************************************
+ 
+Apollo4 Plus / Apollo4 Blue Plus update release on 1Sep2022 (revision 4.3.0-0ca7d78a2b).
+ 
+**********************************************************************************************
+----------------------------------------------------------------------------------------------
+Summary of Changes and Customer Impacts
+----------------------------------------------------------------------------------------------
+This is a combined release supporting updates to Apollo4/Apollo4 Blue RevB2 with an updated
+release of Apollo4 Plus/Apollo4 Blue Plus Rev C0 (KBR and KXR devices).
+
+This release includes the following:
+* Updated Doxygen comments throughout the code.
+* MSPI Continue feature  (MSPI->CTRL_b.CONT) has been deprecated.  Customers should discontinue
+  use of this feature as it has not be tested.
+* Cooper FW image updated to v1.21.0.0 (see BLE_changes_v1.21.0.0.txt).
+* R4.3.0 added several Vector Graphics examples for Apollo4 Plus Display Shield 
+  (apollo4p_evb_disp_shield_rev2), as R4.2.0 has VG API level support only.
+     - nemagfx_vg_circular_bar shows a circular progress bar implemented in VG.
+     - nemagfx_vg_paint demonstrates VG paints usage.
+     - nemagfx_vg_svg demonstrates SVG support.
+     - nemagfx_vg_test tests various VG features including VG shape, masking etc and benchmark.
+     - nemagfx_vg_ttf demonstrates TTF support.
+
+----------------------------------------------------------------------------------------------
+Software Known Issues, Updates, and Defect Fixes
+----------------------------------------------------------------------------------------------
+\devices\am_devices_cooper.h
+*    Updated to support Apollo4 Blue Plus KXR device.
+
+\devices\am_devices_led.h
+\devices\am_devices_led.c
+*    Updated the LED driver to include an open drain drive option.
+
+\devices\am_devices_mspi_ds35x1ga.c
+*    Fix nand flash gpio set issue when in serial mode.
+
+\mcu\apollo4p\hal\am_hal_gpio.c 
+\mcu\apollo4p\hal\am_hal_gpio.h 
+*   Added Open Drain common configuration.
+*   Fixed defect in am_hal_gpio_interrupt_register() where interrupts were not being indexed properly.
+
+\mcu\apollo4p\hal\am_hal_pwrctrl.h 
+\mcu\apollo4p\hal\am_hal_pwrctrl.c
+*    Added enable/disable #defines for VDDC_LV mode (enabled by default).
+*    Fixed crypto initialization bug.
+*    Fixed a defect to eliminate the possibility of exiting am_hal_pwrctrl_restore() while in the 
+     middle of a critical section.
+
+\mcu\apollo4p\hal\mcu\am_hal_reset.c
+*   Remove ability to set AM_HAL_RESET_BROWNOUT_HIGH_ENABLE. Apollo4 Plus operates at and below 2.2V, 
+     so setting this bit could lead to a bricked device by creating an infinite reset loop.
+
+\mcu\apollo4p\hal\mcu\am_hal_rtc.c
+*    Fixed defect in the time_validate_input() to have the weekdays validated with a zero based index
+
+\mcu\apollo4p\hal\am_hal_timer.h
+\mcu\apollo4p\hal\am_hal_timer.c
+*   The am_hal_timer_start/stop() API in the header file has been changed to “#defines“ with their 
+    definitions as the am_hal_timer_enable/disable() and their implementations have been ported to 
+    am_hal_timer_enable/disable().
+    The am_hal_timer_enable/disable() APIs now implement the setting and clearing 
+    of GLOBEN register as well as the individual timer enable register.
+    On Apollo4P Timer HAL the am_hal_timer_enable() & am_hal_timer_enable_sync() API also implement 
+    the setting and clearing of the TMRxCLR register required by hardware to start the Timer.
+
+\mcu\apollo4p\hal\am_hal_sysctrl.h
+\mcu\apollo4p\hal\mcu\am_hal_mcu_sysctrl.h
+\mcu\apollo4p\hal\mcu\am_hal_sysctrl.c
+*   For am_hal_sysctrl_sysbus_write_flush(), replace the use of a global variable with simple 
+    volatile read of the SYNC_READ memory location via AM_REGVAL().
+
+\mcu\apollo4p\hal\am_hal_audadc.c
+*    Removed inaccurate comment from function am_hal_audadc_refgen_powerup().
+
+\third_party\cordio\ble-host\sources\hci\ambiq\cooper\ble_fw_image.h
+*	 Updated BLE controller firmware to v1.21.0.0.
+
+\third_party\cordio\ble-host\include\hci_api.h
+\third_party\cordio\ble-host\sources\hci\ambiq\hci_evt.c
+\third_party\cordio\ble-host\sources\hci\ambiq\hci_tr.c
+\third_party\cordio\ble-host\sources\stack\l2c\l2c_coc.c
+\third_party\cordio\wsf\include\hci_defs.h
+\third_party\cordio\ble-host\sources\stack\l2c\l2c_main.c
+\third_party\cordio\ble-host\sources\stack\l2c\l2c_main.h
+\third_party\cordio\ble-host\sources\stack\l2c\l2c_master.c
+\third_party\cordio\ble-host\sources\stack\att\att_main.h
+\third_party\cordio\ble-host\sources\stack\att\atts_ccc.c
+\third_party\cordio\ble-host\sources\stack\att\attc_main.c
+\third_party\cordio\ble-host\sources\stack\att\atts_main.c
+\third_party\cordio\ble-host\sources\stack\att\attc_proc.c
+\third_party\cordio\ble-profiles\sources\apps\app\common\app_db.c
+*	   Fix the input data length validity check in BLE host stack APIs to prevent the memory operation error.
+*          VoS Workaround - CCC callback for re-connection. (System Reset)
+*          VoS Workaround - Pairing information write to flash (16 bytes align). Re-assign pairing information address to middle of MRAM.
+
+\third_party\ThinkSi\config\apollo4b_nemagfx\nema_event.c
+*    Updated to support apollo4p_evb_disp_shield_rev2
+
+\third_party\ThinkSi\NemaGFX_SDK\NemaDC\nema_dc_mipi.h
+\third_party\ThinkSi\NemaGFX_SDK\NemaDC\nema_dc_regs.h
+\third_party\ThinkSi\NemaGFX_SDK\NemaDC\nema_dc_intern.h
+\third_party\ThinkSi\NemaGFX_SDK\NemaDC\nema_dc_dsi.h
+\devices\am_devices_dsi_rm67162.c
+*    Updated for NemaDC software release.
+
+\third_party\tinyusb\src\portable\ambiq\apollo4\dcd_apollo4.c
+*     Added Apollo4 Plus KBR and KXR board support to tinyusb.
+
+**********************************************************************************************
+ 
+Apollo4 Plus / Apollo4 Blue Plus update release on 27May2022 (revision 0a31245a64).
+ 
+**********************************************************************************************
+----------------------------------------------------------------------------------------------
+Summary of Changes and Customer Impacts
+----------------------------------------------------------------------------------------------
+This is a combined release supporting updates to Apollo4/Apollo4 Blue RevB2 with an updated
+release of Apollo4 Plus/Apollo4 Blue Plus Rev C0 (KBR device).
+
+This release includes the following:
+* Support for NemaVG vector graphics software library.
+* Improved power efficiency including trim updates and software based VDDF temperature compensation.
+
+----------------------------------------------------------------------------------------------
+Software Known Issues, Updates, and Defect Fixes
+----------------------------------------------------------------------------------------------
+\devices\am_devices_mspi_atxp032.c
+*    Updates to support CLKOND4 feature in MSPI hardware.
+*    Clean up of conditional includes using AM_PART_APOLLO4_API macro.
+*    Modification for Apollo4 Plus DQS configuration to reflect the differences
+     with Apollo4.
+*    Improved error checking on commands to device.
+
+\devices\am_devices_mspi_psram_aps25616n.c
+*    Updated support for Enter/Exit APS256 Half Sleep mode.
+
+\devices\am_devices_mspi_psram_aps6404l.c
+ *    Updates to support CLKOND4 feature in MSPI hardware.
+
+\devices\am_devices_dsi_rm67162.c
+*    Added two non-blocking functions for DSI send frame, those are:
+*    void dsi_send_frame_single_start_none_block_te(void)
+*    void dsi_send_frame_single_start_none_block_vsync(uint32_t ui32Mode)
+
+\devices\am_devices_mspi_rm69330.c
+*    Corrected devices rm69330 parameters names to better indicate meaning.
+
+\mcu\apollo4p\hal\am_hal_adc.*
+Upgrades to the ADC implementation include:
+*    Require the TRKCYC parameter to be at least AM_HAL_ADC_MIN_TRKCYC.
+*    Restrict clock select configuration to AM_HAL_ADC_CLKSEL_HFRC_24MHZ.
+*    Fully implement in software the Errata ERR090 workaround.
+*    Minimize and limit the critical section required for the ERR090 workaround
+     to only ADC interrupts.
+*    Update the temperature computation algorithm per the constant
+     slope equation as determined by validation. Also perform some optimizations
+     to minimize the number of computations needed to get the temperature from
+     the sample.
+
+\mcu\apollo4p\hal\am_hal_audadc.*
+*    Added DMA disable feature to the am_hal_audadc_control function.
+*    Add Support for AUDADC DC Offset Calibration.
+*    Introduce AM_HAL_ADC_MIN_TRKCYC for AUDADC module that defines the minimum
+     recommended value for this parameter. See also errata ERR091.
+    
+\mcu\apollo4p\hal\am_hal_pwrctrl.*
+\mcu\apollo4p\hal\mcu\am_hal_sysctrl.c
+*    Add the temperature compensation (TempCo) algorithm for Apollo4 Plus.
+*    Fixed the SSRAM size implementation to reflect Apollo4 Plus expanded SSRAM.
+*    Source MCUH (core) from the VDDC_LV rail.
+*    Achieve power savings on Apollo4P by adjusting VDDF active when Crypto is
+     disabled. It should be noted that these optimizations are generally
+     available only on parts with TRIMREV 6 or later.
+*    simobuck_ldos_force_disable() not only disables force-to-active override,
+     but also removed ldo-in-parallel override. So instead of trying to remove
+     the force-active override after getting back from sleep, we always
+     set/clear it before going to sleep. 
+
+\mcu\apollo4p\hal\mcu\am_hal_card.*
+*    Improved SDIO 96MHz compatibility for more different EMMC
+*    Added eMMC secure erase, eMMC sleep mode and power notification commands
+     and features support in SDIO HAL.
+
+\mcu\apollo4p\hal\mcu\am_hal_cachectrl.c
+*    Modify am_hal_cache_control() to do a bus flush after writing the CACHECTRL
+     register. Also poll CACHEREADY after an INVALIDATE operation.
+
+\mcu\apollo4p\hal\mcu\am_hal_clkgen.*
+*   Expose the HFRC and HFRC2 clock sources for CLKOUT.
+
+\mcu\apollo4p\hal\mcu\am_hal_mcuctrl.*
+*    Update the memory sizing to use the SKU register.
+
+\mcu\apollo4p\hal\mcu\am_hal_rtc.c
+*    Added date and time input validation API for RTC HAL.
+
+\mcu\apollo4p\hal\mcu\am_hal_uart.c
+*    The UART HAL has been updated to have a TIMEOUT feature for blocking
+     read/write. A feature to have the bytes read-in for unknown read length has
+     also been incorporated.
+
+**********************************************************************************************
+ 
+Apollo4 Plus / Apollo4 Blue Plus 1st General Availability release on 18Feb2022 (revision release_sdk_4_1_0-8020bdf229).
+ 
+**********************************************************************************************
+----------------------------------------------------------------------------------------------
+Summary of Changes and Customer Impacts
+----------------------------------------------------------------------------------------------
+This is the first Beta release with Apollo4 Plus and Apollo4 Blue Plus MCU support.
+
+This release includes the following:
+* Support for Apollo4 Plus (AMAP42KP-KBR) and Apollo4 Blue Plus (AMA4B2KP-KBR)
+* GPIO, I2S, IOM, MSPI, PWRCTRL, SDIO, STIMER HAL updates for defects found.
+* TIMER and UART HAL updates for functional changes.
+* TinyUSB stack update.
+* Cooper FW update (v1.20.2.0)
+* Added SW workarounds for ERR098
+* Software workaround for VDDC dropouts under certain conditions (Errata TBD)
+* SRAM configuration API and enum am_hal_pwrctrl_sram_select_e have been fixed to reflect increased memory
+
+----------------------------------------------------------------------------------------------
+Software Known Issues, Updates, and Defect Fixes
+----------------------------------------------------------------------------------------------
+\devices\am_devices_button.c
+*    Updated to use the pin configurations from each BSP.
+
+\devices\am_devices_cooper.c
+*    Added am_devices_cooper_crystal_trim_set to support 32MHz crystal calibration.
+
+\devices\am_devices_mspi_psram_aps12808l.*
+*    Update mspi drivers to work with Apollo4 Plus.
+
+\devices\am_devices_mspi_psram_aps25616n.*
+*    Added functionality to support "half sleep" mode.  See am_devices_mspi_psram_aps25616n_enter_halfsleep function.
+*    Updated file headers with doxygen comments.
+
+\devices\am_devices_mspi_rm69330.c
+*    Added support to allow usage of MSPI CLKOND4 feature.
+
+\mcu\apollo4p\am_mcu_apollo.h
+*    Cleaned up conditional flags.
+
+\mcu\apollo4p\hal\am_hal_adc.*
+*    General purpose ADC updated to support HFRC2 clock sources including 48MHz and 24MHz.
+
+\mcu\apollo4p\hal\am_hal_gpio.c
+*    Fixed Apollo4 GPIO HAL's legacy issue about pin number range check.
+
+\mcu\apollo4p\hal\am_hal_i2s.*
+*    Added the check for TDM channel numbers.
+*    Ported the updates on I2S HAL from Apollo4 RevB2 to Apollo4 Plus.
+
+\mcu\apollo4p\hal\am_hal_queue.h
+*    Added volatile to some queue variables.
+
+\mcu\apollo4p\hal\am_hal_pwrctrl.*
+*    Correct Apollo4P SSRAM config groupings, which were previously grouped as Apollo4b incorrectly
+*    Fixed defect in am_hal_pwrctrl_periph_disable function when multiple peripherals of the
+     same type where enabled.  Status check returned false error.
+*    Updated PWRCTRL peripheral enable/disable functions for Crypto to wait for CCISIDLE and NVMISIDLE bits as necessary on 
+     power-up and power-down. Fixes an issue where crypto registers were inaccessible following power-up.
+*    Added am_hal_pwrctrl_mcu_mode_status function to return the current MCU power mode (LP/HP).
+
+\mcu\apollo4p\hal\am_hal_pwrctrl.*
+\mcu\apollo4p\hal\mcu\am_hal_sysctrl.c
+*    Updated for Apollo4 Plus power optimizations (simplified from Apollo4 RevB2).
+*    VDDC drops under certain situations: Most often observed when exiting deepsleep at cold temp on some devices, OR 
+     when the simobuck is disabled by clearing the SIMOBUCKEN bit.
+     To workaround this issue, it will be necessary to enable the LDOs in parallel and then force them into active mode
+     whenever the simobuck is disabled by clearing the SIMOBUCKEN bit (i.e. switching to LDO mode)
+
+\mcu\apollo4p\hal\am_hal_stimer.*
+*    Added Critical Section around timer enableallinputs.
+*    Fix function brief and comments for am_hal_stimer_capture_stop.
+*    Fix stimer stop to keep form disabling gpio interrupts when some are still on.
+*    Added SW workarounds for ERR098:
+     a) COMPARE interrupts are delayed by 1 STIMER clock and it takes 2 STIMER clock cycles for the write to 
+     COMPARE to get operated upon.   Added code to HAL to account for these by adjusting the delta value. 
+     Note: When updating the COMPARE interrupt time by writing to COMPARE register, it is possible that SW may 
+     still get a stale interrupt corresponding to old value even after a new value is written to COMPARE because 
+     of this latency (if previous value happens to be very close to the time it is being updated).  This must be
+     handled by the application.
+     b) Back to back writes to COMPARE may not work reliably (i.e. to take the last value), unless SW ensures not
+     to write within 2 STIMER clock cycles of the previous one. Added code to HAL to handle this restriction by 
+     waiting if necessary.
+     c) After writing the COMPARE, SW needs to wait for at least 3 STIMER Clocks before reading it back for the 
+     new value to be reflected. Added code to HAL to handle this restriction by waiting if necessary
+
+\mcu\apollo4p\hal\am_hal_timer.c
+*    Added the HFRC_DIV4 frequency option.
+*    Removed restrictions on usable TIMERS & functions that were specific to RevB.
+    *    Removed timer_config_b0() and merged timer_config_b1() with timer_config_internal()
+    *    Removed restrictions on TIMER clock sources and output pins.
+    *    Removed restrictions on TIMER triggers.
+*    PATTERNLIMIT no longer supported for Apollo4P
+*    Added am_hal_timer_output_config() to configure TIMER output pins.
+
+\mcu\apollo4p\hal\mcu\am_hal_clkgen.c
+*   Update startup of HFRC2 with a 10us delay as required in the "Clock Switching Procedure" from the 
+    Apollo4 Plus Programmer's Guide.
+
+\mcu\apollo4p\hal\mcu\am_hal_iom.c    
+*    Fixed defect in am_hal_iom_power_ctrl to disable command queue if enabled before sleeping.
+*    Fixed defect in the am_hal_iom_spi_blocking_fullduplex function.
+
+\mcu\apollo4p\hal\am_hal_usb.c
+*    Fixed defect with output endpoint transfers.
+
+\mcu\apollo4b\hal\mcu\am_hal_card.c     
+*    Added the SDR 96MHz support.
+*    Enlarged the timeout for xfer completion interrupt.
+*    Disable the cmd9 and cmd14 workaround.
+*    Added checks for AM_HAL_HOST_UHS_SDR104 mode for SDIO SDR96MHz.
+*    Fixed defect. When RCA non-zero for CMD7, response must be MMC_RSP_R1.
+*    Fixed defect. The SDIO standard says that a card deselect, or a CMD7 with a relative card address of 0, will not send a response.
+     This is because RCA == 0 is not a valid card address and is therefore a card deselect.
+
+\mcu\apollo4p\hal\mcu\am_hal_dsi.c
+*    Updated Apollo4 Plus based on Apollo4 HAL updates.
+*    Added 1ms delay after reseting DPHY to avoid low contention.
+
+\mcu\apollo4p\hal\mcu\am_hal_mcuctrl.*
+*    Updates to address the Cooper 32MHz Trim Values. Modify default #defines in the HAL.
+
+\mcu\apollo4p\hal\mcu\am_hal_mspi.c
+*    Changed g_MSPIState data structure to 'static' to save memory.
+*    Fixed defects in am_hal_mspi_power_control with the registers begin saved/restored.
+*    Added control option for address and instruction length settings in MSPI Apollo4p HAL.
+*    Updated Apollo4P MSPI HAL for timing scan with TXDQSDELAY.
+*    Fixed defect with CLKOND4 feature implementation.
+
+\mcu\apollo4p\hal\mcu\am_hal_tpiu.c
+*    Increase the delay at the end of am_hal_tpiu_enable() to fix a problem of the first character of a string often
+     not being printed after an ITM/TPIU disable and re-enable operation.
+
+\mcu\apollo4p\hal\mcu\am_hal_uart.*
+*    Fix UART nonblocking functions
+    *    UART callbacks should now be called for completion of any non-blocking call.
+    *    am_hal_uart_flush function updated to let users know when UART is fully finished transmitting bytes (and thus able to be powered down) based on the TXCMP interrupt.
+    *    UART TX callback to be called as soon as the user-supplied TX data buffer can be reused.
+*    Timeout functionality removed from blocking transactions. Blocking functions block until all data is transferred.
+     Customers that need timeout functionality will need to implement it based on the non-blocking call.
+*    Users will need to enable TX_FIFO, RX_FIFO, RX_TIMEOUT, and TXCMP interrupts manually for all non-blocking, callback, and flush functions to work.
+     Some of these were previously enabled automatically by the UART HAL when queues were enabled.
+*    Updated UART HAL to support baudrate above 1.5M.
+*    Fix for power control not disabling the UART enable bit and setting CLK to NOCLK
+*    Added UART enable/disable function macros to header file
+
+\third_party\cordio\ble-host\sources\hci\ambiq\cooper\ble_fw_image.h
+*    Updated to Cooper FW v1.20.2.0.
+
+\third_party\cordio\ble-profiles\sources\services\svc_core.c
+*    Enable device name characteristic in GAP service to fix the compatible issue with Windows BLE stack.
+
+\third_party\tinyusb\
+*    Updated to Version 0.12.0 of tinyusb stack.
+
+**********************************************************************************************
+ 
+Apollo4 Plus (RevC) 1st Engineering Samples Release on Oct 14 2021 (revision release_sdk_4_0_1-bef824fa27)
+ 
+**********************************************************************************************
+----------------------------------------------------------------------------------------------
+Summary of Changes and Customer Impacts
+----------------------------------------------------------------------------------------------
+This is the 1st Engineering Sample Release for Apollo4 Plus operation.  It has been tested using
+the Priority 1 (P1) test cases on Ambiq's System Test Reference Board with early QuickPak samples.
+
+Targets supported (listed below as <target>) expand to both apollo4p_fpga_ps and apollo4p_bga_sys_test.
+Several examples have changed to support operation on the System Test Reference Board.
+
+* HAL interface Changes
+  The interface function am_hal_i2s_dma_transfer_continue was added back to the I2S HAL.
+
+* Power/SIMOBUCK workarounds
+  Some workarounds were ported from Apollo4 to Apollo4 Plus. These impact the PWRCTRL and SYSCTRL HAL.
+  The PWRCTRL HAL now supports for am_hal_pwrctrl_settings_restore to restore default power trims.
+  In multi-image boot sequence scenario, the exiting application is expected to call 
+  am_hal_pwrctrl_settings_restore() before transitioning to new image.
+
+* Changes to DAXI restrictions
+  Restrictions on stack placement is relaxed. Only the task invoking sleep is mandated to have stack
+  in TCM now.
+
+----------------------------------------------------------------------------------------------
+Software Known Issues, Updates, and Defect Fixes
+----------------------------------------------------------------------------------------------
+
+\boards\<target>\examples\memory\daxi_coremark_pro\src\rtos.c
+*    Separated macro ONLY_RUN_JPEG_ONE_ITERATION into ONLY_RUN_JPEG and JPEG_ONE_ITERATION.
+*    Added a support for allocating tb heap to SSRAM.
+*    Added csv printing support for daxi_coremark_pro example, turned off verification mode.
+
+\boards\<target>\examples\memory\daxi_coremark_pro\src\mith\src\mith_lib.c
+*    Added csv printing support for daxi_coremark_pro example, turned off verification mode.
+
+\boards\<target>\examples\memory\daxi_coremark_pro\src\mith\src\th_lib.c
+*    Added csv printing support for daxi_coremark_pro example, turned off verification mode.
+
+\boards\<target>\examples\graphics\nemadc_4layer\src\nemadc_4layer.c
+\boards\<target>\examples\graphics\nemagfx_enhanced_stress_test\src\display_task.c
+\boards\<target>\examples\graphics\nemagfx_transition_effects\src\main.c
+*    Changed to same color format for SPI, DSPI and QSPI modes.
+
+\boards\<target>\examples\graphics\nemagfx_balls_bench\src\main.c
+*    Fixed a bug in nemadc_send_frame_single_end.
+
+\boards\<target>\examples\graphics\nemagfx_blend\src\main.c
+*    Updated color formats for dc power cycling related examples.
+*    Changed to same color format for SPI, DSPI and QSPI modes.
+
+\boards\<target>\examples\graphics\nemagfx_enhanced_stress_test\src\crypto\crypto_operations.c
+*    Remove non-public sequences
+
+\boards\<target>\examples\graphics\nemagfx_enhanced_stress_test\src\graphics_power_control.c
+*    Updated color formats for dc power cycling related examples.
+
+\boards\<target>\examples\memory\daxi_coremark_pro\src\FreeRTOSConfig.h
+*    Separated macro ONLY_RUN_JPEG_ONE_ITERATION into ONLY_RUN_JPEG and JPEG_ONE_ITERATION.
+
+\devices\am_devices_mspi_psram_aps25616n.c
+*    Updates to default MSPI configuration parameters based on P1 system test case results.
+*    Updates to DMATIMELIMIT0 parameters for the APS25616N and W958D6NBMA HEX PSRAM Drivers to reflect the required CS maximums from the datasheets.
+*    Update MSPI HEX device drivers with optimum default parameters. Set to DQS mode by default.
+
+
+\devices\am_devices_mspi_psram_w958d6nw.c
+*   Updates to DMATIMELIMIT0 parameters for the APS25616N and W958D6NBMA HEX PSRAM Drivers to reflect the required CS maximums from the datasheets.
+*   Update MSPI HEX device drivers with optimum default parameters. Set to DQS mode by default.
+
+\devices\am_devices_nemadc_rm67162.c
+*    Updated color formats for dc power cycling related examples.
+*    Remove DSPI and SPI4 interface from apollo4b_evb_disp_shield bsp
+
+\mcu\apollo4p\am_mcu_apollo.h
+*    Disabled FPGA support by default.
+
+\mcu\apollo4p\hal\am_hal_audadc.c
+*    Fix defect in am_hal_audadc_configure logical comparison.
+*    Increased g_AUDADCSlotTrkCycMin to get >500ns track cycle. 
+
+\mcu\apollo4p\hal\mcu\am_hal_cachectrl.c
+*    Relaxing the restrictions requiring stack to be in TCM only for the sleep function. Threads calling DAXI flush for coherency reasons only need not be restricted.
+
+\mcu\apollo4p\hal\am_hal_i2s.*
+*    Add interface am_hal_i2s_dma_transfer_continue back to revC I2S HAL
+
+\mcu\apollo4p\hal\am_hal_pwrctrl.*
+*    Added support for am_hal_pwrctrl_settings_restore to restore default power trims.
+*    Added support for the recommended power workarounds for Apollo4 Plus.
+*    Added support for the LP/HP transition workaround (disabled by default).
+*    Removed override of CORELDOTEMPCOTRIM. It was needed for Apollo4 / Apollo4 Blue only because it was not set right for initial parts.
+*    Increase the reference recovery time between scans in LPMODE1 from 5us to 10us.
+    
+\mcu\apollo4p\hal\am_hal_timer.c
+*    Added support for the LP/HP transition workaround (disabled by default).  Workaround uses TIMER13, so it must be restricted from customer usage if the workaround is enabled.
+
+\mcu\apollo4p\hal\mcu\am_hal_cachectrl.c
+*    Relaxing the restrictions requiring stack to be in TCM only for the sleep function. 
+     Threads calling DAXI flush for coherency reasons only need not be restricted.
+
+\mcu\apollo4p\hal\mcu\am_hal_card.c
+*    Fixed the erase block range checking error.
+
+\mcu\apollo4p\hal\mcu\am_hal_mcuctrl.*
+*    Sync up device lookups for Apollo4 Plus. Use the CHIPPN field for TCM and SRAM, and expand the lookup table to be more precise about reporting RAM sizes in general.
+
+\mcu\apollo4p\hal\mcu\am_hal_sysctrl.c
+*    Relaxing the restrictions requiring stack to be in TCM only for the sleep function. 
+     Threads calling DAXI flush for coherency reasons only need not be restricted.
+
+\mcu\apollo4p\hal\mcu\am_hal_mspi.*  
+*    Remove the dummy access entries from the am_hal_mspi_cq_dma_entry_t and updated AM_HAL_MSPI_CQ_ENTRY_SIZE.
+
+\mcu\apollo4p\hal\mcu\am_hal_reset.c
+*    For Apollo4 Plus Reset Status is always stored in STIMER register.
+
+\mcu\apollo4p\hal\mcu\am_hal_sysctrl.c
+*   Added support for the recommended power workarounds for Apollo4 Plus.
+*   Relaxing the restrictions requiring stack to be in TCM only for the sleep function. Threads calling DAXI flush for coherency reasons only need not be restricted.
+    
+\mcu\apollo4p\hal\mcu\am_hal_tpiu.c
+*   Update am_hal_tpiu_enable() for both Apollo4p and 4b to use the ui32SetItmBaud parameter when computing the clock settings. Formerly it was using a hard-coded setting for SWO 1M.
+
+\tools\apollo4b_scripts\oem_tools_pkg\
+*   Added Apollo4p-compatible “hello_world” binaries and content certificates to the oem_tools_pkg folder.  Default binaries still point to Apollo4b images. User needs to manually pick Apollo4p binaries if needing prebuilt images. 
+

@@ -1,0 +1,14 @@
+# ninja log v5
+0	464	6837609533289337	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_resources.o	51b042c07f4c8594
+498	1059	6837609539219356	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_devices_dsi_rm67162.o	3b14f661cf628d03
+1101	1252	6837609541259342	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_util_stdio.o	f2e9a71819337c3f
+1290	1331	6837609542059334	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_event.o	84a9699cdc97beb9
+1360	1835	6837609546979337	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/main.o	bce5bfcb9a68cfb6
+1863	2346	6837609552069349	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_dc_hal.o	fdcc5dd9a33a706f
+2375	2832	6837609556959469	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_util_delay.o	3b311da2cdbb3031
+2859	3355	6837609562179360	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_hal.o	f9e986fd65747e4
+3383	8549	6837609613849352	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nemadc_scrolling_effect.o	514efe516f3ec167
+8578	9078	6837609619419339	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_utils.o	104027437c2545da
+9107	9163	6837609620369412	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/startup_iar.o	26c14db52efd1bc7
+9199	9330	6837609622009310	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nemadc_scrolling_effect.out	642b805db2e9fefd
+9357	9392	6837609622719309	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nemadc_scrolling_effect.bin	26914c98b3910e5a

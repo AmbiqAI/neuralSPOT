@@ -1,0 +1,8 @@
+# ninja log v5
+0	458	6837607673845943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/am_resources.o	30960b9e8f4e2ffd
+472	947	6837607678705933	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/am_util_faultisr.o	7a64cd6aad2ebc32
+964	1817	6837607687475948	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/am_util_stdio.o	f712876b4791870d
+1831	1891	6837607688245946	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/startup_iar.o	bbee7d6e58533501
+1904	2413	6837607693365934	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/while.o	5f41deade4ecc58f
+2426	2513	6837607694465934	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/while.out	1b0a3a6cdda0f040
+2526	2533	6837607694735942	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/power/while/iar/bin/while.bin	ab9a953e4a7955ef

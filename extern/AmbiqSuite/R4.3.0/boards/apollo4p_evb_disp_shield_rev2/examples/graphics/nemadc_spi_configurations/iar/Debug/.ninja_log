@@ -1,0 +1,13 @@
+# ninja log v5
+0	533	6837660264105806	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_devices_nemadc_rm67162.o	75991e83a66ae2a6
+567	1016	6837660268965812	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_resources.o	b77cffbd3ed2448
+1049	2436	6837660283095814	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nemadc_spi_configurations.o	9afe991512b5c469
+2466	2926	6837660288045816	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_util_delay.o	8cb161bffdfd394f
+2955	3456	6837660293335853	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_utils.o	b046603f9f352934
+3503	3980	6837660298575806	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_dc_hal.o	9f2b3f934be42ea9
+4022	4172	6837660300595807	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_util_stdio.o	59b8ceaa921793e6
+4214	4284	6837660301745809	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_event.o	789afdbcf07cdf15
+4315	4811	6837660306875876	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_hal.o	833e5a3a339f839b
+4840	4895	6837660307845821	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/startup_iar.o	ae40c16e560d633e
+4925	5038	6837660309245825	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nemadc_spi_configurations.out	46aaff74dc44a2e3
+5061	5067	6837660309615817	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nemadc_spi_configurations.bin	cecc59e4ba34bc0

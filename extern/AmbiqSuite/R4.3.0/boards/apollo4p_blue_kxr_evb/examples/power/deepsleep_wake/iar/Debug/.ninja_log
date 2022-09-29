@@ -1,0 +1,8 @@
+# ninja log v5
+1	495	6837654159828299	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/am_devices_led.o	a98bd100720a239
+510	963	6837654164518298	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/am_resources.o	3c9e719fe9ff7644
+980	1131	6837654166268328	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/am_util_stdio.o	d8fd2e3844e0e656
+1146	1204	6837654167008320	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/startup_iar.o	fabbada70df3613b
+1220	1703	6837654171888295	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/deepsleep_wake.o	41e7eab504e9126d
+1720	1801	6837654172968294	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/deepsleep_wake.out	22e7a745f5ce8e5a
+1824	1830	6837654173338300	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/power/deepsleep_wake/iar/bin/deepsleep_wake.bin	2f8b635d1bf6fee9

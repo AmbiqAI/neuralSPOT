@@ -1,0 +1,112 @@
+**********************************************************************************************
+1Sep2022 Revision release_sdk_4_3_0-0ca7d78a2b
+
+This is a combined release supporting updates to Apollo4/Apollo4 Blue RevB2 with an updated
+release of Apollo4 Plus/Apollo4 Blue Plus Rev C0 (KBR and KXR devices).
+
+**********************************************************************************************
+
+SDK supports all Apollo4 evaluation boards from Ambiq.
+- Apollo4b EVB (/boards/apollo4b_evb)
+- Apollo4b Blue EVB (/boards/apollo4b_blue_evb)
+- Apollo4b EVB with Rev 1 Display Shield (/boards/apollo4b_evb_disp_shield)
+- Apollo4p EVB (/boards/apollo4p_evb)
+- Apollo4p Blue KBR EVB (/boards/apollo4p_blue_kbr_evb)
+- Apollo4p Blue KXR EVB (/boards/apollo4p_blue_kxr_evb) (NEW)
+- Apollo4p EVB with Rev 2 Display Shield (/boards/apollo4p_evb_disp_shield_rev2) (NEW, replaces support for apollo4p_evb_disp_shield_rev1).
+
+SDK includes a number of predefined examples for each configuration. See the file in /docs/List_of_Examples.txt.
+Two new examples have been added to the Apollo4 Plus boards: audadc_power_cycling and tdm_loopback. 
+
+SDK includes pre-built graphics examples using the Embedded Wizard (Tara Systems) GUI-Builder tool. These can be 
+found at boards/apollo4p_evb_disp_shield_rev2/examples/graphics.  Support for this tool can be found at:
+https://doc.embedded-wizard.de/getting-started-apollo4-display-kit?v=11.00
+
+IDE/ToolChain Support:
+----------------------
+AmbiqSuite SDK supports GCC, IAR and Keil IDEs.
+This release has been tested with:
+- GCC 10.3.1 20210621 (release) [GNU Arm Embedded Toolchain 10.3-2021.07]
+- IAR ANSI C/C++ Compiler V9.20.2.320/W64 for ARM
+- Keil: ARMCC 5060750, ARM Compiler 5.06 update 6 (build 750)
+* For IAR EWARM, Apollo4 is natively supported with EWARM v9.10.2 and later.
+* For Keil MDK, Apollo4 is supported by installing the CMSIS Ambiq Pack v1.2.9 or later.
+* For either toolchain, either Apollo4 device is supported by selecting the AMAP42KK-KBR device.
+* It is expected that J-Link and IAR will soon natively support Apollo4 Plus and Apollo4 Blue Plus
+  devices. Keil MDK supports Apollo4 (Blue) Plus with the Ambiq Pack v1.3.0 or later (the latest
+  Ambiq pack should be available via the MDK Pack Installer utility).
+* In the interim, tools patches to support Apollo4 Plus are provided with this release. Please
+  see the instructions provided in the /debugger_updates/ directory.
+* By default, Apollo4 Plus projects in this release select the AMAP42KP-KBR device. Other
+  Apollo4 Plus devices are also supported.
+
+Notes:
+------
+* Provisioning and image tools for Apollo4 Plus and Apollo4 Blue Plus use the same infrastructure as Apollo4
+  Use tools/apollo4b_scripts for the same
+  
+Known Issues:
+-------------
+* The tempco example is incompatible with Apollo4p EVBs, which contain earlier trim revision devices.  Trim revision 6 is required.
+* The Power examples for Apollo4p EVBs will also result in sub-optimal power performance until trim revision 6 parts are available.
+
+Top Level Directory Structure:
+------------------------------
+.
++---ambiq_ble <BLE apps/profiles/services used on top of Cordio>
++---boards
+|   +---apollo4b_blue_evb
+|   |   +---bsp <Board Specific code>
+|   |   \---examples
+|   +---apollo4b_evb
+|   |   +---bsp <Board Specific code>
+|   |   \---examples
+|   +---apollo4b_evb_disp_shield
+|   |   +---bsp <Board Specific code>
+|   |   \---examples
+|   +---apollo4p_blue_kbr_evb
+|   |   +---bsp <Board Specific code>
+|   |   \---examples
+|   +---apollo4p_blue_kxr_evb
+|   |   +---bsp <Board Specific code>
+|   |   \---examples
+|   +---apollo4p_evb
+|   |   +---bsp <Board Specific code>
+|   |   \---examples
+|   \---apollo4p_evb_disp_shield_rev2
+|       +---bsp <Board Specific code>
+|       \---examples
++---bootloader <utility functions for secondary bootloader or other applications>
++---CMSIS <ARM CMSIS definitions and functions>
++---debugger_updates
++---devices <Device Drivers for selected Apollo4 and Apollo4 Plus peripherals>
++-- docs
+¦   +-- licenses
+¦   +-- registers <Register Documentation>
+¦   +-- releasenotes <Release Notes and Change History>
++---makedefs <Part of build infrastructure>
++---mcu <HAL and Register definitions>
+|   +---apollo4b
+|   \---apollo4p
++---pack
+|   \---SVD
++---third_party <third Party Code/Documents>
+|   +---cordio <BLE Stack from ARM>
+|   +---crypto <instructions/assets to use/port Crypto library from ARM>
+|   +---FatFs <Generic FatFS implementation from Open souce>
+|   +---FreeRTOSv10.1.1 <Reference FreeRTOS open source implementation>
+|   +---prime_mpi <Reference Prime number parallel processing implementation>
+|   +---SEGGER < SEGGER RTT implementation for system monitoring and interactive user I/O in embedded applications>
+|   +---ThinkSi <ThinkSilicon Graphics library assets>
+|   +---tinyusb <TinyUSB USB stack implementation>
+|   \---uecc <small and fast ECDH and ECDSA implementation>
++---tools
+|   +---apollo4
+|   +---apollo4b_scripts <Provisioning and Image generation/update tools, along with SBL updates>
+|   +---apollo4_amota <Tools to interact with Ambiq's BLE Reference Application for Image download and updates>
+|   +---bootloader_scripts
+|   +---bsp_generator <Tools for Automated BSP generation>
+|   +---config <Part of build infrastructure>
+|   \---linker_config <Part of build infrastructure>
+\---utils <General Utilities>
+

@@ -1,0 +1,8 @@
+# ninja log v5
+1	490	6837657834603502	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/am_devices_led.o	8b1d0f8ea1440af7
+504	953	6837657839263522	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/am_resources.o	743241e4cce8c1a3
+973	1029	6837657840103524	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/startup_iar.o	c3926c47b8fc7dcf
+1047	1535	6837657845053516	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/deepsleep_wake.o	351592433bdf3141
+1551	1701	6837657846803591	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/am_util_stdio.o	680faa26b3e82665
+1719	1801	6837657847793525	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/deepsleep_wake.out	f31b702a6e997701
+1820	1827	6837657848133521	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/power/deepsleep_wake/iar/bin/deepsleep_wake.bin	99cd7bf55aea0085

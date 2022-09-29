@@ -1,0 +1,12 @@
+# ninja log v5
+1	686	6837651222245844	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/am_devices_cooper.o	66ea71e1dbfe71e3
+707	1160	6837651227035850	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/am_resources.o	89301b1d6f9d9ea8
+1198	1719	6837651232605858	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_ble_cooper.o	ba0f7c566456f957
+1741	1798	6837651233505854	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/startup_iar.o	b4c98238d2717533
+1828	1978	6837651235285856	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_stdio.o	4a5aee21c63a3dd3
+2005	2465	6837651240065853	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_delay.o	1c91c8198de73b73
+2486	2954	6837651244955897	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_faultisr.o	3304c3b71255fc0c
+2976	3563	6837651251015899	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/dtm_main.o	2e827940a3892d35
+3593	4087	6837651256285845	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/uart_ble_bridge.o	7051bbbb01e82a8
+4110	4248	6837651257945842	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/uart_ble_bridge.out	d05252aa8a7f0ae3
+4275	4282	6837651258405848	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/uart_ble_bridge/iar/bin/uart_ble_bridge.bin	75eb7427ef58e9ff

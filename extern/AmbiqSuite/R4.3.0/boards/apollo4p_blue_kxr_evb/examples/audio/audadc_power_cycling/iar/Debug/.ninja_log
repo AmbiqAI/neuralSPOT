@@ -1,0 +1,9 @@
+# ninja log v5
+0	481	6837634569400343	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/am_util_faultisr.o	afb7be514ded3e89
+497	947	6837634574100338	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/am_resources.o	d081a754ed9a8654
+971	1429	6837634578890346	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/am_util_delay.o	f98e3cc457effadf
+1446	1596	6837634580650336	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/am_util_stdio.o	b189da457aa61bfd
+1613	1667	6837634581370344	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/startup_iar.o	56d0c9488ab62c34
+1683	2196	6837634586560384	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/audadc_power_cycling.o	968ab5d110f01187
+2214	2324	6837634587920335	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/audadc_power_cycling.out	60c6eaeefb2478b0
+2348	2355	6837634588310340	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_power_cycling/iar/bin/audadc_power_cycling.bin	432059c0afc85dbf

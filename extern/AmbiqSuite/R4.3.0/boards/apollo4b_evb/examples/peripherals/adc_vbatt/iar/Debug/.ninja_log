@@ -1,0 +1,10 @@
+# ninja log v5
+0	524	6837606274025963	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/adc_vbatt.o	79505cdb1bb7777f
+539	985	6837606278655943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/am_resources.o	328362ddb1f4dab4
+1002	1482	6837606283615955	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/am_devices_led.o	19a419a4aa600b27
+1496	1955	6837606288345979	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/am_util_faultisr.o	f58869c18e9e9665
+1974	2428	6837606293075944	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/am_util_delay.o	8bd6ac33e4280034
+2443	2593	6837606294805966	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/am_util_stdio.o	f4d3474875032c13
+2607	2660	6837606295495964	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/startup_iar.o	a17e8d4d04e48486
+2683	2784	6837606296705938	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/adc_vbatt.out	5ece5263c1526aec
+2799	2805	6837606297005954	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/peripherals/adc_vbatt/iar/bin/adc_vbatt.bin	c42300c57d060cd9

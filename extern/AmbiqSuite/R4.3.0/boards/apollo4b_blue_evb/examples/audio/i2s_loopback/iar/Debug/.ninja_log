@@ -1,0 +1,9 @@
+# ninja log v5
+0	560	6837585033713415	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/am_util_faultisr.o	ebab255e3bf211e2
+574	1019	6837585038343404	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/am_resources.o	411514a7f0ccda12
+1036	1493	6837585043063413	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/am_util_delay.o	c824b1747a40c2e4
+1507	2174	6837585049853405	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/i2s_loopback.o	415d3eb338ee56ff
+2190	3039	6837585058593414	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/am_util_stdio.o	e9587356383075bf
+3055	3115	6837585059373459	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/startup_iar.o	8a7a23d8c0d4deea
+3135	3232	6837585060543398	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/i2s_loopback.out	94a7611709648ca8
+3248	3260	6837585060893403	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/audio/i2s_loopback/iar/bin/i2s_loopback.bin	e8442e83eacd9534

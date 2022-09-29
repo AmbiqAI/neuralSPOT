@@ -1,0 +1,10 @@
+# ninja log v5
+1	3269	6837635438342821	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/am_devices_cooper.o	2e2b9a585c3fbabd
+3287	3738	6837635443122822	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/am_resources.o	bbde64886b6bb645
+3759	4617	6837635451942815	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/am_util_stdio.o	477fe5725d82db40
+4638	5242	6837635458122820	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/am_util_ble_cooper.o	ed89d1f10bd89f7a
+5260	6732	6837635472972820	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/ble_firmware_update.o	bb2e036478681e52
+6751	6810	6837635473922820	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/startup_iar.o	f81aab4ba428bcaf
+6829	7291	6837635478622821	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/am_util_delay.o	68b6d0a41bf115bd
+7309	7409	6837635479872825	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/ble_firmware_update.out	d66dbbf0585abb6b
+7430	7441	6837635480282821	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/ble/ble_firmware_update/iar/bin/ble_firmware_update.bin	41b9622ea380f513

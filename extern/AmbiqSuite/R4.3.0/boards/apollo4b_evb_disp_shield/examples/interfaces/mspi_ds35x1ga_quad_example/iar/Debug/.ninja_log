@@ -1,0 +1,11 @@
+# ninja log v5
+0	610	6837613650770988	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_devices_mspi_ds35x1ga.o	b675f8ff25ed13bd
+625	1068	6837613655400990	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_resources.o	c6c80027ba7e7032
+1087	1536	6837613660061001	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_delay.o	aed6189e3d0eedd
+1552	2012	6837613664820990	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_id.o	8fb33ab38b840339
+2028	2518	6837613669881002	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.o	19ed335c1b47c15b
+2540	2688	6837613671670988	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_stdio.o	9e6db2d839f26473
+2715	3194	6837613676631003	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_faultisr.o	e23a204679bc202
+3212	3267	6837613677471002	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/startup_iar.o	94cfe33fa2fe0df9
+3284	3407	6837613678830995	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.out	98bf6044fd9d5d78
+3438	3445	6837613679310995	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.bin	19912a43f8733b1c

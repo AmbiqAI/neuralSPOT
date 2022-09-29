@@ -1,0 +1,10 @@
+V1.21.0.0 /- 21-Jan-2022
+1. Integrated CEVA rw-ble-sw-v10.0.12 patches
+(1) Do not apply slave latency when missing synchronization with master.
+(2) Schedule more programming margin for wakeup activity. This will shorten the sleep time and cause a little higher average power consumption.
+(3) Optimize the instant passed identification for PHY update and channel map update procedures.
+(4) Minor change to prevent corruption of last transmitted packet when direct test mode is disabled.
+(5) Do not report error when trying to disable one advertising activitiy which is already disabled.
+(6) Fix to correctly report the high duty cycle directed advertising timeout failure.
+(7) Update the ADI DID to make sure it is not the same as the previous one.
+2. Free the released ACL RX buffer directly instead of assigning it to the RX descriptor to prevent memory leakage.

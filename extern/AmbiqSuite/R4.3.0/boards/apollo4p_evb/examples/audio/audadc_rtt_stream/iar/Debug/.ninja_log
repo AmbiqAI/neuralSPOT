@@ -1,0 +1,12 @@
+# ninja log v5
+1	462	6837655180978320	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/am_resources.o	1649705722c90b95
+478	968	6837655185998300	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/am_devices_led.o	d87f54a86510acea
+990	1509	6837655191408330	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.o	ff945f0a0f3e1600
+1526	1679	6837655193208294	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_stdio.o	8454d43478f61a56
+1703	1808	6837655194498322	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/SEGGER_RTT_printf.o	ce6fb92a2f990cbc
+1824	2287	6837655199198315	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_delay.o	f6b131b50b3b9c40
+2302	2781	6837655204128299	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_faultisr.o	3fb283bee05493c8
+2806	3015	6837655206558327	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/SEGGER_RTT.o	49f12e26abad6f14
+3032	3086	6837655207298323	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/startup_iar.o	e005991f8ec186b4
+3109	3226	6837655208658317	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.out	c8f7b22a5a8cde62
+3243	3250	6837655208998303	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.bin	46e5e94e999c614f

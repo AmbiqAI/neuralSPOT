@@ -1,0 +1,12 @@
+# ninja log v5
+1	462	6837634677080338	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_resources.o	b9700636667acdad
+488	970	6837634682120310	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_devices_led.o	eb6afc6fea489d51
+997	1501	6837634687440341	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.o	82de3717b0d730c9
+1520	1974	6837634692180362	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_delay.o	b731e12ed58e3c67
+1991	2199	6837634694500333	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/SEGGER_RTT.o	3864e4f196e7799e
+2216	2370	6837634696220345	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_stdio.o	83f30e961891cc20
+2386	2488	6837634697410358	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/SEGGER_RTT_printf.o	3d054fc4d57273a8
+2504	2983	6837634702230313	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_faultisr.o	6a89ce59e2d4403f
+3011	3067	6837634703210346	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/startup_iar.o	7f65426ed74d7d23
+3085	3201	6837634704510340	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.out	c97c3d0e0a884317
+3219	3225	6837634704850345	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.bin	33f888b80f01c5fe

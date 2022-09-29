@@ -1,0 +1,11 @@
+# ninja log v5
+0	776	6837667750252951	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/am_devices_mspi_is25wx064.o	d8b2cffb2cfcd3df
+797	1548	6837667757972945	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/am_devices_mspi_atxp032.o	575ad8c77cba4ebc
+1567	2024	6837667762782953	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/am_resources.o	8953a6651ae59c39
+2042	2193	6837667764542950	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/am_util_stdio.o	4160086d5fa0b06b
+2211	2269	6837667765322946	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/startup_iar.o	aa8165b7180e1dad
+2285	2751	6837667770032954	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/am_util_delay.o	18d53e8ed937f434
+2766	3246	6837667774982940	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/am_util_faultisr.o	dae1321de1fc7c80
+3268	3791	6837667780442946	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/mspi_octal_example.o	e72aee0895377e98
+3816	3951	6837667782082938	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/mspi_octal_example.out	fa3cd3a1b6ce1f24
+3974	3981	6837667782502955	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_octal_example/iar/bin/mspi_octal_example.bin	2b69705d0ced8c00

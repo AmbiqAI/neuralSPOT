@@ -1,0 +1,54 @@
+
+Last updated: June 05, 2020
+
+This file contains origination information about the various
+CMSIS header and library files located in this folder.
+
+
+ARM/Include/:
+AmbiqSuite SDK file:                Pack Origination:
+cmsis*.h                            CMSIS/5.7.0/CMSIS/Core/Include/
+core_cm4.h                          CMSIS/5.7.0/CMSIS/Core/Include/
+mpu_armv7.h                         CMSIS/5.7.0/CMSIS/Core/Include/
+arm_math.h                          CMSIS/5.7.0/CMSIS/Include/
+
+
+ARM/Lib/ARM/:
+AmbiqSuite SDK file:                Pack Origination:
+arm_cortexM4lf_math.lib             CMSIS/5.7.0/CMSIS/DSP/Lib/ARM/
+arm_cortexM4l_math.lib              CMSIS/5.7.0/CMSIS/DSP/Lib/ARM/
+libarm_cortexM4lf_math.a            CMSIS/5.7.0/CMSIS/DSP/Lib/GCC/
+libarm_cortexM4l_math.a             CMSIS/5.7.0/CMSIS/DSP/Lib/GCC/
+iar_cortexM4lf_math.a               CMSIS/5.7.0/CMSIS/DSP/Lib/IAR/
+iar_cortexM4l_math.a                CMSIS/5.7.0/CMSIS/DSP/Lib/IAR/
+
+
+
+History:
+
+06/05/20 Updated Ambiq SDK to CMSIS v5.7.0.
+CMSIS v5.7.0 released by ARM on 04/09/2020
+Synopsis of changes from v5.6.0:
+All .lib and .a libraries were updated, refer to ARM documentation for details.
+arm_math.h:
+    Introduction comments were heavily modified, cplusplus delimiter,
+    local define name changes, new defines include __ARM_FEATURE_UNALIGNED,
+    ARM_MATH_MVEF, ARM_MATH_AUTOVECTORIZE, ARM_MATH_MVEI
+cmsis_armcc.h:
+    __ISB, __DSB, __DMB macros remove calls to schedule_barrier().
+cmsis_armclang.h:
+    Mostly adds support for ARM_ARCH_8_1M_MAIN.
+    Adds __SXTBL16_RORn() macro.
+cmsis_compiler.h:
+    No changes.
+cmsis_gcc.h:
+    Updates various macros, add and remove volatile directives, etc.
+cmsis_iccarm.h:
+    Updates various macros, add and remove volatile directives, etc.
+cmsis_version.h:
+    Bump version number.
+core_cm4.h:
+    Updates ptr handling in NVIC_SetVector() and NVIC_GetVector() functions.
+mpu_armv7.h:
+    Update ARM_MPU_Enable() with DMB(), and ARM_MPU_Disable() with DSB() and
+    ISB() instructions.

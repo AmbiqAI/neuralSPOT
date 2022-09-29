@@ -48,7 +48,7 @@ main(void) {
         .data = (uint8_t *) g_sensorData, // point this to MPU buffer
         .dataLength = NUMSAMPLES * 7 * sizeof(float)
     };
-    char msg_store[30] = "MPU6050-Data-to_CSV";
+    char msg_store[30] = "MPU6050-Data-to-CSV";
 
     // Block sent to PC
     dataBlock outBlock = {

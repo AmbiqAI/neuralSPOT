@@ -1,0 +1,12 @@
+# ninja log v5
+0	692	6837601338646818	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/am_devices_cooper.o	e6d6a5143d562857
+716	1166	6837601343416821	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/am_resources.o	1199246684a54829
+1190	1248	6837601344326820	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/startup_iar.o	d7cc49462554d0b3
+1277	1735	6837601349106807	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_faultisr.o	52a22568774b6b8f
+1757	1906	6837601350906816	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_stdio.o	6039b229c6f4c418
+1933	2385	6837601355606898	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_delay.o	6b4e8de4d198727f
+2406	2917	6837601360926821	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/am_util_ble_cooper.o	acfdfc2538c8d59c
+2945	3523	6837601366966818	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/dtm_main.o	acc99d01ce8e2dab
+3545	4037	6837601372106797	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/uart_ble_bridge.o	195b7aad212a3c3a
+4067	4208	6837601373886811	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/uart_ble_bridge.out	1075faa1ea145182
+4226	4233	6837601374256828	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/ble/uart_ble_bridge/iar/bin/uart_ble_bridge.bin	114e79d740d6f2e0

@@ -1,0 +1,11 @@
+# ninja log v5
+0	449	6837613770080985	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/am_resources.o	e2907ac3b7fdcf7b
+468	515	6837613770830987	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/am_devices_mspi_is25wx064.o	87a90c8e98125b1a
+537	1256	6837613778110992	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/am_devices_mspi_atxp032.o	4f56ee831e3e1842
+1272	1742	6837613782990986	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/am_util_faultisr.o	85d95e460d381e76
+1758	2269	6837613788260992	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/mspi_octal_example.o	23851b516f2757de
+2286	2433	6837613789990992	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/am_util_stdio.o	4dc5f6daafdc9666
+2449	2902	6837613794590990	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/am_util_delay.o	5b557381725a6c79
+2917	2971	6837613795380994	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/startup_iar.o	f14505841e7a5d9a
+2988	3117	6837613796800991	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/mspi_octal_example.out	6131e5992eba03af
+3137	3144	6837613797180987	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example/iar/bin/mspi_octal_example.bin	a8c5ddc3df5ce2c0

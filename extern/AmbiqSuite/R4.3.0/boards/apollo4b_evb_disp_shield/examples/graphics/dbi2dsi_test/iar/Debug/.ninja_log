@@ -1,0 +1,14 @@
+# ninja log v5
+1	570	6837608525169321	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/am_devices_dsi_rm67162.o	1e9d5f127cb0cf6f
+596	1042	6837608529929327	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/am_resources.o	5b6f7e247823b396
+1071	2506	6837608544489376	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/dbi2dsi_test.o	38af5d7d28660d0e
+2533	2571	6837608545319338	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/nema_event.o	6d6ea3827d301efc
+2598	3076	6837608550209343	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/nema_dc_hal.o	253cce756e2b018
+3102	3254	6837608552119327	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/am_util_stdio.o	8f25dbee7772759f
+3286	3744	6837608556929325	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/am_util_delay.o	f1f237f8009c0fa8
+3776	4249	6837608561949331	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/main.o	6ae405e95c86ad35
+4280	4777	6837608567249323	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/nema_utils.o	bd121045d1e42b2f
+4815	5309	6837608572569321	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/nema_hal.o	a5c3c58d775b4aed
+5338	5396	6837608573549336	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/startup_iar.o	9e7124269e947280
+5429	5560	6837608575169316	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/dbi2dsi_test.out	9ffececf80290eca
+5581	5594	6837608575589332	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dbi2dsi_test/iar/bin/dbi2dsi_test.bin	f16a48535164b5c6

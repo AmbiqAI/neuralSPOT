@@ -1,0 +1,14 @@
+# ninja log v5
+1	579	6837608904159366	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_devices_dsi_rm67162.o	c490b86fca96193b
+605	1057	6837608908979428	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_resources.o	73b23086e3311f49
+1086	1544	6837608913829332	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_util_delay.o	a6acaffe323850c0
+1571	2102	6837608919399336	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/dsi_rw_command.o	baa6ba5de293282f
+2134	2175	6837608920249344	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_event.o	431e2014e6d58183
+2203	2680	6837608925199322	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_dc_hal.o	a4d8bb0c774ea91b
+2713	2866	6837608927139374	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_util_stdio.o	a3982dea069e104c
+2909	3386	6837608932219364	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/main.o	fdc1058863e56ef7
+3412	3470	6837608933189483	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/startup_iar.o	b20454c6a514798c
+3498	4004	6837608938419351	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_utils.o	9d13ccf1d46d693e
+4044	4546	6837608943839495	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_hal.o	c244a5d83ee97310
+4580	4700	6837608945469312	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/dsi_rw_command.out	5057b22b026529c1
+4736	4743	6837608945979336	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/dsi_rw_command.bin	9aa11f0a7525c8e4

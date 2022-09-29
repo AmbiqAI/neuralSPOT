@@ -1,0 +1,9 @@
+# ninja log v5
+1	460	6837605849686036	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/am_resources.o	560d0262e55133b9
+474	933	6837605854425959	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/am_util_delay.o	72e704d9405cefd
+949	1409	6837605859175976	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/am_util_id.o	d8c3beeab335ce0f
+1423	1575	6837605860925957	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/am_util_stdio.o	72959d649a4e132f
+1590	2074	6837605865825947	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/info_dump.o	957219ac2bee5d2e
+2089	2146	6837605866645940	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/startup_iar.o	bac1b48d1e799de8
+2161	2253	6837605867705952	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/info_dump.out	cfd08167cb691c8d
+2267	2274	6837605867995954	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/memory/info_dump/iar/bin/info_dump.bin	c183da2320666df7

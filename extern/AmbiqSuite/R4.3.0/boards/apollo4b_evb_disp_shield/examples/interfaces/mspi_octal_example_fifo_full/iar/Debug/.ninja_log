@@ -1,0 +1,10 @@
+# ninja log v5
+0	454	6837613887580986	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/am_resources.o	8b6f0e9ad4f6cce4
+471	1181	6837613894800986	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/am_devices_mspi_atxp032.o	ab2ae5efc1443c5d
+1205	1692	6837613899930991	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/mspi_octal_example_fifo_full.o	3b0a5ba402e5152b
+1716	1770	6837613900831000	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/startup_iar.o	a6b136eb79316121
+1788	2259	6837613905600989	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/am_util_faultisr.o	43f4f4a4d99704c6
+2274	2422	6837613907340994	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/am_util_stdio.o	5a2a968a4147e311
+2439	2895	6837613911950991	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/am_util_delay.o	c3ce976c485a9e98
+2911	3030	6837613913380998	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/mspi_octal_example_fifo_full.out	a72ad04b1236d161
+3060	3066	6837613913850993	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb_disp_shield/examples/interfaces/mspi_octal_example_fifo_full/iar/bin/mspi_octal_example_fifo_full.bin	869e04c1000929b2

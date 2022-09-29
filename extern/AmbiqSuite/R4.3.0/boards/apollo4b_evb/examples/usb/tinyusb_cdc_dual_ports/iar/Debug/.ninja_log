@@ -1,0 +1,17 @@
+# ninja log v5
+0	454	6837607868655943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_resources.o	ae0bf7a89e94e2a2
+475	564	6837607869835967	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tinyusb_cdc_dual_ports.o	19ed8668dae19865
+598	1058	6837607874675941	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_util_id.o	34f2d06a9c142dd5
+1084	1538	6837607879475939	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_util_delay.o	5710913f9f237668
+1559	1613	6837607880325943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/startup_iar.o	16f2b642490fe804
+1644	1795	6837607882115921	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_util_stdio.o	a002e507565c54e2
+1816	2281	6837607886895944	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/apollo4_board.o	bf00ab2370dfcb1f
+2310	2822	6837607892305948	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/dcd_apollo4.o	c76ab810de367585
+2843	2993	6837607894115955	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/cdc_device.o	a4aa946bfc9a0da5
+3024	3132	6837607895515940	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/usbd_control.o	be2bb56a8630de59
+3165	3309	6837607897265943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tusb.o	cc97c8e53ef7ff9d
+3329	3500	6837607899175942	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tusb_fifo.o	f6bbc6e34b561c9d
+3521	3824	6837607902395942	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/usbd.o	83719c52e696a9e6
+3844	3946	6837607903655945	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/usb_descriptors.o	e7ae9fc61e40eef
+3979	4124	6837607905385938	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tinyusb_cdc_dual_ports.out	80880c2276546dd
+4153	4159	6837607905845947	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tinyusb_cdc_dual_ports.bin	dff43619c1773124

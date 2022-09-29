@@ -22,8 +22,8 @@
 #include "am_util.h"
 #include "ns_peripherals_button.h"
 
-int *g_ns_peripheral_button0;
-int *g_ns_peripheral_button1;
+int volatile *g_ns_peripheral_button0;
+int volatile *g_ns_peripheral_button1;
 
 /**
  * @brief GPIO Button0 ISR handler

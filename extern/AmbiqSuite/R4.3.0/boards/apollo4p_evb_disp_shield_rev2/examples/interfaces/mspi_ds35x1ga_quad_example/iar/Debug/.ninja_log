@@ -1,0 +1,11 @@
+# ninja log v5
+1	557	6837667483312961	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_delay.o	8870e6ac3f4b072c
+578	1170	6837667489502943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_devices_mspi_ds35x1ga.o	6158484a7e6f8b3d
+1189	1650	6837667494332943	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_resources.o	6324fdc0c210a8c2
+1668	1723	6837667495152942	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/startup_iar.o	87a1a0d5316e1dda
+1744	1893	6837667496832944	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_stdio.o	baa10d34ab26a03a
+1916	2383	6837667501652986	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_id.o	f04906a86974a9e0
+2399	2907	6837667506862961	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.o	8c210f1a781523aa
+2925	3406	6837667511862955	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_faultisr.o	8c9fff99823e27c6
+3429	3550	6837667513372947	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.out	cbca903722a8b921
+3571	3578	6837667513752953	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.bin	8b7cca8ace42076d

@@ -1,0 +1,4 @@
+# ninja log v5
+0	506	6837584676813423	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/bsp/iar/bin/am_bsp_pins.o	5b3cd8bfe16863eb
+516	1817	6837584689893407	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/bsp/iar/bin/am_bsp.o	3df750e8d0351805
+1836	1851	6837584690423411	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/bsp/iar/bin/libam_bsp.a	acf283b40a2db943

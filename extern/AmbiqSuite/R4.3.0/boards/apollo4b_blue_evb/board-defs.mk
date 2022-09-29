@@ -1,0 +1,3 @@
+FAMILY=apollo4b
+PACKAGE=AM_PACKAGE_BGA
+BOARD=apollo4b_blue_evb

@@ -1,0 +1,9 @@
+# ninja log v5
+0	470	6837652530115852	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/am_util_delay.o	178806580735c74f
+485	936	6837652534795843	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/am_resources.o	7b51fe10c38b6eb2
+953	1417	6837652539595881	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/am_util_faultisr.o	b999a20e360909e9
+1432	1583	6837652541335898	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/am_util_stdio.o	a9f8bd7a77f5cfdc
+1598	2084	6837652546255846	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/hp_mode_192mhz.o	c8007cf6b7a7f523
+2100	2154	6837652547065843	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/startup_iar.o	74d91f0af046ca18
+2170	2247	6837652547985847	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/hp_mode_192mhz.out	e4f8fca7f66cb998
+2262	2268	6837652548265853	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kxr_evb/examples/peripherals/hp_mode_192mhz/iar/bin/hp_mode_192mhz.bin	cc7204ef7ac80dde

@@ -1,0 +1,10 @@
+# ninja log v5
+0	495	6837632362430364	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/am_devices_led.o	ede53cf48f09a778
+509	959	6837632367100336	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/am_resources.o	b59d3a9ea7075e57
+981	1037	6837632367950356	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/startup_iar.o	6e46df033f02d162
+1056	1521	6837632372700331	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/am_util_faultisr.o	1c970b6642797f59
+1535	2014	6837632377630348	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/watchdog.o	d5ce1234141af067
+2037	2486	6837632382330311	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/am_util_delay.o	2461ef3d67939ec3
+2502	2649	6837632384070331	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/am_util_stdio.o	d1c49dba0614a157
+2664	2743	6837632385010328	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/watchdog.out	6535dd27580a5ac9
+2758	2764	6837632385300341	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_blue_kbr_evb/examples/peripherals/watchdog/iar/bin/watchdog.bin	10344e8fdf89a21a

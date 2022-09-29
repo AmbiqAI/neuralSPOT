@@ -1,0 +1,11 @@
+# ninja log v5
+0	459	6837604364262199	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/am_resources.o	b9d464d3d5e9ca9d
+478	1029	6837604369932188	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/am_devices_led.o	cf6b7c74c9df2524
+1045	1611	6837604375752184	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/prime.o	8b75d500fae4147e
+1625	2083	6837604380492196	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/am_util_delay.o	8f2e2972618502f2
+2097	2149	6837604381252200	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/prime_mpi.o	474a5a08bebc2526
+2163	3015	6837604389872189	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/am_util_stdio.o	bc66b3a4afa9d86c
+3028	3084	6837604390602187	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/startup_iar.o	40f20fa7498ad2c
+3101	3575	6837604395402185	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/am_util_faultisr.o	ccaa918b33aed555
+3588	3678	6837604396522192	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/prime.out	f119c44b3d86bfa4
+3693	3699	6837604396812198	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4b_blue_evb/examples/power/prime/iar/bin/prime.bin	632747b6a1d5d5d3

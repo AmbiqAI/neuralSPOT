@@ -1,0 +1,9 @@
+# ninja log v5
+0	470	6837655908508293	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/am_util_delay.o	3136b08836046012
+495	941	6837655913228299	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/am_resources.o	693724dcf4b1de6d
+962	1436	6837655918158286	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/am_util_faultisr.o	be19af890aee1aa1
+1455	1602	6837655919918294	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/am_util_stdio.o	3c586692176853a
+1621	1677	6837655920668290	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/startup_iar.o	abde8980035dc90f
+1695	2184	6837655925638294	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/rng_test.o	3ad77fd17da96c02
+2202	2295	6837655926808286	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/rng_test.out	c825db6815905533
+2314	2320	6837655927168301	C:/jenkins-agent/workspace/AmbiqSuite_release_4p_4b/workspace/boards/apollo4p_evb/examples/crypto/rng_test/iar/bin/rng_test.bin	b2253b61d9afd2a4

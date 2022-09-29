@@ -16,6 +16,7 @@
 #include "ns_mpu6050_i2c_driver.h"
 #include "ns_rpc_generic_data.h"
 #include "ns_peripherals_button.h"
+// #include "ns_usb.h"
 #include "ns_peripherals_power.h"
 
 #define NUMSAMPLES 32
@@ -38,17 +39,12 @@ main(void) {
 
     am_hal_interrupt_master_enable();
 
-    // In order to send a block of data to the PC, we have
-    // to instantiate a dataBlock. We point block.buffer
-    // to the sample buffer (g_sensorData) and keep reusing
-    // that.
-
     // DataBlock init
     binary_t binaryBlock = {
-        .data = (uint8_t *) g_sensorData, // point this to MPU buffer
+        .data = (uint8_t *) g_sensorData, // point this to audio buffer
         .dataLength = NUMSAMPLES * 7 * sizeof(float)
     };
-    char msg_store[30] = "MPU6050-Data-to_CSV";
+    char msg_store[30] = "MPU6050-Data-to-CSV";
 
     // Block sent to PC
     dataBlock outBlock = {

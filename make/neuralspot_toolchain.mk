@@ -17,6 +17,7 @@ OD = $(TOOLCHAIN)-objdump
 RD = $(TOOLCHAIN)-readelf
 AR = $(TOOLCHAIN)-ar
 SIZE = $(TOOLCHAIN)-size
+LINT = clang-tidy
 RM = $(shell which rm 2>/dev/null)
 DOX = doxygen
 

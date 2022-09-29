@@ -26,7 +26,6 @@
 #include "ns_peripherals_power.h"
 #include "ns_malloc.h"
 
-
 // GenericDataOperations implements 3 function calls that service
 // remote calls from a PC. They must be instantiated to enable them.
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
@@ -45,10 +44,10 @@ status example_sendBlockToEVB(const dataBlock * block) {
 status example_fetchBlockFromEVB(dataBlock * block) {
     ns_printf("LOCAL Received call to fetchBlockFromEVB\n");
 
-    // For strings and binary structs (which block->buffer is)
+    // For strings (binary->description) and binary structs (block->buffer)
     // ERPC will attempt to free() the memory - this is kind
     // of an ERPC bug IMHO. Nevertheless, strings & structs must be
-    // malloc'd using erpc_malloc.
+    // malloc'd using ns_malloc.
 
     uint32_t len = 4;
     uint16_t *retBuffer = (uint16_t *)ns_malloc(len * sizeof(uint16_t));

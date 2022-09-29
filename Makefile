@@ -79,13 +79,10 @@ dependencies = $(subst .o,.d,$(objects))
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
 
-
-
 .PHONY: all
 all:
 
 include $(addsuffix /module.mk,$(modules))
-$(info $(mains))
 
 # LINTINCLUDES = $(addprefix -I ,$(includes_api))
 # LINTINCLUDES += $(addprefix -D,$(pp_defines))
@@ -112,8 +109,8 @@ else
 	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF) $(NESTDIR)
 endif
 
-lint: $(LINTSOURCES)
-	$(LINT) $< -- $(LINTINCLUDES)
+# lint: $(LINTSOURCES)
+# 	$(LINT) $< -- $(LINTINCLUDES)
 
 ifneq "$(MAKECMDGOALS)" "clean"
   include $(dependencies)

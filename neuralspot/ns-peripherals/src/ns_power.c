@@ -241,8 +241,10 @@ ns_power_config(const ns_power_config_t *pCfg) {
     }
 
     // The following two lines cause audio capture to be distorted - TBI
-    am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-    am_hal_cachectrl_enable();
+    if (pCfg->bNeedAudAdc == false) {
+        am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+        am_hal_cachectrl_enable();
+    }
 
     // configure peripherals
     ns_power_down_peripherals(pCfg);

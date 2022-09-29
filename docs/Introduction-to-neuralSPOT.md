@@ -43,7 +43,7 @@ NeuralSPOT lives on GitHub as an open-source, highly collaborative project which
 ## Using neuralSPOT
 ### A Day in the Life of an AI Developer
 neuralSPOT is designed to help with the tedious parts of AI feature development, with tools for every stage of the process
-![develop-flow](/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/ai-dev-flow.png)
+![develop-flow](./ai-dev-flow.png)
 
 AI features are rarely developed by a single developer. It takes a team of AI specialists, data specialist, and embedded application specialists working together to develop and deploy an accurate and robust AI feature. These roles are fuzzy and frequently overlap, but for purposes of this document lets define them as follows:
 

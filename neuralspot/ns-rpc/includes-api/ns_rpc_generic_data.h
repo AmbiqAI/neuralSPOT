@@ -54,7 +54,7 @@ extern uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg);
 extern void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block);
 
 /**
- * @brief Call this after processing the block from ns_rpc_data_fetchBlockFromPC
+ * @brief Helper function to be called after processing the block from ns_rpc_data_fetchBlockFromPC
  * or result block from ns_rpc_data_computeOnPC. This will free() the description
  * and buffer.data block struct members, so only do it after you're done with those!
  * 

@@ -15,10 +15,12 @@ input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 
 class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
     def ns_rpc_data_sendBlockToPC(self, block):
-        # Example decode of incoming block
+        # Example decode of incoming block - unpack to WAV or CSV depending on block.description
+        # print(".")
+        # Audio capture handler
         if ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and 
             (block.description == "Audio16bPCM_to_WAV")):
-            # AudioCommand.buf.buf is a 16 bit PCM sample
+            # Data is a 16 bit PCM sample
             data = struct.unpack('<'+'h'*(len(block.buffer)//2), block.buffer)
             data = np.array(data)
             wData = np.array([0]*(block.length//2), dtype=float)
@@ -33,9 +35,29 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
                     wfile.write(wData)
             else:
                 sf.write(outFileName, wData, samplerate = 16000) # writes to the new file
+
+        # MPU6050 capture handler
+        elif ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and 
+            (block.description == "MPU6050-Data-to-CSV")):
+            outFile = open(outFileName, 'w')
+
+             # Data is a 32bit Float MPU packed sample
+            data = struct.unpack('<'+'f'*(len(block.buffer)//4), block.buffer)
+            column = 0
+            row = 0
+            for d in data:
+                if row < block.length//4: # ignore padding at end of buffer
+                    print(d, end = "", file = outFile)
+                    if column < 6:
+                        print(",", end = " ", file = outFile)
+                        column = column + 1
+                    else:
+                        print("", file = outFile)
+                        column = 0
+                row = row + 1
+
         sys.stdout.flush()
         return 1
-
     
     def ns_rpc_data_fetchBlockFromPC(self, block):
         print("Got a ns_rpc_data_fetchBlockFromPC call.")

@@ -1,2 +1,0 @@
-Details of the Opus Codec License can be found here:
-https://www.opus-codec.org/license/

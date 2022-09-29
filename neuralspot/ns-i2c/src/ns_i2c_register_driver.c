@@ -18,6 +18,15 @@
 #define NS_I2C_MAX_DEVICE 1
 static ns_i2cDriverConfig_t ns_i2cDriverConfig[NS_I2C_MAX_DEVICE+1]; 
 
+/**
+ * @brief Read a block of registers over i2c
+ * 
+ * @param h Handle obtained from ns_i2c_interface_init
+ * @param regAddr Beginning address of the register block
+ * @param pBuf Pointer to buffer where read values will be placed
+ * @param size Number of bytes to read
+ * @return uint32_t status
+ */
 uint32_t
 ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t size)
 {
@@ -42,6 +51,15 @@ ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t 
     return NS_I2C_STATUS_SUCCESS;
 }
 
+/**
+ * @brief Write a block of i2c registers
+ * 
+ * @param h Handle obtained from ns_i2c_interface_init
+ * @param regAddr Beginning address of the register block
+ * @param pBuf Pointer to buffer of values to be written
+ * @param size Number of bytes to write
+ * @return uint32_t status
+ */
 uint32_t
 ns_i2c_reg_write(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t size)
 {
@@ -67,6 +85,16 @@ ns_i2c_reg_write(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t
     return NS_I2C_STATUS_SUCCESS;
 }
 
+/**
+ * @brief Write a bit field within a register. Note that this is a read/modify/write
+ * 
+ * @param h Handle obtained from ns_i2c_interface_init
+ * @param regAddr Beginning address of the register block
+ * @param val Value of bit field to be written
+ * @param bitOffset Offset of LSB of field
+ * @param len Number of bits to be written
+ * @return uint32_t satus
+ */
 uint32_t
 ns_i2c_write_bits(ns_i2cDriverConfig_t *h, uint8_t regAddr, uint8_t val, uint8_t bitOffset, uint8_t len) {
 	uint32_t regVal;
@@ -88,6 +116,14 @@ ns_i2c_write_bits(ns_i2cDriverConfig_t *h, uint8_t regAddr, uint8_t val, uint8_t
     return NS_I2C_STATUS_SUCCESS;
 }
 
+/**
+ * @brief Initialize a i2c on one of the IOM (IO managers)
+ * 
+ * @param ui32Module IOM number
+ * @param devAddress The i2c address of device connected to this i2c interface
+ * @param pIomHandle Pointer to i2c interface handle (returned value)
+ * @return uint32_t status
+ */
 uint32_t
 ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **pIomHandle)
 {

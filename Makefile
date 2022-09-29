@@ -46,6 +46,7 @@ modules      += neuralspot/ns-i2c
 modules      += examples/s2i
 modules      += examples/basic_tf_stub
 modules      += examples/har
+modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example
 modules      += examples/rpc_server_example
 
@@ -78,10 +79,23 @@ dependencies = $(subst .o,.d,$(objects))
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
 
+
+
 .PHONY: all
 all:
 
 include $(addsuffix /module.mk,$(modules))
+$(info $(mains))
+
+# LINTINCLUDES = $(addprefix -I ,$(includes_api))
+# LINTINCLUDES += $(addprefix -D,$(pp_defines))
+# LINTIGNORE = extern
+# FILTER_OUT = $(foreach v,$(2),$(if $(findstring $(1),$(v)),,$(v)))
+# LINTSOURCES =  $(call FILTER_OUT,extern, $(sources))
+
+# #LINTSOURCES = $(filter-out $(wildcard extern/*)), $(sources))
+# $(info --$(sources))
+# $(info --$(LINTSOURCES))
 
 all: $(bindirs) $(libraries) $(examples)
 
@@ -97,6 +111,9 @@ ifeq ($(OS),Windows_NT)
 else
 	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF) $(NESTDIR)
 endif
+
+lint: $(LINTSOURCES)
+	$(LINT) $< -- $(LINTINCLUDES)
 
 ifneq "$(MAKECMDGOALS)" "clean"
   include $(dependencies)

@@ -29,3 +29,6 @@ $2.axf: $(local_objs) $(libraries)
 	@mkdir -p $(@D)
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $(LFLAGS)
 endef
+
+FILTER_OUT = $(foreach v,$(2),$(if $(findstring $(1),$(v)),,$(v)))
+FILTER_IN = $(foreach v,$(2),$(if $(findstring $(1),$(v)),$(v)))

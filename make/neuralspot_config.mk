@@ -18,8 +18,8 @@ FPU    = fpv4-sp-d16
 FABI     = hard
 
 ##### Extern Library Defaults #####
-AS_VERSION := R4.1.0
-TF_VERSION := R2.3.1
+AS_VERSION := R4.3.0
+TF_VERSION := 0c46d6e
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
 
@@ -28,7 +28,6 @@ TARGET      := main# default target for binary-specific operations such as 'depl
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
-# DEFINES+= CFG_TUSB_DEBUG=2
 
 ##### Common AI Precompiler Directives #####
 MLDEBUG     := 0    # 1 = load TF library with debug info, turn on TF debug statements

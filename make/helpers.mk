@@ -1,8 +1,7 @@
-# $(call source-to-object, source-file-list)
-source-to-object = $(subst src,$(BINDIR),$(subst .c,.o,$(filter %.c,$1))) \
-                   $(subst src,$(BINDIR),$(subst .s,.o,$(filter %.s,$1))) \
-                   $(subst src,$(BINDIR),$(subst .cc,.o,$(filter %.cc,$1))) \
-                   $(subst src,$(BINDIR),$(subst .cpp,.o,$(filter %.cpp,$1))) \
+source-to-object = $(addprefix $(BINDIR)/,$(subst .c,.o,$(filter %.c,$1))) \
+                   $(addprefix $(BINDIR)/,$(subst .s,.o,$(filter %.s,$1))) \
+                   $(addprefix $(BINDIR)/,$(subst .cc,.o,$(filter %.cc,$1))) \
+                   $(addprefix $(BINDIR)/,$(subst .cpp,.o,$(filter %.cpp,$1))) \
 
 src-to-build = $(subst src,$(BINDIR),$1)
 
@@ -17,6 +16,8 @@ libraries += $1
 sources   += $2
 
 $1: $(call source-to-object,$2)
+	@echo " Building $(AR) $$@ to make library $$@"
+	@mkdir -p $$(@D)
 	$(Q) $(AR) rsc $$@ $$^
 endef
 

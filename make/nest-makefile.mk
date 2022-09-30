@@ -12,7 +12,7 @@ sources += $(wildcard src/*.s)
 
 targets  := $(BINDIR)/$(local_app_name).axf
 targets  += $(BINDIR)/$(local_app_name).bin
-mains    += $(BINDIR)/$(local_app_name).o
+mains    += $(BINDIR)/src/$(local_app_name).o
 
 objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
 dependencies = $(subst .o,.d,$(objects))
@@ -40,27 +40,27 @@ endif
 $(BINDIR):
 	@mkdir -p $@
 
-%.o: ../src/%.cc
+$(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
-%.o: ../src/%.cpp
+$(BINDIR)/%.o: %.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
-%.o: ../src/%.c
+$(BINDIR)/%.o: %.c
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
 
-%.o: ../src/%.s
+$(BINDIR)/%.o: %.s
 	@echo " Assembling $(COMPILERNAME) $<"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $< -o $@
 
-%.axf: %.o
+%.axf: src/%.o
 	@echo " Linking $(COMPILERNAME) $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(objects) $(LFLAGS)

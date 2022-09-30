@@ -87,7 +87,6 @@ include $(addsuffix /module.mk,$(modules))
 # LINTINCLUDES = $(addprefix -I ,$(includes_api))
 # LINTINCLUDES += $(addprefix -D,$(pp_defines))
 # LINTIGNORE = extern
-# FILTER_OUT = $(foreach v,$(2),$(if $(findstring $(1),$(v)),,$(v)))
 # LINTSOURCES =  $(call FILTER_OUT,extern, $(sources))
 
 # #LINTSOURCES = $(filter-out $(wildcard extern/*)), $(sources))
@@ -122,10 +121,10 @@ all_includes = $(shell awk '/^ .*\.h/ {print $$1}' $(NESTSOURCE))
 nest_dirs = $(sort $(dir $(all_includes)))
 nest_libs = $(addprefix libs/,$(notdir $(libraries)))
 nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
-# $(info -- $(sources))
-# $(info @@ $(all_includes))
-# $(info ^^ $(libraries))
-# $(info && $(lib_prebuilt))
+
+nest_component_includes = $(call FILTER_IN,$(NESTCOMP),$(all_includes))
+nest_component_libs = $(call FILTER_IN,$(NESTCOMP),$(libraries))
+nest_component_libs += $(call FILTER_IN,$(NESTCOMP),$(lib_prebuilt))
 
 
 # Compute stuff for doc creation
@@ -209,6 +208,16 @@ nest: all $(NESTSOURCE)
 	@echo "DEFINES += $(pp_defines)" >> $(NESTDIR)/autogen.mk
 	@echo "INCLUDES += $(includes_api)" >> $(NESTDIR)/autogen.mk
 	@echo "libraries += $(nest_libs)" >> $(NESTDIR)/autogen.mk
+
+.PHONY: nestcomponent
+nestcomponent:
+	@echo " Building Nestcomponent only copying $(NESTCOMP)..."
+	@for file in $(nest_component_includes); do \
+		cp $$file $(NESTDIR)"/includes/"$$file ; \
+	done
+	@for file in $(nest_component_libs); do \
+		cp $$file $(NESTDIR)"/libs/" ; \
+	done
 
 .PHONY: nestall
 nestall: nest

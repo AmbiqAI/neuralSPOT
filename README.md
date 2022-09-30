@@ -17,6 +17,7 @@ All `make` invocations for NS must be done from the base directory ("nest" makes
 `make clean` - deletes every build directory and artifact
 `make nestall` - creates a minimal '[nest](#The Nest)' with a basic main.cc stub file
 `make nest` - creates a minimal '[nest](#The Nest)' *without* a basic main.cc stub file
+`make nestcomponent` - updates a single component in the nest as specified by NEST_COMP
 
 Besides targets, NeuralSPOT has a standard set of compile-time switches to help you configure the build exactly the way you need. These are set via the normal make convention, e.g. `make BOARD=apollo4b`.
 
@@ -26,9 +27,10 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | EVB | Defines the EVB type (evb or evb_blue) | evb |
 | BINDIR | Name of directories where binaries and build artifacts are stored. Note that there will be one build directory per binary or library being created | build |
 | NESTDIR | Relative path and directory name where nest will be created | nest |
-| AS_VERSION | Ambiqsuite Version | R4.1.0 |
-| TF_VERSION | Tensflow Lite for Microcontrollers Version | R2.3.1 |
-| TARGET | Defines what target will be loaded by `make deploy` | s2i |
+| NESTCOMP | root path to a single component to be updated in nest | extern/AmbiqSuite |
+| AS_VERSION | Ambiqsuite Version | R4.3.0 |
+| TF_VERSION | Tensflow Lite for Microcontrollers Version | 0c46d6e |
+| TARGET | Defines what target will be loaded by `make deploy` | main (from basic_tf_stub) |
 | MLDEBUG | Setting to '1' turns on TF debug prints | 0 |
 | AUDIO_DEBUG | Setting to '1' turns on RTT audio dump | 0 |
 
@@ -115,13 +117,24 @@ to NESTDIR. If you are working within a previously created nest, creating a new 
 destination will overwrite these files. This is necessary for certain files (libraries, include_apis) that
 are required for NeuralSPOT's functionality, but not critical for the example code.
 
-To ease upgrading existing nests, the makefile will create a $(NESTDIR)/src/preserved directory and copy the
-existing contents of $(NESTDIR)/src to it.
+There are 3 ways to create or update a nest:
+1. `make nestall`: copies all nest components including example source code and makefiles
+2. `make nest`: copies everything except example source code and makefiles (it does create a suggested makefile)
+3. `make NESTCOMP=desired_component`: copies over only includes and libraries associated with the specified component.
 
-With this in mind, the nest upgrade workflow goes something like this:
+To ease upgrading existing nests, `make nest` and `make nestall` will create a `$(NESTDIR)/src/preserved` directory and copy the existing contents of `$(NESTDIR)/src` to it.
+
+With this in mind, the nest 'full' upgrade workflow goes something like this:
 1. Before upgrading, preserve any non-src work in the $(NESTDIR) (and consider contributing these changes back to NeuralSPOT, of course):
-	1. Any changes to the Makefile or autogen.mk, or any files in make/
-	2. Any changes to files in includes/
-	3. Any changes in pack/
+	1. Any changes to files in includes/
+	2. Any changes in pack/
 2. Upgrade the nest by running `make nest` with the same NESTDIR you are already using
-3. Compare $(NESTDIR)/src/preserved to new files in $(NESTDIR)/src, and copy in or merge as needed
+3. Compare `$(NESTDIR)/src/preserved` to new files in `$(NESTDIR)/src`, and copy in or merge as needed
+
+If only one component (extern/.. or neuralspot/..) needs to be updated, `make nestcomponent` can be used instead.
+
+For example:
+```bash
+$> make NESTCOMP=neuralspot/ns-rpc # only updates ns-rpc header files and static libs
+```
+

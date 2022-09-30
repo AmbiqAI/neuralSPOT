@@ -29,7 +29,7 @@ In order to support both scenarios, NeuralSPOT includes everything needed to get
 
 ### The Nest
 
-> copy over nest description
+The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files and static libraries, along with a basic example application stub with a `main()`.
 
 ## Navigating the NeuralSPOT Repository
 NeuralSPOT lives on GitHub as an open-source, highly collaborative project which includes code, documentation, licenses, collaboration guides - in short, everything needed to get started.

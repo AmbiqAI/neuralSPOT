@@ -122,6 +122,11 @@ all_includes = $(shell awk '/^ .*\.h/ {print $$1}' $(NESTSOURCE))
 nest_dirs = $(sort $(dir $(all_includes)))
 nest_libs = $(addprefix libs/,$(notdir $(libraries)))
 nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
+# $(info -- $(sources))
+# $(info @@ $(all_includes))
+# $(info ^^ $(libraries))
+# $(info && $(lib_prebuilt))
+
 
 # Compute stuff for doc creation
 doc_sources = $(addprefix ../../,$(sources))

@@ -34,5 +34,4 @@ bindirs   += $(local_bin)
 LINKER_FILE := $(subdirectory)/src/linker_script.ld
 STARTUP_FILE := ./startup_$(COMPILERNAME).c
 
-#$(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))
-$(eval $(call make-library, $(BINDIR)/$(sub)/ambiqsuite.a, $(local_src)))
+$(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))

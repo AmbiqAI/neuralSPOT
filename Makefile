@@ -50,7 +50,7 @@ modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example
 modules      += examples/rpc_server_example
 
-NESTSOURCE    := examples/basic_tf_stub/build/main.d
+NESTSOURCE    := $(BINDIR)/examples/basic_tf_stub/src/main.d
 NESTSOURCEDIR := examples/basic_tf_stub/src
 
 # The following variables are filled in by module.mk include files
@@ -96,6 +96,7 @@ include $(addsuffix /module.mk,$(modules))
 
 all: $(bindirs) $(libraries) $(examples)
 
+.SECONDARY:
 .PHONY: libraries
 libraries: $(libraries)
 
@@ -103,7 +104,7 @@ libraries: $(libraries)
 clean:
 ifeq ($(OS),Windows_NT)
 	@echo "Windows_NT"
-	@echo $(Q) $(RM) -rf $(CONFIG)/*
+	@echo $(Q) $(RM) -rf $(bindirs)/*
 	$(Q) $(RM) -rf $(bindirs)/*
 else
 	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF) $(NESTDIR)
@@ -132,30 +133,30 @@ deploy_target = $(filter %$(TARGET).bin, $(examples))
 $(bindirs):
 	@mkdir -p $@
 
-%.o: ../src/%.cc
+$(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
-%.o: ../src/%.cpp
+$(BINDIR)/%.o: %.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
-%.o: ../src/%.c
+$(BINDIR)/%.o: %.c
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
 
-%.o: ../src/%.s
+$(BINDIR)/%.o: %.s
 	@echo " Assembling $(COMPILERNAME) $<"
 	@mkdir -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $< -o $@
 
-%.axf: %.o $(objects) $(libraries)
+%.axf: src/%.o $(objects) $(libraries)
 	@echo " Linking $(COMPILERNAME) $@"
 	@mkdir -p $(@D)
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(objects) $(LFLAGS)
+	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
 
 %.bin: %.axf 
 	@echo " Copying $(COMPILERNAME) $@..."
@@ -194,7 +195,7 @@ nest: all $(NESTSOURCE)
 	@for file in $(lib_prebuilt); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
-	@cp $(NESTDIR)/src/*.* $(NESTDIR)/src/preserved/ 2>/dev/null || true
+	@cp -R $(NESTDIR)/src $(NESTDIR)/src/preserved/ 2>/dev/null || true
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggestedfornest
@@ -207,7 +208,7 @@ nest: all $(NESTSOURCE)
 .PHONY: nestall
 nestall: nest
 	@echo " Building Nestall including src/ at $(NESTDIR) based on $< ..."
-	@cp $(NESTSOURCEDIR)/*.* $(NESTDIR)/src
+	@cp -R $(NESTSOURCEDIR) $(NESTDIR)
 	@cp make/helpers.mk $(NESTDIR)/make
 	@cp make/neuralspot_config.mk $(NESTDIR)/make
 	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make

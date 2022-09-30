@@ -25,6 +25,7 @@ ERPC_VERSION := R1.9.1
 
 ##### Application Defaults #####
 TARGET      := main# default target for binary-specific operations such as 'deploy' 
+NESTCOMP    :=extern/AmbiqSuite
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4

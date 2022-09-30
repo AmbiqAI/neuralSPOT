@@ -1,7 +1,7 @@
 # Put your local overrides in here
 # EVB    :=blue_evb
 # DEFINES+= CFG_TUSB_DEBUG=2
-TF_VERSION := b04cd98
-# AS_VERSION := R4.3.0
+# TF_VERSION := b04cd98
+AS_VERSION := R4.3.0
 
 

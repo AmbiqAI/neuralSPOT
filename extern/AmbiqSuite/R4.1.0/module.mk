@@ -27,7 +27,7 @@ includes_api += $(subdirectory)/third_party/tinyusb/src/class/cdc
 includes_api += $(subdirectory)/third_party/tinyusb/src/device
 
 
-local_bin := $(subdirectory)/$(BINDIR)
+local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)
 
 LINKER_FILE := $(subdirectory)/src/linker_script.ld

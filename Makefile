@@ -26,14 +26,8 @@ include make/jlink.mk
 # (see below). When adding a new module, it is best
 # to copy an existing module.mk and modifying it.
 
-# External Component Modules
-modules      := extern/AmbiqSuite/$(AS_VERSION)
-modules      += extern/tensorflow/$(TF_VERSION)
-modules      += extern/SEGGER_RTT/$(SR_VERSION)
-modules      += extern/erpc/$(ERPC_VERSION)
-
 # NeuralSPOT Library Modules
-modules      += neuralspot/ns-harness 
+modules      := neuralspot/ns-harness 
 modules      += neuralspot/ns-peripherals 
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
@@ -41,6 +35,12 @@ modules      += neuralspot/ns-usb
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-rpc
 modules      += neuralspot/ns-i2c
+
+# External Component Modules
+modules      += extern/AmbiqSuite/$(AS_VERSION)
+modules      += extern/tensorflow/$(TF_VERSION)
+modules      += extern/SEGGER_RTT/$(SR_VERSION)
+modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
 modules      += examples/s2i
@@ -117,25 +117,19 @@ ifneq "$(MAKECMDGOALS)" "clean"
 endif
 
 # Compute stuff for nest creation
-# Only copy over needed extern headers
-nest_dependency_includes = $(shell awk '/^ .*\.h/ {print $$1}' $(NESTSOURCE))
-all_includes = $(call FILTER_OUT,neuralspot,$(nest_dependency_includes))
-nest_dirs = $(sort $(dir $(all_includes)))
-$(info tt$(all_includes))
-$(info tt$(all_includes))
-$(info tt$(nest_dirs))
+nest_files = $(shell find extern/tensorflow/$(TF_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
+nest_files += $(shell find extern/AmbiqSuite/$(AS_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
+nest_files += $(shell find extern/SEGGER_RTT/$(SR_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
+nest_files += $(shell find extern/erpc/$(ERPC_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
+nest_dirs = $(sort $(dir $(nest_files)))
+nest_dirs += $(call FILTER_IN,neuralspot,$(includes_api))
 
-# Copy over all neuralspot headers
-ns_include_apis = $(call FILTER_IN,neuralspot,$(includes_api))
-$(info tt$(ns_include_apis))
-$(info tt$(includes_api))
 nest_libs = $(addprefix libs/,$(notdir $(libraries)))
 nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
 
 nest_component_includes = $(call FILTER_IN,$(NESTCOMP),$(all_includes))
 nest_component_libs = $(call FILTER_IN,$(NESTCOMP),$(libraries))
 nest_component_libs += $(call FILTER_IN,$(NESTCOMP),$(lib_prebuilt))
-
 
 # Compute stuff for doc creation
 doc_sources = $(addprefix ../../,$(sources))
@@ -199,14 +193,15 @@ nest: all $(NESTSOURCE)
 	@mkdir -p $(NESTDIR)/pack/svd	
 	@for target in $(nest_dirs); do \
 		mkdir -p $(NESTDIR)"/includes/"$$target ; \
+		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
-	@for dir in $(ns_include_apis); do \
-		mkdir -p $(NESTDIR)"/includes/"$$dir ; \
-		cp $$dir/*.h $(NESTDIR)"/includes/"$$dir ; \
-	done	
-	@for file in $(all_includes); do \
-		cp $$file $(NESTDIR)"/includes/"$$file ; \
-	done
+# @for dir in $(ns_include_apis); do \
+# 	mkdir -p $(NESTDIR)"/includes/"$$dir ; \
+# 	cp $$dir/*.h $(NESTDIR)"/includes/"$$dir ; \
+# done	
+# @for file in $(all_includes); do \
+# 	cp $$file $(NESTDIR)"/includes/"$$file ; \
+# done
 	@for file in $(libraries); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done	

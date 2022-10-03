@@ -17,8 +17,8 @@ extern "C"
 {
 #endif
 #include "erpc_server_setup.h"
-#include "../src/GenericDataOperations_EvbToPc.h"
-#include "../src/GenericDataOperations_PcToEvb.h"
+#include "GenericDataOperations_EvbToPc.h"
+#include "GenericDataOperations_PcToEvb.h"
 
 typedef status (*ns_rpc_data_sendBlockToEVB_cb)(const dataBlock * block);
 

@@ -17,7 +17,7 @@ extern "C"
 {
 #endif
 
-#include "../src/ns_audio_rpc.h"
+#include "ns_audio_rpc.h"
 
 extern uint16_t ns_rpc_audio_init();
 extern nsAudioStatus_e ns_rpc_audio_send_buffer(uint8_t *buf, uint32_t len);

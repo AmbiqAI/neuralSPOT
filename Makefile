@@ -117,8 +117,18 @@ ifneq "$(MAKECMDGOALS)" "clean"
 endif
 
 # Compute stuff for nest creation
-all_includes = $(shell awk '/^ .*\.h/ {print $$1}' $(NESTSOURCE))
+# Only copy over needed extern headers
+nest_dependency_includes = $(shell awk '/^ .*\.h/ {print $$1}' $(NESTSOURCE))
+all_includes = $(call FILTER_OUT,neuralspot,$(nest_dependency_includes))
 nest_dirs = $(sort $(dir $(all_includes)))
+$(info tt$(all_includes))
+$(info tt$(all_includes))
+$(info tt$(nest_dirs))
+
+# Copy over all neuralspot headers
+ns_include_apis = $(call FILTER_IN,neuralspot,$(includes_api))
+$(info tt$(ns_include_apis))
+$(info tt$(includes_api))
 nest_libs = $(addprefix libs/,$(notdir $(libraries)))
 nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
 
@@ -190,6 +200,10 @@ nest: all $(NESTSOURCE)
 	@for target in $(nest_dirs); do \
 		mkdir -p $(NESTDIR)"/includes/"$$target ; \
 	done
+	@for dir in $(ns_include_apis); do \
+		mkdir -p $(NESTDIR)"/includes/"$$dir ; \
+		cp $$dir/*.h $(NESTDIR)"/includes/"$$dir ; \
+	done	
 	@for file in $(all_includes); do \
 		cp $$file $(NESTDIR)"/includes/"$$file ; \
 	done

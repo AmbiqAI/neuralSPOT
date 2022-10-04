@@ -217,7 +217,7 @@ nestcomponent:
 # @for file in $(nest_component_includes); do \
 # 	cp $$file $(NESTDIR)"/includes/"$$file ; \
 # done
-	@for target in $(nest_dirs); do \
+	@for target in $(nest_component_includes); do \
 		mkdir -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done

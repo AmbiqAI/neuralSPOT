@@ -127,7 +127,7 @@ nest_dirs += $(call FILTER_IN,neuralspot,$(includes_api))
 nest_libs = $(addprefix libs/,$(notdir $(libraries)))
 nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
 
-nest_component_includes = $(call FILTER_IN,$(NESTCOMP),$(all_includes))
+nest_component_includes = $(call FILTER_IN,$(NESTCOMP),$(nest_dirs))
 nest_component_libs = $(call FILTER_IN,$(NESTCOMP),$(libraries))
 nest_component_libs += $(call FILTER_IN,$(NESTCOMP),$(lib_prebuilt))
 
@@ -195,13 +195,6 @@ nest: all $(NESTSOURCE)
 		mkdir -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
-# @for dir in $(ns_include_apis); do \
-# 	mkdir -p $(NESTDIR)"/includes/"$$dir ; \
-# 	cp $$dir/*.h $(NESTDIR)"/includes/"$$dir ; \
-# done	
-# @for file in $(all_includes); do \
-# 	cp $$file $(NESTDIR)"/includes/"$$file ; \
-# done
 	@for file in $(libraries); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done	
@@ -221,8 +214,12 @@ nest: all $(NESTSOURCE)
 .PHONY: nestcomponent
 nestcomponent:
 	@echo " Building Nestcomponent only copying $(NESTCOMP)..."
-	@for file in $(nest_component_includes); do \
-		cp $$file $(NESTDIR)"/includes/"$$file ; \
+# @for file in $(nest_component_includes); do \
+# 	cp $$file $(NESTDIR)"/includes/"$$file ; \
+# done
+	@for target in $(nest_dirs); do \
+		mkdir -p $(NESTDIR)"/includes/"$$target ; \
+		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
 	@for file in $(nest_component_libs); do \
 		cp $$file $(NESTDIR)"/libs/" ; \

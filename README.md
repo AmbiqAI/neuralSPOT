@@ -120,7 +120,7 @@ are required for NeuralSPOT's functionality, but not critical for the example co
 There are 3 ways to create or update a nest:
 1. `make nestall`: copies all nest components including example source code and makefiles
 2. `make nest`: copies everything except example source code and makefiles (it does create a suggested makefile)
-3. `make NESTCOMP=desired_component nestcomp`: copies over only includes and libraries associated with the specified component.
+3. `make NESTCOMP=desired_component nestcomponent`: copies over only includes and libraries associated with the specified component.
 
 To ease upgrading existing nests, `make nest` and `make nestall` will create a `$(NESTDIR)/src/preserved` directory and copy the existing contents of `$(NESTDIR)/src` to it.
 
@@ -135,6 +135,6 @@ If only one component (extern/.. or neuralspot/..) needs to be updated, `make ne
 
 For example:
 ```bash
-$> make NESTCOMP=neuralspot/ns-rpc nestcomp # only updates ns-rpc header files and static libs
+$> make NESTCOMP=neuralspot/ns-rpc nestcomponent # only updates ns-rpc header files and static libs
 ```
 

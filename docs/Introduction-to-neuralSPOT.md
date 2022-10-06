@@ -5,14 +5,15 @@ neuralSPOT is an AI developer-focused SDK in the true sense of the word: it incl
 <img src="./image-20220927160935318.png" alt="you-are-here" style="zoom:40%;" />
 
 ## Major Components
-neuralSPOT includes tools, libraries, and examples to help get your AI feature implemented, optimized, and deployed.
+neuralSPOT includes tools, libraries, and examples to help get your AI features implemented, optimized, and deployed.
+
 <img src="./ns-layers.png" alt="neuralSPOT layers" style="zoom:50%;" />
 
 
 
 ### Libraries
 
-neuralSPOT contains Ambiq-specific embedded libraries for audio and i2c peripherals, power management, and numerous help functions such as interprocess communications, USB, and memory management.
+neuralSPOT contains Ambiq-specific embedded libraries for audio and i2c peripherals, [power management](./optimizing_using_neuralspot.md), and numerous help functions such as interprocess communications, USB, and memory management.
 
 ### Tools
 neuralSPOT offers remote procedure call support to ease cross-platform development. This enables scenarios such as running inference on a laptop using data collected on the EVB, or conversely, feeding data to a model deployed on the EVB.

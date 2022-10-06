@@ -14,7 +14,7 @@ AI feature developers face many requirements: the feature must fit within a memo
 
 It is tempting to focus on optimizing inference: it is compute, memory, and energy intensive, and a very visible 'optimization target'. In the context of total system optimization, however, inference is usually a small slice of overall power consumption. For example, a speech model may collect audio for many seconds before performing inference for a few 10s of milliseconds. Optimizing both phases is critical to meaningful power optimization.
 
-<img src="/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/energy-for-speech.png" alt="end-to-end" style="zoom:50%;" />
+<img src="./energy-for-speech.png" alt="end-to-end" style="zoom:50%;" />
 
 ### How TFLM Runs Inference
 
@@ -26,15 +26,11 @@ Tensorflow Lite for Microcontrollers is an interpreter-based runtime which execu
 
 Being based on an interpreter makes optimizing TFLM model inference difficult. TFLM interposes many layers of wrappers on each operation's fundamental execution kernel, and because it is interpreted at runtime, there is little end-to-end optimization possible. In addition to this, TFLM development is focused on reducing latency and memory footprint (in fairness, these are the biggest problems for many endpoint devices, and the TFLM team is making steady progress), but not as focused on energy efficiency. The result is more performant code that uses more energy per inference.
 
-<img src="/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/wrappers-wrapping-wrappers.png" alt="wrappers" style="zoom:50%;" />
+<img src="./wrappers-wrapping-wrappers.png" alt="wrappers" style="zoom:50%;" />
 
 
 
-The end result is that TFLM is difficult to deterministically optimize for energy use, and those optimizations tend to be brittle (seemingly inconsequential changes
-
-[^*]: For example, adding a call to interpreter->arena_used_bytes() after allocating tensors results in 5% less energy use while maintaining identical latency.
-
- lead to large energy efficiency impacts).
+The end result is that TFLM is difficult to deterministically optimize for energy use, and those optimizations tend to be brittle (seemingly inconsequential change lead to large energy efficiency impacts).
 
 ## Optimizing for Energy
 

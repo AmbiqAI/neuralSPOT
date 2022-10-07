@@ -10,7 +10,8 @@ The peripheral library is a collection of useful tools for interacting with Ambi
 This part of the component allows developers to easily configure the platform's power modes, which involves turning peripherals on or off, and configuring the MCU's cache, memory, and clock modes. Configuration can be used in two ways: the developer can choose one of the predefined optimized power settings (defined [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/neuralspot/ns-peripherals/src/ns_power.c#L51)), or can specify their own like so:
 
 ```c
-const ns_power_config_t myConfig = {
+main() {
+  const ns_power_config_t myConfig = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
     .bNeedAudAdc = true,
     .bNeedSharedSRAM = false,
@@ -20,20 +21,16 @@ const ns_power_config_t myConfig = {
     .bNeedIOM = true,
     .bNeedAlternativeUART = true,
     .b128kTCM = false
-};
-
-main() {
-  ...
+  };
+  // ...
   ns_power_config(&myConfig);
-  ...
+  // ...
 }
 ```
 
 ## Reading EVB Buttons
 
 This part of the component eases reading the EVB user buttons, a common operation when creating AI demos or tests. 
-
-
 
 ```c
 main() {

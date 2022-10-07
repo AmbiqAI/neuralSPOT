@@ -12,12 +12,16 @@ NeuralSPOT is designed to be used in two ways:
 ## Build Options
 All `make` invocations for NS must be done from the base directory ("nest" makes are different, and defined below). The primary targets are:
 
-`make` - builds everything, including libraries and every target in examples directory
-`make libraries` - builds the neuralspot and extern libraries
-`make clean` - deletes every build directory and artifact
-`make nestall` - creates a minimal '[nest](#The Nest)' with a basic main.cc stub file
-`make nest` - creates a minimal '[nest](#The Nest)' *without* a basic main.cc stub file
-`make nestcomponent` - updates a single component in the nest as specified by NEST_COMP
+| Target               | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `make`               | builds everything, including libraries and every target in examples directory |
+| `make clean`         | deletes every build directory and artifact                   |
+| `make libraries`     | builds the neuralspot and external component libraries       |
+| `make nestall`       | creates a minimal '[nest](#The Nest)' with a basic main.cc stub file |
+| `make nest`          | creates a minimal '[nest](#The Nest)' *without* a basic main.cc stub file and without overwriting makefiles |
+| `make nestcomponent` | updates a single component in the nest                       |
+| `make deploy`        | Uses jlink to deploy an application to a connected EVB       |
+| `make view`          | Starts a SWO interface                                       |
 
 Besides targets, NeuralSPOT has a standard set of compile-time switches to help you configure the build exactly the way you need. These are set via the normal make convention, e.g. `make BOARD=apollo4b`.
 
@@ -81,7 +85,7 @@ NeuralSPOT is continuously growing, and offers the following libraries today:
 
 ## The Nest
 
-The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files, along with a basic application stub with a main().
+The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files, along with a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](docs/Developing_with_NeuralSPOT.md).
 
 ### Building Nest
 

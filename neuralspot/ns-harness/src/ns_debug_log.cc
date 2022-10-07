@@ -14,7 +14,7 @@ limitations under the License.
 // SparkFun Edge microcontroller. The same should work for other targets using
 // the Ambiq Apollo 3.
 
-#include "debug_log.h"
+#include "ns_debug_log.h"
 
 #include "am_bsp.h"   // NOLINT
 #include "am_util.h"  // NOLINT

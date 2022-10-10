@@ -16,7 +16,7 @@ This is the simplest approach for developing a new AI feature because it integra
 2. Develop within that directory, compiling neuralSPOT and feature code as needed. This code can be directly deployed and run as a standalone application 
 3. When ready to deploy to your application, use `make nestall` to drop in your feature in it's entirety.
 
-## Developing As a Standalone Application
+## Developing as a Standalone Application
 
 This approach involves creating a Nest from within neuralSPOT and developing your code within the nest. The flow is roughly:
 
@@ -25,7 +25,7 @@ This approach involves creating a Nest from within neuralSPOT and developing you
    1. When neuralSPOT updates or upgrades are needed use either 'make nestcomponent' to install a component, or 'make nest' to do a (almost, see below for caveats) non-destructive redeployment of neuralSPOT to the Nest.
 3. When done, copy over to your application
 
-## Developing As an Application Component
+## Developing as an Application Component
 
 This is similar to developing as a standalone application - you'll use the same `make nestall` , `make nest` , and `make nestcomponent` features as above. The main difference will be the need to integrate nest compilation and linking into your larger application's existing code build system.
 

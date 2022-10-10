@@ -1,4 +1,4 @@
-local_app_name := main
+local_app_name := basic_tf_stub
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.cpp)

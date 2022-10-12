@@ -35,9 +35,9 @@ As briefly alluded to below, neuralSPOT's build system can be used to create a a
 
 | Command                                                      | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `make NESTDIR=<directory> TARGET=<example> nestall`          | Creates an nest from scratch. It will overwrite anything already there, including code in src/ and makefiles. It will attempt to preserve existing src/ code if needed (in src/preserved) but it doesn't attempt anything fancy like code merges. |
-| `make NESTDIR=<directory> TARGET=<example> nest`             | Copies all neuralSPOT components (libraries and external components) overwritting any components already there. It will not copy over makefiles or anything in the src/ directory. |
-| `make NESTDIR=<directory> NESTCOMP=<nestcomponent> nestcomponen`t | Will only copy the specified component, including all header and static library files. |
+| `make NESTDIR=<directory> NESTEGG=<example> nestall`          | Creates an nest from scratch. It will overwrite anything already there, including code in src/ and makefiles. It will attempt to preserve existing src/ code if needed (in src/preserved) but it doesn't attempt anything fancy like code merges. |
+| `make NESTDIR=<directory> NESTEGG=<example> nest`             | Copies all neuralSPOT components (libraries and external components) overwritting any components already there. It will not copy over makefiles or anything in the src/ directory. |
+| `make NESTDIR=<directory> NESTCOMP=<nestcomponent> nestcomponent` | Will only copy the specified component, including all header and static library files. |
 
 ### Behind the Scenes
 

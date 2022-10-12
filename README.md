@@ -32,9 +32,10 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | BINDIR | Name of directories where binaries and build artifacts are stored. Note that there will be one build directory per binary or library being created | build |
 | NESTDIR | Relative path and directory name where nest will be created | nest |
 | NESTCOMP | root path to a single component to be updated in nest | extern/AmbiqSuite |
+| NESTEGG | name of neuralspot example used to create nest | basic_tf_stub |
 | AS_VERSION | Ambiqsuite Version | R4.3.0 |
 | TF_VERSION | Tensflow Lite for Microcontrollers Version | 0c46d6e |
-| TARGET | Defines what target will be loaded by `make deploy` | main (from basic_tf_stub) |
+| TARGET | Defines what target will be loaded by `make deploy` | basic_tf_stub |
 | MLDEBUG | Setting to '1' turns on TF debug prints | 0 |
 | AUDIO_DEBUG | Setting to '1' turns on RTT audio dump | 0 |
 
@@ -110,11 +111,19 @@ includes/
 libs/
 	# needed *.a files for both 3rd party and neuralspot libraries
 src/
-	main.cc
-	model.h
+	<nestegg sources>
 	preserved/
 		<previous contents of src - see 'upgrade' section below>
 ```
+
+### Choosing which NeuralSPOT example to base Nest on
+By default, the example/basic_tf_stub is used to create the Nest (meaning the files in example/basic_tf_stub/src are copied into the nest). To base
+the nest on another example, used the NESTEGG parameter:
+
+```bash
+$> make NESTEGG=mpu_data_collection nestall # use example/mpu_data_collection as bases for new nest
+```
+
 ### Updgrading a Nest
 When you create a nest, all source files (include_apis, example source code, libraries, etc.) are copied
 to NESTDIR. If you are working within a previously created nest, creating a new one with the same NESTDIR

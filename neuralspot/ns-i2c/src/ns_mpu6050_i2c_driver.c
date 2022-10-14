@@ -98,6 +98,12 @@ mpu6050_finish_init(void *h)
     return AM_DEVICES_mpu6050_STATUS_SUCCESS;
 }
 
+/**
+ * @brief Reads the 14 byte block of MPU sensor values
+ * 
+ * @param buffer destination for read values
+ * @return uint32_t 
+ */
 uint32_t
 read_sensors(uint8_t *buffer) {
     if (ns_i2c_reg_read(mpu6050Handle, ACCEL_XOUT_H, buffer,14))

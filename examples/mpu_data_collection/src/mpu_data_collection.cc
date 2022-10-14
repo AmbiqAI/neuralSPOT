@@ -117,7 +117,7 @@ main(void) {
             g_sensorData[i][axis+AXES] = gyroVals[axis];
         }
         g_sensorData[i][6] = temperature;
-        i++;
+        // i++;
 
         ns_rpc_data_sendBlockToPC(&outBlock);
         // #ifdef NS_RPC_AUDIO

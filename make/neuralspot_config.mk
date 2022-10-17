@@ -24,8 +24,9 @@ SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
 
 ##### Application Defaults #####
-TARGET      := main# default target for binary-specific operations such as 'deploy' 
+TARGET      := main # default target for binary-specific operations such as 'deploy' 
 NESTCOMP    :=extern/AmbiqSuite
+STACK_SIZE  := 4096 # application stack size
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4

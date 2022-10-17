@@ -291,6 +291,14 @@ ns_audio_config_t audio_config = {
     #endif
 };
 
+#ifdef RPC_ENABLED
+ns_rpc_config_t rpcConfig =  {
+            .mode = NS_RPC_GENERICDATA_CLIENT,
+            .sendBlockToEVB_cb = NULL,
+            .fetchBlockFromEVB_cb = NULL,
+            .computeOnEVB_cb = NULL
+        };
+#endif
 /**
  * @brief Main function - infinite loop listening and inferring
  * 
@@ -352,13 +360,6 @@ main(void) {
             .description = msg_store,
             .cmd = write_cmd,
             .buffer = binaryBlock
-        };
-
-        ns_rpc_config_t rpcConfig = {
-            .mode = NS_RPC_GENERICDATA_CLIENT,
-            .sendBlockToEVB_cb = NULL,
-            .fetchBlockFromEVB_cb = NULL,
-            .computeOnEVB_cb = NULL
         };
         ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
 

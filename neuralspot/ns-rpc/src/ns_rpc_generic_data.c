@@ -35,12 +35,7 @@ ns_usb_config_t g_RpcGenericUSBHandle = {
         .tx_cb = NULL
 };
 
-ns_rpc_config_t g_RpcGenericDataConfig = {
-    .mode = NS_RPC_GENERICDATA_CLIENT,
-    .sendBlockToEVB_cb = NULL,
-    .fetchBlockFromEVB_cb = NULL,
-    .computeOnEVB_cb = NULL
-};
+ns_rpc_config_t* g_RpcGenericDataConfig;
 
 // GenericDataOperations implements 3 function calls that service
 // remote calls from a PC. They must be instantiated to enable them.
@@ -48,8 +43,8 @@ ns_rpc_config_t g_RpcGenericDataConfig = {
 status ns_rpc_data_sendBlockToEVB(const dataBlock * block) {
     ns_printf("Received call to sendBlockToEVB\n");
 
-    if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
-        return g_RpcGenericDataConfig.sendBlockToEVB_cb(block);
+    if (g_RpcGenericDataConfig->sendBlockToEVB_cb != NULL) {
+        return g_RpcGenericDataConfig->sendBlockToEVB_cb(block);
     } else { 
         return ns_rpc_data_success;
     }
@@ -58,8 +53,8 @@ status ns_rpc_data_sendBlockToEVB(const dataBlock * block) {
 status ns_rpc_data_fetchBlockFromEVB(dataBlock * block) {
     ns_printf("Received call to fetchBlockFromEVB\n");
 
-    if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
-        return g_RpcGenericDataConfig.fetchBlockFromEVB_cb(block);
+    if (g_RpcGenericDataConfig->fetchBlockFromEVB_cb != NULL) {
+        return g_RpcGenericDataConfig->fetchBlockFromEVB_cb(block);
     } else { 
         return ns_rpc_data_success;
     }
@@ -68,8 +63,8 @@ status ns_rpc_data_fetchBlockFromEVB(dataBlock * block) {
 status ns_rpc_data_computeOnEVB(const dataBlock * in_block, dataBlock * result_block) {
     ns_printf("Received call to computeOnEVB\n");
 
-    if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
-        return g_RpcGenericDataConfig.computeOnEVB_cb(in_block, result_block);
+    if (g_RpcGenericDataConfig->computeOnEVB_cb != NULL) {
+        return g_RpcGenericDataConfig->computeOnEVB_cb(in_block, result_block);
     } else { 
         return ns_rpc_data_success;
     }
@@ -77,16 +72,13 @@ status ns_rpc_data_computeOnEVB(const dataBlock * in_block, dataBlock * result_b
 
 uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
 
-    usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
+    ns_usb_init(&g_RpcGenericUSBHandle);
 
-    g_RpcGenericDataConfig.mode = cfg->mode;
-    g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
-    g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
-    g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
+    g_RpcGenericDataConfig = cfg;
 
     // Common ERPC init
     /* USB transport layer initialization */
-    erpc_transport_t transport = erpc_transport_usb_cdc_init(usb_handle);
+    erpc_transport_t transport = erpc_transport_usb_cdc_init((usb_handle_t*)&g_RpcGenericUSBHandle);
 
     /* MessageBufferFactory initialization */
     erpc_mbf_t message_buffer_factory = erpc_mbf_dynamic_init();

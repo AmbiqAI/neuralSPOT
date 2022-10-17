@@ -45,40 +45,25 @@ uint32_t g_ui32SampleToRTT = 0;
  * isn't valid until futher initialized by ns_audio_init
  *
  */
-ns_audio_config_t g_ns_audio_config = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
-                                       .callback = NULL,
-                                       .audioBuffer = NULL,
-                                       .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-                                       .numChannels = 1,
-                                       .numSamples = 480,
-                                       .sampleRate = 16000,
-                                       .audioSystemHandle = NULL,
-                                       .bufferHandle = NULL};
+ns_audio_config_t *g_ns_audio_config;
 
 void ns_audio_init(ns_audio_config_t *cfg) {
     // Copy in config
-    g_ns_audio_config.eAudioApiMode = cfg->eAudioApiMode;
-    g_ns_audio_config.callback = cfg->callback;
-    g_ns_audio_config.callback = cfg->callback;
-    g_ns_audio_config.audioBuffer = cfg->audioBuffer;
-    g_ns_audio_config.numChannels = cfg->numChannels;
-    g_ns_audio_config.numSamples = cfg->numSamples;
-    g_ns_audio_config.sampleRate = cfg->sampleRate;
-    g_ns_audio_config.eAudioSource = cfg->eAudioSource;
+    g_ns_audio_config = cfg;
 
-    if (g_ns_audio_config.eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
+    if (g_ns_audio_config->eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
         // init a ringbuffer
         ns_ipc_ringbuff_setup_t setup = {
             .indx = 0,
-            .pData = g_ns_audio_config.audioBuffer,
-            .ui32ByteSize = g_ns_audio_config.numSamples * 2 * 2
+            .pData = g_ns_audio_config->audioBuffer,
+            .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2
         };
 
         ns_ipc_ring_buffer_init(cfg->bufferHandle, setup);
-        g_ns_audio_config.bufferHandle = cfg->bufferHandle;
+        g_ns_audio_config->bufferHandle = cfg->bufferHandle;
     }
 
-    if (g_ns_audio_config.eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
         audadc_init();
     }
 

@@ -59,7 +59,12 @@ ns_audio_config_t audioConfig = {
     .bufferHandle = NULL
 };
 // -- Audio Stuff Ends ----------------------
-
+ns_rpc_config_t rpcConfig = {
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL
+    };
 int main(void) {
     ns_itm_printf_enable();
     ns_debug_printf_enable();
@@ -110,12 +115,6 @@ int main(void) {
         .buffer = binaryBlock
     };
 
-    ns_rpc_config_t rpcConfig = {
-        .mode = NS_RPC_GENERICDATA_CLIENT,
-        .sendBlockToEVB_cb = NULL,
-        .fetchBlockFromEVB_cb = NULL,
-        .computeOnEVB_cb = NULL
-    };
     // Result of computation
     dataBlock resultBlock;
     ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB

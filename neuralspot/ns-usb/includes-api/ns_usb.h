@@ -48,8 +48,7 @@ typedef struct {
     ns_usb_tx_cb tx_cb;
 } ns_usb_config_t;
 
-extern usb_handle_t
-ns_usb_init(ns_usb_config_t *);
+extern void ns_usb_init(ns_usb_config_t *);
 
 extern void ns_usb_register_callbacks(usb_handle_t, ns_usb_rx_cb, ns_usb_tx_cb);
 

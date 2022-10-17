@@ -391,7 +391,7 @@ am_audadc0_isr(void) {
                 else
                     *am_ai_sampleReadyFlag = true;
             }*/
-            g_ns_audio_config.callback(&g_ns_audio_config, 0);
+            g_ns_audio_config->callback(g_ns_audio_config, 0);
         }
     }
 
@@ -425,7 +425,7 @@ audadc_init() {
     // AUDADC DMA data config:
     //   DMA buffers padded at 16B alignment.
     //
-    g_sAUDADCDMAConfig.ui32SampleCount = g_ns_audio_config.numSamples;
+    g_sAUDADCDMAConfig.ui32SampleCount = g_ns_audio_config->numSamples;
 
     uint32_t ui32AUDADCDataPtr =
         (uint32_t)((uint32_t)(g_ui32AUDADCSampleBuffer + 3) & ~0xF);
@@ -459,7 +459,7 @@ audadc_init() {
     // Configure the AUDADC
     //
     audadc_config();
-    g_ns_audio_config.audioSystemHandle =
+    g_ns_audio_config->audioSystemHandle =
         g_AUDADCHandle; // wait for it to have real value
 
     // Gain setting

@@ -105,7 +105,7 @@ typedef struct am_ai_acfg {
 
 } ns_audio_config_t;
 
-extern ns_audio_config_t g_ns_audio_config;
+extern ns_audio_config_t *g_ns_audio_config;
 
 /**
  * @brief Initialize NeuralSPOT audio capture library

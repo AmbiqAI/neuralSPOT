@@ -42,7 +42,7 @@ uint32_t g_ui32SampleToRTT = 0;
  * @brief Audio Configuration and State
  *
  * This is populated here with some sane results, but it
- * isn't valid until futher initialized by ns_audio_init
+ * isn't valid until further initialization by ns_audio_init
  *
  */
 ns_audio_config_t g_ns_audio_config = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,

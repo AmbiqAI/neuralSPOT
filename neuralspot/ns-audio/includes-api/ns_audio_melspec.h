@@ -1,14 +1,19 @@
-//*****************************************************************************
-//
-//! @file am_ai_audadc.h
-//!
-//! @brief NeuralSPOT AUDADC Audio
-//!
-//! \addtogroup NeuralSPOT-AUDADC
-//! @{
-//! @ingroup NeuralSPOT-Audio
-//
-//*****************************************************************************
+/**
+ * @file ns_audio_stft.h
+ * @author Scott Leishman
+ * @brief Confifurable mel scaled spectrogram transform functions
+ * @version 0.1
+ * @date 2022-10-10
+ * 
+ * This mel spectrogram utility takes inspiration from the python librosa library:
+ * https://librosa.org/doc/latest/generated/librosa.feature.melspectrogram.html
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ *  \addtogroup NeuralSPOT-MelSpec
+ *  @{
+ *  @ingroup NeuralSPOT-Audio
+ */
 
 //*****************************************************************************
 //
@@ -44,30 +49,40 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 //
-// This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
-//
 //*****************************************************************************
-#ifndef AI_AUDADC_AUDIO
-#define AI_AUDADC_AUDIO
+
+#ifndef __AM_MELSPEC_H__
+#define __AM_MELSPEC_H__
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
+#include "arm_math.h"
 
-/// Size of a single AUDADC sample
-#define AUDADC_MAX_SAMPLE_BUF_SIZE  (512)    // Should be padded to 12 samples follow current DMA/FIFO mechanism:
-                                             // DMA trigger on FIFO 75% full
+#ifndef STFT_OVERRIDE_DEFAULTS
+    #define MELSPEC_SAMP_FREQ 16000
+    #define MELSPEC_FRAME_LEN 512
+    #define MELSPEC_NUM_FRAMES 100
+    #define MELSPEC_NUM_FBANK_BINS 128
+    #define MELSPEC_MEL_LOW_FREQ 0
+    #define MELSPEC_MEL_HIGH_FREQ 8000
+    #define MELSPEC_COMPRESSION_EXPONENT 0.3
+#endif
 
-/// AUDADC subsystem init - should only be invoked by ns_audio, not directly
-extern void audadc_init();
+extern void
+ns_melspec_init(void);
+
+extern void ns_melspec_audio_to_stft(const int16_t *audio_data, float32_t *stft_out);
+
+extern void ns_melspec_stft_to_audio(float32_t *stft_in, int16_t *audio_out);
+
+extern void ns_melspec_stft_to_compressed_melspec(const float32_t *stft_in, float32_t *melspec_out);
+
+extern void ns_melspec_melspec_to_stft(const float32_t *melspec_in, float32_t *stft_out);
+
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif // AI_AUDADC_AUDIO
+#endif

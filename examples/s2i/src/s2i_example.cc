@@ -186,7 +186,7 @@ model_init(void) {
 }
 
 /// Button global - will be set by neuralSPOT button helper
-int g_intButtonPressed = 0;
+int volatile g_intButtonPressed = 0;
 
 ///Button Peripheral Config Struct
 ns_button_config_t button_config = {

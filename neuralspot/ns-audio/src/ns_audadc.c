@@ -41,7 +41,7 @@
 #define HFRC 1
 #define HFRC2 2
 #define HFRC2_ADJ 3
-#define CLK_SRC HFRC
+#define CLK_SRC HFRC // NEW example has HFRC2_ADJ
 
 AUDADC_Type *g_adc;
 MCUCTRL_Type *g_mcuctrl;
@@ -137,7 +137,7 @@ audadc_slot_config(void) {
     AUDADCSlotConfig.ui32TrkCyc = 24;
 #else
     #if defined(AM_PART_APOLLO4P)
-    AUDADCSlotConfig.ui32TrkCyc = 30;
+    AUDADCSlotConfig.ui32TrkCyc = 30; // new example has '34'
     #else
     AUDADCSlotConfig.ui32TrkCyc = 30;
     #endif
@@ -198,11 +198,11 @@ audadc_config(void) {
 #endif
         .ePolarity = AM_HAL_AUDADC_TRIGPOL_RISING,
         .eTrigger = AM_HAL_AUDADC_TRIGSEL_SOFTWARE,
-        .eClockMode = AM_HAL_AUDADC_CLKMODE_LOW_POWER,
-        .ePowerMode = AM_HAL_AUDADC_LPMODE0,
+        .eClockMode = AM_HAL_AUDADC_CLKMODE_LOW_POWER, // NEW example has _LOW_LATENCY
+        .ePowerMode = AM_HAL_AUDADC_LPMODE0, // NEW example has _LPMODE1
         .eRepeat = AM_HAL_AUDADC_REPEATING_SCAN,
         .eRepeatTrigger = AM_HAL_AUDADC_RPTTRIGSEL_INT,
-        .eSampMode = AM_HAL_AUDADC_SAMPMODE_LP, // AM_HAL_AUDADC_SAMPMODE_LP,
+        .eSampMode = AM_HAL_AUDADC_SAMPMODE_LP, // AM_HAL_AUDADC_SAMPMODE_LP, NEW example has _MED
     };
 
     //
@@ -211,14 +211,13 @@ audadc_config(void) {
     am_hal_audadc_irtt_config_t AUDADCIrttConfig = {
         .bIrttEnable = true,
         .eClkDiv = AM_HAL_AUDADC_RPTT_CLK_DIV32,
-    //.eClkDiv            = AM_HAL_AUDADC_RPTT_CLK_DIV16,
     //
     // Adjust sample rate to around 16K.
     // sample rate = eClock/eClkDiv/(ui32IrttCountMax+1)
     //
 #if (CLK_SRC == XTHS) // On Apollo4P_EB, XTHS is 32 MHZ.
         //.ui32IrttCountMax   = 62,
-        .ui32IrttCountMax = 124,
+        .ui32IrttCountMax = 124, // NEW example has 62
 #elif (CLK_SRC == HFRC)
         .ui32IrttCountMax = 93,
 #elif (CLK_SRC == HFRC2)
@@ -233,9 +232,11 @@ audadc_config(void) {
     //
     // Initialize the AUDADC and get the handle.
     //
-    if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_initialize(0, &g_AUDADCHandle)) {
+    int ret = am_hal_audadc_initialize(0, &g_AUDADCHandle);
+    if (AM_HAL_STATUS_SUCCESS != ret) {
+    // if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_initialize(0, &g_AUDADCHandle)) {
         am_util_stdio_printf(
-            "Error - reservation of the AUDADC instance failed.\n");
+            "Error - reservation of the AUDADC instance failed ERR %d.\n", ret);
     }
     //
     // Power on the AUDADC.
@@ -483,7 +484,18 @@ audadc_init() {
 
     // Configure the slot
     audadc_slot_config();
+    #ifdef NEW_EXAMPLE
 
+        #if defined(AM_PART_APOLLO4P) && defined(DC_OFFSET_CAL) && (AS_VERSION=R4.3.0)
+            //
+            // Calculate DC offset calibartion parameter.
+            //
+            if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_slot_dc_offset_calculate(g_AUDADCHandle, 4, &sOffsetCalib))
+            {
+                am_util_stdio_printf("Error - failed to calculate offset calibartion parameter.\n");
+            }
+        #endif
+    #endif
     NVIC_SetPriority(AUDADC0_IRQn, AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ(AUDADC0_IRQn);
     am_hal_interrupt_master_enable();

@@ -12,6 +12,10 @@
 #ifndef NS_MALLOC
 #define NS_MALLOC
 
+#ifndef NS_MALLOC_HEAP_SIZE_IN_K
+#define NS_MALLOC_HEAP_SIZE_IN_K 16
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

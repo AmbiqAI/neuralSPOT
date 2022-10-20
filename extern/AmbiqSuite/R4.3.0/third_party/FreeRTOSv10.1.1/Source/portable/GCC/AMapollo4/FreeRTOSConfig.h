@@ -51,6 +51,10 @@ extern "C"
 {
 #endif
 
+#ifndef NS_MALLOC_HEAP_SIZE_IN_K
+#define NS_MALLOC_HEAP_SIZE_IN_K 16
+#endif
+
 #define configUSE_PREEMPTION                    1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
 

@@ -8,6 +8,7 @@ import soundfile as sf
 import numpy as np
 import struct
 import os
+import time
 
 input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 
@@ -16,8 +17,15 @@ input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
     def ns_rpc_data_sendBlockToPC(self, block):
         # Example decode of incoming block - unpack to WAV or CSV depending on block.description
-        # print(".")
+
         # Audio capture handler
+        # global my_calls
+        # if my_calls == 5:
+        #     print("slow.")
+        #     time.sleep(1.5)
+        #     print("slow")
+        # my_calls = my_calls +1
+
         if ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and 
             (block.description == "Audio16bPCM_to_WAV")):
             # Data is a 16 bit PCM sample
@@ -57,12 +65,12 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
                 row = row + 1
 
         sys.stdout.flush()
-        return 1
+        return 0
     
     def ns_rpc_data_fetchBlockFromPC(self, block):
         print("Got a ns_rpc_data_fetchBlockFromPC call.")
         sys.stdout.flush()
-        return 1
+        return 0
 
     def ns_rpc_data_computeOnPC(self, in_block, result_block):
         #print("Got a ns_rpc_data_computeOnPC call.")
@@ -79,12 +87,12 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
 
         # print(result_block)
         sys.stdout.flush()
-        return 1
+        return 0
         
     def ns_rpc_data_remotePrintOnPC(self, msg):
         print("%s" % msg)
         sys.stdout.flush()
-        return 1
+        return 0
 
 def runServer(transport):
     handler = DataServiceHandler()
@@ -154,6 +162,7 @@ if __name__ == "__main__":
     args = argParser.parse_args()
     transport = erpc.transport.SerialTransport(args.tty, int(args.baud))
     outFileName= args.out
+    my_calls = 0
 
     if args.mode == 'client':
         runClient(transport)

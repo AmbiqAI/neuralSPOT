@@ -9,6 +9,7 @@
  */
 
 #include "erpc_client_manager.h"
+#include "ns_ambiqsuite_harness.h"
 
 using namespace erpc;
 
@@ -176,7 +177,7 @@ void ClientManager::verifyReply(RequestContext &request)
 
     // Extract the reply header.
     request.getCodec()->startReadMessage(&msgType, &service, &requestNumber, &sequence);
-
+    // ns_printf("ReadMessage seq 0x%x,  request seq 0x%x\n", sequence, request.getSequence());
     if (request.getCodec()->isStatusOk() == true)
     {
         // Verify that this is a reply to the request we just sent.

@@ -101,7 +101,12 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
         erpc_add_service_to_server(service);
     }
 
-    return 1;
+    return 0;
+}
+
+uint16_t ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
+    erpc_client_deinit();
+    return ns_rpc_genericDataOperations_init(cfg);
 }
 
 void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {

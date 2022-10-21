@@ -85,8 +85,7 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     // USB reads one block at a time, loop until we get full
     // request
     uint32_t bytes_rx = 0;
-    // uint32_t old_rx = 0;
-    uint32_t retries = 10000;
+    uint32_t retries = 10150;
 
     tud_task();
 
@@ -94,7 +93,7 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     if (tud_cdc_available() < bufsize) {
         while (gGotUSBRx == 0) {
             tud_task();
-            ns_delay_us(10);
+            ns_delay_us(100);
             retries--;
             if (retries == 0) {break;} 
         };
@@ -120,6 +119,22 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     //      ns_printf("Got bytes %d\n", bytes_rx);
 
     // return bytes_rx;
+}
+
+/**
+ * @brief Flushes the USB RX fifo after a delay, resets ns_usb rx state
+ * 
+ * @param h handle
+ */
+void ns_usb_handle_read_error(usb_handle_t h) {
+    int i;
+    for (i=0;i<100;i++) {
+        ns_delay_us(10000); ns_printf(".");
+        tud_task(); // tinyusb device task
+    }
+    // ns_printf("after wait\n");
+    tud_cdc_read_flush();
+    gGotUSBRx = 0; // may be set by final RX     
 }
 
 /**

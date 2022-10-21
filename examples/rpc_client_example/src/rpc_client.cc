@@ -144,6 +144,7 @@ int main(void) {
     // interfaces. Any incoming RPC calls will result in calls to the 
     // RPC handler functions defined above.
     // 
+
     while (1) {
         tud_task();         // service USB
 
@@ -162,14 +163,19 @@ int main(void) {
                     recordingWin--;
                     g_audioReady = false;
                     
-                    ns_rpc_data_sendBlockToPC(&outBlock);
+                    stat = ns_rpc_data_sendBlockToPC(&outBlock);
+
+                    if (stat == ns_rpc_data_success)
+                        ns_printf("-");
+                    else
+                        ns_printf("[%d]+",stat);
 
                     // Compute something remotely based on the collected sample (e.g. MFCC)
                     stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    if (stat == ns_rpc_data_success)
-                        ns_printf("%s-",resultBlock.description);
-                    else
-                        ns_printf("%s+",resultBlock.description);
+                    // if (stat == ns_rpc_data_success)
+                    //     ns_printf("%s-",resultBlock.description);
+                    // else
+                    //     ns_printf("[%d]%s+",stat,resultBlock.description);
 
                     // ns_rpc_data_computeOnPC silently mallocs memory for
                     // block-description and block->buffer.data. After using

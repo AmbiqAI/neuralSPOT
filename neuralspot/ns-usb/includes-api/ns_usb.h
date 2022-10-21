@@ -59,6 +59,8 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
 extern uint32_t
 ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
 
+extern void ns_usb_handle_read_error(usb_handle_t h);
+
 #ifdef __cplusplus
 }
 #endif

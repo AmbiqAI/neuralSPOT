@@ -24,7 +24,7 @@ SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
 
 ##### Application Defaults #####
-TARGET      := main # default target for binary-specific operations such as 'deploy' 
+TARGET      := basic_tf_stub# default target for binary-specific operations such as 'deploy' 
 NESTCOMP    :=extern/AmbiqSuite
 STACK_SIZE  := 4096 # application stack size
 

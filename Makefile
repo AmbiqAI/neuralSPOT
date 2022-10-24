@@ -61,6 +61,7 @@ modules      += examples/rpc_server_example
 # Add all your source files to 'sources'
 # Add any locally needed pre-processing defines to 'pp_defines'
 # Add your local build dir to 'bindirs'
+DEFINES      += STACK_SIZE=$(STACK_SIZE)
 
 examples     :=
 mains        :=

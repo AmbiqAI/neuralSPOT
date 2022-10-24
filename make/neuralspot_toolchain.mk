@@ -39,7 +39,7 @@ CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99 
 CFLAGS+= -g -O3
-#CFLAGS+= -g -O0
+# CFLAGS+= -g -O0
 CFLAGS+= 
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
@@ -52,6 +52,7 @@ CPFLAGS = -Obinary
 ODFLAGS = -S
 
 $(info Building for $(PART)_$(EVB))
+DEFINES+= NEURALSPOT
 DEFINES+= $(PART)_$(EVB)
 DEFINES+= PART_$(PART)
 ifeq ($(PART),apollo4b)

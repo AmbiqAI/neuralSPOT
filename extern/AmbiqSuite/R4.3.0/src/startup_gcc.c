@@ -150,11 +150,16 @@ extern int main(void);
 // Reserve space for the system stack.
 //
 //*****************************************************************************
+
 __attribute__ ((section(".stack")))
-static uint32_t g_pui32Stack[4096];
+static uint32_t g_pui32Stack[STACK_SIZE];
+
+#ifndef HEAP_SIZE
+#define HEAP_SIZE 0
+#endif
 
 __attribute__ ((section(".heap"))) __attribute__ ((__used__))
-static uint32_t g_pui32Heap[0];
+static uint32_t g_pui32Heap[HEAP_SIZE];
 
 //*****************************************************************************
 //

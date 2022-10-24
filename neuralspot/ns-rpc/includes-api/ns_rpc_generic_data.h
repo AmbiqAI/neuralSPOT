@@ -46,6 +46,8 @@ typedef struct {
  */
 extern uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg);
 
+extern uint16_t ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg);
+
 /**
  * @brief Helper function for printing a block's contents
  * 

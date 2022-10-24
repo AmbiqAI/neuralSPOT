@@ -7,7 +7,7 @@ NeuralSPOT is Ambiq's AI Enablement Library. It implements an AI-centric API for
 
 NeuralSPOT is designed to be used in two ways:
 1. **As the 'base of operations' for your AI development**. Intended for stand-alone EVB development, you can add new binary (axf) targets to the /examples directory
-2. **As a seed for adding NeuralSPOT to a larger project**. In this mode of operations, you would use NeuralSPOT to create a stub project (a [nest](#The Nest)) with everything needed to start running AI on EVBs
+2. **As a seed for adding NeuralSPOT to a larger project**. In this mode of operations, you would use NeuralSPOT to create a stub project (a [nest](#the-nest)) with everything needed to start running AI on EVBs
 
 ## Build Options
 All `make` invocations for NS must be done from the base directory ("nest" makes are different, and defined below). The primary targets are:
@@ -17,8 +17,8 @@ All `make` invocations for NS must be done from the base directory ("nest" makes
 | `make`               | builds everything, including libraries and every target in examples directory |
 | `make clean`         | deletes every build directory and artifact                   |
 | `make libraries`     | builds the neuralspot and external component libraries       |
-| `make nestall`       | creates a minimal '[nest](#The Nest)' with a basic main.cc stub file |
-| `make nest`          | creates a minimal '[nest](#The Nest)' *without* a basic main.cc stub file and without overwriting makefiles |
+| `make nestall`       | creates a minimal "[nest](#the-nest)" with a basic main.cc stub file |
+| `make nest`          | creates a minimal "[nest](#the-nest)" *without* a basic main.cc stub file and without overwriting makefiles |
 | `make nestcomponent` | updates a single component in the nest                       |
 | `make deploy`        | Uses jlink to deploy an application to a connected EVB       |
 | `make view`          | Starts a SWO interface                                       |

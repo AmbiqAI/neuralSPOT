@@ -85,17 +85,11 @@ uint32_t axiScratchBuf[20];
 #define CH_B1_EN 0
 
 #define PREAMP_FULL_GAIN 12 // Enable op amps for full gain range
-#if defined(AM_PART_APOLLO4B)
-    #define CH_A0_GAIN_DB 12
-    #define CH_A1_GAIN_DB 12
-    #define CH_B0_GAIN_DB 12
-    #define CH_B1_GAIN_DB 12
-#elif defined(AM_PART_APOLLO4P)
-    #define CH_A0_GAIN_DB 8
-    #define CH_A1_GAIN_DB 8
-    #define CH_B0_GAIN_DB 8
-    #define CH_B1_GAIN_DB 8
-#endif
+#define CH_A0_GAIN_DB 12
+#define CH_A1_GAIN_DB 12
+#define CH_B0_GAIN_DB 12
+#define CH_B1_GAIN_DB 12
+
 
 am_hal_audadc_gain_config_t g_sAudadcGainConfig = {
     .ui32LGA = 0,      // 0 code

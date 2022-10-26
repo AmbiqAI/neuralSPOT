@@ -50,7 +50,6 @@ modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example
 modules      += examples/rpc_server_example
 
-
 # The following variables are filled in by module.mk include files
 #
 # To create binaries. add axf and bin targets to 'examples'
@@ -189,7 +188,7 @@ nest: all
 	@echo " Building Nest without src/ at $(NESTDIR) based on $< ..."
 	@mkdir -p $(NESTDIR)
 	@mkdir -p $(NESTDIR)/src	
-	@mkdir -p $(NESTDIR)/src/preserved
+	@mkdir -p $(NESTDIR)/srcpreserved
 	@mkdir -p $(NESTDIR)/libs	
 	@mkdir -p $(NESTDIR)/make	
 	@mkdir -p $(NESTDIR)/pack/svd	
@@ -203,7 +202,7 @@ nest: all
 	@for file in $(lib_prebuilt); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
-	@cp -R $(NESTDIR)/src $(NESTDIR)/src/preserved/ 2>/dev/null || true
+	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested
@@ -217,9 +216,6 @@ nest: all
 .PHONY: nestcomponent
 nestcomponent:
 	@echo " Building Nestcomponent only copying $(NESTCOMP)..."
-# @for file in $(nest_component_includes); do \
-# 	cp $$file $(NESTDIR)"/includes/"$$file ; \
-# done
 	@for target in $(nest_component_includes); do \
 		mkdir -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \

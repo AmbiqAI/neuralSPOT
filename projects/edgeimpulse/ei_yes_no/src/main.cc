@@ -53,24 +53,9 @@ typedef enum {
     INFERING
 } myState_e;
 
-/**
- * @brief Wrap prints in enable/disable to work with deep sleep mode
- * 
- * @param format 
- * @param ... 
- */
-void ns_lp_printf(const char *format, ...) {
-    va_list myargs;
-    va_start(myargs, format);
-    ns_debug_printf_enable();
-    am_util_stdio_vprintf(format, myargs);
-    am_bsp_debug_printf_disable();
-    va_end(myargs);
-}
-
+// Moving average filter for Yes and No inference results
 #define FILTER_DEPTH 10
 
-// Moving average filter for Yes and No inference results
 typedef struct {
     float samples[FILTER_DEPTH];
     uint8_t ptr;

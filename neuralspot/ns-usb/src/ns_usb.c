@@ -14,24 +14,14 @@
 #include "ns_usb.h"
 #include "ns_ambiqsuite_harness.h"
 
-static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
-                                     .buffer = NULL,
-                                     .bufferLength = 0,
-                                     .rx_cb = NULL,
-                                     .tx_cb = NULL};
+static ns_usb_config_t *usb_config;
 
-usb_handle_t
+void
 ns_usb_init(ns_usb_config_t *cfg) {
 
-    usb_config.deviceType = cfg->deviceType;
-    usb_config.buffer = cfg->buffer;
-    usb_config.bufferLength = cfg->bufferLength;
-    usb_config.rx_cb = cfg->rx_cb;
-    usb_config.tx_cb = cfg->tx_cb;
+    usb_config = cfg;
 
     tusb_init();
-
-    return (void *)&usb_config; // TODO make this a better handle
 }
 
 void
@@ -48,12 +38,12 @@ void
 tud_cdc_rx_cb(uint8_t itf) {
     (void)itf;
     ns_usb_transaction_t rx;
-    if (usb_config.rx_cb != NULL) {
-        rx.handle = &usb_config;
-        rx.buffer = usb_config.buffer;
+    if (usb_config->rx_cb != NULL) {
+        rx.handle = usb_config;
+        rx.buffer = usb_config->buffer;
         rx.status = AM_HAL_STATUS_SUCCESS;
         rx.itf = itf;
-        usb_config.rx_cb(&rx);
+        usb_config->rx_cb(&rx);
     }
     gGotUSBRx = 1;
 }
@@ -62,12 +52,12 @@ void
 tud_cdc_tx_complete_cb(uint8_t itf) {
     (void)itf;
     ns_usb_transaction_t rx;
-    if (usb_config.tx_cb != NULL) {
-        rx.handle = &usb_config;
-        rx.buffer = usb_config.buffer;
+    if (usb_config->tx_cb != NULL) {
+        rx.handle = usb_config;
+        rx.buffer = usb_config->buffer;
         rx.status = AM_HAL_STATUS_SUCCESS;
         rx.itf = itf;
-        usb_config.tx_cb(&rx);
+        usb_config->tx_cb(&rx);
     }
 }
 

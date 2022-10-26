@@ -22,6 +22,12 @@
 #define NUMSAMPLES 32
 #define AXES 3
 float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp 
+ns_rpc_config_t rpcConfig = {
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL
+    };
 
 int
 main(void) {
@@ -56,12 +62,6 @@ main(void) {
     };
 
     // Initialize the Generic RPC Client interface
-    ns_rpc_config_t rpcConfig = {
-        .mode = NS_RPC_GENERICDATA_CLIENT,
-        .sendBlockToEVB_cb = NULL,
-        .fetchBlockFromEVB_cb = NULL,
-        .computeOnEVB_cb = NULL
-    };
     ns_rpc_genericDataOperations_init(&rpcConfig); // inits RPC and USB
 
     // Button global - will be set by neuralSPOT button helper

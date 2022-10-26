@@ -112,6 +112,12 @@ status example_computeOnEVB(const dataBlock * in, dataBlock * res) {
 
     return ns_rpc_data_success;      
 }
+ns_rpc_config_t rpcConfig = {
+        .mode = NS_RPC_GENERICDATA_SERVER,  // Puts EVB in RPC server mode
+        .sendBlockToEVB_cb = example_sendBlockToEVB,
+        .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
+        .computeOnEVB_cb = example_computeOnEVB
+    };
 
 int main(void) {
     ns_itm_printf_enable();
@@ -133,12 +139,6 @@ int main(void) {
     ns_peripheral_button_init(&button_config);
 
     // Add callbacks to handle incoming requests
-    ns_rpc_config_t rpcConfig = {
-        .mode = NS_RPC_GENERICDATA_SERVER,  // Puts EVB in RPC server mode
-        .sendBlockToEVB_cb = example_sendBlockToEVB,
-        .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
-        .computeOnEVB_cb = example_computeOnEVB
-    };
     ns_rpc_genericDataOperations_init(&rpcConfig);
 
     ns_printf("Start the PC-side client, then press Button 0 to get started\n");

@@ -187,7 +187,7 @@ nest: all
 	@echo " Building Nest without src/ at $(NESTDIR) based on $< ..."
 	@mkdir -p $(NESTDIR)
 	@mkdir -p $(NESTDIR)/src	
-	@mkdir -p $(NESTDIR)/src/preserved
+	@mkdir -p $(NESTDIR)/srcpreserved
 	@mkdir -p $(NESTDIR)/libs	
 	@mkdir -p $(NESTDIR)/make	
 	@mkdir -p $(NESTDIR)/pack/svd	
@@ -201,7 +201,7 @@ nest: all
 	@for file in $(lib_prebuilt); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
-	@cp -R $(NESTDIR)/src $(NESTDIR)/src/preserved/ 2>/dev/null || true
+	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested

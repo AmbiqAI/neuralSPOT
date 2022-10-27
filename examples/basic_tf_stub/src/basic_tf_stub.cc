@@ -66,7 +66,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
-#include "mfcc-old.h"
+// #include "mfcc-old.h"
 
 static int recording_win = NUM_FRAMES;
 
@@ -97,7 +97,7 @@ int
 main(void) {
     float tmp = 0;
     float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
-    float mfcc_bufferold[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
+    // float mfcc_bufferold[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
     float y_intent[6];
     float y_slot[2][17];
     uint8_t y_slot_max[2];
@@ -190,8 +190,8 @@ main(void) {
                 #endif
                 ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer,
                                 &mfcc_buffer[mfcc_buffer_head]);
-                ns_mfcc_compute_old(in16AudioDataBuffer,
-                                &mfcc_bufferold[mfcc_buffer_head]);
+                // ns_mfcc_compute_old(in16AudioDataBuffer,
+                //                 &mfcc_bufferold[mfcc_buffer_head]);
                 recording_win--;
                 audioReady = false;
 
@@ -212,9 +212,9 @@ main(void) {
                       input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);
                 input->data.int8[i] = (int8_t)tmp;
-                if (mfcc_buffer[i] != mfcc_bufferold[i]) {
-                    ns_lp_printf("%d: %f neq %f\n", mfcc_buffer[i], mfcc_bufferold[i]);
-                }
+                // if (mfcc_buffer[i] != mfcc_bufferold[i]) {
+                //     ns_lp_printf("%d: %f neq %f\n", mfcc_buffer[i], mfcc_bufferold[i]);
+                // }
             }
 
             TfLiteStatus invoke_status = interpreter->Invoke();

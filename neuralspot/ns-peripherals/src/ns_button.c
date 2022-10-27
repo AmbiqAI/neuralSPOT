@@ -36,7 +36,7 @@ am_gpio0_001f_isr(void) {
     //
     // Delay for button debounce.
     //
-    am_hal_delay_us(20000);
+    am_hal_delay_us(40000);
 
     //
     // Clear the GPIO Interrupt (write to clear).

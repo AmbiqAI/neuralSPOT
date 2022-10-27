@@ -50,246 +50,43 @@ The basic_tf_stub example is based on a speech to intent model.
 //
 //*****************************************************************************
 
-/// Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
-//#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
-#include "tensorflow/lite/micro/all_ops_resolver.h"
-#include "tensorflow/lite/micro/kernels/micro_ops.h"
-#include "tensorflow/lite/micro/micro_error_reporter.h"
-#include "tensorflow/lite/micro/micro_interpreter.h"
-#include "tensorflow/lite/micro/system_setup.h"
-#include "tensorflow/lite/schema/schema_generated.h"
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#define RINGBUFFER_MODE
+// #define RPC_ENABLED
+
+#include "basic_tf_stub.h"
+#include "basic_audio.h"
+#include "basic_mfcc.h"
+#include "basic_model.h"
+#include "basic_peripherals.h"
+#ifdef RPC_ENABLED
+#include "basic_rpc_client.h"
+#endif
 
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
-#include "ns_audio.h"
-#include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
-#include "ns_malloc.h"
-#define RINGBUFFER_MODE
-#ifdef RINGBUFFER_MODE
-    #include "ns_ipc_ring_buffer.h"
-#endif
-#ifdef AUDIODEBUG
-    #include "SEGGER_RTT.h"
-#endif
+#include "ns_usb.h"
+// #include "mfcc-old.h"
 
-//#define RPC_ENABLED
-#ifdef RPC_ENABLED
-    #include "ns_rpc_generic_data.h"
-    #include "ns_usb.h"
-#endif
+static int recording_win = NUM_FRAMES;
 
-/// TFLM model
-#include "model.h"
-
-/// Assorted Configs and helpers
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-
-/// High level audio parameters
-#define NUM_CHANNELS 1
-#define NUM_FRAMES 100
-#define SAMPLES_IN_FRAME 480
-#define SAMPLE_RATE 16000
-
-/// MFCC Config (define-based for perf)
-/// (must be done before including ns_audio_mfcc())
-///@{
-#define MFCC_OVERRIDE_DEFAULTS 
-    #define MFCC_SAMP_FREQ SAMPLE_RATE
-    #define MFCC_NUM_FBANK_BINS 40
-    #define MFCC_MEL_LOW_FREQ 20
-    #define MFCC_MEL_HIGH_FREQ 8000
-    #define MFCC_NUM_FRAMES NUM_FRAMES
-    #define MFCC_NUM_MFCC_COEFFS 13
-    #define MFCC_NUM_MFCC_FEATURES MFCC_NUM_MFCC_COEFFS
-    #define MFCC_MFCC_DEC_BITS 4
-    #define MFCC_FRAME_SHIFT_MS 30
-    #define MFCC_FRAME_SHIFT ((int16_t)(MFCC_SAMP_FREQ * 0.001 * MFCC_FRAME_SHIFT_MS))
-    #define MFCC_MFCC_BUFFER_SIZE (MFCC_NUM_FRAMES * MFCC_NUM_MFCC_COEFFS)
-    #define MFCC_FRAME_LEN_MS 30
-    #define MFCC_FRAME_LEN SAMPLES_IN_FRAME // ((int16_t)(SAMP_FREQ * 0.001 * FRAME_LEN_MS))
-    #define MFCC_FRAME_LEN_POW2 512
-#include "ns_audio_mfcc.h"
-///@}
-
-/// Model-specific Stuff
-int recording_win = NUM_FRAMES;
-int num_frames = NUM_FRAMES;
-int num_mfcc_features = MFCC_NUM_MFCC_COEFFS;
-int frame_shift = MFCC_FRAME_SHIFT;
-int frame_len = MFCC_FRAME_LEN;
-int mfcc_dec_bits = MFCC_MFCC_DEC_BITS;
-
-const char *intents[] = {
+static const char *intents[] = {
     "decrease",        "deactivate", "increase",
     "change language", "bring",      "activate",
 };
 
-const char *slots[] = {
+static const char *slots[] = {
     "socks",  "washroom", "chinese", "juice",   "volume",    "shoes",
     "music",  "heat",     "lights",  "kitchen", "newspaper", "lamp",
     "german", "korean",   "english", "bedroom", "none",
 };
 
-/// Tensorflow Globals (somewhat boilerplate)
-tflite::ErrorReporter *error_reporter = nullptr;
-const tflite::Model *model = nullptr;
-tflite::MicroInterpreter *interpreter = nullptr;
-TfLiteTensor *input = nullptr;
-TfLiteTensor *output_intent = nullptr;
-TfLiteTensor *output_slot = nullptr;
-
-constexpr int kTensorArenaSize = 1024 * 70;
-alignas(16) uint8_t tensor_arena[kTensorArenaSize];
-
-/**
- * @brief Initialize TF with s2i model
- * 
- * This code is fairly common across most TF-based models.
- * The major differences relate to input and output tensor
- * handling.
- * 
- */
-void
-model_init(void) {
-
-    static tflite::MicroErrorReporter micro_error_reporter;
-    error_reporter = &micro_error_reporter;
-
-    tflite::InitializeTarget();
-
-    // Map the model into a usable data structure. This doesn't involve any
-    // copying or parsing, it's a very lightweight operation.
-    model = tflite::GetModel(slu_model_tflite);
-    if (model->version() != TFLITE_SCHEMA_VERSION) {
-        TF_LITE_REPORT_ERROR(error_reporter,
-                             "Model provided is schema version %d not equal "
-                             "to supported version %d.",
-                             model->version(), TFLITE_SCHEMA_VERSION);
-        return;
-    }
-
-    // This pulls in all the operation implementations we need.
-
-    // static tflite::MicroMutableOpResolver<1> resolver;
-    static tflite::AllOpsResolver resolver;
-    // Build an interpreter to run the model with.
-    static tflite::MicroInterpreter static_interpreter(
-        model, resolver, tensor_arena, kTensorArenaSize, error_reporter);
-    interpreter = &static_interpreter;
-
-    // Allocate memory from the tensor_arena for the model's tensors.
-    TfLiteStatus allocate_status = interpreter->AllocateTensors();
-    if (allocate_status != kTfLiteOk) {
-        TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed");
-        return;
-    }
-
-    // Obtain pointers to the model's input and output tensors.
-    input         = interpreter->input(0);
-    output_slot   = interpreter->output(0);
-    output_intent = interpreter->output(1);
-}
-
-/// Button global - will be set by neuralSPOT button helper
-int volatile g_intButtonPressed = 0;
-
-///Button Peripheral Config Struct
-ns_button_config_t button_config = {
-    .button_0_enable = true,
-    .button_1_enable = false,
-    .button_0_flag = &g_intButtonPressed,
-    .button_1_flag = NULL
-};
-
-/// Audio and IPC Config
-/// Set by app when it wants to start recording, used by callback
-bool volatile static g_audioRecording = false;
-
-/// Set by callback when audio buffer has been copied, cleared by
-/// app when the buffer has been consumed.
-bool volatile static g_audioReady = false;
-
-#ifdef RINGBUFFER_MODE
-/// Ringbuffer storage
-ns_ipc_ring_buffer_t audioBuf[1];
-static uint8_t
-    pui8AudioBuff[SAMPLES_IN_FRAME * 2 * 2]; // two buffers, 2 bytes/entry
-#endif
-
-/// Audio buffer for application
-int16_t static g_in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
-
-/**
-* 
-* @brief Audio Callback (user-defined, executes in IRQ context)
-* 
-* When the 'g_audioRecording' flag is set, copy the latest sample to a buffer
-* and set a 'ready' flag. If recording flag isn't set, discard buffer.
-* If 'ready' flag is still set, the last buffer hasn't been consumed yet,
-* print a debug message and overwrite.
-* 
-*/
-void
-audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *pui32_buffer =
-        (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
-
-    if (g_audioRecording) {
-        // if (g_audioReady) {
-        //     ns_printf("Warning - audio buffer wasnt consumed in time\n");
-        // }
-
-        // Raw PCM data is 32b (14b/channel) - here we only care about one
-        // channel For ringbuffer mode, this loop may feel extraneous, but it is
-        // needed because ringbuffers are treated a blocks, so there is no way
-        // to convert 32b->16b
-        for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-        }
-
-        #ifdef RINGBUFFER_MODE
-                ns_ipc_ring_buffer_push(&(config->bufferHandle[0]),
-                                            g_in16AudioDataBuffer,
-                                            (config->numSamples * 2), // in bytes
-                                            false);
-        #endif
-        g_audioReady = true;
-    }
-}
-
-/**
- * @brief NeuralSPOT Audio config struct
- * 
- * Populate this struct before calling ns_audio_config()
- * 
- */
-ns_audio_config_t audio_config = {
-    #ifdef RINGBUFFER_MODE
-        .eAudioApiMode = NS_AUDIO_API_RINGBUFFER,
-        .callback = audio_frame_callback,
-        .audioBuffer = (void *)&pui8AudioBuff,
-    #else
-        .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-        .callback = audio_frame_callback,
-        .audioBuffer = (void *)&g_in16AudioDataBuffer,
-    #endif
-    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-    .numChannels = NUM_CHANNELS,
-    .numSamples = SAMPLES_IN_FRAME,
-    .sampleRate = SAMPLE_RATE,
-    .audioSystemHandle = NULL, // filled in by audio_init()
-    #ifdef RINGBUFFER_MODE
-        .bufferHandle = audioBuf
-    #else
-        .bufferHandle = NULL
-    #endif
-};
+typedef enum {
+    WAITING_TO_START_RPC_SERVER,
+    WAITING_TO_RECORD,
+    WAIT_FOR_FRAME,
+    INFERING
+} myState_e;
 
 /**
  * @brief Main function - infinite loop listening and inferring
@@ -299,15 +96,21 @@ ns_audio_config_t audio_config = {
 int
 main(void) {
     float tmp = 0;
-    float mfcc_buffer[NUM_FRAMES * MFCC_NUM_MFCC_COEFFS];
+    float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
+    // float mfcc_bufferold[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
     float y_intent[6];
     float y_slot[2][17];
     uint8_t y_slot_max[2];
     uint8_t y_intent_max = 0;
     float max_val = 0.0;
+    #ifdef RPC_ENABLED
+        myState_e state = WAITING_TO_START_RPC_SERVER;
+    #else
+        myState_e state = WAITING_TO_RECORD;
+    #endif
 
-    g_audioRecording = false;
-    am_hal_interrupt_master_enable();
+    // Tells callback if it should be recording audio
+    audioRecording = false;
 
     ns_itm_printf_enable();
 
@@ -334,108 +137,98 @@ main(void) {
         #endif
     #endif
 
-    ns_peripheral_button_init(&button_config);
-
-
-    #ifdef RPC_ENABLED
-        // Vars and init the RPC system - note this also inits the USB interface
-        binary_t binaryBlock = {
-            .data = (uint8_t *) g_in16AudioDataBuffer, // point this to audio buffer
-            .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)
-        };
-        char msg_store[30] = "Audio16bPCM_to_WAV";
-
-        // Block sent to PC
-        dataBlock outBlock = {
-            .length = SAMPLES_IN_FRAME * sizeof(int16_t),
-            .dType = uint8_e,
-            .description = msg_store,
-            .cmd = write_cmd,
-            .buffer = binaryBlock
-        };
-
-        ns_rpc_config_t rpcConfig = {
-            .mode = NS_RPC_GENERICDATA_CLIENT,
-            .sendBlockToEVB_cb = NULL,
-            .fetchBlockFromEVB_cb = NULL,
-            .computeOnEVB_cb = NULL
-        };
-        ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
-
-        ns_printf("Start the PC-side server, then press Button 0 to get started\n");
-        while (g_intButtonPressed == 0) {
-            tud_task(); // tinyusb device task for RPC
-            ns_delay_us(1000);
-        }
-    #endif
-
-    // Initialize everything else
     model_init();
     ns_audio_init(&audio_config);
-    ns_mfcc_init();
+    ns_mfcc_init(&mfcc_config);
+    // ns_mfcc_init_old();
+    ns_peripheral_button_init(&button_config);
+    am_hal_interrupt_master_enable();
 
-    ns_printf("Press button to start listening...\n");
+    #ifdef RPC_ENABLED
+        ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
+        ns_printf("Start the PC-side server, then press Button 0 to get started\n");
+    #else
+        ns_printf("Press Button 0 to start listening...\n");
+    #endif
+
+    // Event loop
 
     while (1) {
-        #ifdef RPC_ENABLED
-            tud_task(); // tinyusb device task
-        #endif
-
-        if ((g_intButtonPressed) == 1 && !g_audioRecording) {
-            ns_delay_us(1000);
-            g_audioRecording = true;
-            ns_printf("Listening for 3 seconds.\n");
-
-            while (recording_win > 0) {
-                ns_delay_us(1);
-                if (g_audioReady) {
-                    int32_t mfcc_buffer_head =
-                        (num_frames - recording_win) * num_mfcc_features;
-
-                    #ifdef RINGBUFFER_MODE
-                        ns_ipc_ring_buffer_pop(audioBuf,
-                                                 &g_in16AudioDataBuffer,
-                                                 audio_config.numSamples * 2);
-                    #endif
-
-                    ns_mfcc_compute(g_in16AudioDataBuffer,
-                                 &mfcc_buffer[mfcc_buffer_head]);
-
-                    recording_win--;
-                    g_audioReady = false;
-
-                    #ifdef RPC_ENABLED
-                        tud_task();
-                        ns_rpc_data_sendBlockToPC(&outBlock);
-                    #endif
-                    ns_printf(".");
-                }
+        switch (state) {
+        case WAITING_TO_START_RPC_SERVER:
+            if (buttonPressed) {
+                state = WAITING_TO_RECORD;
+                ns_lp_printf("Press Button 0 to start listening...\n");
+                buttonPressed = false;
             }
-            ns_printf("\n");
+            break;
 
-            g_audioRecording = false;
-            g_intButtonPressed = 0;
-            recording_win = 100;
+        case WAITING_TO_RECORD:
+            if (buttonPressed) {
+                state = WAIT_FOR_FRAME;
+                buttonPressed = false;
+                audioRecording = true;
+                ns_lp_printf("Listening for 3 seconds.\n");
+                #ifdef RPC_ENABLED
+                    ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 3 seconds.\n");
+                #endif
+            }
+            break;
 
-            for (uint16_t i = 0; i < MFCC_MFCC_BUFFER_SIZE; i = i + 1) {
+        case WAIT_FOR_FRAME:
+            if (audioReady) {
+                int32_t mfcc_buffer_head =
+                    (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
+
+                #ifdef RINGBUFFER_MODE
+                    ns_ipc_ring_buffer_pop(audioBuf,
+                                                &in16AudioDataBuffer,
+                                                audio_config.numSamples * 2);
+                #endif
+                #ifdef RPC_ENABLED
+                    ns_rpc_data_sendBlockToPC(&outBlock);
+                #endif
+                ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer,
+                                &mfcc_buffer[mfcc_buffer_head]);
+                // ns_mfcc_compute_old(in16AudioDataBuffer,
+                //                 &mfcc_bufferold[mfcc_buffer_head]);
+                recording_win--;
+                audioReady = false;
+
+                ns_lp_printf(".");
+            }    
+
+            if (recording_win == 0) {
+                ns_lp_printf("\n");
+                audioRecording = false;
+                recording_win = 100;
+                state = INFERING; // have full 3 seconds
+            }
+            break;
+
+        case INFERING:
+            for (uint16_t i = 0; i < (NUM_FRAMES*MY_MFCC_NUM_MFCC_COEFFS); i = i + 1) {
                 tmp = mfcc_buffer[i] / input->params.scale +
                       input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);
                 input->data.int8[i] = (int8_t)tmp;
+                // if (mfcc_buffer[i] != mfcc_bufferold[i]) {
+                //     ns_lp_printf("%d: %f neq %f\n", mfcc_buffer[i], mfcc_bufferold[i]);
+                // }
             }
 
             TfLiteStatus invoke_status = interpreter->Invoke();
             if (invoke_status != kTfLiteOk) {
-                ns_printf("Invoke failed\n");
-                while (1) { // hang
-                };
+                ns_lp_printf("Invoke failed\n");
+                while (1) {}; // hang
             }
-
+            
+            max_val = 0.0;
             for (uint8_t i = 0; i < 6; i = i + 1) {
                 y_intent[i] = (output_intent->data.int8[i] -
                                output_intent->params.zero_point) *
                               output_intent->params.scale;
-                ns_printf("Intent[%i]: %f %s\n", i, y_intent[i], intents[i]);
+                ns_lp_printf("Intent[%i]: %f %s\n", i, y_intent[i], intents[i]);
 
                 if (y_intent[i] > max_val) {
                     max_val = y_intent[i];
@@ -443,17 +236,16 @@ main(void) {
                 }
             }
 
-            ns_printf("**Max Intent: %s\n", intents[y_intent_max]);
+            ns_lp_printf("**Max Intent: %s\n", intents[y_intent_max]);
 
             for (uint8_t i = 0; i < 2; i = i + 1) {
-
                 max_val = 0.0;
 
                 for (uint8_t j = 0; j < 17; j = j + 1) {
                     y_slot[i][j] = (output_slot->data.int8[i * 17 + j] -
                                     output_slot->params.zero_point) *
                                    output_slot->params.scale;
-                    ns_printf("slot[%i, %i]: %f %s\n", i, j,
+                    ns_lp_printf("slot[%i, %i]: %f %s\n", i, j,
                                          y_slot[i][j], slots[j]);
                     if (y_slot[i][j] > max_val) {
                         max_val = y_slot[i][j];
@@ -461,12 +253,15 @@ main(void) {
                     }
                 }
 
-                ns_printf("**Slot[%d]: %s \n", i,
+                ns_lp_printf("**Slot[%d]: %s \n", i,
                                      slots[y_slot_max[i]]);
             }
-            ns_printf("\n%s %s %s\n", intents[y_intent_max],
+            ns_lp_printf("\n%s %s %s\n", intents[y_intent_max],
                                  slots[y_slot_max[0]], slots[y_slot_max[1]]);
-        }
 
+            state = WAITING_TO_RECORD;
+            break;
+        }
+        am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
     } // while(1)
 }

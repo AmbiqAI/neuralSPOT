@@ -11,8 +11,6 @@
 #include "ns_cache_profile.h"
 #include "ns_ambiqsuite_harness.h"
 
-// ns_cache_dump_t startDump;
-// ns_cache_dump_t endDump;
 
 uint8_t ns_cache_profiler_init(ns_cache_config_t *cfg) {
     uint8_t status = AM_HAL_STATUS_SUCCESS;

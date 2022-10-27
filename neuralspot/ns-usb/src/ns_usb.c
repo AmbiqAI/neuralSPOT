@@ -13,6 +13,7 @@
 
 #include "ns_usb.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_timer.h"
 
 static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
                                      .buffer = NULL,
@@ -20,8 +21,20 @@ static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
                                      .rx_cb = NULL,
                                      .tx_cb = NULL};
 
-usb_handle_t
-ns_usb_init(ns_usb_config_t *cfg) {
+static void ns_usb_service_callback(ns_timer_config_t *c) {
+    // Invoked in ISR context
+    tud_task();
+} 
+
+ns_timer_config_t g_ns_usbTimer = {
+    .prefix = {0},
+    .timer = NS_TIMER_USB,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 1000,
+    .callback = ns_usb_service_callback
+};
+
+usb_handle_t ns_usb_init(ns_usb_config_t *cfg) {
 
     usb_config.deviceType = cfg->deviceType;
     usb_config.buffer = cfg->buffer;
@@ -30,6 +43,10 @@ ns_usb_init(ns_usb_config_t *cfg) {
     usb_config.tx_cb = cfg->tx_cb;
 
     tusb_init();
+
+    // Set up a timer to service usb
+
+    ns_timer_init(&g_ns_usbTimer);
 
     return (void *)&usb_config; // TODO make this a better handle
 }
@@ -87,12 +104,9 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     uint32_t bytes_rx = 0;
     uint32_t retries = 10150;
 
-    tud_task();
-
     // ns_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(), gGotUSBRx);
     if (tud_cdc_available() < bufsize) {
         while (gGotUSBRx == 0) {
-            tud_task();
             ns_delay_us(100);
             retries--;
             if (retries == 0) {break;} 
@@ -102,23 +116,6 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     bytes_rx = tud_cdc_read((void*)buffer, bufsize);
     // ns_printf("Got bytes %d\n", bytes_rx);
     return bytes_rx;
-    // while (bytes_rx < bufsize) {
-    //     tud_task(); // tinyusb device task
-    //     ns_delay_us(100);
-
-    //     old_rx = bytes_rx;
-    //     bytes_rx += tud_cdc_read((void*)(buffer+bytes_rx), bufsize - bytes_rx);
-    //     if (bytes_rx == old_rx) {
-    //         retries--;
-    //     }
-    //     if (retries == 0) {break;} 
-    // }
-    // // if (retries == 0)
-    // //     ns_printf("Got retries %d\n", retries);
-    // // else
-    //      ns_printf("Got bytes %d\n", bytes_rx);
-
-    // return bytes_rx;
 }
 
 /**
@@ -130,7 +127,6 @@ void ns_usb_handle_read_error(usb_handle_t h) {
     int i;
     for (i=0;i<100;i++) {
         ns_delay_us(10000); ns_printf(".");
-        tud_task(); // tinyusb device task
     }
     // ns_printf("after wait\n");
     tud_cdc_read_flush();
@@ -150,7 +146,6 @@ ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
     while (bytes_tx < bufsize) {
-        tud_task(); // tinyusb device task
         bytes_tx += tud_cdc_write((void*)(buffer+bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
         // ns_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);

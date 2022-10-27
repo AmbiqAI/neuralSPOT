@@ -52,7 +52,7 @@ MCUCTRL_Type *g_mcuctrl;
 //
 //*****************************************************************************
 
-uint32_t g_ui32AUDADCSampleBuffer[AUDADC_MAX_SAMPLE_BUF_SIZE * 2 + 3];
+// static uint32_t *g_ui32AUDADCSampleBuffer; //[AUDADC_MAX_SAMPLE_BUF_SIZE * 2 + 3];
 
 //
 // AUDADC Device Handle.
@@ -62,18 +62,19 @@ static void *g_AUDADCHandle;
 //
 // AUDADC DMA complete flag.
 //
-volatile bool g_bAUDADCDMAComplete;
+static volatile bool g_bAUDADCDMAComplete;
 
 //
 // AUDADC DMA error flag.
 //
-volatile bool g_bAUDADCDMAError;
+static volatile bool g_bAUDADCDMAError;
 
 // AXI Scratch buffer
 // Need to allocate 20 Words even though we only need 16, to ensure we have 16
 // Byte alignment
-uint32_t axiScratchBuf[20];
-
+#ifndef AM_PART_APOLLO4P
+static uint32_t axiScratchBuf[20];
+#endif
 //*****************************************************************************
 //
 // AUDADC gain configuration information.
@@ -89,7 +90,6 @@ uint32_t axiScratchBuf[20];
 #define CH_A1_GAIN_DB 12
 #define CH_B0_GAIN_DB 12
 #define CH_B1_GAIN_DB 12
-
 
 am_hal_audadc_gain_config_t g_sAudadcGainConfig = {
     .ui32LGA = 0,      // 0 code
@@ -386,7 +386,7 @@ am_audadc0_isr(void) {
                 else
                     *am_ai_sampleReadyFlag = true;
             }*/
-            g_ns_audio_config.callback(&g_ns_audio_config, 0);
+            g_ns_audio_config->callback(g_ns_audio_config, 0);
         }
     }
 
@@ -403,8 +403,7 @@ am_audadc0_isr(void) {
 // Setup the AUDADC
 //
 //*****************************************************************************
-void
-audadc_init() {
+void audadc_init(ns_audio_config_t *cfg) {
     g_adc = (AUDADC_Type *)AUDADC_BASE;
     g_mcuctrl = (MCUCTRL_Type *)MCUCTRL_BASE;
 
@@ -420,10 +419,10 @@ audadc_init() {
     // AUDADC DMA data config:
     //   DMA buffers padded at 16B alignment.
     //
-    g_sAUDADCDMAConfig.ui32SampleCount = g_ns_audio_config.numSamples;
+    g_sAUDADCDMAConfig.ui32SampleCount = g_ns_audio_config->numSamples;
 
     uint32_t ui32AUDADCDataPtr =
-        (uint32_t)((uint32_t)(g_ui32AUDADCSampleBuffer + 3) & ~0xF);
+        (uint32_t)((uint32_t)(g_ns_audio_config->sampleBuffer + 3) & ~0xF);
     g_sAUDADCDMAConfig.ui32TargetAddress = ui32AUDADCDataPtr;
     g_sAUDADCDMAConfig.ui32TargetAddressReverse =
         g_sAUDADCDMAConfig.ui32TargetAddress +
@@ -454,7 +453,7 @@ audadc_init() {
     // Configure the AUDADC
     //
     audadc_config();
-    g_ns_audio_config.audioSystemHandle =
+    g_ns_audio_config->audioSystemHandle =
         g_AUDADCHandle; // wait for it to have real value
 
     // Gain setting

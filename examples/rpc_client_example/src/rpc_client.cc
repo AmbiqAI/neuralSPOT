@@ -22,7 +22,6 @@
 #include "ns_audio.h"
 #include "ns_rpc_generic_data.h"
 #include "ns_peripherals_button.h"
-#include "ns_usb.h"
 #include "ns_peripherals_power.h"
 
 // -- Audio Stuff - needed for demo, not RPC ----------------------
@@ -34,6 +33,7 @@
 bool static g_audioReady = false;
 bool static g_audioRecording = false;
 int16_t static g_in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
+uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
 
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     uint32_t *pui32_buffer =
@@ -52,6 +52,7 @@ ns_audio_config_t audioConfig = {
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&g_in16AudioDataBuffer,
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .sampleBuffer = audadcSampleBuffer,
     .numChannels = NUM_CHANNELS,
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
@@ -131,7 +132,6 @@ int main(void) {
 
     ns_printf("Start the PC-side server, then press Button 0 to get started\n");
     while (g_intButtonPressed == 0) {
-        tud_task(); // tinyusb device task for RPC
         ns_delay_us(1000);
     }
     // g_intButtonPressed = 0;
@@ -143,22 +143,14 @@ int main(void) {
     // we collect data and send it over the various RPC
     // interfaces. Any incoming RPC calls will result in calls to the 
     // RPC handler functions defined above.
-    // 
 
     while (1) {
-        tud_task();         // service USB
-
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
-            ns_delay_us(1000);
             g_audioRecording = true;
             ns_printf("Listening for 3 seconds.\n");
             ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 3 seconds.\n");
 
             while (recordingWin > 0) {
-                tud_task();         // service USB
-
-                ns_delay_us(1);
-
                 if (g_audioReady) { // got an audio sample
                     recordingWin--;
                     g_audioReady = false;
@@ -172,10 +164,6 @@ int main(void) {
 
                     // Compute something remotely based on the collected sample (e.g. MFCC)
                     stat = ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
-                    // if (stat == ns_rpc_data_success)
-                    //     ns_printf("%s-",resultBlock.description);
-                    // else
-                    //     ns_printf("[%d]%s+",stat,resultBlock.description);
 
                     // ns_rpc_data_computeOnPC silently mallocs memory for
                     // block-description and block->buffer.data. After using
@@ -190,6 +178,6 @@ int main(void) {
             g_intButtonPressed = 0;
             recordingWin = 100;
         }
-        ns_delay_us(5000);
+        am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
     }
 }

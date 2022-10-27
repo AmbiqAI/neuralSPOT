@@ -79,7 +79,6 @@ main(void) {
     ns_printf("Press Button 0 to begin calibration\n");
     ns_printf("Please place your sensor on a flat surface until calibration is finished\n");
     while (g_intButtonPressed == 0) {
-        tud_task(); // tinyusb device task for RPC
         ns_delay_us(1000);
     }
     g_intButtonPressed = 0;
@@ -120,19 +119,6 @@ main(void) {
         // i++;
 
         ns_rpc_data_sendBlockToPC(&outBlock);
-        // #ifdef NS_RPC_AUDIO
-        //     tud_task(); // tinyusb device task for RPC
-        //     if (i==NUMSAMPLES) {
-        //         ns_rpc_audio_send_buffer((uint8_t*)g_sensorData, NUMSAMPLES * 7 * sizeof(float));
-        //         i = 0;
-        //     }
-        // #endif
-        // am_util_stdio_printf("%d] %f, %f, %f\n", i, accelVals[0], accelVals[1], accelVals[2]);
-        // for (axis = 0; axis<AXES; axis++) {
-        //     ns_printf("%f, %f, %f, ", g_sensorData[i][axis]);
-        //     ns_printf("%f, %f, %f, ", g_sensorData[i][axis+AXES]);
-        //     ns_printf("%f\n", g_sensorData[i][6]);
-        // }
 
         ns_delay_us(5000);
     }

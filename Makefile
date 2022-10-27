@@ -43,9 +43,7 @@ modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
-modules      += examples/s2i
 modules      += examples/basic_tf_stub
-modules      += examples/har
 modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example
 modules      += examples/rpc_server_example

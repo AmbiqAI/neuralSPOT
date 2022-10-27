@@ -140,7 +140,7 @@ main(void) {
     model_init();
     ns_audio_init(&audio_config);
     ns_mfcc_init(&mfcc_config);
-    ns_mfcc_init_old();
+    // ns_mfcc_init_old();
     ns_peripheral_button_init(&button_config);
     am_hal_interrupt_master_enable();
 

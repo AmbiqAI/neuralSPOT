@@ -51,7 +51,7 @@ The basic_tf_stub example is based on a speech to intent model.
 //*****************************************************************************
 
 #define RINGBUFFER_MODE
-#define RPC_ENABLED
+// #define RPC_ENABLED
 
 #include "basic_tf_stub.h"
 #include "basic_audio.h"
@@ -66,6 +66,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
+#include "mfcc-old.h"
 
 static int recording_win = NUM_FRAMES;
 
@@ -96,6 +97,7 @@ int
 main(void) {
     float tmp = 0;
     float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
+    float mfcc_bufferold[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
     float y_intent[6];
     float y_slot[2][17];
     uint8_t y_slot_max[2];
@@ -138,6 +140,7 @@ main(void) {
     model_init();
     ns_audio_init(&audio_config);
     ns_mfcc_init(&mfcc_config);
+    ns_mfcc_init_old();
     ns_peripheral_button_init(&button_config);
     am_hal_interrupt_master_enable();
 
@@ -187,10 +190,10 @@ main(void) {
                 #endif
                 ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer,
                                 &mfcc_buffer[mfcc_buffer_head]);
-
+                ns_mfcc_compute_old(in16AudioDataBuffer,
+                                &mfcc_bufferold[mfcc_buffer_head]);
                 recording_win--;
                 audioReady = false;
-
 
                 ns_lp_printf(".");
             }    
@@ -209,6 +212,9 @@ main(void) {
                       input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);
                 input->data.int8[i] = (int8_t)tmp;
+                if (mfcc_buffer[i] != mfcc_bufferold[i]) {
+                    ns_lp_printf("%d: %f neq %f\n", mfcc_buffer[i], mfcc_bufferold[i]);
+                }
             }
 
             TfLiteStatus invoke_status = interpreter->Invoke();
@@ -216,7 +222,8 @@ main(void) {
                 ns_lp_printf("Invoke failed\n");
                 while (1) {}; // hang
             }
-
+            
+            max_val = 0.0;
             for (uint8_t i = 0; i < 6; i = i + 1) {
                 y_intent[i] = (output_intent->data.int8[i] -
                                output_intent->params.zero_point) *
@@ -232,7 +239,6 @@ main(void) {
             ns_lp_printf("**Max Intent: %s\n", intents[y_intent_max]);
 
             for (uint8_t i = 0; i < 2; i = i + 1) {
-
                 max_val = 0.0;
 
                 for (uint8_t j = 0; j < 17; j = j + 1) {

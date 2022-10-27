@@ -42,15 +42,42 @@
 #include "ns_audio_mfcc.h"
 #include <string.h>
 
-// Globals
-float g_mfccFrame[MFCC_FRAME_LEN_POW2];
-float g_mfccBuffer[MFCC_FRAME_LEN_POW2];
-float g_mfccEnergies[MFCC_NUM_FBANK_BINS];
-float g_mfccWindowFunction[MFCC_FRAME_LEN];
-int32_t g_mfccFbankFirst[MFCC_NUM_FBANK_BINS];
-int32_t g_mfccFbankLast[MFCC_NUM_FBANK_BINS];
-float g_mfccMelFBank[MFCC_NUM_FBANK_BINS][50];
-float g_mfccDCTMatrix[MFCC_NUM_FBANK_BINS * MFCC_NUM_MFCC_FEATURES];
+static ns_mfcc_cfg_t *cfg;
+
+// float g_mfccFrame[MFCC_FRAME_LEN_POW2];
+// float g_mfccBuffer[MFCC_FRAME_LEN_POW2];
+// float g_mfccEnergies[MFCC_NUM_FBANK_BINS];
+// float g_mfccWindowFunction[MFCC_FRAME_LEN];
+// int32_t g_mfccFbankFirst[MFCC_NUM_FBANK_BINS];
+// int32_t g_mfccFbankLast[MFCC_NUM_FBANK_BINS];
+// float g_mfccMelFBank[MFCC_NUM_FBANK_BINS][50];
+// float g_mfccDCTMatrix[MFCC_NUM_FBANK_BINS * MFCC_NUM_MFCC_FEATURES];
+ 
+
+// WARNING this is some hacky, finicky pointer math. Sizes and order have to match
+// Fiddle with this at your own peril
+typedef float ihc_t[][50];
+static float   *mfccFrame;
+static float   *mfccBuffer;
+static float   *mfccEnergies;
+static float   *mfccWindowFunction;
+static int32_t *mfccFbankFirst;
+static int32_t *mfccFbankLast;
+// static float   (*mfccMelFBank)[50];
+static ihc_t   *mfccMelFBank;
+static float   *mfccDCTMatrix;
+
+static void ns_mfcc_map_arena() {
+    mfccFrame = (float*)cfg->arena;
+    mfccBuffer = (float*)(mfccFrame + cfg->frame_len_pow2*sizeof(float));
+    mfccEnergies = (float*)(mfccBuffer + cfg->frame_len_pow2*sizeof(float));
+    mfccWindowFunction = (float*)(mfccEnergies + cfg->num_fbank_bins*sizeof(float));
+    mfccFbankFirst = (int32_t*)(mfccWindowFunction + cfg->frame_len*sizeof(float));
+    mfccFbankLast = (int32_t*)(mfccFbankFirst + cfg->num_fbank_bins*sizeof(int32_t));
+    mfccMelFBank = (ihc_t*)(mfccFbankLast + cfg->num_fbank_bins*sizeof(int32_t));
+    mfccDCTMatrix = (float*)(*mfccMelFBank + cfg->num_fbank_bins*50*sizeof(float));
+}
+// --------------------
 
 #ifdef MFCC_DEBUG
 float g_audioMax;
@@ -73,19 +100,18 @@ MelScale(float freq) {
     return 1127.0f * logf(1.0f + freq / 700.0f);
 }
 
-void
-create_mel_fbank() {
+static void create_mel_fbank() {
     int32_t bin, i;
-    int32_t num_fft_bins = MFCC_FRAME_LEN_POW2 / 2;
-    float fft_bin_width = ((float)MFCC_SAMP_FREQ) / MFCC_FRAME_LEN_POW2;
-    float mel_low_freq = MelScale(MFCC_MEL_LOW_FREQ);
-    float mel_high_freq = MelScale(MFCC_MEL_HIGH_FREQ);
+    int32_t num_fft_bins = cfg->frame_len_pow2 / 2;
+    float fft_bin_width = ((float)cfg->sample_frequency) / cfg->frame_len_pow2;
+    float mel_low_freq = MelScale(cfg->low_freq);
+    float mel_high_freq = MelScale(cfg->high_freq);
     float mel_freq_delta =
-        (mel_high_freq - mel_low_freq) / (MFCC_NUM_FBANK_BINS + 1);
+        (mel_high_freq - mel_low_freq) / (cfg->num_fbank_bins + 1);
 
     float this_bin[num_fft_bins];
 
-    for (bin = 0; bin < MFCC_NUM_FBANK_BINS; bin++) {
+    for (bin = 0; bin < cfg->num_fbank_bins; bin++) {
 
         float left_mel = mel_low_freq + bin * mel_freq_delta;
         float center_mel = mel_low_freq + (bin + 1) * mel_freq_delta;
@@ -113,15 +139,15 @@ create_mel_fbank() {
             }
         }
 
-        g_mfccFbankFirst[bin] = first_index;
-        g_mfccFbankLast[bin] = last_index;
+        mfccFbankFirst[bin] = first_index;
+        mfccFbankLast[bin] = last_index;
         // am_util_stdio_printf("MFCC bin %d, first %d, last %d \n", bin,
         // first_index, last_index);
 
         int32_t j = 0;
         // copy the part we care about
         for (i = first_index; i <= last_index; i++) {
-            g_mfccMelFBank[bin][j++] = this_bin[i];
+            (*mfccMelFBank)[bin][j++] = this_bin[i];
             if (j >= 50) {
                 am_util_stdio_printf(
                     "MFCC[%d] J %d exceeded 50. First %d Last %d, \n", bin, j,
@@ -131,99 +157,100 @@ create_mel_fbank() {
     }
 }
 
-void
-create_dct_matrix(int32_t input_length, int32_t coefficient_count) {
+static void create_dct_matrix(int32_t input_length, int32_t coefficient_count) {
     int32_t k, n;
     float normalizer;
     arm_sqrt_f32(2.0 / (float)input_length, &normalizer);
     for (k = 0; k < coefficient_count; k++) {
         for (n = 0; n < input_length; n++) {
-            g_mfccDCTMatrix[k * input_length + n] =
+            mfccDCTMatrix[k * input_length + n] =
                 normalizer * cos(((double)M_PI) / input_length * (n + 0.5) * k);
         }
     }
 }
 
 void
-ns_mfcc_init(void) {
+ns_mfcc_init(ns_mfcc_cfg_t *c) {
     int i;
     // int frame_len_padded = pow(2,ceil((log(FRAME_LEN)/log(2))));
     // am_util_stdio_printf("padded is %d\n",frame_len_padded);
+    cfg = c;
+    ns_mfcc_map_arena();
 
-    for (i = 0; i < MFCC_FRAME_LEN; i++) {
-        g_mfccWindowFunction[i] =
-            0.5 - 0.5 * cos(M_2PI * ((float)i) / (MFCC_FRAME_LEN));
+    for (i = 0; i < cfg->frame_len; i++) {
+        mfccWindowFunction[i] =
+            0.5 - 0.5 * cos(M_2PI * ((float)i) / (cfg->frame_len));
     }
 
     create_mel_fbank();
-    create_dct_matrix(MFCC_NUM_FBANK_BINS, MFCC_NUM_MFCC_FEATURES);
+    create_dct_matrix(cfg->num_fbank_bins, cfg->num_coeffs);
 
-    arm_rfft_fast_init_f32(&g_mfccRfft, MFCC_FRAME_LEN_POW2);
+    arm_rfft_fast_init_f32(&g_mfccRfft, cfg->frame_len_pow2);
 }
 
 void
-ns_mfcc_compute(const int16_t *audio_data, float *mfcc_out) {
+ns_mfcc_compute(ns_mfcc_cfg_t *c, const int16_t *audio_data, float *mfcc_out) {
 
     int32_t i, j, bin;
 
     // TensorFlow way of normalizing .wav data to (-1,1)
-    for (i = 0; i < MFCC_FRAME_LEN; i++) {
-        g_mfccFrame[i] = (float)audio_data[i] / (1 << 15);
+    for (i = 0; i < cfg->frame_len; i++) {
+        mfccFrame[i] = (float)audio_data[i] / (1 << 15);
     }
     // Fill up remaining with zeros
-    memset(&g_mfccFrame[MFCC_FRAME_LEN], 0,
-           sizeof(float) * (MFCC_FRAME_LEN_POW2 - MFCC_FRAME_LEN));
+    memset(&mfccFrame[cfg->frame_len], 0,
+           sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
 
-    for (i = 0; i < MFCC_FRAME_LEN; i++) {
-        g_mfccFrame[i] *= g_mfccWindowFunction[i];
+    for (i = 0; i < cfg->frame_len; i++) {
+        mfccFrame[i] *= mfccWindowFunction[i];
     }
 
     // Compute FFT
-    arm_rfft_fast_f32(&g_mfccRfft, g_mfccFrame, g_mfccBuffer, 0);
+    arm_rfft_fast_f32(&g_mfccRfft, mfccFrame, mfccBuffer, 0);
 
     // Convert to power spectrum
     // frame is stored as [real0, realN/2-1, real1, im1, real2, im2, ...]
-    int32_t half_dim = MFCC_FRAME_LEN_POW2 / 2;
-    float first_energy = g_mfccBuffer[0] * g_mfccBuffer[0],
+    int32_t half_dim = cfg->frame_len_pow2 / 2;
+    float first_energy = mfccBuffer[0] * mfccBuffer[0],
           last_energy =
-              g_mfccBuffer[1] * g_mfccBuffer[1]; // handle this special case
+              mfccBuffer[1] * mfccBuffer[1]; // handle this special case
     for (i = 1; i < half_dim; i++) {
-        float real = g_mfccBuffer[i * 2];
-        float im = g_mfccBuffer[i * 2 + 1];
-        g_mfccBuffer[i] = real * real + im * im;
+        float real = mfccBuffer[i * 2];
+        float im = mfccBuffer[i * 2 + 1];
+        mfccBuffer[i] = real * real + im * im;
     }
-    g_mfccBuffer[0] = first_energy;
-    g_mfccBuffer[half_dim] = last_energy;
+    mfccBuffer[0] = first_energy;
+    mfccBuffer[half_dim] = last_energy;
 
     float sqrt_data;
 
     // Apply mel filterbanks
-    for (bin = 0; bin < MFCC_NUM_FBANK_BINS; bin++) {
+    for (bin = 0; bin < cfg->num_fbank_bins; bin++) {
         j = 0;
         float mel_energy = 0;
-        int32_t first_index = g_mfccFbankFirst[bin];
-        int32_t last_index = g_mfccFbankLast[bin];
+        int32_t first_index = mfccFbankFirst[bin];
+        int32_t last_index = mfccFbankLast[bin];
         for (i = first_index; i <= last_index; i++) {
-            arm_sqrt_f32(g_mfccBuffer[i], &sqrt_data);
-            mel_energy += (sqrt_data)*g_mfccMelFBank[bin][j++];
+            arm_sqrt_f32(mfccBuffer[i], &sqrt_data);
+            mel_energy += (sqrt_data)*(*mfccMelFBank)[bin][j++];
         }
-        g_mfccEnergies[bin] = mel_energy;
+        mfccEnergies[bin] = mel_energy;
 
         // avoid log of zero
         if (mel_energy == 0.0)
-            g_mfccEnergies[bin] = FLT_MIN;
+            mfccEnergies[bin] = FLT_MIN;
     }
 
     // Take log
-    for (bin = 0; bin < MFCC_NUM_FBANK_BINS; bin++)
-        g_mfccEnergies[bin] = logf(g_mfccEnergies[bin]);
+    for (bin = 0; bin < cfg->num_fbank_bins; bin++)
+        mfccEnergies[bin] = logf(mfccEnergies[bin]);
 
     // Take DCT. Uses matrix mul.
-    for (i = 0; i < MFCC_NUM_MFCC_FEATURES; i++) {
+    for (i = 0; i < cfg->num_coeffs; i++) {
         float sum = 0.0;
-        for (j = 0; j < MFCC_NUM_FBANK_BINS; j++) {
-            sum += g_mfccDCTMatrix[i * MFCC_NUM_FBANK_BINS + j] *
-                   g_mfccEnergies[j];
+        for (j = 0; j < cfg->num_fbank_bins; j++) {
+            sum += mfccDCTMatrix[i * cfg->num_fbank_bins + j] *
+                   mfccEnergies[j];
         }
 
         mfcc_out[i] = sum;

@@ -143,7 +143,6 @@ int main(void) {
 
     ns_printf("Start the PC-side client, then press Button 0 to get started\n");
     while (g_intButtonPressed == 0) {
-        tud_task(); // tinyusb device task for RPC
         ns_delay_us(1000);
     }
 
@@ -154,7 +153,6 @@ int main(void) {
     // RPC handler functions defined above.
     // 
     while (1) {
-        tud_task();         // service USB
         erpc_server_poll(); // service RPC server
         ns_delay_us(1);
     }

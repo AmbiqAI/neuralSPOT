@@ -122,7 +122,6 @@ erpc_status_t UsbCdcTransport::underlyingReceive(uint8_t *data, uint32_t size)
 
     uint32_t bytes_rx = 0;
 
-    tud_task(); // tinyusb device task
     bytes_rx = ns_usb_recieve_data(m_usbHandle, data, size);
     // ns_printf("NS USB RX asked for %d, Rec %d bytes\n", size, bytes_rx);
     if (bytes_rx < size) {
@@ -145,7 +144,6 @@ erpc_status_t UsbCdcTransport::underlyingSend(const uint8_t *data, uint32_t size
     while (bytes_tx < size) {
         bytes_tx += ns_usb_send_data(m_usbHandle, (uint8_t*)(data+bytes_tx), size - bytes_tx); // blocking
         tud_cdc_write_flush();
-        tud_task(); // tinyusb device task
 
         // ns_printf("NS USB TX asked to send %d, sent %d bytes\n", size, bytes_tx);
     }

@@ -28,7 +28,7 @@
 //
 // Requires SSRAM to be enabled, so not compatible with some power modes
 //
-#ifdef AUDIODEBUG
+#ifdef NS_RTT_AUDIODEBUG
     #include "SEGGER_RTT.h"
     #define TIMEOUT 400000 // RTT streaming timeout loop count
     #define AUDIO_SAMPLE_TO_RTT (64 * 512)
@@ -45,48 +45,60 @@ uint32_t g_ui32SampleToRTT = 0;
  * isn't valid until futher initialized by ns_audio_init
  *
  */
-ns_audio_config_t g_ns_audio_config = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
-                                       .callback = NULL,
-                                       .audioBuffer = NULL,
-                                       .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-                                       .numChannels = 1,
-                                       .numSamples = 480,
-                                       .sampleRate = 16000,
-                                       .audioSystemHandle = NULL,
-                                       .bufferHandle = NULL};
+ns_audio_config_t *g_ns_audio_config = NULL;
 
-void ns_audio_init(ns_audio_config_t *cfg) {
-    // Copy in config
-    g_ns_audio_config.eAudioApiMode = cfg->eAudioApiMode;
-    g_ns_audio_config.callback = cfg->callback;
-    g_ns_audio_config.callback = cfg->callback;
-    g_ns_audio_config.audioBuffer = cfg->audioBuffer;
-    g_ns_audio_config.numChannels = cfg->numChannels;
-    g_ns_audio_config.numSamples = cfg->numSamples;
-    g_ns_audio_config.sampleRate = cfg->sampleRate;
-    g_ns_audio_config.eAudioSource = cfg->eAudioSource;
+uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 
-    if (g_ns_audio_config.eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
+#ifndef NS_DISABLE_API_VALIDATION
+    //
+    // Check the handle.
+    //
+    if ( cfg == NULL )
+    {
+        return AM_HAL_STATUS_INVALID_HANDLE;
+    }
+
+    // check version here
+
+    if ((cfg->callback == NULL) ||
+        (cfg->audioBuffer == NULL) ||
+        (cfg->sampleBuffer == NULL))
+    {
+        return AM_HAL_STATUS_INVALID_HANDLE;
+    }    
+
+    if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples*2) {
+         return AM_HAL_STATUS_INVALID_HANDLE;
+    }   
+#endif
+    cfg->prefix.s.bInit = true;
+    cfg->prefix.s.magic = NS_AUDIO_MAGIC;
+
+    g_ns_audio_config = cfg;
+
+    if (g_ns_audio_config->eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
         // init a ringbuffer
         ns_ipc_ringbuff_setup_t setup = {
             .indx = 0,
-            .pData = g_ns_audio_config.audioBuffer,
-            .ui32ByteSize = g_ns_audio_config.numSamples * 2 * 2
+            .pData = g_ns_audio_config->audioBuffer,
+            .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2
         };
 
         ns_ipc_ring_buffer_init(cfg->bufferHandle, setup);
-        g_ns_audio_config.bufferHandle = cfg->bufferHandle;
+        g_ns_audio_config->bufferHandle = cfg->bufferHandle;
     }
 
-    if (g_ns_audio_config.eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
         audadc_init();
     }
 
-    #ifdef AUDIODEBUG
+    #ifdef NS_RTT_AUDIODEBUG
         SEGGER_RTT_Init();
         SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer,
                                 RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
         am_util_stdio_printf("RTT Control Block Address:  0x%08X\n",
                             (uint32_t)&_SEGGER_RTT);
     #endif
+
+    return AM_HAL_STATUS_SUCCESS;
 }

@@ -22,8 +22,8 @@ This section describes the process and structure for adding components to Neural
 
 1. NeuralSPOT Libraries
 2. NeuralSPOT Examples
-3. External Components
-4. RPC Interfaces
+4. External Components
+5. RPC Interfaces
 
 ### Adding NeuralSPOT Library Components
 

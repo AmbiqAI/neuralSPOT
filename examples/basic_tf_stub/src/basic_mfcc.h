@@ -11,7 +11,7 @@
 #include "ns_audio_mfcc.h"
 
 // MFCC Config
-#define MY_MFCC_FRAME_LEN_POW2  512 // Next power of two size
+#define MY_MFCC_FRAME_LEN_POW2  512 // Next power of two size after SAMPLES_IN_FRAME
 #define MY_MFCC_NUM_FBANK_BINS  40
 #define MY_MFCC_NUM_MFCC_COEFFS 13
 

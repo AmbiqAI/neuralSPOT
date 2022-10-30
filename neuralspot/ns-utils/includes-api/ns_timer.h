@@ -28,10 +28,14 @@ extern "C"
 struct ns_timer_config;
 typedef void (*ns_timer_callback_cb)(struct ns_timer_config *);
 
+/**
+ * @brief Supported Timers
+ * 
+ */
 typedef enum {
-    NS_TIMER_COUNTER = 0,
-    NS_TIMER_INTERRUPT = 1,
-    NS_TIMER_USB = 2
+    NS_TIMER_COUNTER = 0, ///< Intended use is reading timerticks
+    NS_TIMER_INTERRUPT = 1, ///< Calls a callback periodically
+    NS_TIMER_USB = 2 ///< Used by ns_usb to periodically service USB
 } ns_timers_e;
 
 typedef struct ns_timer_config {

@@ -24,6 +24,9 @@
 /**
  * @brief Wrap prints in enable/disable to work with deep sleep mode
  * 
+ * NOTE: this function has the side effect of disabling printf, and is
+ * intended to only be used when the application is meant to enter deepsleep
+ * *
  * @param format 
  * @param ... 
  */

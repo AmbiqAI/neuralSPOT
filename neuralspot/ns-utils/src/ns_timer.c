@@ -42,6 +42,16 @@ void am_timer02_isr(void)
 
 } // am_timer01_isr()
 
+/**
+ * @brief Initialize one of 3 timers supported by NeuralSPOT
+ * 
+ * NS_TIMER_COUNTER     Intended use is reading timerticks
+ * NS_TIMER_INTERRUPT   Calls a callback periodically
+ * NS_TIMER_USB         Used by ns_usb to periodically service USB
+ * 
+ * @param cfg 
+ * @return uint32_t 
+ */
 uint32_t ns_timer_init(ns_timer_config_t *cfg)
 {
     am_hal_timer_config_t       TimerConfig;

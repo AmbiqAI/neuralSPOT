@@ -4,9 +4,9 @@
  * @brief HAR, but just i2c invocation for now
  * @version 0.1
  * @date 2022-08-26
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 #include <cstdlib>
 #include <cstring>
@@ -21,18 +21,38 @@
 
 #define NUMSAMPLES 32
 #define AXES 3
-float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp 
+float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp
+
+ns_i2c_config_t i2cConfig = {
+    .iom = 0
+};
+
+uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
+
+uint32_t mpu6050_init(ns_i2c_config_t *cfg, uint32_t devAddr) {
+
+    // Toggle reset bit, then set sleep and clock bits
+    if (
+        mpu6050_device_reset(cfg, devAddr) ||
+        mpu6050_set_clock_source(cfg, devAddr, CLOCK_GZ_PLL) ||
+        mpu6050_set_lowpass_filter(cfg, devAddr, DLPF_044HZ) ||
+        mpu6050_set_gyro_full_scale(cfg, devAddr, GYRO_FS_500DPS) ||
+        mpu6050_set_accel_full_scale(cfg, devAddr, ACCEL_FS_4G) ||
+        mpu6050_set_sample_rate(cfg, devAddr, 20)
+    ) {
+        return MPU6050_STATUS_ERROR;
+    }
+
+    return MPU6050_STATUS_SUCCESS;
+}
 
 int
 main(void) {
-    uint8_t buffer[32];
-    void *mpuHandle;
-    int16_t accelX, accelY, accelZ, gyroX, gyroY, gyroZ, temperature_regval;
-    float temperature = 0.0;
-    float accelVals[AXES];
-    float gyroVals[AXES];
-    uint32_t i = 0;
-    uint32_t axis = 0;
+    uint16_t sample = 0;
+    int16_t temperatureVal;
+    int16_t accelVals[AXES];
+    int16_t gyroVals[AXES];
+    uint32_t axis;
 
     ns_itm_printf_enable();
     ns_debug_printf_enable();
@@ -84,42 +104,31 @@ main(void) {
     g_intButtonPressed = 0;
     ns_printf("Beginning MPU Calibration...\n");
 
-    ns_i2c_interface_init(1, MPU_I2CADDRESS_AD0_LOW, &mpuHandle);
-    mpu6050_finish_init(mpuHandle);
-    if(mpu6050_calibration()) {
+    ns_i2c_interface_init(&i2cConfig, 100000);
+    mpu6050_init(&i2cConfig, mpuAddr);
+    if (mpu6050_calibration(&i2cConfig, mpuAddr)) {
         ns_printf("Calibration Failed!\n");
         return 1;
     }
     ns_printf("MPU Calibration successful. Sampling data...\n");
 
     while (1) {
-        read_sensors(buffer);
-        
-        // decode the buffer
-        accelX = buffer[0] << 8 | buffer[1];
-        accelY = buffer[2] << 8 | buffer[3];
-        accelZ = buffer[4] << 8 | buffer[5];
-
-        temperature_regval = (buffer[6]<<8 | buffer[7]);
-        temperature = temperature_regval/340.0+36.53;
-
-        gyroX = buffer[8] << 8 | buffer[9];
-        gyroY = buffer[10] << 8 | buffer[11];
-        gyroZ = buffer[12] << 8 | buffer[13];
-
-        accelGravity(accelVals, accelX, accelY, accelZ, ACCEL_FS_16G);
-        gyroDegPerSec(gyroVals, gyroX, gyroY, gyroZ, GYRO_FS_500DPS);
+        mpu6050_get_accel_values(&i2cConfig, mpuAddr, &accelVals[0], &accelVals[1], &accelVals[2]);
+        mpu6050_get_temperature(&i2cConfig, mpuAddr, &temperatureVal);
+        mpu6050_get_gyro_values(&i2cConfig, mpuAddr, &gyroVals[0], &gyroVals[1], &gyroVals[2]);
 
         // Capture data in RPC buffer
-        for (axis = 0; axis<AXES; axis++) {
-            g_sensorData[i][axis] = accelVals[axis];
-            g_sensorData[i][axis+AXES] = gyroVals[axis];
+        for (axis = 0; axis < AXES; axis++) {
+            g_sensorData[sample][axis] = mpu6050_accel_to_gravity(accelVals[axis], ACCEL_FS_4G);
+            g_sensorData[sample][axis+AXES] = mpu6050_gyro_to_deg_per_sec(gyroVals[axis], GYRO_FS_500DPS);
         }
-        g_sensorData[i][6] = temperature;
-        // i++;
+        g_sensorData[sample][6] = mpu6050_temperature_to_celsius(temperatureVal);
 
-        ns_rpc_data_sendBlockToPC(&outBlock);
-
+        // Send to PC every NUMSAMPLES have been captured
+        sample = (sample+1)%NUMSAMPLES;
+        if (sample == 0) {
+            ns_rpc_data_sendBlockToPC(&outBlock);
+        }
         ns_delay_us(5000);
     }
 }

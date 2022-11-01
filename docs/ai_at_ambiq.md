@@ -28,7 +28,7 @@ Ambiq's ModelZoo is a collection of AI reference models built on neuralSPOT to h
 
 We've benchmarked our Apollo4 Plus platform with outstanding results. Our [MLPerf-based benchmarks](https://github.com/AmbiqAI/MLPerfTiny) can be found on our benchmark repository, including instructions on how to replicate our results.
 
-![Our results](https://github.com/AmbiqAI/MLPerfTiny/blob/main/docs/results.png)
+![Our results](./results.png)
 
 ## Accelerate Your AI Development With Ambiq's AI Tools
 

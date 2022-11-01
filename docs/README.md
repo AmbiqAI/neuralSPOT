@@ -6,7 +6,7 @@ NeuralSPOT documentation is spread throughout the repository - generally, every 
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [AI at Ambiq](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/ai_at_ambiq.md) | A high level introduction to Ambiq's model zoo and neuralSPOT |
 | [Introduction to NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Introduction-to-neuralSPOT.md) | A high level introduction to neuralSPOT                      |
-| [NeuralSPOT Feature Guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/feature_guide.md) | A brief list of neuralSPOT's features and examples, with links to deeper documentation |
+| [NeuralSPOT Feature Guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md) | A brief list of neuralSPOT's features and examples, with links to deeper documentation |
 | [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) | Latest neuralSPOT release notes and errata                   |
 | [Developing AI with NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Developing_with_NeuralSPOT.md) | AI developer's neuralSPOT guide focused on using Nests to create AI features for your application within your current workflow |
 | [Developing for NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/developer_guide.md) | Describes how neuralSPOT's components (libraries, examples, external components, and projects) are structured, and how to add to them |

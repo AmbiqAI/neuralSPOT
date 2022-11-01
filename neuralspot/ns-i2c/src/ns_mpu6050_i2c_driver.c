@@ -279,6 +279,15 @@ static int8_t get_low_bits(int16_t regReading) {
     return regReading & 0x00FF;
 }
 
+static uint32_t read_word_register(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t reg, uint16_t *value) {
+    uint8_t buffer[2];
+    if (ns_i2c_read_sequential_regs(cfg, devAddr, reg, buffer, 2)) {
+        return MPU6050_STATUS_ERROR;
+    }
+    *value = (uint16_t)(buffer[0] << 8 | buffer[1]);
+    return MPU6050_STATUS_SUCCESS;
+}
+
 /**
  * @brief Set sample rate divider
  *
@@ -395,11 +404,16 @@ uint32_t mpu6050_reset_fifo(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @return uint32_t status
  */
 uint32_t mpu6050_get_fifo_count(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t *count) {
-    uint8_t buffer[2];
-    if (ns_i2c_read_sequential_regs(cfg, devAddr, FIFO_COUNT_H, buffer, 2)) {
+    if (read_word_register(cfg, devAddr, FIFO_COUNT_H, count)) {
         return MPU6050_STATUS_ERROR;
     }
-    *count = (uint16_t)(buffer[0] << 8 | buffer[1]);
+    return MPU6050_STATUS_SUCCESS;
+}
+
+uint32_t mpu6050_fifo_pop(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value) {
+    if (read_word_register(cfg, devAddr, FIFO_COUNT_H, (uint16_t *)value)) {
+        return MPU6050_STATUS_ERROR;
+    }
     return MPU6050_STATUS_SUCCESS;
 }
 
@@ -521,11 +535,9 @@ uint32_t mpu6050_get_gyro_values(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t
  * @return uint32_t status
  */
 uint32_t mpu6050_get_temperature(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *t) {
-    uint8_t buffer[2];
-    if (ns_i2c_read_sequential_regs(cfg, devAddr, TEMP_OUT_H, buffer, 6)) {
+    if (read_word_register(cfg, devAddr, TEMP_OUT_H, (uint16_t *)t)) {
         return MPU6050_STATUS_ERROR;
     }
-    *t = (int16_t)(buffer[0] << 8 | buffer[1]);
     return MPU6050_STATUS_SUCCESS;
 }
 

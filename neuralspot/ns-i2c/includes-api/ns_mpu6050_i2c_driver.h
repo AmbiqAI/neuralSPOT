@@ -28,7 +28,6 @@ typedef enum {
     MPU6050_STATUS_ERROR = 1
 } mpu6050_status_e;
 
-
 typedef enum {
     DLPF_260HZ = 0,  // Accel: 260 Hz, Gyro: 256 Hz, Delay: 1 ms
     DLPF_184HZ = 1,  // Accel: 184 Hz, Gyro: 188 Hz, Delay: 2 ms
@@ -56,6 +55,7 @@ typedef enum {
     ACCEL_FS_16G = 3   //!< +/- 16 g -> 2048 LSB/g
 } mpu6050_accel_fs_t;
 
+/*! Clock selection */
 typedef enum {
     CLOCK_INTERNAL      = 0,    // Internal oscillator: 20MHz for MPU6500 and 8MHz for MPU6050
     CLOCK_GX_PLL        = 1,    // Gyroscope x axis PLL
@@ -66,6 +66,7 @@ typedef enum {
     CLOCK_KEEP_RESET    = 7   //!< Stops the clock and keeps timing generator in reset
 } mpu6050_clock_src_t;
 
+/*! FIFO configuration */
 typedef struct {
     uint8_t tempEnable;
     uint8_t xgEnable;
@@ -77,6 +78,7 @@ typedef struct {
     uint8_t slv0Enable;
 } mpu6050_fifo_config_t;
 
+/*! Interrupt configuration */
 typedef struct {
     uint8_t intLevel;
     uint8_t intOpen;
@@ -86,8 +88,8 @@ typedef struct {
     uint8_t fsyncEnable;
 } mpu6050_int_config_t;
 
-#define MPU_I2CADDRESS_AD0_LOW                       0x68
-#define MPU_I2CADDRESS_AD0_HIGH                      0x69
+#define MPU_I2CADDRESS_AD0_LOW 0x68
+#define MPU_I2CADDRESS_AD0_HIGH 0x69
 
 uint32_t mpu6050_set_sample_rate_divider(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t divider);
 uint32_t mpu6050_set_sample_rate(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t rate);
@@ -99,6 +101,7 @@ uint32_t mpu6050_configure_fifo(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_
 uint32_t mpu6050_set_fifo_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t enable);
 uint32_t mpu6050_reset_fifo(ns_i2c_config_t *cfg, uint32_t devAddr);
 uint32_t mpu6050_get_fifo_count(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t *count);
+uint32_t mpu6050_fifo_pop(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value);
 uint32_t mpu6050_configure_interrupt(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_int_config_t *intConfig);
 uint32_t mpu6050_set_interrupt_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t overflowEnable, uint8_t dataReadyEnable);
 uint32_t mpu6050_get_interrupt_status(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *status);
@@ -124,7 +127,6 @@ float mpu6050_gyro_to_deg_per_sec(int val, mpu6050_gyro_fs_t range);
 uint32_t mpu6050_set_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, int offset);
 uint32_t mpu6050_set_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, int offset);
 uint32_t mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int* meanAX, int* meanAY, int* meanAZ, int* meanGX, int* meanGY, int* meanGZ);
-
 uint32_t mpu6050_calibration(ns_i2c_config_t *cfg, uint32_t devAddr);
 
 #ifdef __cplusplus

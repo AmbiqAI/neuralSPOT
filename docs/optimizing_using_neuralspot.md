@@ -14,7 +14,7 @@ AI feature developers face many requirements: the feature must fit within a memo
 
 It is tempting to focus on optimizing inference: it is compute, memory, and energy intensive, and a very visible 'optimization target'. In the context of total system optimization, however, inference is usually a small slice of overall power consumption. For example, a speech model may collect audio for many seconds before performing inference for a few 10s of milliseconds. Optimizing both phases is critical to meaningful power optimization.
 
-<img src="./energy-for-speech.png" alt="end-to-end" style="zoom:50%;" />
+<img src="./images/energy-for-speech.png" alt="end-to-end" style="zoom:50%;" />
 
 ### How TFLM Runs Inference
 
@@ -22,11 +22,11 @@ Tensorflow Lite for Microcontrollers is an interpreter-based runtime which execu
 
 
 
-<img src="./life-of-a-model.png" alt="Life of a model" style="zoom: 33%;" />
+<img src="./images/life-of-a-model.png" alt="Life of a model" style="zoom: 33%;" />
 
 Being based on an interpreter makes optimizing TFLM model inference difficult. TFLM interposes many layers of wrappers on each operation's fundamental execution kernel, and because it is interpreted at runtime, there is little end-to-end optimization possible. In addition to this, TFLM development is focused on reducing latency and memory footprint (in fairness, these are the biggest problems for many endpoint devices, and the TFLM team is making steady progress), but not as focused on energy efficiency. The result is more performant code that uses more energy per inference.
 
-<img src="./wrappers-wrapping-wrappers.png" alt="wrappers" style="zoom:50%;" />
+<img src="./images/wrappers-wrapping-wrappers.png" alt="wrappers" style="zoom:50%;" />
 
 
 

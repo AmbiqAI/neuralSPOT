@@ -2,12 +2,12 @@
 #### Because AI is hard enough.
 neuralSPOT is an AI developer-focused SDK in the true sense of the word: it includes everything you need to get your AI model onto Ambiq’s platform. You’ll find libraries for talking to sensors, managing SoC peripherals, and controlling power and memory configurations, along with tools for easily debugging your model from your laptop or PC, and examples that tie it all together.
 
-<img src="./image-20220927160935318.png" alt="you-are-here" style="zoom:40%;" />
+<img src="./images/image-20220927160935318.png" alt="you-are-here" style="zoom:40%;" />
 
 ## Major Components
 neuralSPOT includes tools, libraries, and examples to help get your AI features implemented, optimized, and deployed.
 
-<img src="./ns-layers.png" alt="neuralSPOT layers" style="zoom:50%;" />
+<img src="./images/ns-layers.png" alt="neuralSPOT layers" style="zoom:50%;" />
 
 
 
@@ -45,7 +45,7 @@ NeuralSPOT lives on GitHub as an open-source, highly collaborative project which
 ## Using neuralSPOT
 ### A Day in the Life of an AI Developer
 neuralSPOT is designed to help with the tedious parts of AI feature development, with tools for every stage of the process
-![develop-flow](./ai-dev-flow.png)
+![develop-flow](./images/ai-dev-flow.png)
 
 AI features are rarely developed by a single developer. It takes a team of AI specialists, data specialist, and embedded application specialists working together to develop and deploy an accurate and robust AI feature. These roles are fuzzy and frequently overlap, but for purposes of this document lets define them as follows:
 

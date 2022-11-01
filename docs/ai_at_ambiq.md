@@ -8,7 +8,7 @@ Ambiq's [ultra low power, high-performance](https://github.com/AmbiqAI/MLPerfTin
 
 neuralSPOT is an AI developer-focused SDK in the true sense of the word: it includes everything you need to get your AI model onto Ambiq’s platform. You’ll find libraries for talking to sensors, managing SoC peripherals, and controlling power and memory configurations, along with tools for easily debugging your model from your laptop or PC, and examples that tie it all together.
 
-<img src="./image-20220927160935318.png" alt="you-are-here" style="zoom:40%;" />
+<img src="./images/image-20220927160935318.png" alt="you-are-here" style="zoom:40%;" />
 
 For an in-depth exploration of how neuralSPOT can supercharge your AI development team, see our [white paper](./Introduction-to-neuralSPOT.md) and visit our [GitHub repository](https://github.com/AmbiqAI/neuralSPOT).
 
@@ -28,7 +28,7 @@ Ambiq's ModelZoo is a collection of AI reference models built on neuralSPOT to h
 
 We've benchmarked our Apollo4 Plus platform with outstanding results. Our [MLPerf-based benchmarks](https://github.com/AmbiqAI/MLPerfTiny) can be found on our benchmark repository, including instructions on how to replicate our results.
 
-![Our results](./results.png)
+![Our results](./images/results.png)
 
 ## Accelerate Your AI Development With Ambiq's AI Tools
 

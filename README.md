@@ -1,7 +1,7 @@
 # NeuralSPOT
 NeuralSPOT is Ambiq's AI Enablement Library. It implements an AI-centric API for common tasks such as collecting audio from Ambiq's peripherals, computing features from that audio, controlling power modes, reading accelerometer and gyroscopic data from i2c sensors, and a variety of helper functions and tools which make developing AI features on Ambiq hardware easier.
 
-![image-20220811095223908](./docs/image-20220811095223908.png)
+![image-20220811095223908](./docs/images/image-20220811095223908.png)
 
 NeuralSPOT documentation is spread throughout the repository - generally, every component has its own documentation, which can be overwhelming. Please visit [`doc/`](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs) for high level documents useful as a starting point for understanding neuralSPOT's overall structure and intended usage.
 
@@ -61,7 +61,7 @@ extern/     # contains external dependencies, including TF and AmbiqSuite
 
 NeuralSPOT is a SDK for AI development on Ambiq products via an AI-friendly API. It offers a set of libraries for accessing hardware, pre-configured instances of external dependencies such as AmbiqSuite and Tensorflow Lite for Microcontrollers, and a handful of examples which compile into deployable binaries.
 
-<img src="./docs/ns-layers.png" alt="layers" style="zoom:50%;" />
+<img src="./docs/images/ns-layers.png" alt="layers" style="zoom:50%;" />
 
 ## NeuralSPOT Libraries and Features
 

@@ -26,7 +26,7 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
         #     print("slow")
         # my_calls = my_calls +1
 
-        if ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and 
+        if ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and
             (block.description == "Audio16bPCM_to_WAV")):
             # Data is a 16 bit PCM sample
             data = struct.unpack('<'+'h'*(len(block.buffer)//2), block.buffer)
@@ -45,28 +45,22 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
                 sf.write(outFileName, wData, samplerate = 16000) # writes to the new file
 
         # MPU6050 capture handler
-        elif ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and 
+        elif ((block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and
             (block.description == "MPU6050-Data-to-CSV")):
-            outFile = open(outFileName, 'w')
-
-             # Data is a 32bit Float MPU packed sample
-            data = struct.unpack('<'+'f'*(len(block.buffer)//4), block.buffer)
-            column = 0
-            row = 0
-            for d in data:
-                if row < block.length//4: # ignore padding at end of buffer
-                    print(d, end = "", file = outFile)
-                    if column < 6:
-                        print(",", end = " ", file = outFile)
-                        column = column + 1
-                    else:
-                        print("", file = outFile)
-                        column = 0
-                row = row + 1
-
+            ncols = 7
+            # Data is a 32bit Float MPU packed sample
+            data = struct.unpack(f'<{len(block.buffer)//4}f', block.buffer)
+            # Convert data into 2D list with ncols columns. We drop leftover values
+            data = [data[i:i+ncols] for i in range(0, ncols*(len(data)//ncols), ncols)]
+            with open(outFileName, 'w+', encoding='UTF-8') as out_file:
+                for row in data:
+                    out_file.write(", ".join((f"{v:0.2f}" for v in row))+"\n")
+                    out_file.flush()
+                # END FOR
+            # END WITH
         sys.stdout.flush()
         return 0
-    
+
     def ns_rpc_data_fetchBlockFromPC(self, block):
         print("Got a ns_rpc_data_fetchBlockFromPC call.")
         sys.stdout.flush()
@@ -76,7 +70,7 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
         #print("Got a ns_rpc_data_computeOnPC call.")
 
         # Example Computation
-        if ((in_block.cmd == GenericDataOperations_EvbToPc.common.command.extract_cmd) and 
+        if ((in_block.cmd == GenericDataOperations_EvbToPc.common.command.extract_cmd) and
             (in_block.description == "CalculateMFCC_Please")):
             result_block.value = GenericDataOperations_EvbToPc.common.dataBlock(
                 description = "*\0"
@@ -88,7 +82,7 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
         # print(result_block)
         sys.stdout.flush()
         return 0
-        
+
     def ns_rpc_data_remotePrintOnPC(self, msg):
         print("%s" % msg)
         sys.stdout.flush()

@@ -410,6 +410,15 @@ uint32_t mpu6050_get_fifo_count(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t
     return MPU6050_STATUS_SUCCESS;
 }
 
+
+/**
+ * @brief Pop next value from FIFO
+ *
+ * @param cfg I2C configuration
+ * @param devAddr Device I2C address
+ * @param value Pointer to FIFO value
+ * @return uint32_t status
+ */
 uint32_t mpu6050_fifo_pop(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value) {
     if (read_word_register(cfg, devAddr, FIFO_COUNT_H, (uint16_t *)value)) {
         return MPU6050_STATUS_ERROR;
@@ -685,7 +694,6 @@ float mpu6050_gyro_resolution(const mpu6050_gyro_fs_t range) {
 }
 
 
-
 /**
  * @brief Convert acceleration value to G
  *
@@ -733,7 +741,6 @@ uint32_t mpu6050_set_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_
         ns_i2c_write_reg(cfg, devAddr, (1 << axis) + MPU6050_RA_XA_OFFS_L, get_low_bits(offset), 0xFF)
     );
 }
-
 
 /**
  * @brief Set gyroscope offset for axis

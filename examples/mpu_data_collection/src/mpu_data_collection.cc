@@ -103,6 +103,7 @@ main(void) {
 
     ns_i2c_interface_init(&i2cConfig, 100000);
     mpu6050_init(&i2cConfig, mpuAddr);
+    // TODO: Calibration doesnt work for Y and Z accel axis. Also too slow to converge
     // ns_printf("Beginning MPU Calibration..\n");
     // if (mpu6050_calibration(&i2cConfig, mpuAddr)) {
     //     ns_printf("Calibration Failed!\n");

@@ -18,7 +18,7 @@
  *
  * @param cfg I2C configuration
  * @param devAddr Device address
- * @param regAddr First register address
+ * @param regAddr First 8-bit register address
  * @param buf Buffer to store register values
  * @param size Number of registers to read
  * @return uint32_t status
@@ -47,7 +47,7 @@ uint32_t ns_i2c_read_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uin
  *
  * @param cfg I2C configuration
  * @param devAddr Device address
- * @param regAddr First register address
+ * @param regAddr First 8-bit register address
  * @param buf Pointer to buffer of values to be written
  * @param size Number of bytes to write
  * @return uint32_t status
@@ -77,8 +77,8 @@ ns_i2c_write_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t re
  *
  * @param cfg Handle obtained from ns_i2c_interface_init
  * @param devAddr Device address
- * @param regAddr Register address
- * @param value Register Value
+ * @param regAddr 8-bit register address
+ * @param value Register value
  * @param mask Read mask
  * @return uint32_t status
  */
@@ -88,7 +88,9 @@ ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t
     if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
         return NS_I2C_STATUS_ERROR;
     }
-    regValue = mask != 0xFF ? regValue & mask : regValue;
+    if (mask != 0xFF) {
+        regValue = regValue & mask;
+    }
     (*value) = (uint8_t)regValue;
     return NS_I2C_STATUS_SUCCESS;
 }
@@ -98,8 +100,8 @@ ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t
  *
  * @param cfg Handle obtained from ns_i2c_interface_init
  * @param devAddr Device address
- * @param regAddr Register address
- * @param value Register Value
+ * @param regAddr 8-bit register address
+ * @param value Register value
  * @param mask Write mask
  * @return uint32_t status
  */

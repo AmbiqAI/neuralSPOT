@@ -15,6 +15,6 @@
 
 /// High level audio parameters
 #define NUM_CHANNELS 1
-#define NUM_FRAMES 100
-#define SAMPLES_IN_FRAME 480
+#define NUM_FRAMES 49 // 20ms frame shift
+#define SAMPLES_IN_FRAME 320
 #define SAMPLE_RATE 16000

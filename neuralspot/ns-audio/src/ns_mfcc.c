@@ -69,13 +69,13 @@ static float   *mfccDCTMatrix;
 
 static void ns_mfcc_map_arena() {
     mfccFrame = (float*)cfg->arena;
-    mfccBuffer = (float*)(mfccFrame + cfg->frame_len_pow2*sizeof(float));
+    mfccDCTMatrix = (float*)(mfccFrame + cfg->frame_len_pow2*sizeof(float));
+    mfccBuffer = (float*)(mfccDCTMatrix + cfg->num_fbank_bins*cfg->num_coeffs*sizeof(float));
     mfccEnergies = (float*)(mfccBuffer + cfg->frame_len_pow2*sizeof(float));
     mfccWindowFunction = (float*)(mfccEnergies + cfg->num_fbank_bins*sizeof(float));
     mfccFbankFirst = (int32_t*)(mfccWindowFunction + cfg->frame_len*sizeof(float));
     mfccFbankLast = (int32_t*)(mfccFbankFirst + cfg->num_fbank_bins*sizeof(int32_t));
     mfccMelFBank = (ihc_t*)(mfccFbankLast + cfg->num_fbank_bins*sizeof(int32_t));
-    mfccDCTMatrix = (float*)(*mfccMelFBank + cfg->num_fbank_bins*50*sizeof(float));
 }
 // --------------------
 
@@ -193,7 +193,7 @@ ns_mfcc_compute(ns_mfcc_cfg_t *c, const int16_t *audio_data, float *mfcc_out) {
 
     int32_t i, j, bin;
 
-    // TensorFlow way of normalizing .wav data to (-1,1)
+    // TensorFlow way of normalizing int16_t data to (-1,1)
     for (i = 0; i < cfg->frame_len; i++) {
         mfccFrame[i] = (float)audio_data[i] / (1 << 15);
     }
@@ -253,6 +253,15 @@ ns_mfcc_compute(ns_mfcc_cfg_t *c, const int16_t *audio_data, float *mfcc_out) {
                    mfccEnergies[j];
         }
 
-        mfcc_out[i] = sum;
+        sum *= (0x1<<cfg->num_dec_bits);
+        sum = round(sum); 
+
+        // This is usually done after dequantization anyway, so preserve accuracy
+        // if(sum >= 127)
+        //     mfcc_out[i] = 127;
+        // else if(sum <= -128)
+        //     mfcc_out[i] = -128;
+        // else
+            mfcc_out[i] = sum; 
     }
 }

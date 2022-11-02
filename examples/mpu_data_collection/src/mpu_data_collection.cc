@@ -24,21 +24,20 @@
 float g_sensorData[NUMSAMPLES*2][7]; // 32 samples of gryo, accel and temp
 
 ns_i2c_config_t i2cConfig = {
-    .iom = 0
+    .iom = 1
 };
 
 uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
 
 uint32_t mpu6050_init(ns_i2c_config_t *cfg, uint32_t devAddr) {
-
-    // Toggle reset bit, then set sleep and clock bits
     if (
         mpu6050_device_reset(cfg, devAddr) ||
         mpu6050_set_clock_source(cfg, devAddr, CLOCK_GZ_PLL) ||
         mpu6050_set_lowpass_filter(cfg, devAddr, DLPF_044HZ) ||
         mpu6050_set_gyro_full_scale(cfg, devAddr, GYRO_FS_500DPS) ||
         mpu6050_set_accel_full_scale(cfg, devAddr, ACCEL_FS_4G) ||
-        mpu6050_set_sample_rate(cfg, devAddr, 20)
+        mpu6050_set_sample_rate(cfg, devAddr, 100) ||
+        mpu6050_set_sleep(cfg, devAddr, 0)
     ) {
         return MPU6050_STATUS_ERROR;
     }
@@ -56,7 +55,6 @@ main(void) {
 
     ns_itm_printf_enable();
     ns_debug_printf_enable();
-
     am_hal_interrupt_master_enable();
 
     // DataBlock init
@@ -102,21 +100,20 @@ main(void) {
         ns_delay_us(1000);
     }
     g_intButtonPressed = 0;
-    ns_printf("Beginning MPU Calibration...\n");
 
     ns_i2c_interface_init(&i2cConfig, 100000);
     mpu6050_init(&i2cConfig, mpuAddr);
-    if (mpu6050_calibration(&i2cConfig, mpuAddr)) {
-        ns_printf("Calibration Failed!\n");
-        return 1;
-    }
-    ns_printf("MPU Calibration successful. Sampling data...\n");
+    // ns_printf("Beginning MPU Calibration..\n");
+    // if (mpu6050_calibration(&i2cConfig, mpuAddr)) {
+    //     ns_printf("Calibration Failed!\n");
+    //     return 1;
+    // }
+    // ns_printf("MPU Calibration successful. Sampling data...\n");
 
     while (1) {
         mpu6050_get_accel_values(&i2cConfig, mpuAddr, &accelVals[0], &accelVals[1], &accelVals[2]);
         mpu6050_get_temperature(&i2cConfig, mpuAddr, &temperatureVal);
         mpu6050_get_gyro_values(&i2cConfig, mpuAddr, &gyroVals[0], &gyroVals[1], &gyroVals[2]);
-
         // Capture data in RPC buffer
         for (axis = 0; axis < AXES; axis++) {
             g_sensorData[sample][axis] = mpu6050_accel_to_gravity(accelVals[axis], ACCEL_FS_4G);

@@ -52,7 +52,7 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
             data = struct.unpack(f'<{len(block.buffer)//4}f', block.buffer)
             # Convert data into 2D list with ncols columns. We drop leftover values
             data = [data[i:i+ncols] for i in range(0, ncols*(len(data)//ncols), ncols)]
-            with open(outFileName, 'w+', encoding='UTF-8') as out_file:
+            with open(outFileName, 'a+', encoding='UTF-8') as out_file:
                 for row in data:
                     out_file.write(", ".join((f"{v:0.2f}" for v in row))+"\n")
                     out_file.flush()

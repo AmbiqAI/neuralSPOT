@@ -41,4 +41,4 @@ $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myfile.csv -m server
 Server started - waiting for client to send a eRPC request
 ```
 
-The CSV contains 1 row per sample, each row with 7 float values, and 200 rows per second: `ax, ay, az, gx, gy, gz, temp
+The CSV contains 1 row per sample, each row with 7 float values, and 200 rows per second: `ax, ay, az, gx, gy, gz, temp`

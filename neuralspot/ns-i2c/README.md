@@ -10,6 +10,6 @@ This sample MPU6050 driver is used by neuralSPOT's example/har and example/mpu_d
 3. 5V VDD is available on the 5V pin of EVB header J17
 4. GND is available on the GND pin of EVB header J17
 
-<img src="../../docs/mpu6050-wiring.jpg" alt="mpu6050 wiring" style="zoom:50%;" />
+<img src="../../docs/images/mpu6050-wiring.jpg" alt="mpu6050 wiring" style="zoom:50%;" />
 
-<img src="../../docs/i2c-evb-wiring.jpg" alt="i2c-evb-wiring" style="zoom:50%;" />
+<img src="../../docs/images/i2c-evb-wiring.jpg" alt="i2c-evb-wiring" style="zoom:50%;" />

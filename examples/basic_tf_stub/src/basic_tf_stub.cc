@@ -66,20 +66,8 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
-// #include "mfcc-old.h"
 
 static int recording_win = NUM_FRAMES;
-
-static const char *intents[] = {
-    "decrease",        "deactivate", "increase",
-    "change language", "bring",      "activate",
-};
-
-static const char *slots[] = {
-    "socks",  "washroom", "chinese", "juice",   "volume",    "shoes",
-    "music",  "heat",     "lights",  "kitchen", "newspaper", "lamp",
-    "german", "korean",   "english", "bedroom", "none",
-};
 
 typedef enum {
     WAITING_TO_START_RPC_SERVER,
@@ -97,11 +85,8 @@ int
 main(void) {
     float tmp = 0;
     float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
-    // float mfcc_bufferold[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
-    float y_intent[6];
-    float y_slot[2][17];
-    uint8_t y_slot_max[2];
-    uint8_t y_intent_max = 0;
+    float output[kCategoryCount];
+    uint8_t output_max = 0;
     float max_val = 0.0;
     #ifdef RPC_ENABLED
         myState_e state = WAITING_TO_START_RPC_SERVER;
@@ -140,9 +125,12 @@ main(void) {
     model_init();
     ns_audio_init(&audio_config);
     ns_mfcc_init(&mfcc_config);
-    // ns_mfcc_init_old();
     ns_peripheral_button_init(&button_config);
     am_hal_interrupt_master_enable();
+
+    ns_printf("This KWS example listens for 1 second, then classifies\n");
+    ns_printf("the captured audio into one of the following phrases:\n");
+    ns_printf("yes, no, up, dow, left, right, on, off, or unknown/silence\n\n");
 
     #ifdef RPC_ENABLED
         ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
@@ -168,9 +156,9 @@ main(void) {
                 state = WAIT_FOR_FRAME;
                 buttonPressed = false;
                 audioRecording = true;
-                ns_lp_printf("Listening for 3 seconds.\n");
+                ns_lp_printf("Listening for 1 second.\n");
                 #ifdef RPC_ENABLED
-                    ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 3 seconds.\n");
+                    ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 1 second.\n");
                 #endif
             }
             break;
@@ -190,8 +178,7 @@ main(void) {
                 #endif
                 ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer,
                                 &mfcc_buffer[mfcc_buffer_head]);
-                // ns_mfcc_compute_old(in16AudioDataBuffer,
-                //                 &mfcc_bufferold[mfcc_buffer_head]);
+
                 recording_win--;
                 audioReady = false;
 
@@ -201,20 +188,17 @@ main(void) {
             if (recording_win == 0) {
                 ns_lp_printf("\n");
                 audioRecording = false;
-                recording_win = 100;
-                state = INFERING; // have full 3 seconds
+                recording_win = NUM_FRAMES;
+                state = INFERING; // have full sample
             }
             break;
 
         case INFERING:
             for (uint16_t i = 0; i < (NUM_FRAMES*MY_MFCC_NUM_MFCC_COEFFS); i = i + 1) {
-                tmp = mfcc_buffer[i] / input->params.scale +
-                      input->params.zero_point;
+                tmp = mfcc_buffer[i] / model_input->params.scale +
+                      model_input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);
-                input->data.int8[i] = (int8_t)tmp;
-                // if (mfcc_buffer[i] != mfcc_bufferold[i]) {
-                //     ns_lp_printf("%d: %f neq %f\n", mfcc_buffer[i], mfcc_bufferold[i]);
-                // }
+                model_input->data.int8[i] = (int8_t)tmp;
             }
 
             TfLiteStatus invoke_status = interpreter->Invoke();
@@ -224,40 +208,21 @@ main(void) {
             }
             
             max_val = 0.0;
-            for (uint8_t i = 0; i < 6; i = i + 1) {
-                y_intent[i] = (output_intent->data.int8[i] -
-                               output_intent->params.zero_point) *
-                              output_intent->params.scale;
-                ns_lp_printf("Intent[%i]: %f %s\n", i, y_intent[i], intents[i]);
+            for (uint8_t i = 0; i < kCategoryCount; i = i + 1) {
+                output[i] = (model_output->data.int8[i] -
+                             model_output->params.zero_point) *
+                             model_output->params.scale;
+                if (output[i]>0.3) {
+                    ns_lp_printf("%s with %f certainty\n",  kCategoryLabels[i], output[i]);
+                }
 
-                if (y_intent[i] > max_val) {
-                    max_val = y_intent[i];
-                    y_intent_max = i;
+                if (output[i] > max_val) {
+                    max_val = output[i];
+                    output_max = i;
                 }
             }
 
-            ns_lp_printf("**Max Intent: %s\n", intents[y_intent_max]);
-
-            for (uint8_t i = 0; i < 2; i = i + 1) {
-                max_val = 0.0;
-
-                for (uint8_t j = 0; j < 17; j = j + 1) {
-                    y_slot[i][j] = (output_slot->data.int8[i * 17 + j] -
-                                    output_slot->params.zero_point) *
-                                   output_slot->params.scale;
-                    ns_lp_printf("slot[%i, %i]: %f %s\n", i, j,
-                                         y_slot[i][j], slots[j]);
-                    if (y_slot[i][j] > max_val) {
-                        max_val = y_slot[i][j];
-                        y_slot_max[i] = j;
-                    }
-                }
-
-                ns_lp_printf("**Slot[%d]: %s \n", i,
-                                     slots[y_slot_max[i]]);
-            }
-            ns_lp_printf("\n%s %s %s\n", intents[y_intent_max],
-                                 slots[y_slot_max[0]], slots[y_slot_max[1]]);
+            ns_lp_printf("\n****Most probably: %s\n\n", kCategoryLabels[output_max]);
 
             state = WAITING_TO_RECORD;
             break;

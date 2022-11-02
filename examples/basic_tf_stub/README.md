@@ -1,9 +1,36 @@
 # Basic TF Stub
 This example is used the seed for a NeuralSPOT Deployment Nest - it includes all the NeuralSpot libraries and is based on TF.
 
-# Audio Data Capture
-Everything is messy right now... see https://github.com/orgs/AmbiqAI/projects/2/views/1 for current issue backload. 
+This example uses the Apollo4's low voltage AUDADC analog microphone interface to collect audio. Once collected, it processes the audio by extracting melscale spectograms, and passes those to a Tensorflow Lite for Microcontrollers model for inference. After invoking the model, this example processes the result and prints it out on the SWO debug interface. Optionally, it will dump the collected audio to a PC via a USB cable.
 
+Along the way, this example uses many neuralSPOT features, including:
+1. ns-audio paired with the AUDADC driver to collect audio
+2. ns-ipc to use a ringbuffer to pass the audio to example application
+3. ns-mfcc to compute the mel spectogram
+4. ns-rpc and ns-usb to establish a remote procedure call interface to the development PC over a USB cable
+5. ns-power to easily set efficient power modes
+6. ns-peripherals to read the EVB buttons
+7. ns-utils to provide energy measurement tools, malloc and timers for RPC
+
+The code is structured to break out how these features are initialized and used - for example 'basic_mfcc.h' contains the init config structures needed to configure MFCC for this model.
+
+# Building and Running the Example
+This is the primary neuralSPOT example, so the makefile defaults many of its options to it.
+
+```bash
+$> cd .../neuralSPOT
+$> make clean
+$> make -j # makes everything
+$> make deploy # flashes basic_tf_stub to the target EVB
+$> make view # connects to EVB SWO via SEGGER Jlink
+```
+Note that 'make' without any options builds every example - you don't have to do anything special. 'make deploy' and 'make view' only apply to a single target, which is basic_tf_stub by default.
+
+You'll need to connect an audio source to the EVB's 3.5mm audio plug. I find that powered microphones work best - I use RODE WirelessGO with good results.
+
+Once everything is running, the application will prompt you to press Button0 on the EVB to start listening. If you've enabled RPC, there will be an additional prompt.
+
+# Audio Data Capture using NS-RPC
 RPC, or remote procedure call, is a way for the code running on the EVB to call functions that reside on the laptop. It does so by communicating over a transport layer - in our case, we use serial-over-USB, where the 'usb' is the second USB port on the EVB.
 
 It's a client/server system needing some careful staging, described below.
@@ -15,42 +42,31 @@ You'll need to install some laptop-side software, including ERPC and it's python
 3. Install erpc_python (instructions here: https://github.com/AmbiqAI/erpc/tree/develop/erpc_python)
 
 ## Capturing Data
-1. Compile and flash the NeuralSPOT basic_tf_hub example
+1. Compile and flash the NeuralSPOT basic_tf_hub example as described above. *NOTE* RPC must be enabled at compile time (look for `// #define RPC_ENABLED` in `basic_tf_stub.cc` and uncomment it).
 2. Connect the second USB cable to your laptop - you'll now have 2 USB connections between the EVB and the laptop.
-    1. Monitor the EVB SWO printout - you should see "Press button to start listening..."
+    1. Monitor the EVB SWO printout - you should see `Start the PC-side server, then press Button 0 to get started`.
     2. The second connection will mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on PC it'll be `COMx` or similar.
     3. Look for the USB TTY device - if it doesn't pop up, there is a problem. It won't show up until "Press Button" shows up, so make sure you got that far.
-
 3. Start the laptop-side RPC server. It should say "Wait for client to send a eRPC request"
 4. Press the EVB button
+5. The SWO interface will now say `Press Button 0 to start listening...`
 
-After capturing 3 seconds, it'll dump the sample to the server.
+After capturing 3 seconds, it'll dump the sample to the server. Note that the server will append the audio to a file if it already existed.
 
-### Details
-
-Building basic_tf_stub
-
-```bash
-$> cd .../neuralSPOT
-$> make # or make BOARD=apollo4b if you're using one of those
-$> make deploy # basic_tf_stub is the default for neuralSPOT deploy
-```
-
-Running Client
+### Running the Server
 
 Requires Python 3.6+, and I highly recommend using a venv.
 
 ```bash
-$> cd .../neuralSPOT/ns-rpc/python/audio 
-$> python -m audio -t /dev/tty.usbmodem1234561 -o mywave.wav # replace the /dev... with device from 2.2 above
+$> cd .../neuralSPOT/ns-rpc/python/ns-rpc-genericdata
+$> python -m generic_data -t /dev/tty.usbmodem1234561 -o myaudio.wav -m server # replace the /dev... with device from 2.2 above
 ```
 
-The `audio.py` example listens on the device you specify for eRPC audio dump calls, and saves them to a wav file you can listen to. The audio is 
-dumped to the script as a single channel stream of 16bit PCM values.
+The `generic_data.py` example listens on the device you specify for eRPC data dump calls, and saves them to a wav file you can listen to. The audio is 
+dumped to the script as a single channel stream of 16bit PCM values. This script also listens for time series data, and is an example of how you can use RPC to handle multiple types of datastreams.
 
-In `neuralSPOT/example/basic_tf_stub/src/main.cc`, the line that dumps the sample is `ns_rpc_audio_send_buffer((uint8_t*)g_in16AudioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t));`.
+In `neuralSPOT/example/basic_tf_stub/src/basic_tf_stub.cc`, the line that dumps the sample is `ns_rpc_data_sendBlockToPC(&outBlock)` which looks exactly like a function call (and the server also treats it like one, which is the magic of RPC).
 
-Since this is RPC-over-USB, we have to 'maintain' the USB connection, which means periodically calling `tud_task()` - main.cc calls it from the main task loop. There is also some init code needed (`ns_rpc_audio_init()`).
 
 
 

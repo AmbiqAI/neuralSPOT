@@ -1,6 +1,6 @@
 /**
  * @file mpu6050_i2c_driver.c
- * @author Rohan
+ * @author Adam Page
  * @brief Driver of MPU6050
  * @version 0.1
  * @date 2022-08-29
@@ -574,7 +574,7 @@ uint32_t mpu6050_set_temperature_disable(ns_i2c_config_t *cfg, uint32_t devAddr,
  */
 uint32_t mpu6050_test_connection(ns_i2c_config_t *cfg, uint32_t devAddr) {
     uint8_t regValue;
-    if (ns_i2c_read_reg(cfg, devAddr, WHO_AM_I, &regValue, 0x3E)) {
+    if (ns_i2c_read_reg(cfg, devAddr, WHO_AM_I, &regValue, 0x7F)) {
         return MPU6050_STATUS_ERROR;
     }
     return regValue != 0x68;
@@ -607,6 +607,7 @@ uint32_t mpu6050_set_lowpower_accel_mode(ns_i2c_config_t *cfg, uint32_t devAddr,
 uint32_t mpu6050_device_reset(ns_i2c_config_t *cfg, uint32_t devAddr) {
     uint8_t val = 0x80;
     ns_i2c_write_reg(cfg, devAddr, PWR_MGMT1, val, 0x80);
+    am_hal_delay_us(1000);
     // Wait for device to clear reset
     while (val) {
         am_hal_delay_us(100);
@@ -766,9 +767,9 @@ uint32_t mpu6050_set_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t
 uint32_t mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int* meanAX, int* meanAY, int* meanAZ, int* meanGX, int* meanGY, int* meanGZ) {
      int16_t ax, ay, az, gx, gy, gz;
      uint16_t i;
-     uint16_t numReadings = 1000;
+     uint16_t numReadings = 200;
      *meanAX = *meanAY = *meanAZ = *meanGX = *meanGY = *meanGZ = 0;
-     for (i = 0; i < 100; i++) {
+     for (i = 0; i < 50; i++) {
         mpu6050_get_accel_values(cfg, devAddr, &ax, &ay, &az);
         mpu6050_get_gyro_values(cfg, devAddr, &gx, &gy, &gz);
         am_hal_delay_us(2);
@@ -806,12 +807,35 @@ uint32_t mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int* meanA
  */
 uint32_t mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
     int ready;
-    int accelDeadzone = 8, gyroDeadzone = 4;
-    int accelStep = 4, gyroStep = 2;
+    int accelDeadzone = 8, gyroDeadzone = 8;
+    int accelStep = 2, gyroStep = 2;
     int meanAX, meanAY, meanAZ;
     int meanGX, meanGY, meanGZ;
     int axOffset = 0, ayOffset = 0, azOffset = 0;
     int gxOffset = 0, gyOffset = 0, gzOffset = 0;
+
+    // Reset offsets
+    if (
+        mpu6050_set_accel_offset(cfg, devAddr, 0, axOffset) ||
+        mpu6050_set_accel_offset(cfg, devAddr, 1, ayOffset) ||
+        mpu6050_set_accel_offset(cfg, devAddr, 2, azOffset) ||
+        mpu6050_set_gyro_offset(cfg, devAddr, 0, gxOffset) ||
+        mpu6050_set_gyro_offset(cfg, devAddr, 1, gyOffset) ||
+        mpu6050_set_gyro_offset(cfg, devAddr, 2, gzOffset)
+    ){
+        return MPU6050_STATUS_ERROR;
+    }
+
+    if (mpu6050_mean_sensors(cfg, devAddr, &meanAX, &meanAY, &meanAZ, &meanGX, &meanGY, &meanGZ)) {
+        return MPU6050_STATUS_ERROR;
+    }
+    axOffset = -meanAX/accelStep;
+    ayOffset = -meanAY/accelStep;
+    azOffset = (16384-meanAZ)/accelStep;
+
+    gxOffset = -meanGX/gyroStep;
+    gyOffset = -meanGY/gyroStep;
+    gzOffset = -meanGZ/gyroStep;
 
     while (1) {
         ready = 0;
@@ -834,20 +858,20 @@ uint32_t mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
         else axOffset = axOffset - meanAX/accelStep;
 
         if (abs(meanAY) <= accelDeadzone) ready++;
-        else ayOffset = ayOffset-meanAY/accelStep;
+        else ayOffset = ayOffset - meanAY/accelStep;
 
         if (abs(16384-meanAZ) <= accelDeadzone) ready++;
         else azOffset = azOffset + (16384-meanAZ)/accelStep;
 
         if (abs(meanGX) <= gyroDeadzone) ready++;
-        else gxOffset=gxOffset - meanGX/gyroStep;
+        else gxOffset = gxOffset - meanGX/gyroStep;
 
         if (abs(meanGY) <= gyroDeadzone) ready++;
-        else gyOffset= gyOffset-meanGY/gyroStep;
+        else gyOffset = gyOffset - meanGY/gyroStep;
 
         if (abs(meanGZ) <= gyroDeadzone) ready++;
-        else gzOffset = gzOffset-meanGZ/gyroStep;
-
+        else gzOffset = gzOffset - meanGZ/gyroStep;
+        // ns_printf("%i, %i | %i, %i | %lu\n", meanAY, ayOffset, meanAZ, azOffset, ready);
         if (ready >= 6) break;
     }
     return MPU6050_STATUS_SUCCESS;

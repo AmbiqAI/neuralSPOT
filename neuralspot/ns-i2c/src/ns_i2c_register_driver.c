@@ -25,6 +25,7 @@
  */
 uint32_t ns_i2c_read_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf, uint32_t size) {
     am_hal_iom_transfer_t       Transaction;
+    Transaction.ui8Priority     = 1;
     Transaction.ui32InstrLen    = 1;
     Transaction.ui64Instr       = regAddr;
     Transaction.eDirection      = AM_HAL_IOM_RX;
@@ -84,10 +85,11 @@ ns_i2c_write_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t re
 uint32_t
 ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t *value, uint8_t mask) {
     uint32_t regValue;
-    if(ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
+    if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
         return NS_I2C_STATUS_ERROR;
     }
-    (*value) = mask != 0xFF ? regValue & mask : regValue;
+    regValue = mask != 0xFF ? regValue & mask : regValue;
+    (*value) = (uint8_t)regValue;
     return NS_I2C_STATUS_SUCCESS;
 }
 
@@ -103,11 +105,13 @@ ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t
  */
 uint32_t
 ns_i2c_write_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t value, uint8_t mask) {
-	uint32_t regValue;
-    if(ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
-        return NS_I2C_STATUS_ERROR;
+    uint32_t regValue = value;
+    if (mask != 0xFF) {
+        if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
+            return NS_I2C_STATUS_ERROR;
+        }
+        regValue = (regValue & ~mask) | (value & mask);
     }
-    regValue = mask != 0xFF ? (regValue & ~mask) | (value & mask) : value;
     if (ns_i2c_write_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
         return NS_I2C_STATUS_ERROR;
     }

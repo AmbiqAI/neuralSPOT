@@ -22,19 +22,11 @@
  */
 uint32_t ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
     // Initialize local state
+    am_hal_pwrctrl_periph_enable((am_hal_pwrctrl_periph_e)(AM_HAL_PWRCTRL_PERIPH_IOM0 + cfg->iom));
     cfg->sIomCfg.eInterfaceMode = AM_HAL_IOM_I2C_MODE;
-    cfg->sIomCfg.ui32ClockFreq = speed;
     cfg->sIomCfg.pNBTxnBuf = NULL;
     cfg->sIomCfg.ui32NBTxnBufLength = 0;
-
-    am_hal_pwrctrl_periph_enable((am_hal_pwrctrl_periph_e)(AM_HAL_PWRCTRL_PERIPH_IOM0 + cfg->iom));
-
-    // Initialize the IOM instance.
-    // Enable power to the IOM instance.
-    // Configure the IOM for Serial operation during initialization.
-    // Enable the IOM.
-    // HAL Success return is 0
-    //
+    cfg->sIomCfg.ui32ClockFreq = speed;
     if (am_hal_iom_initialize(cfg->iom, &(cfg->iomHandle)) ||
         am_hal_iom_power_ctrl(cfg->iomHandle, AM_HAL_SYSCTRL_WAKE, false) ||
         am_hal_iom_configure(cfg->iomHandle, &(cfg->sIomCfg)) ||

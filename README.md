@@ -25,7 +25,7 @@ All `make` invocations for NS must be done from the base directory ("nest" makes
 | `make deploy`        | Uses jlink to deploy an application to a connected EVB       |
 | `make view`          | Starts a SWO interface                                       |
 
-Besides targets, NeuralSPOT has a standard set of compile-time switches to help you configure the build exactly the way you need. These are set via the normal make convention, e.g. `make BOARD=apollo4b`.
+Besides targets, NeuralSPOT has a standard set of compile-time switches to help you configure the build exactly the way you need. These are set via the normal make conpiption, e.g. `make BOARD=apollo4b`.
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
@@ -46,7 +46,7 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 
 # NeuralSPOT Repo Structure
 
-NeuralSPOT consists of the neuralspot library, required external components, and examples. 
+NeuralSPOT consists of the neuralspot library, required external components, and examples.
 
 ```/neuralspot - contains all code for NeuralSPOT libraries
 neuralspot/ # contains neuralspot feature-specific libraries
@@ -86,7 +86,7 @@ $> cd neuralSpot
 $> make		       # this builds the artifacts needed to build the nest
 $> make nestall  # this creates the nest, use BINDIR=<your directory> to change where
 $> cd nest
-$> make          # this builds the Nest basic_tf_stub. 
+$> make          # this builds the Nest basic_tf_stub.
 ```
 
 ### Nest Directory Contents
@@ -135,4 +135,3 @@ For example:
 ```bash
 $> make NESTCOMP=neuralspot/ns-rpc nestcomponent # only updates ns-rpc header files and static libs
 ```
-

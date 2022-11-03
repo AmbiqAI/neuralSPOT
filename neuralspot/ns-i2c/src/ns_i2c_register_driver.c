@@ -4,163 +4,118 @@
  * @brief Generic i2c driver for register-based i2c devices
  * @version 0.1
  * @date 2022-08-26
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
 #include "am_hal_iom.h"
+#include "ns_i2c.h"
 #include "ns_i2c_register_driver.h"
 
-#define NS_I2C_MAX_DEVICE 1
-static ns_i2cDriverConfig_t ns_i2cDriverConfig[NS_I2C_MAX_DEVICE+1]; 
-
 /**
- * @brief Read a block of registers over i2c
- * 
- * @param h Handle obtained from ns_i2c_interface_init
- * @param regAddr Beginning address of the register block
- * @param pBuf Pointer to buffer where read values will be placed
- * @param size Number of bytes to read
+ * @brief Read sequential 8-bit registers over I2C
+ *
+ * @param cfg I2C configuration
+ * @param devAddr Device address
+ * @param regAddr First 8-bit register address
+ * @param buf Buffer to store register values
+ * @param size Number of registers to read
  * @return uint32_t status
  */
-uint32_t
-ns_i2c_reg_read(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t size)
-{
+uint32_t ns_i2c_read_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf, uint32_t size) {
     am_hal_iom_transfer_t       Transaction;
-
+    Transaction.ui8Priority     = 1;
     Transaction.ui32InstrLen    = 1;
     Transaction.ui64Instr       = regAddr;
     Transaction.eDirection      = AM_HAL_IOM_RX;
     Transaction.ui32NumBytes    = size;
-    Transaction.pui32RxBuffer   = (uint32_t*)pBuf;
+    Transaction.pui32RxBuffer   = (uint32_t*)buf;
     Transaction.bContinue       = false;
     Transaction.ui8RepeatCount  = 0;
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
-
-    Transaction.uPeerInfo.ui32I2CDevAddr = h->address;
-    if (am_hal_iom_blocking_transfer(h->iom_handle, &Transaction))
-    {
+    Transaction.uPeerInfo.ui32I2CDevAddr = devAddr;
+    if (am_hal_iom_blocking_transfer(cfg->iomHandle, &Transaction)) {
          return NS_I2C_STATUS_ERROR;
     }
-
     return NS_I2C_STATUS_SUCCESS;
 }
 
 /**
- * @brief Write a block of i2c registers
- * 
- * @param h Handle obtained from ns_i2c_interface_init
- * @param regAddr Beginning address of the register block
- * @param pBuf Pointer to buffer of values to be written
+ * @brief Write sequential 8-bit registers over I2C
+ *
+ * @param cfg I2C configuration
+ * @param devAddr Device address
+ * @param regAddr First 8-bit register address
+ * @param buf Pointer to buffer of values to be written
  * @param size Number of bytes to write
  * @return uint32_t status
  */
 uint32_t
-ns_i2c_reg_write(ns_i2cDriverConfig_t *h, uint32_t regAddr, void *pBuf, uint32_t size)
-{
+ns_i2c_write_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf, uint32_t size) {
     am_hal_iom_transfer_t       Transaction;
-
     Transaction.ui8Priority     = 1;
     Transaction.ui32InstrLen    = 1;
     Transaction.ui64Instr       = regAddr;
     Transaction.eDirection      = AM_HAL_IOM_TX;
     Transaction.ui32NumBytes    = size;
-    Transaction.pui32TxBuffer   = (uint32_t*)pBuf;
+    Transaction.pui32TxBuffer   = (uint32_t*)buf;
     Transaction.bContinue       = false;
     Transaction.ui8RepeatCount  = 0;
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
-
-    Transaction.uPeerInfo.ui32I2CDevAddr = h->address;
-    if (am_hal_iom_blocking_transfer(h->iom_handle, &Transaction) != AM_HAL_STATUS_SUCCESS)
-    {
-         return NS_I2C_STATUS_ERROR;
-    }
-
-    return NS_I2C_STATUS_SUCCESS;
-}
-
-/**
- * @brief Write a bit field within a register. Note that this is a read/modify/write
- * 
- * @param h Handle obtained from ns_i2c_interface_init
- * @param regAddr Beginning address of the register block
- * @param val Value of bit field to be written
- * @param bitOffset Offset of LSB of field
- * @param len Number of bits to be written
- * @return uint32_t satus
- */
-uint32_t
-ns_i2c_write_bits(ns_i2cDriverConfig_t *h, uint8_t regAddr, uint8_t val, uint8_t bitOffset, uint8_t len) {
-	uint32_t regVal;
-    //uint8_t finalRegVal;
-    if(ns_i2c_reg_read(h, regAddr, (uint8_t*)&regVal, 1)) {
+    Transaction.uPeerInfo.ui32I2CDevAddr = devAddr;
+    if (am_hal_iom_blocking_transfer(cfg->iomHandle, &Transaction) != AM_HAL_STATUS_SUCCESS) {
         return NS_I2C_STATUS_ERROR;
     }
-
-	int i = len - 1;
-	uint16_t curr;
-	while (i >= 0) {
-	    curr = val & 1;
-	    val = val >> 1;
-	    regVal = regVal & (0xff & ~(1<<(bitOffset - i)));
-	    regVal = regVal | (curr<<(bitOffset - i));
-	    i -= 1;
-        }
-
     return NS_I2C_STATUS_SUCCESS;
 }
 
 /**
- * @brief Initialize a i2c on one of the IOM (IO managers)
- * 
- * @param ui32Module IOM number
- * @param devAddress The i2c address of device connected to this i2c interface
- * @param pIomHandle Pointer to i2c interface handle (returned value)
+ * @brief Read 8-bit register over I2C
+ *
+ * @param cfg Handle obtained from ns_i2c_interface_init
+ * @param devAddr Device address
+ * @param regAddr 8-bit register address
+ * @param value Register value
+ * @param mask Read mask
  * @return uint32_t status
  */
 uint32_t
-ns_i2c_interface_init(uint32_t ui32Module, uint8_t devAddress, void **pIomHandle)
-{
-    if ( ui32Module > NS_I2C_MAX_DEVICE )
-    {
+ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t *value, uint8_t mask) {
+    uint32_t regValue;
+    if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
         return NS_I2C_STATUS_ERROR;
     }
+    if (mask != 0xFF) {
+        regValue = regValue & mask;
+    }
+    (*value) = (uint8_t)regValue;
+    return NS_I2C_STATUS_SUCCESS;
+}
 
-    // Initialize local state
-    ns_i2cDriverConfig[ui32Module].address = devAddress;
-    ns_i2cDriverConfig[ui32Module].iom = ui32Module;
-    ns_i2cDriverConfig[ui32Module].sIomCfg.eInterfaceMode = AM_HAL_IOM_I2C_MODE;
-    ns_i2cDriverConfig[ui32Module].sIomCfg.ui32ClockFreq  = AM_HAL_IOM_100KHZ;
-    ns_i2cDriverConfig[ui32Module].sIomCfg.pNBTxnBuf = NULL;
-    ns_i2cDriverConfig[ui32Module].sIomCfg.ui32NBTxnBufLength = 0; 
-
-    am_hal_pwrctrl_periph_enable((am_hal_pwrctrl_periph_e)(AM_HAL_PWRCTRL_PERIPH_IOM0 + ui32Module));
-
-    // Initialize the IOM instance.
-    // Enable power to the IOM instance.
-    // Configure the IOM for Serial operation during initialization.
-    // Enable the IOM.
-    // HAL Success return is 0
-    //
-    if (am_hal_iom_initialize(ui32Module, &(ns_i2cDriverConfig[ui32Module].iom_handle)) ||
-        am_hal_iom_power_ctrl(ns_i2cDriverConfig[ui32Module].iom_handle, AM_HAL_SYSCTRL_WAKE, false) ||
-        am_hal_iom_configure(ns_i2cDriverConfig[ui32Module].iom_handle, &(ns_i2cDriverConfig[ui32Module].sIomCfg)) ||
-        am_hal_iom_enable(ns_i2cDriverConfig[ui32Module].iom_handle))
-    {
+/**
+ * @brief Write 8-bit register over I2C
+ *
+ * @param cfg Handle obtained from ns_i2c_interface_init
+ * @param devAddr Device address
+ * @param regAddr 8-bit register address
+ * @param value Register value
+ * @param mask Write mask
+ * @return uint32_t status
+ */
+uint32_t
+ns_i2c_write_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t value, uint8_t mask) {
+    uint32_t regValue = value;
+    if (mask != 0xFF) {
+        if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
+            return NS_I2C_STATUS_ERROR;
+        }
+        regValue = (regValue & ~mask) | (value & mask);
+    }
+    if (ns_i2c_write_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
         return NS_I2C_STATUS_ERROR;
     }
-
-    //
-    // Configure the IOM pins.
-    //
-    am_bsp_iom_pins_enable(ui32Module, AM_HAL_IOM_I2C_MODE);
-
-    *pIomHandle = &(ns_i2cDriverConfig[ui32Module]);
     return NS_I2C_STATUS_SUCCESS;
 }

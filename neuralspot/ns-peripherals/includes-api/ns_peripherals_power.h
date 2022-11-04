@@ -80,6 +80,8 @@ typedef struct
     bool               bNeedIOM;            ///< Prevents IOMx from being powered off
     bool               bNeedAlternativeUART; ///< for EEMBC Power Control Module and similar
     bool               b128kTCM;            ///< Only need 128k
+    bool               bEnableTempCo;       ///< Enable Temperature Compensation
+    bool               bNeedITM;       ///< Enable Temperature Compensation
 } ns_power_config_t;
 
 extern const ns_power_config_t ns_development_default; ///< Enables most things
@@ -96,6 +98,7 @@ extern const ns_power_config_t ns_audio_default; ///< Good for AI that uses audi
  * @return uint32_t success/failure
  */
 extern uint32_t ns_power_config(const ns_power_config_t*);
+extern void ns_deep_sleep(void);
 
 #ifdef __cplusplus
 }

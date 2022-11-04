@@ -20,18 +20,20 @@ extern "C"
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
 #include "ns_timer.h"
 #include <am_util_stdio.h>
 
-#define ns_itm_printf_enable am_bsp_itm_printf_enable
-#define ns_debug_printf_enable am_bsp_debug_printf_enable
-#define ns_itm_printf_disable am_bsp_itm_printf_disable
+#define ns_debug_printf_enable  am_bsp_debug_printf_enable
+#define ns_itm_printf_disable g_ns_state.itmPrintCurrentlyEnabled=false; am_bsp_itm_printf_disable
 #define ns_debug_printf_disable am_bsp_debug_printf_disable
 
 #define ns_printf am_util_stdio_printf
 
 #define ns_delay_us am_hal_delay_us
 
+extern void ns_itm_printf_enable(void);
+extern int32_t ns_cryptoless_itm_printf_disable(void);
 extern void ns_lp_printf(const char *format, ...);
 
 #ifdef __cplusplus

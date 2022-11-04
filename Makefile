@@ -27,7 +27,8 @@ include make/jlink.mk
 # to copy an existing module.mk and modifying it.
 
 # NeuralSPOT Library Modules
-modules      := neuralspot/ns-harness 
+modules      := neuralspot/ns-core 
+modules      += neuralspot/ns-harness 
 modules      += neuralspot/ns-peripherals 
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio

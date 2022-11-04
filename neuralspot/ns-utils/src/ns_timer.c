@@ -14,7 +14,7 @@
 #include "am_util.h"
 #include "ns_timer.h"
 
-ns_timer_config_t *ns_timer_config[3];
+ns_timer_config_t *ns_timer_config[NS_TIMER_TEMPCO+1];
 
 void am_timer01_isr(void)
 {
@@ -27,7 +27,7 @@ void am_timer01_isr(void)
 
     ns_timer_config[1]->callback(ns_timer_config[1]);
 
-} // am_timer01_isr()
+}
 
 void am_timer02_isr(void)
 {
@@ -40,7 +40,20 @@ void am_timer02_isr(void)
 
     ns_timer_config[2]->callback(ns_timer_config[2]);
 
-} // am_timer01_isr()
+} 
+
+void am_timer03_isr(void)
+{
+    ns_timers_e timerNum = ns_timer_config[3]->timer; 
+    //
+    // Clear the timer Interrupt (write to clear).
+    //
+    am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(timerNum, AM_HAL_TIMER_COMPARE1));
+    am_hal_timer_clear(timerNum);
+
+    ns_timer_config[2]->callback(ns_timer_config[3]);
+
+} 
 
 /**
  * @brief Initialize one of 3 timers supported by NeuralSPOT
@@ -48,6 +61,7 @@ void am_timer02_isr(void)
  * NS_TIMER_COUNTER     Intended use is reading timerticks
  * NS_TIMER_INTERRUPT   Calls a callback periodically
  * NS_TIMER_USB         Used by ns_usb to periodically service USB
+ * NS_TIMER_TEMPCO      Used by ns_tempco to periodically collect temps
  * 
  * @param cfg 
  * @return uint32_t 
@@ -58,7 +72,7 @@ uint32_t ns_timer_init(ns_timer_config_t *cfg)
     uint32_t ui32Status         = AM_HAL_STATUS_SUCCESS;
 
 #ifndef NS_DISABLE_API_VALIDATION
-    if (cfg->timer > NS_TIMER_USB) {
+    if (cfg->timer > NS_TIMER_TEMPCO) {
         return AM_HAL_STATUS_INVALID_HANDLE;
     }
     if ((cfg->enableInterrupt) && (cfg->callback == NULL)) {
@@ -73,6 +87,11 @@ uint32_t ns_timer_init(ns_timer_config_t *cfg)
     // The default timer configuration is HFRC_DIV16, EDGE, compares=0, no trig.
     //
     am_hal_timer_default_config_set(&TimerConfig);
+
+    // modify the default
+    if (cfg->timer == NS_TIMER_TEMPCO) {
+        TimerConfig.eInputClock = AM_HAL_TIMER_CLOCK_HFRC_DIV16;
+    }
 
     if ((cfg->enableInterrupt)) {
         TimerConfig.eFunction        = AM_HAL_TIMER_FN_UPCOUNT;

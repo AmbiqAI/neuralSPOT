@@ -33,9 +33,10 @@
 void ns_lp_printf(const char *format, ...) {
     va_list myargs;
     va_start(myargs, format);
-    ns_debug_printf_enable();
+    // am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
+    // ns_debug_printf_enable();
     am_util_stdio_vprintf(format, myargs);
-    ns_debug_printf_disable();
+    // ns_debug_printf_disable();
+    // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
     va_end(myargs);
 }
-

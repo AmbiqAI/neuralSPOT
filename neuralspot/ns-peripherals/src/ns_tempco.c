@@ -95,7 +95,8 @@ uint32_t ns_tempco_init(void)
     // Enable the ADC.
     am_hal_adc_enable(g_ns_tempco_ADCHandle);
 
-    g_ns_state.tempcoEnabled = true;
+    g_ns_state.tempcoCurrentlyEnabled = true;
+    g_ns_state.tempcoWantsToBeEnabled = true;
     
     return 0;
 

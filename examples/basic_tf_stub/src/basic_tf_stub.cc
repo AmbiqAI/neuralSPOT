@@ -78,7 +78,7 @@ typedef enum {
 } myState_e;
 
 /**
- * @brief Main function - infinite loop listening and inferring
+ * @brief Main basic_tf_stub - infinite loop listening and inferring
  * 
  * @return int 
  */
@@ -99,6 +99,8 @@ main(void) {
     audioRecording = false;
 
     ns_core_init();
+
+    // enables crypto
     ns_itm_printf_enable();
 
     // Configure power - different use modes
@@ -120,15 +122,22 @@ main(void) {
             // ns_power_set_monitor_state(&am_ai_audio_default);
             ns_power_config(&ns_audio_default); // disables crypto (otherwise use ns_development_default)
        #else
-            ns_debug_printf_enable(); // enables crypto for ITM printing
-            ns_power_config(&ns_audio_default); // disables crypto (otherwise use ns_development_default)
+            ns_debug_printf_enable();
+            ns_power_config(&ns_audio_default);
 
-            // A note about printf and low power: printing over ITM impacts low power in two
-            // ways: 1) enabling ITM prevents SoC from entering deep sleep, and 2) ITM
-            // requires crypto to be enabled. ns_lp_printf() is a printf wrapper
-            // that enables ITM and crypto before printing, then disables them immediately
-            // after.
+            /* A note about printf and low power: printing over ITM impacts low power in two
+               ways: 
+                1) enabling ITM prevents SoC from entering deep sleep, and 
+                2) ITM initialization requires crypto to be enabled. 
+            
+               While ITM printing isn't something a deployed application would enable, NS does the
+               following to mitigate power usage during ITM:
 
+                1) ns_power_config() lets you set bNeedITM
+                2) ns_itm_printf_enable() will temporarily enable crypto if needed
+                3) ns_lp_printf() enables TPIU and ITM when needed
+                4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
+            */
         #endif
     #endif
 
@@ -150,7 +159,6 @@ main(void) {
     #endif
 
     // Event loop
-
     while (1) {
         switch (state) {
         case WAITING_TO_START_RPC_SERVER:
@@ -223,7 +231,7 @@ main(void) {
                              model_output->params.zero_point) *
                              model_output->params.scale;
                 if (output[i]>0.3) {
-                    ns_lp_printf("%s with %f certainty\n",  kCategoryLabels[i], output[i]);
+                    ns_lp_printf("[%s] with %d%% certainty\n", kCategoryLabels[i], (uint8_t)(output[i]*100));
                 }
 
                 if (output[i] > max_val) {
@@ -232,7 +240,8 @@ main(void) {
                 }
             }
 
-            ns_lp_printf("\n****Most probably: %s\n\n", kCategoryLabels[output_max]);
+            ns_lp_printf("\n**** Most probably: [%s]\n\n", kCategoryLabels[output_max]);
+            ns_lp_printf("Press Button 0 to start listening...\n");
 
             state = WAITING_TO_RECORD;
             break;

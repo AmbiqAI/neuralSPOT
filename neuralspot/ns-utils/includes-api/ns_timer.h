@@ -20,6 +20,7 @@ extern "C"
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
+#include "ns_core.h"
 
 #define NS_TIMER_VERSION "0.0.1"
 #define NS_TIMER_MAGIC    0xCA0002
@@ -33,9 +34,10 @@ typedef void (*ns_timer_callback_cb)(struct ns_timer_config *);
  * 
  */
 typedef enum {
-    NS_TIMER_COUNTER = 0, ///< Intended use is reading timerticks
+    NS_TIMER_COUNTER = 0,   ///< Intended use is reading timerticks
     NS_TIMER_INTERRUPT = 1, ///< Calls a callback periodically
-    NS_TIMER_USB = 2 ///< Used by ns_usb to periodically service USB
+    NS_TIMER_USB = 2,       ///< Used by ns_usb to periodically service USB
+    NS_TIMER_TEMPCO = 3     ///< Used by ns_tempco to periodically collect temps
 } ns_timers_e;
 
 typedef struct ns_timer_config {

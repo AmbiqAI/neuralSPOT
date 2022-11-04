@@ -53,6 +53,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #define RINGBUFFER_MODE
 // #define RPC_ENABLED
 
+#include "ns_core.h"
 #include "basic_tf_stub.h"
 #include "basic_audio.h"
 #include "basic_mfcc.h"
@@ -97,6 +98,7 @@ main(void) {
     // Tells callback if it should be recording audio
     audioRecording = false;
 
+    ns_core_init();
     ns_itm_printf_enable();
 
     // Configure power - different use modes
@@ -115,10 +117,18 @@ main(void) {
             // Joulescope - it sets GPIO pins so the state can be observed externally
             // to help line up the waveforms. It has nothing to do with AI...
             ns_init_power_monitor_state();
-            ns_power_set_monitor_state(&am_ai_audio_default);
-        #else
-            ns_debug_printf_enable(); // Leave crypto on for ease of debugging
-            ns_power_config(&ns_development_default);
+            // ns_power_set_monitor_state(&am_ai_audio_default);
+            ns_power_config(&ns_audio_default); // disables crypto (otherwise use ns_development_default)
+       #else
+            ns_debug_printf_enable(); // enables crypto for ITM printing
+            ns_power_config(&ns_audio_default); // disables crypto (otherwise use ns_development_default)
+
+            // A note about printf and low power: printing over ITM impacts low power in two
+            // ways: 1) enabling ITM prevents SoC from entering deep sleep, and 2) ITM
+            // requires crypto to be enabled. ns_lp_printf() is a printf wrapper
+            // that enables ITM and crypto before printing, then disables them immediately
+            // after.
+
         #endif
     #endif
 
@@ -128,15 +138,15 @@ main(void) {
     ns_peripheral_button_init(&button_config);
     am_hal_interrupt_master_enable();
 
-    ns_printf("This KWS example listens for 1 second, then classifies\n");
-    ns_printf("the captured audio into one of the following phrases:\n");
-    ns_printf("yes, no, up, dow, left, right, on, off, or unknown/silence\n\n");
+    ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
+    ns_lp_printf("the captured audio into one of the following phrases:\n");
+    ns_lp_printf("yes, no, up, dow, left, right, on, off, or unknown/silence\n\n");
 
     #ifdef RPC_ENABLED
         ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
-        ns_printf("Start the PC-side server, then press Button 0 to get started\n");
+        ns_lp_printf("Start the PC-side server, then press Button 0 to get started\n");
     #else
-        ns_printf("Press Button 0 to start listening...\n");
+        ns_lp_printf("Press Button 0 to start listening...\n");
     #endif
 
     // Event loop
@@ -227,6 +237,6 @@ main(void) {
             state = WAITING_TO_RECORD;
             break;
         }
-        am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
+        ns_deep_sleep();
     } // while(1)
 }

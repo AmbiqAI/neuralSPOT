@@ -54,26 +54,28 @@ const ns_power_config_t ns_development_default = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
     .bNeedAudAdc = true,
     .bNeedSharedSRAM = true,
-    .bNeedCrypto = true,
+    .bNeedCrypto = false,
     .bNeedBluetooth = true,
     .bNeedUSB = true,
     .bNeedIOM = true,
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
-    .bEnableTempCo = false
+    .bEnableTempCo = false,
+    .bNeedITM = true
 };
 
 const ns_power_config_t ns_good_default =        {
     .eAIPowerMode = NS_MAXIMUM_PERF,
     .bNeedAudAdc = false,
     .bNeedSharedSRAM = false,
-    .bNeedCrypto = true,
+    .bNeedCrypto = false,
     .bNeedBluetooth = false,
     .bNeedUSB = false,
     .bNeedIOM = false,
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
-    .bEnableTempCo = false
+    .bEnableTempCo = false,
+    .bNeedITM = true
 };
 
 const ns_power_config_t ns_mlperf_mode1 = {
@@ -86,7 +88,8 @@ const ns_power_config_t ns_mlperf_mode1 = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
-    .bEnableTempCo = false
+    .bEnableTempCo = true,
+    .bNeedITM = false
 };
 
 const ns_power_config_t ns_mlperf_mode2 = {
@@ -99,7 +102,8 @@ const ns_power_config_t ns_mlperf_mode2 = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
-    .bEnableTempCo = false
+    .bEnableTempCo = true,
+    .bNeedITM = false
 };
 
 const ns_power_config_t ns_mlperf_mode3 = {
@@ -112,7 +116,8 @@ const ns_power_config_t ns_mlperf_mode3 = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = true,
     .b128kTCM = true,
-    .bEnableTempCo = false
+    .bEnableTempCo = true,
+    .bNeedITM = true
 };
 
 const ns_power_config_t ns_audio_default = {
@@ -125,7 +130,8 @@ const ns_power_config_t ns_audio_default = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
-    .bEnableTempCo = false
+    .bEnableTempCo = true,
+    .bNeedITM = true
 };
 
 //*****************************************************************************
@@ -219,17 +225,11 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     }
 
     if (pCfg->bNeedCrypto == false) {
-        //
         // Power down Crypto.
-        //
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
-        // am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
-
     }
 
-    //
     // XTAL powerdown
-    //
     am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
 }
 
@@ -281,12 +281,25 @@ ns_power_config(const ns_power_config_t *pCfg) {
     }
 
     if (pCfg->bEnableTempCo) {
-        ns_tempco_init();
+        // Make sure the trim version is high enough before attempting to init
+        uint32_t ui32Ret, ui32TrimVer;
+        ui32Ret = am_hal_mram_info_read(1, AM_REG_INFO1_TRIM_REV_O / 4, 1, &ui32TrimVer);
+        if ((ui32Ret == 0) && 
+            (ui32TrimVer != 0xFFFFFFFF) &&
+            (ui32TrimVer >= 6)) {
+            if (ns_tempco_init() != 0) {
+                ns_printf("ERROR TempCo init failed\n");
+            }
+        }
     }
-    g_ns_state.cryptoEnabled = pCfg->bNeedCrypto;
+    g_ns_state.cryptoWantsToBeEnabled = pCfg->bNeedCrypto;
+    g_ns_state.cryptoCurrentlyEnabled = pCfg->bNeedCrypto;
+    g_ns_state.itmPrintWantsToBeEnabled = pCfg->bNeedITM;
 
     return ui32ReturnStatus;
 }
+
+
 
 /**
  * @brief Wraps am_hal_sysctrl_sleep to enable and disable 
@@ -296,28 +309,32 @@ ns_power_config(const ns_power_config_t *pCfg) {
 void ns_deep_sleep(void) {
 
 
-    if (g_ns_state.itmPrintEnabled) {
-        ns_debug_printf_disable();
-    }
-
-    if ((g_ns_state.cryptoEnabled) || (g_ns_state.itmPrintEnabled)) {
+    if (g_ns_state.itmPrintCurrentlyEnabled) {
+         ns_cryptoless_itm_printf_disable();
+        //am_bsp_debug_printf_disable();
+        g_ns_state.itmPrintCurrentlyEnabled = false;
+    } 
+    
+    if (g_ns_state.cryptoCurrentlyEnabled) {
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
+        g_ns_state.cryptoCurrentlyEnabled = false;
     }
 
-    if (g_ns_state.tempcoEnabled) {
+    if (g_ns_state.tempcoCurrentlyEnabled) {
         am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_DEEPSLEEP, true);
     }
 
     am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
 
-    if (g_ns_state.tempcoEnabled) { // isr turns ADC on
+    if (g_ns_state.tempcoWantsToBeEnabled) { // isr turns ADC on
     }
 
-    if ((g_ns_state.cryptoEnabled) || (g_ns_state.itmPrintEnabled)) {
-        am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
-    }
+    // Too avoid doing this too often, only enable on first print (via ns_lp_printf)
+    // if ((g_ns_state.cryptoEnabled) && (g_ns_state.cryptoCurrentlyEnabled == false)) {
+    //     am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
+    // }
 
-    if (g_ns_state.itmPrintEnabled) {
-        ns_debug_printf_enable();
-    }
+    // if (g_ns_state.itmPrintEnabled) {
+    //     ns_debug_printf_enable();
+    // }
 }

@@ -13,7 +13,10 @@
 ns_desired_state_t g_ns_state;
 
 void ns_core_init() {
-    g_ns_state.itmPrintEnabled = false;
-    g_ns_state.tempcoEnabled = false;
-    g_ns_state.cryptoEnabled = false;
+    g_ns_state.itmPrintWantsToBeEnabled = false;
+    g_ns_state.itmPrintCurrentlyEnabled = false;
+    g_ns_state.tempcoWantsToBeEnabled = false;
+    g_ns_state.tempcoCurrentlyEnabled = false;
+    g_ns_state.cryptoWantsToBeEnabled = true; // reset state of Crypto is 'on'
+    g_ns_state.cryptoCurrentlyEnabled = true;
 }

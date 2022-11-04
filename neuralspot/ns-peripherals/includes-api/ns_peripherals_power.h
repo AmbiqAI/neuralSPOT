@@ -81,6 +81,7 @@ typedef struct
     bool               bNeedAlternativeUART; ///< for EEMBC Power Control Module and similar
     bool               b128kTCM;            ///< Only need 128k
     bool               bEnableTempCo;       ///< Enable Temperature Compensation
+    bool               bNeedITM;       ///< Enable Temperature Compensation
 } ns_power_config_t;
 
 extern const ns_power_config_t ns_development_default; ///< Enables most things

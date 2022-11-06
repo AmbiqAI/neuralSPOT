@@ -1,3 +1,23 @@
+[tool.poetry]
+name = "neuralspot"
+version = "0.0.2"
+description="Ambiq's AI enablement library"
+authors = ["Ambiq AI <ambiq.ai@ambiq.com>"]
+license = "BSD-3-Clause"
+readme = "README.md"
+repository = "https://github.com/AmbiqAI/neuralSPOT"
+packages = [
+    { include = "neuralspot"},
+    #{ include = "rpc", from = "neuralspot/ns-rpc/python" },
+]
+include = ["neuralspot/ns-rpc/python/**/*.py"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+numpy = "^1.21.6"
+soundfile = "^0.10.3"
+erpc = {git = "https://github.com/AmbiqAI/erpc.git", subdirectory="erpc_python"}
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

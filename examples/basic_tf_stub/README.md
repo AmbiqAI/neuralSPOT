@@ -1,6 +1,4 @@
 # Basic TF Stub
-This example is used the seed for a NeuralSPOT Deployment Nest - it includes all the NeuralSpot libraries and is based on TF.
-
 This example uses the Apollo4's low voltage AUDADC analog microphone interface to collect audio. Once collected, it processes the audio by extracting melscale spectograms, and passes those to a Tensorflow Lite for Microcontrollers model for inference. After invoking the model, this example processes the result and prints it out on the SWO debug interface. Optionally, it will dump the collected audio to a PC via a USB cable.
 
 Along the way, this example uses many neuralSPOT features, including:
@@ -13,6 +11,8 @@ Along the way, this example uses many neuralSPOT features, including:
 7. ns-utils to provide energy measurement tools, malloc and timers for RPC
 
 The code is structured to break out how these features are initialized and used - for example 'basic_mfcc.h' contains the init config structures needed to configure MFCC for this model.
+
+>*NOTE* This example is used as the seed for a NeuralSPOT Deployment Nest - it includes all the NeuralSpot libraries and is based on TF.
 
 # Building and Running the Example
 This is the primary neuralSPOT example, so the makefile defaults many of its options to it.

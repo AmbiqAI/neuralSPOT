@@ -184,6 +184,10 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     if (g_audioRecording) {
         for (int i = 0; i < config->numSamples; i++) {
             g_in16AudioDataBuffer[g_bufsel][i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
+            if (i == 4) {
+                // Workaround for AUDADC sample glitch, here while it is root caused
+                g_in16AudioDataBuffer[g_bufsel][3] = (g_in16AudioDataBuffer[g_bufsel][2]+g_in16AudioDataBuffer[g_bufsel][4])/2; 
+            }            
         }
         g_audioReady = true;
         g_bufsel ^=1; // pingpong

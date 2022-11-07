@@ -10,6 +10,11 @@ sources := $(wildcard src/*.c)
 sources += $(wildcard src/*.cc)
 sources += $(wildcard src/*.cpp)
 sources += $(wildcard src/*.s)
+sources += $(wildcard src/ns-core/*.c)
+sources += $(wildcard src/ns-core/*.cc)
+sources += $(wildcard src/ns-core/*.cpp)
+sources += $(wildcard src/ns-core/*.s)
+
 
 targets  := $(BINDIR)/$(local_app_name).axf
 targets  += $(BINDIR)/$(local_app_name).bin

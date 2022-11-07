@@ -64,6 +64,10 @@ static void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollec
         // to convert 32b->16b
         for (int i = 0; i < config->numSamples; i++) {
             in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
+            if (i == 4) {
+                // Workaround for AUDADC sample glitch, here while it is root caused
+                in16AudioDataBuffer[3] = (in16AudioDataBuffer[2]+in16AudioDataBuffer[4])/2; 
+            }
         }
 
         #ifdef RINGBUFFER_MODE

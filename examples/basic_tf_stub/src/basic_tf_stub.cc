@@ -149,7 +149,7 @@ main(void) {
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
     ns_lp_printf("the captured audio into one of the following phrases:\n");
-    ns_lp_printf("yes, no, up, dow, left, right, on, off, or unknown/silence\n\n");
+    ns_lp_printf("yes, no, up, down, left, right, on, off, or unknown/silence\n\n");
 
     #ifdef RPC_ENABLED
         ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB

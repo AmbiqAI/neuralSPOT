@@ -51,7 +51,7 @@ The basic_tf_stub example is based on a speech to intent model.
 //*****************************************************************************
 
 #define RINGBUFFER_MODE
-// #define RPC_ENABLED
+#define RPC_ENABLED
 
 #include "ns_core.h"
 #include "basic_tf_stub.h"

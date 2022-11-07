@@ -187,6 +187,7 @@ nest: all
 	@echo " Building Nest without src/ at $(NESTDIR) based on $< ..."
 	@mkdir -p $(NESTDIR)
 	@mkdir -p $(NESTDIR)/src	
+	@mkdir -p $(NESTDIR)/src/ns-core	
 	@mkdir -p $(NESTDIR)/srcpreserved
 	@mkdir -p $(NESTDIR)/libs	
 	@mkdir -p $(NESTDIR)/make	
@@ -227,6 +228,7 @@ nestcomponent:
 nestall: nest
 	@echo " Building Nestall including src/ at $(NESTDIR) based on $< ..."
 	@cp -R $(NESTSOURCEDIR) $(NESTDIR)
+	@cp neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
 	@cp make/helpers.mk $(NESTDIR)/make
 	@cp make/neuralspot_config.mk $(NESTDIR)/make
 	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make

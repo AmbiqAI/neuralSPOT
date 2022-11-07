@@ -32,7 +32,7 @@
 
 bool static g_audioReady = false;
 bool static g_audioRecording = false;
-int16_t static g_in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
+int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
 uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
 
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
@@ -41,7 +41,11 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 
     if (g_audioRecording) {
         for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
+            in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
+            if (i == 4) {
+                // Workaround for AUDADC sample glitch, here while it is root caused
+                in16AudioDataBuffer[3] = (in16AudioDataBuffer[2]+in16AudioDataBuffer[4])/2; 
+            }
         }
         g_audioReady = true;
     }
@@ -50,7 +54,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 ns_audio_config_t audioConfig = {
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
-    .audioBuffer = (void *)&g_in16AudioDataBuffer,
+    .audioBuffer = (void *)&in16AudioDataBuffer,
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
     .sampleBuffer = audadcSampleBuffer,
     .numChannels = NUM_CHANNELS,
@@ -87,7 +91,7 @@ int main(void) {
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
     binary_t binaryBlock = {
-        .data = (uint8_t *) g_in16AudioDataBuffer, // point this to audio buffer
+        .data = (uint8_t *) in16AudioDataBuffer, // point this to audio buffer
         .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)
     };
     char msg_store[30] = "Audio16bPCM_to_WAV";

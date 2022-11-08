@@ -8,6 +8,11 @@
  * @copyright Copyright (c) 2022
  * 
  */
+
+#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+// TEMPCO not supported in this version
+#else
+
 #ifndef NS_TEMPCO
 #define NS_TEMPCO
 
@@ -36,5 +41,6 @@ extern uint32_t ns_tempco_init(void);
 
 #ifdef __cplusplus
 }
+#endif
 #endif
 #endif

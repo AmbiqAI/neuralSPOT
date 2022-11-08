@@ -39,6 +39,7 @@ modules      += neuralspot/ns-i2c
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
+modules      += extern/CMSIS/$(CMSIS_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules      += extern/erpc/$(ERPC_VERSION)
@@ -121,6 +122,7 @@ nest_files = $(shell find extern/tensorflow/$(TF_VERSION)/. -type f -name "*.h" 
 nest_files += $(shell find extern/AmbiqSuite/$(AS_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
 nest_files += $(shell find extern/SEGGER_RTT/$(SR_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
 nest_files += $(shell find extern/erpc/$(ERPC_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
+nest_files += $(shell find extern/CMSIS/$(CMSIS_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
 nest_dirs = $(sort $(dir $(nest_files)))
 nest_dirs += $(call FILTER_IN,neuralspot,$(includes_api))
 

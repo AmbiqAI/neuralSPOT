@@ -281,16 +281,20 @@ ns_power_config(const ns_power_config_t *pCfg) {
     }
 
     if (pCfg->bEnableTempCo) {
-        // Make sure the trim version is high enough before attempting to init
-        uint32_t ui32Ret, ui32TrimVer;
-        ui32Ret = am_hal_mram_info_read(1, AM_REG_INFO1_TRIM_REV_O / 4, 1, &ui32TrimVer);
-        if ((ui32Ret == 0) && 
-            (ui32TrimVer != 0xFFFFFFFF) &&
-            (ui32TrimVer >= 6)) {
-            if (ns_tempco_init() != 0) {
-                ns_printf("ERROR TempCo init failed\n");
+        #ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+            ns_lp_printf("WARNING TempCo not supported by AmbiqSuite R4.1.0\n");
+        #else
+            // Make sure the trim version is high enough before attempting to init
+            uint32_t ui32Ret, ui32TrimVer;
+            ui32Ret = am_hal_mram_info_read(1, AM_REG_INFO1_TRIM_REV_O / 4, 1, &ui32TrimVer);
+            if ((ui32Ret == 0) && 
+                (ui32TrimVer != 0xFFFFFFFF) &&
+                (ui32TrimVer >= 6)) {
+                if (ns_tempco_init() != 0) {
+                    ns_printf("ERROR TempCo init failed\n");
+                }
             }
-        }
+        #endif
     }
     g_ns_state.cryptoWantsToBeEnabled = pCfg->bNeedCrypto;
     g_ns_state.cryptoCurrentlyEnabled = pCfg->bNeedCrypto;
@@ -320,9 +324,11 @@ void ns_deep_sleep(void) {
         g_ns_state.cryptoCurrentlyEnabled = false;
     }
 
-    if (g_ns_state.tempcoCurrentlyEnabled) {
-        am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_DEEPSLEEP, true);
-    }
+    #ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+        if (g_ns_state.tempcoCurrentlyEnabled) {
+            am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_DEEPSLEEP, true);
+        }
+    #endif
 
     am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
 

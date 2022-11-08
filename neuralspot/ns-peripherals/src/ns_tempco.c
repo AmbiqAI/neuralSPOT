@@ -9,6 +9,10 @@
  * 
  */
 
+#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+// TEMPCO not supported in this version
+#else
+
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
@@ -181,3 +185,5 @@ adc_temperature_samples_get(uint32_t ui32NumSamples, am_hal_adc_sample_t sSample
     return AM_HAL_STATUS_SUCCESS;
 
 } // adc_temperature_samples_get()
+
+#endif

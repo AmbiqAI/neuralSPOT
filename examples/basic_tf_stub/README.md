@@ -12,6 +12,8 @@ Along the way, this example uses many neuralSPOT features, including:
 
 The code is structured to break out how these features are initialized and used - for example 'basic_mfcc.h' contains the init config structures needed to configure MFCC for this model.
 
+See our [walkthrough](../../docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md) for more details.
+
 >*NOTE* This example is used as the seed for a NeuralSPOT Deployment Nest - it includes all the NeuralSpot libraries and is based on TF.
 
 # Building and Running the Example
@@ -55,7 +57,7 @@ After capturing 3 seconds, it'll dump the sample to the server. Note that the se
 
 ### Running the Server
 
-Requires Python 3.6+, and I highly recommend using a venv.
+Requires Python 3.6+, and the use of a virtual python environment (venv) is highly recommended.
 
 ```bash
 $> cd .../neuralSPOT/ns-rpc/python/ns-rpc-genericdata

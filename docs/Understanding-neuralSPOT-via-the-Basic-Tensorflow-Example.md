@@ -32,8 +32,8 @@ Basic_TF_stub, like every neuralSPOT example, is a standalone application - that
 
 | Source File                                                  | Description                                       |
 | ------------------------------------------------------------ | ------------------------------------------------- |
-| https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_tf_stub.cc | The main() application, includes everything else. |
-| https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_tf_stub.h | Settings common to all header files               |
+| [basic_tf_stub.cc](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_tf_stub.cc) | The main() application, includes everything else. |
+| [basic_tf_stub.h](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_tf_stub.h) | Settings common to all header files               |
 | [basic_audio.h](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_audio.h) | Init structures and callbacks for ns-audio        |
 | [basic_mfcc.h](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_mfcc.h) | Init structures for MFCC library                  |
 | [basic_peripherals.h](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/basic_tf_stub/src/basic_peripherals.h) | Init structures for button and power settings     |

@@ -32,8 +32,8 @@ ns-rpc/
 ```
 Examples for using ns-rpc:
 
-- [Client Example](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/rpc_client_example/rpc-client.md)
-- [Server Example](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/rpc_server_example/rpc_server.md)
+- [Client Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_client_example/rpc-client.md)
+- [Server Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_server_example/rpc_server.md)
 
-Guidelines for creating new interfaces or modifying existing interfaces can be found in our [developer's guide](https://github.com/AmbiqAI/neuralSPOT/blob/e19031c0bda3b7f6c384a76739a3218a80d01a90/docs/developer_guide.md?plain=1#L178).
+Guidelines for creating new interfaces or modifying existing interfaces can be found in our [developer's guide](https://github.com/AmbiqAI/neuralSPOT/docs/developer_guide.md#neuralspot-developers-guide).
 

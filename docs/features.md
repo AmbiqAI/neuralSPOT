@@ -28,7 +28,7 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 | Apollo4P_blue_kbr_evb | Ambiq EVB                         | Coming soon                                                  |
 | Apollo4P_blue_kxr_evb | Ambiq EVB                         | Coming soon                                                  |
 | MPU6050               | Invensense 6D accelerometer       | i2c support                                                  |
-| MAX86150              | Invensense ECG single-lead sensor | i2c support (coming soon)                                    |
+| MAX86150              | Invensense ECG single-lead sensor | i2c support                                     |
 
 # Examples and Projects
 

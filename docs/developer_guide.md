@@ -195,10 +195,10 @@ NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of
 
 RPC in NeuralSPOT is structured as follows:
 
-1. The relevant parts of eRPC's infrastructure reside in `extern/erpc`
-2. Interface library implementations reside in `neuralspot/ns-rpc`
-3. Examples of generic RPC utilization reside in `examples/rpc-client`, and`examples/rpc-server`.
-4. Examples of practical utilization of RPC to capture data can be found in `examples/har` (for i2c) and `examples/basic_tf_stub` (for audio)
+1. The relevant parts of eRPC's infrastructure reside in [`extern/erpc`](https://github.com/AmbiqAI/neuralSPOT/tree/main/extern/erpc)
+2. Interface library implementations reside in [`neuralspot/ns-rpc`](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc)
+3. Examples of generic RPC utilization reside in [`examples/rpc-client`](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_client_example), and [`examples/rpc-server`](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server_example).
+4. Examples of practical utilization of RPC to capture data can be found in [`examples/mpu_data_collection`](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/mpu_data_collection) (for i2c) and [`examples/basic_tf_stub`](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub) (for audio)
 
 ##### NS-RPC Structure
 

@@ -12,7 +12,7 @@ NeuralSPOT documentation is spread throughout the repository - generally, every 
 | [Developing for NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/developer_guide.md) | Describes how neuralSPOT's components (libraries, examples, external components, and projects) are structured, and how to add to them |
 | [Optimizing using NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/optimizing_using_neuralspot.md) | A quick guide to optimizing power efficiency and performance using neuralSPOT |
 | [Deploying EdgeImpulse Models using neuralSPOT Nests](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Deploying-EI-Models-using-neuralSPOT%20Nests.md) | A walkthrough of how to use Nests to deploy complex external SW packages |
-| [Understanding neuralSPOT via the Basic Tensorflow Example](./Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md) | A walkthrough of how to use Nests to deploy complex external SW packages |
+| [Understanding neuralSPOT via the Basic Tensorflow Example](./Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md) | A walkthrough of neuralSPOT's core example |
 
 
 # Code Documentation

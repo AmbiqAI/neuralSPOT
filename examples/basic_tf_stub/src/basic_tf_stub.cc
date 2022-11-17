@@ -242,7 +242,8 @@ main(void) {
 
             ns_lp_printf("\n**** Most probably: [%s]\n\n", kCategoryLabels[output_max]);
             ns_lp_printf("Press Button 0 to start listening...\n");
-
+            
+            buttonPressed = false; // thoroughly debounce the button
             state = WAITING_TO_RECORD;
             break;
         }

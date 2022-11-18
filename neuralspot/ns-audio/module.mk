@@ -1,4 +1,6 @@
 local_src := $(wildcard $(subdirectory)/src/*.c)
+local_src += $(wildcard $(subdirectory)/src/*.cc)
+local_src += $(wildcard $(subdirectory)/src/*.cpp)
 includes_api += $(subdirectory)/includes-api
 
 local_bin := $(BINDIR)/$(subdirectory)

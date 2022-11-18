@@ -335,12 +335,4 @@ void ns_deep_sleep(void) {
     if (g_ns_state.tempcoWantsToBeEnabled) { // isr turns ADC on
     }
 
-    // Too avoid doing this too often, only enable on first print (via ns_lp_printf)
-    // if ((g_ns_state.cryptoEnabled) && (g_ns_state.cryptoCurrentlyEnabled == false)) {
-    //     am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
-    // }
-
-    // if (g_ns_state.itmPrintEnabled) {
-    //     ns_debug_printf_enable();
-    // }
 }

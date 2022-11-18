@@ -33,8 +33,8 @@
  * limitations under the License.
  */
 
-#ifndef __AM_MFCCOLD_H__
-#define __AM_MFCCOLD_H__
+#ifndef __NS_AUDIO_FEATURES_COMMON_H__
+#define __NS_AUDIO_FEATURES_COMMON_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,41 +43,22 @@ extern "C" {
 #include "arm_math.h"
 #include "string.h"
 
-#ifndef MFCC_OVERRIDE_DEFAULTS
-    #define MFCC_SAMP_FREQ 16000
-    #define MFCC_NUM_FBANK_BINS 40
-    #define MFCC_MEL_LOW_FREQ 20
-    #define MFCC_MEL_HIGH_FREQ 8000
-    #define MFCC_NUM_FRAMES 100
-    #define MFCC_NUM_MFCC_COEFFS 13
-    #define MFCC_NUM_MFCC_FEATURES MFCC_NUM_MFCC_COEFFS
-    #define MFCC_MFCC_DEC_BITS 4
-    #define MFCC_FRAME_SHIFT_MS 30
-    #define MFCC_FRAME_SHIFT ((int16_t)(SAMP_FREQ * 0.001 * MFCC_FRAME_SHIFT_MS))
-    #define MFCC_MFCC_BUFFER_SIZE (MFCC_NUM_FRAMES * MFCC_NUM_MFCC_COEFFS)
-    #define MFCC_FRAME_LEN_MS 30
-    #define MFCC_FRAME_LEN 480 // ((int16_t)(SAMP_FREQ * 0.001 * FRAME_LEN_MS))
-    #define MFCC_FRAME_LEN_POW2 512
-#endif
+typedef float ns_fbank_t[][50];
 
-#define M_2PI 6.283185307179586476925286766559005
-#ifndef M_PI
-    #define M_PI 3.14159265358979323846264338328
-#endif
+typedef struct {
+    uint8_t *arena_fbanks;
+    uint32_t sample_frequency;
+    uint32_t num_fbank_bins;
+    uint32_t low_freq;
+    uint32_t high_freq;
+    uint32_t frame_len_pow2;
+    int32_t *mfccFbankFirst;
+    int32_t *mfccFbankLast;
+    ns_fbank_t *melFBank;
+} ns_fbanks_cfg_t;
 
-#ifdef MFCC_DEBUG
-extern float g_audioMax;
-extern float g_audioMin;
-extern float g_audioSum;
-extern float g_audioMaxInt;
-extern float g_audioMinInt;
-extern float g_audioSumInt;
-#endif
-
-extern void
-ns_mfcc_init_old(void);
-extern void
-ns_mfcc_compute_old(const int16_t *audio_data, float *mfcc_out);
+extern void ns_fbanks_init(ns_fbanks_cfg_t *c);
+extern void create_mel_fbank(ns_fbanks_cfg_t *cfg);
 
 #ifdef __cplusplus
 }

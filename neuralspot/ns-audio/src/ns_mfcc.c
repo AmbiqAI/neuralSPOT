@@ -47,20 +47,11 @@
 // float g_mfccBuffer[MFCC_FRAME_LEN_POW2];
 // float g_mfccEnergies[MFCC_NUM_FBANK_BINS];
 // float g_mfccWindowFunction[MFCC_FRAME_LEN];
-// int32_t g_mfccFbankFirst[MFCC_NUM_FBANK_BINS];
-// int32_t g_mfccFbankLast[MFCC_NUM_FBANK_BINS];
-// float g_mfccMelFBank[MFCC_NUM_FBANK_BINS][50];
 // float g_mfccDCTMatrix[MFCC_NUM_FBANK_BINS * MFCC_NUM_MFCC_FEATURES];
  
 
 // WARNING this is some hacky, finicky pointer math. Sizes and order have to match
 // Fiddle with this at your own peril
-// static float   *mfccFrame;
-// static float   *mfccBuffer;
-// static float   *mfccEnergies;
-// static float   *mfccWindowFunction;
-
-// static float   *mfccDCTMatrix;
 
 static void ns_mfcc_map_arena(ns_mfcc_cfg_t *cfg) {
     cfg->mfccFrame = (float*)cfg->arena;
@@ -163,7 +154,7 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
         int32_t last_index = cfg->fbc.mfccFbankLast[bin];
         for (i = first_index; i <= last_index; i++) {
             arm_sqrt_f32(cfg->mfccBuffer[i], &sqrt_data);
-            mel_energy += (sqrt_data)*(*(cfg->fbc.mfccMelFBank))[bin][j++];
+            mel_energy += (sqrt_data)*(*(cfg->fbc.melFBank))[bin][j++];
         }
         cfg->mfccEnergies[bin] = mel_energy;
 

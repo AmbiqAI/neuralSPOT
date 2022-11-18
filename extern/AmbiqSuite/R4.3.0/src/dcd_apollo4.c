@@ -95,6 +95,8 @@ static void dcd_usb_ep_xfer_complete_callback(const uint8_t ep_addr, const uint1
     case USB_XFER_STALL:
       dcd_event_xfer_complete(0, ep_addr, xfer_len, XFER_RESULT_STALLED, true);
       break;
+    case USB_XFER_ABORT:
+      break;
     default:
       //TODO:
       dcd_event_xfer_complete(0, ep_addr, xfer_len, XFER_RESULT_FAILED, true);

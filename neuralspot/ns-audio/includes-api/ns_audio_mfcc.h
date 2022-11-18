@@ -40,6 +40,7 @@
 extern "C" {
 #endif
 
+#include "ns_audio_features_common.h"
 #include "arm_math.h"
 #include "string.h"
 
@@ -56,6 +57,12 @@ typedef struct {
     uint32_t frame_len_ms; ///< Not used
     uint32_t frame_len;
     uint32_t frame_len_pow2;
+    float    *mfccFrame;
+    float    *mfccBuffer;
+    float    *mfccEnergies;
+    float    *mfccWindowFunction;
+    float    *mfccDCTMatrix;   
+    ns_fbanks_cfg_t fbc;
 } ns_mfcc_cfg_t;
 
 #define NS_MFCC_SIZEBINS 53
@@ -79,10 +86,8 @@ extern float g_audioMinInt;
 extern float g_audioSumInt;
 #endif
 
-extern void
-ns_mfcc_init(ns_mfcc_cfg_t *c);
-extern void
-ns_mfcc_compute(ns_mfcc_cfg_t *c,const int16_t *audio_data, float *mfcc_out);
+extern void ns_mfcc_init(ns_mfcc_cfg_t *c);
+extern void ns_mfcc_compute(ns_mfcc_cfg_t *c,const int16_t *audio_data, float *mfcc_out);
 
 #ifdef __cplusplus
 }

@@ -51,35 +51,54 @@
 //
 //*****************************************************************************
 
-#ifndef __AM_MELSPEC_H__
-#define __AM_MELSPEC_H__
+#ifndef __NS_AUDIO_MELSPEC_H__
+#define __NS_AUDIO_MELSPEC_H__
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include "ns_audio_features_common.h"
 #include "arm_math.h"
 
-#ifndef STFT_OVERRIDE_DEFAULTS
-    #define MELSPEC_SAMP_FREQ 16000
-    #define MELSPEC_FRAME_LEN 512
-    #define MELSPEC_NUM_FRAMES 100
-    #define MELSPEC_NUM_FBANK_BINS 128
-    #define MELSPEC_MEL_LOW_FREQ 0
-    #define MELSPEC_MEL_HIGH_FREQ 8000
-    #define MELSPEC_COMPRESSION_EXPONENT 0.3
-#endif
+typedef struct {
+    uint8_t *arena;
+    uint32_t sample_frequency;
+    uint32_t num_fbank_bins;
+    uint32_t low_freq;
+    uint32_t high_freq;
+    uint32_t num_frames;
+    uint32_t frame_len;
+    uint32_t frame_len_pow2;
+    float    compression_exponent;
+    float    *melspecBuffer; //[2 * MELSPEC_FRAME_LEN]; // interleaved real + imaginary parts
+    ns_fbanks_cfg_t fbc;
+} ns_melspec_cfg_t;
 
-extern void
-ns_melspec_init(void);
+// Arena should be enough to accomodate the various buffers
+// e.g. MFCC_ARENA_SIZE  32*(MELSPEC_FRAME_LEN_POW2*2 + MELSPEC_NUM_FBANK_BINS*52))
+// where '32' is size of float and int32_t
 
-extern void ns_melspec_audio_to_stft(const int16_t *audio_data, float32_t *stft_out);
+// #ifndef STFT_OVERRIDE_DEFAULTS
+//     #define MELSPEC_SAMP_FREQ 16000
+//     #define MELSPEC_FRAME_LEN 512
+//     #define MELSPEC_FRAME_LEN_POW2 512
+//     #define MELSPEC_NUM_FRAMES 100
+//     #define MELSPEC_NUM_FBANK_BINS 128
+//     #define MELSPEC_MEL_LOW_FREQ 0
+//     #define MELSPEC_MEL_HIGH_FREQ 8000
+//     #define MELSPEC_COMPRESSION_EXPONENT 0.3
+// #endif
 
-extern void ns_melspec_stft_to_audio(float32_t *stft_in, int16_t *audio_out);
+extern void ns_melspec_init(ns_melspec_cfg_t *c);
 
-extern void ns_melspec_stft_to_compressed_melspec(const float32_t *stft_in, float32_t *melspec_out);
+extern void ns_melspec_audio_to_stft(ns_melspec_cfg_t *c, const int16_t *audio_data, float32_t *stft_out);
 
-extern void ns_melspec_melspec_to_stft(const float32_t *melspec_in, float32_t *stft_out);
+extern void ns_melspec_stft_to_audio(ns_melspec_cfg_t *c, float32_t *stft_in, int16_t *audio_out);
+
+extern void ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *c, const float32_t *stft_in, float32_t *melspec_out);
+
+extern void ns_melspec_melspec_to_stft(ns_melspec_cfg_t *c, const float32_t *melspec_in, float32_t *stft_out);
 
 
 #ifdef __cplusplus

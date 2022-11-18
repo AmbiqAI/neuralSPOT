@@ -54,22 +54,8 @@ typedef struct {
     uint32_t frame_len_pow2;
     int32_t *mfccFbankFirst;
     int32_t *mfccFbankLast;
-    ns_fbank_t *mfccMelFBank;
+    ns_fbank_t *melFBank;
 } ns_fbanks_cfg_t;
-
-#define NS_MFCC_SIZEBINS 53
-
-// Arena should be enough to accomodate the various buffers
-// e.g. MFCC_ARENA_SIZE  32*(MY_MFCC_FRAME_LEN_POW2*2 + MY_MFCC_NUM_FBANK_BINS*(NS_MFCC_SIZEBINS+MY_MFCC_NUM_MFCC_COEFFS))
-// where '32' is size of float and int32_t
-
-#ifndef M_PI
-#define M_2PI 6.283185307179586476925286766559005
-#endif
-#ifndef M_PI
-    #define M_PI 3.14159265358979323846264338328
-#endif
-
 
 extern void ns_fbanks_init(ns_fbanks_cfg_t *c);
 extern void create_mel_fbank(ns_fbanks_cfg_t *cfg);

@@ -57,7 +57,7 @@ static inline float ns_audio_MelScale(float freq) {
 static void ns_fbanks_map_arena(ns_fbanks_cfg_t *cfg) {
     cfg->mfccFbankFirst = (int32_t*)cfg->arena_fbanks;
     cfg->mfccFbankLast = (int32_t*)(cfg->mfccFbankFirst + cfg->num_fbank_bins*sizeof(int32_t));
-    cfg->mfccMelFBank = (ns_fbank_t*)(cfg->mfccFbankLast + cfg->num_fbank_bins*sizeof(int32_t));
+    cfg->melFBank = (ns_fbank_t*)(cfg->mfccFbankLast + cfg->num_fbank_bins*sizeof(int32_t));
 }
 
 
@@ -107,7 +107,7 @@ void create_mel_fbank(ns_fbanks_cfg_t *cfg) {
         int32_t j = 0;
         // copy the part we care about
         for (i = first_index; i <= last_index; i++) {
-            (*(cfg->mfccMelFBank))[bin][j++] = this_bin[i];
+            (*(cfg->melFBank))[bin][j++] = this_bin[i];
             if (j >= 50) {
                 am_util_stdio_printf(
                     "MFCC[%d] J %d exceeded 50. First %d Last %d, \n", bin, j,

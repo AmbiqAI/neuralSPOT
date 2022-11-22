@@ -32,8 +32,27 @@ ns-rpc/
 ```
 Examples for using ns-rpc:
 
-- [Client Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_client_example/rpc-client.md)
-- [Server Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_server_example/rpc_server.md)
+- [Client Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_client_example/README.md)
+- [Server Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_server_example/README.md)
 
 Guidelines for creating new interfaces or modifying existing interfaces can be found in our [developer's guide](https://github.com/AmbiqAI/neuralSPOT/docs/developer_guide.md#neuralspot-developers-guide).
 
+## Running generic_data.py for the first time
+Our example RPC Python application, `generic_data.py` uses eRPC to communicate with the EVB. It can function in both client and server modes, and demonstrates how to capture both audio and MPU data.
+
+This application requires several Python packages:
+1. PySerial to communicate with USB TTY devices
+2. numpy to facilitate working with arrays
+3. SoundFile to convert PCM data to WAV files
+
+The simplest way to install this packages is using `pip`:
+
+```bash
+$> pip install pyserial
+$> pip install numpy
+$> pip install soundfile
+```
+
+Managing python and package versions is beyond the scope of this article - if you are using your PC to develop AI models it is likely you have your preferred setup. Otherwise, the simplest way to manage all of this is using a pre-package Python development environment such as Anaconda. 
+
+For bare-bones Windows Python configration, see our [Windows application note](../../docs/Application-Note-neuralSPOT-and-Windows.md).

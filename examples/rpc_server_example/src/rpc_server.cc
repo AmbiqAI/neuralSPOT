@@ -123,7 +123,7 @@ int main(void) {
     ns_power_config(&ns_development_default);
 
     // -- Init the button handler, used in the example, not needed by RPC
-    int g_intButtonPressed = 0;
+    volatile int g_intButtonPressed = 0;
     ns_button_config_t button_config = {
         .button_0_enable = true,
         .button_1_enable = false,

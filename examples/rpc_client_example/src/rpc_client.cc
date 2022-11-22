@@ -30,8 +30,8 @@
 #define SAMPLES_IN_FRAME 480
 #define SAMPLE_RATE 16000
 
-bool static g_audioReady = false;
-bool static g_audioRecording = false;
+volatile bool static g_audioReady = false;
+volatile bool static g_audioRecording = false;
 int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
 uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
 
@@ -75,7 +75,7 @@ int main(void) {
     ns_power_config(&ns_development_default);
 
     // -- Init the button handler, used in the example, not needed by RPC
-    int g_intButtonPressed = 0;
+    volatile int g_intButtonPressed = 0;
     ns_button_config_t button_config = {
         .button_0_enable = true,
         .button_1_enable = false,
@@ -162,7 +162,7 @@ int main(void) {
                     stat = ns_rpc_data_sendBlockToPC(&outBlock);
 
                     if (stat == ns_rpc_data_success)
-                        ns_printf("-");
+                        ns_printf(".");
                     else
                         ns_printf("[%d]+",stat);
 

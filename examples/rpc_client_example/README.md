@@ -31,11 +31,13 @@ We demonstrate the following EVB->PC procedure calls:
 It's a client/server system needing some careful staging, described below.
 
 ## Installation and Setup
-You'll need to install some laptop-side software, including ERPC and it's python library.
-1. Clone our erpc fork (git@github.com:AmbiqAI/erpc.git)
-2. Make erpc (instructions here: https://github.com/AmbiqAI/erpc/blob/develop/README.md#building-and-installing)
-3. Install erpc_python (instructions here: https://github.com/AmbiqAI/erpc/tree/develop/erpc_python)
+You'll need to install some laptop-side software, including ERPC's python library.
 
+> *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
+
+1. Clone our erpc fork (git@github.com:AmbiqAI/erpc.git)
+2. Install erpc_python (instructions here: https://github.com/AmbiqAI/erpc/tree/develop/erpc_python)
+3. Install Python Libraries needed for our example Python application - see [here](../../neuralspot/ns-rpc/README.md) for a how to run it for the first time.
 
 ## Running the RPC-client example
 Running RPC requires a bit of staging. The PC-side server cant start until the USB TTY interface

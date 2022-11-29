@@ -19,6 +19,7 @@ AR = $(TOOLCHAIN)-ar
 SIZE = $(TOOLCHAIN)-size
 LINT = clang-tidy
 RM = $(shell which rm 2>/dev/null)
+MKD = "mkdir"
 DOX = doxygen
 
 # EXECUTABLES = CC LD CP OD AR RD SIZE GCC JLINK JLINK_SWO

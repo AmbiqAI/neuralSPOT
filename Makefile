@@ -145,22 +145,22 @@ $(bindirs):
 
 $(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
 $(BINDIR)/%.o: %.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
 $(BINDIR)/%.o: %.c
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
 
 $(BINDIR)/%.o: %.s
 	@echo " Assembling $(COMPILERNAME) $<"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $< -o $@
 
 %.axf: src/%.o $(objects) $(libraries)
@@ -170,7 +170,7 @@ $(BINDIR)/%.o: %.s
 
 %.bin: %.axf 
 	@echo " Copying $(COMPILERNAME) $@..."
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
@@ -187,15 +187,15 @@ docs:
 .PHONY: nest
 nest: all
 	@echo " Building Nest without src/ at $(NESTDIR) based on $< ..."
-	@mkdir -p $(NESTDIR)
-	@mkdir -p $(NESTDIR)/src	
-	@mkdir -p $(NESTDIR)/src/ns-core	
-	@mkdir -p $(NESTDIR)/srcpreserved
-	@mkdir -p $(NESTDIR)/libs	
-	@mkdir -p $(NESTDIR)/make	
-	@mkdir -p $(NESTDIR)/pack/svd	
+	$(Q) $(MKD) -p $(NESTDIR)
+	$(Q) $(MKD) -p $(NESTDIR)/src	
+	$(Q) $(MKD) -p $(NESTDIR)/src/ns-core	
+	$(Q) $(MKD) -p $(NESTDIR)/srcpreserved
+	$(Q) $(MKD) -p $(NESTDIR)/libs	
+	$(Q) $(MKD) -p $(NESTDIR)/make	
+	$(Q) $(MKD) -p $(NESTDIR)/pack/svd	
 	@for target in $(nest_dirs); do \
-		mkdir -p $(NESTDIR)"/includes/"$$target ; \
+		"mkdir" -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
 	@for file in $(libraries); do \
@@ -219,7 +219,7 @@ nest: all
 nestcomponent:
 	@echo " Building Nestcomponent only copying $(NESTCOMP)..."
 	@for target in $(nest_component_includes); do \
-		mkdir -p $(NESTDIR)"/includes/"$$target ; \
+		"mkdir" -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
 	@for file in $(nest_component_libs); do \

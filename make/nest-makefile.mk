@@ -43,36 +43,36 @@ ifneq "$(MAKECMDGOALS)" "clean"
 endif
 
 $(BINDIR):
-	@mkdir -p $@
+	$(Q) $(MKD) -p $@
 
 $(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
 $(BINDIR)/%.o: %.cpp
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
 
 $(BINDIR)/%.o: %.c
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
 
 $(BINDIR)/%.o: %.s
 	@echo " Assembling $(COMPILERNAME) $<"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(CFLAGS) $< -o $@
 
 $(BINDIR)/$(local_app_name).axf: $(objects)
 	@echo " Linking $(COMPILERNAME) $@"
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $(objects) $(LFLAGS)
 
 $(BINDIR)/$(local_app_name).bin: $(BINDIR)/$(local_app_name).axf 
 	@echo " Copying $(COMPILERNAME) $@..."
-	@mkdir -p $(@D)
+	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) $(OD) $(ODFLAGS) $< > $(BINDIR)/$(local_app_name).lst
 	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $(BINDIR)/$(local_app_name).size

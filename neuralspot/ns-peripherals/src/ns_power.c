@@ -246,6 +246,16 @@ ns_power_config(const ns_power_config_t *pCfg) {
             .eActiveWithDSP = AM_HAL_PWRCTRL_SRAM_NONE,
             .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
         am_hal_pwrctrl_sram_config(&SRAMMemCfg);
+
+        am_hal_pwrctrl_dsp_memory_config_t sExtSRAMMemCfg =
+        {
+            .bEnableICache      = false,
+            .bRetainCache       = false,
+            .bEnableRAM         = false,
+            .bActiveRAM         = false,
+            .bRetainRAM         = false
+        };
+        am_hal_pwrctrl_dsp_memory_config(AM_HAL_DSP0, &sExtSRAMMemCfg);
     }
 
     // The following two lines cause audio capture to be distorted - TBI
@@ -274,7 +284,7 @@ ns_power_config(const ns_power_config_t *pCfg) {
             .eDTCMCfg     = AM_HAL_PWRCTRL_DTCM_128K,
             .eRetainDTCM  = AM_HAL_PWRCTRL_DTCM_128K,
             .bEnableNVM0  = true,
-            .bRetainNVM0  = true
+            .bRetainNVM0  = false
         };
 
         am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);

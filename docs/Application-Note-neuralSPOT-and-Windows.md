@@ -17,7 +17,8 @@ First we need to prepare the compile toolchain and environment. In summary:
 2. Install ARM tools
 3. Install GNU Make (ironically, installing this simple tool is the most convoluted step of the process)
 4. Install git
-5. Compile
+5. Configuring shells and paths
+6. Compile
 
 ### Installing ARM Toolchain
 
@@ -48,7 +49,17 @@ Git is a source code management tool, and the simplest way to access projects on
 
 Installing git is straightforward via their installer, located [here](https://gitforwindows.org).
 
-This robust installer will give you many configuration options as it progresses - the default options will work, but if you are an experience git user feel free to modify.
+This robust installer will give you many configuration options as it progresses - the default options will work, but if you are an experienced windows and/or git user feel free to modify. We found the following settings helpful:
+
+1. "Add a Git Bash Profile to Windows Terminal" (select this)
+2. "Use Git and optional Unix tools from the Command Prompt" (adds stuff to Path, so only do this if you understand the implications).
+
+### Shells and Paths
+
+The neuralSPOT Makefile makes use of a few unix-style commands (such as `mkdir -p` and `cp -R`) which behave differently on Windows, depending on which shell is being used and how the PATH environment variable is configured. We recommend one of:
+
+1. Use git bash - this is installed as part of Git, and is a special CLI that replicates common Unix Bash shell commands. Launching and using git bash is the easiest path to compiling neuralSPOT. See [here for instructions on how to use it](https://www.atlassian.com/git/tutorials/git-bash).
+2. Let git modify the Path to point to common unix replacements for windows commands (see option 2 above) when installing Git.
 
 ### Compiling neuralSPOT
 
@@ -94,11 +105,6 @@ $> cd neuralSPOT/neuralspot/ns-rpc/python/ns-rpc-genericdata
 $> pip install soundfile
 $> pip install numpy
 $> pip install pyserial
-soundfile
-numpy
-pyserial
-wmic path Win32_SerialPort
-
 ```
 
 ### Running neuralSPOT RPC

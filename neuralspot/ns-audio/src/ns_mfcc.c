@@ -115,17 +115,30 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
 
     int32_t i, j, bin;
 
+    // // TensorFlow way of normalizing int16_t data to (-1,1)
+    // for (i = 0; i < cfg->frame_len; i++) {
+    //     cfg->mfccFrame[i] = (float)audio_data[i] / (1 << 15);
+    // }
+    // // Fill up remaining with zeros
+    // memset(&(cfg->mfccFrame[cfg->frame_len]), 0,
+    //        sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
+
+    // for (i = 0; i < cfg->frame_len; i++) {
+    //     cfg->mfccFrame[i] *= cfg->mfccWindowFunction[i];
+    // }
+
+
     // TensorFlow way of normalizing int16_t data to (-1,1)
     for (i = 0; i < cfg->frame_len; i++) {
-        cfg->mfccFrame[i] = (float)audio_data[i] / (1 << 15);
+        cfg->mfccFrame[i] = ((float)audio_data[i] / (1 << 15))*cfg->mfccWindowFunction[i];
     }
     // Fill up remaining with zeros
     memset(&(cfg->mfccFrame[cfg->frame_len]), 0,
            sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
 
-    for (i = 0; i < cfg->frame_len; i++) {
-        cfg->mfccFrame[i] *= cfg->mfccWindowFunction[i];
-    }
+    // for (i = 0; i < cfg->frame_len; i++) {
+    //     cfg->mfccFrame[i] *= cfg->mfccWindowFunction[i];
+    // }
 
     // Compute FFT
     arm_rfft_fast_f32(&g_mfccRfft, cfg->mfccFrame, cfg->mfccBuffer, 0);

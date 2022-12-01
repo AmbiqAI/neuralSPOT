@@ -280,7 +280,7 @@ ns_power_config(const ns_power_config_t *pCfg) {
         am_hal_pwrctrl_mcu_memory_config_t McuMemCfg =
         {
             .eCacheCfg    = AM_HAL_PWRCTRL_CACHE_ALL,
-            .bRetainCache = false,
+            .bRetainCache = true,
             .eDTCMCfg     = AM_HAL_PWRCTRL_DTCM_128K,
             .eRetainDTCM  = AM_HAL_PWRCTRL_DTCM_128K,
             .bEnableNVM0  = true,
@@ -322,10 +322,11 @@ ns_power_config(const ns_power_config_t *pCfg) {
  */
 void ns_deep_sleep(void) {
 
-
-    if (g_ns_state.itmPrintCurrentlyEnabled) {
-         ns_cryptoless_itm_printf_disable();
-        //am_bsp_debug_printf_disable();
+    if (g_ns_state.uartPrintCurrentlyEnabled) {
+        am_bsp_uart_printf_disable();
+        g_ns_state.uartPrintCurrentlyEnabled = false;
+    } else if (g_ns_state.itmPrintCurrentlyEnabled) {
+        ns_cryptoless_itm_printf_disable();
         g_ns_state.itmPrintCurrentlyEnabled = false;
     } 
     

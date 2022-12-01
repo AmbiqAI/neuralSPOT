@@ -26,7 +26,6 @@
  * 
  */
 void ns_itm_printf_enable(void) {
-    #define ns_itm_printf_enable g_ns_state.itmPrintEnabled=true; am_bsp_itm_printf_enable
     // Enable crypto only as long as needed
     if (g_ns_state.cryptoCurrentlyEnabled == false) {
         am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
@@ -41,6 +40,14 @@ void ns_itm_printf_enable(void) {
     g_ns_state.itmPrintWantsToBeEnabled = true;
 }
 
+void ns_uart_printf_enable(void) {
+    // Enable crypto only as long as needed
+    am_bsp_uart_printf_enable();
+
+    g_ns_state.uartPrintCurrentlyEnabled = true;
+    g_ns_state.uartPrintWantsToBeEnabled = true;
+}
+
 //*****************************************************************************
 //
 //! @brief Special enable that doesn't check crypto/dcu
@@ -50,7 +57,6 @@ void ns_itm_printf_enable(void) {
 //*****************************************************************************
 int32_t ns_cryptoless_itm_printf_enable(void)
 {
-
     // Enable the ITM interface and the SWO pin.
     am_hal_itm_enable();
     am_hal_tpiu_enable(AM_HAL_TPIU_BAUD_1M);
@@ -58,7 +64,6 @@ int32_t ns_cryptoless_itm_printf_enable(void)
     am_util_stdio_printf_init(am_hal_itm_print);
 
     return 0;
-
 }
 
 //*****************************************************************************
@@ -91,13 +96,17 @@ int32_t ns_cryptoless_itm_printf_disable(void)
  */
 void ns_lp_printf(const char *format, ...) {
     va_list myargs;
-    if ((g_ns_state.itmPrintWantsToBeEnabled) && (g_ns_state.itmPrintCurrentlyEnabled == false)) {
-         ns_cryptoless_itm_printf_enable();
-        //am_bsp_debug_printf_enable();
+
+    if ((g_ns_state.uartPrintWantsToBeEnabled) && (g_ns_state.uartPrintCurrentlyEnabled == false)) {
+        am_bsp_uart_printf_enable();
+        g_ns_state.uartPrintCurrentlyEnabled = true;
+    } else if ((g_ns_state.itmPrintWantsToBeEnabled == true) && (g_ns_state.itmPrintCurrentlyEnabled == false)) {
+        ns_cryptoless_itm_printf_enable();
         g_ns_state.itmPrintCurrentlyEnabled = true;
     }
 
     va_start(myargs, format);
     am_util_stdio_vprintf(format, myargs);
     va_end(myargs);
+
 }

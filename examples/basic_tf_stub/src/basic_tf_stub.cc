@@ -52,6 +52,8 @@ The basic_tf_stub example is based on a speech to intent model.
 
 #define RINGBUFFER_MODE
 // #define RPC_ENABLED
+#define ENERGY_MONITOR_ENABLE
+// #define LOWEST_POWER_MODE
 
 #include "ns_core.h"
 #include "basic_tf_stub.h"
@@ -67,6 +69,8 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
+#include "ns_energy_monitor.h"
+
 
 static int recording_win = NUM_FRAMES;
 
@@ -76,6 +80,20 @@ typedef enum {
     WAIT_FOR_FRAME,
     INFERING
 } myState_e;
+
+const ns_power_config_t ns_lp_audio = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = false
+};
 
 /**
  * @brief Main basic_tf_stub - infinite loop listening and inferring
@@ -99,50 +117,45 @@ main(void) {
     audioRecording = false;
 
     ns_core_init();
-
-    // enables crypto
-    ns_itm_printf_enable();
+        
+    #ifdef ENERGY_MONITOR_ENABLE
+        // This is for measuring power using an external power monitor such as
+        // Joulescope - it sets GPIO pins so the state can be observed externally
+        // to help line up the waveforms. It has nothing to do with AI...
+        ns_init_power_monitor_state();
+        ns_set_power_monitor_state(NS_IDLE);
+    #endif
 
     // Configure power - different use modes
     // require different power configs
     // This examples uses pre-populated power config structs - 
     // to modify create a local struct and pass it to
     // ns_power_config()
-    #ifdef AUDIODEBUG
-        // This mode uses RTT, which needs SRAM
-        ns_debug_printf_enable();
-        ns_power_config(&ns_development_default);
+
+    ns_power_config(&ns_lp_audio);
+
+    #ifdef LOWEST_POWER_MODE
+        ns_uart_printf_enable(); // use uart to print, uses less power
     #else
-        #ifdef ENERGYMODE
-            ns_uart_printf_enable(); // use uart to print, turn off crypto
-            // This is only for measuring power using an external power monitor such as
-            // Joulescope - it sets GPIO pins so the state can be observed externally
-            // to help line up the waveforms. It has nothing to do with AI...
-            ns_init_power_monitor_state();
-            // ns_power_set_monitor_state(&am_ai_audio_default);
-            ns_power_config(&ns_audio_default); // disables crypto (otherwise use ns_development_default)
-       #else
-            ns_debug_printf_enable();
-            ns_power_config(&ns_audio_default);
+        ns_itm_printf_enable();
+        /* A note about printf and low power: printing over ITM impacts low power in two
+            ways: 
+            1) enabling ITM prevents SoC from entering deep sleep, and 
+            2) ITM initialization requires crypto to be enabled. 
+        
+            While ITM printing isn't something a deployed application would enable, NS does the
+            following to mitigate power usage during ITM:
 
-            /* A note about printf and low power: printing over ITM impacts low power in two
-               ways: 
-                1) enabling ITM prevents SoC from entering deep sleep, and 
-                2) ITM initialization requires crypto to be enabled. 
-            
-               While ITM printing isn't something a deployed application would enable, NS does the
-               following to mitigate power usage during ITM:
-
-                1) ns_power_config() lets you set bNeedITM
-                2) ns_itm_printf_enable() will temporarily enable crypto if needed
-                3) ns_lp_printf() enables TPIU and ITM when needed
-                4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
-            */
-        #endif
+            1) ns_power_config() lets you set bNeedITM
+            2) ns_itm_printf_enable() will temporarily enable crypto if needed
+            3) ns_lp_printf() enables TPIU and ITM when needed
+            4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
+        */
     #endif
 
     model_init();
     ns_audio_init(&audio_config);
+
     ns_mfcc_init(&mfcc_config);
     ns_peripheral_button_init(&button_config);
     am_hal_interrupt_master_enable();
@@ -172,9 +185,10 @@ main(void) {
         case WAITING_TO_RECORD:
             if (buttonPressed) {
                 state = WAIT_FOR_FRAME;
+                ns_set_power_monitor_state(NS_DATA_COLLECTION);
                 buttonPressed = false;
                 audioRecording = true;
-                ns_lp_printf("Listening for 1 second.\n");
+                ns_lp_printf("\nListening for 1 second.\n");
                 #ifdef RPC_ENABLED
                     ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 1 second.\n");
                 #endif
@@ -183,6 +197,8 @@ main(void) {
 
         case WAIT_FOR_FRAME:
             if (audioReady) {
+                ns_set_power_monitor_state(NS_FEATURE_EXTRACTION);
+
                 int32_t mfcc_buffer_head =
                     (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
 
@@ -207,8 +223,12 @@ main(void) {
                 ns_lp_printf("\n");
                 audioRecording = false;
                 recording_win = NUM_FRAMES;
+                ns_set_power_monitor_state(NS_INFERING);
                 state = INFERING; // have full sample
+            } else {
+                ns_set_power_monitor_state(NS_DATA_COLLECTION);
             }
+
             break;
 
         case INFERING:
@@ -231,7 +251,7 @@ main(void) {
                              model_output->params.zero_point) *
                              model_output->params.scale;
                 if (output[i]>0.3) {
-                    ns_lp_printf("[%s] with %d%% certainty\n", kCategoryLabels[i], (uint8_t)(output[i]*100));
+                    ns_lp_printf("\n[%s] with %d%% certainty\n", kCategoryLabels[i], (uint8_t)(output[i]*100));
                 }
 
                 if (output[i] > max_val) {
@@ -244,6 +264,7 @@ main(void) {
             ns_lp_printf("Press Button 0 to start listening...\n");
             
             buttonPressed = false; // thoroughly debounce the button
+            ns_set_power_monitor_state(NS_IDLE);
             state = WAITING_TO_RECORD;
             break;
         }

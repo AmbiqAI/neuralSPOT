@@ -51,7 +51,7 @@ neuralSPOT offers a number of tools and libraries to help optimize AI features:
 
 The Audio library takes advantage of Apollo4 Plus' highly efficient audio peripherals to capture audio for AI inference. It supports several interprocess communication mechanisms to make the captured data available to the AI feature - one of these is a 'ring buffer' model which ping-pongs captured data buffers to facilitate in-place processing by feature extraction code. The basic_tf_stub example includes ring buffer [initialization](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/basic_tf_stub/src/main.cc#L272) and [usage](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/basic_tf_stub/src/main.cc#L256) (and [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/basic_tf_stub/src/main.cc#L395)) examples.
 
-### Power Control Library
+### Power Aware Library
 
 The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/rpc_client_example/src/rpc_client.cc#L70). It is typically called once, during initialization. 
 
@@ -78,6 +78,22 @@ main() {
   ...
 }
 ```
+
+#### Deep Sleep
+There are a number of peripherals that will prevent the SoC from actually entering deep sleep, and often these peripherals are only used for a short period. neuralSPOT's `ns_deep_sleep()` keeps track of peripherals used by neuralSPOT, and disables/enables them as needed.
+
+#### Debugging Optimized Code
+Real applications rarely have to `printf`, but this is a common operation while a model is being development and debugged. Even `printf` will not be used after the feature is released, neuralSPOT offers power-aware `printf` support so that the debug-mode power utilization is close to the final one.
+
+When using Jlink to debug, prints are usually emitted to either the SWO interface or the UART interface, each of which has power implications. Selecting which interface to use is straighforward:
+
+```c
+        ns_uart_printf_enable(); // use uart to print, uses less power
+/// or
+        ns_itm_printf_enable(); // *may* use more power
+```
+
+Once an interface has been chosen, printing is via neuralSPOT's low power printf, `ns_lp_printf()`, which behaves just like a normal printf except it enables needed peripherals only when needed - it is meant to be used in conjunction with `ns_deep_sleep()`, described above.
 
 ### Power Measurement Helpers
 

@@ -25,6 +25,7 @@ extern "C"
 #include <am_util_stdio.h>
 
 #define ns_debug_printf_enable  am_bsp_debug_printf_enable
+#define ns_uart_printf_disable  am_bsp_uart_printf_disable
 #define ns_itm_printf_disable g_ns_state.itmPrintCurrentlyEnabled=false; am_bsp_itm_printf_disable
 #define ns_debug_printf_disable am_bsp_debug_printf_disable
 
@@ -33,6 +34,7 @@ extern "C"
 #define ns_delay_us am_hal_delay_us
 
 extern void ns_itm_printf_enable(void);
+extern void ns_uart_printf_enable(void);
 extern int32_t ns_cryptoless_itm_printf_disable(void);
 extern void ns_lp_printf(const char *format, ...);
 

@@ -256,6 +256,16 @@ ns_power_config(const ns_power_config_t *pCfg) {
             .bRetainRAM         = false
         };
         am_hal_pwrctrl_dsp_memory_config(AM_HAL_DSP0, &sExtSRAMMemCfg);
+    } else {
+        am_hal_daxi_config_t DaxiConfigLongAging =
+	    {
+            .bDaxiPassThrough = false,
+            .bAgingSEnabled = false, //false means only age-out write/modified lines    
+            .eAgingCounter = AM_HAL_DAXI_CONFIG_AGING_1024,//1024 will age out a line in ~ 96 cycles.  Optimal for most use cases should be 256, 512, 1024, or 2048
+            .eNumBuf       = AM_HAL_DAXI_CONFIG_NUMBUF_32,
+            .eNumFreeBuf   = AM_HAL_DAXI_CONFIG_NUMFREEBUF_3,
+	    };
+        am_hal_daxi_config(&DaxiConfigLongAging);
     }
 
     // The following two lines cause audio capture to be distorted - TBI

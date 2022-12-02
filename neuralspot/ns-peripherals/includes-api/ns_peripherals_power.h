@@ -79,7 +79,7 @@ typedef struct
     bool               bNeedUSB;            ///< Prevents USB from being powered off
     bool               bNeedIOM;            ///< Prevents IOMx from being powered off
     bool               bNeedAlternativeUART; ///< for EEMBC Power Control Module and similar
-    bool               b128kTCM;            ///< Only need 128k
+    bool               b128kTCM;            ///< Only enable 128k when true, 384k otherwise
     bool               bEnableTempCo;       ///< Enable Temperature Compensation
     bool               bNeedITM;       ///< Enable Temperature Compensation
 } ns_power_config_t;

@@ -256,6 +256,16 @@ ns_power_config(const ns_power_config_t *pCfg) {
             .bRetainRAM         = false
         };
         am_hal_pwrctrl_dsp_memory_config(AM_HAL_DSP0, &sExtSRAMMemCfg);
+    } else {
+        am_hal_daxi_config_t DaxiConfigLongAging =
+	    {
+            .bDaxiPassThrough = false,
+            .bAgingSEnabled = false, //false means only age-out write/modified lines    
+            .eAgingCounter = AM_HAL_DAXI_CONFIG_AGING_1024,//1024 will age out a line in ~ 96 cycles.  Optimal for most use cases should be 256, 512, 1024, or 2048
+            .eNumBuf       = AM_HAL_DAXI_CONFIG_NUMBUF_32,
+            .eNumFreeBuf   = AM_HAL_DAXI_CONFIG_NUMFREEBUF_3,
+	    };
+        am_hal_daxi_config(&DaxiConfigLongAging);
     }
 
     // The following two lines cause audio capture to be distorted - TBI
@@ -280,7 +290,7 @@ ns_power_config(const ns_power_config_t *pCfg) {
         am_hal_pwrctrl_mcu_memory_config_t McuMemCfg =
         {
             .eCacheCfg    = AM_HAL_PWRCTRL_CACHE_ALL,
-            .bRetainCache = false,
+            .bRetainCache = true,
             .eDTCMCfg     = AM_HAL_PWRCTRL_DTCM_128K,
             .eRetainDTCM  = AM_HAL_PWRCTRL_DTCM_128K,
             .bEnableNVM0  = true,
@@ -322,10 +332,11 @@ ns_power_config(const ns_power_config_t *pCfg) {
  */
 void ns_deep_sleep(void) {
 
-
-    if (g_ns_state.itmPrintCurrentlyEnabled) {
-         ns_cryptoless_itm_printf_disable();
-        //am_bsp_debug_printf_disable();
+    if (g_ns_state.uartPrintCurrentlyEnabled) {
+        am_bsp_uart_printf_disable();
+        g_ns_state.uartPrintCurrentlyEnabled = false;
+    } else if (g_ns_state.itmPrintCurrentlyEnabled) {
+        ns_cryptoless_itm_printf_disable();
         g_ns_state.itmPrintCurrentlyEnabled = false;
     } 
     

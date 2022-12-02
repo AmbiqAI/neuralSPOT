@@ -30,6 +30,8 @@ typedef struct {
     bool tempcoCurrentlyEnabled;   ///< Current state for TempCo
     bool cryptoWantsToBeEnabled;   ///< Desired state for Crypto
     bool cryptoCurrentlyEnabled;   ///< Current state for Crypto
+    bool uartPrintWantsToBeEnabled; ///< Desired state for ITM printing
+    bool uartPrintCurrentlyEnabled; ///< Current state for ITM printing
 } ns_desired_state_t;
 
 /**

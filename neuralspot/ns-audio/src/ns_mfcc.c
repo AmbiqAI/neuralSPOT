@@ -48,17 +48,18 @@
 // float g_mfccEnergies[MFCC_NUM_FBANK_BINS];
 // float g_mfccWindowFunction[MFCC_FRAME_LEN];
 // float g_mfccDCTMatrix[MFCC_NUM_FBANK_BINS * MFCC_NUM_MFCC_FEATURES];
- 
 
 // WARNING this is some hacky, finicky pointer math. Sizes and order have to match
 // Fiddle with this at your own peril
 
-static void ns_mfcc_map_arena(ns_mfcc_cfg_t *cfg) {
-    cfg->mfccFrame = (float*)cfg->arena;
-    cfg->mfccDCTMatrix = (float*)(cfg->mfccFrame + cfg->frame_len_pow2*sizeof(float));
-    cfg->mfccBuffer = (float*)(cfg->mfccDCTMatrix + cfg->num_fbank_bins*cfg->num_coeffs*sizeof(float));
-    cfg->mfccEnergies = (float*)(cfg->mfccBuffer + cfg->frame_len_pow2*sizeof(float));
-    cfg->mfccWindowFunction = (float*)(cfg->mfccEnergies + cfg->num_fbank_bins*sizeof(float));
+static void
+ns_mfcc_map_arena(ns_mfcc_cfg_t *cfg) {
+    cfg->mfccFrame = (float *)cfg->arena;
+    cfg->mfccDCTMatrix = (float *)(cfg->mfccFrame + cfg->frame_len_pow2 * sizeof(float));
+    cfg->mfccBuffer =
+        (float *)(cfg->mfccDCTMatrix + cfg->num_fbank_bins * cfg->num_coeffs * sizeof(float));
+    cfg->mfccEnergies = (float *)(cfg->mfccBuffer + cfg->frame_len_pow2 * sizeof(float));
+    cfg->mfccWindowFunction = (float *)(cfg->mfccEnergies + cfg->num_fbank_bins * sizeof(float));
 }
 // --------------------
 
@@ -73,7 +74,8 @@ float g_audioSumInt;
 
 arm_rfft_fast_instance_f32 g_mfccRfft;
 
-static void create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t coefficient_count) {
+static void
+create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t coefficient_count) {
     int32_t k, n;
     float normalizer;
     arm_sqrt_f32(2.0 / (float)input_length, &normalizer);
@@ -85,16 +87,17 @@ static void create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t 
     }
 }
 
-void ns_mfcc_init(ns_mfcc_cfg_t *c) {
+void
+ns_mfcc_init(ns_mfcc_cfg_t *c) {
     int i;
     // int frame_len_padded = pow(2,ceil((log(FRAME_LEN)/log(2))));
     // am_util_stdio_printf("padded is %d\n",frame_len_padded);
 
     ns_mfcc_map_arena(c);
 
-    c->fbc.arena_fbanks = (uint8_t *)(c->mfccWindowFunction) + c->frame_len*sizeof(float);
+    c->fbc.arena_fbanks = (uint8_t *)(c->mfccWindowFunction) + c->frame_len * sizeof(float);
     c->fbc.sample_frequency = c->sample_frequency;
-    c->fbc.num_fbank_bins   = c->num_fbank_bins;
+    c->fbc.num_fbank_bins = c->num_fbank_bins;
     c->fbc.low_freq = c->low_freq;
     c->fbc.high_freq = c->high_freq;
     c->fbc.frame_len_pow2 = c->frame_len_pow2;
@@ -102,8 +105,7 @@ void ns_mfcc_init(ns_mfcc_cfg_t *c) {
     ns_fbanks_init(&(c->fbc));
 
     for (i = 0; i < c->frame_len; i++) {
-        c->mfccWindowFunction[i] =
-            0.5 - 0.5 * cos(M_2PI * ((float)i) / (c->frame_len));
+        c->mfccWindowFunction[i] = 0.5 - 0.5 * cos(M_2PI * ((float)i) / (c->frame_len));
     }
 
     create_dct_matrix(c, c->num_fbank_bins, c->num_coeffs);
@@ -111,7 +113,8 @@ void ns_mfcc_init(ns_mfcc_cfg_t *c) {
     arm_rfft_fast_init_f32(&g_mfccRfft, c->frame_len_pow2);
 }
 
-void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) {
+void
+ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) {
 
     int32_t i, j, bin;
 
@@ -127,10 +130,9 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
     //     cfg->mfccFrame[i] *= cfg->mfccWindowFunction[i];
     // }
 
-
     // TensorFlow way of normalizing int16_t data to (-1,1)
     for (i = 0; i < cfg->frame_len; i++) {
-        cfg->mfccFrame[i] = ((float)audio_data[i] / (1 << 15))*cfg->mfccWindowFunction[i];
+        cfg->mfccFrame[i] = ((float)audio_data[i] / (1 << 15)) * cfg->mfccWindowFunction[i];
     }
     // Fill up remaining with zeros
     memset(&(cfg->mfccFrame[cfg->frame_len]), 0,
@@ -147,8 +149,7 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
     // frame is stored as [real0, realN/2-1, real1, im1, real2, im2, ...]
     int32_t half_dim = cfg->frame_len_pow2 / 2;
     float first_energy = cfg->mfccBuffer[0] * cfg->mfccBuffer[0],
-          last_energy =
-              cfg->mfccBuffer[1] * cfg->mfccBuffer[1]; // handle this special case
+          last_energy = cfg->mfccBuffer[1] * cfg->mfccBuffer[1]; // handle this special case
     for (i = 1; i < half_dim; i++) {
         float real = cfg->mfccBuffer[i * 2];
         float im = cfg->mfccBuffer[i * 2 + 1];
@@ -167,7 +168,7 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
         int32_t last_index = cfg->fbc.mfccFbankLast[bin];
         for (i = first_index; i <= last_index; i++) {
             arm_sqrt_f32(cfg->mfccBuffer[i], &sqrt_data);
-            mel_energy += (sqrt_data)*(*(cfg->fbc.melFBank))[bin][j++];
+            mel_energy += (sqrt_data) * (*(cfg->fbc.melFBank))[bin][j++];
         }
         cfg->mfccEnergies[bin] = mel_energy;
 
@@ -184,12 +185,11 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
     for (i = 0; i < cfg->num_coeffs; i++) {
         float sum = 0.0;
         for (j = 0; j < cfg->num_fbank_bins; j++) {
-            sum += cfg->mfccDCTMatrix[i * cfg->num_fbank_bins + j] *
-                   cfg->mfccEnergies[j];
+            sum += cfg->mfccDCTMatrix[i * cfg->num_fbank_bins + j] * cfg->mfccEnergies[j];
         }
 
-        sum *= (0x1<<cfg->num_dec_bits);
-        sum = round(sum); 
+        sum *= (0x1 << cfg->num_dec_bits);
+        sum = round(sum);
 
         // This is usually done after dequantization anyway, so preserve accuracy
         // if(sum >= 127)
@@ -197,6 +197,6 @@ void ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_
         // else if(sum <= -128)
         //     mfcc_out[i] = -128;
         // else
-            mfcc_out[i] = sum; 
+        mfcc_out[i] = sum;
     }
 }

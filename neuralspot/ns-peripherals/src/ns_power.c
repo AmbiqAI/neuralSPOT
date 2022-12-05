@@ -1,7 +1,7 @@
 /**
  * @brief Power Control Utilities
- * 
- * 
+ *
+ *
  */
 
 //*****************************************************************************
@@ -43,96 +43,84 @@
 //
 //*****************************************************************************
 
-#include "ns_core.h"
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
 #include "ns_peripherals_power.h"
 #include "ns_tempco.h"
 
-const ns_power_config_t ns_development_default = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .bNeedAudAdc = true,
-    .bNeedSharedSRAM = true,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = true,
-    .bNeedUSB = true,
-    .bNeedIOM = true,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = true
-};
+const ns_power_config_t ns_development_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                                  .bNeedAudAdc = true,
+                                                  .bNeedSharedSRAM = true,
+                                                  .bNeedCrypto = false,
+                                                  .bNeedBluetooth = true,
+                                                  .bNeedUSB = true,
+                                                  .bNeedIOM = true,
+                                                  .bNeedAlternativeUART = true,
+                                                  .b128kTCM = false,
+                                                  .bEnableTempCo = false,
+                                                  .bNeedITM = true};
 
-const ns_power_config_t ns_good_default =        {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = false,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = true
-};
+const ns_power_config_t ns_good_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .bNeedAudAdc = false,
+                                           .bNeedSharedSRAM = false,
+                                           .bNeedCrypto = false,
+                                           .bNeedBluetooth = false,
+                                           .bNeedUSB = false,
+                                           .bNeedIOM = false,
+                                           .bNeedAlternativeUART = false,
+                                           .b128kTCM = false,
+                                           .bEnableTempCo = false,
+                                           .bNeedITM = true};
 
-const ns_power_config_t ns_mlperf_mode1 = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = false,
-    .bEnableTempCo = true,
-    .bNeedITM = false
-};
+const ns_power_config_t ns_mlperf_mode1 = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .bNeedAudAdc = false,
+                                           .bNeedSharedSRAM = false,
+                                           .bNeedCrypto = false,
+                                           .bNeedBluetooth = false,
+                                           .bNeedUSB = false,
+                                           .bNeedIOM = false,
+                                           .bNeedAlternativeUART = true,
+                                           .b128kTCM = false,
+                                           .bEnableTempCo = true,
+                                           .bNeedITM = false};
 
-const ns_power_config_t ns_mlperf_mode2 = {
-    .eAIPowerMode = NS_MINIMUM_PERF,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = false,
-    .bEnableTempCo = true,
-    .bNeedITM = false
-};
+const ns_power_config_t ns_mlperf_mode2 = {.eAIPowerMode = NS_MINIMUM_PERF,
+                                           .bNeedAudAdc = false,
+                                           .bNeedSharedSRAM = false,
+                                           .bNeedCrypto = false,
+                                           .bNeedBluetooth = false,
+                                           .bNeedUSB = false,
+                                           .bNeedIOM = false,
+                                           .bNeedAlternativeUART = true,
+                                           .b128kTCM = false,
+                                           .bEnableTempCo = true,
+                                           .bNeedITM = false};
 
-const ns_power_config_t ns_mlperf_mode3 = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = true,
-    .bEnableTempCo = true,
-    .bNeedITM = true
-};
+const ns_power_config_t ns_mlperf_mode3 = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .bNeedAudAdc = false,
+                                           .bNeedSharedSRAM = false,
+                                           .bNeedCrypto = false,
+                                           .bNeedBluetooth = false,
+                                           .bNeedUSB = false,
+                                           .bNeedIOM = false,
+                                           .bNeedAlternativeUART = true,
+                                           .b128kTCM = true,
+                                           .bEnableTempCo = true,
+                                           .bNeedITM = true};
 
-const ns_power_config_t ns_audio_default = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .bNeedAudAdc = true,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = false,
-    .b128kTCM = false,
-    .bEnableTempCo = true,
-    .bNeedITM = true
-};
+const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                            .bNeedAudAdc = true,
+                                            .bNeedSharedSRAM = false,
+                                            .bNeedCrypto = false,
+                                            .bNeedBluetooth = false,
+                                            .bNeedUSB = false,
+                                            .bNeedIOM = false,
+                                            .bNeedAlternativeUART = false,
+                                            .b128kTCM = false,
+                                            .bEnableTempCo = true,
+                                            .bNeedITM = true};
 
 //*****************************************************************************
 //
@@ -166,14 +154,10 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
         //
         // For SiP packages, put the BLE Controller in reset.
         //
-        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN,
-                                AM_HAL_GPIO_OUTPUT_CLEAR);
-        am_hal_gpio_pinconfig(AM_DEVICES_BLECTRLR_RESET_PIN,
-                              am_hal_gpio_pincfg_output);
-        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN,
-                                AM_HAL_GPIO_OUTPUT_SET);
-        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN,
-                                AM_HAL_GPIO_OUTPUT_CLEAR);
+        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
+        am_hal_gpio_pinconfig(AM_DEVICES_BLECTRLR_RESET_PIN, am_hal_gpio_pincfg_output);
+        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_SET);
+        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
     }
 #endif // AM_DEVICES_BLECTRLR_RESET_PIN
 
@@ -240,81 +224,71 @@ ns_power_config(const ns_power_config_t *pCfg) {
 
     // configure SRAM & other memories
     if (pCfg->bNeedSharedSRAM == false) {
-        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
-            .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eActiveWithMCU = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eActiveWithDSP = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
+        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {.eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
+                                                   .eActiveWithMCU = AM_HAL_PWRCTRL_SRAM_NONE,
+                                                   .eActiveWithDSP = AM_HAL_PWRCTRL_SRAM_NONE,
+                                                   .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
         am_hal_pwrctrl_sram_config(&SRAMMemCfg);
 
-        am_hal_pwrctrl_dsp_memory_config_t sExtSRAMMemCfg =
-        {
-            .bEnableICache      = false,
-            .bRetainCache       = false,
-            .bEnableRAM         = false,
-            .bActiveRAM         = false,
-            .bRetainRAM         = false
-        };
+        am_hal_pwrctrl_dsp_memory_config_t sExtSRAMMemCfg = {.bEnableICache = false,
+                                                             .bRetainCache = false,
+                                                             .bEnableRAM = false,
+                                                             .bActiveRAM = false,
+                                                             .bRetainRAM = false};
         am_hal_pwrctrl_dsp_memory_config(AM_HAL_DSP0, &sExtSRAMMemCfg);
     } else {
-        am_hal_daxi_config_t DaxiConfigLongAging =
-	    {
+        am_hal_daxi_config_t DaxiConfigLongAging = {
             .bDaxiPassThrough = false,
-            .bAgingSEnabled = false, //false means only age-out write/modified lines    
-            .eAgingCounter = AM_HAL_DAXI_CONFIG_AGING_1024,//1024 will age out a line in ~ 96 cycles.  Optimal for most use cases should be 256, 512, 1024, or 2048
-            .eNumBuf       = AM_HAL_DAXI_CONFIG_NUMBUF_32,
-            .eNumFreeBuf   = AM_HAL_DAXI_CONFIG_NUMFREEBUF_3,
-	    };
+            .bAgingSEnabled = false, // false means only age-out write/modified lines    
+            .eAgingCounter = AM_HAL_DAXI_CONFIG_AGING_1024, // 1024 will age out a line in ~ 96
+                                                            // cycles.  Optimal for most use cases
+                                                            // should be 256, 512, 1024, or 2048
+            .eNumBuf = AM_HAL_DAXI_CONFIG_NUMBUF_32,
+            .eNumFreeBuf = AM_HAL_DAXI_CONFIG_NUMFREEBUF_3,
+        };
         am_hal_daxi_config(&DaxiConfigLongAging);
     }
 
     // The following two lines cause audio capture to be distorted - TBI
-    //if (pCfg->bNeedAudAdc == false) {
-        am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-        am_hal_cachectrl_enable();
+    // if (pCfg->bNeedAudAdc == false) {
+    am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+    am_hal_cachectrl_enable();
     //}
 
     // configure peripherals
     ns_power_down_peripherals(pCfg);
 
     // Configure power mode
-    if ((pCfg->eAIPowerMode == NS_MAXIMUM_PERF) ||
-        (pCfg->eAIPowerMode == NS_MEDIUM_PERF))
-        am_hal_pwrctrl_mcu_mode_select(
-            AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+    if ((pCfg->eAIPowerMode == NS_MAXIMUM_PERF) || (pCfg->eAIPowerMode == NS_MEDIUM_PERF))
+        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
     else
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 
     if (pCfg->b128kTCM == true) {
 
-        am_hal_pwrctrl_mcu_memory_config_t McuMemCfg =
-        {
-            .eCacheCfg    = AM_HAL_PWRCTRL_CACHE_ALL,
-            .bRetainCache = true,
-            .eDTCMCfg     = AM_HAL_PWRCTRL_DTCM_128K,
-            .eRetainDTCM  = AM_HAL_PWRCTRL_DTCM_128K,
-            .bEnableNVM0  = true,
-            .bRetainNVM0  = false
-        };
+        am_hal_pwrctrl_mcu_memory_config_t McuMemCfg = {.eCacheCfg = AM_HAL_PWRCTRL_CACHE_ALL,
+                                                        .bRetainCache = true,
+                                                        .eDTCMCfg = AM_HAL_PWRCTRL_DTCM_128K,
+                                                        .eRetainDTCM = AM_HAL_PWRCTRL_DTCM_128K,
+                                                        .bEnableNVM0 = true,
+                                                        .bRetainNVM0 = false};
 
         am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
     }
 
     if (pCfg->bEnableTempCo) {
-        #ifdef NS_AMBIQSUITE_VERSION_R4_1_0
-            ns_lp_printf("WARNING TempCo not supported by AmbiqSuite R4.1.0\n");
-        #else
-            // Make sure the trim version is high enough before attempting to init
-            uint32_t ui32Ret, ui32TrimVer;
-            ui32Ret = am_hal_mram_info_read(1, AM_REG_INFO1_TRIM_REV_O / 4, 1, &ui32TrimVer);
-            if ((ui32Ret == 0) && 
-                (ui32TrimVer != 0xFFFFFFFF) &&
-                (ui32TrimVer >= 6)) {
-                if (ns_tempco_init() != 0) {
-                    ns_printf("ERROR TempCo init failed\n");
-                }
+#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+        ns_lp_printf("WARNING TempCo not supported by AmbiqSuite R4.1.0\n");
+#else
+        // Make sure the trim version is high enough before attempting to init
+        uint32_t ui32Ret, ui32TrimVer;
+        ui32Ret = am_hal_mram_info_read(1, AM_REG_INFO1_TRIM_REV_O / 4, 1, &ui32TrimVer);
+        if ((ui32Ret == 0) && (ui32TrimVer != 0xFFFFFFFF) && (ui32TrimVer >= 6)) {
+            if (ns_tempco_init() != 0) {
+                ns_printf("ERROR TempCo init failed\n");
             }
-        #endif
+        }
+#endif
     }
     g_ns_state.cryptoWantsToBeEnabled = pCfg->bNeedCrypto;
     g_ns_state.cryptoCurrentlyEnabled = pCfg->bNeedCrypto;
@@ -323,14 +297,13 @@ ns_power_config(const ns_power_config_t *pCfg) {
     return ui32ReturnStatus;
 }
 
-
-
 /**
- * @brief Wraps am_hal_sysctrl_sleep to enable and disable 
+ * @brief Wraps am_hal_sysctrl_sleep to enable and disable
  * systems as needed.
- * 
+ *
  */
-void ns_deep_sleep(void) {
+void
+ns_deep_sleep(void) {
 
     if (g_ns_state.uartPrintCurrentlyEnabled) {
         am_bsp_uart_printf_disable();
@@ -338,22 +311,21 @@ void ns_deep_sleep(void) {
     } else if (g_ns_state.itmPrintCurrentlyEnabled) {
         ns_cryptoless_itm_printf_disable();
         g_ns_state.itmPrintCurrentlyEnabled = false;
-    } 
-    
+    }
+
     if (g_ns_state.cryptoCurrentlyEnabled) {
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
         g_ns_state.cryptoCurrentlyEnabled = false;
     }
 
-    #ifndef NS_AMBIQSUITE_VERSION_R4_1_0
-        if (g_ns_state.tempcoCurrentlyEnabled) {
-            am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_DEEPSLEEP, true);
-        }
-    #endif
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+    if (g_ns_state.tempcoCurrentlyEnabled) {
+        am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_DEEPSLEEP, true);
+    }
+#endif
 
     am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
 
     if (g_ns_state.tempcoWantsToBeEnabled) { // isr turns ADC on
     }
-
 }

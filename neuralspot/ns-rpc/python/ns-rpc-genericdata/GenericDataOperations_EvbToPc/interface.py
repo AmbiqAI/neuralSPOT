@@ -23,5 +23,3 @@ class Ievb_to_pc(object):
 
     def ns_rpc_data_remotePrintOnPC(self, msg):
         raise NotImplementedError()
-
-

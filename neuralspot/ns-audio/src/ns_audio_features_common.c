@@ -46,22 +46,25 @@
 // int32_t g_mfccFbankLast[MFCC_NUM_FBANK_BINS];
 // float g_mfccMelFBank[MFCC_NUM_FBANK_BINS][50];
 
-static inline float ns_audio_InverseMelScale(float mel_freq) {
+static inline float
+ns_audio_InverseMelScale(float mel_freq) {
     return 700.0f * (expf(mel_freq / 1127.0f) - 1.0f);
 }
 
-static inline float ns_audio_MelScale(float freq) {
+static inline float
+ns_audio_MelScale(float freq) {
     return 1127.0f * logf(1.0f + freq / 700.0f);
 }
 
-static void ns_fbanks_map_arena(ns_fbanks_cfg_t *cfg) {
-    cfg->mfccFbankFirst = (int32_t*)cfg->arena_fbanks;
-    cfg->mfccFbankLast = (int32_t*)(cfg->mfccFbankFirst + cfg->num_fbank_bins*sizeof(int32_t));
-    cfg->melFBank = (ns_fbank_t*)(cfg->mfccFbankLast + cfg->num_fbank_bins*sizeof(int32_t));
+static void
+ns_fbanks_map_arena(ns_fbanks_cfg_t *cfg) {
+    cfg->mfccFbankFirst = (int32_t *)cfg->arena_fbanks;
+    cfg->mfccFbankLast = (int32_t *)(cfg->mfccFbankFirst + cfg->num_fbank_bins * sizeof(int32_t));
+    cfg->melFBank = (ns_fbank_t *)(cfg->mfccFbankLast + cfg->num_fbank_bins * sizeof(int32_t));
 }
 
-
-void create_mel_fbank(ns_fbanks_cfg_t *cfg) {
+void
+create_mel_fbank(ns_fbanks_cfg_t *cfg) {
     int32_t bin, i;
     int32_t num_fft_bins = cfg->frame_len_pow2 / 2;
     float fft_bin_width = ((float)cfg->sample_frequency) / cfg->frame_len_pow2;
@@ -109,15 +112,15 @@ void create_mel_fbank(ns_fbanks_cfg_t *cfg) {
         for (i = first_index; i <= last_index; i++) {
             (*(cfg->melFBank))[bin][j++] = this_bin[i];
             if (j >= 50) {
-                am_util_stdio_printf(
-                    "MFCC[%d] J %d exceeded 50. First %d Last %d, \n", bin, j,
-                    first_index, last_index);
+                am_util_stdio_printf("MFCC[%d] J %d exceeded 50. First %d Last %d, \n", bin, j,
+                                     first_index, last_index);
             }
         }
     }
 }
 
-void ns_fbanks_init(ns_fbanks_cfg_t *c) {
+void
+ns_fbanks_init(ns_fbanks_cfg_t *c) {
     ns_fbanks_map_arena(c);
     create_mel_fbank(c);
 }

@@ -14,7 +14,7 @@ else # for linux
   UNAME_S := $(shell uname -s)
   ifeq ($(UNAME_S),Darwin)
     JLINK_SWO = JLinkSWOViewerCL
-  else	
+  else
     JLINK_SWO = JLinkSWOViewer_CL
   endif
 endif

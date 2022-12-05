@@ -25,7 +25,7 @@ ERPC_VERSION := R1.9.1
 CMSIS_VERSION := CMSIS_5-5.9.0
 
 ##### Application Defaults #####
-TARGET      := basic_tf_stub# default target for binary-specific operations such as 'deploy' 
+TARGET      := basic_tf_stub# default target for binary-specific operations such as 'deploy'
 NESTCOMP    :=extern/AmbiqSuite
 STACK_SIZE  := 4096 # application stack size
 

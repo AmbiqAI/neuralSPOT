@@ -21,20 +21,20 @@ static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
                                      .rx_cb = NULL,
                                      .tx_cb = NULL};
 
-static void ns_usb_service_callback(ns_timer_config_t *c) {
+static void
+ns_usb_service_callback(ns_timer_config_t *c) {
     // Invoked in ISR context
     tud_task();
-} 
+}
 
-ns_timer_config_t g_ns_usbTimer = {
-    .prefix = {0},
-    .timer = NS_TIMER_USB,
-    .enableInterrupt = true,
-    .periodInMicroseconds = 1000,
-    .callback = ns_usb_service_callback
-};
+ns_timer_config_t g_ns_usbTimer = {.prefix = {0},
+                                   .timer = NS_TIMER_USB,
+                                   .enableInterrupt = true,
+                                   .periodInMicroseconds = 1000,
+                                   .callback = ns_usb_service_callback};
 
-usb_handle_t ns_usb_init(ns_usb_config_t *cfg) {
+usb_handle_t
+ns_usb_init(ns_usb_config_t *cfg) {
 
     usb_config.deviceType = cfg->deviceType;
     usb_config.buffer = cfg->buffer;
@@ -52,8 +52,7 @@ usb_handle_t ns_usb_init(ns_usb_config_t *cfg) {
 }
 
 void
-ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb,
-                          ns_usb_tx_cb txcb) {
+ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx_cb txcb) {
     ((ns_usb_config_t *)handle)->rx_cb = rxcb;
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
@@ -90,11 +89,11 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
 
 /**
  * @brief Blocking USB Receive Data
- * 
+ *
  * @param handle USB handle
  * @param buffer Pointer to buffer where data will be placed
  * @param bufsize Requested number of bytes
- * @return uint32_t 
+ * @return uint32_t
  */
 uint32_t
 ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
@@ -104,49 +103,54 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     uint32_t bytes_rx = 0;
     uint32_t retries = 10150;
 
-    // ns_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(), gGotUSBRx);
+    // ns_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
+    // gGotUSBRx);
     if (tud_cdc_available() < bufsize) {
         while (gGotUSBRx == 0) {
             ns_delay_us(100);
             retries--;
-            if (retries == 0) {break;} 
+            if (retries == 0) {
+                break;
+            }
         };
     }
     gGotUSBRx = 0;
-    bytes_rx = tud_cdc_read((void*)buffer, bufsize);
+    bytes_rx = tud_cdc_read((void *)buffer, bufsize);
     // ns_printf("Got bytes %d\n", bytes_rx);
     return bytes_rx;
 }
 
 /**
  * @brief Flushes the USB RX fifo after a delay, resets ns_usb rx state
- * 
+ *
  * @param h handle
  */
-void ns_usb_handle_read_error(usb_handle_t h) {
+void
+ns_usb_handle_read_error(usb_handle_t h) {
     int i;
-    for (i=0;i<100;i++) {
-        ns_delay_us(10000); ns_printf(".");
+    for (i = 0; i < 100; i++) {
+        ns_delay_us(10000);
+        ns_printf(".");
     }
     // ns_printf("after wait\n");
     tud_cdc_read_flush();
-    gGotUSBRx = 0; // may be set by final RX     
+    gGotUSBRx = 0; // may be set by final RX
 }
 
 /**
  * @brief Blocking USB Send Data
- * 
+ *
  * @param handle USB handle
  * @param buffer Pointer to buffer with data to be sent
  * @param bufsize Requested number of bytes
- * @return uint32_t 
+ * @return uint32_t
  */
 uint32_t
 ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
     while (bytes_tx < bufsize) {
-        bytes_tx += tud_cdc_write((void*)(buffer+bytes_tx), bufsize - bytes_tx); // blocking
+        bytes_tx += tud_cdc_write((void *)(buffer + bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
         // ns_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }

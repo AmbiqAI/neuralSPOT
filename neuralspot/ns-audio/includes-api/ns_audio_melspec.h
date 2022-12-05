@@ -4,12 +4,12 @@
  * @brief Confifurable mel scaled spectrogram transform functions
  * @version 0.1
  * @date 2022-10-10
- * 
+ *
  * This mel spectrogram utility takes inspiration from the python librosa library:
  * https://librosa.org/doc/latest/generated/librosa.feature.melspectrogram.html
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  *  \addtogroup NeuralSPOT-MelSpec
  *  @{
  *  @ingroup NeuralSPOT-Audio
@@ -58,8 +58,8 @@
 extern "C" {
 #endif
 
-#include "ns_audio_features_common.h"
 #include "arm_math.h"
+#include "ns_audio_features_common.h"
 
 typedef struct {
     uint8_t *arena;
@@ -70,8 +70,8 @@ typedef struct {
     uint32_t num_frames;
     uint32_t frame_len;
     uint32_t frame_len_pow2;
-    float    compression_exponent;
-    float    *melspecBuffer; //[2 * MELSPEC_FRAME_LEN]; // interleaved real + imaginary parts
+    float compression_exponent;
+    float *melspecBuffer; //[2 * MELSPEC_FRAME_LEN]; // interleaved real + imaginary parts
     ns_fbanks_cfg_t fbc;
 } ns_melspec_cfg_t;
 
@@ -90,16 +90,21 @@ typedef struct {
 //     #define MELSPEC_COMPRESSION_EXPONENT 0.3
 // #endif
 
-extern void ns_melspec_init(ns_melspec_cfg_t *c);
+extern void
+ns_melspec_init(ns_melspec_cfg_t *c);
 
-extern void ns_melspec_audio_to_stft(ns_melspec_cfg_t *c, const int16_t *audio_data, float32_t *stft_out);
+extern void
+ns_melspec_audio_to_stft(ns_melspec_cfg_t *c, const int16_t *audio_data, float32_t *stft_out);
 
-extern void ns_melspec_stft_to_audio(ns_melspec_cfg_t *c, float32_t *stft_in, int16_t *audio_out);
+extern void
+ns_melspec_stft_to_audio(ns_melspec_cfg_t *c, float32_t *stft_in, int16_t *audio_out);
 
-extern void ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *c, const float32_t *stft_in, float32_t *melspec_out);
+extern void
+ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *c, const float32_t *stft_in,
+                                      float32_t *melspec_out);
 
-extern void ns_melspec_melspec_to_stft(ns_melspec_cfg_t *c, const float32_t *melspec_in, float32_t *stft_out);
-
+extern void
+ns_melspec_melspec_to_stft(ns_melspec_cfg_t *c, const float32_t *melspec_in, float32_t *stft_out);
 
 #ifdef __cplusplus
 }

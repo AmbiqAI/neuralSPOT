@@ -10,6 +10,7 @@ features on Ambiq hardware easier.
 """
 
 from modulefinder import packagePathMap
+
 from setuptools import setup
 
 # TODO: get canoncial version once available
@@ -23,19 +24,18 @@ setup(
     description=__doc__.split(".")[0].strip(),
     long_description=__doc__.split(".")[1].strip(),
     url="https://github.com/ambiqai/neuralSPOT",
-    packages=["neuralspot",
+    packages=[
+        "neuralspot",
         "neuralspot.rpc",
         "neuralspot.rpc.GenericDataOperations_EvbToPc",
-        "neuralspot.rpc.GenericDataOperations_PcToEvb"
+        "neuralspot.rpc.GenericDataOperations_PcToEvb",
     ],
     package_dir={
         "neuralspot.rpc": "neuralspot/ns-rpc/python/ns-rpc-genericdata",
-        "neuralspot.rpc.GenericDataOperations_EvbToPc":
-            "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_EvbToPc",
-        "neuralspot.rpc.GenericDataOperations_PcToEvb":
-            "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_PcToEvb"
+        "neuralspot.rpc.GenericDataOperations_EvbToPc": "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_EvbToPc",
+        "neuralspot.rpc.GenericDataOperations_PcToEvb": "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_PcToEvb",
     },
-    install_requires = [
+    install_requires=[
         "numpy>=1.21.6",
         "soundfile>=0.10.3",
         "erpc @ git+https://github.com/ambiqai/erpc.git#egg=erpc&subdirectory=erpc_python",

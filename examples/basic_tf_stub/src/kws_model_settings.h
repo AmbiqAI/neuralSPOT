@@ -25,11 +25,9 @@ constexpr int kNumChannels = 1;
 constexpr int kKwsInputSize = kNumCols * kNumRows * kNumChannels;
 
 constexpr size_t kCategoryCount = 12;
-extern const char* kCategoryLabels[kCategoryCount];
+extern const char *kCategoryLabels[kCategoryCount];
 
-const char* kCategoryLabels[kCategoryCount] = {
-  "down", "go", "left", "no", "off", "on",
-  "right", "stop", "up", "yes", "silence", "unknown"
-};
+const char *kCategoryLabels[kCategoryCount] = {
+    "down", "go", "left", "no", "off", "on", "right", "stop", "up", "yes", "silence", "unknown"};
 
-#endif  // V0_1_KWS_MODEL_SETTINGS_H_
+#endif // V0_1_KWS_MODEL_SETTINGS_H_

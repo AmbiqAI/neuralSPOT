@@ -4,9 +4,9 @@
  * @brief Basic peripheral stuff (buttons, etc)
  * @version 0.1
  * @date 2022-10-26
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #include "basic_tf_stub.h"
@@ -16,9 +16,7 @@
 static int volatile buttonPressed = 0;
 
 // Button Peripheral Config Struct
-ns_button_config_t button_config = {
-    .button_0_enable = true,
-    .button_1_enable = false,
-    .button_0_flag = &buttonPressed,
-    .button_1_flag = NULL
-};
+ns_button_config_t button_config = {.button_0_enable = true,
+                                    .button_1_enable = false,
+                                    .button_0_flag = &buttonPressed,
+                                    .button_1_flag = NULL};

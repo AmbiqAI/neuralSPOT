@@ -38,16 +38,16 @@ CFLAGS+= -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exceptions
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
-CONLY_FLAGS+= -std=c99 
+CONLY_FLAGS+= -std=c99
 CFLAGS+= -g -O3
 # CFLAGS+= -g -O0
-CFLAGS+= 
+CFLAGS+=
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -fno-exceptions
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
 LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
-LFLAGS+= 
+LFLAGS+=
 
 CPFLAGS = -Obinary
 ODFLAGS = -S

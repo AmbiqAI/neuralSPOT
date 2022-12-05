@@ -5,7 +5,9 @@
 #
 
 import erpc
+
 from . import common, interface
+
 
 # Client for evb_to_pc
 class evb_to_pcService(erpc.server.Service):
@@ -13,11 +15,11 @@ class evb_to_pcService(erpc.server.Service):
         super(evb_to_pcService, self).__init__(interface.Ievb_to_pc.SERVICE_ID)
         self._handler = handler
         self._methods = {
-                interface.Ievb_to_pc.NS_RPC_DATA_SENDBLOCKTOPC_ID: self._handle_ns_rpc_data_sendBlockToPC,
-                interface.Ievb_to_pc.NS_RPC_DATA_FETCHBLOCKFROMPC_ID: self._handle_ns_rpc_data_fetchBlockFromPC,
-                interface.Ievb_to_pc.NS_RPC_DATA_COMPUTEONPC_ID: self._handle_ns_rpc_data_computeOnPC,
-                interface.Ievb_to_pc.NS_RPC_DATA_REMOTEPRINTONPC_ID: self._handle_ns_rpc_data_remotePrintOnPC,
-            }
+            interface.Ievb_to_pc.NS_RPC_DATA_SENDBLOCKTOPC_ID: self._handle_ns_rpc_data_sendBlockToPC,
+            interface.Ievb_to_pc.NS_RPC_DATA_FETCHBLOCKFROMPC_ID: self._handle_ns_rpc_data_fetchBlockFromPC,
+            interface.Ievb_to_pc.NS_RPC_DATA_COMPUTEONPC_ID: self._handle_ns_rpc_data_computeOnPC,
+            interface.Ievb_to_pc.NS_RPC_DATA_REMOTEPRINTONPC_ID: self._handle_ns_rpc_data_remotePrintOnPC,
+        }
 
     def _handle_ns_rpc_data_sendBlockToPC(self, sequence, codec):
         # Read incoming parameters.
@@ -30,11 +32,14 @@ class evb_to_pcService(erpc.server.Service):
         codec.reset()
 
         # Construct reply message.
-        codec.start_write_message(erpc.codec.MessageInfo(
-            type=erpc.codec.MessageType.kReplyMessage,
-            service=interface.Ievb_to_pc.SERVICE_ID,
-            request=interface.Ievb_to_pc.NS_RPC_DATA_SENDBLOCKTOPC_ID,
-            sequence=sequence))
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
+                type=erpc.codec.MessageType.kReplyMessage,
+                service=interface.Ievb_to_pc.SERVICE_ID,
+                request=interface.Ievb_to_pc.NS_RPC_DATA_SENDBLOCKTOPC_ID,
+                sequence=sequence,
+            )
+        )
         codec.write_uint32(_result)
 
     def _handle_ns_rpc_data_fetchBlockFromPC(self, sequence, codec):
@@ -50,11 +55,14 @@ class evb_to_pcService(erpc.server.Service):
         codec.reset()
 
         # Construct reply message.
-        codec.start_write_message(erpc.codec.MessageInfo(
-            type=erpc.codec.MessageType.kReplyMessage,
-            service=interface.Ievb_to_pc.SERVICE_ID,
-            request=interface.Ievb_to_pc.NS_RPC_DATA_FETCHBLOCKFROMPC_ID,
-            sequence=sequence))
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
+                type=erpc.codec.MessageType.kReplyMessage,
+                service=interface.Ievb_to_pc.SERVICE_ID,
+                request=interface.Ievb_to_pc.NS_RPC_DATA_FETCHBLOCKFROMPC_ID,
+                sequence=sequence,
+            )
+        )
         if block.value is None:
             raise ValueError("block.value is None")
         block.value._write(codec)
@@ -74,11 +82,14 @@ class evb_to_pcService(erpc.server.Service):
         codec.reset()
 
         # Construct reply message.
-        codec.start_write_message(erpc.codec.MessageInfo(
-            type=erpc.codec.MessageType.kReplyMessage,
-            service=interface.Ievb_to_pc.SERVICE_ID,
-            request=interface.Ievb_to_pc.NS_RPC_DATA_COMPUTEONPC_ID,
-            sequence=sequence))
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
+                type=erpc.codec.MessageType.kReplyMessage,
+                service=interface.Ievb_to_pc.SERVICE_ID,
+                request=interface.Ievb_to_pc.NS_RPC_DATA_COMPUTEONPC_ID,
+                sequence=sequence,
+            )
+        )
         if result_block.value is None:
             raise ValueError("result_block.value is None")
         result_block.value._write(codec)
@@ -95,11 +106,12 @@ class evb_to_pcService(erpc.server.Service):
         codec.reset()
 
         # Construct reply message.
-        codec.start_write_message(erpc.codec.MessageInfo(
-            type=erpc.codec.MessageType.kReplyMessage,
-            service=interface.Ievb_to_pc.SERVICE_ID,
-            request=interface.Ievb_to_pc.NS_RPC_DATA_REMOTEPRINTONPC_ID,
-            sequence=sequence))
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
+                type=erpc.codec.MessageType.kReplyMessage,
+                service=interface.Ievb_to_pc.SERVICE_ID,
+                request=interface.Ievb_to_pc.NS_RPC_DATA_REMOTEPRINTONPC_ID,
+                sequence=sequence,
+            )
+        )
         codec.write_uint32(_result)
-
-

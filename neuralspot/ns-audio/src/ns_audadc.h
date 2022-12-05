@@ -51,21 +51,22 @@
 #define AI_AUDADC_AUDIO
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-#include "am_mcu_apollo.h"
 #include "am_bsp.h"
+#include "am_mcu_apollo.h"
 #include "am_util.h"
 
 /// Size of a single AUDADC sample
-#define AUDADC_MAX_SAMPLE_BUF_SIZE (NS_AUDIO_DMA_BUFFER_SIZE) // Should be padded to 12 samples 
-                                                              //follow current DMA/FIFO mechanism:
-                                                              // DMA trigger on FIFO 75% full
+#define AUDADC_MAX_SAMPLE_BUF_SIZE                                                                 \
+    (NS_AUDIO_DMA_BUFFER_SIZE) // Should be padded to 12 samples
+                               // follow current DMA/FIFO mechanism:
+                               // DMA trigger on FIFO 75% full
 
 /// AUDADC subsystem init - should only be invoked by ns_audio, not directly
-extern void audadc_init();
+extern void
+audadc_init();
 
 #ifdef __cplusplus
 }

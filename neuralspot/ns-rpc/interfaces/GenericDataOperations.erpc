@@ -17,12 +17,12 @@ enum dataType {
     uint32_e,
     int8_e,
     int16_e,
-    int32_e,    
+    int32_e,
     float32_e,
     float64_e
 }
 
-/// These are the possible commands. Again, they don't have any implicit functionality, 
+/// These are the possible commands. Again, they don't have any implicit functionality,
 /// serving merely as guides for what to do with the dataBlock
 enum command {
     generic_cmd,    //!< The sender doesn't have an opinion about what to do with data
@@ -46,7 +46,7 @@ struct dataBlock {
 // Using groups to distinguish between outgoing and incoming services
 // generates two sets of C and Python code, allowing us to only link in the
 // code corresponding to the direction we need. Note that it will generate both the
-// server and client code for each group - you'll have to choose which to use for your 
+// server and client code for each group - you'll have to choose which to use for your
 // application.
 
 // In the following definitions we use 'in' and 'out' to distinguish how the code

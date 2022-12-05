@@ -4,20 +4,19 @@
  * @brief Basic TF Model init example
  * @version 0.1
  * @date 2022-10-26
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
-#include "ns_ambiqsuite_harness.h"
 #include "basic_tf_stub.h"
-
+#include "ns_ambiqsuite_harness.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
-#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 
@@ -39,13 +38,14 @@ alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
 /**
  * @brief Initialize TF with KWS model
- * 
+ *
  * This code is fairly common across most TF-based models.
  * The major differences relate to input and output tensor
  * handling.
- * 
+ *
  */
-static void model_init(void) {
+static void
+model_init(void) {
 
     static tflite::MicroErrorReporter micro_error_reporter;
     error_reporter = &micro_error_reporter;
@@ -75,8 +75,8 @@ static void model_init(void) {
     // static tflite::AllOpsResolver resolver;
 
     // Build an interpreter to run the model with.
-    static tflite::MicroInterpreter static_interpreter(
-        model, resolver, tensor_arena, kTensorArenaSize, error_reporter);
+    static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
+                                                       kTensorArenaSize, error_reporter);
     interpreter = &static_interpreter;
 
     // Allocate memory from the tensor_arena for the model's tensors.
@@ -88,6 +88,6 @@ static void model_init(void) {
     }
 
     // Obtain pointers to the model's input and output tensors.
-    model_input   = interpreter->input(0);
+    model_input = interpreter->input(0);
     model_output = interpreter->output(0);
 }

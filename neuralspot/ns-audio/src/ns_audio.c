@@ -47,29 +47,26 @@ uint32_t g_ui32SampleToRTT = 0;
  */
 ns_audio_config_t *g_ns_audio_config = NULL;
 
-uint32_t ns_audio_init(ns_audio_config_t *cfg) {
+uint32_t
+ns_audio_init(ns_audio_config_t *cfg) {
 
 #ifndef NS_DISABLE_API_VALIDATION
     //
     // Check the handle.
     //
-    if ( cfg == NULL )
-    {
+    if (cfg == NULL) {
         return AM_HAL_STATUS_INVALID_HANDLE;
     }
 
     // check version here
 
-    if ((cfg->callback == NULL) ||
-        (cfg->audioBuffer == NULL) ||
-        (cfg->sampleBuffer == NULL))
-    {
+    if ((cfg->callback == NULL) || (cfg->audioBuffer == NULL) || (cfg->sampleBuffer == NULL)) {
         return AM_HAL_STATUS_INVALID_HANDLE;
-    }    
+    }
 
-    if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples*2) {
-         return AM_HAL_STATUS_INVALID_HANDLE;
-    }   
+    if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples * 2) {
+        return AM_HAL_STATUS_INVALID_HANDLE;
+    }
 #endif
     cfg->prefix.s.bInit = true;
     cfg->prefix.s.magic = NS_AUDIO_MAGIC;
@@ -78,11 +75,9 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 
     if (g_ns_audio_config->eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
         // init a ringbuffer
-        ns_ipc_ringbuff_setup_t setup = {
-            .indx = 0,
-            .pData = g_ns_audio_config->audioBuffer,
-            .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2
-        };
+        ns_ipc_ringbuff_setup_t setup = {.indx = 0,
+                                         .pData = g_ns_audio_config->audioBuffer,
+                                         .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2};
 
         ns_ipc_ring_buffer_init(cfg->bufferHandle, setup);
         g_ns_audio_config->bufferHandle = cfg->bufferHandle;
@@ -92,13 +87,12 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
         audadc_init();
     }
 
-    #ifdef NS_RTT_AUDIODEBUG
-        SEGGER_RTT_Init();
-        SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer,
-                                RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
-        am_util_stdio_printf("RTT Control Block Address:  0x%08X\n",
-                            (uint32_t)&_SEGGER_RTT);
-    #endif
+#ifdef NS_RTT_AUDIODEBUG
+    SEGGER_RTT_Init();
+    SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer, RTT_BUFFER_LENGTH,
+                              SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+    am_util_stdio_printf("RTT Control Block Address:  0x%08X\n", (uint32_t)&_SEGGER_RTT);
+#endif
 
     return AM_HAL_STATUS_SUCCESS;
 }

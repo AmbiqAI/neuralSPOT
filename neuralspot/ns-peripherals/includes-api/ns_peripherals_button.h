@@ -49,18 +49,18 @@
 #define NS_PERIPHERAL_BUTTON
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 typedef struct {
-    bool    button_0_enable;
-    bool    button_1_enable;
+    bool button_0_enable;
+    bool button_1_enable;
     int volatile *button_0_flag;
     int volatile *button_1_flag;
 } ns_button_config_t;
 
-extern void ns_peripheral_button_init(ns_button_config_t*);
+extern void
+ns_peripheral_button_init(ns_button_config_t *);
 
 #ifdef __cplusplus
 }

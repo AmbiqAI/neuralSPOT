@@ -107,8 +107,7 @@ am_hal_audadc_dma_config_t g_sAUDADCDMAConfig = {
     .bDynamicPriority = true,
     .ePriority = AM_HAL_AUDADC_PRIOR_SERVICE_IMMED,
     .bDMAEnable = true,
-    .ui32SampleCount =
-        AUDADC_MAX_SAMPLE_BUF_SIZE, // updated to real value below
+    .ui32SampleCount = AUDADC_MAX_SAMPLE_BUF_SIZE, // updated to real value below
     .ui32TargetAddress = 0x0,
     .ui32TargetAddressReverse = 0x0,
 };
@@ -193,7 +192,7 @@ audadc_config(void) {
         .ePolarity = AM_HAL_AUDADC_TRIGPOL_RISING,
         .eTrigger = AM_HAL_AUDADC_TRIGSEL_SOFTWARE,
         .eClockMode = AM_HAL_AUDADC_CLKMODE_LOW_POWER, // NEW example has _LOW_LATENCY
-        .ePowerMode = AM_HAL_AUDADC_LPMODE0, // NEW example has _LPMODE1
+        .ePowerMode = AM_HAL_AUDADC_LPMODE0,           // NEW example has _LPMODE1
         .eRepeat = AM_HAL_AUDADC_REPEATING_SCAN,
         .eRepeatTrigger = AM_HAL_AUDADC_RPTTRIGSEL_INT,
         .eSampMode = AM_HAL_AUDADC_SAMPMODE_LP, // AM_HAL_AUDADC_SAMPMODE_LP, NEW example has _MED
@@ -228,16 +227,14 @@ audadc_config(void) {
     //
     int ret = am_hal_audadc_initialize(0, &g_AUDADCHandle);
     if (AM_HAL_STATUS_SUCCESS != ret) {
-    // if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_initialize(0, &g_AUDADCHandle)) {
-        am_util_stdio_printf(
-            "Error - reservation of the AUDADC instance failed ERR %d.\n", ret);
+        // if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_initialize(0, &g_AUDADCHandle)) {
+        am_util_stdio_printf("Error - reservation of the AUDADC instance failed ERR %d.\n", ret);
     }
     //
     // Power on the AUDADC.
     //
     if (AM_HAL_STATUS_SUCCESS !=
-        am_hal_audadc_power_control(g_AUDADCHandle, AM_HAL_SYSCTRL_WAKE,
-                                    false)) {
+        am_hal_audadc_power_control(g_AUDADCHandle, AM_HAL_SYSCTRL_WAKE, false)) {
         am_util_stdio_printf("Error - AUDADC power on failed.\n");
     }
 
@@ -270,8 +267,7 @@ audadc_config(void) {
         am_util_delay_us(1500);
     }
 
-    if (AM_HAL_STATUS_SUCCESS !=
-        am_hal_audadc_configure(g_AUDADCHandle, &AUDADCConfig)) {
+    if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_configure(g_AUDADCHandle, &AUDADCConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC failed.\n");
     }
 
@@ -295,8 +291,7 @@ audadc_config(void) {
     //
     // Configure the AUDADC to use DMA for the sample transfer.
     //
-    if (AM_HAL_STATUS_SUCCESS !=
-        am_hal_audadc_configure_dma(g_AUDADCHandle, &g_sAUDADCDMAConfig)) {
+    if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_configure_dma(g_AUDADCHandle, &g_sAUDADCDMAConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC DMA failed.\n");
     }
 
@@ -304,12 +299,11 @@ audadc_config(void) {
     // For this example, the samples will be coming in slowly. This means we
     // can afford to wake up for every conversion.
     //
-    am_hal_audadc_interrupt_enable(
-        g_AUDADCHandle,
-        AM_HAL_AUDADC_INT_FIFOOVR1 | AM_HAL_AUDADC_INT_FIFOOVR2 |
-            AM_HAL_AUDADC_INT_DERR |
-            AM_HAL_AUDADC_INT_DCMP); //| AM_HAL_AUDADC_INT_CNVCMP |
-                                     // AM_HAL_AUDADC_INT_SCNCMP);
+    am_hal_audadc_interrupt_enable(g_AUDADCHandle,
+                                   AM_HAL_AUDADC_INT_FIFOOVR1 | AM_HAL_AUDADC_INT_FIFOOVR2 |
+                                       AM_HAL_AUDADC_INT_DERR |
+                                       AM_HAL_AUDADC_INT_DCMP); //| AM_HAL_AUDADC_INT_CNVCMP |
+                                                                // AM_HAL_AUDADC_INT_SCNCMP);
 }
 
 //*****************************************************************************
@@ -361,8 +355,7 @@ am_audadc0_isr(void) {
     //
     // Clear the AUDADC interrupt.
     //
-    if (AM_HAL_STATUS_SUCCESS !=
-        am_hal_audadc_interrupt_clear(g_AUDADCHandle, ui32IntMask)) {
+    if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_interrupt_clear(g_AUDADCHandle, ui32IntMask)) {
         am_util_stdio_printf("Error clearing AUDADC interrupt status\n");
     }
 
@@ -372,8 +365,7 @@ am_audadc0_isr(void) {
     if (ui32IntMask & AM_HAL_AUDADC_INT_FIFOOVR1) {
         if (AUDADCn(0)->DMASTAT_b.DMACPL) {
             g_bAUDADCDMAError = false;
-            am_hal_audadc_interrupt_service(g_AUDADCHandle,
-                                            &g_sAUDADCDMAConfig);
+            am_hal_audadc_interrupt_service(g_AUDADCHandle, &g_sAUDADCDMAConfig);
 
             g_bAUDADCDMAComplete = true;
             /*
@@ -403,7 +395,8 @@ am_audadc0_isr(void) {
 // Setup the AUDADC
 //
 //*****************************************************************************
-void audadc_init(ns_audio_config_t *cfg) {
+void
+audadc_init(ns_audio_config_t *cfg) {
     g_adc = (AUDADC_Type *)AUDADC_BASE;
     g_mcuctrl = (MCUCTRL_Type *)MCUCTRL_BASE;
 
@@ -421,8 +414,7 @@ void audadc_init(ns_audio_config_t *cfg) {
     //
     g_sAUDADCDMAConfig.ui32SampleCount = g_ns_audio_config->numSamples;
 
-    uint32_t ui32AUDADCDataPtr =
-        (uint32_t)((uint32_t)(g_ns_audio_config->sampleBuffer + 3) & ~0xF);
+    uint32_t ui32AUDADCDataPtr = (uint32_t)((uint32_t)(g_ns_audio_config->sampleBuffer + 3) & ~0xF);
     g_sAUDADCDMAConfig.ui32TargetAddress = ui32AUDADCDataPtr;
     g_sAUDADCDMAConfig.ui32TargetAddressReverse =
         g_sAUDADCDMAConfig.ui32TargetAddress +
@@ -453,8 +445,7 @@ void audadc_init(ns_audio_config_t *cfg) {
     // Configure the AUDADC
     //
     audadc_config();
-    g_ns_audio_config->audioSystemHandle =
-        g_AUDADCHandle; // wait for it to have real value
+    g_ns_audio_config->audioSystemHandle = g_AUDADCHandle; // wait for it to have real value
 
     // Gain setting
     /*g_sAudadcGainConfig.ui32LGA = (uint32_t)((float)CH_A0_GAIN_DB*2 + 12);
@@ -467,28 +458,26 @@ void audadc_init(ns_audio_config_t *cfg) {
 */
     // Gain setting
     g_sAudadcGainConfig.ui32LGA = CH_A0_GAIN_DB * 2 + 12;
-    g_sAudadcGainConfig.ui32HGADELTA =
-        g_sAudadcGainConfig.ui32LGA - (CH_A1_GAIN_DB * 2 + 12);
+    g_sAudadcGainConfig.ui32HGADELTA = g_sAudadcGainConfig.ui32LGA - (CH_A1_GAIN_DB * 2 + 12);
     g_sAudadcGainConfig.ui32LGB = CH_B0_GAIN_DB * 2 + 12;
-    g_sAudadcGainConfig.ui32HGBDELTA =
-        g_sAudadcGainConfig.ui32LGB - (CH_B1_GAIN_DB * 2 + 12);
+    g_sAudadcGainConfig.ui32HGBDELTA = g_sAudadcGainConfig.ui32LGB - (CH_B1_GAIN_DB * 2 + 12);
     g_sAudadcGainConfig.eUpdateMode = AM_HAL_AUDADC_GAIN_UPDATE_IMME;
     am_hal_audadc_internal_pga_config(g_AUDADCHandle, &g_sAudadcGainConfig);
 
     // Configure the slot
     audadc_slot_config();
-    #ifdef NEW_EXAMPLE
+#ifdef NEW_EXAMPLE
 
-        #if defined(AM_PART_APOLLO4P) && defined(DC_OFFSET_CAL) && (AS_VERSION=R4.3.0)
-            //
-            // Calculate DC offset calibartion parameter.
-            //
-            if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_slot_dc_offset_calculate(g_AUDADCHandle, 4, &sOffsetCalib))
-            {
-                am_util_stdio_printf("Error - failed to calculate offset calibartion parameter.\n");
-            }
-        #endif
+    #if defined(AM_PART_APOLLO4P) && defined(DC_OFFSET_CAL) && (AS_VERSION = R4 .3.0)
+    //
+    // Calculate DC offset calibartion parameter.
+    //
+    if (AM_HAL_STATUS_SUCCESS !=
+        am_hal_audadc_slot_dc_offset_calculate(g_AUDADCHandle, 4, &sOffsetCalib)) {
+        am_util_stdio_printf("Error - failed to calculate offset calibartion parameter.\n");
+    }
     #endif
+#endif
     NVIC_SetPriority(AUDADC0_IRQn, AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ(AUDADC0_IRQn);
     am_hal_interrupt_master_enable();

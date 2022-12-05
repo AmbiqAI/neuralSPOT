@@ -53,10 +53,10 @@
 // This is part of revision release_sdk_4_0_1-bef824fa27 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
 #include "ns_energy_monitor.h"
+#include "am_bsp.h"
+#include "am_mcu_apollo.h"
+#include "am_util.h"
 
 //*****************************************************************************
 // Power Monitor State Signalling
@@ -64,16 +64,15 @@
 // by power measurement tools such as Joulescope
 //*****************************************************************************
 
-void ns_init_power_monitor_state(void)
-{
+void
+ns_init_power_monitor_state(void) {
     am_hal_gpio_pinconfig(NS_POWER_MONITOR_GPIO_0, am_hal_gpio_pincfg_output);
     am_hal_gpio_pinconfig(NS_POWER_MONITOR_GPIO_1, am_hal_gpio_pincfg_output);
     ns_set_power_monitor_state(NS_IDLE);
-
 }
 
-void ns_set_power_monitor_state(uint8_t state)
-{
-      am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_0, state&0x01);
-      am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_1, (state>>1)&0x01);
+void
+ns_set_power_monitor_state(uint8_t state) {
+    am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_0, state & 0x01);
+    am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_1, (state >> 1) & 0x01);
 }

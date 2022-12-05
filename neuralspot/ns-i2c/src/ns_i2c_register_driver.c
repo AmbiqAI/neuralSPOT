@@ -9,9 +9,9 @@
  *
  */
 
+#include "ns_i2c_register_driver.h"
 #include "am_hal_iom.h"
 #include "ns_i2c.h"
-#include "ns_i2c_register_driver.h"
 
 /**
  * @brief Read sequential 8-bit registers over I2C
@@ -23,21 +23,23 @@
  * @param size Number of registers to read
  * @return uint32_t status
  */
-uint32_t ns_i2c_read_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf, uint32_t size) {
-    am_hal_iom_transfer_t       Transaction;
-    Transaction.ui8Priority     = 1;
-    Transaction.ui32InstrLen    = 1;
-    Transaction.ui64Instr       = regAddr;
-    Transaction.eDirection      = AM_HAL_IOM_RX;
-    Transaction.ui32NumBytes    = size;
-    Transaction.pui32RxBuffer   = (uint32_t*)buf;
-    Transaction.bContinue       = false;
-    Transaction.ui8RepeatCount  = 0;
+uint32_t
+ns_i2c_read_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf,
+                            uint32_t size) {
+    am_hal_iom_transfer_t Transaction;
+    Transaction.ui8Priority = 1;
+    Transaction.ui32InstrLen = 1;
+    Transaction.ui64Instr = regAddr;
+    Transaction.eDirection = AM_HAL_IOM_RX;
+    Transaction.ui32NumBytes = size;
+    Transaction.pui32RxBuffer = (uint32_t *)buf;
+    Transaction.bContinue = false;
+    Transaction.ui8RepeatCount = 0;
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
     Transaction.uPeerInfo.ui32I2CDevAddr = devAddr;
     if (am_hal_iom_blocking_transfer(cfg->iomHandle, &Transaction)) {
-         return NS_I2C_STATUS_ERROR;
+        return NS_I2C_STATUS_ERROR;
     }
     return NS_I2C_STATUS_SUCCESS;
 }
@@ -53,16 +55,17 @@ uint32_t ns_i2c_read_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uin
  * @return uint32_t status
  */
 uint32_t
-ns_i2c_write_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf, uint32_t size) {
-    am_hal_iom_transfer_t       Transaction;
-    Transaction.ui8Priority     = 1;
-    Transaction.ui32InstrLen    = 1;
-    Transaction.ui64Instr       = regAddr;
-    Transaction.eDirection      = AM_HAL_IOM_TX;
-    Transaction.ui32NumBytes    = size;
-    Transaction.pui32TxBuffer   = (uint32_t*)buf;
-    Transaction.bContinue       = false;
-    Transaction.ui8RepeatCount  = 0;
+ns_i2c_write_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t regAddr, void *buf,
+                             uint32_t size) {
+    am_hal_iom_transfer_t Transaction;
+    Transaction.ui8Priority = 1;
+    Transaction.ui32InstrLen = 1;
+    Transaction.ui64Instr = regAddr;
+    Transaction.eDirection = AM_HAL_IOM_TX;
+    Transaction.ui32NumBytes = size;
+    Transaction.pui32TxBuffer = (uint32_t *)buf;
+    Transaction.bContinue = false;
+    Transaction.ui8RepeatCount = 0;
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
     Transaction.uPeerInfo.ui32I2CDevAddr = devAddr;
@@ -83,7 +86,8 @@ ns_i2c_write_sequential_regs(ns_i2c_config_t *cfg, uint32_t devAddr, uint32_t re
  * @return uint32_t status
  */
 uint32_t
-ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t *value, uint8_t mask) {
+ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t *value,
+                uint8_t mask) {
     uint32_t regValue;
     if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {
         return NS_I2C_STATUS_ERROR;
@@ -106,7 +110,8 @@ ns_i2c_read_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t
  * @return uint32_t status
  */
 uint32_t
-ns_i2c_write_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t value, uint8_t mask) {
+ns_i2c_write_reg(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t regAddr, uint8_t value,
+                 uint8_t mask) {
     uint32_t regValue = value;
     if (mask != 0xFF) {
         if (ns_i2c_read_sequential_regs(cfg, devAddr, regAddr, &regValue, 1)) {

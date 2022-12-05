@@ -4,18 +4,18 @@
  * @brief API for Audio RPC
  * @version 0.1
  * @date 2022-08-26
- * 
+ *
  * This supports both server and client modes in a single source file,
  * but these modes are currently exclusive in NeuralSPOT - choose one
  * at init time.
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
-#include "ns_usb.h"
 #include "ns_rpc_generic_data.h"
 #include "erpc_client_setup.h"
 #include "erpc_server_setup.h"
+#include "ns_usb.h"
 
 // Common interface header files
 #include "GenericDataOperations_EvbToPc.h"
@@ -27,55 +27,55 @@
 #define NS_RPC_GENERIC_DATA
 #ifdef NS_RPC_GENERIC_DATA
 
-ns_usb_config_t g_RpcGenericUSBHandle = {
-        .deviceType = NS_USB_CDC_DEVICE,
-        .buffer = NULL, // Not needed by RPC
-        .bufferLength = 0,
-        .rx_cb = NULL,
-        .tx_cb = NULL
-};
+ns_usb_config_t g_RpcGenericUSBHandle = {.deviceType = NS_USB_CDC_DEVICE,
+                                         .buffer = NULL, // Not needed by RPC
+                                         .bufferLength = 0,
+                                         .rx_cb = NULL,
+                                         .tx_cb = NULL};
 
-ns_rpc_config_t g_RpcGenericDataConfig = {
-    .mode = NS_RPC_GENERICDATA_CLIENT,
-    .sendBlockToEVB_cb = NULL,
-    .fetchBlockFromEVB_cb = NULL,
-    .computeOnEVB_cb = NULL
-};
+ns_rpc_config_t g_RpcGenericDataConfig = {.mode = NS_RPC_GENERICDATA_CLIENT,
+                                          .sendBlockToEVB_cb = NULL,
+                                          .fetchBlockFromEVB_cb = NULL,
+                                          .computeOnEVB_cb = NULL};
 
 // GenericDataOperations implements 3 function calls that service
 // remote calls from a PC. They must be instantiated to enable them.
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
-status ns_rpc_data_sendBlockToEVB(const dataBlock * block) {
+status
+ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
     ns_printf("Received call to sendBlockToEVB\n");
 
     if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
         return g_RpcGenericDataConfig.sendBlockToEVB_cb(block);
-    } else { 
+    } else {
         return ns_rpc_data_success;
     }
 }
 
-status ns_rpc_data_fetchBlockFromEVB(dataBlock * block) {
+status
+ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
     ns_printf("Received call to fetchBlockFromEVB\n");
 
     if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
         return g_RpcGenericDataConfig.fetchBlockFromEVB_cb(block);
-    } else { 
+    } else {
         return ns_rpc_data_success;
     }
 }
 
-status ns_rpc_data_computeOnEVB(const dataBlock * in_block, dataBlock * result_block) {
+status
+ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
     ns_printf("Received call to computeOnEVB\n");
 
     if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
         return g_RpcGenericDataConfig.computeOnEVB_cb(in_block, result_block);
-    } else { 
+    } else {
         return ns_rpc_data_success;
     }
 }
 
-uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
+uint16_t
+ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
 
     usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
 
@@ -104,28 +104,34 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     return 0;
 }
 
-uint16_t ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
+uint16_t
+ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
     erpc_client_deinit();
     return ns_rpc_genericDataOperations_init(cfg);
 }
 
-void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
+void
+ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     uint32_t i = 0;
     ns_printf("Descriptor: %s\n", block->description);
     ns_printf("Length: %d\n", block->length);
     ns_printf("buffer.dataLength: %d\n", block->buffer.dataLength);
     ns_printf("Contents:\n");
-    for (i=0;i<block->buffer.dataLength;i++) {
+    for (i = 0; i < block->buffer.dataLength; i++) {
         ns_printf("0x%x, ", block->buffer.data[i]);
     }
     ns_printf("\n");
 }
 
-void ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
+void
+ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
     ns_free(block->description);
     ns_free(block->buffer.data);
 }
 
 #else
-uint16_t ns_rpc_genericDataOperations_init() {return 1;}
+uint16_t
+ns_rpc_genericDataOperations_init() {
+    return 1;
+}
 #endif

@@ -39,7 +39,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     }
 }
 
-// Desired Audio Configuration 
+// Desired Audio Configuration
 ns_audio_config_t audio_config = {
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback, // declared above
@@ -114,7 +114,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     }
 }
 
-// Desired Audio Configuration 
+// Desired Audio Configuration
 ns_audio_config_t audio_config = {
     .eAudioApiMode = NS_AUDIO_API_RINGBUFFER, // Different from callback IPC
     .callback = audio_frame_callback,
@@ -123,7 +123,7 @@ ns_audio_config_t audio_config = {
     .numChannels = NUM_CHANNELS,
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
-    .audioSystemHandle = NULL,        
+    .audioSystemHandle = NULL,
     .bufferHandle = audioBuf                 // Different from callback IPC
 };
 
@@ -141,7 +141,7 @@ main(void) {
             ns_ipc_ring_buffer_pop(audioBuf,
                             &g_in16AudioDataBuffer_app,
                             audio_config.numSamples * 2);
-                            
+
             ns_mfcc_compute(&mfcc_config, g_in16AudioDataBuffer,
                             &mfcc_buffer[mfcc_buffer_head]);
             mfcc_buffer_head += MY_MFCC_NUM_MFCC_COEFFS; // advance one frame
@@ -178,7 +178,7 @@ ns_mfcc_cfg_t mfcc_config = {
     .frame_shift_ms = 30,
     .frame_len_ms = 30,
     .frame_len = SAMPLES_IN_FRAME,
-    .frame_len_pow2 = MY_MFCC_FRAME_LEN_POW2    
+    .frame_len_pow2 = MY_MFCC_FRAME_LEN_POW2
 };
 
 main(void) {

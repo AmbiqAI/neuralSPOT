@@ -4,27 +4,26 @@
  * @brief Temperature Compensation
  * @version 0.1
  * @date 2022-11-03
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #ifdef NS_AMBIQSUITE_VERSION_R4_1_0
 // TEMPCO not supported in this version
 #else
 
-#ifndef NS_TEMPCO
-#define NS_TEMPCO
+    #ifndef NS_TEMPCO
+        #define NS_TEMPCO
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+        #ifdef __cplusplus
+extern "C" {
+        #endif
 
-#include "am_mcu_apollo.h"
-#include "am_bsp.h"
-#include "am_util.h"
-#include "ns_ambiqsuite_harness.h"
+        #include "am_bsp.h"
+        #include "am_mcu_apollo.h"
+        #include "am_util.h"
+        #include "ns_ambiqsuite_harness.h"
 
 //*****************************************************************************
 //
@@ -35,12 +34,13 @@ extern uint32_t g_ns_tempco_ui32TempcoIsrRet;
 extern uint32_t g_ns_tempco_ui32TempcoADCslot;
 extern am_hal_adc_sample_t g_ns_tempco_sSamples[AM_HAL_TEMPCO_NUMSAMPLES];
 extern void *g_ns_tempco_ADCHandle;
-#define TEMPCO_ADC_TEMPERATURE_SLOT     5
+        #define TEMPCO_ADC_TEMPERATURE_SLOT 5
 
-extern uint32_t ns_tempco_init(void);
+extern uint32_t
+ns_tempco_init(void);
 
-#ifdef __cplusplus
+        #ifdef __cplusplus
 }
-#endif
-#endif
+        #endif
+    #endif
 #endif

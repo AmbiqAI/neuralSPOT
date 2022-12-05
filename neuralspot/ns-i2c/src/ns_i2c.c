@@ -9,10 +9,10 @@
  *
  */
 
+#include "ns_i2c.h"
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
-#include "ns_i2c.h"
 
 /**
  * @brief Initialize I2C on one of the IOM (IO managers)
@@ -20,7 +20,8 @@
  * @param speed I2C speed in Hz
  * @return uint32_t status
  */
-uint32_t ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
+uint32_t
+ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
     // Initialize local state
     am_hal_pwrctrl_periph_enable((am_hal_pwrctrl_periph_e)(AM_HAL_PWRCTRL_PERIPH_IOM0 + cfg->iom));
     cfg->sIomCfg.eInterfaceMode = AM_HAL_IOM_I2C_MODE;
@@ -30,8 +31,7 @@ uint32_t ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
     if (am_hal_iom_initialize(cfg->iom, &(cfg->iomHandle)) ||
         am_hal_iom_power_ctrl(cfg->iomHandle, AM_HAL_SYSCTRL_WAKE, false) ||
         am_hal_iom_configure(cfg->iomHandle, &(cfg->sIomCfg)) ||
-        am_hal_iom_enable(cfg->iomHandle))
-    {
+        am_hal_iom_enable(cfg->iomHandle)) {
         return NS_I2C_STATUS_ERROR;
     }
 
@@ -47,16 +47,17 @@ uint32_t ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
  * @param size Number of bytes to read
  * @param addr I2C device address
  */
-uint32_t ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
-    am_hal_iom_transfer_t       Transaction;
-    Transaction.ui8Priority     = 1;
-    Transaction.ui32InstrLen    = 0;
-    Transaction.ui64Instr       = 0;
-    Transaction.eDirection      = AM_HAL_IOM_RX;
-    Transaction.ui32NumBytes    = size;
-    Transaction.pui32RxBuffer   = (uint32_t *)buf;
-    Transaction.bContinue       = false;
-    Transaction.ui8RepeatCount  = 0;
+uint32_t
+ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
+    am_hal_iom_transfer_t Transaction;
+    Transaction.ui8Priority = 1;
+    Transaction.ui32InstrLen = 0;
+    Transaction.ui64Instr = 0;
+    Transaction.eDirection = AM_HAL_IOM_RX;
+    Transaction.ui32NumBytes = size;
+    Transaction.pui32RxBuffer = (uint32_t *)buf;
+    Transaction.bContinue = false;
+    Transaction.ui8RepeatCount = 0;
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
     Transaction.uPeerInfo.ui32I2CDevAddr = addr;
@@ -73,16 +74,17 @@ uint32_t ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint1
  * @param size Number of bytes to write
  * @param addr I2C device address
  */
-uint32_t ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
-    am_hal_iom_transfer_t       Transaction;
-    Transaction.ui8Priority     = 1;
-    Transaction.ui32InstrLen    = 0;
-    Transaction.ui64Instr       = 0;
-    Transaction.eDirection      = AM_HAL_IOM_TX;
-    Transaction.ui32NumBytes    = size;
-    Transaction.pui32TxBuffer   = (uint32_t *)buf;
-    Transaction.bContinue       = false;
-    Transaction.ui8RepeatCount  = 0;
+uint32_t
+ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
+    am_hal_iom_transfer_t Transaction;
+    Transaction.ui8Priority = 1;
+    Transaction.ui32InstrLen = 0;
+    Transaction.ui64Instr = 0;
+    Transaction.eDirection = AM_HAL_IOM_TX;
+    Transaction.ui32NumBytes = size;
+    Transaction.pui32TxBuffer = (uint32_t *)buf;
+    Transaction.bContinue = false;
+    Transaction.ui8RepeatCount = 0;
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
     Transaction.uPeerInfo.ui32I2CDevAddr = addr;
@@ -101,7 +103,9 @@ uint32_t ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint
  * @param numRead Number of bytes to read
  * @param addr I2C device address
  */
-uint32_t ns_i2c_write_read(ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite, void *readBuf, size_t numRead) {
+uint32_t
+ns_i2c_write_read(ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite,
+                  void *readBuf, size_t numRead) {
     ns_i2c_write(cfg, writeBuf, numWrite, addr);
     return ns_i2c_read(cfg, readBuf, numRead, addr);
 }
@@ -112,16 +116,16 @@ uint32_t ns_i2c_write_read(ns_i2c_config_t *cfg, uint16_t addr, const void *writ
  * @param msgs I2C messages to transfer
  * @param numMsgs Number of I2C messsages
  */
-uint32_t ns_i2c_transfer(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs) {
+uint32_t
+ns_i2c_transfer(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs) {
     ns_i2c_msg_t *msg;
     uint32_t msg_len = 0;
-    for (size_t i = 0; i < numMsgs; i++){
+    for (size_t i = 0; i < numMsgs; i++) {
         msg = &msgs[i];
         if (msg->flags == NS_I2C_XFER_RD) {
             ns_i2c_read(cfg, msg->buf, msg->len, msg->addr);
             msg_len += msg->len;
-        }
-        else if (msg->flags == NS_I2C_XFER_WR) {
+        } else if (msg->flags == NS_I2C_XFER_WR) {
             ns_i2c_write(cfg, msg->buf, msg->len, msg->addr);
             msg_len += (msg->len - 1);
         }

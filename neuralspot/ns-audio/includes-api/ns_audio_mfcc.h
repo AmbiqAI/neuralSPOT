@@ -4,12 +4,12 @@
  * @brief Confifurable MFCC Calculator
  * @version 0.1
  * @date 2022-08-12
- * 
+ *
  * This MFCC utility is adapted from Arm's example C++ implementation.
  * It can be configured via DEFINES, but better config support is planned.
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  *  \addtogroup NeuralSPOT-MFCC
  *  @{
  *  @ingroup NeuralSPOT-Audio
@@ -40,8 +40,8 @@
 extern "C" {
 #endif
 
-#include "ns_audio_features_common.h"
 #include "arm_math.h"
+#include "ns_audio_features_common.h"
 #include "string.h"
 
 typedef struct {
@@ -54,22 +54,23 @@ typedef struct {
     uint32_t num_coeffs;
     uint32_t num_dec_bits;
     uint32_t frame_shift_ms; ///< Not used
-    uint32_t frame_len_ms; ///< Not used
+    uint32_t frame_len_ms;   ///< Not used
     uint32_t frame_len;
     uint32_t frame_len_pow2;
-    float    *mfccFrame;
-    float    *mfccBuffer;
-    float    *mfccEnergies;
-    float    *mfccWindowFunction;
-    float    *mfccDCTMatrix;   
+    float *mfccFrame;
+    float *mfccBuffer;
+    float *mfccEnergies;
+    float *mfccWindowFunction;
+    float *mfccDCTMatrix;
     ns_fbanks_cfg_t fbc;
 } ns_mfcc_cfg_t;
 
 #define NS_MFCC_SIZEBINS 53
 
 // Arena should be enough to accomodate the various buffers
-// e.g. MFCC_ARENA_SIZE  32*(MY_MFCC_FRAME_LEN_POW2*2 + MY_MFCC_NUM_FBANK_BINS*(NS_MFCC_SIZEBINS+MY_MFCC_NUM_MFCC_COEFFS))
-// where '32' is size of float and int32_t
+// e.g. MFCC_ARENA_SIZE  32*(MY_MFCC_FRAME_LEN_POW2*2 +
+// MY_MFCC_NUM_FBANK_BINS*(NS_MFCC_SIZEBINS+MY_MFCC_NUM_MFCC_COEFFS)) where '32' is size of float
+// and int32_t
 
 #define M_2PI 6.283185307179586476925286766559005
 #ifndef M_PI
@@ -85,8 +86,10 @@ extern float g_audioMinInt;
 extern float g_audioSumInt;
 #endif
 
-extern void ns_mfcc_init(ns_mfcc_cfg_t *c);
-extern void ns_mfcc_compute(ns_mfcc_cfg_t *c,const int16_t *audio_data, float *mfcc_out);
+extern void
+ns_mfcc_init(ns_mfcc_cfg_t *c);
+extern void
+ns_mfcc_compute(ns_mfcc_cfg_t *c, const int16_t *audio_data, float *mfcc_out);
 
 #ifdef __cplusplus
 }

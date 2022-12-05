@@ -5,7 +5,9 @@
 #
 
 import erpc
+
 from . import common, interface
+
 # import callbacks declaration from other groups
 # from ..GenericDataOperations_PcToEvb import interface as interface_PcToEvb
 
@@ -19,11 +21,14 @@ class evb_to_pcClient(interface.Ievb_to_pc):
         # Build remote function invocation message.
         request = self._clientManager.create_request()
         codec = request.codec
-        codec.start_write_message(erpc.codec.MessageInfo(
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
                 type=erpc.codec.MessageType.kInvocationMessage,
                 service=self.SERVICE_ID,
                 request=self.NS_RPC_DATA_SENDBLOCKTOPC_ID,
-                sequence=request.sequence))
+                sequence=request.sequence,
+            )
+        )
         if block is None:
             raise ValueError("block is None")
         block._write(codec)
@@ -39,11 +44,14 @@ class evb_to_pcClient(interface.Ievb_to_pc):
         # Build remote function invocation message.
         request = self._clientManager.create_request()
         codec = request.codec
-        codec.start_write_message(erpc.codec.MessageInfo(
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
                 type=erpc.codec.MessageType.kInvocationMessage,
                 service=self.SERVICE_ID,
                 request=self.NS_RPC_DATA_FETCHBLOCKFROMPC_ID,
-                sequence=request.sequence))
+                sequence=request.sequence,
+            )
+        )
 
         # Send request and process reply.
         self._clientManager.perform_request(request)
@@ -52,16 +60,21 @@ class evb_to_pcClient(interface.Ievb_to_pc):
         return _result
 
     def ns_rpc_data_computeOnPC(self, in_block, result_block):
-        assert type(result_block) is erpc.Reference, "out parameter must be a Reference object"
+        assert (
+            type(result_block) is erpc.Reference
+        ), "out parameter must be a Reference object"
 
         # Build remote function invocation message.
         request = self._clientManager.create_request()
         codec = request.codec
-        codec.start_write_message(erpc.codec.MessageInfo(
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
                 type=erpc.codec.MessageType.kInvocationMessage,
                 service=self.SERVICE_ID,
                 request=self.NS_RPC_DATA_COMPUTEONPC_ID,
-                sequence=request.sequence))
+                sequence=request.sequence,
+            )
+        )
         if in_block is None:
             raise ValueError("in_block is None")
         in_block._write(codec)
@@ -76,11 +89,14 @@ class evb_to_pcClient(interface.Ievb_to_pc):
         # Build remote function invocation message.
         request = self._clientManager.create_request()
         codec = request.codec
-        codec.start_write_message(erpc.codec.MessageInfo(
+        codec.start_write_message(
+            erpc.codec.MessageInfo(
                 type=erpc.codec.MessageType.kInvocationMessage,
                 service=self.SERVICE_ID,
                 request=self.NS_RPC_DATA_REMOTEPRINTONPC_ID,
-                sequence=request.sequence))
+                sequence=request.sequence,
+            )
+        )
         if msg is None:
             raise ValueError("msg is None")
         codec.write_string(msg)
@@ -89,5 +105,3 @@ class evb_to_pcClient(interface.Ievb_to_pc):
         self._clientManager.perform_request(request)
         _result = codec.read_uint32()
         return _result
-
-

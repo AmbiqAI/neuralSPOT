@@ -97,8 +97,7 @@ ns_ipc_ring_buffer_overwrite(ns_ipc_ring_buffer_t *psBuffer) {
 //
 //*****************************************************************************
 void
-ns_ipc_ring_buffer_init(ns_ipc_ring_buffer_t *ring_buffs,
-                              ns_ipc_ringbuff_setup_t setup) {
+ns_ipc_ring_buffer_init(ns_ipc_ring_buffer_t *ring_buffs, ns_ipc_ringbuff_setup_t setup) {
     ring_buffs[setup.indx].ui32BufferHead_read = 0;
     ring_buffs[setup.indx].ui32BufferTail_write = 0;
     ring_buffs[setup.indx].ui32OverWriting = 0;
@@ -131,9 +130,8 @@ ns_ipc_ring_buffer_init(ns_ipc_ring_buffer_t *ring_buffs,
 //      bytes pushed into the ring buffer
 //*****************************************************************************
 uint32_t
-ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
-                              void *pvSource, uint32_t ui32Bytes,
-                              bool bFullCheck) {
+ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer, void *pvSource, uint32_t ui32Bytes,
+                        bool bFullCheck) {
     uint32_t ui32CopyLen = 0;
     uint32_t ui32ReturnPushLen = 0;
     uint32_t ui32TempLen = 0;
@@ -162,12 +160,11 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
                 ui32CopyLen = ui32Capacity;
             }
         } else {
-            if (((ui32BufferHead_read + ui32Capacity - ui32BufferTail_write) %
-                 ui32Capacity) <= ui32CopyLen) {
+            if (((ui32BufferHead_read + ui32Capacity - ui32BufferTail_write) % ui32Capacity) <=
+                ui32CopyLen) {
                 psBuffer->ui32OverWriting = 1;
-                ui32CopyLen = ((ui32BufferHead_read + ui32Capacity -
-                                ui32BufferTail_write) %
-                               ui32Capacity);
+                ui32CopyLen =
+                    ((ui32BufferHead_read + ui32Capacity - ui32BufferTail_write) % ui32Capacity);
             }
         }
 
@@ -175,8 +172,7 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
 
         while ((ui32BufferTail_write + ui32CopyLen) >= ui32Capacity) {
             ui32TempLen = ui32Capacity - ui32BufferTail_write;
-            memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write],
-                   pui8Source, ui32TempLen);
+            memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write], pui8Source, ui32TempLen);
             ui32BufferTail_write = psBuffer->ui32BufferTail_write =
                 ((ui32BufferTail_write + ui32TempLen) % ui32Capacity);
             ui32CopyLen -= ui32TempLen;
@@ -184,8 +180,8 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
         //        configASSERT((ui32BufferTail_write + ui32CopyLen) <
         //        psBuffer->ui32Capacity);
 
-        memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write],
-               &pui8Source[ui32TempLen], ui32CopyLen);
+        memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write], &pui8Source[ui32TempLen],
+               ui32CopyLen);
         ui32BufferTail_write = psBuffer->ui32BufferTail_write =
             ((ui32BufferTail_write + ui32CopyLen) % ui32Capacity);
         AM_CRITICAL_END;
@@ -199,8 +195,8 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
                 psBuffer->ui32OverWriting = 1;
             }
         } else {
-            if (((ui32BufferHead_read + ui32Capacity - ui32BufferTail_write) %
-                 ui32Capacity) <= ui32CopyLen) {
+            if (((ui32BufferHead_read + ui32Capacity - ui32BufferTail_write) % ui32Capacity) <=
+                ui32CopyLen) {
                 psBuffer->ui32OverWriting = 1;
             }
         }
@@ -209,8 +205,7 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
 
         while ((ui32BufferTail_write + ui32CopyLen) >= ui32Capacity) {
             ui32TempLen = ui32Capacity - ui32BufferTail_write;
-            memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write],
-                   pui8Source, ui32TempLen);
+            memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write], pui8Source, ui32TempLen);
             ui32BufferTail_write = psBuffer->ui32BufferTail_write =
                 ((ui32BufferTail_write + ui32TempLen) % ui32Capacity);
             ui32CopyLen -= ui32TempLen;
@@ -218,8 +213,8 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
         //        configASSERT((ui32BufferTail_write + ui32CopyLen) <
         //        ui32Capacity);
 
-        memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write],
-               &pui8Source[ui32TempLen], ui32CopyLen);
+        memcpy((void *)&psBuffer->pui8Data[ui32BufferTail_write], &pui8Source[ui32TempLen],
+               ui32CopyLen);
         ui32BufferTail_write = psBuffer->ui32BufferTail_write =
             ((ui32BufferTail_write + ui32CopyLen) % ui32Capacity);
 
@@ -227,8 +222,7 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
         // Keep read and write at same position
         //
         if (psBuffer->ui32OverWriting == 1) {
-            ui32BufferHead_read = psBuffer->ui32BufferHead_read =
-                (ui32BufferTail_write);
+            ui32BufferHead_read = psBuffer->ui32BufferHead_read = (ui32BufferTail_write);
         }
         AM_CRITICAL_END;
         return ui32ReturnPushLen;
@@ -236,8 +230,7 @@ ns_ipc_ring_buffer_push(ns_ipc_ring_buffer_t *psBuffer,
 }
 
 uint32_t
-ns_ipc_ring_buffer_pop(ns_ipc_ring_buffer_t *psBuffer, void *pvDest,
-                             uint32_t ui32Bytes) {
+ns_ipc_ring_buffer_pop(ns_ipc_ring_buffer_t *psBuffer, void *pvDest, uint32_t ui32Bytes) {
     uint32_t ui32CopyLen = 0;
     uint32_t ui32TempLen = 0;
     uint32_t ui32DataLen = 0;
@@ -254,8 +247,7 @@ ns_ipc_ring_buffer_pop(ns_ipc_ring_buffer_t *psBuffer, void *pvDest,
 
     AM_CRITICAL_BEGIN;
     if (ns_ipc_ring_buffer_overwrite(psBuffer)) {
-        ui32BufferHead_read = psBuffer->ui32BufferHead_read =
-            (ui32BufferTail_write);
+        ui32BufferHead_read = psBuffer->ui32BufferHead_read = (ui32BufferTail_write);
     }
 
     // pop len can't exceed the length of buffer
@@ -265,8 +257,7 @@ ns_ipc_ring_buffer_pop(ns_ipc_ring_buffer_t *psBuffer, void *pvDest,
 
     while ((ui32BufferHead_read + ui32CopyLen) >= ui32Capacity) {
         ui32TempLen = ui32Capacity - ui32BufferHead_read;
-        memcpy(pui8Dest, (void *)&psBuffer->pui8Data[ui32BufferHead_read],
-               ui32TempLen);
+        memcpy(pui8Dest, (void *)&psBuffer->pui8Data[ui32BufferHead_read], ui32TempLen);
         ui32BufferHead_read = psBuffer->ui32BufferHead_read =
             ((ui32BufferHead_read + ui32TempLen) % ui32Capacity);
         ui32CopyLen -= ui32TempLen;
@@ -274,8 +265,7 @@ ns_ipc_ring_buffer_pop(ns_ipc_ring_buffer_t *psBuffer, void *pvDest,
 
     // configASSERT((ui32BufferHead_read + ui32CopyLen) < ui32Capacity);
 
-    memcpy(&pui8Dest[ui32TempLen],
-           (void *)&psBuffer->pui8Data[ui32BufferHead_read], ui32CopyLen);
+    memcpy(&pui8Dest[ui32TempLen], (void *)&psBuffer->pui8Data[ui32BufferHead_read], ui32CopyLen);
 
     ui32BufferHead_read = psBuffer->ui32BufferHead_read =
         ((ui32BufferHead_read + ui32CopyLen) % ui32Capacity);
@@ -304,17 +294,14 @@ ns_ipc_get_ring_buffer_status(ns_ipc_ring_buffer_t *psBuffer) {
     uint32_t ui32BufferHead_read = psBuffer->ui32BufferHead_read;
     uint32_t ui32Capacity = psBuffer->ui32Capacity;
 
-    if (ns_ipc_ring_buffer_overwrite(psBuffer) ||
-        ns_ipc_ring_buffer_full(psBuffer)) {
+    if (ns_ipc_ring_buffer_overwrite(psBuffer) || ns_ipc_ring_buffer_full(psBuffer)) {
         AM_CRITICAL_BEGIN;
         ui32NewDataLen = ui32Capacity;
         AM_CRITICAL_END;
         return ui32NewDataLen;
     }
     AM_CRITICAL_BEGIN;
-    ui32NewDataLen =
-        ((ui32BufferTail_write + ui32Capacity - ui32BufferHead_read) %
-         ui32Capacity);
+    ui32NewDataLen = ((ui32BufferTail_write + ui32Capacity - ui32BufferHead_read) % ui32Capacity);
     AM_CRITICAL_END;
     return ui32NewDataLen;
 }
@@ -351,8 +338,7 @@ ns_ipc_flush_ring_buffer(ns_ipc_ring_buffer_t *psBuffer) {
 //
 //*****************************************************************************
 uint32_t
-ns_ipc_ring_process(ns_ipc_ring_buffer_t *psSource, void *pvDest,
-                          uint32_t process_frame_bytes) {
+ns_ipc_ring_process(ns_ipc_ring_buffer_t *psSource, void *pvDest, uint32_t process_frame_bytes) {
     uint32_t ui32BuffDataBytes = 0;
     ui32BuffDataBytes = ns_ipc_get_ring_buffer_status(psSource);
     if (ui32BuffDataBytes >= process_frame_bytes) {

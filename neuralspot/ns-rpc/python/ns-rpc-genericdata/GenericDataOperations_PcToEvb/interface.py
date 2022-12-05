@@ -19,5 +19,3 @@ class Ipc_to_evb(object):
 
     def ns_rpc_data_computeOnEVB(self, in_block, result_block):
         raise NotImplementedError()
-
-

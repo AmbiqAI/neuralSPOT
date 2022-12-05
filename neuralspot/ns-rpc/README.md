@@ -53,6 +53,6 @@ $> pip install numpy
 $> pip install soundfile
 ```
 
-Managing python and package versions is beyond the scope of this article - if you are using your PC to develop AI models it is likely you have your preferred setup. Otherwise, the simplest way to manage all of this is using a pre-package Python development environment such as Anaconda. 
+Managing python and package versions is beyond the scope of this article - if you are using your PC to develop AI models it is likely you have your preferred setup. Otherwise, the simplest way to manage all of this is using a pre-package Python development environment such as Anaconda.
 
 For bare-bones Windows Python configration, see our [Windows application note](../../docs/Application-Note-neuralSPOT-and-Windows.md).

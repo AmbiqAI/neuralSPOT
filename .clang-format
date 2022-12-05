@@ -2,13 +2,6 @@
 # We'll use defaults from the LLVM style, but with 4 columns indentation.
 BasedOnStyle: LLVM
 IndentWidth: 4
-#AlwaysBreakAfterReturnType: All
+AlwaysBreakAfterReturnType: All
 IndentPPDirectives: BeforeHash
-
-AlignAfterOpenBracket: Align
-AlignArrayOfStructures: Left
-AlignConsecutiveMacros: All
-AlignConsecutiveAssignments: All
-AlignConsecutiveBitFields: All
-AlignConsecutiveDeclarations: All
----
+ColumnLimit: 100

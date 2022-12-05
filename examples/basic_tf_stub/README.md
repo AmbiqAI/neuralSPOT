@@ -67,11 +67,7 @@ $> cd .../neuralSPOT/ns-rpc/python/ns-rpc-genericdata
 $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myaudio.wav -m server # replace the /dev... with device from 2.2 above
 ```
 
-The `generic_data.py` example listens on the device you specify for eRPC data dump calls, and saves them to a wav file you can listen to. The audio is 
+The `generic_data.py` example listens on the device you specify for eRPC data dump calls, and saves them to a wav file you can listen to. The audio is
 dumped to the script as a single channel stream of 16bit PCM values. This script also listens for time series data, and is an example of how you can use RPC to handle multiple types of datastreams.
 
 In `neuralSPOT/example/basic_tf_stub/src/basic_tf_stub.cc`, the line that dumps the sample is `ns_rpc_data_sendBlockToPC(&outBlock)` which looks exactly like a function call (and the server also treats it like one, which is the magic of RPC).
-
-
-
-

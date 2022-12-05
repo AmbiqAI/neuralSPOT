@@ -6,7 +6,7 @@
 The basic_tf_stub example is based on a speech to intent model.
  Speech-to-Intent is a neural-network-based Tensorflow model that listens
  for 3-5 second phrases and infers the intent of that phrase. It uses
- NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power 
+ NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power
  modes, read button state, and print to the Jlink SWO.
 
 **/
@@ -55,50 +55,42 @@ The basic_tf_stub example is based on a speech to intent model.
 #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
-#include "ns_core.h"
 #include "basic_tf_stub.h"
 #include "basic_audio.h"
 #include "basic_mfcc.h"
 #include "basic_model.h"
 #include "basic_peripherals.h"
+#include "ns_core.h"
 #ifdef RPC_ENABLED
-#include "basic_rpc_client.h"
+    #include "basic_rpc_client.h"
 #endif
 
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
+#include "ns_energy_monitor.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
-#include "ns_energy_monitor.h"
-
 
 static int recording_win = NUM_FRAMES;
 
-typedef enum {
-    WAITING_TO_START_RPC_SERVER,
-    WAITING_TO_RECORD,
-    WAIT_FOR_FRAME,
-    INFERING
-} myState_e;
+typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
 
-const ns_power_config_t ns_lp_audio = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .bNeedAudAdc = true,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = false,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = false
-};
+const ns_power_config_t ns_lp_audio = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                       .bNeedAudAdc = true,
+                                       .bNeedSharedSRAM = false,
+                                       .bNeedCrypto = false,
+                                       .bNeedBluetooth = false,
+                                       .bNeedUSB = false,
+                                       .bNeedIOM = false,
+                                       .bNeedAlternativeUART = false,
+                                       .b128kTCM = false,
+                                       .bEnableTempCo = false,
+                                       .bNeedITM = false};
 
 /**
  * @brief Main basic_tf_stub - infinite loop listening and inferring
- * 
- * @return int 
+ *
+ * @return int
  */
 int
 main(void) {
@@ -107,51 +99,51 @@ main(void) {
     float output[kCategoryCount];
     uint8_t output_max = 0;
     float max_val = 0.0;
-    #ifdef RPC_ENABLED
-        myState_e state = WAITING_TO_START_RPC_SERVER;
-    #else
-        myState_e state = WAITING_TO_RECORD;
-    #endif
+#ifdef RPC_ENABLED
+    myState_e state = WAITING_TO_START_RPC_SERVER;
+#else
+    myState_e state = WAITING_TO_RECORD;
+#endif
 
     // Tells callback if it should be recording audio
     audioRecording = false;
 
     ns_core_init();
-        
-    #ifdef ENERGY_MONITOR_ENABLE
-        // This is for measuring power using an external power monitor such as
-        // Joulescope - it sets GPIO pins so the state can be observed externally
-        // to help line up the waveforms. It has nothing to do with AI...
-        ns_init_power_monitor_state();
-        ns_set_power_monitor_state(NS_IDLE);
-    #endif
+
+#ifdef ENERGY_MONITOR_ENABLE
+    // This is for measuring power using an external power monitor such as
+    // Joulescope - it sets GPIO pins so the state can be observed externally
+    // to help line up the waveforms. It has nothing to do with AI...
+    ns_init_power_monitor_state();
+    ns_set_power_monitor_state(NS_IDLE);
+#endif
 
     // Configure power - different use modes
     // require different power configs
-    // This examples uses pre-populated power config structs - 
+    // This examples uses pre-populated power config structs -
     // to modify create a local struct and pass it to
     // ns_power_config()
 
     ns_power_config(&ns_lp_audio);
 
-    #ifdef LOWEST_POWER_MODE
-        ns_uart_printf_enable(); // use uart to print, uses less power
-    #else
-        ns_itm_printf_enable();
-        /* A note about printf and low power: printing over ITM impacts low power in two
-            ways: 
-            1) enabling ITM prevents SoC from entering deep sleep, and 
-            2) ITM initialization requires crypto to be enabled. 
-        
-            While ITM printing isn't something a deployed application would enable, NS does the
-            following to mitigate power usage during ITM:
+#ifdef LOWEST_POWER_MODE
+    ns_uart_printf_enable(); // use uart to print, uses less power
+#else
+    ns_itm_printf_enable();
+    /* A note about printf and low power: printing over ITM impacts low power in two
+        ways:
+        1) enabling ITM prevents SoC from entering deep sleep, and
+        2) ITM initialization requires crypto to be enabled.
 
-            1) ns_power_config() lets you set bNeedITM
-            2) ns_itm_printf_enable() will temporarily enable crypto if needed
-            3) ns_lp_printf() enables TPIU and ITM when needed
-            4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
-        */
-    #endif
+        While ITM printing isn't something a deployed application would enable, NS does the
+        following to mitigate power usage during ITM:
+
+        1) ns_power_config() lets you set bNeedITM
+        2) ns_itm_printf_enable() will temporarily enable crypto if needed
+        3) ns_lp_printf() enables TPIU and ITM when needed
+        4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
+    */
+#endif
 
     model_init();
     ns_audio_init(&audio_config);
@@ -164,12 +156,12 @@ main(void) {
     ns_lp_printf("the captured audio into one of the following phrases:\n");
     ns_lp_printf("yes, no, up, down, left, right, on, off, or unknown/silence\n\n");
 
-    #ifdef RPC_ENABLED
-        ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
-        ns_lp_printf("Start the PC-side server, then press Button 0 to get started\n");
-    #else
-        ns_lp_printf("Press Button 0 to start listening...\n");
-    #endif
+#ifdef RPC_ENABLED
+    ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
+    ns_lp_printf("Start the PC-side server, then press Button 0 to get started\n");
+#else
+    ns_lp_printf("Press Button 0 to start listening...\n");
+#endif
 
     // Event loop
     while (1) {
@@ -189,9 +181,9 @@ main(void) {
                 buttonPressed = false;
                 audioRecording = true;
                 ns_lp_printf("\nListening for 1 second.\n");
-                #ifdef RPC_ENABLED
-                    ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 1 second.\n");
-                #endif
+#ifdef RPC_ENABLED
+                ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 1 second.\n");
+#endif
             }
             break;
 
@@ -199,25 +191,21 @@ main(void) {
             if (audioReady) {
                 ns_set_power_monitor_state(NS_FEATURE_EXTRACTION);
 
-                int32_t mfcc_buffer_head =
-                    (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
+                int32_t mfcc_buffer_head = (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
 
-                #ifdef RINGBUFFER_MODE
-                    ns_ipc_ring_buffer_pop(audioBuf,
-                                                &in16AudioDataBuffer,
-                                                audio_config.numSamples * 2);
-                #endif
-                #ifdef RPC_ENABLED
-                    ns_rpc_data_sendBlockToPC(&outBlock);
-                #endif
-                ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer,
-                                &mfcc_buffer[mfcc_buffer_head]);
+#ifdef RINGBUFFER_MODE
+                ns_ipc_ring_buffer_pop(audioBuf, &in16AudioDataBuffer, audio_config.numSamples * 2);
+#endif
+#ifdef RPC_ENABLED
+                ns_rpc_data_sendBlockToPC(&outBlock);
+#endif
+                ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
 
                 recording_win--;
                 audioReady = false;
 
                 ns_lp_printf(".");
-            }    
+            }
 
             if (recording_win == 0) {
                 ns_lp_printf("\n");
@@ -232,9 +220,8 @@ main(void) {
             break;
 
         case INFERING:
-            for (uint16_t i = 0; i < (NUM_FRAMES*MY_MFCC_NUM_MFCC_COEFFS); i = i + 1) {
-                tmp = mfcc_buffer[i] / model_input->params.scale +
-                      model_input->params.zero_point;
+            for (uint16_t i = 0; i < (NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS); i = i + 1) {
+                tmp = mfcc_buffer[i] / model_input->params.scale + model_input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);
                 model_input->data.int8[i] = (int8_t)tmp;
             }
@@ -242,16 +229,17 @@ main(void) {
             TfLiteStatus invoke_status = interpreter->Invoke();
             if (invoke_status != kTfLiteOk) {
                 ns_lp_printf("Invoke failed\n");
-                while (1) {}; // hang
+                while (1) {
+                }; // hang
             }
-            
+
             max_val = 0.0;
             for (uint8_t i = 0; i < kCategoryCount; i = i + 1) {
-                output[i] = (model_output->data.int8[i] -
-                             model_output->params.zero_point) *
-                             model_output->params.scale;
-                if (output[i]>0.3) {
-                    ns_lp_printf("\n[%s] with %d%% certainty\n", kCategoryLabels[i], (uint8_t)(output[i]*100));
+                output[i] = (model_output->data.int8[i] - model_output->params.zero_point) *
+                            model_output->params.scale;
+                if (output[i] > 0.3) {
+                    ns_lp_printf("\n[%s] with %d%% certainty\n", kCategoryLabels[i],
+                                 (uint8_t)(output[i] * 100));
                 }
 
                 if (output[i] > max_val) {
@@ -262,7 +250,7 @@ main(void) {
 
             ns_lp_printf("\n**** Most probably: [%s]\n\n", kCategoryLabels[output_max]);
             ns_lp_printf("Press Button 0 to start listening...\n");
-            
+
             buttonPressed = false; // thoroughly debounce the button
             ns_set_power_monitor_state(NS_IDLE);
             state = WAITING_TO_RECORD;

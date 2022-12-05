@@ -16,17 +16,18 @@ limitations under the License.
 
 #include "ns_debug_log.h"
 
-#include "am_bsp.h"   // NOLINT
-#include "am_util.h"  // NOLINT
+#include "am_bsp.h"  // NOLINT
+#include "am_util.h" // NOLINT
 
-extern "C" void DebugLog(const char* s) {
+extern "C" void
+DebugLog(const char *s) {
 #ifndef TF_LITE_STRIP_ERROR_STRINGS
-  static bool is_initialized = false;
-  if (!is_initialized) {
-    am_bsp_debug_printf_enable();
-    is_initialized = true;
-  }
+    static bool is_initialized = false;
+    if (!is_initialized) {
+        am_bsp_debug_printf_enable();
+        is_initialized = true;
+    }
 
-  am_util_stdio_printf("%s", s);
+    am_util_stdio_printf("%s", s);
 #endif
 }

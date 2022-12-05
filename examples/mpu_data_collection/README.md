@@ -5,7 +5,7 @@ It's a client/server system needing some careful staging, described below.
 
 ## Installation and Setup
 You'll need to install some laptop-side software, including ERPC and it's python library.
-1. Clone our [erpc fork](https://github.com/AmbiqAI/erpc) 
+1. Clone our [erpc fork](https://github.com/AmbiqAI/erpc)
 2. Make erpc ([instructions here](https://github.com/AmbiqAI/erpc/blob/develop/README.md#building-and-installing))
 3. Install erpc_python ([instructions here](https://github.com/AmbiqAI/erpc/tree/develop/erpc_python))
 4. Connect an MPU6050 to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md))

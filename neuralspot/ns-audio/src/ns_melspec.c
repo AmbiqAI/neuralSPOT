@@ -51,8 +51,8 @@
 #include "am_util.h"
 
 #include "float.h"
-#include "ns_audio_melspec.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_audio_melspec.h"
 #include <string.h>
 
 // Globals
@@ -65,7 +65,7 @@ arm_cfft_instance_f32 g_melspecRfft;
 
 /**
  * @brief initialize data structures used for mel spectrogram related functions
-*/
+ */
 void
 ns_melspec_init(ns_melspec_cfg_t *cfg) {
     arm_status status = arm_cfft_init_f32(&g_melspecRfft, cfg->frame_len);
@@ -74,7 +74,7 @@ ns_melspec_init(ns_melspec_cfg_t *cfg) {
     }
     cfg->melspecBuffer = (float *)(cfg->arena);
 
-    cfg->fbc.arena_fbanks = (uint8_t *)(cfg->melspecBuffer) + 2*cfg->frame_len*sizeof(float);
+    cfg->fbc.arena_fbanks = (uint8_t *)(cfg->melspecBuffer) + 2 * cfg->frame_len * sizeof(float);
     cfg->fbc.sample_frequency = cfg->sample_frequency;
     cfg->fbc.num_fbank_bins = cfg->num_fbank_bins;
     cfg->fbc.low_freq = cfg->low_freq;
@@ -85,18 +85,19 @@ ns_melspec_init(ns_melspec_cfg_t *cfg) {
 
 /**
  * @brief convert the audio samples into a short-time fourier transform
- * 
+ *
  * Result is complex valued (containing magnitude and phase info in alternating
  * 32-bit values, so stft_out should be 2*MELSPEC_FRAME_LEN
- * 
-*/
-void ns_melspec_audio_to_stft(ns_melspec_cfg_t *cfg, const int16_t *audio_in, float32_t *stft_out) {
+ *
+ */
+void
+ns_melspec_audio_to_stft(ns_melspec_cfg_t *cfg, const int16_t *audio_in, float32_t *stft_out) {
     int16_t i;
 
     // copy the integer audio buffer into complex valued stft input buffer
     for (i = 0; i < cfg->frame_len; i++) {
-        stft_out[2 * i] = (float32_t)audio_in[i];  // real part
-        stft_out[2 * i + 1] = (float32_t)0.0;  // imaginary part
+        stft_out[2 * i] = (float32_t)audio_in[i]; // real part
+        stft_out[2 * i + 1] = (float32_t)0.0;     // imaginary part
     }
 
     // compute short-time fourier transform in-place.
@@ -106,28 +107,31 @@ void ns_melspec_audio_to_stft(ns_melspec_cfg_t *cfg, const int16_t *audio_in, fl
 /**
  * @brief Inverts short-time fourier transform into a reconstructed
  * audio sample.
- * 
+ *
  * We assume the stft input is complex valued (containing magnitude and phase
  * info in alternating 32-bit values).
- * 
+ *
  * Note that this operation currently modifies the input buffer!
-*/
-void ns_melspec_stft_to_audio(ns_melspec_cfg_t *cfg, float32_t *stft_in, int16_t *audio_out) {
+ */
+void
+ns_melspec_stft_to_audio(ns_melspec_cfg_t *cfg, float32_t *stft_in, int16_t *audio_out) {
     int16_t i;
 
     // compute the inverse stft in-place (destroys original input!!)
     arm_cfft_f32(&g_melspecRfft, stft_in, 1, 0);
     for (i = 0; i < cfg->frame_len; i++) {
         // TODO: check correctness of this calculation
-        audio_out[i] = (int16_t) stft_in[2 * i];
+        audio_out[i] = (int16_t)stft_in[2 * i];
     }
 }
 
 /**
- * @brief Converts complex valued short-time fourier transform into 
+ * @brief Converts complex valued short-time fourier transform into
  * real-valued, power compressed mel scaled space
-*/
-void ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *cfg, const float32_t *stft_in, float32_t *melspec_out) {
+ */
+void
+ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *cfg, const float32_t *stft_in,
+                                      float32_t *melspec_out) {
     int16_t i, j, k;
 
     for (i = 0; i < cfg->num_fbank_bins; i++) {
@@ -136,14 +140,16 @@ void ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *cfg, const float32_
         for (j = cfg->fbc.mfccFbankFirst[i]; j < cfg->fbc.mfccFbankLast[i]; j++) {
             curr_val += stft_in[2 * j] * (*(cfg->fbc.melFBank))[i][k++];
         }
-        melspec_out[i] = (float) pow(curr_val, cfg->compression_exponent);
+        melspec_out[i] = (float)pow(curr_val, cfg->compression_exponent);
     }
 }
 
 /**
  * @brief Inverts a mel spectrogram back into linear short-time fourier transform
-*/
-void ns_melspec_melspec_to_stft(ns_melspec_cfg_t *cfg, const float32_t *melspec_in, float32_t *stft_out) {
+ */
+void
+ns_melspec_melspec_to_stft(ns_melspec_cfg_t *cfg, const float32_t *melspec_in,
+                           float32_t *stft_out) {
     int16_t i, j, k;
 
     // TODO: check correctness of this calculation with python implementation

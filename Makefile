@@ -17,7 +17,7 @@ include make/jlink.mk
 #   includes-api/ <- contains public header files
 #
 # Build artifacts (.o, .d, etc) are placed adjacent to src/
-# in the $BINDIR directory (defaults to 'build') which is 
+# in the $BINDIR directory (defaults to 'build') which is
 # created when needed and remove by 'make clean'
 #
 # The module.mk contents differ slightly depending on
@@ -27,9 +27,9 @@ include make/jlink.mk
 # to copy an existing module.mk and modifying it.
 
 # NeuralSPOT Library Modules
-modules      := neuralspot/ns-core 
-modules      += neuralspot/ns-harness 
-modules      += neuralspot/ns-peripherals 
+modules      := neuralspot/ns-core
+modules      += neuralspot/ns-harness
+modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-usb
@@ -168,7 +168,7 @@ $(BINDIR)/%.o: %.s
 	@mkdir -p $(@D)
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
 
-%.bin: %.axf 
+%.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
@@ -188,19 +188,19 @@ docs:
 nest: all
 	@echo " Building Nest without src/ at $(NESTDIR) based on $< ..."
 	$(Q) $(MKD) -p $(NESTDIR)
-	$(Q) $(MKD) -p $(NESTDIR)/src	
-	$(Q) $(MKD) -p $(NESTDIR)/src/ns-core	
+	$(Q) $(MKD) -p $(NESTDIR)/src
+	$(Q) $(MKD) -p $(NESTDIR)/src/ns-core
 	$(Q) $(MKD) -p $(NESTDIR)/srcpreserved
-	$(Q) $(MKD) -p $(NESTDIR)/libs	
-	$(Q) $(MKD) -p $(NESTDIR)/make	
-	$(Q) $(MKD) -p $(NESTDIR)/pack/svd	
+	$(Q) $(MKD) -p $(NESTDIR)/libs
+	$(Q) $(MKD) -p $(NESTDIR)/make
+	$(Q) $(MKD) -p $(NESTDIR)/pack/svd
 	@for target in $(nest_dirs); do \
 		"mkdir" -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
 	@for file in $(libraries); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
-	done	
+	done
 	@for file in $(lib_prebuilt); do \
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done

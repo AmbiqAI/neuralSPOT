@@ -88,16 +88,14 @@ ns_peripheral_button_init(ns_button_config_t *cfg) {
         // Clear the GPIO Interrupt (write to clear).
         //
         AM_CRITICAL_BEGIN
-        am_hal_gpio_interrupt_irq_status_get(GPIO0_001F_IRQn, false,
-                                             &ui32IntStatus);
+        am_hal_gpio_interrupt_irq_status_get(GPIO0_001F_IRQn, false, &ui32IntStatus);
         am_hal_gpio_interrupt_irq_clear(GPIO0_001F_IRQn, ui32IntStatus);
         AM_CRITICAL_END
 
         //
         // Enable the GPIO/button interrupt.
         //
-        am_hal_gpio_interrupt_control(AM_HAL_GPIO_INT_CHANNEL_0,
-                                      AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
+        am_hal_gpio_interrupt_control(AM_HAL_GPIO_INT_CHANNEL_0, AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
                                       (void *)&ui32BUTTON0GpioNum);
 
         NVIC_SetPriority(GPIO0_001F_IRQn, AM_IRQ_PRIORITY_DEFAULT);
@@ -112,16 +110,14 @@ ns_peripheral_button_init(ns_button_config_t *cfg) {
         // Clear the GPIO Interrupt (write to clear).
         //
         AM_CRITICAL_BEGIN
-        am_hal_gpio_interrupt_irq_status_get(GPIO1_001F_IRQn, false,
-                                             &ui32IntStatus);
+        am_hal_gpio_interrupt_irq_status_get(GPIO1_001F_IRQn, false, &ui32IntStatus);
         am_hal_gpio_interrupt_irq_clear(GPIO1_001F_IRQn, ui32IntStatus);
         AM_CRITICAL_END
 
         //
         // Enable the GPIO/button interrupt.
         //
-        am_hal_gpio_interrupt_control(AM_HAL_GPIO_INT_CHANNEL_1,
-                                      AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
+        am_hal_gpio_interrupt_control(AM_HAL_GPIO_INT_CHANNEL_1, AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
                                       (void *)&ui32BUTTON1GpioNum);
 
         NVIC_SetPriority(GPIO1_001F_IRQn, AM_IRQ_PRIORITY_DEFAULT);

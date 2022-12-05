@@ -55,13 +55,10 @@ pressing the button to let the EVB it is ready to start RPCing.
 3. Run the rpc-server EVB code (it should be running if you flashed, unless you have something like GDB interrupting execution)
 4. Monitor the EVB SWO printout - you should see "Start the PC-side client, then press Button 0 to get started"
 5. At this point, the second USB connection should come alive. It will mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on a windows PC it'll be `COMx` or similar. If the device doesn't pop up, there is a problem. It won't show up until "Press Button" shows up, so make sure you got that far.
-6. Start the laptop-side RPC client . 
+6. Start the laptop-side RPC client .
 ```bash
 $> cd neuralSPOT/neuralspot/ns-rpc/python/ns-rpc-genericdata
 $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myaudio.wav -m client
 Client started - press enter send remote procedure calls to EVB
 ```
 If all went well, you can press Button 0, which will start the server. At this point you can press 'enter' on the PC, which sends the 3 example RPC calls to the EVB.
-
-
-

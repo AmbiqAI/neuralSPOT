@@ -30,7 +30,7 @@ main() {
 
 ## Reading EVB Buttons
 
-This part of the component eases reading the EVB user buttons, a common operation when creating AI demos or tests. 
+This part of the component eases reading the EVB user buttons, a common operation when creating AI demos or tests.
 
 ```c
 main() {
@@ -54,4 +54,3 @@ main() {
   	// ...
 }
 ```
-

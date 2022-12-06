@@ -27,14 +27,14 @@ CMSIS_VERSION := CMSIS_5-5.9.0
 ##### Application Defaults #####
 TARGET      := basic_tf_stub# default target for binary-specific operations such as 'deploy'
 NESTCOMP    :=extern/AmbiqSuite
-STACK_SIZE  := 4096 # application stack size
+STACK_SIZE  := 4096# application stack size
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
 
 ##### Common AI Precompiler Directives #####
 MLDEBUG     := 0    # 1 = load TF library with debug info, turn on TF debug statements
-AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
-ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
+# AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
+# ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
 
 DEFINES+= AM_HAL_TEMPCO_LP

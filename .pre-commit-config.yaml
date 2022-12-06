@@ -27,3 +27,11 @@ repos:
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
+  - repo: local
+    hooks:
+      - id: custom-script-file
+        name: check-compilation
+        entry: tests/quick-make-test.sh
+        language: script
+        types: [python]
+        pass_filenames: false

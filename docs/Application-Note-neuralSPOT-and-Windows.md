@@ -78,7 +78,6 @@ For more compilation options, visit our main [README](https://github.com/AmbiqAI
 Using RPC in neuralSPOT requires Python and some Python libraries. In summary:
 
 1. Install Python
-2. Install eRPC Python Library
 3. Install neuralSPOT required libraries
 4. Run RPC client example
 
@@ -86,25 +85,13 @@ Using RPC in neuralSPOT requires Python and some Python libraries. In summary:
 
 There are hundreds of ways to install Python on Windows, but we found that using [Window Store's Python](https://apps.microsoft.com/store/detail/python-310/9PJPW5LDXLZ5?hl=en-us&gl=us) worked well and included everything needed.
 
-### Installing eRPC
-
-eRPC (embedded RPC) is a large software package. Compiling the entire package is only needed if you intend to create new RPC interfaces. To use neuralSPOT's included interface only the Python portion of eRPC needs to be installed.
-
-```bash
-$> git clone https://github.com/AmbiqAI/erpc.git
-$> cd erpc/erpc_python
-$> pip install .
-```
-
 ### Installing neuralSPOT Libraries
 
 neuralSPOT includes a sample Python application which requires some Python libraries to be installed (besides eRPC). The simplest way to install these is using `pip`:
 
 ```bash
-$> cd neuralSPOT/neuralspot/ns-rpc/python/ns-rpc-genericdata
-$> pip install soundfile
-$> pip install numpy
-$> pip install pyserial
+$> cd .../neuralSPOT
+$> python setup.py install
 ```
 
 ### Running neuralSPOT RPC

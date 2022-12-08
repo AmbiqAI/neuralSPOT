@@ -4,11 +4,11 @@ RPC, or remote procedure call, is a way for the code running on the EVB to call 
 It's a client/server system needing some careful staging, described below.
 
 ## Installation and Setup
-You'll need to install some laptop-side software, including ERPC and it's python library.
-1. Clone our [erpc fork](https://github.com/AmbiqAI/erpc)
-2. Make erpc ([instructions here](https://github.com/AmbiqAI/erpc/blob/develop/README.md#building-and-installing))
-3. Install erpc_python ([instructions here](https://github.com/AmbiqAI/erpc/tree/develop/erpc_python))
-4. Connect an MPU6050 to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md))
+You'll need to install some Python-based PC-side software, following the [instructions here.](../../neuralspot/ns-rpc/README.md).
+
+> *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
+
+You'll also need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)).
 
 ## Capturing Data
 1. Compile and flash the NeuralSPOT mpu_data_collection example
@@ -36,7 +36,7 @@ $> make TARGET=mpu_data_collection deploy
 Requires Python 3.6+, and I highly recommend using a venv.
 
 ```bash
-$> cd neuralSPOT/neuralspot/ns-rpc/python/ns-rpc-genericdata
+$> cd .../neuralSPOT/tools
 $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myfile.csv -m server
 Server started - waiting for client to send a eRPC request
 ```

@@ -38,6 +38,7 @@ setup(
     install_requires=[
         "numpy>=1.21.6",
         "soundfile>=0.10.3",
+        "pyserial",
         "erpc @ git+https://github.com/ambiqai/erpc.git#egg=erpc&subdirectory=erpc_python",
     ],
 )

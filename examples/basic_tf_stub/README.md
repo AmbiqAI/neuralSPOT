@@ -38,21 +38,17 @@ RPC, or remote procedure call, is a way for the code running on the EVB to call 
 It's a client/server system needing some careful staging, described below.
 
 ## Installation and Setup
-You'll need to install some laptop-side software, including ERPC's python library.
+You'll need to install some Python-based PC-side software, following the [instructions here.](../../neuralspot/ns-rpc/README.md).
 
 > *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
 
-1. Clone our erpc fork (git@github.com:AmbiqAI/erpc.git)
-2. Install erpc_python (instructions here: https://github.com/AmbiqAI/erpc/tree/develop/erpc_python)
-3. Install Python Libraries needed for our example Python application - see [here](../../neuralspot/ns-rpc/README.md) for a how to run it for the first time.
-
 ## Capturing Data
 1. Compile and flash the NeuralSPOT basic_tf_hub example as described above. *NOTE* RPC must be enabled at compile time (look for `// #define RPC_ENABLED` in `basic_tf_stub.cc` and uncomment it).
-2. Connect the second USB cable to your laptop - you'll now have 2 USB connections between the EVB and the laptop.
+2. Connect the second USB cable to your PC - you'll now have 2 USB connections between the EVB and the laptop.
     1. Monitor the EVB SWO printout - you should see `Start the PC-side server, then press Button 0 to get started`.
     2. The second connection will mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on PC it'll be `COMx` or similar.
-    3. Look for the USB TTY device - if it doesn't pop up, there is a problem. It won't show up until "Press Button" shows up, so make sure you got that far.
-3. Start the laptop-side RPC server. It should say "Wait for client to send a eRPC request"
+    3. Look for the USB TTY device - if it doesn't pop up, there is a problem. It won't show up until "Press Button" shows up on the EVB, so make sure you got that far.
+3. Start the PC-side RPC server (see below). It should say "Wait for client to send a eRPC request"
 4. Press the EVB button
 5. The SWO interface will now say `Press Button 0 to start listening...`
 
@@ -60,14 +56,13 @@ After capturing 3 seconds, it'll dump the sample to the server. Note that the se
 
 ### Running the Server
 
-Requires Python 3.6+, and the use of a virtual python environment (venv) is highly recommended.
+This requires Python 3.6+ and the use of a [https://docs.python.org/3/library/venv.html](https://docs.python.org/3/library/venv.html) is highly recommended.
 
 ```bash
-$> cd .../neuralSPOT/ns-rpc/python/ns-rpc-genericdata
+$> cd .../neuralSPOT/tools
 $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myaudio.wav -m server # replace the /dev... with device from 2.2 above
 ```
 
-The `generic_data.py` example listens on the device you specify for eRPC data dump calls, and saves them to a wav file you can listen to. The audio is
-dumped to the script as a single channel stream of 16bit PCM values. This script also listens for time series data, and is an example of how you can use RPC to handle multiple types of datastreams.
+The `generic_data.py` example listens on the device you specify for eRPC data dump calls, and saves them to a wav file you can listen to. The audio is dumped to the script as a single channel stream of 16-bit PCM values. This script is also capable of listening for time series data, and is an example of how you can use RPC to handle multiple types of datastreams.
 
 In `neuralSPOT/example/basic_tf_stub/src/basic_tf_stub.cc`, the line that dumps the sample is `ns_rpc_data_sendBlockToPC(&outBlock)` which looks exactly like a function call (and the server also treats it like one, which is the magic of RPC).

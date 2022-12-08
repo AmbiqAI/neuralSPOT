@@ -7,6 +7,8 @@ import struct
 import sys
 import time
 
+sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+
 import erpc
 import GenericDataOperations_EvbToPc
 import GenericDataOperations_PcToEvb

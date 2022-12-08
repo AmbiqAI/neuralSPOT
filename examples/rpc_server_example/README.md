@@ -35,20 +35,17 @@ We demonstrate the following EVB->PC procedure calls:
 It's a client/server system needing some careful staging, described below.
 
 ## Installation and Setup
-You'll need to install some laptop-side software, including ERPC's python library.
+1. You'll need to install some Python-based PC-side software, following the [instructions here.](../../neuralspot/ns-rpc/README.md).
 
-> *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
+   > *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
 
-1. Clone our erpc fork (git@github.com:AmbiqAI/erpc.git)
-2. Install erpc_python (instructions here: https://github.com/AmbiqAI/erpc/tree/develop/erpc_python)
-3. Install Python Libraries needed for our example Python application - see [here](../../neuralspot/ns-rpc/README.md) for a how to run it for the first time.
+You'll also need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)).
 
 ## Running the RPC-server example
 Running RPC requires a bit of staging. The PC-side server cant start until the USB TTY interface
 shows up as a device, and that doesn't happen until we start servicing TinyUSB, and even then it doesn't happen immediately.
 
-To address this, rpc-client loop swaiting for a button press, servicing USB. This gives the user a chance to start the server then
-pressing the button to let the EVB it is ready to start RPCing.
+To address this, rpc-client loop swaiting for a button press, servicing USB. This gives the user a chance to start the server then pressing the button to let the EVB it is ready to start RPCing.
 
 1. Compile and flash the NeuralSPOT rpc-server example
 2. Connect the second USB cable to your laptop - you'll now have 2 USB connections between the EVB and the laptop
@@ -57,7 +54,7 @@ pressing the button to let the EVB it is ready to start RPCing.
 5. At this point, the second USB connection should come alive. It will mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on a windows PC it'll be `COMx` or similar. If the device doesn't pop up, there is a problem. It won't show up until "Press Button" shows up, so make sure you got that far.
 6. Start the laptop-side RPC client .
 ```bash
-$> cd neuralSPOT/neuralspot/ns-rpc/python/ns-rpc-genericdata
+$> cd .../neuralSPOT/tools
 $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myaudio.wav -m client
 Client started - press enter send remote procedure calls to EVB
 ```

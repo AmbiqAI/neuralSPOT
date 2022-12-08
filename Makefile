@@ -60,7 +60,6 @@ modules      += examples/rpc_server_example
 # Add all your source files to 'sources'
 # Add any locally needed pre-processing defines to 'pp_defines'
 # Add your local build dir to 'bindirs'
-DEFINES      += STACK_SIZE=$(STACK_SIZE)
 
 examples     :=
 mains        :=
@@ -90,9 +89,6 @@ include $(addsuffix /module.mk,$(modules))
 # #LINTSOURCES = $(filter-out $(wildcard extern/*)), $(sources))
 # $(info --$(sources))
 # $(info --$(LINTSOURCES))
-
-NESTEGG := basic_tf_stub
-NESTSOURCEDIR := examples/$(NESTEGG)/src
 
 all: $(bindirs) $(libraries) $(examples)
 

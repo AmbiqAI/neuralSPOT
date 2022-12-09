@@ -52,7 +52,7 @@ The basic_tf_stub example is based on a speech to intent model.
 
 #define RINGBUFFER_MODE
 // #define RPC_ENABLED
-// #define ENERGY_MONITOR_ENABLE
+#define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
 #include "basic_tf_stub.h"
@@ -100,6 +100,9 @@ main(void) {
     float output[kCategoryCount];
     uint8_t output_max = 0;
     float max_val = 0.0;
+    bool measure_first_inference = true;
+    ns_perf_counters_t pp;
+
 #ifdef RPC_ENABLED
     myState_e state = WAITING_TO_START_RPC_SERVER;
 #else
@@ -145,36 +148,26 @@ main(void) {
         4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
     */
 #endif
-        // while(1) {ns_deep_sleep();}
 
-    // DWT->CTRL = 0;
-    // DWT->CYCCNT = 0;
-    // DWT->CPICNT = 0;
-    // DWT->EXCCNT = 0;
-    // DWT->SLEEPCNT = 0;
-    // DWT->LSUCNT = 0;
-    // DWT->FOLDCNT = 0;
-    ns_perf_counters_t pp;
-    ns_init_perf_profiler();
-    ns_start_perf_profiler();
     model_init();
-    ns_stop_perf_profiler();
-    ns_capture_perf_profiler(&pp);
-    ns_print_perf_profile(&pp);
-    // DWT->CTRL = 0;
-    // int count = DWT->CYCCNT - DWT->CPICNT - DWT->EXCCNT - DWT->SLEEPCNT + DWT->FOLDCNT;
-    // ns_lp_printf("after %d cycles, count =  %d\n", DWT->CYCCNT, count);
 
     ns_audio_init(&audio_config);
-    // while(1) {ns_deep_sleep();}
-
     ns_mfcc_init(&mfcc_config);
     ns_peripheral_button_init(&button_config);
+    // if (measure_first_inference) {
+    ns_init_perf_profiler(); // count inference cycles the first time it is invoked
+    // }
     am_hal_interrupt_master_enable();
+    ns_deep_sleep();
+
+    ns_start_perf_profiler();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
     ns_lp_printf("the captured audio into one of the following phrases:\n");
     ns_lp_printf("yes, no, up, down, left, right, on, off, or unknown/silence\n\n");
+    ns_stop_perf_profiler();
+    ns_capture_perf_profiler(&pp);
+    ns_print_perf_profile(&pp);
 
 #ifdef RPC_ENABLED
     ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
@@ -231,7 +224,6 @@ main(void) {
                 ns_lp_printf("\n");
                 audioRecording = false;
                 recording_win = NUM_FRAMES;
-                ns_set_power_monitor_state(NS_INFERING);
                 state = INFERING; // have full sample
             } else {
                 ns_set_power_monitor_state(NS_DATA_COLLECTION);
@@ -246,7 +238,21 @@ main(void) {
                 model_input->data.int8[i] = (int8_t)tmp;
             }
 
+            ns_set_power_monitor_state(NS_INFERING);
+
+            // if (measure_first_inference) {
+            ns_start_perf_profiler();
+            // }
             TfLiteStatus invoke_status = interpreter->Invoke();
+
+            // if (measure_first_inference) {
+            measure_first_inference = false;
+            ns_stop_perf_profiler();
+            ns_capture_perf_profiler(&pp);
+            ns_print_perf_profile(&pp);
+            // }
+            ns_set_power_monitor_state(NS_IDLE);
+
             if (invoke_status != kTfLiteOk) {
                 ns_lp_printf("Invoke failed\n");
                 while (1) {
@@ -272,7 +278,6 @@ main(void) {
             ns_lp_printf("Press Button 0 to start listening...\n");
 
             buttonPressed = false; // thoroughly debounce the button
-            ns_set_power_monitor_state(NS_IDLE);
             state = WAITING_TO_RECORD;
             break;
         }

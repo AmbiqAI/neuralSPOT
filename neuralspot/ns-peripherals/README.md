@@ -7,7 +7,7 @@ The peripheral library is a collection of useful tools for interacting with Ambi
 
 ## Controlling Power Configuration
 
-This part of the component allows developers to easily configure the platform's power modes, which involves turning peripherals on or off, and configuring the MCU's cache, memory, and clock modes. Configuration can be used in two ways: the developer can choose one of the predefined optimized power settings (defined [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/neuralspot/ns-peripherals/src/ns_power.c#L51)), or can specify their own like so:
+This part of the component allows developers to easily configure the platform's power modes, which involves turning peripherals on or off, and configuring the MCU's cache, memory, and clock modes. Configuration can be used in two ways: the developer can choose one of the predefined optimized power settings (defined [here](https://github.com/AmbiqAI/neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c)), or can specify their own like so:
 
 ```c
 main() {

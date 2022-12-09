@@ -52,7 +52,7 @@ The basic_tf_stub example is based on a speech to intent model.
 
 #define RINGBUFFER_MODE
 // #define RPC_ENABLED
-#define ENERGY_MONITOR_ENABLE
+// #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
 #include "basic_tf_stub.h"
@@ -75,18 +75,6 @@ The basic_tf_stub example is based on a speech to intent model.
 static int recording_win = NUM_FRAMES;
 
 typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
-
-const ns_power_config_t ns_lp_audio = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                       .bNeedAudAdc = true,
-                                       .bNeedSharedSRAM = false,
-                                       .bNeedCrypto = false,
-                                       .bNeedBluetooth = false,
-                                       .bNeedUSB = false,
-                                       .bNeedIOM = false,
-                                       .bNeedAlternativeUART = false,
-                                       .b128kTCM = false,
-                                       .bEnableTempCo = false,
-                                       .bNeedITM = false};
 
 /**
  * @brief Main basic_tf_stub - infinite loop listening and inferring
@@ -128,7 +116,7 @@ main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    ns_power_config(&ns_lp_audio);
+    ns_power_config(&ns_audio_default);
 
 #ifdef LOWEST_POWER_MODE
     ns_uart_printf_enable(); // use uart to print, uses less power
@@ -154,20 +142,14 @@ main(void) {
     ns_audio_init(&audio_config);
     ns_mfcc_init(&mfcc_config);
     ns_peripheral_button_init(&button_config);
-    // if (measure_first_inference) {
-    ns_init_perf_profiler(); // count inference cycles the first time it is invoked
-    // }
+    if (measure_first_inference) {
+        ns_init_perf_profiler(); // count inference cycles the first time it is invoked
+    }
     am_hal_interrupt_master_enable();
-    ns_deep_sleep();
-
-    ns_start_perf_profiler();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
     ns_lp_printf("the captured audio into one of the following phrases:\n");
     ns_lp_printf("yes, no, up, down, left, right, on, off, or unknown/silence\n\n");
-    ns_stop_perf_profiler();
-    ns_capture_perf_profiler(&pp);
-    ns_print_perf_profile(&pp);
 
 #ifdef RPC_ENABLED
     ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
@@ -240,17 +222,17 @@ main(void) {
 
             ns_set_power_monitor_state(NS_INFERING);
 
-            // if (measure_first_inference) {
-            ns_start_perf_profiler();
-            // }
+            if (measure_first_inference) {
+                ns_start_perf_profiler();
+            }
             TfLiteStatus invoke_status = interpreter->Invoke();
 
-            // if (measure_first_inference) {
-            measure_first_inference = false;
-            ns_stop_perf_profiler();
-            ns_capture_perf_profiler(&pp);
-            ns_print_perf_profile(&pp);
-            // }
+            if (measure_first_inference) {
+                measure_first_inference = false;
+                ns_stop_perf_profiler();
+                ns_capture_perf_profiler(&pp);
+                ns_print_perf_profile(&pp);
+            }
             ns_set_power_monitor_state(NS_IDLE);
 
             if (invoke_status != kTfLiteOk) {

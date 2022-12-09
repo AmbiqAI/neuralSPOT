@@ -1,5 +1,5 @@
 /**
- * @file ns_profile.c
+ * @file ns_perf_profile.c
  * @author Carlos Morales
  * @brief Collection of performance and power profiling utilities
  * @version 0.1
@@ -11,6 +11,14 @@
 #include "ns_perf_profile.h"
 #include "ns_ambiqsuite_harness.h"
 
+/**
+ * @brief Enables the Cache profile counters
+ *
+ * Enables cache performance counters (uses slightly more power)
+ *
+ * @param cfg
+ * @return uint8_t
+ */
 uint8_t
 ns_cache_profiler_init(ns_cache_config_t *cfg) {
     uint8_t status = AM_HAL_STATUS_SUCCESS;
@@ -25,6 +33,11 @@ ns_cache_profiler_init(ns_cache_config_t *cfg) {
     return status;
 }
 
+/**
+ * @brief Capture cache counters in 'dump'
+ *
+ * @param dump
+ */
 void
 ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->daccess = CPU->DMON0;
@@ -37,32 +50,51 @@ ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->ihitsline = CPU->IMON3;
 }
 
+/**
+ * @brief Prints contents of captured 'dump'
+ *
+ * @param dump
+ */
 void
 ns_print_cache_stats(ns_cache_dump_t *dump) {
-    ns_printf("****** Dcache Accesses :         %d\r\n", dump->daccess);
-    ns_printf("****** Dcache Tag Lookups :      %d\r\n", dump->dtaglookup);
-    ns_printf("****** Dcache hits for lookups : %d\r\n", dump->dhitslookup);
-    ns_printf("****** Dcache hits for lines :   %d\r\n", dump->dhitsline);
-    ns_printf("****** Icache Accesses :         %d\r\n", dump->iaccess);
-    ns_printf("****** Icache Tag Lookups :      %d\r\n", dump->itaglookup);
-    ns_printf("****** Icache hits for lookups : %d\r\n", dump->ihitslookup);
-    ns_printf("****** Icache hits for lines :   %d\r\n", dump->ihitsline);
+    ns_lp_printf("****** Dcache Accesses :         %d\r\n", dump->daccess);
+    ns_lp_printf("****** Dcache Tag Lookups :      %d\r\n", dump->dtaglookup);
+    ns_lp_printf("****** Dcache hits for lookups : %d\r\n", dump->dhitslookup);
+    ns_lp_printf("****** Dcache hits for lines :   %d\r\n", dump->dhitsline);
+    ns_lp_printf("****** Icache Accesses :         %d\r\n", dump->iaccess);
+    ns_lp_printf("****** Icache Tag Lookups :      %d\r\n", dump->itaglookup);
+    ns_lp_printf("****** Icache hits for lookups : %d\r\n", dump->ihitslookup);
+    ns_lp_printf("****** Icache hits for lines :   %d\r\n", dump->ihitsline);
 }
 
+/**
+ * @brief Prints the difference between two captured dumps
+ *
+ * @param start
+ * @param end
+ */
 void
 ns_print_cache_stats_delta(ns_cache_dump_t *start, ns_cache_dump_t *end) {
-    ns_printf("****** Delta Dcache Accesses :         %d\r\n", end->daccess - start->daccess);
-    ns_printf("****** Delta Dcache Tag Lookups :      %d\r\n", end->dtaglookup - start->dtaglookup);
-    ns_printf("****** Delta Dcache hits for lookups : %d\r\n",
-              end->dhitslookup - start->dhitslookup);
-    ns_printf("****** Delta Dcache hits for lines :   %d\r\n", end->dhitsline - start->dhitsline);
-    ns_printf("****** Delta Icache Accesses :         %d\r\n", end->iaccess - start->iaccess);
-    ns_printf("****** Delta Icache Tag Lookups :      %d\r\n", end->itaglookup - start->itaglookup);
-    ns_printf("****** Delta Icache hits for lookups : %d\r\n",
-              end->ihitslookup - start->ihitslookup);
-    ns_printf("****** Delta Icache hits for lines :   %d\r\n", end->ihitsline - start->ihitsline);
+    ns_lp_printf("****** Delta Dcache Accesses :         %d\r\n", end->daccess - start->daccess);
+    ns_lp_printf("****** Delta Dcache Tag Lookups :      %d\r\n",
+                 end->dtaglookup - start->dtaglookup);
+    ns_lp_printf("****** Delta Dcache hits for lookups : %d\r\n",
+                 end->dhitslookup - start->dhitslookup);
+    ns_lp_printf("****** Delta Dcache hits for lines :   %d\r\n",
+                 end->dhitsline - start->dhitsline);
+    ns_lp_printf("****** Delta Icache Accesses :         %d\r\n", end->iaccess - start->iaccess);
+    ns_lp_printf("****** Delta Icache Tag Lookups :      %d\r\n",
+                 end->itaglookup - start->itaglookup);
+    ns_lp_printf("****** Delta Icache hits for lookups : %d\r\n",
+                 end->ihitslookup - start->ihitslookup);
+    ns_lp_printf("****** Delta Icache hits for lines :   %d\r\n",
+                 end->ihitsline - start->ihitsline);
 }
 
+/**
+ * @brief Resets DWT counter register values
+ *
+ */
 void
 ns_reset_perf_counters(void) {
     DWT->CYCCNT = 0;
@@ -73,12 +105,20 @@ ns_reset_perf_counters(void) {
     DWT->FOLDCNT = 0;
 }
 
+/**
+ * @brief Initializes DWT counters, does not enable counters
+ *
+ */
 void
 ns_init_perf_profiler(void) {
     DWT->CTRL = 0;
     ns_reset_perf_counters();
 }
 
+/**
+ * @brief Enables DWT counters
+ *
+ */
 void
 ns_start_perf_profiler(void) {
     am_hal_itm_enable();
@@ -89,11 +129,20 @@ ns_start_perf_profiler(void) {
                 _VAL2FLD(DWT_CTRL_CYCEVTENA, 1);
 }
 
+/**
+ * @brief Disables DWT counters
+ *
+ */
 void
 ns_stop_perf_profiler(void) {
     DWT->CTRL = 0;
 }
 
+/**
+ * @brief Captures DWT counter values into 'c'
+ *
+ * @param c
+ */
 void
 ns_capture_perf_profiler(ns_perf_counters_t *c) {
     c->cyccnt = DWT->CYCCNT;
@@ -104,6 +153,11 @@ ns_capture_perf_profiler(ns_perf_counters_t *c) {
     c->foldcnt = DWT->FOLDCNT;
 }
 
+/**
+ * @brief Prints DWT counter values captured in 'c'
+ *
+ * @param c
+ */
 void
 ns_print_perf_profile(ns_perf_counters_t *c) {
     uint32_t instruction_count;

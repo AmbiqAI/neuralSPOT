@@ -68,6 +68,7 @@ The basic_tf_stub example is based on a speech to intent model.
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
+#include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
 
@@ -144,9 +145,28 @@ main(void) {
         4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
     */
 #endif
+        // while(1) {ns_deep_sleep();}
 
+    // DWT->CTRL = 0;
+    // DWT->CYCCNT = 0;
+    // DWT->CPICNT = 0;
+    // DWT->EXCCNT = 0;
+    // DWT->SLEEPCNT = 0;
+    // DWT->LSUCNT = 0;
+    // DWT->FOLDCNT = 0;
+    ns_perf_counters_t pp;
+    ns_init_perf_profiler();
+    ns_start_perf_profiler();
     model_init();
+    ns_stop_perf_profiler();
+    ns_capture_perf_profiler(&pp);
+    ns_print_perf_profile(&pp);
+    // DWT->CTRL = 0;
+    // int count = DWT->CYCCNT - DWT->CPICNT - DWT->EXCCNT - DWT->SLEEPCNT + DWT->FOLDCNT;
+    // ns_lp_printf("after %d cycles, count =  %d\n", DWT->CYCCNT, count);
+
     ns_audio_init(&audio_config);
+    // while(1) {ns_deep_sleep();}
 
     ns_mfcc_init(&mfcc_config);
     ns_peripheral_button_init(&button_config);

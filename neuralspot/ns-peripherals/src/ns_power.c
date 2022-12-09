@@ -122,6 +122,18 @@ const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
                                             .bEnableTempCo = true,
                                             .bNeedITM = true};
 
+const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                            .bNeedAudAdc = true,
+                                            .bNeedSharedSRAM = false,
+                                            .bNeedCrypto = false,
+                                            .bNeedBluetooth = false,
+                                            .bNeedUSB = false,
+                                            .bNeedIOM = false,
+                                            .bNeedAlternativeUART = false,
+                                            .b128kTCM = false,
+                                            .bEnableTempCo = true,
+                                            .bNeedITM = false};
+
 //*****************************************************************************
 //
 // Internal method for turning off peripherals

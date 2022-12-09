@@ -68,24 +68,13 @@ The basic_tf_stub example is based on a speech to intent model.
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
+#include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
 #include "ns_usb.h"
 
 static int recording_win = NUM_FRAMES;
 
 typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
-
-const ns_power_config_t ns_lp_audio = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                       .bNeedAudAdc = true,
-                                       .bNeedSharedSRAM = false,
-                                       .bNeedCrypto = false,
-                                       .bNeedBluetooth = false,
-                                       .bNeedUSB = false,
-                                       .bNeedIOM = false,
-                                       .bNeedAlternativeUART = false,
-                                       .b128kTCM = false,
-                                       .bEnableTempCo = false,
-                                       .bNeedITM = false};
 
 /**
  * @brief Main basic_tf_stub - infinite loop listening and inferring
@@ -99,6 +88,9 @@ main(void) {
     float output[kCategoryCount];
     uint8_t output_max = 0;
     float max_val = 0.0;
+    bool measure_first_inference = true;
+    ns_perf_counters_t pp;
+
 #ifdef RPC_ENABLED
     myState_e state = WAITING_TO_START_RPC_SERVER;
 #else
@@ -124,7 +116,7 @@ main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    ns_power_config(&ns_lp_audio);
+    ns_power_config(&ns_audio_default);
 
 #ifdef LOWEST_POWER_MODE
     ns_uart_printf_enable(); // use uart to print, uses less power
@@ -146,10 +138,13 @@ main(void) {
 #endif
 
     model_init();
-    ns_audio_init(&audio_config);
 
+    ns_audio_init(&audio_config);
     ns_mfcc_init(&mfcc_config);
     ns_peripheral_button_init(&button_config);
+    if (measure_first_inference) {
+        ns_init_perf_profiler(); // count inference cycles the first time it is invoked
+    }
     am_hal_interrupt_master_enable();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
@@ -211,7 +206,6 @@ main(void) {
                 ns_lp_printf("\n");
                 audioRecording = false;
                 recording_win = NUM_FRAMES;
-                ns_set_power_monitor_state(NS_INFERING);
                 state = INFERING; // have full sample
             } else {
                 ns_set_power_monitor_state(NS_DATA_COLLECTION);
@@ -226,7 +220,21 @@ main(void) {
                 model_input->data.int8[i] = (int8_t)tmp;
             }
 
+            ns_set_power_monitor_state(NS_INFERING);
+
+            if (measure_first_inference) {
+                ns_start_perf_profiler();
+            }
             TfLiteStatus invoke_status = interpreter->Invoke();
+
+            if (measure_first_inference) {
+                measure_first_inference = false;
+                ns_stop_perf_profiler();
+                ns_capture_perf_profiler(&pp);
+                ns_print_perf_profile(&pp);
+            }
+            ns_set_power_monitor_state(NS_IDLE);
+
             if (invoke_status != kTfLiteOk) {
                 ns_lp_printf("Invoke failed\n");
                 while (1) {
@@ -252,7 +260,6 @@ main(void) {
             ns_lp_printf("Press Button 0 to start listening...\n");
 
             buttonPressed = false; // thoroughly debounce the button
-            ns_set_power_monitor_state(NS_IDLE);
             state = WAITING_TO_RECORD;
             break;
         }

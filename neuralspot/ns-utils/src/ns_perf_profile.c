@@ -81,7 +81,12 @@ ns_init_perf_profiler(void) {
 
 void
 ns_start_perf_profiler(void) {
-    DWT->CTRL = 1;
+    am_hal_itm_enable();
+    // DWT->CTRL = 1;
+    DWT->CTRL = _VAL2FLD(DWT_CTRL_CYCCNTENA, 1) | _VAL2FLD(DWT_CTRL_CPIEVTENA, 1) |
+                _VAL2FLD(DWT_CTRL_EXCEVTENA, 1) | _VAL2FLD(DWT_CTRL_SLEEPEVTENA, 1) |
+                _VAL2FLD(DWT_CTRL_LSUEVTENA, 1) | _VAL2FLD(DWT_CTRL_FOLDEVTENA, 1) |
+                _VAL2FLD(DWT_CTRL_CYCEVTENA, 1);
 }
 
 void

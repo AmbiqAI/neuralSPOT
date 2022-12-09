@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include "ns_cache_profile.h"
+#include "ns_perf_profile.h"
 #include "ns_ambiqsuite_harness.h"
 
 uint8_t
@@ -61,4 +61,56 @@ ns_print_cache_stats_delta(ns_cache_dump_t *start, ns_cache_dump_t *end) {
     ns_printf("****** Delta Icache hits for lookups : %d\r\n",
               end->ihitslookup - start->ihitslookup);
     ns_printf("****** Delta Icache hits for lines :   %d\r\n", end->ihitsline - start->ihitsline);
+}
+
+void
+ns_reset_perf_counters(void) {
+    DWT->CYCCNT = 0;
+    DWT->CPICNT = 0;
+    DWT->EXCCNT = 0;
+    DWT->SLEEPCNT = 0;
+    DWT->LSUCNT = 0;
+    DWT->FOLDCNT = 0;
+}
+
+void
+ns_init_perf_profiler(void) {
+    DWT->CTRL = 0;
+    ns_reset_perf_counters();
+}
+
+void
+ns_start_perf_profiler(void) {
+    DWT->CTRL = 1;
+}
+
+void
+ns_stop_perf_profiler(void) {
+    DWT->CTRL = 0;
+}
+
+void
+ns_capture_perf_profiler(ns_perf_counters_t *c) {
+    c->cyccnt = DWT->CYCCNT;
+    c->cpicnt = DWT->CPICNT;
+    c->exccnt = DWT->EXCCNT;
+    c->sleepcnt = DWT->SLEEPCNT;
+    c->lsucnt = DWT->LSUCNT;
+    c->foldcnt = DWT->FOLDCNT;
+}
+
+void
+ns_print_perf_profile(ns_perf_counters_t *c) {
+    uint32_t instruction_count;
+
+    instruction_count = c->cyccnt - c->cpicnt - c->exccnt - c->sleepcnt - c->lsucnt + c->foldcnt;
+
+    ns_lp_printf("Summary: %d cycles, %d instructions\n", c->cyccnt, instruction_count);
+    ns_lp_printf("Details\n");
+    ns_lp_printf("Cycle Count: %d\n", c->cyccnt);
+    ns_lp_printf("CPI Count: %d\n", c->cpicnt);
+    ns_lp_printf("Exception Entry/Exits Count: %d\n", c->exccnt);
+    ns_lp_printf("Sleep Cycles Count: %d\n", c->sleepcnt);
+    ns_lp_printf("Load/Store Wait Count: %d\n", c->lsucnt);
+    ns_lp_printf("Folded (cycles saved by zero-cycle instructions) Count: %d\n", c->foldcnt);
 }

@@ -43,6 +43,33 @@ ns_print_cache_stats(ns_cache_dump_t *dump);
 extern void
 ns_print_cache_stats_delta(ns_cache_dump_t *start, ns_cache_dump_t *end);
 
+typedef struct {
+    uint32_t cyccnt;
+    uint32_t cpicnt;
+    uint32_t exccnt;
+    uint32_t sleepcnt;
+    uint32_t lsucnt;
+    uint32_t foldcnt;
+} ns_perf_counters_t;
+
+extern void
+ns_reset_perf_counters(void);
+
+extern void
+ns_init_perf_profiler(void);
+
+extern void
+ns_start_perf_profiler(void);
+
+extern void
+ns_stop_perf_profiler(void);
+
+extern void
+ns_capture_perf_profiler(ns_perf_counters_t *c);
+
+extern void
+ns_print_perf_profile(ns_perf_counters_t *c);
+
 #ifdef __cplusplus
 }
 #endif

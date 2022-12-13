@@ -144,7 +144,7 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     //
     // Configure the MRAM for low power mode
     //
-    MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 0;
+    MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
     MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
     MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
 #endif

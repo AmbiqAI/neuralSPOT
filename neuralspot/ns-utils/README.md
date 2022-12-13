@@ -15,7 +15,7 @@ The ns-utils library is a assorted collection of utilities to help with various 
 
 This simple library allows you to control two GPIO pins which can be monitored by some external energy monitor tools to mark 'regions of interest' (e.g. feature extraction vs. inference). For example, Joulescopes have two inputs which can be displayed along with the energy waveforms - in the diagram below, `in0` and `in1` distinguish between audio capture (in0 = 1 and in1=0), feature extraction (in0 = 1 and in1 = 0), inference (both 1) and idle (both 0).
 
-![image-20221209110633653](/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/images/image-20221209110633653.png)
+![image-20221209110633653](../../docs/images/image-20221209110633653.png)
 
 Using this requires connecting GPIO pins 22 and 23 to the energy monitor, and the following code:
 

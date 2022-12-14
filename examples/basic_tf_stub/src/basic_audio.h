@@ -57,17 +57,8 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         //     ns_printf("Warning - audio buffer wasnt consumed in time\n");
         // }
 
-        // Raw PCM data is 32b (14b/channel) - here we only care about one
-        // channel For ringbuffer mode, this loop may feel extraneous, but it is
-        // needed because ringbuffers are treated a blocks, so there is no way
-        // to convert 32b->16b
-        for (int i = 0; i < config->numSamples; i++) {
-            in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-            if (i == 4) {
-                // Workaround for AUDADC sample glitch, here while it is root caused
-                in16AudioDataBuffer[3] = (in16AudioDataBuffer[2] + in16AudioDataBuffer[4]) / 2;
-            }
-        }
+        // Raw PCM data is 32b (14b/channel) - convert it to 16b PCM
+        ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
 
 #ifdef RINGBUFFER_MODE
         ns_ipc_ring_buffer_push(&(config->bufferHandle[0]), in16AudioDataBuffer,

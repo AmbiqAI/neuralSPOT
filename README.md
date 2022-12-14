@@ -9,7 +9,7 @@ NeuralSPOT documentation is spread throughout the repository - generally, every 
 
 NeuralSPOT is designed to be used in two ways:
 1. **As the 'base of operations' for your AI development**. Intended for stand-alone EVB development, you can add new binary (axf) targets to the /examples directory.
-2. **As a seed for adding NeuralSPOT to a larger project**. In this mode of operations, you would use NeuralSPOT to create a stub project (a [nest](#The Nest)) with everything needed to start running AI on EVBs.
+2. **As a seed for adding NeuralSPOT to a larger project**. In this mode of operations, you would use NeuralSPOT to create a stub project (a "nest", described below) with everything needed to start running AI on EVBs.
 
 ## Build Options
 All `make` invocations for NS must be done from the base directory ("nest" makes are different, and defined below). The primary targets are:

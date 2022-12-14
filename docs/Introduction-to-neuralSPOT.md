@@ -69,6 +69,6 @@ See our Instrumented Model (TODO) example for one way to use neuralSPOT's [RPC u
 
 ### neuralSPOT for Application Specialists
 
-Application Specialists can use NeuralSPOT as a fast way to integrate an AI model into their application. They’ll typically leverage the ready-made Tensorflow Lite for Microcontroller [examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub), use the SDK’s audio and i2c drivers to rapidly integrate their data sources, and [optimize](https://github.com/AmbiqAI/neuralSPOT/blob/carlos/document2/docs/optimizing_using_neuralspot.md) for power, performance, and size after it all works.
+Application Specialists can use NeuralSPOT as a fast way to integrate an AI model into their application. They’ll typically leverage the ready-made Tensorflow Lite for Microcontroller [examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub), use the SDK’s audio and i2c drivers to rapidly integrate their data sources, and [optimize](./optimizing_using_neuralspot.md) for power, performance, and size after it all works.
 
 See [Developing using neuralSPOT](./Developing_with_NeuralSPOT.md) for a discussion of how various workflows are supported.

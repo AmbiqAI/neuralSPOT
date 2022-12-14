@@ -49,15 +49,15 @@ neuralSPOT offers a number of tools and libraries to help optimize AI features:
 
 ### The Data Ingestion Libraries
 
-The Audio library takes advantage of Apollo4 Plus' highly efficient audio peripherals to capture audio for AI inference. It supports several interprocess communication mechanisms to make the captured data available to the AI feature - one of these is a 'ring buffer' model which ping-pongs captured data buffers to facilitate in-place processing by feature extraction code. The basic_tf_stub example includes ring buffer [initialization](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/basic_tf_stub/src/main.cc#L272) and [usage](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/basic_tf_stub/src/main.cc#L256) (and [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/basic_tf_stub/src/main.cc#L395)) examples.
+The Audio library takes advantage of Apollo4 Plus' highly efficient audio peripherals to capture audio for AI inference. It supports several interprocess communication mechanisms to make the captured data available to the AI feature - one of these is a 'ring buffer' model which ping-pongs captured data buffers to facilitate in-place processing by feature extraction code. The basic_tf_stub example includes ring buffer [initialization](../examples/basic_tf_stub/src/basic_audio.h) and [usage](../examples/basic_tf_stub/src/basic_tf_stub.cc) examples.
 
-### Power Aware Library
+### Power-Aware Library
 
-The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/examples/rpc_client_example/src/rpc_client.cc#L70). It is typically called once, during initialization. 
+The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](../examples/rpc_client_example/src/rpc_client.cc). It is typically called once, during initialization. 
 
 > **NOTE** This is useful during feature development and optimization, but most AI features are meant to be integrated into a larger application which usually dictates power configuration.
 
-The library is can be used in two ways: the developer can choose one of the predefined optimized power settings (defined [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/neuralspot/ns-peripherals/src/ns_power.c#L51)), or can specify their own like so:
+The library is can be used in two ways: the developer can choose one of the predefined optimized power settings (defined [here](../neuralspot/ns-peripherals/src/ns_power.c)), or can specify their own like so:
 
 ```c
 const ns_power_config_t myConfig = {
@@ -83,7 +83,7 @@ main() {
 There are a number of peripherals that will prevent the SoC from actually entering deep sleep, and often these peripherals are only used for a short period. neuralSPOT's `ns_deep_sleep()` keeps track of peripherals used by neuralSPOT, and disables/enables them as needed.
 
 #### Debugging Optimized Code
-Real applications rarely have to `printf`, but this is a common operation while a model is being development and debugged. Even `printf` will not be used after the feature is released, neuralSPOT offers power-aware `printf` support so that the debug-mode power utilization is close to the final one.
+Real applications rarely have to `printf`, but this is a common operation while a model is being development and debugged. Even though `printf` will typically not be used after the feature is released, neuralSPOT offers power-aware `printf` support so that the debug-mode power utilization is close to the final one.
 
 When using Jlink to debug, prints are usually emitted to either the SWO interface or the UART interface, each of which has power implications. Selecting which interface to use is straighforward:
 
@@ -92,6 +92,8 @@ When using Jlink to debug, prints are usually emitted to either the SWO interfac
 /// or
         ns_itm_printf_enable(); // *may* use more power
 ```
+
+The tradeoff between UART and ITM isn't straightforward: enabling UART will use slightly more power than enabling ITM *without* connecting to the ITM interface (e.g. via `make view`), but connecting to the ITM will use much more power (authors note: when we're only doing occasional debug via printf, we'll use ITM and leave it disconnected except as needed).
 
 Once an interface has been chosen, printing is via neuralSPOT's low power printf, `ns_lp_printf()`, which behaves just like a normal printf except it enables needed peripherals only when needed - it is meant to be used in conjunction with `ns_deep_sleep()`, described above.
 
@@ -109,9 +111,9 @@ ns_set_power_monitor_state(NS_POWERMON_INFERING);
 
 As mentioned above, there are several non-obvious knobs that have energy performance impact, including TFLM version, linking order, and compilation settings.
 
-1. TFLM version: configured via neuralSPOT's makefile [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/make/neuralspot_config.mk#L22).
-2. Linking Order: configured via neuralSPOT's makefile [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/make/neuralspot_toolchain.mk#L48).
-3. Compilation Settings: configured via neuralSPOT's makefile [here](https://github.com/AmbiqAI/neuralSPOT/blob/70438d631a160988412aa3ba0c27e15d589ac92c/make/neuralspot_toolchain.mk#L41). Note that the GCC optimization setting is a tradeoff between code size, performance, and energy efficiency. -O3 will result in the fastest, but slightly larger, code.
+1. TFLM version: configured via neuralSPOT's makefile [here](../make/neuralspot_config.mk).
+2. Linking Order: configured via neuralSPOT's makefile [here](../make/neuralspot_toolchain.mk).
+3. Compilation Settings: configured via neuralSPOT's makefile [here](../make/neuralspot_toolchain.mk). Note that the GCC optimization setting is a tradeoff between code size, performance, and energy efficiency. `-O3` will result in the fastest, but slightly larger, code.
 
 ## Parting Words
 

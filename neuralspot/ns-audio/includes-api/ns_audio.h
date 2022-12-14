@@ -127,6 +127,16 @@ extern ns_audio_config_t *g_ns_audio_config;
 extern uint32_t
 ns_audio_init(ns_audio_config_t *);
 
+/**
+ * @brief Extract int16 PCM from data collected by ADC
+ *
+ * @param pcm - resulting PCM data
+ * @param raw - incoming data from ADC engine
+ * @param len - number of sample words to convert
+ */
+extern void
+ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
+
 #ifdef __cplusplus
 }
 #endif

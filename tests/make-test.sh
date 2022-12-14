@@ -2,7 +2,7 @@
 set -e
 echo "Running all makes"
 for TF in "R2.3.1" "0c46d6e"; do
-    for AS in "R4.3.0" "R4.1.0"; do
+    for AS in "R4.3.0" "R4.2.0" "R4.1.0"; do
         make -f Makefile clean > /dev/null
         make -f Makefile AS_VERSION=${AS} TF_VERSION=${TF} -j > /dev/null && echo "Make AS_VERSION=$AS TF_VERSION=$TF success" || echo "Make AS_VERSION=$AS TF_VERSION=$TF failed"
         make -f Makefile nestall > /dev/null > /dev/null && echo "Make Nestall AS_VERSION=$AS TF_VERSION=$TF success" || echo "Make Nestall AS_VERSION=$AS TF_VERSION=$TF failed"

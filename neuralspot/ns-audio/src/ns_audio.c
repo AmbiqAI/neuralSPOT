@@ -96,3 +96,14 @@ ns_audio_init(ns_audio_config_t *cfg) {
 
     return AM_HAL_STATUS_SUCCESS;
 }
+
+void
+ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
+    for (int i = 0; i < len; i++) {
+        pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
+        if (i == 4) {
+            // Workaround for AUDADC sample glitch, here while it is root caused
+            pcm[3] = (pcm[2] + pcm[4]) / 2;
+        }
+    }
+}

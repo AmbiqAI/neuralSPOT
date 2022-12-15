@@ -14,7 +14,7 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 ### Software
 | External Component                   | Versions         | Notes                                                        |
 | ------------------------------------ | ---------------- | ------------------------------------------------------------ |
-| AmbiqSuite                           | 4.1.0, 4.3.0     | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
+| AmbiqSuite                           | 4.1.0, 4.2.0, 4.3.0 | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
 | Tensorflow Lite for Microcontrollers | 2.3.1, c046d6e   |                                                              |
 | Embedded RPC                         | 1.9.1 Ambiq Fork | Please use this [fork](https://github.com/AmbiqAI/erpc).     |
 | SEGGER RTT                           | 7.70a            |                                                              |

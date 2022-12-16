@@ -59,13 +59,22 @@ extern "C" {
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
 #include "ns_ipc_ring_buffer.h"
 
-#define NS_AUDIO_VERSION "0.0.1"
-#define NS_AUDIO_MAGIC 0xCA0001
-#define NS_AUDIO_CHK_HANDLE(h)                                                                     \
-    ((h) && ((am_hal_handle_prefix_t *)(h))->s.bInit &&                                            \
-     (((am_hal_handle_prefix_t *)(h))->s.magic == NS_AUDIO_MAGIC))
+#define NS_AUDIO_V0_0_1                                                                            \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_AUDIO_V1_0_0                                                                            \
+    { .major = 1, .minor = 0, .revision = 0 }
+
+#define NS_AUDIO_OLDEST_SUPPORTED_VERSION NS_AUDIO_V0_0_1
+#define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V1_0_0
+#define NS_AUDIO_API_ID 0xCA0001
+
+extern const ns_core_api_t ns_audio_V0_0_1;
+extern const ns_core_api_t ns_audio_V1_0_0;
+extern const ns_core_api_t ns_audio_oldest_supported_version;
+extern const ns_core_api_t ns_audio_current_version;
 
 #ifndef NS_AUDIO_DMA_BUFFER_SIZE
     #define NS_AUDIO_DMA_BUFFER_SIZE 480
@@ -95,8 +104,7 @@ typedef void (*ns_audio_callback_cb)(struct ns_audio_cfg *, uint16_t);
 /// as a handle after ns_audio_init() has been invoked
 ///
 typedef struct ns_audio_cfg {
-    am_hal_handle_prefix_t prefix;
-
+    const ns_core_api_t *api;          ///< API prefix
     ns_audio_api_mode_e eAudioApiMode; /**< Defines how the audio system will
                                             interact with the applications */
 

@@ -27,7 +27,7 @@ ns_usb_service_callback(ns_timer_config_t *c) {
     tud_task();
 }
 
-ns_timer_config_t g_ns_usbTimer = {.prefix = {0},
+ns_timer_config_t g_ns_usbTimer = {.api = &ns_timer_V1_0_0,
                                    .timer = NS_TIMER_USB,
                                    .enableInterrupt = true,
                                    .periodInMicroseconds = 1000,

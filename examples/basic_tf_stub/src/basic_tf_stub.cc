@@ -90,6 +90,7 @@ main(void) {
     float max_val = 0.0;
     bool measure_first_inference = true;
     ns_perf_counters_t pp;
+    ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
 #ifdef RPC_ENABLED
     myState_e state = WAITING_TO_START_RPC_SERVER;
@@ -100,7 +101,11 @@ main(void) {
     // Tells callback if it should be recording audio
     audioRecording = false;
 
-    ns_core_init();
+    if (ns_core_init(&ns_core_cfg)) {
+        ns_lp_printf("Core init failed");
+        while (1)
+            ;
+    }
 
 #ifdef ENERGY_MONITOR_ENABLE
     // This is for measuring power using an external power monitor such as
@@ -139,7 +144,12 @@ main(void) {
 
     model_init();
 
-    ns_audio_init(&audio_config);
+    if (ns_audio_init(&audio_config)) {
+        ns_lp_printf("Audio Initialization Failed.\n");
+        while (1)
+            ;
+    }
+
     ns_mfcc_init(&mfcc_config);
     ns_peripheral_button_init(&button_config);
     if (measure_first_inference) {

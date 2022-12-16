@@ -45,7 +45,8 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     }
 }
 
-ns_audio_config_t audioConfig = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
+ns_audio_config_t audioConfig = {.api = &ns_audio_V1_0_0,
+                                 .eAudioApiMode = NS_AUDIO_API_CALLBACK,
                                  .callback = audio_frame_callback,
                                  .audioBuffer = (void *)&in16AudioDataBuffer,
                                  .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
@@ -77,7 +78,11 @@ main(void) {
 
     // -- Audio init
     int recordingWin = NUM_FRAMES;
-    ns_audio_init(&audioConfig);
+    if (ns_audio_init(&audioConfig)) {
+        ns_lp_printf("Audio Initialization Failed.\n");
+        while (1)
+            ;
+    }
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;

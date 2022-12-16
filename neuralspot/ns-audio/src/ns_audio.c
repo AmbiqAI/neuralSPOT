@@ -23,6 +23,18 @@
 #include "ns_audadc.h"
 #include "ns_ipc_ring_buffer.h"
 
+const ns_core_api_t ns_audio_V0_0_1 = {
+    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1, .initialized = false};
+
+const ns_core_api_t ns_audio_V1_0_0 = {
+    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V1_0_0, .initialized = false};
+
+const ns_core_api_t ns_audio_oldest_supported_version = {
+    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION, .initialized = false};
+
+const ns_core_api_t ns_audio_current_version = {
+    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_CURRENT_VERSION, .initialized = false};
+
 //
 // Enable dumping audio to RTT via the AUDIODEBUG flag.
 //
@@ -55,21 +67,25 @@ ns_audio_init(ns_audio_config_t *cfg) {
     // Check the handle.
     //
     if (cfg == NULL) {
-        return AM_HAL_STATUS_INVALID_HANDLE;
+        return NS_STATUS_INVALID_HANDLE;
     }
 
-    // check version here
+    // check API version
+    if (ns_core_check_api(cfg->api, &ns_audio_oldest_supported_version,
+                          &ns_audio_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
 
     if ((cfg->callback == NULL) || (cfg->audioBuffer == NULL) || (cfg->sampleBuffer == NULL)) {
-        return AM_HAL_STATUS_INVALID_HANDLE;
+        return NS_STATUS_INVALID_CONFIG;
     }
 
     if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples * 2) {
-        return AM_HAL_STATUS_INVALID_HANDLE;
+        return NS_STATUS_INVALID_CONFIG;
     }
 #endif
-    cfg->prefix.s.bInit = true;
-    cfg->prefix.s.magic = NS_AUDIO_MAGIC;
+
+    // cfg->api->initialized = true;
 
     g_ns_audio_config = cfg;
 
@@ -84,7 +100,9 @@ ns_audio_init(ns_audio_config_t *cfg) {
     }
 
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
-        audadc_init();
+        if (audadc_init()) {
+            return NS_STATUS_INIT_FAILED;
+        }
     }
 
 #ifdef NS_RTT_AUDIODEBUG

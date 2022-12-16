@@ -20,7 +20,18 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
 #include "ns_peripherals_button.h"
+
+const ns_core_api_t ns_button_V0_0_1 = {.apiId = NS_BUTTON_API_ID, .version = NS_BUTTON_V0_0_1};
+
+const ns_core_api_t ns_button_V1_0_0 = {.apiId = NS_BUTTON_API_ID, .version = NS_BUTTON_V1_0_0};
+
+const ns_core_api_t ns_button_oldest_supported_version = {.apiId = NS_BUTTON_API_ID,
+                                                          .version = NS_BUTTON_V0_0_1};
+
+const ns_core_api_t ns_button_current_version = {.apiId = NS_BUTTON_API_ID,
+                                                 .version = NS_BUTTON_V1_0_0};
 
 int volatile *g_ns_peripheral_button0;
 int volatile *g_ns_peripheral_button1;
@@ -72,11 +83,22 @@ am_gpio1_001f_isr(void) {
 
     *g_ns_peripheral_button1 = 1;
 }
-void
+uint32_t
 ns_peripheral_button_init(ns_button_config_t *cfg) {
     uint32_t ui32IntStatus;
     uint32_t ui32BUTTON0GpioNum = AM_BSP_GPIO_BUTTON0;
     uint32_t ui32BUTTON1GpioNum = AM_BSP_GPIO_BUTTON1;
+
+#ifndef NS_DISABLE_API_VALIDATION
+    if (cfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+
+    if (ns_core_check_api(cfg->api, &ns_button_oldest_supported_version,
+                          &ns_button_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+#endif
 
     //
     // Configure the button pin.
@@ -125,4 +147,5 @@ ns_peripheral_button_init(ns_button_config_t *cfg) {
     }
 
     am_hal_interrupt_master_enable();
+    return NS_STATUS_SUCCESS;
 }

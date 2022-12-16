@@ -50,7 +50,18 @@
 #include "ns_peripherals_power.h"
 #include "ns_tempco.h"
 
+const ns_core_api_t ns_power_V0_0_1 = {.apiId = NS_POWER_API_ID, .version = NS_POWER_V0_0_1};
+
+const ns_core_api_t ns_power_V1_0_0 = {.apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0};
+
+const ns_core_api_t ns_power_oldest_supported_version = {.apiId = NS_POWER_API_ID,
+                                                         .version = NS_POWER_V0_0_1};
+
+const ns_core_api_t ns_power_current_version = {.apiId = NS_POWER_API_ID,
+                                                .version = NS_POWER_V1_0_0};
+
 const ns_power_config_t ns_development_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                                  .api = &ns_power_V1_0_0,
                                                   .bNeedAudAdc = true,
                                                   .bNeedSharedSRAM = true,
                                                   .bNeedCrypto = false,
@@ -63,6 +74,7 @@ const ns_power_config_t ns_development_default = {.eAIPowerMode = NS_MAXIMUM_PER
                                                   .bNeedITM = true};
 
 const ns_power_config_t ns_good_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .api = &ns_power_V1_0_0,
                                            .bNeedAudAdc = false,
                                            .bNeedSharedSRAM = false,
                                            .bNeedCrypto = false,
@@ -75,6 +87,7 @@ const ns_power_config_t ns_good_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
                                            .bNeedITM = true};
 
 const ns_power_config_t ns_mlperf_mode1 = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .api = &ns_power_V1_0_0,
                                            .bNeedAudAdc = false,
                                            .bNeedSharedSRAM = false,
                                            .bNeedCrypto = false,
@@ -87,6 +100,7 @@ const ns_power_config_t ns_mlperf_mode1 = {.eAIPowerMode = NS_MAXIMUM_PERF,
                                            .bNeedITM = false};
 
 const ns_power_config_t ns_mlperf_mode2 = {.eAIPowerMode = NS_MINIMUM_PERF,
+                                           .api = &ns_power_V1_0_0,
                                            .bNeedAudAdc = false,
                                            .bNeedSharedSRAM = false,
                                            .bNeedCrypto = false,
@@ -99,6 +113,7 @@ const ns_power_config_t ns_mlperf_mode2 = {.eAIPowerMode = NS_MINIMUM_PERF,
                                            .bNeedITM = false};
 
 const ns_power_config_t ns_mlperf_mode3 = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                           .api = &ns_power_V1_0_0,
                                            .bNeedAudAdc = false,
                                            .bNeedSharedSRAM = false,
                                            .bNeedCrypto = false,
@@ -111,6 +126,7 @@ const ns_power_config_t ns_mlperf_mode3 = {.eAIPowerMode = NS_MAXIMUM_PERF,
                                            .bNeedITM = false};
 
 const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
+                                            .api = &ns_power_V1_0_0,
                                             .bNeedAudAdc = true,
                                             .bNeedSharedSRAM = false,
                                             .bNeedCrypto = false,
@@ -220,6 +236,23 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
 uint32_t
 ns_power_config(const ns_power_config_t *pCfg) {
     uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
+
+#ifndef NS_DISABLE_API_VALIDATION
+    if (pCfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+
+    if (ns_core_check_api(pCfg->api, &ns_power_oldest_supported_version,
+                          &ns_power_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+
+    if (!ns_core_initialized()) {
+        // Power needs ns_core to be initialized first
+        return NS_STATUS_INIT_FAILED;
+    }
+#endif
+
     am_bsp_low_power_init();
 
     // configure SRAM & other memories

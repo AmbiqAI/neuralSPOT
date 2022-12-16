@@ -18,6 +18,21 @@ extern "C" {
 #include "GenericDataOperations_EvbToPc.h"
 #include "GenericDataOperations_PcToEvb.h"
 #include "erpc_server_setup.h"
+#include "ns_core.h"
+
+#define NS_RPC_GDO_V0_0_1                                                                          \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_RPC_GDO_V1_0_0                                                                          \
+    { .major = 1, .minor = 0, .revision = 0 }
+
+#define NS_RPC_GDO_OLDEST_SUPPORTED_VERSION NS_RPC_GDO_V0_0_1
+#define NS_RPC_GDO_CURRENT_VERSION NS_RPC_GDO_V1_0_0
+#define NS_RPC_GDO_API_ID 0xCA0100
+
+extern const ns_core_api_t ns_rpc_gdo_V0_0_1;
+extern const ns_core_api_t ns_rpc_gdo_V1_0_0;
+extern const ns_core_api_t ns_rpc_gdo_oldest_supported_version;
+extern const ns_core_api_t ns_rpc_gdo_current_version;
 
 typedef status (*ns_rpc_data_sendBlockToEVB_cb)(const dataBlock *block);
 
@@ -28,6 +43,7 @@ typedef status (*ns_rpc_data_computeOnEVB_cb)(const dataBlock *in_block, dataBlo
 typedef enum { NS_RPC_GENERICDATA_CLIENT, NS_RPC_GENERICDATA_SERVER } rpcGenericDataMode_e;
 
 typedef struct {
+    const ns_core_api_t *api; ///< API prefix
     rpcGenericDataMode_e mode;
     ns_rpc_data_sendBlockToEVB_cb sendBlockToEVB_cb;
     ns_rpc_data_fetchBlockFromEVB_cb fetchBlockFromEVB_cb;

@@ -21,7 +21,8 @@
           MY_MFCC_NUM_FBANK_BINS * (NS_MFCC_SIZEBINS + MY_MFCC_NUM_MFCC_COEFFS))
 static uint8_t mfccArena[MFCC_ARENA_SIZE];
 
-ns_mfcc_cfg_t mfcc_config = {.arena = mfccArena,
+ns_mfcc_cfg_t mfcc_config = {.api = &ns_mfcc_V1_0_0,
+                             .arena = mfccArena,
                              .sample_frequency = SAMPLE_RATE,
                              .num_fbank_bins = MY_MFCC_NUM_FBANK_BINS,
                              .low_freq = 20,

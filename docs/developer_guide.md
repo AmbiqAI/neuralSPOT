@@ -62,6 +62,59 @@ $(eval $(call make-library, $(local_bin)/ns-<componentName>.a, $(local_src))) # 
 ```
 The only thing that normally differs between library's `module.mk` is the `<componentName>`
 
+#### Library API Versioning
+Many of the libraries have APIs - those that do are 'versioned', meaning that they have a related semantic version number. When a library's init() function is called, part of the configuration includes a desired version number. The initialization function checks that the desired version is supported, and fails if it isn't.
+
+When adding a new library, include the following code to add version control...
+
+##### In the Include File
+```c
+// using 'usb' as example
+#define NS_USB_V0_0_1                                                                            \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_USB_V1_0_0                                                                            \
+    { .major = 1, .minor = 0, .revision = 0 }
+
+#define NS_USB_OLDEST_SUPPORTED_VERSION NS_USB_V0_0_1
+#define NS_USB_CURRENT_VERSION NS_USB_V1_0_0
+#define NS_USB_API_ID 0xCA0006 // unique for each libray
+
+extern const ns_core_api_t ns_usb_V0_0_1;
+extern const ns_core_api_t ns_usb_V1_0_0;
+extern const ns_core_api_t ns_usb_oldest_supported_version;
+extern const ns_core_api_t ns_usb_current_version;
+```
+
+##### In the library implementation
+```c
+const ns_core_api_t ns_usb_V0_0_1 = {
+    .apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1};
+
+const ns_core_api_t ns_usb_V1_0_0 = {
+    .apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
+
+const ns_core_api_t ns_usb_oldest_supported_version = {
+    .apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1};
+
+const ns_core_api_t ns_usb_current_version = {
+    .apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
+
+static ns_usb_config_t usb_config = {.api = &ns_usb_V1_0_0, // one of the above
+                                     // rest of init
+                                    };
+main()
+#ifndef NS_DISABLE_API_VALIDATION
+	// other API checks
+
+	// Version Check
+    if (ns_core_check_api(cfg->api, &ns_usb_oldest_supported_version,
+                          &ns_usb_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+#endif
+```
+When a version is no longer supported, remove the definition for it. This will cause any examples using non-supported version to fail compilation.
+
 ### Adding NeuralSPOT Examples
 
 NeuralSPOT Examples are pared-down examples showcasing NueralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.

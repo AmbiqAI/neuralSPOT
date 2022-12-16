@@ -22,18 +22,31 @@
 #include "GenericDataOperations_PcToEvb.h"
 #include "GenericDataOperations_PcToEvb_server.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_core.h"
 #include "ns_malloc.h"
 
 #define NS_RPC_GENERIC_DATA
 #ifdef NS_RPC_GENERIC_DATA
 
-ns_usb_config_t g_RpcGenericUSBHandle = {.deviceType = NS_USB_CDC_DEVICE,
+const ns_core_api_t ns_rpc_gdo_V0_0_1 = {.apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V0_0_1};
+
+const ns_core_api_t ns_rpc_gdo_V1_0_0 = {.apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_0_0};
+
+const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {.apiId = NS_RPC_GDO_API_ID,
+                                                           .version = NS_RPC_GDO_V0_0_1};
+
+const ns_core_api_t ns_rpc_gdo_current_version = {.apiId = NS_RPC_GDO_API_ID,
+                                                  .version = NS_RPC_GDO_V1_0_0};
+
+ns_usb_config_t g_RpcGenericUSBHandle = {.api = &ns_usb_V1_0_0,
+                                         .deviceType = NS_USB_CDC_DEVICE,
                                          .buffer = NULL, // Not needed by RPC
                                          .bufferLength = 0,
                                          .rx_cb = NULL,
                                          .tx_cb = NULL};
 
-ns_rpc_config_t g_RpcGenericDataConfig = {.mode = NS_RPC_GENERICDATA_CLIENT,
+ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
+                                          .mode = NS_RPC_GENERICDATA_CLIENT,
                                           .sendBlockToEVB_cb = NULL,
                                           .fetchBlockFromEVB_cb = NULL,
                                           .computeOnEVB_cb = NULL};
@@ -76,8 +89,19 @@ ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
 
 uint16_t
 ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
+    #ifndef NS_DISABLE_API_VALIDATION
+    if (cfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
 
-    usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
+    if (ns_core_check_api(cfg->api, &ns_rpc_gdo_oldest_supported_version,
+                          &ns_rpc_gdo_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+    #endif
+    // usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
+    usb_handle_t usb_handle = NULL;
+    NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
 
     g_RpcGenericDataConfig.mode = cfg->mode;
     g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
@@ -101,7 +125,7 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
         erpc_add_service_to_server(service);
     }
 
-    return 0;
+    return NS_STATUS_SUCCESS;
 }
 
 uint16_t

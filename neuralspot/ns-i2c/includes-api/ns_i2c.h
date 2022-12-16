@@ -20,12 +20,28 @@ extern "C" {
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
+
+#define NS_I2C_V0_0_1                                                                              \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_I2C_V1_0_0                                                                              \
+    { .major = 1, .minor = 0, .revision = 0 }
+
+#define NS_I2C_OLDEST_SUPPORTED_VERSION NS_I2C_V0_0_1
+#define NS_I2C_CURRENT_VERSION NS_I2C_V1_0_0
+#define NS_I2C_API_ID 0xCA0004
+
+extern const ns_core_api_t ns_i2c_V0_0_1;
+extern const ns_core_api_t ns_i2c_V1_0_0;
+extern const ns_core_api_t ns_i2c_oldest_supported_version;
+extern const ns_core_api_t ns_i2c_current_version;
 
 typedef enum { NS_I2C_STATUS_SUCCESS = 0, NS_I2C_STATUS_ERROR = 1 } ns_i2c_status_e;
 
 // I2C Driver Configration
 typedef struct {
-    int8_t iom; // Apollo4 IOM port
+    const ns_core_api_t *api; ///< API prefix
+    int8_t iom;               // Apollo4 IOM port
     // Internal state
     void *iomHandle;             // AmbiqSuite IOM handle
     am_hal_iom_config_t sIomCfg; //  AmbiqSuite IOM config

@@ -13,9 +13,20 @@
 
 #include "ns_usb.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_core.h"
 #include "ns_timer.h"
 
-static ns_usb_config_t usb_config = {.deviceType = NS_USB_CDC_DEVICE,
+const ns_core_api_t ns_usb_V0_0_1 = {.apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1};
+
+const ns_core_api_t ns_usb_V1_0_0 = {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
+
+const ns_core_api_t ns_usb_oldest_supported_version = {.apiId = NS_USB_API_ID,
+                                                       .version = NS_USB_V0_0_1};
+
+const ns_core_api_t ns_usb_current_version = {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
+
+static ns_usb_config_t usb_config = {.api = &ns_usb_V1_0_0,
+                                     .deviceType = NS_USB_CDC_DEVICE,
                                      .buffer = NULL,
                                      .bufferLength = 0,
                                      .rx_cb = NULL,
@@ -27,28 +38,37 @@ ns_usb_service_callback(ns_timer_config_t *c) {
     tud_task();
 }
 
-ns_timer_config_t g_ns_usbTimer = {.prefix = {0},
+ns_timer_config_t g_ns_usbTimer = {.api = &ns_timer_V1_0_0,
                                    .timer = NS_TIMER_USB,
                                    .enableInterrupt = true,
                                    .periodInMicroseconds = 1000,
                                    .callback = ns_usb_service_callback};
 
-usb_handle_t
-ns_usb_init(ns_usb_config_t *cfg) {
+uint32_t
+ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
 
+#ifndef NS_DISABLE_API_VALIDATION
+    if (cfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+
+    if (ns_core_check_api(cfg->api, &ns_usb_oldest_supported_version, &ns_usb_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+#endif
     usb_config.deviceType = cfg->deviceType;
     usb_config.buffer = cfg->buffer;
     usb_config.bufferLength = cfg->bufferLength;
     usb_config.rx_cb = cfg->rx_cb;
     usb_config.tx_cb = cfg->tx_cb;
-
+    *h = (void *)&usb_config;
     tusb_init();
 
     // Set up a timer to service usb
 
-    ns_timer_init(&g_ns_usbTimer);
+    NS_TRY(ns_timer_init(&g_ns_usbTimer), "Timer Init Failed.\n");
 
-    return (void *)&usb_config; // TODO make this a better handle
+    return NS_STATUS_SUCCESS;
 }
 
 void

@@ -33,7 +33,7 @@ adc_trigger_wait(void);
 static void
 ns_tempco_callback(ns_timer_config_t *c);
 
-ns_timer_config_t g_ns_tempcoTimer = {.prefix = {0},
+ns_timer_config_t g_ns_tempcoTimer = {.api = &ns_timer_V1_0_0,
                                       .timer = NS_TIMER_TEMPCO,
                                       .enableInterrupt = true,
                                       .periodInMicroseconds = 10 * 1024, // 10 seconds

@@ -11,45 +11,6 @@ The basic_tf_stub example is based on a speech to intent model.
 
 **/
 
-//*****************************************************************************
-//
-// Copyright (c) 2022, Ambiq Micro, Inc.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice,
-// this list of conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright
-// notice, this list of conditions and the following disclaimer in the
-// documentation and/or other materials provided with the distribution.
-//
-// 3. Neither the name of the copyright holder nor the names of its
-// contributors may be used to endorse or promote products derived from this
-// software without specific prior written permission.
-//
-// Third party software included in this distribution is subject to the
-// additional license terms as defined in the /docs/licenses directory.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-//
-// This is part of revision XXXXX of the AmbiqSuite
-// NeuralSPOT
-//
-//*****************************************************************************
-
 #define RINGBUFFER_MODE
 // #define RPC_ENABLED
 // #define ENERGY_MONITOR_ENABLE
@@ -90,6 +51,7 @@ main(void) {
     float max_val = 0.0;
     bool measure_first_inference = true;
     ns_perf_counters_t pp;
+    ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
 #ifdef RPC_ENABLED
     myState_e state = WAITING_TO_START_RPC_SERVER;
@@ -100,7 +62,7 @@ main(void) {
     // Tells callback if it should be recording audio
     audioRecording = false;
 
-    ns_core_init();
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
 
 #ifdef ENERGY_MONITOR_ENABLE
     // This is for measuring power using an external power monitor such as
@@ -116,7 +78,7 @@ main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    ns_power_config(&ns_audio_default);
+    NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed.\n");
 
 #ifdef LOWEST_POWER_MODE
     ns_uart_printf_enable(); // use uart to print, uses less power
@@ -139,20 +101,22 @@ main(void) {
 
     model_init();
 
-    ns_audio_init(&audio_config);
+    NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
+
     ns_mfcc_init(&mfcc_config);
-    ns_peripheral_button_init(&button_config);
+    NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
+
     if (measure_first_inference) {
         ns_init_perf_profiler(); // count inference cycles the first time it is invoked
     }
-    am_hal_interrupt_master_enable();
+    ns_interrupt_master_enable();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
     ns_lp_printf("the captured audio into one of the following phrases:\n");
     ns_lp_printf("yes, no, up, down, left, right, on, off, or unknown/silence\n\n");
 
 #ifdef RPC_ENABLED
-    ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
+    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
     ns_lp_printf("Start the PC-side server, then press Button 0 to get started\n");
 #else
     ns_lp_printf("Press Button 0 to start listening...\n");

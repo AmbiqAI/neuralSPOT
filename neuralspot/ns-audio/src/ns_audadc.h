@@ -65,7 +65,7 @@ extern "C" {
                                // DMA trigger on FIFO 75% full
 
 /// AUDADC subsystem init - should only be invoked by ns_audio, not directly
-extern void
+extern uint32_t
 audadc_init();
 
 #ifdef __cplusplus

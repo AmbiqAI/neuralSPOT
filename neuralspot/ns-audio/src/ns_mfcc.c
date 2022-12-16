@@ -41,7 +41,16 @@
 #include "float.h"
 #include "ns_audio_features_common.h"
 #include "ns_audio_mfcc.h"
-#include <string.h>
+#include "ns_core.h"
+
+const ns_core_api_t ns_mfcc_V0_0_1 = {.apiId = NS_MFCC_API_ID, .version = NS_MFCC_V0_0_1};
+
+const ns_core_api_t ns_mfcc_V1_0_0 = {.apiId = NS_MFCC_API_ID, .version = NS_MFCC_V1_0_0};
+
+const ns_core_api_t ns_mfcc_oldest_supported_version = {.apiId = NS_MFCC_API_ID,
+                                                        .version = NS_MFCC_V0_0_1};
+
+const ns_core_api_t ns_mfcc_current_version = {.apiId = NS_MFCC_API_ID, .version = NS_MFCC_V1_0_0};
 
 // float g_mfccFrame[MFCC_FRAME_LEN_POW2];
 // float g_mfccBuffer[MFCC_FRAME_LEN_POW2];
@@ -87,12 +96,18 @@ create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t coefficient_
     }
 }
 
-void
+uint32_t
 ns_mfcc_init(ns_mfcc_cfg_t *c) {
     int i;
-    // int frame_len_padded = pow(2,ceil((log(FRAME_LEN)/log(2))));
-    // am_util_stdio_printf("padded is %d\n",frame_len_padded);
+#ifndef NS_DISABLE_API_VALIDATION
+    if (c == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
 
+    if (ns_core_check_api(c->api, &ns_mfcc_oldest_supported_version, &ns_mfcc_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+#endif
     ns_mfcc_map_arena(c);
 
     c->fbc.arena_fbanks = (uint8_t *)(c->mfccWindowFunction) + c->frame_len * sizeof(float);
@@ -111,24 +126,13 @@ ns_mfcc_init(ns_mfcc_cfg_t *c) {
     create_dct_matrix(c, c->num_fbank_bins, c->num_coeffs);
 
     arm_rfft_fast_init_f32(&g_mfccRfft, c->frame_len_pow2);
+    return NS_STATUS_SUCCESS;
 }
 
-void
+uint32_t
 ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) {
 
     int32_t i, j, bin;
-
-    // // TensorFlow way of normalizing int16_t data to (-1,1)
-    // for (i = 0; i < cfg->frame_len; i++) {
-    //     cfg->mfccFrame[i] = (float)audio_data[i] / (1 << 15);
-    // }
-    // // Fill up remaining with zeros
-    // memset(&(cfg->mfccFrame[cfg->frame_len]), 0,
-    //        sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
-
-    // for (i = 0; i < cfg->frame_len; i++) {
-    //     cfg->mfccFrame[i] *= cfg->mfccWindowFunction[i];
-    // }
 
     // TensorFlow way of normalizing int16_t data to (-1,1)
     for (i = 0; i < cfg->frame_len; i++) {
@@ -137,10 +141,6 @@ ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) 
     // Fill up remaining with zeros
     memset(&(cfg->mfccFrame[cfg->frame_len]), 0,
            sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
-
-    // for (i = 0; i < cfg->frame_len; i++) {
-    //     cfg->mfccFrame[i] *= cfg->mfccWindowFunction[i];
-    // }
 
     // Compute FFT
     arm_rfft_fast_f32(&g_mfccRfft, cfg->mfccFrame, cfg->mfccBuffer, 0);
@@ -199,4 +199,5 @@ ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) 
         // else
         mfcc_out[i] = sum;
     }
+    return NS_STATUS_SUCCESS;
 }

@@ -14,7 +14,7 @@ limitations under the License.
 
 #ifndef V0_1_KWS_MODEL_SETTINGS_H_
 #define V0_1_KWS_MODEL_SETTINGS_H_
-#include "am_mcu_apollo.h"
+// #include "am_mcu_apollo.h"
 
 // All of these values are derived from the values used during model training,
 // if you change your model you'll need to update these constants.

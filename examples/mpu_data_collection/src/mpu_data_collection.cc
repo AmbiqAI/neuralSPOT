@@ -17,13 +17,14 @@
 #include "ns_peripherals_button.h"
 #include "ns_rpc_generic_data.h"
 // #include "ns_usb.h"
+#include "ns_core.h"
 #include "ns_peripherals_power.h"
 
 #define NUMSAMPLES 32
 #define AXES 3
 float g_sensorData[NUMSAMPLES * 2][7]; // 32 samples of gryo, accel and temp
 
-ns_i2c_config_t i2cConfig = {.iom = 1};
+ns_i2c_config_t i2cConfig = {.api = &ns_i2c_V1_0_0, .iom = 1};
 
 uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
 
@@ -48,10 +49,12 @@ main(void) {
     int16_t accelVals[AXES];
     int16_t gyroVals[AXES];
     uint32_t axis;
+    ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
     ns_itm_printf_enable();
-    ns_debug_printf_enable();
-    am_hal_interrupt_master_enable();
+    ns_interrupt_master_enable();
 
     // DataBlock init
     binary_t binaryBlock = {.data = (uint8_t *)g_sensorData, // point this to audio buffer
@@ -66,21 +69,23 @@ main(void) {
                           .buffer = binaryBlock};
 
     // Initialize the Generic RPC Client interface
-    ns_rpc_config_t rpcConfig = {.mode = NS_RPC_GENERICDATA_CLIENT,
+    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
+                                 .mode = NS_RPC_GENERICDATA_CLIENT,
                                  .sendBlockToEVB_cb = NULL,
                                  .fetchBlockFromEVB_cb = NULL,
                                  .computeOnEVB_cb = NULL};
-    ns_rpc_genericDataOperations_init(&rpcConfig); // inits RPC and USB
+    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // inits RPC and USB
 
     // Button global - will be set by neuralSPOT button helper
     int g_intButtonPressed = 0;
 
     // Button Peripheral Config Struct
-    ns_button_config_t button_config = {.button_0_enable = true,
+    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
+                                        .button_0_enable = true,
                                         .button_1_enable = false,
                                         .button_0_flag = &g_intButtonPressed,
                                         .button_1_flag = NULL};
-    ns_peripheral_button_init(&button_config);
+    NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     ns_printf("Press Button 0 to begin calibration\n");
     ns_printf("Please place your sensor on a flat surface until calibration is finished\n");
@@ -89,7 +94,7 @@ main(void) {
     }
     g_intButtonPressed = 0;
 
-    ns_i2c_interface_init(&i2cConfig, 100000);
+    NS_TRY(ns_i2c_interface_init(&i2cConfig, 100000), "i2c Interface Init Failed.\n");
     mpu6050_init(&i2cConfig, mpuAddr);
     // TODO: Calibration doesnt work for Y and Z accel axis. Also too slow to converge
     // ns_printf("Beginning MPU Calibration..\n");

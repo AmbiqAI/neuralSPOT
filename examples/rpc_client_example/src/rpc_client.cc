@@ -20,6 +20,7 @@
 
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
+#include "ns_core.h"
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
@@ -45,7 +46,8 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     }
 }
 
-ns_audio_config_t audioConfig = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
+ns_audio_config_t audioConfig = {.api = &ns_audio_V1_0_0,
+                                 .eAudioApiMode = NS_AUDIO_API_CALLBACK,
                                  .callback = audio_frame_callback,
                                  .audioBuffer = (void *)&in16AudioDataBuffer,
                                  .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
@@ -59,25 +61,29 @@ ns_audio_config_t audioConfig = {.eAudioApiMode = NS_AUDIO_API_CALLBACK,
 
 int
 main(void) {
-    ns_itm_printf_enable();
-    ns_debug_printf_enable();
+    ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
     // ----- Non-RPC Init ------
     // -- These are needed for the demo, not directly related to RPC
-    am_hal_interrupt_master_enable();
-    ns_power_config(&ns_development_default);
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    // ---
+
+    ns_itm_printf_enable();
+    ns_interrupt_master_enable();
 
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;
-    ns_button_config_t button_config = {.button_0_enable = true,
+    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
+                                        .button_0_enable = true,
                                         .button_1_enable = false,
                                         .button_0_flag = &g_intButtonPressed,
                                         .button_1_flag = NULL};
-    ns_peripheral_button_init(&button_config);
+    NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     // -- Audio init
     int recordingWin = NUM_FRAMES;
-    ns_audio_init(&audioConfig);
+    NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
@@ -100,13 +106,14 @@ main(void) {
                               .cmd = extract_cmd,
                               .buffer = binaryBlock};
 
-    ns_rpc_config_t rpcConfig = {.mode = NS_RPC_GENERICDATA_CLIENT,
+    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
+                                 .mode = NS_RPC_GENERICDATA_CLIENT,
                                  .sendBlockToEVB_cb = NULL,
                                  .fetchBlockFromEVB_cb = NULL,
                                  .computeOnEVB_cb = NULL};
     // Result of computation
     dataBlock resultBlock;
-    ns_rpc_genericDataOperations_init(&rpcConfig); // init RPC and USB
+    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
 
     // There is a chicken-and-egg thing involved in getting the RPC
     // started. The PC-side server cant start until the USB TTY interface
@@ -166,6 +173,6 @@ main(void) {
             g_intButtonPressed = 0;
             recordingWin = 100;
         }
-        am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
+        ns_deep_sleep();
     }
 }

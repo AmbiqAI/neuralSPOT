@@ -75,7 +75,7 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
  * Populate this struct before calling ns_audio_config()
  *
  */
-static ns_audio_config_t audio_config = {.prefix = {0},
+static ns_audio_config_t audio_config = {.api = &ns_audio_V1_0_0,
 #ifdef RINGBUFFER_MODE
                                          .eAudioApiMode = NS_AUDIO_API_RINGBUFFER,
                                          .callback = audio_frame_callback,

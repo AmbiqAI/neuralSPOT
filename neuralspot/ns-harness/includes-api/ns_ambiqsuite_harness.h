@@ -29,6 +29,7 @@ extern "C" {
     g_ns_state.itmPrintCurrentlyEnabled = false;                                                   \
     am_bsp_itm_printf_disable
 #define ns_debug_printf_disable am_bsp_debug_printf_disable
+#define ns_interrupt_master_enable am_hal_interrupt_master_enable
 
 #define ns_printf am_util_stdio_printf
 

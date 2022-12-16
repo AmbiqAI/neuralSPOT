@@ -32,6 +32,7 @@
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_audio.h"
+#include "ns_core.h"
 
 // #define HFRC2_ADJ            0
 // #define AUDADC_EXAMPLE_DEBUG 1
@@ -117,7 +118,7 @@ am_hal_audadc_dma_config_t g_sAUDADCDMAConfig = {
 // Configure the AUDADC SLOT.
 //
 //*****************************************************************************
-void
+uint32_t
 audadc_slot_config(void) {
     am_hal_audadc_slot_config_t AUDADCSlotConfig;
 
@@ -143,6 +144,7 @@ audadc_slot_config(void) {
     if (AM_HAL_STATUS_SUCCESS !=
         am_hal_audadc_configure_slot(g_AUDADCHandle, 0, &AUDADCSlotConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC Slot 0 failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 #endif
 #if CH_A1_EN
@@ -150,6 +152,7 @@ audadc_slot_config(void) {
     if (AM_HAL_STATUS_SUCCESS !=
         am_hal_audadc_configure_slot(g_AUDADCHandle, 1, &AUDADCSlotConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC Slot 1 failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 #endif
 #if CH_B0_EN
@@ -157,6 +160,7 @@ audadc_slot_config(void) {
     if (AM_HAL_STATUS_SUCCESS !=
         am_hal_audadc_configure_slot(g_AUDADCHandle, 2, &AUDADCSlotConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC Slot 2 failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 #endif
 #if CH_B1_EN
@@ -164,8 +168,10 @@ audadc_slot_config(void) {
     if (AM_HAL_STATUS_SUCCESS !=
         am_hal_audadc_configure_slot(g_AUDADCHandle, 3, &AUDADCSlotConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC Slot 3 failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 #endif
+    return NS_STATUS_SUCCESS;
 }
 
 //*****************************************************************************
@@ -173,7 +179,7 @@ audadc_slot_config(void) {
 // Configure the AUDADC.
 //
 //*****************************************************************************
-void
+uint32_t
 audadc_config(void) {
     //
     // Set up the AUDADC configuration parameters. These settings are reasonable
@@ -229,6 +235,7 @@ audadc_config(void) {
     if (AM_HAL_STATUS_SUCCESS != ret) {
         // if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_initialize(0, &g_AUDADCHandle)) {
         am_util_stdio_printf("Error - reservation of the AUDADC instance failed ERR %d.\n", ret);
+        return NS_STATUS_INIT_FAILED;
     }
     //
     // Power on the AUDADC.
@@ -236,6 +243,7 @@ audadc_config(void) {
     if (AM_HAL_STATUS_SUCCESS !=
         am_hal_audadc_power_control(g_AUDADCHandle, AM_HAL_SYSCTRL_WAKE, false)) {
         am_util_stdio_printf("Error - AUDADC power on failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 
     //#if defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4B)
@@ -269,6 +277,7 @@ audadc_config(void) {
 
     if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_configure(g_AUDADCHandle, &AUDADCConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 
     //
@@ -281,6 +290,7 @@ audadc_config(void) {
     //
     if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_enable(g_AUDADCHandle)) {
         am_util_stdio_printf("Error - enabling AUDADC failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 
     //
@@ -293,6 +303,7 @@ audadc_config(void) {
     //
     if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_configure_dma(g_AUDADCHandle, &g_sAUDADCDMAConfig)) {
         am_util_stdio_printf("Error - configuring AUDADC DMA failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
 
     //
@@ -304,6 +315,7 @@ audadc_config(void) {
                                        AM_HAL_AUDADC_INT_DERR |
                                        AM_HAL_AUDADC_INT_DCMP); //| AM_HAL_AUDADC_INT_CNVCMP |
                                                                 // AM_HAL_AUDADC_INT_SCNCMP);
+    return NS_STATUS_SUCCESS;
 }
 
 //*****************************************************************************
@@ -395,7 +407,7 @@ am_audadc0_isr(void) {
 // Setup the AUDADC
 //
 //*****************************************************************************
-void
+uint32_t
 audadc_init(ns_audio_config_t *cfg) {
     g_adc = (AUDADC_Type *)AUDADC_BASE;
     g_mcuctrl = (MCUCTRL_Type *)MCUCTRL_BASE;
@@ -444,7 +456,9 @@ audadc_init(ns_audio_config_t *cfg) {
     //
     // Configure the AUDADC
     //
-    audadc_config();
+    if (audadc_config()) {
+        return NS_STATUS_INIT_FAILED;
+    }
     g_ns_audio_config->audioSystemHandle = g_AUDADCHandle; // wait for it to have real value
 
     // Gain setting
@@ -465,7 +479,10 @@ audadc_init(ns_audio_config_t *cfg) {
     am_hal_audadc_internal_pga_config(g_AUDADCHandle, &g_sAudadcGainConfig);
 
     // Configure the slot
-    audadc_slot_config();
+    if (audadc_slot_config()) {
+        return NS_STATUS_INIT_FAILED;
+    }
+
 #ifdef NEW_EXAMPLE
 
     #if defined(AM_PART_APOLLO4P) && defined(DC_OFFSET_CAL) && (AS_VERSION = R4 .3.0)
@@ -487,5 +504,8 @@ audadc_init(ns_audio_config_t *cfg) {
     //
     if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_sw_trigger(g_AUDADCHandle)) {
         am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
+        return NS_STATUS_INIT_FAILED;
     }
+
+    return NS_STATUS_SUCCESS;
 }

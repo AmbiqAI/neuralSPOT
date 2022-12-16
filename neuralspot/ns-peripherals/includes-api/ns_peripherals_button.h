@@ -51,15 +51,30 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include "ns_core.h"
+
+#define NS_BUTTON_V0_0_1                                                                           \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_BUTTON_V1_0_0                                                                           \
+    { .major = 1, .minor = 0, .revision = 0 }
+#define NS_BUTTON_OLDEST_SUPPORTED_VERSION NS_BUTTON_V0_0_1
+#define NS_BUTTON_CURRENT_VERSION NS_BUTTON_V1_0_0
+
+extern const ns_core_api_t ns_button_V0_0_1;
+extern const ns_core_api_t ns_button_V1_0_0;
+extern const ns_core_api_t ns_button_oldest_supported_version;
+extern const ns_core_api_t ns_button_current_version;
+#define NS_BUTTON_API_ID 0xCA0003
 
 typedef struct {
+    ns_core_api_t const *api; ///< API prefix
     bool button_0_enable;
     bool button_1_enable;
     int volatile *button_0_flag;
     int volatile *button_1_flag;
 } ns_button_config_t;
 
-extern void
+extern uint32_t
 ns_peripheral_button_init(ns_button_config_t *);
 
 #ifdef __cplusplus

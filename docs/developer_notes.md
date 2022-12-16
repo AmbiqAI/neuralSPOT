@@ -30,3 +30,12 @@ This is a new neuralspot library (which isn't actually a library) that collects 
 
 >*NOTE* As opposed to other libraries, ns_core will not produce a static library, but it will create object files that
 > will be linked into NS binaries.
+
+### 12-15-2022 - CM
+NeuralSPOT is moving to version 1.0.0. As we exit Version Zero, we'll start being more formal about code changes and release schedules:
+- API compatibility will be maintained across major releases
+- Bug fixes and transparent code updates will be tracked via minor and revision version updates
+- Outside of hotfixes and documentation updates, the `main` repo will be updated on a roughly biweekly cadence
+- We'll start a persistent `development` branch to replace how we've been using the `main` branch.
+
+Select APIs will be version checked: when calling Init() for that API, a version must be specified, and this version will be checked against a range of supported versions. We'll do our best to maintain compatibility of code updates at least one major version back from the latest released version.

@@ -42,9 +42,25 @@ extern "C" {
 
 #include "arm_math.h"
 #include "ns_audio_features_common.h"
+#include "ns_core.h"
 #include "string.h"
 
+#define NS_MFCC_V0_0_1                                                                             \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_MFCC_V1_0_0                                                                             \
+    { .major = 1, .minor = 0, .revision = 0 }
+
+#define NS_MFCC_OLDEST_SUPPORTED_VERSION NS_MFCC_V0_0_1
+#define NS_MFCC_CURRENT_VERSION NS_MFCC_V1_0_0
+#define NS_MFCC_API_ID 0xCA0005
+
+extern const ns_core_api_t ns_mfcc_V0_0_1;
+extern const ns_core_api_t ns_mfcc_V1_0_0;
+extern const ns_core_api_t ns_mfcc_oldest_supported_version;
+extern const ns_core_api_t ns_mfcc_current_version;
+
 typedef struct {
+    const ns_core_api_t *api; ///< API prefix
     uint8_t *arena;
     uint32_t sample_frequency;
     uint32_t num_fbank_bins;
@@ -86,9 +102,9 @@ extern float g_audioMinInt;
 extern float g_audioSumInt;
 #endif
 
-extern void
+extern uint32_t
 ns_mfcc_init(ns_mfcc_cfg_t *c);
-extern void
+extern uint32_t
 ns_mfcc_compute(ns_mfcc_cfg_t *c, const int16_t *audio_data, float *mfcc_out);
 
 #ifdef __cplusplus

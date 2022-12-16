@@ -12,19 +12,18 @@
 
 ns_desired_state_t g_ns_state;
 
+//*** API Versions
 #define NS_CORE_API_ID 0xCA0000
 
-const ns_core_api_t ns_core_V0_0_1 = {
-    .apiId = NS_CORE_API_ID, .version = NS_CORE_V0_0_1, .initialized = false};
+const ns_core_api_t ns_core_V0_0_1 = {.apiId = NS_CORE_API_ID, .version = NS_CORE_V0_0_1};
 
-const ns_core_api_t ns_core_V1_0_0 = {
-    .apiId = NS_CORE_API_ID, .version = NS_CORE_V1_0_0, .initialized = false};
+const ns_core_api_t ns_core_V1_0_0 = {.apiId = NS_CORE_API_ID, .version = NS_CORE_V1_0_0};
 
-const ns_core_api_t ns_core_oldest_supported_version = {
-    .apiId = NS_CORE_API_ID, .version = NS_CORE_V0_0_1, .initialized = false};
+const ns_core_api_t ns_core_oldest_supported_version = {.apiId = NS_CORE_API_ID,
+                                                        .version = NS_CORE_V0_0_1};
 
-const ns_core_api_t ns_core_current_version = {
-    .apiId = NS_CORE_API_ID, .version = NS_CORE_V1_0_0, .initialized = false};
+const ns_core_api_t ns_core_current_version = {.apiId = NS_CORE_API_ID, .version = NS_CORE_V1_0_0};
+//***
 
 /**
  * @brief Compare semantic versions
@@ -102,7 +101,8 @@ ns_core_init(ns_core_config_t *cfg) {
         return NS_STATUS_INVALID_VERSION;
     }
 #endif
-
+    g_ns_state.api = cfg->api;
+    g_ns_state.initialized = true;
     g_ns_state.itmPrintWantsToBeEnabled = false;
     g_ns_state.itmPrintCurrentlyEnabled = false;
     g_ns_state.uartPrintWantsToBeEnabled = false;
@@ -112,4 +112,10 @@ ns_core_init(ns_core_config_t *cfg) {
     g_ns_state.cryptoWantsToBeEnabled = true; // reset state of Crypto is 'on'
     g_ns_state.cryptoCurrentlyEnabled = true;
     return NS_STATUS_SUCCESS;
+}
+
+void
+ns_core_fail_loop() {
+    while (1)
+        ;
 }

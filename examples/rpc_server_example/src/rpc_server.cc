@@ -20,6 +20,7 @@
 
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
+#include "ns_core.h"
 #include "ns_malloc.h"
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
@@ -113,28 +114,32 @@ example_computeOnEVB(const dataBlock *in, dataBlock *res) {
 
 int
 main(void) {
+    ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
+
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
     ns_itm_printf_enable();
-    ns_debug_printf_enable();
 
     // ----- Non-RPC Init ------
     // -- These are needed for the demo, not directly related to RPC
-    am_hal_interrupt_master_enable();
-    ns_power_config(&ns_development_default);
+    ns_interrupt_master_enable();
 
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;
-    ns_button_config_t button_config = {.button_0_enable = true,
+    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
+                                        .button_0_enable = true,
                                         .button_1_enable = false,
                                         .button_0_flag = &g_intButtonPressed,
                                         .button_1_flag = NULL};
-    ns_peripheral_button_init(&button_config);
+    NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     // Add callbacks to handle incoming requests
-    ns_rpc_config_t rpcConfig = {.mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
+                                 .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
                                  .sendBlockToEVB_cb = example_sendBlockToEVB,
                                  .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
                                  .computeOnEVB_cb = example_computeOnEVB};
-    ns_rpc_genericDataOperations_init(&rpcConfig);
+    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
     ns_printf("Start the PC-side client, then press Button 0 to get started\n");
     while (g_intButtonPressed == 0) {

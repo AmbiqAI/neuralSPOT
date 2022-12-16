@@ -23,17 +23,15 @@
 #include "ns_audadc.h"
 #include "ns_ipc_ring_buffer.h"
 
-const ns_core_api_t ns_audio_V0_0_1 = {
-    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1, .initialized = false};
+const ns_core_api_t ns_audio_V0_0_1 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1};
 
-const ns_core_api_t ns_audio_V1_0_0 = {
-    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V1_0_0, .initialized = false};
+const ns_core_api_t ns_audio_V1_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V1_0_0};
 
 const ns_core_api_t ns_audio_oldest_supported_version = {
-    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION, .initialized = false};
+    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION};
 
-const ns_core_api_t ns_audio_current_version = {
-    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_CURRENT_VERSION, .initialized = false};
+const ns_core_api_t ns_audio_current_version = {.apiId = NS_AUDIO_API_ID,
+                                                .version = NS_AUDIO_CURRENT_VERSION};
 
 //
 // Enable dumping audio to RTT via the AUDIODEBUG flag.

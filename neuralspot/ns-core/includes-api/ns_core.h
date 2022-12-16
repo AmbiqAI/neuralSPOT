@@ -28,7 +28,6 @@ typedef struct {
 typedef struct {
     uint32_t apiId;
     ns_semver_t version;
-    bool initialized;
 } ns_core_api_t;
 
 #include "ns_ambiqsuite_harness.h"
@@ -52,12 +51,19 @@ extern const ns_core_api_t ns_core_current_version;
 #define NS_STATUS_INVALID_CONFIG 3
 #define NS_STATUS_INIT_FAILED 4
 
+#define NS_TRY(func, msg)                                                                          \
+    if (func) {                                                                                    \
+        ns_lp_printf(msg);                                                                         \
+        ns_core_fail_loop();                                                                       \
+    }
+
 typedef struct {
     const ns_core_api_t *api;
 } ns_core_config_t;
 
 typedef struct {
-    // ns_core_api_t *api;             ///< API prefix
+    ns_core_api_t const *api; ///< API prefix
+    bool initialized;
     bool itmPrintWantsToBeEnabled;  ///< Desired state for ITM printing
     bool itmPrintCurrentlyEnabled;  ///< Current state for ITM printing
     bool tempcoWantsToBeEnabled;    ///< Desired state for TempCo
@@ -74,7 +80,7 @@ typedef struct {
  */
 extern ns_desired_state_t g_ns_state;
 
-extern uint32_t
+extern bool
 ns_core_initialized();
 
 /**
@@ -87,6 +93,9 @@ ns_core_init(ns_core_config_t *c);
 extern uint32_t
 ns_core_check_api(const ns_core_api_t *submitted, const ns_core_api_t *oldest,
                   const ns_core_api_t *newest);
+
+extern void
+ns_core_fail_loop();
 
 #ifdef __cplusplus
 }

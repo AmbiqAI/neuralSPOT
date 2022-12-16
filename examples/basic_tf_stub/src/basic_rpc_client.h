@@ -10,6 +10,7 @@
  */
 
 #include "basic_tf_stub.h"
+#include "ns_core.h"
 #include "ns_rpc_generic_data.h"
 
 // Vars and init the RPC system - note this also inits the USB interface
@@ -25,7 +26,8 @@ static dataBlock outBlock = {
     .buffer = {.data = (uint8_t *)in16AudioDataBuffer, // point this to audio buffer
                .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)}};
 
-static ns_rpc_config_t rpcConfig = {.mode = NS_RPC_GENERICDATA_CLIENT,
+static ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
+                                    .mode = NS_RPC_GENERICDATA_CLIENT,
                                     .sendBlockToEVB_cb = NULL,
                                     .fetchBlockFromEVB_cb = NULL,
                                     .computeOnEVB_cb = NULL};

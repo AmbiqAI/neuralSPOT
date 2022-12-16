@@ -13,6 +13,16 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
+
+const ns_core_api_t ns_i2c_V0_0_1 = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V0_0_1};
+
+const ns_core_api_t ns_i2c_V1_0_0 = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V1_0_0};
+
+const ns_core_api_t ns_i2c_oldest_supported_version = {.apiId = NS_I2C_API_ID,
+                                                       .version = NS_I2C_V0_0_1};
+
+const ns_core_api_t ns_i2c_current_version = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V1_0_0};
 
 /**
  * @brief Initialize I2C on one of the IOM (IO managers)
@@ -22,6 +32,17 @@
  */
 uint32_t
 ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
+
+#ifndef NS_DISABLE_API_VALIDATION
+    if (cfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+
+    if (ns_core_check_api(cfg->api, &ns_i2c_oldest_supported_version, &ns_i2c_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+#endif
+
     // Initialize local state
     am_hal_pwrctrl_periph_enable((am_hal_pwrctrl_periph_e)(AM_HAL_PWRCTRL_PERIPH_IOM0 + cfg->iom));
     cfg->sIomCfg.eInterfaceMode = AM_HAL_IOM_I2C_MODE;

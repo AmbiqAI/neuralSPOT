@@ -15,17 +15,15 @@
 #include "am_util.h"
 #include "ns_core.h"
 
-const ns_core_api_t ns_timer_V0_0_1 = {
-    .apiId = NS_TIMER_API_ID, .version = NS_TIMER_V0_0_1, .initialized = false};
+const ns_core_api_t ns_timer_V0_0_1 = {.apiId = NS_TIMER_API_ID, .version = NS_TIMER_V0_0_1};
 
-const ns_core_api_t ns_timer_V1_0_0 = {
-    .apiId = NS_TIMER_API_ID, .version = NS_TIMER_V1_0_0, .initialized = false};
+const ns_core_api_t ns_timer_V1_0_0 = {.apiId = NS_TIMER_API_ID, .version = NS_TIMER_V1_0_0};
 
-const ns_core_api_t ns_timer_oldest_supported_version = {
-    .apiId = NS_TIMER_API_ID, .version = NS_TIMER_V0_0_1, .initialized = false};
+const ns_core_api_t ns_timer_oldest_supported_version = {.apiId = NS_TIMER_API_ID,
+                                                         .version = NS_TIMER_V0_0_1};
 
-const ns_core_api_t ns_timer_current_version = {
-    .apiId = NS_TIMER_API_ID, .version = NS_TIMER_V1_0_0, .initialized = false};
+const ns_core_api_t ns_timer_current_version = {.apiId = NS_TIMER_API_ID,
+                                                .version = NS_TIMER_V1_0_0};
 
 ns_timer_config_t *ns_timer_config[NS_TIMER_TEMPCO + 1];
 
@@ -63,6 +61,11 @@ am_timer03_isr(void) {
     am_hal_timer_clear(timerNum);
 
     ns_timer_config[2]->callback(ns_timer_config[3]);
+}
+
+extern bool
+ns_core_initialized(void) {
+    return g_ns_state.initialized;
 }
 
 /**

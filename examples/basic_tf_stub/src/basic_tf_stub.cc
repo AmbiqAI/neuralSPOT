@@ -62,7 +62,7 @@ main(void) {
     // Tells callback if it should be recording audio
     audioRecording = false;
 
-    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
 
 #ifdef ENERGY_MONITOR_ENABLE
     // This is for measuring power using an external power monitor such as

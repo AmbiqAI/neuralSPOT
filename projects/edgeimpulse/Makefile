@@ -13,6 +13,10 @@ sources := $(wildcard $(PROJECT)/src/*.c)
 sources += $(wildcard $(PROJECT)/src/*.cc)
 sources += $(wildcard $(PROJECT)/src/*.cpp)
 sources += $(wildcard $(PROJECT)/src/*.s)
+sources += $(wildcard $(PROJECT)/src/ns-core/*.c)
+sources += $(wildcard $(PROJECT)/src/ns-core/*.cc)
+sources += $(wildcard $(PROJECT)/src/ns-core/*.cpp)
+sources += $(wildcard $(PROJECT)/src/ns-core/*.s)
 
 # EdgeImpulse Stuff
 
@@ -65,15 +69,18 @@ DEFINES += EI_CLASSIFIER_TFLITE_ENABLE_CMSIS_NN=1 # Use CMSIS-NN functions in th
 DEFINES += __ARM_FEATURE_DSP=1 					  # Enable CMSIS-DSP optimized features
 DEFINES += TF_LITE_DISABLE_X86_NEON=1
 DEFINES += EI_CLASSIFIER_ALLOCATION_STATIC=1
+DEFINES += STACK_SIZE=0x3c000
+DEFINES += NS_MALLOC_HEAP_SIZE_IN_K=64
 
 LOCAL_INCLUDES += src
 LOCAL_INCLUDES += $(PROJECT)/src
+LOCAL_INCLUDES += $(PROJECT)/src/ns-core
 LOCAL_INCLUDES += $(PROJECT)/src/edge-impulse-sdk/CMSIS/NN/Include/
 LOCAL_INCLUDES += $(PROJECT)/src/edge-impulse-sdk/CMSIS/DSP/PrivateInclude/
 
 CFLAGS     += $(addprefix -D,$(DEFINES))
 CFLAGS     += $(addprefix -I $(PROJECT)/includes/,$(INCLUDES))
-CFLAGS     += $(addprefix -I $(PROJECT)/,$(LOCAL_INCLUDES))
+CFLAGS     += $(addprefix -I ,$(LOCAL_INCLUDES))
 LINKER_FILE := $(PROJECT)/libs/linker_script.ld
 libraries += $(addprefix $(PROJECT)/,$(libs))
 
@@ -125,8 +132,8 @@ $(BINDIR)/$(local_app_name).bin: $(BINDIR)/$(local_app_name).axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	@mkdir -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
-	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
+	$(Q) $(OD) $(ODFLAGS) $< > $(BINDIR)/$(local_app_name).lst
+	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $(BINDIR)/$(local_app_name).size
 
 $(JLINK_CF):
 	@echo " Creating JLink command sequence input file..."

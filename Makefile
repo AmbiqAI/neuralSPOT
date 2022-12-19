@@ -201,6 +201,7 @@ nest: all
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
 	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
+	@cp neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested
@@ -225,7 +226,6 @@ nestcomponent:
 nestall: nest
 	@echo " Building Nestall including src/ at $(NESTDIR) based on $< ..."
 	@cp -R $(NESTSOURCEDIR) $(NESTDIR)
-	@cp neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
 	@cp make/helpers.mk $(NESTDIR)/make
 	@cp make/neuralspot_config.mk $(NESTDIR)/make
 	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make

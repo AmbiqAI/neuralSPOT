@@ -480,7 +480,10 @@ mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *m
  * @return uint32_t status
  */
 uint32_t
-mpu6050_calibration(ns_i2c_config_t *cfg, uint32_t devAddr);
+mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr);
+
+extern uint32_t
+mpu6050_init(ns_i2c_config_t *cfg, uint32_t devAddr);
 
 #ifdef __cplusplus
 }

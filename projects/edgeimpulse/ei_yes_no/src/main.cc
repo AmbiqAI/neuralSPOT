@@ -61,12 +61,12 @@ ns_timer_config_t ei_tickTimer = {
 
 typedef enum {
     WAITING_TO_RECORD,
-    // RECORDING,
+    SAMPLING,
     INFERING
 } myState_e;
 
 // Moving average filter for Yes and No inference results
-#define FILTER_DEPTH 10
+#define FILTER_DEPTH 4
 
 typedef struct {
     float samples[FILTER_DEPTH];
@@ -75,13 +75,11 @@ typedef struct {
 } ns_moving_avg_t;
 
 ns_moving_avg_t yesFilter = {
-    .samples = {0,0,0,0,0,0,0,0,0,0},
     .ptr = 0,
     .total = 0
 };
 
 ns_moving_avg_t noFilter = {
-    .samples = {0,0,0,0,0,0,0,0,0,0},
     .ptr = 0,
     .total = 0
 };
@@ -114,6 +112,11 @@ int main(int argc, char **argv) {
     myState_e state = WAITING_TO_RECORD;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
+    for (int i; i< FILTER_DEPTH; i++) {
+        yesFilter.samples[i] = 0;
+        noFilter.samples[i] = 0;
+    }
+
     // NeuralSPOT inits
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
@@ -145,11 +148,17 @@ int main(int argc, char **argv) {
             break;
 
         case INFERING:
+            if (!g_audioReady) {
+                // We exited deep_sleep for a non-audio reason, sample isn't ready
+                // Go back to sleep...
+                break;
+            }
+
             res = run_classifier_continuous(&signal, &result, false);
 
             // Continuous classfication slices the audio into windows it
             // slides across the samples. For best results, we calculate
-            // a moving average across the last 10 inferences (1.125s)
+            // a moving average across the last <FILTER_DEPTH> inferences (1.25s)
 
             y = updateFilter(&yesFilter, result.classification[3].value);
             n = updateFilter(&noFilter, result.classification[0].value);
@@ -165,7 +174,6 @@ int main(int argc, char **argv) {
                     result.timing.dsp, 
                     result.timing.classification, 
                     result.timing.anomaly);
-
 
             ns_lp_printf("Predictions:\r\n");
             for (uint16_t i = 0; i < EI_CLASSIFIER_LABEL_COUNT; i++) {
@@ -193,16 +201,8 @@ static int get_signal_data(size_t offset, size_t length, float *out_ptr) {
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     uint32_t *pui32_buffer =
         (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
-
     if (g_audioRecording) {
-        // for (int i = 0; i < config->numSamples; i++) {
-        //     g_in16AudioDataBuffer[g_bufsel][i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-        //     if (i == 4) {
-        //         // Workaround for AUDADC sample glitch, here while it is root caused
-        //         g_in16AudioDataBuffer[g_bufsel][3] = (g_in16AudioDataBuffer[g_bufsel][2]+g_in16AudioDataBuffer[g_bufsel][4])/2; 
-        //     }            
-        // }
-        ns_audio_getPCM(g_in16AudioDataBuffer[g_bufsel], pui32_buffer, config->numSamples);
+        ns_audio_getPCM(&(g_in16AudioDataBuffer[g_bufsel][0]), pui32_buffer, config->numSamples);
 
         g_audioReady = true;
         g_bufsel ^=1; // pingpong

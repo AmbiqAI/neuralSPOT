@@ -68,7 +68,7 @@ extern "C"
 // #define configTOTAL_HEAP_SIZE                   (NS_MALLOC_HEAP_SIZE_IN_K * 1024)
 #endif
 
-#define configAPPLICATION_ALLOCATED_HEAP        1
+// #define configAPPLICATION_ALLOCATED_HEAP        1
 #define configMAX_TASK_NAME_LEN                 16
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1

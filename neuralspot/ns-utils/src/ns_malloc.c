@@ -11,7 +11,7 @@
 
 #include "ns_malloc.h"
 
-uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K * 1024];
+// uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K * 1024];
 
 /// Empty for now, but placeholder in case we need multi-heap support
 uint8_t

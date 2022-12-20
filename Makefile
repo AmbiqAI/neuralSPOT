@@ -249,6 +249,5 @@ deploy: $(JLINK_CF)
 view:
 	@echo " Printing SWO output (ensure JLink USB connected and powered on)..."
 	$(Q) $(JLINK_SWO) $(JLINK_SWO_CMD)
-	$(Q) $(RM) $(JLINK_CF)
 
 %.d: ;

@@ -16,12 +16,9 @@
 #include "ns_core.h"
 
 const ns_core_api_t ns_i2c_V0_0_1 = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V0_0_1};
-
 const ns_core_api_t ns_i2c_V1_0_0 = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V1_0_0};
-
 const ns_core_api_t ns_i2c_oldest_supported_version = {.apiId = NS_I2C_API_ID,
                                                        .version = NS_I2C_V0_0_1};
-
 const ns_core_api_t ns_i2c_current_version = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V1_0_0};
 
 /**

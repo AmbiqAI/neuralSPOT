@@ -100,8 +100,7 @@ libraries: $(libraries)
 clean:
 ifeq ($(OS),Windows_NT)
 	@echo "Windows_NT"
-	@echo $(Q) $(RM) -rf $(bindirs)/*
-	$(Q) $(RM) -rf $(bindirs)/*
+	$(Q) $(RM) -rf $(bindirs)/* $(JLINK_CF) $(NESTDIR)
 else
 	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF) $(NESTDIR)
 endif
@@ -114,11 +113,16 @@ ifneq "$(MAKECMDGOALS)" "clean"
 endif
 
 # Compute stuff for nest creation
-nest_files = $(shell find extern/tensorflow/$(TF_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
-nest_files += $(shell find extern/AmbiqSuite/$(AS_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
-nest_files += $(shell find extern/SEGGER_RTT/$(SR_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
-nest_files += $(shell find extern/erpc/$(ERPC_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
-nest_files += $(shell find extern/CMSIS/$(CMSIS_VERSION)/. -type f -name "*.h" -o -name "*.hpp")
+nest_files = $(call rwildcard,extern/tensorflow/$(TF_VERSION)/.,*.h)
+nest_files += $(call rwildcard,extern/tensorflow/$(TF_VERSION)/.,*.hpp)
+nest_files += $(call rwildcard,extern/AmbiqSuite/$(AS_VERSION)/.,*.h)
+nest_files += $(call rwildcard,extern/AmbiqSuite/$(AS_VERSION)/.,*.hpp)
+nest_files += $(call rwildcard,extern/SEGGER_RTT/$(SR_VERSION)/.,*.h)
+nest_files += $(call rwildcard,extern/SEGGER_RTT/$(SR_VERSION)/.,*.hpp)
+nest_files += $(call rwildcard,extern/erpc/$(ERPC_VERSION)/.,*.h)
+nest_files += $(call rwildcard,extern/erpc/$(ERPC_VERSION)/.,*.hpp)
+nest_files += $(call rwildcard,extern/CMSIS/$(CMSIS_VERSION)/.,*.h)
+nest_files += $(call rwildcard,extern/CMSIS/$(CMSIS_VERSION)/.,*.hpp)
 nest_dirs = $(sort $(dir $(nest_files)))
 nest_dirs += $(call FILTER_IN,neuralspot,$(includes_api))
 
@@ -137,7 +141,7 @@ doc_sources += $(addprefix ../../,$(includes_api))
 deploy_target = $(filter %$(TARGET).bin, $(examples))
 
 $(bindirs):
-	@mkdir -p $@
+	$(Q) $(MKD) -p $@
 
 $(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"

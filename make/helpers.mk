@@ -32,3 +32,4 @@ endef
 
 FILTER_OUT = $(foreach v,$(2),$(if $(findstring $(1),$(v)),,$(v)))
 FILTER_IN = $(foreach v,$(2),$(if $(findstring $(1),$(v)),$(v)))
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))

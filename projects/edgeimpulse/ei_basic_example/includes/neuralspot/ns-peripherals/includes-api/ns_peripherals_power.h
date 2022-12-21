@@ -4,9 +4,9 @@
  * @brief NeuralSPOT Power Management Library
  * @version 0.1
  * @date 2022-09-02
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  * \addtogroup NeuralSPOT-Power
  *  @{
  * @ingroup NeuralSPOT-Peripherals
@@ -53,49 +53,66 @@
 #define NS_POWER
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-#include "am_mcu_apollo.h"
 #include "am_bsp.h"
+#include "am_mcu_apollo.h"
 #include "am_util.h"
 
-typedef enum
-{
-    NS_MINIMUM_PERF = 0, ///< slowest clock
-    NS_MEDIUM_PERF  = 1, ///< ~100Mhz clock
-    NS_MAXIMUM_PERF = 2  ///< ~200Mhz clock
+#define NS_POWER_V0_0_1                                                                            \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_POWER_V1_0_0                                                                            \
+    { .major = 1, .minor = 0, .revision = 0 }
+
+#define NS_POWER_OLDEST_SUPPORTED_VERSION NS_POWER_V0_0_1
+#define NS_POWER_CURRENT_VERSION NS_POWER_V1_0_0
+#define NS_POWER_API_ID 0xCA0007
+
+extern const ns_core_api_t ns_power_V0_0_1;
+extern const ns_core_api_t ns_power_V1_0_0;
+extern const ns_core_api_t ns_power_oldest_supported_version;
+extern const ns_core_api_t ns_power_current_version;
+
+typedef enum {
+    NS_MINIMUM_PERF = 0, ///< slowest clock (96Mhz)
+    NS_MEDIUM_PERF = 1,  ///< 96Mhz clock
+    NS_MAXIMUM_PERF = 2  ///< 192Mhz clock
 } ns_power_mode_e;
 
 /// Power Mode Definitino
-typedef struct
-{
-    ns_power_mode_e    eAIPowerMode;        ///< CPU power mode (controls clock speed, etc)
-    bool               bNeedAudAdc;         ///< Prevents AUDADC from being powered off
-    bool               bNeedSharedSRAM;     ///< Prevents SSRAM from being powered off
-    bool               bNeedCrypto;         ///< Prevents Crypto from being powered off
-    bool               bNeedBluetooth;      ///< Prevents BLE from being powered off
-    bool               bNeedUSB;            ///< Prevents USB from being powered off
-    bool               bNeedIOM;            ///< Prevents IOMx from being powered off
-    bool               bNeedAlternativeUART; ///< for EEMBC Power Control Module and similar
-    bool               b128kTCM;            ///< Only need 128k
+typedef struct {
+    const ns_core_api_t *api;     ///< API prefix
+    ns_power_mode_e eAIPowerMode; ///< CPU power mode (controls clock speed, etc)
+    bool bNeedAudAdc;             ///< Prevents AUDADC from being powered off
+    bool bNeedSharedSRAM;         ///< Prevents SSRAM from being powered off
+    bool bNeedCrypto;             ///< Prevents Crypto from being powered off
+    bool bNeedBluetooth;          ///< Prevents BLE from being powered off
+    bool bNeedUSB;                ///< Prevents USB from being powered off
+    bool bNeedIOM;                ///< Prevents IOMx from being powered off
+    bool bNeedAlternativeUART;    ///< for EEMBC Power Control Module and similar
+    bool b128kTCM;                ///< Only enable 128k when true, 384k otherwise
+    bool bEnableTempCo;           ///< Enable Temperature Compensation
+    bool bNeedITM;                ///< Enable Temperature Compensation
 } ns_power_config_t;
 
 extern const ns_power_config_t ns_development_default; ///< Enables most things
-extern const ns_power_config_t ns_good_default; ///< Reasonable settings for more applications
-extern const ns_power_config_t ns_mlperf_mode1; ///< Good power/perf setting
-extern const ns_power_config_t ns_mlperf_mode2; ///< Good power/perf setting
-extern const ns_power_config_t ns_mlperf_mode3; ///< Good power/perf setting
+extern const ns_power_config_t ns_good_default;  ///< Reasonable settings for more applications
+extern const ns_power_config_t ns_mlperf_mode1;  ///< Good power/perf setting
+extern const ns_power_config_t ns_mlperf_mode2;  ///< Good power/perf setting
+extern const ns_power_config_t ns_mlperf_mode3;  ///< Good power/perf setting
 extern const ns_power_config_t ns_audio_default; ///< Good for AI that uses audio peripherals
 
 /**
  * @brief Set SOC Power Mode
- * 
+ *
  * @param ns_power_config_t Desired power mode
  * @return uint32_t success/failure
  */
-extern uint32_t ns_power_config(const ns_power_config_t*);
+extern uint32_t
+ns_power_config(const ns_power_config_t *);
+extern void
+ns_deep_sleep(void);
 
 #ifdef __cplusplus
 }

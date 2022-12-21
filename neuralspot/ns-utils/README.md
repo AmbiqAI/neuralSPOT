@@ -101,7 +101,7 @@ The NS_TIMER_COUNTER is used to keep track of time thusly:
 
 ```c
 ns_timer_config_t example_tickTimer = {
-    .prefix = {0},
+    .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
     .enableInterrupt = false,
 };
@@ -129,11 +129,13 @@ example_periodic_callback(ns_timer_config_t *c) {
     do_periodic_task(); // whatever you need
 }
 
-ns_timer_config_t exampleTimer  = {.prefix = {0},
-                                   .timer = NS_TIMER_INTERRUPT,
-                                   .enableInterrupt = true,
-                                   .periodInMicroseconds = 1000, // one 1ms
-                                   .callback = example_periodic_callback};
+ns_timer_config_t exampleTimer  = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_INTERRUPT,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 1000, // one 1ms
+    .callback = example_periodic_callback
+};
 
 main() {
 	ns_timer_init(&exampleTimer);

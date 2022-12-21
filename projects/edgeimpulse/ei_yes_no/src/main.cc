@@ -201,9 +201,9 @@ static int get_signal_data(size_t offset, size_t length, float *out_ptr) {
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     uint32_t *pui32_buffer =
         (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
+        
     if (g_audioRecording) {
         ns_audio_getPCM(&(g_in16AudioDataBuffer[g_bufsel][0]), pui32_buffer, config->numSamples);
-
         g_audioReady = true;
         g_bufsel ^=1; // pingpong
     }

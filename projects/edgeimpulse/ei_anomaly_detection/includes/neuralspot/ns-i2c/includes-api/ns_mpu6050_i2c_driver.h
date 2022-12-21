@@ -88,6 +88,15 @@ typedef struct {
 #define MPU_I2CADDRESS_AD0_LOW 0x68
 #define MPU_I2CADDRESS_AD0_HIGH 0x69
 
+typedef struct {
+    mpu6050_clock_src_t clock_src;
+    mpu6050_dlpf_cfg_t dlpf_cfg;
+    mpu6050_gyro_fs_t gyro_fullscale_range;
+    mpu6050_accel_fs_t accel_fullscale_range;
+    uint16_t sample_rate;
+    uint16_t sleep_cfg;
+} mpu6050_config_t;
+
 /**
  * @brief Set sample rate divider
  *
@@ -480,7 +489,10 @@ mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *m
  * @return uint32_t status
  */
 uint32_t
-mpu6050_calibration(ns_i2c_config_t *cfg, uint32_t devAddr);
+mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr);
+
+extern uint32_t
+mpu6050_init(ns_i2c_config_t *cfg, mpu6050_config_t *c, uint32_t devAddr);
 
 #ifdef __cplusplus
 }

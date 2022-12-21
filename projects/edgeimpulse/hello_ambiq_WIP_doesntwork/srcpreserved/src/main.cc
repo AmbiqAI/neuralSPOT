@@ -12,7 +12,7 @@
 #define NUM_CHANNELS 1
 #define SAMPLE_RATE 16000
 #define EI_CLASSIFIER_SLICES_PER_MODEL_WINDOW 8
-#define EI_DEBUG_PRINTS
+// #define EI_DEBUG_PRINTS
 
 //  Callback function declarations
 static int get_signal_data(size_t offset, size_t length, float *out_ptr);
@@ -63,13 +63,7 @@ typedef struct {
     float total;
 } ns_moving_avg_t;
 
-ns_moving_avg_t yesFilter = {
-    .samples = {0,0,0,0,0,0,0,0,0,0},
-    .ptr = 0,
-    .total = 0
-};
-
-ns_moving_avg_t noFilter = {
+ns_moving_avg_t helloFilter = {
     .samples = {0,0,0,0,0,0,0,0,0,0},
     .ptr = 0,
     .total = 0
@@ -118,7 +112,7 @@ int main(int argc, char **argv) {
                 
     ns_lp_printf("Press Button0 to start listening for 1s\n");
 
-    float y, n;
+    float hello;
     while(1) {
 
         switch (state) {
@@ -139,12 +133,10 @@ int main(int argc, char **argv) {
             // slides across the samples. For best results, we calculate
             // a moving average across the last 10 inferences (1.125s)
 
-            // y = updateFilter(&yesFilter, result.classification[3].value);
-            // n = updateFilter(&noFilter, result.classification[0].value);
-            // if (y>0.6) ns_lp_printf("Y");       // Strong Yes
-            // else if (y>0.4) ns_lp_printf("y");  // Probably Yes
-            // if (n>0.6) ns_lp_printf("N");       // Strong No
-            // else if (n>0.4) ns_lp_printf("n");  // Probably No
+            hello = updateFilter(&helloFilter, result.classification[0].value);
+            if (hello>0.6) ns_lp_printf("H");       // Strong Hello
+            else if (hello>0.4) ns_lp_printf("h");  // Probably hello
+
 
             #ifdef EI_DEBUG_PRINTS
             // Print return code and how long it took to perform inference
@@ -185,7 +177,10 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     if (g_audioRecording) {
         for (int i = 0; i < config->numSamples; i++) {
             g_in16AudioDataBuffer[g_bufsel][i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-        }
+            if (i == 4) {
+                // Workaround for AUDADC sample glitch, here while it is root caused
+                g_in16AudioDataBuffer[g_bufsel][3] = (g_in16AudioDataBuffer[g_bufsel][2]+g_in16AudioDataBuffer[g_bufsel][4])/2; 
+            }        }
         g_audioReady = true;
         g_bufsel ^=1; // pingpong
     }

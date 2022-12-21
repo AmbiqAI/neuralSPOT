@@ -777,9 +777,10 @@ mpu6050_set_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, i
     // 0000_0000_0000_0000
     // 0111_1111_1000_0000
     // 0000_0000_0111_1111
-    uint8_t msb14_7 = (offset & 0x7F80) >> 7;
-    uint8_t lsb6_0 = (offset & 0x7f);
-    uint16_t msb_address = MPU6050_RA_XA_OFFS_H + (axis * 2);
+    uint8_t msb14_7 = (offset & 0xFF00) >> 8; // (offset & 0x7F80) >> 7;
+    uint8_t lsb6_0 = (offset & 0xFF);         // 0x7f);
+    // uint8_t msb14_7 = (offset & 0x7F80) >> 7;
+    // uint8_t lsb6_0 = (offset & 0x7f);
 
     return (ns_i2c_write_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_H + (axis * 2), msb14_7, 0xFF) ||
             ns_i2c_write_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_L + (axis * 2), lsb6_0, 0xFF));
@@ -817,64 +818,61 @@ mpu6050_set_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, in
 uint32_t
 mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *meanAY, int *meanAZ,
                      int *meanGX, int *meanGY, int *meanGZ) {
-    int16_t ax, ay, az, gx, gy, gz;
     uint16_t i;
     uint16_t numReadings = 200;
-
-    *meanAX = 0;
-    *meanAY = 0;
-    *meanAZ = 0;
-    *meanGX = 0;
-    *meanGY = 0;
-    *meanGZ = 0;
+    int16_t aVal[3];
+    int16_t gVal[3];
+    int64_t aBuf[3] = {0, 0, 0};
+    int64_t gBuf[3] = {0, 0, 0};
 
     // Stabilize? (dont actually know why this code is here)
     for (i = 0; i < 50; i++) {
-        mpu6050_get_accel_values(cfg, devAddr, &ax, &ay, &az);
-        mpu6050_get_gyro_values(cfg, devAddr, &gx, &gy, &gz);
+        mpu6050_get_accel_values(cfg, devAddr, &aVal[0], &aVal[1], &aVal[2]);
+        mpu6050_get_gyro_values(cfg, devAddr, &gVal[0], &gVal[1], &gVal[2]);
         am_hal_delay_us(2);
     }
 
     for (i = 0; i < numReadings; i++) {
-        if (mpu6050_get_accel_values(cfg, devAddr, &ax, &ay, &az) ||
-            mpu6050_get_gyro_values(cfg, devAddr, &gx, &gy, &gz)) {
+        if (mpu6050_get_accel_values(cfg, devAddr, &aVal[0], &aVal[1], &aVal[2]) ||
+            mpu6050_get_gyro_values(cfg, devAddr, &gVal[0], &gVal[1], &gVal[2])) {
             return MPU6050_STATUS_ERROR;
         }
-        *meanAX += ax;
-        *meanAY += ay;
-        *meanAZ += az;
-        *meanGX += gx;
-        *meanGY += gy;
-        *meanGZ += gz;
+        for (int a = 0; a < 3; a++) {
+            aBuf[a] += aVal[a];
+            gBuf[a] += gVal[a];
+        }
         am_hal_delay_us(2);
     }
-    *meanAX /= numReadings;
-    *meanAY /= numReadings;
-    *meanAZ /= numReadings;
-    *meanGX /= numReadings;
-    *meanGY /= numReadings;
-    *meanGZ /= numReadings;
+
+    *meanAX = aBuf[0] / numReadings;
+    *meanAY = aBuf[1] / numReadings;
+    *meanAZ = aBuf[2] / numReadings;
+    *meanGX = gBuf[0] / numReadings;
+    *meanGY = gBuf[1] / numReadings;
+    *meanGZ = gBuf[2] / numReadings;
     return MPU6050_STATUS_SUCCESS;
 }
 
 uint32_t
 mpu6050_get_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, uint16_t *offset) {
-    // 0x06 6 XA_OFFSET_H R/W XA_OFFSET [14:7]
-    // 0x07 7 XA_OFFSET_L R/W XA_OFFSET [6:0]
-
-    // 0000_0000_0000_0000
-    // 0111_1111_1000_0000
-    // 0000_0000_0111_1111
-
-    uint8_t lsb, msb;
+    uint8_t lsb = 0, msb = 0;
     ns_i2c_read_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_H + (axis * 2), &msb, 0xff);
     ns_i2c_read_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_L + (axis * 2), &lsb, 0xff);
-    *offset = msb << 7 + lsb;
+    *offset = msb;
+    *offset = (*offset << 8) + lsb;
+    *offset += lsb;
 
-    ns_lp_printf("Offset Register 0x%x/0x%x axis %i, msb 0x%x lsb 0x%x offset 0x%x\n",
-                 MPU6050_RA_XA_OFFS_H + (axis * 2), MPU6050_RA_XA_OFFS_L + (axis * 2), axis, msb,
-                 lsb, *offset);
-    *offset = msb << 7 + lsb;
+    return MPU6050_STATUS_SUCCESS;
+}
+
+uint32_t
+mpu6050_get_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, uint16_t *offset) {
+    uint8_t lsb = 0, msb = 0;
+    ns_i2c_read_reg(cfg, devAddr, XG_OFFSET_H + (axis * 2), &msb, 0xff);
+    ns_i2c_read_reg(cfg, devAddr, XG_OFFSET_L + (axis * 2), &lsb, 0xff);
+    *offset = msb;
+    *offset = (*offset << 8) + lsb;
+
     return MPU6050_STATUS_SUCCESS;
 }
 
@@ -887,9 +885,8 @@ mpu6050_get_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, u
  */
 uint32_t
 mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
-    int ready;
-    int accelDeadzone = 8, gyroDeadzone = 8;
-    int accelStep = 2, gyroStep = 2;
+    int accelDeadzone = 8, gyroDeadzone = 4;
+    int accelStep = 10, gyroStep = 4;
     int aMean[3] = {0, 0, 0};
     int gMean[3] = {0, 0, 0};
     int aOffset[3] = {0, 0, 0};
@@ -901,152 +898,46 @@ mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
         return MPU6050_STATUS_ERROR;
     }
     for (int a = 0; a < 3; a++) {
-        mpu6050_get_accel_offset(cfg, devAddr, a, &aOffset[a]);
-        ns_lp_printf("Axis[%i] Original Offset %i\n", a, aOffset[a]);
+        mpu6050_get_accel_offset(cfg, devAddr, a, (uint16_t *)&aOffset[a]);
+        mpu6050_get_gyro_offset(cfg, devAddr, a, (uint16_t *)&gOffset[a]);
     }
-    ns_lp_printf("Before offset\n");
-    for (int a = 0; a < 3; a++) {
-        ns_lp_printf("Axis[%i]: Accel %i, %i | Gyro %i, %i | %i\n", a, aMean[a], aOffset[a],
-                     gMean[a], gOffset[a], ready);
-    }
-    // Reset offsets
-    if (mpu6050_set_accel_offset(cfg, devAddr, 0, aOffset[0]) ||
-        mpu6050_set_accel_offset(cfg, devAddr, 1, aOffset[1]) ||
-        mpu6050_set_accel_offset(cfg, devAddr, 2, aOffset[2]) ||
-        mpu6050_set_gyro_offset(cfg, devAddr, 0, gOffset[0]) ||
-        mpu6050_set_gyro_offset(cfg, devAddr, 1, gOffset[0]) ||
-        mpu6050_set_gyro_offset(cfg, devAddr, 2, gOffset[0])) {
-        return MPU6050_STATUS_ERROR;
-    }
-    for (int a = 0; a < 3; a++) {
-        mpu6050_get_accel_offset(cfg, devAddr, a, &aOffset[a]);
-        ns_lp_printf("Axis[%i] after reset Offset %i\n", a, aOffset[a]);
-    }
-
-    if (mpu6050_mean_sensors(cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0], &gMean[1],
-                             &gMean[2])) {
-        return MPU6050_STATUS_ERROR;
-    }
-
-    ns_lp_printf("after zeroing offset\n");
-    for (int a = 0; a < 3; a++) {
-        ns_lp_printf("Axis[%i]: Accel %i, %i | Gyro %i, %i | %i\n", a, aMean[a], aOffset[a],
-                     gMean[a], gOffset[a], ready);
-    }
-
-    // Get first pass offsets
-    for (int a = 0; a < 3; a++) {
-        gOffset[a] = -gMean[a] / gyroStep;
-        aOffset[a] = (a == 2) ? (16384 - aMean[a]) / accelStep : -aMean[a] / accelStep;
-    }
-
-    // Set new offsets
-    for (int a = 0; a < 3; a++) {
-        if (mpu6050_set_accel_offset(cfg, devAddr, a, aOffset[a]) ||
-            mpu6050_set_gyro_offset(cfg, devAddr, a, gOffset[a]))
-            return MPU6050_STATUS_ERROR;
-    }
-    if (mpu6050_mean_sensors(cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0], &gMean[1],
-                             &gMean[2])) {
-        return MPU6050_STATUS_ERROR;
-    }
-    ns_lp_printf("after new offset\n");
-    for (int a = 0; a < 3; a++) {
-        ns_lp_printf("Axis[%i]: Accel %i, %i | Gyro %i, %i | %i\n", a, aMean[a], aOffset[a],
-                     gMean[a], gOffset[a], ready);
-    }
-    ns_lp_printf("the rest of it...\n");
-
-    // axOffset = -meanAX / accelStep;
-    // ayOffset = -meanAY / accelStep;
-    // azOffset = (16384 - meanAZ) / accelStep;
-
-    // gxOffset = -meanGX / gyroStep;
-    // gyOffset = -meanGY / gyroStep;
-    // gzOffset = -meanGZ / gyroStep;
 
     while (1) {
-        ready = 0;
-
         // Set new offsets
-        // for (int a = 0; a<3; a++) {
-        //     if (mpu6050_set_accel_offset(cfg, devAddr, a, aOffset[a]) ||
-        //         mpu6050_set_gyro_offset(cfg, devAddr, a, gOffset[a]))
-        //         return MPU6050_STATUS_ERROR;
-        // }
+        for (int a = 0; a < 3; a++) {
+            if (mpu6050_set_accel_offset(cfg, devAddr, a, aOffset[a]) ||
+                mpu6050_set_gyro_offset(cfg, devAddr, a, gOffset[a]))
+                return MPU6050_STATUS_ERROR;
+        }
 
-        // if (mpu6050_set_accel_offset(cfg, devAddr, 0, axOffset) ||
-        //     mpu6050_set_accel_offset(cfg, devAddr, 1, ayOffset) ||
-        //     mpu6050_set_accel_offset(cfg, devAddr, 2, azOffset) ||
-        //     mpu6050_set_gyro_offset(cfg, devAddr, 0, gxOffset) ||
-        //     mpu6050_set_gyro_offset(cfg, devAddr, 1, gyOffset) ||
-        //     mpu6050_set_gyro_offset(cfg, devAddr, 2, gzOffset)) {
-        //     return MPU6050_STATUS_ERROR;
-        // }
-
-        am_hal_delay_us(100);
+        am_hal_delay_us(1000);
         if (mpu6050_mean_sensors(cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0],
                                  &gMean[1], &gMean[2])) {
             return MPU6050_STATUS_ERROR;
         }
+        am_hal_delay_us(1000);
 
         // Adjust offsets to reduce Mean readings
         good = true;
-        // for (int a = 0; a<3; a++) {
-        //     if (a==2) {
-        //         // Accel Z special case
-        //         if (abs(16384 - aMean[a]) > accelDeadzone) {
-        //             good = false;
-        //             aOffset[a] = aOffset[a] + (16384 - aMean[a]) / accelStep;
-        //         }
-        //     } else if (abs(aMean[a]) > accelDeadzone) {
-        //         good = false;
-        //         aOffset[a] = aOffset[a] - aMean[a] / accelStep;
-        //     }
-
-        //     if (abs(gMean[a]) > gyroDeadzone) {
-        //         good = false;
-        //         gOffset[a] = gOffset[a] - gMean[a] / gyroStep;
-        //     }
-        // }
-
-        if (good) {
-            ready++;
-        }
-
         for (int a = 0; a < 3; a++) {
-            ns_lp_printf("Axis[%i]: Accel %i, %i | Gyro %i, %i | %i\n", a, aMean[a], aOffset[a],
-                         gMean[a], gOffset[a], ready);
+            if (abs(aMean[a]) > accelDeadzone) {
+                good = false;
+                aOffset[a] -= aMean[a] / accelStep;
+            }
+
+            if (abs(gMean[a]) > gyroDeadzone) {
+                good = false;
+                gOffset[a] -= gMean[a] / gyroStep;
+            }
         }
-
-        // if (abs(meanAY) <= accelDeadzone)
-        //     ready++;
-        // else
-        //     ayOffset = ayOffset - meanAY / accelStep;
-
-        // if (abs(16384 - meanAZ) <= accelDeadzone)
-        //     ready++;
-        // else
-        //     azOffset = azOffset + (16384 - meanAZ) / accelStep;
-
-        // if (abs(meanGX) <= gyroDeadzone)
-        //     ready++;
-        // else
-        //     gxOffset = gxOffset - meanGX / gyroStep;
-
-        // if (abs(meanGY) <= gyroDeadzone)
-        //     ready++;
-        // else
-        //     gyOffset = gyOffset - meanGY / gyroStep;
-
-        // if (abs(meanGZ) <= gyroDeadzone)
-        //     ready++;
-        // else
-        //     gzOffset = gzOffset - meanGZ / gyroStep;
-        // ns_lp_printf("%i, %i | %i, %i | %lu\n", meanAY, ayOffset, meanAZ, azOffset, ready);
-        if (ready >= 6)
+        // for (int a = 0; a < 3; a++) {
+        //     ns_lp_printf("Axis[%i]: Accel %i, %i | Gyro %i, %i\n", a, aMean[a], aOffset[a],
+        //                  gMean[a], gOffset[a]);
+        // }
+        if (good)
             break;
     }
+    // ns_lp_printf("Success!\n");
     return MPU6050_STATUS_SUCCESS;
 }
 
@@ -1067,13 +958,14 @@ mpu6050_calibration(ns_i2c_config_t *cfg, uint32_t devAddr) {
 }
 
 uint32_t
-mpu6050_init(ns_i2c_config_t *cfg, uint32_t devAddr) {
+mpu6050_init(ns_i2c_config_t *cfg, mpu6050_config_t *c, uint32_t devAddr) {
     if (mpu6050_device_reset(cfg, devAddr) ||
-        mpu6050_set_clock_source(cfg, devAddr, CLOCK_GZ_PLL) ||
-        mpu6050_set_lowpass_filter(cfg, devAddr, DLPF_044HZ) ||
-        mpu6050_set_gyro_full_scale(cfg, devAddr, GYRO_FS_500DPS) ||
-        mpu6050_set_accel_full_scale(cfg, devAddr, ACCEL_FS_4G) ||
-        mpu6050_set_sample_rate(cfg, devAddr, 100) || mpu6050_set_sleep(cfg, devAddr, 0)) {
+        mpu6050_set_clock_source(cfg, devAddr, c->clock_src) ||
+        mpu6050_set_lowpass_filter(cfg, devAddr, c->dlpf_cfg) ||
+        mpu6050_set_gyro_full_scale(cfg, devAddr, c->gyro_fullscale_range) ||
+        mpu6050_set_accel_full_scale(cfg, devAddr, c->accel_fullscale_range) ||
+        mpu6050_set_sample_rate(cfg, devAddr, c->sample_rate) ||
+        mpu6050_set_sleep(cfg, devAddr, c->sleep_cfg)) {
         return MPU6050_STATUS_ERROR;
     }
 

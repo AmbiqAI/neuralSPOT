@@ -62,7 +62,13 @@ extern "C"
 #define configTICK_RATE_HZ                      1000
 #define configMAX_PRIORITIES                    4
 #define configMINIMAL_STACK_SIZE                (256)
-#define configTOTAL_HEAP_SIZE                   (NS_MALLOC_HEAP_SIZE_IN_K * 1024)
+
+#ifndef configTOTAL_HEAP_SIZE
+// #error Missing Heap Size Warning
+// #define configTOTAL_HEAP_SIZE                   (NS_MALLOC_HEAP_SIZE_IN_K * 1024)
+#endif
+
+// #define configAPPLICATION_ALLOCATED_HEAP        1
 #define configMAX_TASK_NAME_LEN                 16
 #define configUSE_16_BIT_TICKS                  0
 #define configIDLE_SHOULD_YIELD                 1

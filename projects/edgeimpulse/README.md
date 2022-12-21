@@ -33,8 +33,6 @@ $> make # build neuralSPOT
 $> make NESTDIR=projects/edgeimpulse/ei_yes_no NESTCOMP=ns-audio nestcomponent
 ```
 
-
-
 # Example Models
 
 | Project                                                      | Description                                                  |

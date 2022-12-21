@@ -5,7 +5,7 @@ include make/jlink.mk
 include make/ns_for_ei.mk
 
 local_app_name := main
-PROJECT := ei_basic_example
+PROJECT := ei_yes_no
 
 # The Model
 

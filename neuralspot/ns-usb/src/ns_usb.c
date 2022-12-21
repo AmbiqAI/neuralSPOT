@@ -150,7 +150,6 @@ ns_usb_handle_read_error(usb_handle_t h) {
     int i;
     for (i = 0; i < 100; i++) {
         ns_delay_us(10000);
-        ns_printf(".");
     }
     // ns_printf("after wait\n");
     tud_cdc_read_flush();

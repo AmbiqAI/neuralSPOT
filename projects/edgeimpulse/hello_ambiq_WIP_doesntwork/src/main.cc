@@ -6,6 +6,7 @@
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
 #include "ns_audio.h"
+#include "ns_core.h"
 
 // Audio Configuration
 // High level audio parameters
@@ -20,15 +21,18 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected);
 
 // Audio IPC and config
 int16_t static g_in16AudioDataBuffer[2][EI_CLASSIFIER_SLICE_SIZE]; // 1s
+uint32_t static audadcSampleBuffer[EI_CLASSIFIER_SLICE_SIZE * 2 + 3];
 uint8_t static g_bufsel = 0; // for pingponging
 bool volatile static g_audioRecording = false;
 bool volatile static g_audioReady = false;
 
 ns_audio_config_t audio_config = {
+    .api = &ns_audio_V1_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&g_in16AudioDataBuffer,
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .sampleBuffer = audadcSampleBuffer,
     .numChannels = NUM_CHANNELS,
     .numSamples = EI_CLASSIFIER_SLICE_SIZE,
     .sampleRate = SAMPLE_RATE,
@@ -42,10 +46,17 @@ int volatile g_buttonPressed = 0;
 
 // Button Peripheral Config Struct
 ns_button_config_t button_config = {
+    .api = &ns_button_V1_0_0,
     .button_0_enable = true,
     .button_1_enable = false,
     .button_0_flag = &g_buttonPressed,
     .button_1_flag = NULL
+};
+
+ns_timer_config_t ei_tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
 };
 
 typedef enum {
@@ -90,18 +101,21 @@ float updateFilter(ns_moving_avg_t *filter, float newValue) {
 }
 
 int main(int argc, char **argv) {
-    
+    ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};    
     signal_t signal;            // Wrapper for raw input buffer
     ei_impulse_result_t result; // Used to store inference output
     EI_IMPULSE_ERROR res;       // Return code from inference
     myState_e state = WAITING_TO_RECORD;
 
     // NeuralSPOT inits
-    am_hal_interrupt_master_enable();
-    ns_power_config(&ns_development_default);
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    ns_itm_printf_enable();
     ns_malloc_init(); // needed by EI
-    ns_peripheral_button_init(&button_config);
-    ns_audio_init(&audio_config);
+	NS_TRY(ns_timer_init(&ei_tickTimer), "Timer init failed.\n");
+    NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
+    NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
+    ns_interrupt_master_enable();
 
     // ns_itm_printf_enable();
     ns_debug_printf_enable();
@@ -147,7 +161,7 @@ int main(int argc, char **argv) {
                     result.timing.anomaly);
 
 
-            ns_printf("Predictions:\r\n");
+            ns_lp_printf("Predictions:\r\n");
             for (uint16_t i = 0; i < EI_CLASSIFIER_LABEL_COUNT; i++) {
                 ns_lp_printf("  %s: ", ei_classifier_inferencing_categories[i]);
                 ns_lp_printf("%.5f\r\n", result.classification[i].value);
@@ -157,7 +171,7 @@ int main(int argc, char **argv) {
             g_audioReady = false;
             break;
         } // switch
-        am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
+        ns_deep_sleep();
 
     } // while
     return 0;
@@ -175,12 +189,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
 
     if (g_audioRecording) {
-        for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer[g_bufsel][i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-            if (i == 4) {
-                // Workaround for AUDADC sample glitch, here while it is root caused
-                g_in16AudioDataBuffer[g_bufsel][3] = (g_in16AudioDataBuffer[g_bufsel][2]+g_in16AudioDataBuffer[g_bufsel][4])/2; 
-            }        }
+        ns_audio_getPCM(&(g_in16AudioDataBuffer[g_bufsel][0]), pui32_buffer, config->numSamples);
         g_audioReady = true;
         g_bufsel ^=1; // pingpong
     }

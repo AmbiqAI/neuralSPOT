@@ -21,7 +21,7 @@ To upgrade all of neuralSPOT in a project (in this example, ei_yes_no):
 $> cd neuralSPOT
 $> make clean # if needed
 $> make # build neuralSPOT
-$> make NESTDIR=project/edgeimpulse/ei_yes_no nest
+$> make NESTDIR=projects/edgeimpulse/ei_yes_no nest
 ```
 
 To upgrade a single neuralSPOT component (in this example, ns-audio):
@@ -30,10 +30,8 @@ To upgrade a single neuralSPOT component (in this example, ns-audio):
 $> cd neuralSPOT
 $> make clean # if needed
 $> make # build neuralSPOT
-$> make NESTDIR=project/edgeimpulse/ei_yes_no NESTCOMP=ns-audio nestcomponent
+$> make NESTDIR=projects/edgeimpulse/ei_yes_no NESTCOMP=ns-audio nestcomponent
 ```
-
-
 
 # Example Models
 

@@ -32,6 +32,8 @@
 
 #define EI_WEAK_FN __attribute__((weak))
 
+extern ns_timer_config_t ei_tickTimer;
+
 EI_WEAK_FN EI_IMPULSE_ERROR ei_run_impulse_check_canceled() {
     return EI_IMPULSE_OK;
 }
@@ -45,11 +47,11 @@ EI_WEAK_FN EI_IMPULSE_ERROR ei_sleep(int32_t time_ms) {
 }
 
 uint64_t ei_read_timer_ms() {
-    return ns_us_ticker_read(0) / 1000L;
+    return ns_us_ticker_read(&ei_tickTimer) / 1000L;
 }
 
 uint64_t ei_read_timer_us() {
-    return ns_us_ticker_read(0);
+    return ns_us_ticker_read(&ei_tickTimer);
 
 }
 

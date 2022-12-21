@@ -59,12 +59,26 @@ extern "C" {
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_core.h"
 #include "ns_ipc_ring_buffer.h"
 
-#ifndef NS_AUDIO_DMA_BUFFER_SIZE
-#define NS_AUDIO_DMA_BUFFER_SIZE 480
-#endif
+#define NS_AUDIO_V0_0_1                                                                            \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_AUDIO_V1_0_0                                                                            \
+    { .major = 1, .minor = 0, .revision = 0 }
 
+#define NS_AUDIO_OLDEST_SUPPORTED_VERSION NS_AUDIO_V0_0_1
+#define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V1_0_0
+#define NS_AUDIO_API_ID 0xCA0001
+
+extern const ns_core_api_t ns_audio_V0_0_1;
+extern const ns_core_api_t ns_audio_V1_0_0;
+extern const ns_core_api_t ns_audio_oldest_supported_version;
+extern const ns_core_api_t ns_audio_current_version;
+
+#ifndef NS_AUDIO_DMA_BUFFER_SIZE
+    #define NS_AUDIO_DMA_BUFFER_SIZE 480
+#endif
 
 /// Audio IPC Modes
 typedef enum {
@@ -75,49 +89,61 @@ typedef enum {
 
 /// Audio Source (current only AUDADC is supported)
 typedef enum {
-    NS_AUDIO_SOURCE_AUDADC  ///< Collect data from AUDADC
+    NS_AUDIO_SOURCE_AUDADC ///< Collect data from AUDADC
 } ns_audio_source_e;
 
 // Forward declaration to get around using it in cb
-struct am_ai_acfg;
+struct ns_audio_cfg;
 
 /// Invoked by IRQ when audio buffer is ready
-typedef void (*ns_audio_callback_cb)(struct am_ai_acfg *, uint16_t);
+typedef void (*ns_audio_callback_cb)(struct ns_audio_cfg *, uint16_t);
 
 /// NeuralSPOT Audio API Configuration Struct
-/// 
+///
 /// Audio configuration is via this struct, which also serves
 /// as a handle after ns_audio_init() has been invoked
-/// 
-typedef struct am_ai_acfg {
-    /** API Config */
+///
+typedef struct ns_audio_cfg {
+    const ns_core_api_t *api;          ///< API prefix
     ns_audio_api_mode_e eAudioApiMode; /**< Defines how the audio system will
-                                          interact with the applications */
+                                            interact with the applications */
 
     /** IPC */
-    ns_audio_callback_cb callback; ////< Invoked when there is audio in buffer
-    void *audioBuffer; ///< Where the audio will be located when callback occurs
+    ns_audio_callback_cb callback; ///< Invoked when there is audio in buffer
+    void *audioBuffer;             ///< Where the audio will be located when callback occurs
 
     /** Audio Config */
     ns_audio_source_e eAudioSource; ///< Choose audio source such as AUDADC
-    uint8_t numChannels; ///< Number of audio channels, currently 1 or 2
-    uint16_t numSamples; ///< Samples collected per callback
-    uint16_t sampleRate; ///< In Hz
+    uint32_t *sampleBuffer;         ///< Where samples are DMA'd to
+    uint8_t numChannels;            ///< Number of audio channels, currently 1 or 2
+    uint16_t numSamples;            ///< Samples collected per callback
+    uint16_t sampleRate;            ///< In Hz
 
     /** Internals */
-    void *audioSystemHandle;                  ///< Handle, filled by init
+    void *audioSystemHandle;            ///< Handle, filled by init
     ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
 
 } ns_audio_config_t;
 
-extern ns_audio_config_t g_ns_audio_config;
+extern ns_audio_config_t *g_ns_audio_config;
 
 /**
  * @brief Initialize NeuralSPOT audio capture library
  *
- * @param cfg : desired confiugration
+ * @param cfg : desired configuration
  */
-extern void ns_audio_init(ns_audio_config_t *);
+extern uint32_t
+ns_audio_init(ns_audio_config_t *);
+
+/**
+ * @brief Extract int16 PCM from data collected by ADC
+ *
+ * @param pcm - resulting PCM data
+ * @param raw - incoming data from ADC engine
+ * @param len - number of sample words to convert
+ */
+extern void
+ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
 
 #ifdef __cplusplus
 }

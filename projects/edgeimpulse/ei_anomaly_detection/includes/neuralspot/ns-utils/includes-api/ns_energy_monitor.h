@@ -47,14 +47,12 @@
 #define NS_ENERGY_MON
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-#include "am_mcu_apollo.h"
 #include "am_bsp.h"
+#include "am_mcu_apollo.h"
 #include "am_util.h"
-
 
 #define NS_POWER_MONITOR_GPIO_0 22
 #define NS_POWER_MONITOR_GPIO_1 23
@@ -64,8 +62,10 @@ extern "C"
 #define NS_FEATURE_EXTRACTION 2
 #define NS_INFERING 3
 
-extern void ns_init_power_monitor_state(void);
-extern void ns_set_power_monitor_state(uint8_t state);
+extern void
+ns_init_power_monitor_state(void);
+extern void
+ns_set_power_monitor_state(uint8_t state);
 
 #ifdef __cplusplus
 }

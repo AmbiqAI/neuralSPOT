@@ -62,7 +62,7 @@ namespace {
 constexpr int kTensorArenaSize = 34592;
 
 #if defined(EI_CLASSIFIER_ALLOCATION_STATIC)
-uint8_t tensor_arena[kTensorArenaSize] ALIGN(16);
+alignas(32) uint8_t tensor_arena[kTensorArenaSize];// ALIGN(32);
 #elif defined(EI_CLASSIFIER_ALLOCATION_STATIC_HIMAX)
 #pragma Bss(".tensor_arena")
 uint8_t tensor_arena[kTensorArenaSize] ALIGN(16);

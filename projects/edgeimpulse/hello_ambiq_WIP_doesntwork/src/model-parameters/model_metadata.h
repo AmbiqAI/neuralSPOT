@@ -32,6 +32,9 @@
 #define EI_CLASSIFIER_TFLITE_FULL                4
 #define EI_CLASSIFIER_TENSAIFLOW                 5
 #define EI_CLASSIFIER_TENSORRT                   6
+#define EI_CLASSIFIER_DRPAI                      7
+#define EI_CLASSIFIER_TFLITE_TIDL                8
+#define EI_CLASSIFIER_AKIDA                      9
 
 #define EI_CLASSIFIER_SENSOR_UNKNOWN             -1
 #define EI_CLASSIFIER_SENSOR_MICROPHONE          1
@@ -48,7 +51,7 @@
 #define EI_CLASSIFIER_PROJECT_ID                 149224
 #define EI_CLASSIFIER_PROJECT_OWNER              "Carlos"
 #define EI_CLASSIFIER_PROJECT_NAME               "HelloAmbiq"
-#define EI_CLASSIFIER_PROJECT_DEPLOY_VERSION     4
+#define EI_CLASSIFIER_PROJECT_DEPLOY_VERSION     6
 #define EI_CLASSIFIER_NN_INPUT_FRAME_SIZE        3960
 #define EI_CLASSIFIER_RAW_SAMPLE_COUNT           16000
 #define EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME      1
@@ -61,7 +64,6 @@
 #define EI_CLASSIFIER_LABEL_COUNT                2
 #define EI_CLASSIFIER_HAS_ANOMALY                0
 #define EI_CLASSIFIER_FREQUENCY                  16000
-#define EI_CLASSIFIER_USE_QUANTIZED_DSP_BLOCK    0
 #define EI_CLASSIFIER_HAS_MODEL_VARIABLES        1
 
 
@@ -79,12 +81,7 @@
 #define EI_CLASSIFIER_TFLITE_OUTPUT_SCALE           0.00390625
 #define EI_CLASSIFIER_TFLITE_OUTPUT_ZEROPOINT       -128
 
-
-
-
 #define EI_CLASSIFIER_INFERENCING_ENGINE            EI_CLASSIFIER_TFLITE
-
-
 #define EI_CLASSIFIER_COMPILED                      1
 #define EI_CLASSIFIER_HAS_TFLITE_OPS_RESOLVER       1
 
@@ -107,15 +104,20 @@
 #endif // EI_CLASSIFIER_SLICES_PER_MODEL_WINDOW
 #define EI_CLASSIFIER_SLICE_SIZE                 (EI_CLASSIFIER_RAW_SAMPLE_COUNT / EI_CLASSIFIER_SLICES_PER_MODEL_WINDOW)
 
-#if EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE && EI_CLASSIFIER_USE_FULL_TFLITE == 1
+#if ((EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE) ||      (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_DRPAI)) &&      EI_CLASSIFIER_USE_FULL_TFLITE == 1
+
+#if EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE
 #undef EI_CLASSIFIER_INFERENCING_ENGINE
-#undef EI_CLASSIFIER_HAS_TFLITE_OPS_RESOLVER
 #define EI_CLASSIFIER_INFERENCING_ENGINE          EI_CLASSIFIER_TFLITE_FULL
+#endif
+
+#undef EI_CLASSIFIER_HAS_TFLITE_OPS_RESOLVER
 #define EI_CLASSIFIER_HAS_TFLITE_OPS_RESOLVER     0
+
 #if EI_CLASSIFIER_COMPILED == 1
 #error "Cannot use full TensorFlow Lite with EON"
 #endif
-#endif // EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE && EI_CLASSIFIER_USE_FULL_TFLITE == 1
+#endif // ((EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE) || (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_DRPAI)) && EI_CLASSIFIER_USE_FULL_TFLITE == 1
 
 typedef struct {
     uint16_t implementation_version;
@@ -177,12 +179,15 @@ typedef struct {
     const char * filter_type;
     float filter_cutoff;
     int filter_order;
+    const char * analysis_type;
     int fft_length;
     int spectral_peaks_count;
     float spectral_peaks_threshold;
     const char * spectral_power_edges;
     bool do_log;
     bool do_fft_overlap;
+    int wavelet_level;
+    const char * wavelet;
 } ei_dsp_config_spectral_analysis_t;
 
 typedef struct {

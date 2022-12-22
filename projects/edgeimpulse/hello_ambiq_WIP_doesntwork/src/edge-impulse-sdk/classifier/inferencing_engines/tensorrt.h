@@ -110,10 +110,12 @@ EI_IMPULSE_ERROR run_nn_inference(
     result->timing.classification_us = ctx_end_us - ctx_start_us;
     result->timing.classification = (int)(result->timing.classification_us / 1000);
 
+    EI_IMPULSE_ERROR fill_res = EI_IMPULSE_OK;
+
     if (impulse->object_detection) {
         switch (impulse->object_detection_last_layer) {
         case EI_CLASSIFIER_LAST_LAYER_FOMO: {
-            fill_result_struct_f32_fomo(
+            fill_res = fill_result_struct_f32_fomo(
                 impulse,
                 result,
                 out_data,
@@ -126,7 +128,8 @@ EI_IMPULSE_ERROR run_nn_inference(
             return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
             break;
         }
-        case EI_CLASSIFIER_LAST_LAYER_YOLOV5: {
+        case EI_CLASSIFIER_LAST_LAYER_YOLOV5:
+        case EI_CLASSIFIER_LAST_LAYER_YOLOV5_V5_DRPAI: {
             ei_printf("ERR: YOLOv5 models are not supported using TensorRT \n");
             return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
         }
@@ -139,7 +142,11 @@ EI_IMPULSE_ERROR run_nn_inference(
         }
     }
     else {
-        fill_result_struct_f32(impulse, result, out_data, debug);
+        fill_res = fill_result_struct_f32(impulse, result, out_data, debug);
+    }
+
+    if (fill_res != EI_IMPULSE_OK) {
+        return fill_res;
     }
 
     return EI_IMPULSE_OK;

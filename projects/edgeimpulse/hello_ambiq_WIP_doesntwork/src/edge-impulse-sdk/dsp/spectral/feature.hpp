@@ -20,6 +20,7 @@
 
 #include <stdint.h>
 #include "processing.hpp"
+#include "wavelet.hpp"
 #include "edge-impulse-sdk/dsp/ei_utils.h"
 #include "model-parameters/model_metadata.h"
 
@@ -34,23 +35,6 @@ typedef enum {
 
 class feature {
 public:
-
-    static int subtract_mean(matrix_t* input_matrix) {
-        // calculate the mean
-        EI_DSP_MATRIX(mean_matrix, input_matrix->rows, 1);
-        int ret = numpy::mean(input_matrix, &mean_matrix);
-        if (ret != EIDSP_OK) {
-            EIDSP_ERR(EIDSP_MATRIX_SIZE_MISMATCH);
-        }
-
-        // scale by the mean
-        ret = numpy::subtract(input_matrix, &mean_matrix);
-        if (ret != EIDSP_OK) {
-            EIDSP_ERR(EIDSP_MATRIX_SIZE_MISMATCH);
-        }
-
-        return EIDSP_OK;
-    }
 
     /**
      * Calculate the spectral features over a signal.
@@ -95,7 +79,7 @@ public:
 
         size_t axes = input_matrix->rows;
 
-        EI_TRY( subtract_mean(input_matrix) );
+        EI_TRY(processing::subtract_mean(input_matrix) );
 
         // apply filter
         if (filter_type == filter_lowpass) {
@@ -372,7 +356,7 @@ public:
             is_high_pass = true;
         }
 
-        EI_TRY(subtract_mean(input_matrix));
+        EI_TRY(processing::subtract_mean(input_matrix));
 
         // Figure bins we remove based on filter cutoff
         size_t start_bin, stop_bin;
@@ -404,6 +388,9 @@ public:
 
             // Standard Deviation
             float stddev = *(feature_out-1); //= sqrt(numpy::variance(data_window, data_size));
+            if (stddev == 0.0f) {
+                stddev = 1e-10f;
+            }
             // Don't add std dev as a feature b/c it's the same as RMS
             // Skew and Kurtosis w/ shortcut:
             // See definition at https://en.wikipedia.org/wiki/Skewness
@@ -416,7 +403,7 @@ public:
             float s_sum = 0;
             float k_sum = 0;
             float temp;
-            for (int i = 0; i < data_size; i++) {
+            for (size_t i = 0; i < data_size; i++) {
                 temp = data_window[i] * data_window[i] * data_window[i];
                 s_sum += temp;
                 k_sum += temp * data_window[i];

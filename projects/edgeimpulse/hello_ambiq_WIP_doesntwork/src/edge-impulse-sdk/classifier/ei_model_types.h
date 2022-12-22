@@ -31,6 +31,8 @@
 #define EI_CLASSIFIER_TENSAIFLOW                 5
 #define EI_CLASSIFIER_TENSORRT                   6
 #define EI_CLASSIFIER_DRPAI                      7
+#define EI_CLASSIFIER_TFLITE_TIDL                8
+#define EI_CLASSIFIER_AKIDA                      9
 
 #define EI_CLASSIFIER_SENSOR_UNKNOWN             -1
 #define EI_CLASSIFIER_SENSOR_MICROPHONE          1
@@ -44,10 +46,12 @@
 #define EI_CLASSIFIER_DATATYPE_FLOAT32           1
 #define EI_CLASSIFIER_DATATYPE_INT8              9
 
-#define EI_CLASSIFIER_LAST_LAYER_UNKNOWN         -1
-#define EI_CLASSIFIER_LAST_LAYER_SSD             1
-#define EI_CLASSIFIER_LAST_LAYER_FOMO            2
-#define EI_CLASSIFIER_LAST_LAYER_YOLOV5          3
+#define EI_CLASSIFIER_LAST_LAYER_UNKNOWN               -1
+#define EI_CLASSIFIER_LAST_LAYER_SSD                   1
+#define EI_CLASSIFIER_LAST_LAYER_FOMO                  2
+#define EI_CLASSIFIER_LAST_LAYER_YOLOV5                3
+#define EI_CLASSIFIER_LAST_LAYER_YOLOX                 4
+#define EI_CLASSIFIER_LAST_LAYER_YOLOV5_V5_DRPAI       5
 
 struct ei_impulse;
 
@@ -87,7 +91,6 @@ typedef struct ei_impulse {
     uint16_t label_count;
     bool has_anomaly;
     float frequency;
-    bool use_quantized_dsp_block;
     size_t dsp_blocks_size;
     ei_model_dsp_t *dsp_blocks;
 

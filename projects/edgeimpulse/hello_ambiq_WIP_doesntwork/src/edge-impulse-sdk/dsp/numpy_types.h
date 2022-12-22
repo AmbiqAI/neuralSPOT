@@ -133,9 +133,9 @@ typedef struct ei_matrix {
 
     /**
      * @brief Get a pointer to the buffer advanced by n rows
-     * 
-     * @param row Numer of rows to advance the returned buffer pointer 
-     * @return float* Pointer to the buffer at the start of row n 
+     *
+     * @param row Numer of rows to advance the returned buffer pointer
+     * @return float* Pointer to the buffer at the start of row n
      */
     float *get_row_ptr(size_t row)
     {
@@ -230,9 +230,9 @@ typedef struct ei_matrix_i8 {
 
     /**
      * @brief Get a pointer to the buffer advanced by n rows
-     * 
-     * @param row Numer of rows to advance the returned buffer pointer 
-     * @return float* Pointer to the buffer at the start of row n 
+     *
+     * @param row Numer of rows to advance the returned buffer pointer
+     * @return float* Pointer to the buffer at the start of row n
      */
     int8_t *get_row_ptr(size_t row)
     {
@@ -241,6 +241,102 @@ typedef struct ei_matrix_i8 {
 
 #endif // #ifdef __cplusplus
 } matrix_i8_t;
+
+/**
+ * A matrix structure that allocates a matrix on the **heap**.
+ * Freeing happens by calling `delete` on the object or letting the object go out of scope.
+ */
+typedef struct ei_matrix_i32 {
+    int32_t *buffer;
+    uint32_t rows;
+    uint32_t cols;
+    bool buffer_managed_by_me;
+
+#if EIDSP_TRACK_ALLOCATIONS
+    const char *_fn;
+    const char *_file;
+    int _line;
+    uint32_t _originally_allocated_rows;
+    uint32_t _originally_allocated_cols;
+#endif
+
+#ifdef __cplusplus
+    /**
+     * Create a new matrix
+     * @param n_rows Number of rows
+     * @param n_cols Number of columns
+     * @param a_buffer Buffer, if not provided we'll alloc on the heap
+     */
+    ei_matrix_i32(
+        uint32_t n_rows,
+        uint32_t n_cols,
+        int32_t *a_buffer = NULL
+#if EIDSP_TRACK_ALLOCATIONS
+        ,
+        const char *fn = NULL,
+        const char *file = NULL,
+        int line = 0
+#endif
+        )
+    {
+        if (a_buffer) {
+            buffer = a_buffer;
+            buffer_managed_by_me = false;
+        }
+        else {
+            buffer = (int32_t*)ei_calloc(n_rows * n_cols * sizeof(int32_t), 1);
+            buffer_managed_by_me = true;
+        }
+        rows = n_rows;
+        cols = n_cols;
+
+        if (!a_buffer) {
+#if EIDSP_TRACK_ALLOCATIONS
+            _fn = fn;
+            _file = file;
+            _line = line;
+            _originally_allocated_rows = rows;
+            _originally_allocated_cols = cols;
+            if (_fn) {
+                ei_dsp_register_matrix_alloc_internal(fn, file, line, rows, cols, sizeof(int32_t), buffer);
+            }
+            else {
+                ei_dsp_register_matrix_alloc(rows, cols, sizeof(int32_t), buffer);
+            }
+#endif
+        }
+    }
+
+    ~ei_matrix_i32() {
+        if (buffer && buffer_managed_by_me) {
+            ei_free(buffer);
+
+#if EIDSP_TRACK_ALLOCATIONS
+            if (_fn) {
+                ei_dsp_register_matrix_free_internal(_fn, _file, _line, _originally_allocated_rows,
+                    _originally_allocated_cols, sizeof(int32_t), buffer);
+            }
+            else {
+                ei_dsp_register_matrix_free(_originally_allocated_rows, _originally_allocated_cols,
+                    sizeof(int32_t), buffer);
+            }
+#endif
+        }
+    }
+
+    /**
+     * @brief Get a pointer to the buffer advanced by n rows
+     *
+     * @param row Numer of rows to advance the returned buffer pointer
+     * @return float* Pointer to the buffer at the start of row n
+     */
+    int32_t *get_row_ptr(size_t row)
+    {
+        return buffer + row * cols;
+    }
+
+#endif // #ifdef __cplusplus
+} matrix_i32_t;
 
 /**
  * Another matrix structure that allocates a matrix on the **heap**.
@@ -337,9 +433,9 @@ typedef struct ei_quantized_matrix {
 
     /**
      * @brief Get a pointer to the buffer advanced by n rows
-     * 
-     * @param row Numer of rows to advance the returned buffer pointer 
-     * @return float* Pointer to the buffer at the start of row n 
+     *
+     * @param row Numer of rows to advance the returned buffer pointer
+     * @return float* Pointer to the buffer at the start of row n
      */
     uint8_t *get_row_ptr(size_t row)
     {

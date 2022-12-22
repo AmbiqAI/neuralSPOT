@@ -18,7 +18,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-// Generated on: 25.10.2022 22:13:14
+// Generated on: 22.12.2022 00:06:40
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,7 +62,7 @@ namespace {
 constexpr int kTensorArenaSize = 34592;
 
 #if defined(EI_CLASSIFIER_ALLOCATION_STATIC)
-alignas(32) uint8_t tensor_arena[kTensorArenaSize];// ALIGN(32);
+uint8_t tensor_arena[kTensorArenaSize] ALIGN(16);
 #elif defined(EI_CLASSIFIER_ALLOCATION_STATIC_HIMAX)
 #pragma Bss(".tensor_arena")
 uint8_t tensor_arena[kTensorArenaSize] ALIGN(16);

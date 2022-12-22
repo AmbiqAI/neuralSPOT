@@ -72,6 +72,10 @@ DEFINES += EI_CLASSIFIER_ALLOCATION_STATIC=1
 DEFINES += STACK_SIZE=4096
 DEFINES += NS_MALLOC_HEAP_SIZE_IN_K=24
 
+# Experiment for hello_ambiq model (still runs out of heap, it's in infinite alloc loop)
+# DEFINES += STACK_SIZE=8192
+# DEFINES += NS_MALLOC_HEAP_SIZE_IN_K=240
+
 LOCAL_INCLUDES += src
 LOCAL_INCLUDES += $(PROJECT)/src
 LOCAL_INCLUDES += $(PROJECT)/src/ns-core

@@ -67,16 +67,24 @@ __attribute__((weak)) void ei_printf_float(float f) {
 }
 
 __attribute__((weak)) void *ei_malloc(size_t size) {
-    return ns_malloc(size);
+    void *p = ns_malloc(size);
+    // ns_lp_printf("malloc 0x%x @ 0x%x\n",size,p);
+    // if (p == NULL)
+    //     while(1);
+    return p;
 }
 
 __attribute__((weak)) void *ei_calloc(size_t nitems, size_t size) {
     void *ret = ns_malloc(nitems*size);
     memset(ret, 0, nitems*size);
+    // ns_lp_printf("calloc 0x%x @ 0x%x\n",nitems*size,ret);
+    // if (ret == NULL)
+    //     while(1);
     return ret;
 }
 
 __attribute__((weak)) void ei_free(void *ptr) {
+    // ns_lp_printf("free @ 0x%x\n", ptr);
     ns_free(ptr);
 }
 

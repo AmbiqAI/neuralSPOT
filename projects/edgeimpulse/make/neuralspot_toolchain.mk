@@ -38,8 +38,8 @@ CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exception
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99 
-# CFLAGS+= -g -O3
-CFLAGS+= -g -O0
+CFLAGS+= -g -O3
+# CFLAGS+= -g -O0
 CFLAGS+= 
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)

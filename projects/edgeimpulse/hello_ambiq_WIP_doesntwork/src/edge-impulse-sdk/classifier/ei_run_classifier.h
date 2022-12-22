@@ -57,6 +57,8 @@
 #elif EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_FULL
 #include "edge-impulse-sdk/classifier/inferencing_engines/tflite_full.h"
 #include "tflite-model/tflite-trained.h"
+#elif EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_TIDL
+#include "edge-impulse-sdk/classifier/inferencing_engines/tflite_tidl.h"
 #elif (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TENSORRT)
 #include "edge-impulse-sdk/classifier/inferencing_engines/tensorrt.h"
 #include "tflite-model/onnx-trained.h"
@@ -64,6 +66,8 @@
 #include "edge-impulse-sdk/classifier/inferencing_engines/tensaiflow.h"
 #elif EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_DRPAI
 #include "edge-impulse-sdk/classifier/inferencing_engines/drpai.h"
+#elif EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_AKIDA
+#include "edge-impulse-sdk/classifier/inferencing_engines/akida.h"
 #elif EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_NONE
 // noop
 #else
@@ -434,7 +438,6 @@ const ei_impulse_t impulse =
     .label_count = EI_CLASSIFIER_LABEL_COUNT,
     .has_anomaly = EI_CLASSIFIER_HAS_ANOMALY,
     .frequency = EI_CLASSIFIER_FREQUENCY,
-    .use_quantized_dsp_block = EI_CLASSIFIER_USE_QUANTIZED_DSP_BLOCK,
     .dsp_blocks_size = ei_dsp_blocks_size,
     .dsp_blocks = ei_dsp_blocks,
 
@@ -771,7 +774,7 @@ __attribute__((unused)) EI_IMPULSE_ERROR run_impulse(
     uint64_t sampling_us_start = ei_read_timer_us();
 
     // grab some data
-    for (int i = 0; i < impulse.dsp_input_frame_size; i += impulse.raw_samples_per_frame) {
+    for (int i = 0; i < (int)impulse.dsp_input_frame_size; i += impulse.raw_samples_per_frame) {
         uint64_t curr_us = ei_read_timer_us() - sampling_us_start;
 
         next_tick = curr_us + (impulse.interval_ms * 1000);

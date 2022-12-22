@@ -39,20 +39,7 @@ __attribute__((weak)) EI_IMPULSE_ERROR ei_sleep(int32_t time_ms) {
 }
 
 uint64_t ei_read_timer_ms() {
-    uint64_t ms; // Milliseconds
-    uint64_t s;  // Seconds
-    struct timespec spec;
-
-    clock_gettime(CLOCK_REALTIME, &spec);
-
-    s  = spec.tv_sec;
-    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
-    if (ms > 999) {
-        s++;
-        ms = 0;
-    }
-
-    return (s * 1000) + ms;
+    return ei_read_timer_us() / 1000;
 }
 
 uint64_t ei_read_timer_us() {
@@ -60,10 +47,10 @@ uint64_t ei_read_timer_us() {
     uint64_t s;  // Seconds
     struct timespec spec;
 
-    clock_gettime(CLOCK_REALTIME, &spec);
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &spec);
 
     s  = spec.tv_sec;
-    us = round(spec.tv_nsec / 1.0e3); // Convert nanoseconds to nanoseconds
+    us = round(spec.tv_nsec / 1.0e3); // Convert nanoseconds to micros
     if (us > 999999) {
         s++;
         us = 0;

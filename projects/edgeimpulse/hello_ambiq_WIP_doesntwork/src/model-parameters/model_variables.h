@@ -31,17 +31,20 @@ const char* ei_classifier_inferencing_categories[] = { "hello", "unknown" };
 uint8_t ei_dsp_config_3_axes[] = { 0 };
 const uint32_t ei_dsp_config_3_axes_size = 1;
 ei_dsp_config_mfe_t ei_dsp_config_3 = {
-    3,
-    1,
-    0.02f,
-    0.01f,
-    40,
-    256,
-    300,
-    0,
-    101,
-    -52
+    3, // int implementationVersion
+    1, // int length of axes
+    0.02f, // float frame_length
+    0.01f, // float frame_stride
+    40, // int num_filters
+    256, // int fft_length
+    300, // int low_frequency
+    0, // int high_frequency
+    101, // int win_size
+    -52 // int noise_floor_db
 };
+
+#define EI_DSP_PARAMS_GENERATED 1
+
 const ei_model_performance_calibration_t ei_calibration = {
     1, /* integer version number */
     false, /* has configured performance calibration */

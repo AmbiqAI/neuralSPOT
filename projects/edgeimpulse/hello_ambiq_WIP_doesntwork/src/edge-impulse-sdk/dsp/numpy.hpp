@@ -1566,20 +1566,17 @@ public:
      */
     __attribute__((always_inline)) static inline float log(float a)
     {
-        float m, r, s, t, i, f;
-        int32_t e, g;
-
-        g = (int32_t) * ((int32_t *)&a);
-        e = (g - 0x3f2aaaab) & 0xff800000;
+        int32_t g = (int32_t) * ((int32_t *)&a);
+        int32_t e = (g - 0x3f2aaaab) & 0xff800000;
         g = g - e;
-        m = (float) * ((float *)&g);
-        i = (float)e * 1.19209290e-7f; // 0x1.0p-23
+        float m = (float) * ((float *)&g);
+        float i = (float)e * 1.19209290e-7f; // 0x1.0p-23
         /* m in [2/3, 4/3] */
-        f = m - 1.0f;
-        s = f * f;
+        float f = m - 1.0f;
+        float s = f * f;
         /* Compute log1p(f) for f in [-1/3, 1/3] */
-        r = fmaf(0.230836749f, f, -0.279208571f); // 0x1.d8c0f0p-3, -0x1.1de8dap-2
-        t = fmaf(0.331826031f, f, -0.498910338f); // 0x1.53ca34p-2, -0x1.fee25ap-2
+        float r = fmaf(0.230836749f, f, -0.279208571f); // 0x1.d8c0f0p-3, -0x1.1de8dap-2
+        float t = fmaf(0.331826031f, f, -0.498910338f); // 0x1.53ca34p-2, -0x1.fee25ap-2
         r = fmaf(r, s, t);
         r = fmaf(r, s, f);
         r = fmaf(i, 0.693147182f, r); // 0x1.62e430p-1 // log(2)
@@ -2346,7 +2343,7 @@ public:
         bool do_overlap)
     {
         // save off one point to put back, b/c we're going to calculate in place
-        float saved_point;
+        float saved_point = 0;
         bool do_saved_point = false;
         size_t fft_out_size = fft_points / 2 + 1;
         float *fft_out;
@@ -2366,7 +2363,7 @@ public:
         // init the output to zeros
         memset(output, 0, sizeof(float) * (stop_bin - start_bin));
         int input_ix = 0;
-        while (input_ix < input_size) {
+        while (input_ix < (int)input_size) {
             // Figure out if we need any zero padding
             size_t n_input_points = input_ix + fft_points <= input_size ? fft_points
                                                                         : input_size - input_ix;
@@ -2402,7 +2399,21 @@ public:
     {
         // Use CMSIS either way.  Will fall back to straight C when needed
         float temp;
+#if EIDSP_USE_CMSIS_DSP
         arm_var_f32(input, size, &temp);
+#else
+        float mean = 0.0f;
+        for (size_t i = 0; i < size; i++) {
+            mean += input[i];
+        }
+        mean /= size;
+
+        temp = 0.0f;
+        for (size_t i = 0; i < size; i++) {
+            temp += (input[i] - mean) * (input[i] - mean);
+        }
+        temp /= (size - 1);
+#endif
         return temp;
     }
 

@@ -111,8 +111,23 @@ extern const ns_power_config_t ns_audio_default; ///< Good for AI that uses audi
  */
 extern uint32_t
 ns_power_config(const ns_power_config_t *);
+
+/**
+ * @brief neuralSPOT-aware deep_sleep - turns off certain systems off before sleeping
+ * and turns them back upon waking.
+ *
+ */
 extern void
 ns_deep_sleep(void);
+
+/**
+ * @brief Sets CPU frequency to one of the ns_power_modes
+ *
+ * @param eAIPowerMode
+ * @return uint32_t status
+ */
+uint32_t
+ns_set_performance_mode(ns_power_mode_e eAIPowerMode);
 
 #ifdef __cplusplus
 }

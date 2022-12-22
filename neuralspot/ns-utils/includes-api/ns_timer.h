@@ -57,10 +57,37 @@ typedef struct ns_timer_config {
     ns_timer_callback_cb callback; ///< Invoked when timer ticks
 } ns_timer_config_t;
 
+/**
+ * @brief Initialize one of 3 timers supported by NeuralSPOT
+ *
+ * NS_TIMER_COUNTER     Intended use is reading timerticks
+ * NS_TIMER_INTERRUPT   Calls a callback periodically
+ * NS_TIMER_USB         Used by ns_usb to periodically service USB
+ * NS_TIMER_TEMPCO      Used by ns_tempco to periodically collect temps
+ *
+ * @param cfg
+ * @return uint32_t status
+ */
 extern uint32_t
 ns_timer_init(ns_timer_config_t *cfg);
+
+/**
+ * @brief Read current value of timer
+ *
+ * @param cfg
+ * @return uint32_t timer if success, 0xDEADBEEF if bad handle
+ */
 extern uint32_t
 ns_us_ticker_read(ns_timer_config_t *cfg);
+
+/**
+ * @brief Clear timer
+ *
+ * @param cfg
+ * @return uint32_t status
+ */
+extern uint32_t
+ns_timer_clear(ns_timer_config_t *cfg);
 
 #ifdef __cplusplus
 }

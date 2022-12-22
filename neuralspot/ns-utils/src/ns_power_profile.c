@@ -209,60 +209,60 @@ ns_print_JSON(void) {
  \"CTRL15\": %u \
 }}\n";
 
-    ns_printf(pwrStr1, am_bsp_pp1.bSingle, am_bsp_pp1.uSnapShot, am_bsp_pp1.P_MCUPERFREQ,
-              am_bsp_pp1.P_DEVPWRSTATUS, am_bsp_pp1.P_AUDSSPWRSTATUS, am_bsp_pp1.P_MEMPWRSTATUS,
-              am_bsp_pp1.P_MEMRETCFG, am_bsp_pp1.P_SYSPWRSTATUS, am_bsp_pp1.P_SSRAMPWRST,
-              am_bsp_pp1.P_SSRAMRETCFG, am_bsp_pp1.P_DEVPWREVENTEN, am_bsp_pp1.P_MEMPWREVENTEN,
-              am_bsp_pp1.P_MMSOVERRIDE);
+    ns_lp_printf(pwrStr1, am_bsp_pp1.bSingle, am_bsp_pp1.uSnapShot, am_bsp_pp1.P_MCUPERFREQ,
+                 am_bsp_pp1.P_DEVPWRSTATUS, am_bsp_pp1.P_AUDSSPWRSTATUS, am_bsp_pp1.P_MEMPWRSTATUS,
+                 am_bsp_pp1.P_MEMRETCFG, am_bsp_pp1.P_SYSPWRSTATUS, am_bsp_pp1.P_SSRAMPWRST,
+                 am_bsp_pp1.P_SSRAMRETCFG, am_bsp_pp1.P_DEVPWREVENTEN, am_bsp_pp1.P_MEMPWREVENTEN,
+                 am_bsp_pp1.P_MMSOVERRIDE);
 
-    ns_printf(pwrStr2, am_bsp_pp1.P_DSP0PWRCTRL, am_bsp_pp1.P_DSP0PERFREQ,
-              am_bsp_pp1.P_DSP0MEMPWREN, am_bsp_pp1.P_DSP0MEMPWRST, am_bsp_pp1.P_DSP0MEMRETCFG,
-              am_bsp_pp1.P_DSP1PWRCTRL, am_bsp_pp1.P_DSP1PERFREQ, am_bsp_pp1.P_DSP1MEMPWREN,
-              am_bsp_pp1.P_DSP1MEMPWRST, am_bsp_pp1.P_DSP1MEMRETCFG, am_bsp_pp1.P_VRCTRL,
-              am_bsp_pp1.P_LEGACYVRLPOVR, am_bsp_pp1.P_VRSTATUS);
+    ns_lp_printf(pwrStr2, am_bsp_pp1.P_DSP0PWRCTRL, am_bsp_pp1.P_DSP0PERFREQ,
+                 am_bsp_pp1.P_DSP0MEMPWREN, am_bsp_pp1.P_DSP0MEMPWRST, am_bsp_pp1.P_DSP0MEMRETCFG,
+                 am_bsp_pp1.P_DSP1PWRCTRL, am_bsp_pp1.P_DSP1PERFREQ, am_bsp_pp1.P_DSP1MEMPWREN,
+                 am_bsp_pp1.P_DSP1MEMPWRST, am_bsp_pp1.P_DSP1MEMRETCFG, am_bsp_pp1.P_VRCTRL,
+                 am_bsp_pp1.P_LEGACYVRLPOVR, am_bsp_pp1.P_VRSTATUS);
 
-    ns_printf(pwrStr3, am_bsp_pp1.P_VRDEMOTIONTHR, am_bsp_pp1.P_SRAMCTRL, am_bsp_pp1.P_ADCSTATUS,
-              am_bsp_pp1.P_AUDADCSTATUS, am_bsp_pp1.P_EMONCTRL, am_bsp_pp1.P_EMONSTATUS,
-              am_bsp_pp1.P_FPIOEN0, am_bsp_pp1.P_FPIOEN1, am_bsp_pp1.P_FPIOEN2);
+    ns_lp_printf(pwrStr3, am_bsp_pp1.P_VRDEMOTIONTHR, am_bsp_pp1.P_SRAMCTRL, am_bsp_pp1.P_ADCSTATUS,
+                 am_bsp_pp1.P_AUDADCSTATUS, am_bsp_pp1.P_EMONCTRL, am_bsp_pp1.P_EMONSTATUS,
+                 am_bsp_pp1.P_FPIOEN0, am_bsp_pp1.P_FPIOEN1, am_bsp_pp1.P_FPIOEN2);
 
-    ns_printf(mcuCtrlStr, am_bsp_pp2.M_ACRG, am_bsp_pp2.M_VRCTRL, am_bsp_pp2.M_LDOREG1,
-              am_bsp_pp2.M_LDOREG2, am_bsp_pp2.M_LFRC, am_bsp_pp2.M_BODCTRL, am_bsp_pp2.M_ADCPWRDLY,
-              am_bsp_pp2.M_ADCPWRCTRL, am_bsp_pp2.M_ADCCAL, am_bsp_pp2.M_ADCBATTLOAD,
-              am_bsp_pp2.M_XTALCTRL, am_bsp_pp2.M_XTALGENCTRL, am_bsp_pp2.M_XTALHSTRIMS,
-              am_bsp_pp2.M_XTALHSCTRL, am_bsp_pp2.M_BODISABLE, am_bsp_pp2.M_PMUENABLE,
-              am_bsp_pp2.M_SIMOBUCK0, am_bsp_pp2.M_SIMOBUCK1, am_bsp_pp2.M_SIMOBUCK2,
-              am_bsp_pp2.M_SIMOBUCK4, am_bsp_pp2.M_SIMOBUCK6, am_bsp_pp2.M_SIMOBUCK7,
-              am_bsp_pp2.M_SIMOBUCK9, am_bsp_pp2.M_SIMOBUCK12, am_bsp_pp2.M_SIMOBUCK13,
-              am_bsp_pp2.M_SIMOBUCK15, am_bsp_pp2.M_PWRSW0, am_bsp_pp2.M_PWRSW1,
-              am_bsp_pp2.M_AUDADCPWRCTRL, am_bsp_pp2.M_AUDIO1, am_bsp_pp2.M_PGAADCIFCTRL,
-              am_bsp_pp2.M_PGACTRL1, am_bsp_pp2.M_PGACTRL2, am_bsp_pp2.M_AUDADCPWRDLY,
-              am_bsp_pp2.M_SDIOCTRL, am_bsp_pp2.M_PDMCTRL);
+    ns_lp_printf(mcuCtrlStr, am_bsp_pp2.M_ACRG, am_bsp_pp2.M_VRCTRL, am_bsp_pp2.M_LDOREG1,
+                 am_bsp_pp2.M_LDOREG2, am_bsp_pp2.M_LFRC, am_bsp_pp2.M_BODCTRL,
+                 am_bsp_pp2.M_ADCPWRDLY, am_bsp_pp2.M_ADCPWRCTRL, am_bsp_pp2.M_ADCCAL,
+                 am_bsp_pp2.M_ADCBATTLOAD, am_bsp_pp2.M_XTALCTRL, am_bsp_pp2.M_XTALGENCTRL,
+                 am_bsp_pp2.M_XTALHSTRIMS, am_bsp_pp2.M_XTALHSCTRL, am_bsp_pp2.M_BODISABLE,
+                 am_bsp_pp2.M_PMUENABLE, am_bsp_pp2.M_SIMOBUCK0, am_bsp_pp2.M_SIMOBUCK1,
+                 am_bsp_pp2.M_SIMOBUCK2, am_bsp_pp2.M_SIMOBUCK4, am_bsp_pp2.M_SIMOBUCK6,
+                 am_bsp_pp2.M_SIMOBUCK7, am_bsp_pp2.M_SIMOBUCK9, am_bsp_pp2.M_SIMOBUCK12,
+                 am_bsp_pp2.M_SIMOBUCK13, am_bsp_pp2.M_SIMOBUCK15, am_bsp_pp2.M_PWRSW0,
+                 am_bsp_pp2.M_PWRSW1, am_bsp_pp2.M_AUDADCPWRCTRL, am_bsp_pp2.M_AUDIO1,
+                 am_bsp_pp2.M_PGAADCIFCTRL, am_bsp_pp2.M_PGACTRL1, am_bsp_pp2.M_PGACTRL2,
+                 am_bsp_pp2.M_AUDADCPWRDLY, am_bsp_pp2.M_SDIOCTRL, am_bsp_pp2.M_PDMCTRL);
 
-    ns_printf(audadcStr, am_bsp_pp4.AU_CFG, am_bsp_pp4.AU_STAT, am_bsp_pp4.AU_SWT,
-              am_bsp_pp4.AU_SL0CFG, am_bsp_pp4.AU_SL1CFG, am_bsp_pp4.AU_SL2CFG,
-              am_bsp_pp4.AU_SL3CFG, am_bsp_pp4.AU_SL4CFG, am_bsp_pp4.AU_SL5CFG,
-              am_bsp_pp4.AU_SL6CFG, am_bsp_pp4.AU_SL7CFG, am_bsp_pp4.AU_WULIM, am_bsp_pp4.AU_WLLIM,
-              am_bsp_pp4.AU_SCWLIM, am_bsp_pp4.AU_FIFO, am_bsp_pp4.AU_FIFOPR,
-              am_bsp_pp4.AU_FIFOSTAT, am_bsp_pp4.AU_DATAOFFSET, am_bsp_pp4.AU_ZXCFG,
-              am_bsp_pp4.AU_ZXLIM, am_bsp_pp4.AU_GAINCFG, am_bsp_pp4.AU_GAIN, am_bsp_pp4.AU_SATCFG,
-              am_bsp_pp4.AU_SATLIM, am_bsp_pp4.AU_SATMAX, am_bsp_pp4.AU_SATCLR, am_bsp_pp4.AU_IEREN,
-              am_bsp_pp4.AU_IERSTAT, am_bsp_pp4.AU_IERCLR, am_bsp_pp4.AU_IERSET,
-              am_bsp_pp4.AU_DMATRIGEN, am_bsp_pp4.AU_DMATRIGSTAT, am_bsp_pp4.AU_DMACFG,
-              am_bsp_pp4.AU_DMATOTCOUNT, am_bsp_pp4.AU_DMATARGADDR, am_bsp_pp4.AU_DMASTAT);
+    ns_lp_printf(
+        audadcStr, am_bsp_pp4.AU_CFG, am_bsp_pp4.AU_STAT, am_bsp_pp4.AU_SWT, am_bsp_pp4.AU_SL0CFG,
+        am_bsp_pp4.AU_SL1CFG, am_bsp_pp4.AU_SL2CFG, am_bsp_pp4.AU_SL3CFG, am_bsp_pp4.AU_SL4CFG,
+        am_bsp_pp4.AU_SL5CFG, am_bsp_pp4.AU_SL6CFG, am_bsp_pp4.AU_SL7CFG, am_bsp_pp4.AU_WULIM,
+        am_bsp_pp4.AU_WLLIM, am_bsp_pp4.AU_SCWLIM, am_bsp_pp4.AU_FIFO, am_bsp_pp4.AU_FIFOPR,
+        am_bsp_pp4.AU_FIFOSTAT, am_bsp_pp4.AU_DATAOFFSET, am_bsp_pp4.AU_ZXCFG, am_bsp_pp4.AU_ZXLIM,
+        am_bsp_pp4.AU_GAINCFG, am_bsp_pp4.AU_GAIN, am_bsp_pp4.AU_SATCFG, am_bsp_pp4.AU_SATLIM,
+        am_bsp_pp4.AU_SATMAX, am_bsp_pp4.AU_SATCLR, am_bsp_pp4.AU_IEREN, am_bsp_pp4.AU_IERSTAT,
+        am_bsp_pp4.AU_IERCLR, am_bsp_pp4.AU_IERSET, am_bsp_pp4.AU_DMATRIGEN,
+        am_bsp_pp4.AU_DMATRIGSTAT, am_bsp_pp4.AU_DMACFG, am_bsp_pp4.AU_DMATOTCOUNT,
+        am_bsp_pp4.AU_DMATARGADDR, am_bsp_pp4.AU_DMASTAT);
 
-    ns_printf(clkStr, am_bsp_pp3.C_CALXT, am_bsp_pp3.C_CALRC, am_bsp_pp3.C_ACALCTR,
-              am_bsp_pp3.C_OCTRL, am_bsp_pp3.C_CLKOUT, am_bsp_pp3.C_STATUS, am_bsp_pp3.C_HFADJ,
-              am_bsp_pp3.C_HFVAL, am_bsp_pp3.C_CLOCKENSTAT, am_bsp_pp3.C_CLOCKEN2STAT,
-              am_bsp_pp3.C_CLOCKEN3STAT, am_bsp_pp3.C_MISC, am_bsp_pp3.C_HF2ADJ0,
-              am_bsp_pp3.C_HF2ADJ1, am_bsp_pp3.C_HF2ADJ2, am_bsp_pp3.C_HF2VAL,
-              am_bsp_pp3.C_LFRCCTRL, am_bsp_pp3.C_DISPCLKCTRL);
+    ns_lp_printf(clkStr, am_bsp_pp3.C_CALXT, am_bsp_pp3.C_CALRC, am_bsp_pp3.C_ACALCTR,
+                 am_bsp_pp3.C_OCTRL, am_bsp_pp3.C_CLKOUT, am_bsp_pp3.C_STATUS, am_bsp_pp3.C_HFADJ,
+                 am_bsp_pp3.C_HFVAL, am_bsp_pp3.C_CLOCKENSTAT, am_bsp_pp3.C_CLOCKEN2STAT,
+                 am_bsp_pp3.C_CLOCKEN3STAT, am_bsp_pp3.C_MISC, am_bsp_pp3.C_HF2ADJ0,
+                 am_bsp_pp3.C_HF2ADJ1, am_bsp_pp3.C_HF2ADJ2, am_bsp_pp3.C_HF2VAL,
+                 am_bsp_pp3.C_LFRCCTRL, am_bsp_pp3.C_DISPCLKCTRL);
 
-    ns_printf(timerStr, am_bsp_pp3.ST_STCFG, am_bsp_pp3.ST_STMINTSTAT, am_bsp_pp3.T_CTRL,
-              am_bsp_pp3.T_STATUS, am_bsp_pp3.T_GLOBEN, am_bsp_pp3.T_INTSTAT, am_bsp_pp3.T_CTRL0,
-              am_bsp_pp3.T_CTRL1, am_bsp_pp3.T_CTRL2, am_bsp_pp3.T_CTRL3, am_bsp_pp3.T_CTRL4,
-              am_bsp_pp3.T_CTRL5, am_bsp_pp3.T_CTRL6, am_bsp_pp3.T_CTRL7, am_bsp_pp3.T_CTRL8,
-              am_bsp_pp3.T_CTRL9, am_bsp_pp3.T_CTRL10, am_bsp_pp3.T_CTRL11, am_bsp_pp3.T_CTRL12,
-              am_bsp_pp3.T_CTRL13, am_bsp_pp3.T_CTRL14, am_bsp_pp3.T_CTRL15);
+    ns_lp_printf(timerStr, am_bsp_pp3.ST_STCFG, am_bsp_pp3.ST_STMINTSTAT, am_bsp_pp3.T_CTRL,
+                 am_bsp_pp3.T_STATUS, am_bsp_pp3.T_GLOBEN, am_bsp_pp3.T_INTSTAT, am_bsp_pp3.T_CTRL0,
+                 am_bsp_pp3.T_CTRL1, am_bsp_pp3.T_CTRL2, am_bsp_pp3.T_CTRL3, am_bsp_pp3.T_CTRL4,
+                 am_bsp_pp3.T_CTRL5, am_bsp_pp3.T_CTRL6, am_bsp_pp3.T_CTRL7, am_bsp_pp3.T_CTRL8,
+                 am_bsp_pp3.T_CTRL9, am_bsp_pp3.T_CTRL10, am_bsp_pp3.T_CTRL11, am_bsp_pp3.T_CTRL12,
+                 am_bsp_pp3.T_CTRL13, am_bsp_pp3.T_CTRL14, am_bsp_pp3.T_CTRL15);
     // Now, we can disable the UART to provide minimized impact to the system
     am_bsp_uart_printf_disable();
 }

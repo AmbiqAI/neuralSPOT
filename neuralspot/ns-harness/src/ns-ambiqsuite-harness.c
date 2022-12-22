@@ -100,6 +100,12 @@ void
 ns_lp_printf(const char *format, ...) {
     va_list myargs;
 
+    if ((g_ns_state.uartPrintWantsToBeEnabled == false) &&
+        (g_ns_state.itmPrintWantsToBeEnabled == false)) {
+        // No print interface has been enabled, ns_lp_printf is a no-op
+        return;
+    }
+
     if ((g_ns_state.uartPrintWantsToBeEnabled) && (g_ns_state.uartPrintCurrentlyEnabled == false)) {
         am_bsp_uart_printf_enable();
         g_ns_state.uartPrintCurrentlyEnabled = true;

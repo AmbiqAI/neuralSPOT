@@ -68,17 +68,6 @@ ns_core_initialized(void) {
     return g_ns_state.initialized;
 }
 
-/**
- * @brief Initialize one of 3 timers supported by NeuralSPOT
- *
- * NS_TIMER_COUNTER     Intended use is reading timerticks
- * NS_TIMER_INTERRUPT   Calls a callback periodically
- * NS_TIMER_USB         Used by ns_usb to periodically service USB
- * NS_TIMER_TEMPCO      Used by ns_tempco to periodically collect temps
- *
- * @param cfg
- * @return uint32_t
- */
 uint32_t
 ns_timer_init(ns_timer_config_t *cfg) {
     am_hal_timer_config_t TimerConfig;
@@ -151,5 +140,21 @@ ns_timer_init(ns_timer_config_t *cfg) {
 
 uint32_t
 ns_us_ticker_read(ns_timer_config_t *cfg) {
+#ifndef NS_DISABLE_API_VALIDATION
+    if (cfg == NULL) {
+        return 0xDEADBEEF;
+    }
+#endif
     return am_hal_timer_read(cfg->timer) / 6; // 6 ticks per uS
+}
+
+uint32_t
+ns_timer_clear(ns_timer_config_t *cfg) {
+#ifndef NS_DISABLE_API_VALIDATION
+    if (cfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+#endif
+    am_hal_timer_clear(cfg->timer);
+    return NS_STATUS_SUCCESS;
 }

@@ -64,15 +64,20 @@
 // by power measurement tools such as Joulescope
 //*****************************************************************************
 
+static bool g_ns_power_monitor_enabled = false;
+
 void
 ns_init_power_monitor_state(void) {
     am_hal_gpio_pinconfig(NS_POWER_MONITOR_GPIO_0, am_hal_gpio_pincfg_output);
     am_hal_gpio_pinconfig(NS_POWER_MONITOR_GPIO_1, am_hal_gpio_pincfg_output);
     ns_set_power_monitor_state(NS_IDLE);
+    g_ns_power_monitor_enabled = true;
 }
 
 void
 ns_set_power_monitor_state(uint8_t state) {
-    am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_0, state & 0x01);
-    am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_1, (state >> 1) & 0x01);
+    if (g_ns_power_monitor_enabled) {
+        am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_0, state & 0x01);
+        am_hal_gpio_state_write(NS_POWER_MONITOR_GPIO_1, (state >> 1) & 0x01);
+    }
 }

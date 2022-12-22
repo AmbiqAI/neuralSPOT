@@ -137,6 +137,16 @@ const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
                                             .b128kTCM = false,
                                             .bEnableTempCo = true,
                                             .bNeedITM = false};
+uint32_t
+ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
+    // Configure power mode
+    if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))
+        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+    else
+        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+
+    return NS_STATUS_SUCCESS;
+}
 
 //*****************************************************************************
 //
@@ -292,10 +302,7 @@ ns_power_config(const ns_power_config_t *pCfg) {
     ns_power_down_peripherals(pCfg);
 
     // Configure power mode
-    if ((pCfg->eAIPowerMode == NS_MAXIMUM_PERF) || (pCfg->eAIPowerMode == NS_MEDIUM_PERF))
-        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
-    else
-        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+    NS_TRY(ns_set_performance_mode(pCfg->eAIPowerMode), "Set CPU Perf mode failed.");
 
     if (pCfg->b128kTCM == true) {
 

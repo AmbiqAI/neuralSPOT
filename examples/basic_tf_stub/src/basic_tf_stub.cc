@@ -13,8 +13,8 @@ The basic_tf_stub example is based on a speech to intent model.
 
 #define RINGBUFFER_MODE
 // #define RPC_ENABLED
-// #define ENERGY_MONITOR_ENABLE
-// #define LOWEST_POWER_MODE
+#define ENERGY_MONITOR_ENABLE
+#define LOWEST_POWER_MODE
 
 #include "basic_tf_stub.h"
 #include "basic_audio.h"
@@ -69,8 +69,8 @@ main(void) {
     // Joulescope - it sets GPIO pins so the state can be observed externally
     // to help line up the waveforms. It has nothing to do with AI...
     ns_init_power_monitor_state();
-    ns_set_power_monitor_state(NS_IDLE);
 #endif
+    ns_set_power_monitor_state(NS_IDLE); // no-op if ns_init_power_monitor_state not called
 
     // Configure power - different use modes
     // require different power configs
@@ -79,10 +79,13 @@ main(void) {
     // ns_power_config()
 
     NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed.\n");
+    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
 
 #ifdef LOWEST_POWER_MODE
-    ns_uart_printf_enable(); // use uart to print, uses less power
+    // No printing enabled at all - use this to measure power
 #else
+    // Pick either ns_uart_printf_enable or ns_itm_printf_enable dependin on your needs
+    // ns_uart_printf_enable(); // use uart to print, uses less power
     ns_itm_printf_enable();
     /* A note about printf and low power: printing over ITM impacts low power in two
         ways:

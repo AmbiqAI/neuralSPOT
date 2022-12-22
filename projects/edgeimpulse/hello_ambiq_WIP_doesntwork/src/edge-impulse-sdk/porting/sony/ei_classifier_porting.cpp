@@ -75,6 +75,16 @@ __attribute__((weak)) void ei_printf_float(float f) {
     ei_printf("%f", f);
 }
 
+/**
+ * @brief      Write single character to serial output
+ *
+ * @param[in]  cChar  The character
+ */
+__attribute__((weak)) void ei_putchar(char cChar)
+{
+    ei_printf("%c", cChar);
+}
+
 __attribute__((weak)) void *ei_malloc(size_t size) {
     return malloc(size);
 }

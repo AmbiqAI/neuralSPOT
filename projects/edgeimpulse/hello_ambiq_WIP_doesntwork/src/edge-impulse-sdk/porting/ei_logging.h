@@ -30,7 +30,7 @@
 #define EI_LOG_LEVEL_DEBUG 4 /*!< Extra information which is not necessary for normal use (values, pointers, sizes, etc). */
 
 // if we do not want ANY logging, setting EI_LOG_LEVEL to EI_LOG_LEVEL_NONE
-// will not generate any code according to 
+// will not generate any code according to
 // https://stackoverflow.com/a/25021889
 
 #define EI_LOGE(format, ...) (void)0
@@ -56,18 +56,30 @@ const char *debug_msgs[] =
 };
 
 #if EI_LOG_LEVEL >= EI_LOG_LEVEL_ERROR
+    #ifdef EI_LOGE
+    #undef EI_LOGE
+    #endif // EI_LOGE
     #define EI_LOGE(format, ...) ei_printf("%s: ",debug_msgs[EI_LOG_LEVEL_ERROR]); ei_printf(format, ##__VA_ARGS__);
 #endif
 
 #if EI_LOG_LEVEL >= EI_LOG_LEVEL_WARNING
+    #ifdef EI_LOGW
+    #undef EI_LOGW
+    #endif // EI_LOGW
     #define EI_LOGW(format, ...) ei_printf("%s: ",debug_msgs[EI_LOG_LEVEL_WARNING]); ei_printf(format, ##__VA_ARGS__);
 #endif
 
 #if EI_LOG_LEVEL >= EI_LOG_LEVEL_INFO
+    #ifdef EI_LOGI
+    #undef EI_LOGI
+    #endif // EI_LOGI
     #define EI_LOGI(format, ...) ei_printf("%s: ",debug_msgs[EI_LOG_LEVEL_INFO]); ei_printf(format, ##__VA_ARGS__);
 #endif
 
 #if EI_LOG_LEVEL >= EI_LOG_LEVEL_DEBUG
+    #ifdef EI_LOGD
+    #undef EI_LOGD
+    #endif // EI_LOGD
     #define EI_LOGD(format, ...) ei_printf("%s: ",debug_msgs[EI_LOG_LEVEL_DEBUG]); ei_printf(format, ##__VA_ARGS__);
 #endif
 

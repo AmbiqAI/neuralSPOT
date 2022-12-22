@@ -117,6 +117,15 @@ __attribute__((weak)) void ei_printf_float(float f) {
     ei_printf("%s", s);
 }
 
+/**
+ *
+ * @param c
+ */
+void ei_putchar(char c)
+{
+    ei_printf("%c", c);
+}
+
 __attribute__((weak)) void *ei_malloc(size_t size) {
     return malloc(size);
 }

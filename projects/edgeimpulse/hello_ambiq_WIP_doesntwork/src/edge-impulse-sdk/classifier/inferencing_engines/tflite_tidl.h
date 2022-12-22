@@ -15,10 +15,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#ifndef _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_FULL_H_
-#define _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_FULL_H_
+#ifndef _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_TIDL_H_
+#define _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_TIDL_H_
 
-#if (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_FULL)
+#if (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_TIDL)
 
 #include "model-parameters/model_metadata.h"
 #if EI_CLASSIFIER_HAS_MODEL_VARIABLES == 1
@@ -34,6 +34,22 @@
 #include "edge-impulse-sdk/classifier/ei_fill_result_struct.h"
 #include "edge-impulse-sdk/classifier/ei_model_types.h"
 
+#include "itidl_rt.h"
+#if ARMNN_ENABLE
+#include "DelegateOptions.hpp"
+#include "armnn_delegate.hpp"
+#endif
+
+#include <dlfcn.h>
+
+// old models don't have this, add this here
+#ifndef EI_CLASSIFIER_TFLITE_OUTPUT_DATA_TENSOR
+#define EI_CLASSIFIER_TFLITE_OUTPUT_DATA_TENSOR 0
+#endif // not defined EI_CLASSIFIER_TFLITE_OUTPUT_DATA_TENSOR
+
+void *in_ptrs[16] = {NULL};
+void *out_ptrs[16] = {NULL};
+
 extern "C" EI_IMPULSE_ERROR run_nn_inference(
     const ei_impulse_t *impulse,
     ei::matrix_t *fmatrix,
@@ -43,9 +59,11 @@ extern "C" EI_IMPULSE_ERROR run_nn_inference(
 
     static std::unique_ptr<tflite::FlatBufferModel> model = nullptr;
     static std::unique_ptr<tflite::Interpreter> interpreter = nullptr;
+    static std::vector<int> inputs;
+    static std::vector<int> outputs;
 
     if (!model) {
-        model = tflite::FlatBufferModel::BuildFromBuffer((const char*)impulse->model_arr, impulse->model_arr_size);
+        model = tflite::FlatBufferModel::BuildFromFile("tflite-model/trained.tflite");
         if (!model) {
             ei_printf("Failed to build TFLite model from buffer\n");
             return EI_IMPULSE_TFLITE_ERROR;
@@ -59,6 +77,20 @@ extern "C" EI_IMPULSE_ERROR run_nn_inference(
             ei_printf("Failed to construct interpreter\n");
             return EI_IMPULSE_TFLITE_ERROR;
         }
+
+        /* This part creates the dlg_ptr */
+        ei_printf("TIDL delegate mode\n");
+        typedef TfLiteDelegate *(*tflite_plugin_create_delegate)(char **, char **, size_t, void (*report_error)(const char *));
+        tflite_plugin_create_delegate tflite_plugin_dlg_create;
+        char *keys[] = {(char *)"artifacts_folder", (char *)"num_tidl_subgraphs", (char *)"debug_level"};
+        char *values[] = {(char *)"tflite-model", (char *)"16", (char *)"0"};
+        void *lib = dlopen("libtidl_tfl_delegate.so", RTLD_NOW);
+        assert(lib);
+        tflite_plugin_dlg_create = (tflite_plugin_create_delegate)dlsym(lib, "tflite_plugin_create_delegate");
+        TfLiteDelegate *dlg_ptr = tflite_plugin_dlg_create(keys, values, 3, NULL);
+        interpreter->ModifyGraphWithDelegate(dlg_ptr);
+        ei_printf("ModifyGraphWithDelegate - Done \n");
+
 
         if (interpreter->AllocateTensors() != kTfLiteOk) {
             ei_printf("AllocateTensors failed\n");
@@ -75,6 +107,31 @@ extern "C" EI_IMPULSE_ERROR run_nn_inference(
             ei_printf("SetNumThreads failed\n");
             return EI_IMPULSE_TFLITE_ERROR;
         }
+    }
+
+    inputs = interpreter->inputs();
+    outputs = interpreter->outputs();
+
+    ei_printf("device mem enabled\n");
+    for (uint32_t i = 0; i < inputs.size(); i++)
+    {
+        const TfLiteTensor *tensor = interpreter->input_tensor(i);
+        in_ptrs[i] = TIDLRT_allocSharedMem(tflite::kDefaultTensorAlignment, tensor->bytes);
+        if (in_ptrs[i] == NULL)
+        {
+        ei_printf("Could not allocate Memory for input: %s\n", tensor->name);
+        }
+        interpreter->SetCustomAllocationForTensor(inputs[i], {in_ptrs[i], tensor->bytes});
+    }
+    for (uint32_t i = 0; i < outputs.size(); i++)
+    {
+        const TfLiteTensor *tensor = interpreter->output_tensor(i);
+        out_ptrs[i] = TIDLRT_allocSharedMem(tflite::kDefaultTensorAlignment, tensor->bytes);
+        if (out_ptrs[i] == NULL)
+        {
+        ei_printf("Could not allocate Memory for ouput: %s\n", tensor->name);
+        }
+        interpreter->SetCustomAllocationForTensor(outputs[i], {out_ptrs[i], tensor->bytes});
     }
 
     // Obtain pointers to the model's input and output tensors.
@@ -205,6 +262,21 @@ extern "C" EI_IMPULSE_ERROR run_nn_inference(
 #endif
     }
 
+    for (uint32_t i = 0; i < inputs.size(); i++)
+    {
+        if (in_ptrs[i])
+        {
+        TIDLRT_freeSharedMem(in_ptrs[i]);
+        }
+    }
+    for (uint32_t i = 0; i < outputs.size(); i++)
+    {
+        if (out_ptrs[i])
+        {
+        TIDLRT_freeSharedMem(out_ptrs[i]);
+        }
+    }
+
     if (fill_res != EI_IMPULSE_OK) {
         return fill_res;
     }
@@ -214,5 +286,5 @@ extern "C" EI_IMPULSE_ERROR run_nn_inference(
     return EI_IMPULSE_OK;
 }
 
-#endif // (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_FULL)
-#endif // _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_FULL_H_
+#endif // (EI_CLASSIFIER_INFERENCING_ENGINE == EI_CLASSIFIER_TFLITE_TIDL)
+#endif // _EI_CLASSIFIER_INFERENCING_ENGINE_TFLITE_TIDL_H_

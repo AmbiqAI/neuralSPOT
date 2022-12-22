@@ -32,7 +32,7 @@ NESTEGG := basic_tf_stub
 NESTSOURCEDIR := examples/$(NESTEGG)/src
 
 # application stack and heap size
-STACK_SIZE := 4096
+STACK_SIZE_IN_32B_WORDS := 4096
 NS_MALLOC_HEAP_SIZE_IN_K := 16
 
 ##### TinyUSB Default Config #####

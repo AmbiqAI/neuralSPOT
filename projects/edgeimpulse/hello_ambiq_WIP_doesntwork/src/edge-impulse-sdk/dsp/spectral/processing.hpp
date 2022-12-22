@@ -463,6 +463,23 @@ namespace processing {
 
         return EIDSP_OK;
     }
+
+    static int subtract_mean(matrix_t* input_matrix) {
+        // calculate the mean
+        EI_DSP_MATRIX(mean_matrix, input_matrix->rows, 1);
+        int ret = numpy::mean(input_matrix, &mean_matrix);
+        if (ret != EIDSP_OK) {
+            EIDSP_ERR(EIDSP_MATRIX_SIZE_MISMATCH);
+        }
+
+        // scale by the mean
+        ret = numpy::subtract(input_matrix, &mean_matrix);
+        if (ret != EIDSP_OK) {
+            EIDSP_ERR(EIDSP_MATRIX_SIZE_MISMATCH);
+        }
+
+        return EIDSP_OK;
+    }
 } // namespace processing
 } // namespace spectral
 } // namespace ei

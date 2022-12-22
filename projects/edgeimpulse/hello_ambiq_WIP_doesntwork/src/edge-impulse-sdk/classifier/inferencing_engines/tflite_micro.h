@@ -224,22 +224,24 @@ static EI_IMPULSE_ERROR inference_tflite_run(const ei_impulse_t *impulse,
         ei_printf("Predictions (time: %d ms.):\n", result->timing.classification);
     }
 
+    EI_IMPULSE_ERROR fill_res = EI_IMPULSE_OK;
+
     if (impulse->object_detection) {
         switch (impulse->object_detection_last_layer) {
             case EI_CLASSIFIER_LAST_LAYER_FOMO: {
                 bool int8_output = output->type == TfLiteType::kTfLiteInt8;
                 if (int8_output) {
-                    fill_result_struct_i8_fomo(impulse, result, output->data.int8, output->params.zero_point, output->params.scale,
+                    fill_res = fill_result_struct_i8_fomo(impulse, result, output->data.int8, output->params.zero_point, output->params.scale,
                         (int)output->dims->data[1], (int)output->dims->data[2]);
                 }
                 else {
-                    fill_result_struct_f32_fomo(impulse, result, output->data.f, (int)output->dims->data[1], (int)output->dims->data[2]);
+                    fill_res = fill_result_struct_f32_fomo(impulse, result, output->data.f, (int)output->dims->data[1], (int)output->dims->data[2]);
                 }
                 break;
             }
             case EI_CLASSIFIER_LAST_LAYER_SSD: {
                 #if EI_CLASSIFIER_ENABLE_DETECTION_POSTPROCESS_OP
-                    fill_result_struct_f32_object_detection(impulse, result, tflite::post_process_boxes, tflite::post_process_scores, tflite::post_process_classes, debug);
+                    fill_res = fill_result_struct_f32_object_detection(impulse, result, tflite::post_process_boxes, tflite::post_process_scores, tflite::post_process_classes, debug);
                 #else
                     ei_printf("ERR: Cannot run SSD model, EI_CLASSIFIER_ENABLE_DETECTION_POSTPROCESS_OP is disabled\n");
                     return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
@@ -247,8 +249,14 @@ static EI_IMPULSE_ERROR inference_tflite_run(const ei_impulse_t *impulse,
 
                 break;
             }
-            case EI_CLASSIFIER_LAST_LAYER_YOLOV5: {
+            case EI_CLASSIFIER_LAST_LAYER_YOLOV5:
+            case EI_CLASSIFIER_LAST_LAYER_YOLOV5_V5_DRPAI: {
                 ei_printf("ERR: YOLOv5 models are not supported using EON Compiler, use full TFLite (%d)\n",
+                    impulse->object_detection_last_layer);
+                return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
+            }
+            case EI_CLASSIFIER_LAST_LAYER_YOLOX: {
+                ei_printf("ERR: YOLOX models are not supported using EON Compiler, use full TFLite (%d)\n",
                     impulse->object_detection_last_layer);
                 return EI_IMPULSE_UNSUPPORTED_INFERENCING_ENGINE;
             }
@@ -262,11 +270,15 @@ static EI_IMPULSE_ERROR inference_tflite_run(const ei_impulse_t *impulse,
     else {
         bool int8_output = output->type == TfLiteType::kTfLiteInt8;
         if (int8_output) {
-            fill_result_struct_i8(impulse, result, output->data.int8, output->params.zero_point, output->params.scale, debug);
+            fill_res = fill_result_struct_i8(impulse, result, output->data.int8, output->params.zero_point, output->params.scale, debug);
         }
         else {
-            fill_result_struct_f32(impulse, result, output->data.f, debug);
+            fill_res = fill_result_struct_f32(impulse, result, output->data.f, debug);
         }
+    }
+
+    if (fill_res != EI_IMPULSE_OK) {
+        return fill_res;
     }
 
     if (ei_run_impulse_check_canceled() == EI_IMPULSE_CANCELED) {

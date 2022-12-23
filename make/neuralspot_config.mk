@@ -8,8 +8,9 @@ SHELL  :=/bin/bash
 
 ##### Target Hardware Defaults #####
 BOARD  :=apollo4p
+BOARDROOT := $(firstword $(subst _, ,$(BOARD)))
 EVB    :=evb
-PART   = $(BOARD)
+PART   = $(BOARDROOT)
 CPU    = cortex-m4
 FPU    = fpv4-sp-d16
 # Default to FPU hardware calling convention.  However, some customers and/or

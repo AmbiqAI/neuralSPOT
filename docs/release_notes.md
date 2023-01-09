@@ -41,3 +41,7 @@
   - Added a ‘no print’ path to ns_lp_printf
   - Add no-op path to ns_energy_monitor
   - Add API to clear Timer, adds API checks to timer read functions
+  - Fixed compilation for BLE versions of Apollo4P EVB boards
+  - Added new TFLM version (github hash fecdd5d, date 1/09/2022
+    - *NOTE* The TFLM team refactored micro_error_reporter a bit, requiring application code changes (see basic_tf_stub's basic_model.h)
+  

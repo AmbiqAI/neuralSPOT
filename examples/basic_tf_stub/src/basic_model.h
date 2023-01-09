@@ -14,11 +14,15 @@
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
-#include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
+#ifdef NS_TF_VERSION_fecdd5d
+    #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
+#else
+    #include "tensorflow/lite/micro/micro_error_reporter.h"
+#endif
 
 // TFLM model
 // #include "model.h"
@@ -64,7 +68,11 @@ model_init(void) {
     }
 
     // Build mutable resolver with minimum opset
+#ifdef NS_TF_VERSION_fecdd5d
+    static tflite::MicroMutableOpResolver<6> resolver;
+#else
     static tflite::MicroMutableOpResolver<6> resolver(error_reporter);
+#endif
     resolver.AddFullyConnected();
     resolver.AddConv2D();
     resolver.AddDepthwiseConv2D();
@@ -75,8 +83,13 @@ model_init(void) {
     // static tflite::AllOpsResolver resolver;
 
     // Build an interpreter to run the model with.
+#ifdef NS_TF_VERSION_fecdd5d
+    static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
+                                                       kTensorArenaSize);
+#else
     static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
                                                        kTensorArenaSize, error_reporter);
+#endif
     interpreter = &static_interpreter;
 
     // Allocate memory from the tensor_arena for the model's tensors.

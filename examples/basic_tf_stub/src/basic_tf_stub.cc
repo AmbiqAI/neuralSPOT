@@ -193,6 +193,7 @@ main(void) {
                 ns_start_perf_profiler();
             }
             TfLiteStatus invoke_status = interpreter->Invoke();
+            profiler->Log();
 
             if (measure_first_inference) {
                 measure_first_inference = false;

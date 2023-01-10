@@ -15,19 +15,38 @@ limitations under the License.
 // the Ambiq Apollo 3.
 
 #include "ns_debug_log.h"
+#include "tensorflow/lite/micro/cortex_m_generic/debug_log_callback.h"
 
-#include "am_bsp.h"  // NOLINT
-#include "am_util.h" // NOLINT
+#include "ns_ambiqsuite_harness.h"
+// #include "am_bsp.h"  // NOLINT
+// #include "am_util.h" // NOLINT
 
-extern "C" void
-DebugLog(const char *s) {
-#ifndef TF_LITE_STRIP_ERROR_STRINGS
-    static bool is_initialized = false;
-    if (!is_initialized) {
-        am_bsp_debug_printf_enable();
-        is_initialized = true;
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-    am_util_stdio_printf("%s", s);
-#endif
+void
+ns_TFDebugLog(const char *s) {
+    ns_lp_printf("%s", s);
 }
+
+void
+ns_TFDebugLogInit(void) {
+    RegisterDebugLogCallback(ns_TFDebugLog);
+}
+
+// void DebugLog(const char *s) {
+// #ifndef TF_LITE_STRIP_ERROR_STRINGS
+//     static bool is_initialized = false;
+//     if (!is_initialized) {
+//         ns_itm_printf_enable();
+//         is_initialized = true;
+//     }
+
+//     ns_lp_printf("%s", s);
+// #endif
+// }
+
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus

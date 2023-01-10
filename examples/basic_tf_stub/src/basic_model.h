@@ -10,12 +10,14 @@
  */
 #include "basic_tf_stub.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_debug_log.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
+#include "tensorflow/lite/micro/micro_profiler.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 #ifdef NS_TF_VERSION_fecdd5d
@@ -36,6 +38,7 @@ static const tflite::Model *model = nullptr;
 static tflite::MicroInterpreter *interpreter = nullptr;
 static TfLiteTensor *model_input = nullptr;
 static TfLiteTensor *model_output = nullptr;
+static tflite::MicroProfiler *profiler = nullptr;
 
 static constexpr int kTensorArenaSize = 1024 * 24;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
@@ -51,9 +54,13 @@ alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 static void
 model_init(void) {
 
-    static tflite::MicroErrorReporter micro_error_reporter;
+    tflite::MicroErrorReporter micro_error_reporter;
     error_reporter = &micro_error_reporter;
-
+#ifdef NS_MLDEBUG
+    static tflite::MicroProfiler micro_profiler;
+    profiler = &micro_profiler;
+    ns_TFDebugLogInit();
+#endif
     tflite::InitializeTarget();
 
     // Map the model into a usable data structure. This doesn't involve any
@@ -85,10 +92,10 @@ model_init(void) {
     // Build an interpreter to run the model with.
 #ifdef NS_TF_VERSION_fecdd5d
     static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
-                                                       kTensorArenaSize);
+                                                       kTensorArenaSize, nullptr, profiler);
 #else
-    static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
-                                                       kTensorArenaSize, error_reporter);
+    static tflite::MicroInterpreter static_interpreter(
+        model, resolver, tensor_arena, kTensorArenaSize, error_reporter, nullptr, profiler);
 #endif
     interpreter = &static_interpreter;
 

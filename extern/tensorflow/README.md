@@ -34,7 +34,7 @@ TFLM includes a script to generate a code tree with only the header and license 
 cd tflite-micro
 python ./tensorflow/lite/micro/tools/project_generation/create_tflm_tree.py treedir
 ```
-
+--makefile_options
 ## Copy needed files into neuralSPOT
 neuralSPOT only needs the static libraries and minimal code tree.
 

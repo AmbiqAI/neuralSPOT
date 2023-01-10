@@ -39,8 +39,8 @@ CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exception
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99
-CFLAGS+= -g -O3
-# CFLAGS+= -g -O0
+# CFLAGS+= -g -O3
+CFLAGS+= -g -O0
 CFLAGS+=
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
@@ -69,6 +69,9 @@ DEFINES+= TF_LITE_STATIC_MEMORY
 # Enable ML Debug and Symbols with 'make MLDEBUG=1'
 ifneq ($(MLDEBUG),1)
 DEFINES+= TF_LITE_STRIP_ERROR_STRINGS
+DEFINES+= NS_MLDEBUG
+else
+DEFINES+= NS_MLDEBUG
 endif
 ifeq ($(AUDIO_DEBUG),1)
 DEFINES+= AUDIODEBUG

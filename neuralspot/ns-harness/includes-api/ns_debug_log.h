@@ -22,8 +22,11 @@ extern "C" {
 // This function should be implemented by each target platform, and provide a
 // way for strings to be output to some text stream. For more information, see
 // tensorflow/lite/micro/debug_log.cc.
-void
-DebugLog(const char *s);
+// void
+// DebugLog(const char *s);
+
+extern void
+ns_TFDebugLogInit(void);
 
 #ifdef __cplusplus
 } // extern "C"

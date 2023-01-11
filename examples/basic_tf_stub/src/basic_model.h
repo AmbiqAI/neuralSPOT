@@ -43,7 +43,7 @@ static tflite::MicroProfiler *profiler = nullptr;
 static constexpr int kTensorArenaSize = 1024 * 24;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
-#ifdef NS_MLDEBUG
+#ifdef NS_MLPROFILE
 // Timer is used for TF profiling
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
@@ -65,7 +65,7 @@ model_init(void) {
 
     tflite::MicroErrorReporter micro_error_reporter;
     error_reporter = &micro_error_reporter;
-#ifdef NS_MLDEBUG
+#ifdef NS_MLPROFILE
     static tflite::MicroProfiler micro_profiler;
     profiler = &micro_profiler;
     ns_TFDebugLogInit(&basic_tickTimer);

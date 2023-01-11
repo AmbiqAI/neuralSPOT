@@ -19,10 +19,21 @@ limitations under the License.
 extern "C" {
 #endif // __cplusplus
 
+#include "ns_perf_profile.h"
 #include "ns_timer.h"
 
-#ifdef NS_MLDEBUG
+// Match TFLM kMaxEvents
+#define NS_PROFILER_MAX_EVENTS 1024
+typedef struct {
+    ns_cache_dump_t cache_start[NS_PROFILER_MAX_EVENTS];
+    ns_cache_dump_t cache_end[NS_PROFILER_MAX_EVENTS];
+    ns_perf_counters_t perf_start[NS_PROFILER_MAX_EVENTS];
+    ns_perf_counters_t perf_end[NS_PROFILER_MAX_EVENTS];
+} ns_profiler_sidecar_t;
+
+#ifdef NS_MLPROFILE
 extern ns_timer_config_t *ns_microProfilerTimer;
+extern ns_profiler_sidecar_t ns_microProfilerSidecar;
 #endif
 
 extern void

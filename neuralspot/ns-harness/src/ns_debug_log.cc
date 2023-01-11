@@ -18,8 +18,6 @@ limitations under the License.
 #include "tensorflow/lite/micro/cortex_m_generic/debug_log_callback.h"
 
 #include "ns_ambiqsuite_harness.h"
-// #include "am_bsp.h"  // NOLINT
-// #include "am_util.h" // NOLINT
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,34 +25,31 @@ extern "C" {
 
 void
 ns_TFDebugLog(const char *s) {
-#ifdef NS_MLDEBUG
+#if defined(NS_MLDEBUG) || defined(NS_MLPROFILE)
     ns_lp_printf("%s", s);
 #endif
 }
 
-#ifdef NS_MLDEBUG
+#ifdef NS_MLPROFILE
 ns_timer_config_t *ns_microProfilerTimer;
+ns_profiler_sidecar_t ns_microProfilerSidecar;
+ns_cache_config_t cc;
 #endif
 
 void
 ns_TFDebugLogInit(ns_timer_config_t *t) {
-#ifdef NS_MLDEBUG
+#if defined(NS_MLDEBUG) || defined(NS_MLPROFILE)
     RegisterDebugLogCallback(ns_TFDebugLog);
+#endif
+
+#ifdef NS_MLPROFILE
     ns_microProfilerTimer = t;
+    ns_init_perf_profiler();
+    ns_start_perf_profiler();
+    cc.enable = true;
+    ns_cache_profiler_init(&cc);
 #endif
 }
-
-// void DebugLog(const char *s) {
-// #ifndef TF_LITE_STRIP_ERROR_STRINGS
-//     static bool is_initialized = false;
-//     if (!is_initialized) {
-//         ns_itm_printf_enable();
-//         is_initialized = true;
-//     }
-
-//     ns_lp_printf("%s", s);
-// #endif
-// }
 
 #ifdef __cplusplus
 } // extern "C"

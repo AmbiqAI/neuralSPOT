@@ -111,8 +111,7 @@ ns_timer_init(ns_timer_config_t *cfg) {
 
     ui32Status = am_hal_timer_config(cfg->timer, &TimerConfig);
     if (ui32Status != AM_HAL_STATUS_SUCCESS) {
-        am_util_stdio_printf("Failed to configure TIMER%d, return value=%d\r\n", cfg->timer,
-                             ui32Status);
+        ns_lp_printf("Failed to configure TIMER%d, return value=%d\r\n", cfg->timer, ui32Status);
         return ui32Status;
     }
 

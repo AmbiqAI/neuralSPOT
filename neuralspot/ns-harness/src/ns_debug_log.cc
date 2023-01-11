@@ -27,12 +27,21 @@ extern "C" {
 
 void
 ns_TFDebugLog(const char *s) {
+#ifdef NS_MLDEBUG
     ns_lp_printf("%s", s);
+#endif
 }
 
+#ifdef NS_MLDEBUG
+ns_timer_config_t *ns_microProfilerTimer;
+#endif
+
 void
-ns_TFDebugLogInit(void) {
+ns_TFDebugLogInit(ns_timer_config_t *t) {
+#ifdef NS_MLDEBUG
     RegisterDebugLogCallback(ns_TFDebugLog);
+    ns_microProfilerTimer = t;
+#endif
 }
 
 // void DebugLog(const char *s) {

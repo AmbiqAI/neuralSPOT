@@ -12,6 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
+#include "ns_debug_log.h"
 #include "tensorflow/lite/micro/micro_profiler.h"
 
 #include <cinttypes>
@@ -31,7 +32,7 @@ MicroProfiler::BeginEvent(const char *tag) {
     }
 
     tags_[num_events_] = tag;
-    start_ticks_[num_events_] = GetCurrentTimeTicks();
+    start_ticks_[num_events_] = ns_us_ticker_read(ns_microProfilerTimer);
     end_ticks_[num_events_] = start_ticks_[num_events_] - 1;
     return num_events_++;
 }
@@ -39,7 +40,7 @@ MicroProfiler::BeginEvent(const char *tag) {
 void
 MicroProfiler::EndEvent(uint32_t event_handle) {
     TFLITE_DCHECK(event_handle < kMaxEvents);
-    end_ticks_[event_handle] = GetCurrentTimeTicks();
+    end_ticks_[event_handle] = ns_us_ticker_read(ns_microProfilerTimer);
 }
 
 uint32_t
@@ -56,7 +57,7 @@ MicroProfiler::Log() const {
 #if !defined(TF_LITE_STRIP_ERROR_STRINGS)
     for (int i = 0; i < num_events_; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
-        MicroPrintf("%s tookd %d ticks (%d ms).", tags_[i], ticks, TicksToMs(ticks));
+        MicroPrintf("%s took %d us (%d ms).", tags_[i], ticks, ticks / 1000);
     }
 #endif
 }

@@ -102,11 +102,13 @@ main(void) {
     */
 #endif
 
+#ifdef NS_MLDEBUG
+    NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
+#endif
     model_init();
 
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
-
-    ns_mfcc_init(&mfcc_config);
+    NS_TRY(ns_mfcc_init(&mfcc_config), "MFCC config failed.\n");
     NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
 
     if (measure_first_inference) {

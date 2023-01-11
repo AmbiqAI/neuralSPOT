@@ -19,14 +19,14 @@ limitations under the License.
 extern "C" {
 #endif // __cplusplus
 
-// This function should be implemented by each target platform, and provide a
-// way for strings to be output to some text stream. For more information, see
-// tensorflow/lite/micro/debug_log.cc.
-// void
-// DebugLog(const char *s);
+#include "ns_timer.h"
+
+#ifdef NS_MLDEBUG
+extern ns_timer_config_t *ns_microProfilerTimer;
+#endif
 
 extern void
-ns_TFDebugLogInit(void);
+ns_TFDebugLogInit(ns_timer_config_t *t);
 
 #ifdef __cplusplus
 } // extern "C"

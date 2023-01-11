@@ -43,6 +43,15 @@ static tflite::MicroProfiler *profiler = nullptr;
 static constexpr int kTensorArenaSize = 1024 * 24;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
+#ifdef NS_MLDEBUG
+// Timer is used for TF profiling
+ns_timer_config_t basic_tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
+};
+#endif
+
 /**
  * @brief Initialize TF with KWS model
  *
@@ -59,7 +68,7 @@ model_init(void) {
 #ifdef NS_MLDEBUG
     static tflite::MicroProfiler micro_profiler;
     profiler = &micro_profiler;
-    ns_TFDebugLogInit();
+    ns_TFDebugLogInit(&basic_tickTimer);
 #endif
     tflite::InitializeTarget();
 

@@ -33,7 +33,13 @@ MicroProfiler::BeginEvent(const char *tag) {
 
     tags_[num_events_] = tag;
     start_ticks_[num_events_] = ns_us_ticker_read(ns_microProfilerTimer);
+    ns_reset_perf_counters();
+    ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_start[num_events_]));
+    ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_start[num_events_]));
     end_ticks_[num_events_] = start_ticks_[num_events_] - 1;
+    // ns_lp_printf("START: %s handle %d: %d\n", tag, num_events_,
+    // ns_microProfilerSidecar.perf_start[num_events_].lsucnt);
+    // ns_print_perf_profile(&(ns_microProfilerSidecar.perf_start[num_events_]));
     return num_events_++;
 }
 
@@ -41,6 +47,11 @@ void
 MicroProfiler::EndEvent(uint32_t event_handle) {
     TFLITE_DCHECK(event_handle < kMaxEvents);
     end_ticks_[event_handle] = ns_us_ticker_read(ns_microProfilerTimer);
+    ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_end[event_handle]));
+    ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_end[event_handle]));
+    // ns_lp_printf("END: %d: %d\n", event_handle,
+    // ns_microProfilerSidecar.perf_end[event_handle].lsucnt);
+    // ns_print_perf_profile(&(ns_microProfilerSidecar.perf_end[num_events_]));
 }
 
 uint32_t
@@ -55,9 +66,12 @@ MicroProfiler::GetTotalTicks() const {
 void
 MicroProfiler::Log() const {
 #if !defined(TF_LITE_STRIP_ERROR_STRINGS)
+    ns_perf_counters_t d;
     for (int i = 0; i < num_events_; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
-        MicroPrintf("%s took %d us (%d ms).", tags_[i], ticks, ticks / 1000);
+        ns_delta_perf(&(ns_microProfilerSidecar.perf_start[i]),
+                      &(ns_microProfilerSidecar.perf_end[i]), &d);
+        MicroPrintf("%s took %d us (%d cycles).", tags_[i], ticks, d.cyccnt);
     }
 #endif
 }
@@ -65,10 +79,22 @@ MicroProfiler::Log() const {
 void
 MicroProfiler::LogCsv() const {
 #if !defined(TF_LITE_STRIP_ERROR_STRINGS)
-    MicroPrintf("\"Event\",\"Tag\",\"Ticks\"");
+    ns_perf_counters_t p;
+    ns_cache_dump_t c;
+
+    MicroPrintf("\"Event\",\"Tag\",\"uSeconds\",\"cycles\",\"cpi\",\"exc\",\"sleep\",\"lsu\","
+                "\"fold\",\"daccess\",\"dtaglookup\",\"dhitslookup\",\"dhitsline\",\"iaccess\","
+                "\"itaglookup\",\"ihitslookup\",\"ihitsline\"");
     for (int i = 0; i < num_events_; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
-        MicroPrintf("%d,%s,%" PRIu32, i, tags_[i], ticks);
+        ns_delta_perf(&(ns_microProfilerSidecar.perf_start[i]),
+                      &(ns_microProfilerSidecar.perf_end[i]), &p);
+        ns_delta_cache(&(ns_microProfilerSidecar.cache_start[i]),
+                       &(ns_microProfilerSidecar.cache_end[i]), &c);
+        MicroPrintf("%d,%s,%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", i, tags_[i],
+                    ticks, p.cyccnt, p.cpicnt, p.exccnt, p.sleepcnt, p.lsucnt, p.foldcnt, c.daccess,
+                    c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess, c.itaglookup,
+                    c.ihitslookup, c.ihitsline);
     }
 #endif
 }

@@ -11,6 +11,7 @@
 
 #include "basic_tf_stub.h"
 #include "ns_peripherals_button.h"
+#include "ns_timer.h"
 
 // Button global - will be set by neuralSPOT button helper
 static int volatile buttonPressed = 0;

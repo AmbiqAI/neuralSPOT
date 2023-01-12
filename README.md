@@ -38,7 +38,8 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | AS_VERSION | Ambiqsuite Version | R4.3.0 |
 | TF_VERSION | Tensflow Lite for Microcontrollers Version | 0c46d6e |
 | TARGET | Defines what target will be loaded by `make deploy` | basic_tf_stub |
-| MLDEBUG | Setting to '1' turns on TF debug prints | 0 |
+| MLDEBUG | Setting to '1' turns on TF debug prints and use debug TFLM | 0 |
+| MLPROFILE | Setting to '1' enables TFLM profiling and logs (*NOTE* not supported for TF_VERSION R2.3.1) | 0 |
 | AUDIO_DEBUG | Setting to '1' turns on RTT audio dump | 0 |
 
 > **Note**  Defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo). To make changes to this file without tracking them in git, you can do the following:

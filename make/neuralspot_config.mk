@@ -41,6 +41,7 @@ DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
 
 ##### Common AI Precompiler Directives #####
 MLDEBUG     := 0    # 1 = load TF library with debug info, turn on TF debug statements
+MLPROFILE   := 0    # 1 = load optimized TF library with prints enables info, turn on TF profiler
 # AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
 # ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
 

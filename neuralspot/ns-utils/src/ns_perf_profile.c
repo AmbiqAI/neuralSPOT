@@ -50,6 +50,18 @@ ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->ihitsline = CPU->IMON3;
 }
 
+void
+ns_delta_cache(ns_cache_dump_t *s, ns_cache_dump_t *e, ns_cache_dump_t *d) {
+    d->daccess = e->daccess - s->daccess;
+    d->dtaglookup = e->dtaglookup - s->dtaglookup;
+    d->dhitslookup = e->dhitslookup - s->dhitslookup;
+    d->dhitsline = e->dhitsline - s->dhitsline;
+    d->iaccess = e->iaccess - s->iaccess;
+    d->itaglookup = e->itaglookup - s->itaglookup;
+    d->ihitslookup = e->ihitslookup - s->ihitslookup;
+    d->ihitsline = e->ihitsline - s->ihitsline;
+}
+
 /**
  * @brief Prints contents of captured 'dump'
  *
@@ -151,6 +163,22 @@ ns_capture_perf_profiler(ns_perf_counters_t *c) {
     c->sleepcnt = DWT->SLEEPCNT;
     c->lsucnt = DWT->LSUCNT;
     c->foldcnt = DWT->FOLDCNT;
+}
+
+static uint32_t
+ns_delta_byte_counter_wrap(uint32_t e, uint32_t s) {
+    uint32_t retval = (e < s) ? (e + 256 - s) : e - s;
+    return retval;
+}
+
+void
+ns_delta_perf(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_counters_t *d) {
+    d->cyccnt = e->cyccnt - s->cyccnt; // 32 bits, probably won't wrap
+    d->cpicnt = ns_delta_byte_counter_wrap(e->cpicnt, s->cpicnt);
+    d->exccnt = ns_delta_byte_counter_wrap(e->exccnt, s->exccnt);
+    d->sleepcnt = ns_delta_byte_counter_wrap(e->sleepcnt, s->sleepcnt);
+    d->lsucnt = ns_delta_byte_counter_wrap(e->lsucnt, s->lsucnt);
+    d->foldcnt = ns_delta_byte_counter_wrap(e->foldcnt, s->foldcnt);
 }
 
 /**

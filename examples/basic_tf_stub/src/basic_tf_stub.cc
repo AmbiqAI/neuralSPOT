@@ -16,6 +16,14 @@ The basic_tf_stub example is based on a speech to intent model.
 // #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
+// ARM perf requires ITM to be enabled, impacting power measurements.
+// For profiling measurements to work, example must be compiled using the MLPROFILE=1 make parameter
+#ifdef NS_MLPROFILE
+    #define MEASURE_ARM_PERF true
+#else
+    #define MEASURE_ARM_PERF false
+#endif
+
 #include "basic_tf_stub.h"
 #include "basic_audio.h"
 #include "basic_mfcc.h"
@@ -49,7 +57,7 @@ main(void) {
     float output[kCategoryCount];
     uint8_t output_max = 0;
     float max_val = 0.0;
-    bool measure_first_inference = true;
+    bool measure_first_inference = MEASURE_ARM_PERF;
     ns_perf_counters_t pp;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
@@ -102,11 +110,13 @@ main(void) {
     */
 #endif
 
+#ifdef NS_MLPROFILE
+    NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
+#endif
     model_init();
 
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
-
-    ns_mfcc_init(&mfcc_config);
+    NS_TRY(ns_mfcc_init(&mfcc_config), "MFCC config failed.\n");
     NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
 
     if (measure_first_inference) {
@@ -193,6 +203,9 @@ main(void) {
                 ns_start_perf_profiler();
             }
             TfLiteStatus invoke_status = interpreter->Invoke();
+#ifdef NS_MLPROFILE
+            profiler->LogCsv();
+#endif
 
             if (measure_first_inference) {
                 measure_first_inference = false;

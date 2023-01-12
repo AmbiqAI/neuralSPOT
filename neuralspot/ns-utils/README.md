@@ -116,8 +116,6 @@ main() {
 }
 ```
 
-
-
 ## Periodic Interrupt
 
 The NS_TIMER_INTERRUPT is useful when a periodic interrupt is needed. When configured, it will invoke the defined callback every defined period.

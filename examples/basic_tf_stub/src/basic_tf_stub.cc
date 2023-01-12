@@ -16,9 +16,8 @@ The basic_tf_stub example is based on a speech to intent model.
 // #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
-// ARM perf requires ITM to be enabled, impacting power measurements. Do one or the other.
+// ARM perf requires ITM to be enabled, impacting power measurements.
 // For profiling measurements to work, example must be compiled using the MLPROFILE=1 make parameter
-
 #ifdef NS_MLPROFILE
     #define MEASURE_ARM_PERF true
 #else
@@ -204,7 +203,7 @@ main(void) {
                 ns_start_perf_profiler();
             }
             TfLiteStatus invoke_status = interpreter->Invoke();
-#ifdef NS_MLPROFILER
+#ifdef NS_MLPROFILE
             profiler->LogCsv();
 #endif
 

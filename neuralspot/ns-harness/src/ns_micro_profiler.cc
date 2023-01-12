@@ -12,16 +12,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
-#include "ns_debug_log.h"
-#include "tensorflow/lite/micro/micro_profiler.h"
 
-#include <cinttypes>
-#include <cstdint>
-#include <cstring>
+#if defined(NS_MLPROFILE)
 
-#include "tensorflow/lite/kernels/internal/compatibility.h"
-#include "tensorflow/lite/micro/micro_log.h"
-#include "tensorflow/lite/micro/micro_time.h"
+    #include "ns_debug_log.h"
+    #include "tensorflow/lite/micro/micro_profiler.h"
+
+    #include <cinttypes>
+    #include <cstdint>
+    #include <cstring>
+
+    #include "tensorflow/lite/kernels/internal/compatibility.h"
+    #ifdef NS_TF_VERSION_fecdd5d
+        #include "tensorflow/lite/micro/micro_log.h"
+    #else
+        #include "tensorflow/lite/micro/micro_error_reporter.h"
+    #endif
+    #include "tensorflow/lite/micro/micro_time.h"
 
 namespace tflite {
 
@@ -65,7 +72,6 @@ MicroProfiler::GetTotalTicks() const {
 
 void
 MicroProfiler::Log() const {
-#if !defined(TF_LITE_STRIP_ERROR_STRINGS)
     ns_perf_counters_t d;
     for (int i = 0; i < num_events_; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
@@ -73,12 +79,10 @@ MicroProfiler::Log() const {
                       &(ns_microProfilerSidecar.perf_end[i]), &d);
         MicroPrintf("%s took %d us (%d cycles).", tags_[i], ticks, d.cyccnt);
     }
-#endif
 }
 
 void
 MicroProfiler::LogCsv() const {
-#if !defined(TF_LITE_STRIP_ERROR_STRINGS)
     ns_perf_counters_t p;
     ns_cache_dump_t c;
 
@@ -96,12 +100,10 @@ MicroProfiler::LogCsv() const {
                     c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess, c.itaglookup,
                     c.ihitslookup, c.ihitsline);
     }
-#endif
 }
 
 void
 MicroProfiler::LogTicksPerTagCsv() {
-#if !defined(TF_LITE_STRIP_ERROR_STRINGS)
     MicroPrintf("\"Unique Tag\",\"Total ticks across all events with that tag.\"");
     int total_ticks = 0;
     for (int i = 0; i < num_events_; ++i) {
@@ -122,7 +124,6 @@ MicroProfiler::LogTicksPerTagCsv() {
         MicroPrintf("%s, %d", each_tag_entry.tag, each_tag_entry.ticks);
     }
     MicroPrintf("total number of ticks, %d", total_ticks);
-#endif
 }
 
 // This method finds a particular array element in the total_ticks_per_tag array
@@ -143,3 +144,4 @@ MicroProfiler::FindExistingOrNextPosition(const char *tag_name) {
     return pos < num_events_ ? pos : -1;
 }
 } // namespace tflite
+#endif

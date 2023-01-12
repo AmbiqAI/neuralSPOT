@@ -43,15 +43,16 @@ It's important to note that there isn't a 'golden configuration' that will resul
 neuralSPOT offers a number of tools and libraries to help optimize AI features:
 
 1. **Data Ingestion Libraries**: efficient capture data from Ambiq's peripherals and interfaces, and minimize buffer copies by using neuralSPOT's feature extraction libraries.
-2. **Power Control Library**: neuralSPOT's power library makes controlling Apollo's power settings easy, allowing the developer to choose a pre-optimized application-specific default configuration, or fine-grained control over power modes, peripherals, memory configuration and more.
-3. **Power Measurement Tools**: neuralSPOT has built-in tools to help developers mark regions of interest via GPIO pins. These pins can be connected to an energy monitor to help distinguish different phases of AI compute.
+2. **Power Configuration Library**: neuralSPOT's power library makes controlling Apollo's power settings easy, allowing the developer to choose a pre-optimized application-specific default configuration, or fine-grained control over power modes, peripherals, memory configuration and more.
+3. **Profiling Tools**: a collection of software tools to help profiling TFLM, CPU, and cache behaviors
+3. **Power Measurement Utilities**: neuralSPOT has built-in tools to help developers mark regions of interest via GPIO pins. These pins can be connected to an energy monitor to help distinguish different phases of AI compute.
 4. **Examples**: neuralSPOT includes numerous power-optimized and power-instrumented examples illustrating how to use the above libraries and tools. Ambiq's ModelZoo and [MLPerfTiny](https://github.com/AmbiqAI/MLPerfTiny) repos have even more optimized reference examples.
 
 ### The Data Ingestion Libraries
 
 The Audio library takes advantage of Apollo4 Plus' highly efficient audio peripherals to capture audio for AI inference. It supports several interprocess communication mechanisms to make the captured data available to the AI feature - one of these is a 'ring buffer' model which ping-pongs captured data buffers to facilitate in-place processing by feature extraction code. The basic_tf_stub example includes ring buffer [initialization](../examples/basic_tf_stub/src/basic_audio.h) and [usage](../examples/basic_tf_stub/src/basic_tf_stub.cc) examples.
 
-### Power-Aware Library
+### Power Configuration Library
 
 The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](../examples/rpc_client_example/src/rpc_client.cc). It is typically called once, during initialization. 
 
@@ -96,6 +97,14 @@ When using Jlink to debug, prints are usually emitted to either the SWO interfac
 The tradeoff between UART and ITM isn't straightforward: enabling UART will use slightly more power than enabling ITM *without* connecting to the ITM interface (e.g. via `make view`), but connecting to the ITM will use much more power (authors note: when we're only doing occasional debug via printf, we'll use ITM and leave it disconnected except as needed).
 
 Once an interface has been chosen, printing is via neuralSPOT's low power printf, `ns_lp_printf()`, which behaves just like a normal printf except it enables needed peripherals only when needed - it is meant to be used in conjunction with `ns_deep_sleep()`, described above.
+
+### Performance Profiling Utilities
+These are utilities that help measure:
+- CPU performance (ARM DTM counters such as cycle count, CPI count, etc.)
+- Cache performance
+- TFLM per-layer metrics (including the above)
+
+The first two are documenented (here)[../neuralspot/ns-utils/README.md], and the TFLM profiler is documented (here)[../neuralspot/ns-harness/README.md].
 
 ### Power Measurement Helpers
 

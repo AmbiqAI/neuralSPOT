@@ -29,6 +29,7 @@
 // TFLM model
 // #include "model.h"
 // #include "kws_input_data.h"
+#include "kws_model_analysis.h"
 #include "kws_model_data.h"
 #include "kws_model_settings.h"
 
@@ -68,7 +69,9 @@ model_init(void) {
 #ifdef NS_MLPROFILE
     static tflite::MicroProfiler micro_profiler;
     profiler = &micro_profiler;
-    ns_TFDebugLogInit(&basic_tickTimer);
+    ns_perf_mac_count_t basic_mac = {.number_of_layers = kws_ref_model_number_of_estimates,
+                                     .mac_count_map = kws_ref_model_mac_estimates};
+    ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);
 #endif
     tflite::InitializeTarget();
 

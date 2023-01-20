@@ -29,7 +29,16 @@ typedef struct {
     ns_cache_dump_t cache_end[NS_PROFILER_MAX_EVENTS];
     ns_perf_counters_t perf_start[NS_PROFILER_MAX_EVENTS];
     ns_perf_counters_t perf_end[NS_PROFILER_MAX_EVENTS];
+    bool has_estimated_macs;
+    int number_of_layers; ///< Number of layers for which we have mac estimates
+    uint32_t *mac_count_map;
+    uint32_t estimated_mac_count[NS_PROFILER_MAX_EVENTS];
 } ns_profiler_sidecar_t;
+
+typedef struct {
+    uint32_t number_of_layers; ///< Number of layers for which we have mac estimates
+    uint32_t *mac_count_map;
+} ns_perf_mac_count_t;
 
 #ifdef NS_MLPROFILE
 extern ns_timer_config_t *ns_microProfilerTimer;
@@ -37,7 +46,7 @@ extern ns_profiler_sidecar_t ns_microProfilerSidecar;
 #endif
 
 extern void
-ns_TFDebugLogInit(ns_timer_config_t *t);
+ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m);
 
 #ifdef __cplusplus
 } // extern "C"

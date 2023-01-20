@@ -43,6 +43,9 @@ MicroProfiler::BeginEvent(const char *tag) {
     ns_reset_perf_counters();
     ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_start[num_events_]));
     ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_start[num_events_]));
+    ns_microProfilerSidecar.estimated_mac_count[num_events_] =
+        ns_microProfilerSidecar
+            .mac_count_map[num_events_ % ns_microProfilerSidecar.number_of_layers];
     end_ticks_[num_events_] = start_ticks_[num_events_] - 1;
     // ns_lp_printf("START: %s handle %d: %d\n", tag, num_events_,
     // ns_microProfilerSidecar.perf_start[num_events_].lsucnt);
@@ -85,20 +88,24 @@ void
 MicroProfiler::LogCsv() const {
     ns_perf_counters_t p;
     ns_cache_dump_t c;
+    uint32_t macs;
 
-    MicroPrintf("\"Event\",\"Tag\",\"uSeconds\",\"cycles\",\"cpi\",\"exc\",\"sleep\",\"lsu\","
-                "\"fold\",\"daccess\",\"dtaglookup\",\"dhitslookup\",\"dhitsline\",\"iaccess\","
-                "\"itaglookup\",\"ihitslookup\",\"ihitsline\"");
+    MicroPrintf(
+        "\"Event\",\"Tag\",\"uSeconds\",\"Est MACs\",\"cycles\",\"cpi\",\"exc\",\"sleep\",\"lsu\","
+        "\"fold\",\"daccess\",\"dtaglookup\",\"dhitslookup\",\"dhitsline\",\"iaccess\","
+        "\"itaglookup\",\"ihitslookup\",\"ihitsline\"");
     for (int i = 0; i < num_events_; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
         ns_delta_perf(&(ns_microProfilerSidecar.perf_start[i]),
                       &(ns_microProfilerSidecar.perf_end[i]), &p);
         ns_delta_cache(&(ns_microProfilerSidecar.cache_start[i]),
                        &(ns_microProfilerSidecar.cache_end[i]), &c);
-        MicroPrintf("%d,%s,%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", i, tags_[i],
-                    ticks, p.cyccnt, p.cpicnt, p.exccnt, p.sleepcnt, p.lsucnt, p.foldcnt, c.daccess,
-                    c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess, c.itaglookup,
-                    c.ihitslookup, c.ihitsline);
+        macs = ns_microProfilerSidecar
+                   .estimated_mac_count[i % ns_microProfilerSidecar.number_of_layers];
+        MicroPrintf("%d,%s,%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", i,
+                    tags_[i], ticks, macs, p.cyccnt, p.cpicnt, p.exccnt, p.sleepcnt, p.lsucnt,
+                    p.foldcnt, c.daccess, c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess,
+                    c.itaglookup, c.ihitslookup, c.ihitsline);
     }
 }
 

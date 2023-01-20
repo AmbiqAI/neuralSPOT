@@ -56,7 +56,11 @@ main() {
 #ifdef NS_MLPROFILE
     static tflite::MicroProfiler micro_profiler; // instantiate
     profiler = &micro_profiler;
-    ns_TFDebugLogInit(&basic_tickTimer); // initialize
+    ns_perf_mac_count_t basic_mac = { // from static analysis, see below
+        .number_of_layers = kws_ref_model_number_of_estimates,
+        .mac_count_map = kws_ref_model_mac_estimates
+    };
+    ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);
 #endif
 
             TfLiteStatus invoke_status = interpreter->Invoke(); // this is being profiled
@@ -69,17 +73,21 @@ main() {
 The neuralSPOT extended MicroProfiler captures the following data per NN layer:
 
 - Execution time
+- (optionally) Estimated MAC count
 - Cycles, CPI, Exception, Sleep, LSU, and Fold counts
 - Cache access, tag lookups, hits lookups, line hits for both icache and cache
+
+> *NOTE* MAC counts are estimated based on static analysis of a tflite model using
+> tools/tflite_profile.py, which creates an include file with per-layer MAC count
+> estimates. It is optional - if this analysis in not available, pass NULL as the
+> second parameter to ns_TFDebugLogInit()
 
 ### MicroProfiler Caveats
 
 When enabled, the MicroProfiler:
 
 - When enabled, the MicroProfiler increases power utilization.
-
 - When enabled, the MicroProfiler enables and uses the TimerTick clock.
-
 - When enabled, the MicroProfiler allocates ~62KB of heap for logging.
-
 - Some of the HW counters (CPI, Exception, Sleep, LSU, and Fold) are 8 bits. Only rudimentary wrap handling is implemented.
+- MAC only supports Conv2D, DWConv2D, and FC

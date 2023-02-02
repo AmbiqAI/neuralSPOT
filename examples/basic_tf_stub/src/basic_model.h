@@ -72,7 +72,10 @@ model_init(void) {
     ns_perf_mac_count_t basic_mac = {.number_of_layers = kws_ref_model_number_of_estimates,
                                      .mac_count_map = kws_ref_model_mac_estimates};
     ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);
+#elif NS_MLDEBUG
+    ns_TFDebugLogInit(NULL, NULL);
 #endif
+
     tflite::InitializeTarget();
 
     // Map the model into a usable data structure. This doesn't involve any

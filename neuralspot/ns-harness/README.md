@@ -60,7 +60,7 @@ main() {
         .number_of_layers = kws_ref_model_number_of_estimates,
         .mac_count_map = kws_ref_model_mac_estimates
     };
-    ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);
+    ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);  // Init DebugLog and Profiler structs
 #endif
 
             TfLiteStatus invoke_status = interpreter->Invoke(); // this is being profiled
@@ -91,3 +91,28 @@ When enabled, the MicroProfiler:
 - When enabled, the MicroProfiler allocates ~62KB of heap for logging.
 - Some of the HW counters (CPI, Exception, Sleep, LSU, and Fold) are 8 bits. Only rudimentary wrap handling is implemented.
 - MAC only supports Conv2D, DWConv2D, and FC
+
+### Enabling TFLM Debug Logs
+TFLM supports debug and error messages. To enable this, neuralSPOT must link in the debug-enabled TFLM static library. Do so by adding MLDEBUG=1 to the make command.
+
+```bash
+make MLDEBUG=1
+```
+
+To enable TFLM Debug Logging, the DebugLog callback must be registered and some form of printing (e.g. ITM) must be enabled:
+
+```c
+#include "ns_debug_log.h"
+
+main() {
+    NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
+    ns_itm_printf_enable();
+
+#ifdef NS_MLDEBUG
+    ns_TFDebugLogInit(NULL, NULL);  // Register DebugLog callback
+#endif
+
+// ... do TFLM stuff
+
+}
+```

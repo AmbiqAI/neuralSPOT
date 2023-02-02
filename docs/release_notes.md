@@ -8,7 +8,7 @@
 | --------------------- | ------- | -------- | ------------------------------------------------------------ |
 | 4B_audadc_support     | 0.0.1   | n/a      | AUDADC is not supported on Apollo4B devices running AmbiqSuite4.1.0 |
 | hello_world_hardfault | 0.0.1   |          | Hello World example EdgeImpulse project causes HardFault due to misaligned memory access |
-|                       |         |          |                                                              |
+| TFLM Profiler         | 1.0.2   | n/a      | TFLM profiling not supported for TFLM version 2.3.1          |
 
 
 
@@ -44,4 +44,6 @@
   - Fixed compilation for BLE versions of Apollo4P EVB boards
   - Added new TFLM version (github hash fecdd5d, date 1/09/2022
     - *NOTE* The TFLM team refactored micro_error_reporter a bit, requiring application code changes (see basic_tf_stub's basic_model.h)
-  
+- NeuralSPOT Release 1.0.2-alpha (minor release) *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.2-alpha, which hasn't been tagged yet.
+  - [TFLM Ambiq-aware Profiler](../neuralspot/ns-harness/README.md) (new feature) - profiles per-layer TFLM model execution (time, perf counters, cache behavior).
+  - Assorted minor fixes

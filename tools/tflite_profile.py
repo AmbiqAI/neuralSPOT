@@ -172,7 +172,7 @@ def print_code(tflite_input, input_is_filepath=True):  # pylint: disable=invalid
                         * filter["shape"][2]
                         * outputs["shape"][1]
                         * outputs["shape"][2]
-                        * outputs["shape"][0]
+                        * filter["shape"][0]
                         * inputs["shape"][3]
                     )
                 elif opcode == 1:

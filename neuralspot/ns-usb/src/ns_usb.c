@@ -27,13 +27,39 @@ const ns_core_api_t ns_usb_current_version = {.apiId = NS_USB_API_ID, .version =
 
 static ns_usb_config_t usb_config = {.api = &ns_usb_V1_0_0,
                                      .deviceType = NS_USB_CDC_DEVICE,
-                                     .buffer = NULL,
-                                     .bufferLength = 0,
+                                     .rx_buffer = NULL,
+                                     .rx_bufferLength = 0,
+                                     .tx_buffer = NULL,
+                                     .tx_bufferLength = 0,
                                      .rx_cb = NULL,
                                      .tx_cb = NULL,
                                      .service_cb = NULL};
 
 static uint8_t gGotUSBRx = 0;
+
+bool
+ns_usb_data_available(usb_handle_t handle) {
+    return (gGotUSBRx == 1);
+}
+
+uint32_t
+ns_get_cdc_rx_bufferLength() {
+    return usb_config.rx_bufferLength;
+}
+uint32_t
+ns_get_cdc_tx_bufferLength() {
+    return usb_config.tx_bufferLength;
+}
+
+uint8_t *
+ns_usb_get_rx_buffer() {
+    return usb_config.rx_buffer;
+}
+
+uint8_t *
+ns_usb_get_tx_buffer() {
+    return usb_config.tx_buffer;
+}
 
 static void
 ns_usb_service_callback(ns_timer_config_t *c) {
@@ -62,8 +88,10 @@ ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
     }
 #endif
     usb_config.deviceType = cfg->deviceType;
-    usb_config.buffer = cfg->buffer;
-    usb_config.bufferLength = cfg->bufferLength;
+    usb_config.rx_buffer = cfg->rx_buffer;
+    usb_config.rx_bufferLength = cfg->rx_bufferLength;
+    usb_config.tx_buffer = cfg->tx_buffer;
+    usb_config.tx_bufferLength = cfg->tx_bufferLength;
     usb_config.rx_cb = cfg->rx_cb;
     usb_config.tx_cb = cfg->tx_cb;
     usb_config.service_cb = cfg->service_cb;
@@ -90,7 +118,8 @@ tud_cdc_rx_cb(uint8_t itf) {
     ns_usb_transaction_t rx;
     if (usb_config.rx_cb != NULL) {
         rx.handle = &usb_config;
-        rx.buffer = usb_config.buffer;
+        rx.rx_buffer = usb_config.rx_buffer;
+        rx.tx_buffer = usb_config.tx_buffer;
         rx.status = AM_HAL_STATUS_SUCCESS;
         rx.itf = itf;
         usb_config.rx_cb(&rx);
@@ -104,16 +133,12 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
     ns_usb_transaction_t rx;
     if (usb_config.tx_cb != NULL) {
         rx.handle = &usb_config;
-        rx.buffer = usb_config.buffer;
+        rx.rx_buffer = usb_config.rx_buffer;
+        rx.tx_buffer = usb_config.tx_buffer;
         rx.status = AM_HAL_STATUS_SUCCESS;
         rx.itf = itf;
         usb_config.tx_cb(&rx);
     }
-}
-
-bool
-ns_usb_data_available(usb_handle_t handle) {
-    return (gGotUSBRx == 1);
 }
 
 /**

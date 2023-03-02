@@ -45,6 +45,10 @@ typedef enum { NS_RPC_GENERICDATA_CLIENT, NS_RPC_GENERICDATA_SERVER } rpcGeneric
 typedef struct {
     const ns_core_api_t *api; ///< API prefix
     rpcGenericDataMode_e mode;
+    uint8_t *rx_buf; ///< Pointer to allocated buffer which USB CDC will use for rx transfers
+    uint32_t rx_bufLength;
+    uint8_t *tx_buf; ///< Pointer to allocated buffer which USB CDC will use for tx transfers
+    uint32_t tx_bufLength;
     usb_handle_t usbHandle;
     ns_rpc_data_sendBlockToEVB_cb sendBlockToEVB_cb;
     ns_rpc_data_fetchBlockFromEVB_cb fetchBlockFromEVB_cb;

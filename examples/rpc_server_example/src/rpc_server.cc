@@ -112,6 +112,11 @@ example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     return ns_rpc_data_success;
 }
 
+#define MY_RX_BUFSIZE 512
+#define MY_TX_BUFSIZE 512
+uint8_t my_cdc_rx_ff_buf[MY_RX_BUFSIZE];
+uint8_t my_cdc_tx_ff_buf[MY_TX_BUFSIZE];
+
 int
 main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
@@ -136,9 +141,14 @@ main(void) {
     // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
                                  .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+                                 .rx_buf = my_cdc_rx_ff_buf,
+                                 .rx_bufLength = MY_RX_BUFSIZE,
+                                 .tx_buf = my_cdc_tx_ff_buf,
+                                 .tx_bufLength = MY_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = example_sendBlockToEVB,
                                  .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
                                  .computeOnEVB_cb = example_computeOnEVB};
+
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
     ns_lp_printf("Ready to receive RPC Calls\n");

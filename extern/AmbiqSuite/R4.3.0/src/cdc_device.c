@@ -32,6 +32,7 @@
 #include "device/usbd_pvt.h"
 
 #include "cdc_device.h"
+#include "ns_usb.h"
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF
@@ -40,6 +41,7 @@ enum
 {
   BULK_PACKET_SIZE = (TUD_OPT_HIGH_SPEED ? 512 : 64)
 };
+
 
 typedef struct
 {
@@ -59,8 +61,8 @@ typedef struct
   tu_fifo_t rx_ff;
   tu_fifo_t tx_ff;
 
-  uint8_t rx_ff_buf[CFG_TUD_CDC_RX_BUFSIZE];
-  uint8_t tx_ff_buf[CFG_TUD_CDC_TX_BUFSIZE];
+  uint8_t *rx_ff_buf;
+  uint8_t *tx_ff_buf;
 
 #if CFG_FIFO_MUTEX
   osal_mutex_def_t rx_ff_mutex;
@@ -228,8 +230,12 @@ void cdcd_init(void)
   for(uint8_t i=0; i<CFG_TUD_CDC; i++)
   {
     cdcd_interface_t* p_cdc = &_cdcd_itf[i];
-
+  
     p_cdc->wanted_char = (char) -1;
+    
+    // NS override of ff_buf, defined in neuralspot/ns_usb
+    p_cdc->rx_ff_buf = ns_usb_get_rx_buffer();
+    p_cdc->tx_ff_buf = ns_usb_get_tx_buffer();
 
     // default line coding is : stop bit = 1, parity = none, data bits = 8
     p_cdc->line_coding.bit_rate  = 115200;
@@ -238,12 +244,14 @@ void cdcd_init(void)
     p_cdc->line_coding.data_bits = 8;
 
     // Config RX fifo
-    tu_fifo_config(&p_cdc->rx_ff, p_cdc->rx_ff_buf, TU_ARRAY_SIZE(p_cdc->rx_ff_buf), 1, false);
+    // tu_fifo_config(&p_cdc->rx_ff, p_cdc->rx_ff_buf, TU_ARRAY_SIZE(ns_cdc_rx_ff_buf), 1, false);
+    tu_fifo_config(&p_cdc->rx_ff, p_cdc->rx_ff_buf, ns_get_cdc_rx_bufferLength(), 1, false);
 
     // Config TX fifo as overwritable at initialization and will be changed to non-overwritable
     // if terminal supports DTR bit. Without DTR we do not know if data is actually polled by terminal.
     // In this way, the most current data is prioritized.
-    tu_fifo_config(&p_cdc->tx_ff, p_cdc->tx_ff_buf, TU_ARRAY_SIZE(p_cdc->tx_ff_buf), 1, true);
+    // tu_fifo_config(&p_cdc->tx_ff, p_cdc->tx_ff_buf, TU_ARRAY_SIZE(ns_cdc_tx_ff_buf), 1, true);
+    tu_fifo_config(&p_cdc->tx_ff, p_cdc->tx_ff_buf, ns_get_cdc_tx_bufferLength(), 1, true);
 
 #if CFG_FIFO_MUTEX
     tu_fifo_config_mutex(&p_cdc->rx_ff, NULL, osal_mutex_create(&p_cdc->rx_ff_mutex));

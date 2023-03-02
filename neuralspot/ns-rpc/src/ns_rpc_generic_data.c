@@ -40,14 +40,20 @@ const ns_core_api_t ns_rpc_gdo_current_version = {.apiId = NS_RPC_GDO_API_ID,
 
 ns_usb_config_t g_RpcGenericUSBHandle = {.api = &ns_usb_V1_0_0,
                                          .deviceType = NS_USB_CDC_DEVICE,
-                                         .buffer = NULL, // Not needed by RPC
-                                         .bufferLength = 0,
+                                         .rx_buffer = NULL,
+                                         .rx_bufferLength = 0,
+                                         .tx_buffer = NULL,
+                                         .tx_bufferLength = 0,
                                          .rx_cb = NULL,
                                          .tx_cb = NULL,
                                          .service_cb = NULL};
 
 ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
                                           .mode = NS_RPC_GENERICDATA_CLIENT,
+                                          .rx_buf = NULL,
+                                          .rx_bufLength = 0,
+                                          .tx_buf = NULL,
+                                          .tx_bufLength = 0,
                                           .usbHandle = NULL,
                                           .sendBlockToEVB_cb = NULL,
                                           .fetchBlockFromEVB_cb = NULL,
@@ -114,6 +120,10 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     // if (cfg->mode == NS_RPC_GENERICDATA_SERVER) {
     //     g_RpcGenericUSBHandle.service_cb = &ns_rpc_data_serverService;
     // }
+    g_RpcGenericUSBHandle.rx_buffer = cfg->rx_buf;
+    g_RpcGenericUSBHandle.rx_bufferLength = cfg->rx_bufLength;
+    g_RpcGenericUSBHandle.tx_buffer = cfg->tx_buf;
+    g_RpcGenericUSBHandle.tx_bufferLength = cfg->tx_bufLength;
 
     NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
 
@@ -122,6 +132,11 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
     g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
     // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
+    g_RpcGenericDataConfig.rx_buf = cfg->rx_buf;
+    g_RpcGenericDataConfig.rx_bufLength = cfg->rx_bufLength;
+    g_RpcGenericDataConfig.tx_buf = cfg->tx_buf;
+    g_RpcGenericDataConfig.tx_bufLength = cfg->tx_bufLength;
+
     g_RpcGenericDataConfig.usbHandle = usb_handle;
 
     // Common ERPC init

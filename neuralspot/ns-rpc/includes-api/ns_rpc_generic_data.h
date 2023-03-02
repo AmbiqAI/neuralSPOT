@@ -45,6 +45,7 @@ typedef enum { NS_RPC_GENERICDATA_CLIENT, NS_RPC_GENERICDATA_SERVER } rpcGeneric
 typedef struct {
     const ns_core_api_t *api; ///< API prefix
     rpcGenericDataMode_e mode;
+    usb_handle_t usbHandle;
     ns_rpc_data_sendBlockToEVB_cb sendBlockToEVB_cb;
     ns_rpc_data_fetchBlockFromEVB_cb fetchBlockFromEVB_cb;
     ns_rpc_data_computeOnEVB_cb computeOnEVB_cb;
@@ -79,6 +80,15 @@ ns_rpc_genericDataOperations_printDatablock(const dataBlock *block);
  */
 extern void
 ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block);
+
+extern void
+ns_rpc_genericDataOperations_enableServerPoll(ns_rpc_config_t *cfg);
+
+extern void
+ns_rpc_genericDataOperations_disableServerPoll(ns_rpc_config_t *cfg);
+
+extern void
+ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg);
 
 #ifdef __cplusplus
 }

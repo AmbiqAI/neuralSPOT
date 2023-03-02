@@ -142,17 +142,15 @@ bool erpc_server_add_message_logger(erpc_transport_t transport)
 #endif
 
 #if ERPC_PRE_POST_ACTION
-void erpc_client_add_pre_cb_action(pre_post_action_cb preCB)
+void erpc_server_add_pre_cb_action(pre_post_action_cb preCB)
 {
-    erpc_assert(g_server != NULL);
-
-    g_server->addPreCB(preCB);
+    if (g_server != NULL)
+        g_server->addPreCB(preCB);
 }
 
-void erpc_client_add_post_cb_action(pre_post_action_cb postCB)
+void erpc_server_add_post_cb_action(pre_post_action_cb postCB)
 {
-    erpc_assert(g_server) != NULL;
-
-    g_server->addPostCB(postCB);
+    if (g_server != NULL)
+        g_server->addPostCB(postCB);
 }
 #endif

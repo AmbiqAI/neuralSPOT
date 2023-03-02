@@ -54,6 +54,7 @@ typedef struct {
 
 typedef void (*ns_usb_rx_cb)(ns_usb_transaction_t *);
 typedef void (*ns_usb_tx_cb)(ns_usb_transaction_t *);
+typedef void (*ns_usb_service_cb)(uint8_t);
 
 typedef struct {
     const ns_core_api_t *api; ///< API prefix
@@ -62,6 +63,7 @@ typedef struct {
     uint16_t bufferLength;
     ns_usb_rx_cb rx_cb;
     ns_usb_tx_cb tx_cb;
+    ns_usb_service_cb service_cb;
 } ns_usb_config_t;
 
 extern uint32_t
@@ -77,6 +79,9 @@ ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
 
 extern void
 ns_usb_handle_read_error(usb_handle_t h);
+
+bool
+ns_usb_data_available(usb_handle_t handle);
 
 #ifdef __cplusplus
 }

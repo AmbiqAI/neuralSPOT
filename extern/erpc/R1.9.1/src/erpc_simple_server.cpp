@@ -9,6 +9,7 @@
  */
 
 #include "erpc_simple_server.hpp"
+#include "ns_ambiqsuite_harness.h"
 
 using namespace erpc;
 
@@ -112,6 +113,7 @@ erpc_status_t SimpleServer::runInternalBegin(Codec **codec, MessageBuffer &buff,
             disposeBufferAndCodec(*codec);
         }
     }
+    // ns_lp_printf("InternalBegin err:%d, serviceId:%d, methodId:%d, sequence:%d\n", err, serviceId, methodId, sequence);
 
     return err;
 }
@@ -147,6 +149,7 @@ erpc_status_t SimpleServer::runInternalEnd(Codec *codec, message_type_t msgType,
 
     // Dispose of buffers and codecs.
     disposeBufferAndCodec(codec);
+    // ns_lp_printf("InternalEnd err:%d, serviceId:%d, methodId:%d, sequence:%d\n", err, serviceId, methodId, sequence);
 
     return err;
 }

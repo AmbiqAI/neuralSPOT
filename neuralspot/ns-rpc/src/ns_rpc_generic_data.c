@@ -43,10 +43,12 @@ ns_usb_config_t g_RpcGenericUSBHandle = {.api = &ns_usb_V1_0_0,
                                          .buffer = NULL, // Not needed by RPC
                                          .bufferLength = 0,
                                          .rx_cb = NULL,
-                                         .tx_cb = NULL};
+                                         .tx_cb = NULL,
+                                         .service_cb = NULL};
 
 ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
                                           .mode = NS_RPC_GENERICDATA_CLIENT,
+                                          .usbHandle = NULL,
                                           .sendBlockToEVB_cb = NULL,
                                           .fetchBlockFromEVB_cb = NULL,
                                           .computeOnEVB_cb = NULL};
@@ -87,6 +89,12 @@ ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
     }
 }
 
+// void ns_rpc_data_serverService(uint8_t haveUsbData) {
+//     if ((g_RpcGenericDataConfig.serviceServer == true) && (haveUsbData == 1)) {
+//         erpc_server_poll(); // service RPC server
+//     }
+// }
+
 uint16_t
 ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     #ifndef NS_DISABLE_API_VALIDATION
@@ -101,19 +109,27 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     #endif
     // usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
     usb_handle_t usb_handle = NULL;
+
+    // For server mode, add a service callback to USB
+    // if (cfg->mode == NS_RPC_GENERICDATA_SERVER) {
+    //     g_RpcGenericUSBHandle.service_cb = &ns_rpc_data_serverService;
+    // }
+
     NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
 
     g_RpcGenericDataConfig.mode = cfg->mode;
     g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
     g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
     g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
+    // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
+    g_RpcGenericDataConfig.usbHandle = usb_handle;
 
     // Common ERPC init
     /* USB transport layer initialization */
     erpc_transport_t transport = erpc_transport_usb_cdc_init(usb_handle);
 
     /* MessageBufferFactory initialization */
-    erpc_mbf_t message_buffer_factory = erpc_mbf_dynamic_init();
+    erpc_mbf_t message_buffer_factory = erpc_mbf_static_init();
 
     if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
         /* Init eRPC client environment */
@@ -126,6 +142,23 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     }
 
     return NS_STATUS_SUCCESS;
+}
+
+// void
+// ns_rpc_genericDataOperations_enableServerPoll(ns_rpc_config_t *cfg) {
+//     g_RpcGenericDataConfig.serviceServer = true;
+// }
+
+// void
+// ns_rpc_genericDataOperations_disableServerPoll(ns_rpc_config_t *cfg) {
+//     g_RpcGenericDataConfig.serviceServer = false;
+// }
+
+void
+ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
+    if (ns_usb_data_available(cfg->usbHandle)) {
+        erpc_server_poll(); // service RPC server
+    }
 }
 
 uint16_t

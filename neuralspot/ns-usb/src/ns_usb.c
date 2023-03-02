@@ -30,12 +30,17 @@ static ns_usb_config_t usb_config = {.api = &ns_usb_V1_0_0,
                                      .buffer = NULL,
                                      .bufferLength = 0,
                                      .rx_cb = NULL,
-                                     .tx_cb = NULL};
+                                     .tx_cb = NULL,
+                                     .service_cb = NULL};
+
+static uint8_t gGotUSBRx = 0;
 
 static void
 ns_usb_service_callback(ns_timer_config_t *c) {
     // Invoked in ISR context
     tud_task();
+    if (usb_config.service_cb != NULL)
+        usb_config.service_cb(gGotUSBRx);
 }
 
 ns_timer_config_t g_ns_usbTimer = {.api = &ns_timer_V1_0_0,
@@ -61,6 +66,7 @@ ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
     usb_config.bufferLength = cfg->bufferLength;
     usb_config.rx_cb = cfg->rx_cb;
     usb_config.tx_cb = cfg->tx_cb;
+    usb_config.service_cb = cfg->service_cb;
     *h = (void *)&usb_config;
     tusb_init();
 
@@ -76,8 +82,6 @@ ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx_cb t
     ((ns_usb_config_t *)handle)->rx_cb = rxcb;
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
-
-uint8_t static gGotUSBRx = 0;
 
 // Invoked when CDC interface received data from host
 void
@@ -107,6 +111,11 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
     }
 }
 
+bool
+ns_usb_data_available(usb_handle_t handle) {
+    return (gGotUSBRx == 1);
+}
+
 /**
  * @brief Blocking USB Receive Data
  *
@@ -123,8 +132,8 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     uint32_t bytes_rx = 0;
     uint32_t retries = 10150;
 
-    // ns_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
-    // gGotUSBRx);
+    ns_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
+              gGotUSBRx);
     if (tud_cdc_available() < bufsize) {
         while (gGotUSBRx == 0) {
             ns_delay_us(100);
@@ -136,7 +145,7 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     }
     gGotUSBRx = 0;
     bytes_rx = tud_cdc_read((void *)buffer, bufsize);
-    // ns_printf("Got bytes %d\n", bytes_rx);
+    ns_printf("Got bytes %d\n", bytes_rx);
     return bytes_rx;
 }
 
@@ -151,7 +160,7 @@ ns_usb_handle_read_error(usb_handle_t h) {
     for (i = 0; i < 100; i++) {
         ns_delay_us(10000);
     }
-    // ns_printf("after wait\n");
+    ns_printf("after wait\n");
     tud_cdc_read_flush();
     gGotUSBRx = 0; // may be set by final RX
 }
@@ -171,7 +180,7 @@ ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     while (bytes_tx < bufsize) {
         bytes_tx += tud_cdc_write((void *)(buffer + bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
-        // ns_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
+        ns_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
 
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);

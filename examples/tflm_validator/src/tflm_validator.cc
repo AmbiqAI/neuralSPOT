@@ -74,7 +74,7 @@ configureModel(const dataBlock *in) {
  */
 status
 getStatistics(dataBlock *block) {
-    ns_printf("Server asked for invoke() statistics\n");
+    ns_lp_printf("Server asked for invoke() statistics\n");
 
     // For strings (binary->description) and binary structs (block->buffer)
     // ERPC will attempt to free() the memory - this is kind
@@ -115,7 +115,7 @@ getStatistics(dataBlock *block) {
 status
 infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block, needs to happen whether errors occur or not
-    ns_printf("Server requested invoke()\n");
+    // ns_lp_printf("Server requested invoke()\n");
 
     uint8_t *resultBuffer =
         (uint8_t *)ns_malloc(mut_cfg.config.output_length *
@@ -130,8 +130,8 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     res->buffer = binaryBlock;
 
     // 'in' contains the input tensors, treat as homogeneous block
-    ns_printf("Incoming Data Block:\n");
-    ns_rpc_genericDataOperations_printDatablock(in);
+    // ns_lp_printf("Incoming Data Block:\n");
+    // ns_rpc_genericDataOperations_printDatablock(in);
     memcpy(model_input->data.int8, in->buffer.data, in->buffer.dataLength);
 
     TfLiteStatus invoke_status = interpreter->Invoke();
@@ -146,11 +146,12 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block with output tensor
     memcpy(resultBuffer, model_output->data.int8, mut_cfg.config.output_length);
 
-    ns_printf("Resulting Data Block To Be Sent:\n");
-    ns_rpc_genericDataOperations_printDatablock(res);
+    // ns_lp_printf("Resulting Data Block To Be Sent:\n");
+    // ns_rpc_genericDataOperations_printDatablock(res);
 
     char res_msg[] = "Invoke Successful!\0";
     memcpy(msg_store, res_msg, sizeof(res_msg));
+    ns_lp_printf(".");
     return ns_rpc_data_success;
 }
 
@@ -163,6 +164,11 @@ void
 ns_postAction(void) {
     ns_lp_printf("Stopping action\n");
 }
+
+#define TLFM_VALIDATOR_RX_BUFSIZE 2048
+#define TLFM_VALIDATOR_TX_BUFSIZE 2048
+uint8_t tflm_v_cdc_rx_ff_buf[TLFM_VALIDATOR_RX_BUFSIZE];
+uint8_t tlfm_v_cdc_tx_ff_buf[TLFM_VALIDATOR_TX_BUFSIZE];
 
 int
 main(void) {
@@ -188,28 +194,32 @@ main(void) {
     // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
                                  .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+                                 .rx_buf = tflm_v_cdc_rx_ff_buf,
+                                 .rx_bufLength = TLFM_VALIDATOR_RX_BUFSIZE,
+                                 .tx_buf = tlfm_v_cdc_tx_ff_buf,
+                                 .tx_bufLength = TLFM_VALIDATOR_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = configureModel,
                                  .fetchBlockFromEVB_cb = getStatistics,
                                  .computeOnEVB_cb = infer_on_tflm};
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
     // Add some pre/post callbacks
-    erpc_server_add_pre_cb_action(&ns_preAction);
-    erpc_server_add_post_cb_action(&ns_postAction);
+    // erpc_server_add_pre_cb_action(&ns_preAction);
+    // erpc_server_add_post_cb_action(&ns_postAction);
 
-    // ns_printf("Start the PC-side client, then press Button 0 to get started\n");
+    // ns_lp_printf("Start the PC-side client, then press Button 0 to get started\n");
     // while (g_intButtonPressed == 0) {
     //     ns_delay_us(1000);
     // }
 
-    ns_printf("Ready to receive RPC Calls\n");
+    ns_lp_printf("Ready to receive RPC Calls\n");
 
     // In the app loop we service USB and the RPC server
     // Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
     //
     while (1) {
-        erpc_server_poll(); // service RPC server
-        ns_delay_us(1);
+        ns_rpc_genericDataOperations_pollServer(&rpcConfig);
+        ns_deep_sleep();
     }
 }

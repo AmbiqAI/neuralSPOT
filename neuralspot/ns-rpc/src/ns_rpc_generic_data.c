@@ -64,7 +64,7 @@ ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
 status
 ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
-    ns_printf("Received call to sendBlockToEVB\n");
+    // ns_lp_printf("Received call to sendBlockToEVB\n");
 
     if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
         return g_RpcGenericDataConfig.sendBlockToEVB_cb(block);
@@ -75,7 +75,7 @@ ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
 
 status
 ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
-    ns_printf("Received call to fetchBlockFromEVB\n");
+    // ns_lp_printf("Received call to fetchBlockFromEVB\n");
 
     if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
         return g_RpcGenericDataConfig.fetchBlockFromEVB_cb(block);
@@ -86,7 +86,7 @@ ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
 
 status
 ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
-    ns_printf("Received call to computeOnEVB\n");
+    // ns_lp_printf("Received call to computeOnEVB\n");
 
     if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
         return g_RpcGenericDataConfig.computeOnEVB_cb(in_block, result_block);
@@ -185,14 +185,14 @@ ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
 void
 ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     uint32_t i = 0;
-    ns_printf("Descriptor: %s\n", block->description);
-    ns_printf("Length: %d\n", block->length);
-    ns_printf("buffer.dataLength: %d\n", block->buffer.dataLength);
-    ns_printf("Contents:\n");
+    ns_lp_printf("Descriptor: %s\n", block->description);
+    ns_lp_printf("Length: %d\n", block->length);
+    ns_lp_printf("buffer.dataLength: %d\n", block->buffer.dataLength);
+    ns_lp_printf("Contents:\n");
     for (i = 0; i < block->buffer.dataLength; i++) {
-        ns_printf("0x%x, ", block->buffer.data[i]);
+        ns_lp_printf("0x%x, ", block->buffer.data[i]);
     }
-    ns_printf("\n");
+    ns_lp_printf("\n");
 }
 
 void

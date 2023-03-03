@@ -7,6 +7,8 @@ import struct
 import sys
 import time
 
+from tqdm import tqdm
+
 sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 
 from pathlib import Path
@@ -40,6 +42,7 @@ class Params(BaseModel):
     tflite_filename: str = Field("model.tflite", description="Name of tflite model")
     tty: str = Field("/dev/tty.usbmodem1234561", description="Serial device")
     baud: str = Field("115200", description="Baud rate")
+    runs: int = Field(1000, description="Number of invokes to run")
 
 
 # Define the RPC service handlers - one for each EVB-to-PC RPC function
@@ -50,6 +53,7 @@ def printDataBlock(block):
     print("Length: %s" % block.length)
     print("cmd: %s" % block.cmd)
     print("dType: %s" % block.dType)
+    # print(block.buffer)
     for i in range(len(block.buffer)):
         print("0x%x " % block.buffer[i], end="")
     print("")
@@ -59,20 +63,6 @@ def validateModel(params, transport):
     clientManager = erpc.client.ClientManager(transport, erpc.basic_codec.BasicCodec)
     client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
     print("\r\nClient started - press enter send remote procedure calls to EVB")
-    input_fn()
-
-    outBlock = GenericDataOperations_PcToEvb.common.dataBlock(
-        description="Message to EVB",
-        dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-        cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-        buffer=bytearray([0, 10, 20, 30]),
-        length=4,
-    )
-    retBlock = erpc.Reference()
-    stat = client.ns_rpc_data_computeOnEVB(outBlock, retBlock)
-    print("Recieved dataBlock:")
-    printDataBlock(retBlock.value)
-
     input_fn()
 
     # Load TFLite Model
@@ -115,76 +105,49 @@ def validateModel(params, transport):
         buffer=configBytes,
         length=9,
     )
-    # stat = client.ns_rpc_data_sendBlockToEVB(configModel)
-    # print("Config Model Status = %d" % stat)
+    stat = client.ns_rpc_data_sendBlockToEVB(configModel)
+    print("Config Model Status = %d" % stat)
 
-    # Generate random input
-    input_data = np.random.randint(-127, 127, size=tuple(inputShape), dtype=np.int8)
-    print(input_data)
+    runs = params.runs
+    print("Calling invoke %d times." % runs)
+    differences = np.zeros((runs, outputLength))
+    for i in tqdm(range(runs)):
+        # Generate random input
+        input_data = np.random.randint(-127, 127, size=tuple(inputShape), dtype=np.int8)
+        # print(input_data)
 
-    # Invoke locally and on EVB
-    interpreter.set_tensor(input_details[0]["index"], input_data)
-    interpreter.invoke()
-    output_data = interpreter.get_tensor(output_details[0]["index"])
+        # Invoke locally and on EVB
+        interpreter.set_tensor(input_details[0]["index"], input_data)
+        interpreter.invoke()
+        output_data = interpreter.get_tensor(output_details[0]["index"])
 
-    # Do it on EVB
-    inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
-        description="Input Tensor",
-        dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-        cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-        buffer=bytearray([0, 10, 20, 30]),
-        # buffer=input_data.flatten().tobytes(),
-        # length=inputLength,
-        length=4,
-    )
-    outputTensor = erpc.Reference()
+        # Do it on EVB
+        inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
+            description="Input Tensor",
+            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+            cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+            buffer=input_data.flatten().tobytes(),
+            length=inputLength,
+        )
+        outputTensor = erpc.Reference()
 
-    print("Sending to EVB")
-    input_fn()
+        # print("Sending to EVB")
+        stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
+        # print("Status is %d" % stat)
 
-    stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
-    print("Status is %d" % stat)
+        # input_scale, input_zero_point = input_details[0]["quantization"]
+        # output_scale, output_zero_point = output_details[0]["quantization"]
 
-    # input_scale, input_zero_point = input_details[0]["quantization"]
-    # output_scale, output_zero_point = output_details[0]["quantization"]
-
-    # Compare outputs
-    print(output_data)
-    printDataBlock(outputTensor.value)
-
-    # while True:
-    #     outBlock = GenericDataOperations_PcToEvb.common.dataBlock(
-    #         description="Message to EVB",
-    #         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-    #         cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-    #         buffer=bytearray([0, 10, 20, 30]),
-    #         length=4,
-    #     )
-
-    #     print("\r\nSending ns_rpc_data_sendBlockToEVB\r\n=========")
-    #     printDataBlock(outBlock)
-    #     stat = client.ns_rpc_data_sendBlockToEVB(outBlock)
-    #     print("=========")
-
-    #     print("\r\nSending example_fetchBlockFromEVB\r\n=========")
-    #     retBlock = erpc.Reference()
-    #     stat = client.ns_rpc_data_fetchBlockFromEVB(retBlock)
-    #     print("Recieved dataBlock:")
-    #     printDataBlock(retBlock.value)
-    #     print("=========")
-
-    #     print("\r\nSending example_computeOnEVB\r\n=========")
-    #     print("Sent dataBlock:")
-    #     printDataBlock(outBlock)
-    #     stat = client.ns_rpc_data_computeOnEVB(outBlock, retBlock)
-    #     print("Recieved dataBlock:")
-    #     printDataBlock(retBlock.value)
-    #     print("=========")
-
-    #     # wait for key press
-    #     print("\r\n*** Press Enter do it again...")
-    #     sys.stdout.flush()
-    #     input_fn()
+        # Compare outputs
+        # print(output_data)
+        # printDataBlock(outputTensor.value)
+        out_array = struct.unpack(
+            "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
+        )
+        # print(out_array)
+        differences[i] = output_data[0] - out_array
+        # time.sleep(.1)
+    print(differences)
 
 
 def create_parser():

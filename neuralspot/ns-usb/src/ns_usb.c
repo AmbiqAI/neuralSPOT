@@ -143,7 +143,6 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
     // ns_lp_printf("---tx---\n");
 }
 
-volatile uint32_t dontoptimizeme = 0;
 /**
  * @brief Blocking USB Receive Data
  *
@@ -164,11 +163,11 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     // if (gGotUSBRx == 0)
     //     ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
     //             gGotUSBRx);
-    uint32_t before = tud_cdc_available();
-    uint8_t before_sem = gGotUSBRx;
+    // uint32_t before = tud_cdc_available();
+    // uint8_t before_sem = gGotUSBRx;
     // // ns_delay_us(10);
-    uint32_t after = tud_cdc_available();
-    uint8_t after_sem = gGotUSBRx;
+    // uint32_t after = tud_cdc_available();
+    // uint8_t after_sem = gGotUSBRx;
     while (tud_cdc_available() < bufsize) {
         ns_interrupt_master_disable(); // critical region
         gGotUSBRx = 0;                 // set to 1 in IRQ context, need to disable IRQs for a bit
@@ -192,8 +191,8 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
         }
         block_retries--;
     }
-    uint32_t after2 = tud_cdc_available();
-    uint8_t after2_sem = gGotUSBRx;
+    // uint32_t after2 = tud_cdc_available();
+    // uint8_t after2_sem = gGotUSBRx;
     gGotUSBRx = 0;
     bytes_rx = tud_cdc_read((void *)buffer, bufsize);
     // if (retries != 10000)

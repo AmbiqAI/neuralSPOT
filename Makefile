@@ -72,8 +72,9 @@ includes_api :=
 pp_defines   := $(DEFINES)
 bindirs      := $(BINDIR)
 
+obs = $(call source-to-object,$(sources))
+dependencies = $(subst .o,.d,$(obs))
 objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
-dependencies = $(subst .o,.d,$(objects))
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
@@ -254,19 +255,11 @@ $(JLINK_RESET_CF):
 	$(Q) echo "sleep 250" >> $@
 	$(Q) echo "Exit" >> $@
 
-$(JLINK_UNRESET_CF):
-	@echo " Creating JLink command un-reset file... $(deploy_target)"
-	$(Q) echo "ExitOnError 1" > $@
-	$(Q) echo "Go" >> $@
-	$(Q) echo "Exit" >> $@
-
 .PHONY: reset
-reset: $(JLINK_RESET_CF) $(JLINK_UNRESET_CF)
+reset: $(JLINK_RESET_CF)
 	@echo " Reset EVB via Jlink..."
 	$(Q) $(JLINK) $(JLINK_RESET_CMD)
-	# $(Q) $(JLINK) $(JLINK_UNRESET_CMD)
-	# $(Q) $(RM) $(JLINK_RESET_CF)
-	# $(Q) $(RM) $(JLINK_UNRESET_CF)
+	$(Q) $(RM) $(JLINK_RESET_CF)
 
 .PHONY: deploy
 deploy: $(JLINK_CF)

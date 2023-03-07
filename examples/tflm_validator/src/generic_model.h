@@ -11,6 +11,7 @@
 // #include "tflm_validator.h"
 
 // NS includes
+#include "mut_model_metadata.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
 #include "tflm_validator.h"
@@ -40,6 +41,7 @@ static tflite::MicroInterpreter *interpreter = nullptr;
 static TfLiteTensor *model_input = nullptr;
 static TfLiteTensor *model_output = nullptr;
 static tflite::MicroProfiler *profiler = nullptr;
+static constexpr int kTensorArenaSize = 1024 * TFLM_VALIDATOR_ARENA_SIZE;
 
 // static constexpr int kTensorArenaSize = 1024 * 54;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];

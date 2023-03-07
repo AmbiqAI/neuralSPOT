@@ -245,6 +245,29 @@ $(JLINK_CF):
 	$(Q) echo "LoadFile $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 	$(Q) echo "Exit" >> $@
 
+$(JLINK_RESET_CF):
+	@echo " Creating JLink command reset file... $(deploy_target)"
+	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "R1" >> $@
+	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "R0" >> $@
+	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "Exit" >> $@
+
+$(JLINK_UNRESET_CF):
+	@echo " Creating JLink command un-reset file... $(deploy_target)"
+	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "Go" >> $@
+	$(Q) echo "Exit" >> $@
+
+.PHONY: reset
+reset: $(JLINK_RESET_CF) $(JLINK_UNRESET_CF)
+	@echo " Reset EVB via Jlink..."
+	$(Q) $(JLINK) $(JLINK_RESET_CMD)
+	# $(Q) $(JLINK) $(JLINK_UNRESET_CMD)
+	# $(Q) $(RM) $(JLINK_RESET_CF)
+	# $(Q) $(RM) $(JLINK_UNRESET_CF)
+
 .PHONY: deploy
 deploy: $(JLINK_CF)
 	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."

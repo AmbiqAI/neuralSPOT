@@ -13,6 +13,7 @@
 // NS includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
+#include "tflm_validator.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 #include "tensorflow/lite/micro/all_ops_resolver.h"
@@ -102,9 +103,11 @@ model_init(void) {
     // Allocate memory from the tensor_arena for the model's tensors.
     TfLiteStatus allocate_status = interpreter->AllocateTensors();
     ns_lp_printf("Needs %d arena bytes\n", interpreter->arena_used_bytes());
+    mut_stats.stats.computed_arena_size =
+        interpreter->arena_used_bytes(); // prep to send back to PC
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed");
-        ns_printf("AllocateTensors() failed");
+        ns_lp_printf("AllocateTensors() failed");
         return;
     }
 

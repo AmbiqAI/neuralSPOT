@@ -14,6 +14,7 @@
 #include <cstring>
 
 #include "generic_model.h"
+#include "tflm_validator.h"
 
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
@@ -23,25 +24,9 @@
 #include "ns_rpc_generic_data.h"
 #include "ns_usb.h"
 
-typedef struct {
-    uint32_t profile_mut;
-    uint32_t input_length;  // in bytes
-    uint32_t output_length; // in bytes
-} ns_mut_config_t;
-
-typedef union {
-    ns_mut_config_t config;
-    char bytes[sizeof(ns_mut_config_t)];
-} ns_incoming_config_t;
-
 ns_incoming_config_t mut_cfg;
+ns_outgoing_stats_t mut_stats;
 
-// GenericDataOperations implements 3 function calls that service
-// remote calls from a PC. They must be instantiated to enable them.
-// Datatypes, function prototypes, etc, are defined in the RPC's include files
-// These functions are passed to ns_rpc init as callbacks.
-
-// Handler for sendBlockToEVB, invoked by PC
 /**
  * @brief Initializes the model per config struct
  *
@@ -73,33 +58,27 @@ configureModel(const dataBlock *in) {
  * @return status
  */
 status
-getStatistics(dataBlock *block) {
+getStatistics(dataBlock *res) {
     ns_lp_printf("Server asked for invoke() statistics\n");
 
-    // For strings (binary->description) and binary structs (block->buffer)
-    // ERPC will attempt to free() the memory - this is kind
-    // of an ERPC bug IMHO. Nevertheless, strings & structs must be
-    // malloc'd using ns_malloc.
+    uint8_t *resultBuffer =
+        (uint8_t *)ns_malloc(sizeof(mut_stats.bytes) *
+                             sizeof(uint8_t)); // see above for explanation of why we need malloc
+    char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
+    res->length = sizeof(mut_stats.bytes) * sizeof(uint8_t);
+    res->dType = uint8_e;
+    res->description = msg_store;
+    res->cmd = generic_cmd;
+    binary_t binaryBlock = {.data = (uint8_t *)resultBuffer,
+                            .dataLength = sizeof(mut_stats.bytes) * sizeof(uint8_t)};
+    res->buffer = binaryBlock;
 
-    uint32_t len = 4;
-    uint16_t *retBuffer = (uint16_t *)ns_malloc(len * sizeof(uint16_t));
-    char *msg_store = (char *)ns_malloc(sizeof(char) * 30); // arbitrary size
+    memcpy(resultBuffer, mut_stats.bytes, sizeof(mut_stats.bytes) * sizeof(uint8_t));
 
-    uint16_t db[] = {0xCA, 0x01, 0x73, 0x50};
-    memcpy(retBuffer, db, len * sizeof(uint16_t));
-
-    char msg[] = "DisplayThis\0";
+    char msg[] = "stats\0";
     memcpy(msg_store, msg, sizeof(msg));
 
-    binary_t binaryBlock = {.data = (uint8_t *)retBuffer, .dataLength = len * sizeof(uint16_t)};
-
-    // Populate the block to be sent to PC
-    block->length = len * sizeof(uint16_t);
-    block->dType = uint16_e;
-    block->description = msg_store;
-    block->cmd = generic_cmd;
-    block->buffer = binaryBlock;
-    ns_rpc_genericDataOperations_printDatablock(block);
+    ns_rpc_genericDataOperations_printDatablock(res);
 
     return ns_rpc_data_success;
 }
@@ -133,6 +112,11 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // ns_lp_printf("Incoming Data Block:\n");
     // ns_rpc_genericDataOperations_printDatablock(in);
     memcpy(model_input->data.int8, in->buffer.data, in->buffer.dataLength);
+    // ns_lp_printf("first 5 of input data\n");
+    // for (int k = 0; k<5; k++) {
+    //     ns_lp_printf("0x%x ", model_input->data.int8[k]);
+    // }
+    // ns_lp_printf("\n");
 
     TfLiteStatus invoke_status = interpreter->Invoke();
 
@@ -145,8 +129,11 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
 
     // Prep the return block with output tensor
     memcpy(resultBuffer, model_output->data.int8, mut_cfg.config.output_length);
-
-    // ns_lp_printf("Resulting Data Block To Be Sent:\n");
+    // ns_lp_printf("Result\n");
+    // for (int k = 0; k<5; k++) {
+    //     ns_lp_printf("0x%x ", model_output->data.uint8[k]);
+    // }
+    // ns_lp_printf("\nResulting Data Block To Be Sent:\n");
     // ns_rpc_genericDataOperations_printDatablock(res);
 
     char res_msg[] = "Invoke Successful!\0";
@@ -220,6 +207,7 @@ main(void) {
     //
     while (1) {
         ns_rpc_genericDataOperations_pollServer(&rpcConfig);
-        ns_deep_sleep();
+        ns_delay_us(1000);
+        // ns_deep_sleep();
     }
 }

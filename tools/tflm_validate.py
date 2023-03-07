@@ -2,6 +2,7 @@
 
 import argparse
 import gzip
+import math
 import os
 import random
 import struct
@@ -104,7 +105,7 @@ def load_pkl(file: str, compress: bool = True):
 def get_dataset(params):
     fn = params.dataset
     if fn and os.path.isfile(fn):
-        print("Loading augmented dataset from " + fn)
+        # print("Loading augmented dataset from " + fn)
         ds = load_pkl(fn)
         return ds["X"], ds["y"], ds["XT"], ds["yt"]
 
@@ -142,7 +143,8 @@ def getDetails(interpreter):
     inputShape = input_details[0]["shape"]
     inputLength = np.prod(inputShape)  # assuming bytes
     print("[INFO] input tensor total size: %d" % inputLength)
-    print("[INFO] input tensor shape [%d, %d, %d]" % tuple(input_details[0]["shape"]))
+    print(input_details[0]["shape"])
+    print("[INFO] input tensor shape " + repr(input_details[0]["shape"]))
     outputShape = output_details[0]["shape"]
     outputLength = np.prod(outputShape)  # assuming bytes
     return (
@@ -156,12 +158,6 @@ def getDetails(interpreter):
 
 
 def configModel(params, client):
-    # Load TFLite Model
-    # interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
-    # interpreter.allocate_tensors()
-
-    # numberOfInputs, numberOfOutputs, inputShape, outputShape, inputLength, outputLength = getDetails(interpreter)
-
     configBytes = struct.pack("<III", 0, inputLength, outputLength)
     configModel = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
@@ -177,76 +173,33 @@ def configModel(params, client):
 def getModelStats(params, client):
     statBlock = erpc.Reference()
     status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
-    print("Fetch stats status %d" % status)
-    print(statBlock)
-    print(len(statBlock.value.buffer))
+    print("[INFO] Fetch stats status %d" % status)
+    # print(statBlock)
+    # print(len(statBlock.value.buffer))
     stat_array = struct.unpack(
         "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
     )
-    print(stat_array)
     return stat_array
 
 
 def validateModel(params, client):
-    # clientManager = erpc.client.ClientManager(transport, erpc.basic_codec.BasicCodec)
-    # client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
-    # print("\r\nClient started - press enter send remote procedure calls to EVB")
-    # input_fn()
-
-    # # Load TFLite Model
-    # interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
-    # interpreter.allocate_tensors()
-
-    # # Get input/output details, configure EVB
+    # Get input/output details
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-    # sl = interpreter.get_signature_list()
-    # ts = interpreter.get_tensor_details()
-
-    # numberOfInputs = len(input_details)
-    # if numberOfInputs > 1:
-    #     print(
-    #         "[WARNING] model has %d inputs but this scripts only supports 1"
-    #         % numberOfInputs
-    #     )
-
-    # numberOfOutputs = len(output_details)
-    # if numberOfOutputs > 1:
-    #     print(
-    #         "[WARNING] model has %d outputs but this scripts only supports 1"
-    #         % numberOfOutputs
-    #     )
-
-    # # print(input_details[0]["shape"])
-    # inputShape = input_details[0]["shape"]
-    # inputLength = np.prod(inputShape)  # assuming bytes
-    # print("[INFO] input tensor total size: %d" % inputLength)
-    # print("[INFO] input tensor shape [%d, %d, %d]" % tuple(input_details[0]["shape"]))
-    # outputShape = output_details[0]["shape"]
-    # outputLength = np.prod(outputShape)  # assuming bytes
-
-    # configBytes = struct.pack("<III", 0, inputLength, outputLength)
-    # configModel = GenericDataOperations_PcToEvb.common.dataBlock(
-    #     description="Model Config",
-    #     dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-    #     cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-    #     # buffer=bytearray([0, 10, 20, 30]),
-    #     buffer=configBytes,
-    #     length=9,
-    # )
-    # stat = client.ns_rpc_data_sendBlockToEVB(configModel)
-    # print("[INFO] Model Configuration Return Status = %d" % stat)
 
     runs = params.runs
     print("[INFO] Calling invoke %d times." % runs)
 
     if not params.random_data:
         # Load validation data from specified pkl file
+        print("[INFO] Load dataset from %s." % params.dataset)
         data, labels, test_data, test_labels = get_dataset(params)
         input_scale, input_zero_point = input_details[0]["quantization"]
         test_data_int8 = np.asarray(
             test_data / input_scale + input_zero_point, dtype=np.int8
         )
+    else:
+        print("[INFO] Generate random dataset.")
 
     differences = np.zeros((runs, outputLength))
     for i in tqdm(range(runs)):
@@ -278,26 +231,64 @@ def validateModel(params, client):
         )
         outputTensor = erpc.Reference()
 
-        # print("Sending to EVB")
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
-        # print("Status is %d" % stat)
-
-        # input_scale, input_zero_point = input_details[0]["quantization"]
-        # output_scale, output_zero_point = output_details[0]["quantization"]
-
-        # Compare outputs
-        # print("Data from local invoke:")
-        # print(output_data)
-        # printDataBlock(outputTensor.value)
         out_array = struct.unpack(
             "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
         )
-        # print("Data from remote invoke")
-        # print(out_array)
         differences[i] = output_data[0] - out_array
-        # time.sleep(.1)
-    print(differences)
-    print(differences.mean(axis=0))
+        # print(output_data[0])
+        # print(out_array)
+    # print(differences.mean(axis=0))
+    return differences
+
+
+def next_power_of_2(x):
+    return 1 if x == 0 else 2 ** math.ceil(math.log2(x))
+
+
+def create_mut_metadata(tflm_dir, stats, inputLength, outputLength):
+    # Print out tuned metadata file
+    # print("hello")
+    code = """
+// Model Under Test (MUT) Metadata.
+// This file is automatically generated by neuralspot's tflm_validate tool
+#ifndef __MUT_MODEL_METADATA_H
+#define __MUT_MODEL_METADATA_H
+
+// Calculated Arena and RPC buffer sizes
+"""
+    code = code + "#define TFLM_VALIDATOR_ARENA_SIZE " + repr(stats[0] // 1024) + "\n"
+    code = (
+        code
+        + "#define TFLM_VALIDATOR_RX_BUFSIZE "
+        + repr(max(next_power_of_2(inputLength), 512))
+        + "\n"
+    )
+    code = (
+        code
+        + "#define TFLM_VALIDATOR_TX_BUFSIZE "
+        + repr(max(next_power_of_2(outputLength), 512))
+        + "\n"
+    )
+    code = code + "#endif // __MUT_MODEL_METADATA_H"
+    with open(tflm_dir + "/" + "mut_model_metadata.h", "w") as f:
+        f.write(code)
+    # print(code)
+
+
+def compile_and_deploy():
+    # Compile & Deploy
+    makefile_result = os.system(
+        "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+    )
+    if makefile_result != 0:
+        print("[ERROR] Make failed, return code %d", makefile_result)
+        return makefile_result
+
+    time.sleep(2)
+    makefile_result = os.system("cd .. && make reset >/dev/null 2>&1")
+    time.sleep(2)  # give jlink a chance to settle
+    return makefile_result
 
 
 def create_parser():
@@ -316,10 +307,8 @@ if __name__ == "__main__":
     # parse cmd parameters
     parser = create_parser()
     params = parser.parse_typed_args()
-    # transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
 
     tflm_dir = params.tflm_src_path
-    # validateModel(params, transport)
 
     if params.create_binary:
         xxd_c_dump(
@@ -331,21 +320,10 @@ if __name__ == "__main__":
         )
         # Copy default metadata to metadata header to start from vanilla configuration
         os.system(
-            "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h"
+            "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h >/dev/null 2>&1"
             % (tflm_dir, tflm_dir)
         )
-
-        # Compile & Deploy
-        # makefile_result = os.system("cd .. && make clean && make -j && make TARGET=tflm_validator deploy")
-        makefile_result = os.system(
-            "cd .. && make -j && make TARGET=tflm_validator deploy"
-        )
-        print(makefile_result)
-        time.sleep(3)
-        makefile_result = os.system("cd .. && make reset")
-
-        print(makefile_result)
-        time.sleep(5)  # give jlink a chance to settle
+        compile_and_deploy()
 
     # Configure the model on the EVB
     try:
@@ -372,8 +350,24 @@ if __name__ == "__main__":
     configModel(params, client)
     stats = getModelStats(params, client)
 
+    # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
+    if params.create_binary:
+        create_mut_metadata(tflm_dir, stats, inputLength, outputLength)
+        compile_and_deploy()
+        try:
+            transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
+            clientManager = erpc.client.ClientManager(
+                transport, erpc.basic_codec.BasicCodec
+            )
+            client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
+        except:
+            print("Couldn't establish RPC connection EVB USB device %s" % params.tty)
+        configModel(params, client)
+
     # if params.characterize
     # flash model with large arena, run it once to figure out arena_size
     # update code, compile and flash again with Profiler enabled
 
-    validateModel(params, client)
+    differences = validateModel(params, client)
+    print(differences)
+    print(differences.mean(axis=0))

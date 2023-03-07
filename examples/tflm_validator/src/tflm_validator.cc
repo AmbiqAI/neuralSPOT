@@ -14,6 +14,7 @@
 #include <cstring>
 
 #include "generic_model.h"
+#include "mut_model_metadata.h"
 #include "tflm_validator.h"
 
 #include "ns_ambiqsuite_harness.h"
@@ -152,10 +153,8 @@ ns_postAction(void) {
     ns_lp_printf("Stopping action\n");
 }
 
-#define TLFM_VALIDATOR_RX_BUFSIZE 2048
-#define TLFM_VALIDATOR_TX_BUFSIZE 2048
-uint8_t tflm_v_cdc_rx_ff_buf[TLFM_VALIDATOR_RX_BUFSIZE];
-uint8_t tlfm_v_cdc_tx_ff_buf[TLFM_VALIDATOR_TX_BUFSIZE];
+uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE];
+uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE];
 
 int
 main(void) {
@@ -182,9 +181,9 @@ main(void) {
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
                                  .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
                                  .rx_buf = tflm_v_cdc_rx_ff_buf,
-                                 .rx_bufLength = TLFM_VALIDATOR_RX_BUFSIZE,
+                                 .rx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
                                  .tx_buf = tlfm_v_cdc_tx_ff_buf,
-                                 .tx_bufLength = TLFM_VALIDATOR_TX_BUFSIZE,
+                                 .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = configureModel,
                                  .fetchBlockFromEVB_cb = getStatistics,
                                  .computeOnEVB_cb = infer_on_tflm};

@@ -179,14 +179,14 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
             ns_delay_us(150);
             retries--;
             if (retries == 0) {
-                ns_lp_printf("exhausted wait for sem\n");
+                ns_lp_printf("[ERROR] ns_usb_recieve_data exhausted wait for sem\n");
                 break;
             }
         };
 
         // Incoming blocks may be less than needed bytes, try up to 3 times
         if (block_retries == 0) {
-            ns_lp_printf("exhausted block retries\n");
+            ns_lp_printf("[ERROR] ns_usb_recieve_data exhausted block retries\n");
             break;
         }
         block_retries--;

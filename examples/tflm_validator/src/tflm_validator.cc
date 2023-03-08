@@ -46,9 +46,13 @@ configureModel(const dataBlock *in) {
         return ns_rpc_data_failure;
     }
     memcpy(&mut_cfg, in->buffer.data, sizeof(mut_cfg));
-    model_init();
+    int status = model_init();
     ns_rpc_genericDataOperations_printDatablock(in);
-    return ns_rpc_data_success;
+    if (status == 0) {
+        return ns_rpc_data_success;
+    } else {
+        return ns_rpc_data_failure;
+    }
 }
 
 // Handler for fetchBlockFromEVB, invoked by PC

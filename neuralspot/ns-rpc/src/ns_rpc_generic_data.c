@@ -40,13 +40,21 @@ const ns_core_api_t ns_rpc_gdo_current_version = {.apiId = NS_RPC_GDO_API_ID,
 
 ns_usb_config_t g_RpcGenericUSBHandle = {.api = &ns_usb_V1_0_0,
                                          .deviceType = NS_USB_CDC_DEVICE,
-                                         .buffer = NULL, // Not needed by RPC
-                                         .bufferLength = 0,
+                                         .rx_buffer = NULL,
+                                         .rx_bufferLength = 0,
+                                         .tx_buffer = NULL,
+                                         .tx_bufferLength = 0,
                                          .rx_cb = NULL,
-                                         .tx_cb = NULL};
+                                         .tx_cb = NULL,
+                                         .service_cb = NULL};
 
 ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
                                           .mode = NS_RPC_GENERICDATA_CLIENT,
+                                          .rx_buf = NULL,
+                                          .rx_bufLength = 0,
+                                          .tx_buf = NULL,
+                                          .tx_bufLength = 0,
+                                          .usbHandle = NULL,
                                           .sendBlockToEVB_cb = NULL,
                                           .fetchBlockFromEVB_cb = NULL,
                                           .computeOnEVB_cb = NULL};
@@ -56,7 +64,7 @@ ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
 status
 ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
-    ns_printf("Received call to sendBlockToEVB\n");
+    // ns_lp_printf("Received call to sendBlockToEVB\n");
 
     if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
         return g_RpcGenericDataConfig.sendBlockToEVB_cb(block);
@@ -67,7 +75,7 @@ ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
 
 status
 ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
-    ns_printf("Received call to fetchBlockFromEVB\n");
+    // ns_lp_printf("Received call to fetchBlockFromEVB\n");
 
     if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
         return g_RpcGenericDataConfig.fetchBlockFromEVB_cb(block);
@@ -78,7 +86,7 @@ ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
 
 status
 ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
-    ns_printf("Received call to computeOnEVB\n");
+    // ns_lp_printf("Received call to computeOnEVB\n");
 
     if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
         return g_RpcGenericDataConfig.computeOnEVB_cb(in_block, result_block);
@@ -86,6 +94,12 @@ ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
         return ns_rpc_data_success;
     }
 }
+
+// void ns_rpc_data_serverService(uint8_t haveUsbData) {
+//     if ((g_RpcGenericDataConfig.serviceServer == true) && (haveUsbData == 1)) {
+//         erpc_server_poll(); // service RPC server
+//     }
+// }
 
 uint16_t
 ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
@@ -101,19 +115,36 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     #endif
     // usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
     usb_handle_t usb_handle = NULL;
+
+    // For server mode, add a service callback to USB
+    // if (cfg->mode == NS_RPC_GENERICDATA_SERVER) {
+    //     g_RpcGenericUSBHandle.service_cb = &ns_rpc_data_serverService;
+    // }
+    g_RpcGenericUSBHandle.rx_buffer = cfg->rx_buf;
+    g_RpcGenericUSBHandle.rx_bufferLength = cfg->rx_bufLength;
+    g_RpcGenericUSBHandle.tx_buffer = cfg->tx_buf;
+    g_RpcGenericUSBHandle.tx_bufferLength = cfg->tx_bufLength;
+
     NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
 
     g_RpcGenericDataConfig.mode = cfg->mode;
     g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
     g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
     g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
+    // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
+    g_RpcGenericDataConfig.rx_buf = cfg->rx_buf;
+    g_RpcGenericDataConfig.rx_bufLength = cfg->rx_bufLength;
+    g_RpcGenericDataConfig.tx_buf = cfg->tx_buf;
+    g_RpcGenericDataConfig.tx_bufLength = cfg->tx_bufLength;
+
+    g_RpcGenericDataConfig.usbHandle = usb_handle;
 
     // Common ERPC init
     /* USB transport layer initialization */
     erpc_transport_t transport = erpc_transport_usb_cdc_init(usb_handle);
 
     /* MessageBufferFactory initialization */
-    erpc_mbf_t message_buffer_factory = erpc_mbf_dynamic_init();
+    erpc_mbf_t message_buffer_factory = erpc_mbf_static_init();
 
     if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
         /* Init eRPC client environment */
@@ -128,6 +159,23 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     return NS_STATUS_SUCCESS;
 }
 
+// void
+// ns_rpc_genericDataOperations_enableServerPoll(ns_rpc_config_t *cfg) {
+//     g_RpcGenericDataConfig.serviceServer = true;
+// }
+
+// void
+// ns_rpc_genericDataOperations_disableServerPoll(ns_rpc_config_t *cfg) {
+//     g_RpcGenericDataConfig.serviceServer = false;
+// }
+
+void
+ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
+    if (ns_usb_data_available(cfg->usbHandle)) {
+        erpc_server_poll(); // service RPC server
+    }
+}
+
 uint16_t
 ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
     erpc_client_deinit();
@@ -137,14 +185,14 @@ ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
 void
 ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     uint32_t i = 0;
-    ns_printf("Descriptor: %s\n", block->description);
-    ns_printf("Length: %d\n", block->length);
-    ns_printf("buffer.dataLength: %d\n", block->buffer.dataLength);
-    ns_printf("Contents:\n");
+    ns_lp_printf("Descriptor: %s\n", block->description);
+    ns_lp_printf("Length: %d\n", block->length);
+    ns_lp_printf("buffer.dataLength: %d\n", block->buffer.dataLength);
+    ns_lp_printf("Contents:\n");
     for (i = 0; i < block->buffer.dataLength; i++) {
-        ns_printf("0x%x, ", block->buffer.data[i]);
+        ns_lp_printf("0x%x, ", block->buffer.data[i]);
     }
-    ns_printf("\n");
+    ns_lp_printf("\n");
 }
 
 void

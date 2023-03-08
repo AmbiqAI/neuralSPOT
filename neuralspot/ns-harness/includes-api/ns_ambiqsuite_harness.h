@@ -30,8 +30,9 @@ extern "C" {
     am_bsp_itm_printf_disable
 #define ns_debug_printf_disable am_bsp_debug_printf_disable
 #define ns_interrupt_master_enable am_hal_interrupt_master_enable
+#define ns_interrupt_master_disable am_hal_interrupt_master_disable
 
-#define ns_printf am_util_stdio_printf
+#define ns_printf ns_lp_printf
 
 #define ns_delay_us am_hal_delay_us
 

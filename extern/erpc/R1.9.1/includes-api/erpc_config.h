@@ -110,7 +110,8 @@
 //! Uncomment to change the size of buffers allocated by one of MessageBufferFactory.
 //! (@ref client_setup and @ref server_setup). The default size is set to 256.
 //! For RPMsg transport layer, ERPC_DEFAULT_BUFFER_SIZE must be 2^n - 16.
-#define ERPC_DEFAULT_BUFFER_SIZE (2048U)
+// #define ERPC_DEFAULT_BUFFER_SIZE (2048U)
+#define ERPC_DEFAULT_BUFFER_SIZE (4096U)
 
 //! @def ERPC_DEFAULT_BUFFERS_COUNT
 //!
@@ -147,7 +148,7 @@
 //! ERPC_MESSAGE_LOGGING_DISABLED.
 //!
 //! Uncomment for using logging feature.
-//#define ERPC_MESSAGE_LOGGING (ERPC_MESSAGE_LOGGING_ENABLED)
+// #define ERPC_MESSAGE_LOGGING (ERPC_MESSAGE_LOGGING_ENABLED)
 
 //! @def ERPC_TRANSPORT_MU_USE_MCMGR
 //!
@@ -171,7 +172,7 @@
 //! detection of eRPC call freeze, ... Default set to ERPC_PRE_POST_ACTION_DISABLED.
 //!
 //! Uncomment for using pre post callback feature.
-//#define ERPC_PRE_POST_ACTION (ERPC_PRE_POST_ACTION_ENABLED)
+#define ERPC_PRE_POST_ACTION (ERPC_PRE_POST_ACTION_ENABLED)
 
 //! @def ERPC_PRE_POST_ACTION_DEFAULT
 //!

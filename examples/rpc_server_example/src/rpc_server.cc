@@ -35,7 +35,7 @@
 // Handler for sendBlockToEVB, invoked by PC
 status
 example_sendBlockToEVB(const dataBlock *block) {
-    ns_printf("LOCAL Received call to sendBlockToEVB\n");
+    ns_lp_printf("LOCAL Received call to sendBlockToEVB\n");
     // Grab block and do something with it
     // ...
     ns_rpc_genericDataOperations_printDatablock(block);
@@ -45,7 +45,7 @@ example_sendBlockToEVB(const dataBlock *block) {
 // Handler for fetchBlockFromEVB, invoked by PC
 status
 example_fetchBlockFromEVB(dataBlock *block) {
-    ns_printf("LOCAL Received call to fetchBlockFromEVB\n");
+    ns_lp_printf("LOCAL Received call to fetchBlockFromEVB\n");
 
     // For strings (binary->description) and binary structs (block->buffer)
     // ERPC will attempt to free() the memory - this is kind
@@ -80,10 +80,10 @@ status
 example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     uint32_t i;
 
-    ns_printf("LOCAL Received call to computeOnEVB\n");
+    ns_lp_printf("LOCAL Received call to computeOnEVB\n");
 
     // Compute res block based on in block
-    ns_printf("Incoming Data Block:\n");
+    ns_lp_printf("Incoming Data Block:\n");
     ns_rpc_genericDataOperations_printDatablock(in);
     uint32_t len = in->buffer.dataLength;
     uint8_t *resultBuffer = (uint8_t *)ns_malloc(
@@ -106,11 +106,16 @@ example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     res->cmd = generic_cmd;
     res->buffer = binaryBlock;
 
-    ns_printf("Resulting Data Block To Be Sent:\n");
+    ns_lp_printf("Resulting Data Block To Be Sent:\n");
     ns_rpc_genericDataOperations_printDatablock(res);
 
     return ns_rpc_data_success;
 }
+
+#define MY_RX_BUFSIZE 512
+#define MY_TX_BUFSIZE 512
+uint8_t my_cdc_rx_ff_buf[MY_RX_BUFSIZE];
+uint8_t my_cdc_tx_ff_buf[MY_TX_BUFSIZE];
 
 int
 main(void) {
@@ -136,24 +141,24 @@ main(void) {
     // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
                                  .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+                                 .rx_buf = my_cdc_rx_ff_buf,
+                                 .rx_bufLength = MY_RX_BUFSIZE,
+                                 .tx_buf = my_cdc_tx_ff_buf,
+                                 .tx_bufLength = MY_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = example_sendBlockToEVB,
                                  .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
                                  .computeOnEVB_cb = example_computeOnEVB};
+
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
-    ns_printf("Start the PC-side client, then press Button 0 to get started\n");
-    while (g_intButtonPressed == 0) {
-        ns_delay_us(1000);
-    }
-
-    ns_printf("Ready to receive RPC Calls\n");
+    ns_lp_printf("Ready to receive RPC Calls\n");
 
     // In the app loop we service USB and the RPC server
     // Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
-    //
+
     while (1) {
-        erpc_server_poll(); // service RPC server
-        ns_delay_us(1);
+        ns_rpc_genericDataOperations_pollServer(&rpcConfig);
+        ns_deep_sleep();
     }
 }

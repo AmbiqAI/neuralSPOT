@@ -50,6 +50,7 @@ modules      += examples/har
 modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example
 modules      += examples/rpc_server_example
+modules      += examples/tflm_validator
 
 # The following variables are filled in by module.mk include files
 #
@@ -71,8 +72,9 @@ includes_api :=
 pp_defines   := $(DEFINES)
 bindirs      := $(BINDIR)
 
+obs = $(call source-to-object,$(sources))
+dependencies = $(subst .o,.d,$(obs))
 objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
-dependencies = $(subst .o,.d,$(objects))
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
@@ -243,6 +245,21 @@ $(JLINK_CF):
 	$(Q) echo "Reset" >> $@
 	$(Q) echo "LoadFile $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 	$(Q) echo "Exit" >> $@
+
+$(JLINK_RESET_CF):
+	@echo " Creating JLink command reset file... $(deploy_target)"
+	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "R1" >> $@
+	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "R0" >> $@
+	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "Exit" >> $@
+
+.PHONY: reset
+reset: $(JLINK_RESET_CF)
+	@echo " Reset EVB via Jlink..."
+	$(Q) $(JLINK) $(JLINK_RESET_CMD)
+	$(Q) $(RM) $(JLINK_RESET_CF)
 
 .PHONY: deploy
 deploy: $(JLINK_CF)

@@ -45,7 +45,8 @@ typedef enum {
 
 typedef struct {
     usb_handle_t handle;
-    void *buffer;
+    void *rx_buffer;
+    void *tx_buffer;
     uint8_t status;
     uint8_t itf;
     bool dtr;
@@ -54,14 +55,18 @@ typedef struct {
 
 typedef void (*ns_usb_rx_cb)(ns_usb_transaction_t *);
 typedef void (*ns_usb_tx_cb)(ns_usb_transaction_t *);
+typedef void (*ns_usb_service_cb)(uint8_t);
 
 typedef struct {
     const ns_core_api_t *api; ///< API prefix
     ns_usb_device_type_e deviceType;
-    void *buffer;
-    uint16_t bufferLength;
+    void *rx_buffer;
+    uint16_t rx_bufferLength;
+    void *tx_buffer;
+    uint16_t tx_bufferLength;
     ns_usb_rx_cb rx_cb;
     ns_usb_tx_cb tx_cb;
+    ns_usb_service_cb service_cb;
 } ns_usb_config_t;
 
 extern uint32_t
@@ -77,6 +82,21 @@ ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize);
 
 extern void
 ns_usb_handle_read_error(usb_handle_t h);
+
+extern bool
+ns_usb_data_available(usb_handle_t handle);
+
+extern uint8_t *
+ns_usb_get_rx_buffer();
+
+extern uint8_t *
+ns_usb_get_tx_buffer();
+
+extern uint32_t
+ns_get_cdc_rx_bufferLength();
+
+extern uint32_t
+ns_get_cdc_tx_bufferLength();
 
 #ifdef __cplusplus
 }

@@ -63,7 +63,7 @@ ns_timer_config_t basic_tickTimer = {
  * handling.
  *
  */
-static void
+static int
 model_init(void) {
 
     tflite::MicroErrorReporter micro_error_reporter;
@@ -88,7 +88,7 @@ model_init(void) {
                              "Model provided is schema version %d not equal "
                              "to supported version %d.",
                              model->version(), TFLITE_SCHEMA_VERSION);
-        return;
+        return -1;
     }
 
     static tflite::AllOpsResolver resolver;
@@ -109,11 +109,12 @@ model_init(void) {
         interpreter->arena_used_bytes(); // prep to send back to PC
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed");
-        ns_lp_printf("AllocateTensors() failed");
-        return;
+        ns_lp_printf("[ERROR] AllocateTensors() failed\n");
+        return -1;
     }
 
     // Obtain pointers to the model's input and output tensors.
     model_input = interpreter->input(0);
     model_output = interpreter->output(0);
+    return 0;
 }

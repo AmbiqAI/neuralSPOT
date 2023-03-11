@@ -27,6 +27,7 @@
 
 ns_incoming_config_t mut_cfg;
 ns_outgoing_stats_t mut_stats;
+static uint32_t invokes_so_far = 0;
 
 /**
  * @brief Initializes the model per config struct
@@ -36,16 +37,21 @@ ns_outgoing_stats_t mut_stats;
  */
 status
 configureModel(const dataBlock *in) {
-    ns_lp_printf("Server requested model initialization\n");
-    ns_lp_printf("Uint Size %d, mut.profile size %d\n", sizeof(uint8_t),
-                 sizeof(mut_cfg.config.profile_mut));
+    ns_lp_printf("[INFO] PC requested model initialization\n");
+
     // Grab incoming buffer, decode into config struct
     if (in->buffer.dataLength != sizeof(mut_cfg)) {
-        ns_lp_printf("Error - size mismatch, expected %d, got %d", sizeof(mut_cfg),
+        ns_lp_printf("[ERROR] Configuration Size mismatch, expected %d, got %d", sizeof(mut_cfg),
                      in->buffer.dataLength);
         return ns_rpc_data_failure;
     }
+
     memcpy(&mut_cfg, in->buffer.data, sizeof(mut_cfg));
+    ns_lp_printf("[INFO] MUT configuration: profile %d, warmup %d, input tensor length %d, output "
+                 "tensor length %d\n",
+                 mut_cfg.config.profile_mut, mut_cfg.config.profile_warmup,
+                 mut_cfg.config.input_length, mut_cfg.config.output_length);
+
     int status = model_init();
     ns_rpc_genericDataOperations_printDatablock(in);
     if (status == 0) {
@@ -64,7 +70,7 @@ configureModel(const dataBlock *in) {
  */
 status
 getStatistics(dataBlock *res) {
-    ns_lp_printf("Server asked for invoke() statistics\n");
+    ns_lp_printf("[INFO] Server asked for statistics\n");
 
     uint8_t *resultBuffer =
         (uint8_t *)ns_malloc(sizeof(mut_stats.bytes) *
@@ -77,13 +83,19 @@ getStatistics(dataBlock *res) {
     binary_t binaryBlock = {.data = (uint8_t *)resultBuffer,
                             .dataLength = sizeof(mut_stats.bytes) * sizeof(uint8_t)};
     res->buffer = binaryBlock;
-
+    mut_stats.stats.computed_stat_buffer_size = sizeof(mut_stats.bytes);
+    mut_stats.stats.computed_stat_per_event_size = sizeof(ns_profiler_event_stats_t);
+#ifdef NS_TFLM_VALIDATOR
+    mut_stats.stats.captured_events = ns_microProfilerSidecar.captured_event_num;
+    memcpy(mut_stats.stats.stat_buffer, ns_profiler_events_stats,
+           sizeof(mut_stats.stats.stat_buffer));
+#else
+    mut_stats.stats.captured_events = 0;
+#endif
     memcpy(resultBuffer, mut_stats.bytes, sizeof(mut_stats.bytes) * sizeof(uint8_t));
 
-    char msg[] = "stats\0";
+    char msg[] = "StatsOK\0";
     memcpy(msg_store, msg, sizeof(msg));
-
-    ns_rpc_genericDataOperations_printDatablock(res);
 
     return ns_rpc_data_success;
 }
@@ -99,7 +111,6 @@ getStatistics(dataBlock *res) {
 status
 infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block, needs to happen whether errors occur or not
-    // ns_lp_printf("Server requested invoke()\n");
 
     uint8_t *resultBuffer =
         (uint8_t *)ns_malloc(mut_cfg.config.output_length *
@@ -114,14 +125,7 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     res->buffer = binaryBlock;
 
     // 'in' contains the input tensors, treat as homogeneous block
-    // ns_lp_printf("Incoming Data Block:\n");
-    // ns_rpc_genericDataOperations_printDatablock(in);
     memcpy(model_input->data.int8, in->buffer.data, in->buffer.dataLength);
-    // ns_lp_printf("first 5 of input data\n");
-    // for (int k = 0; k<5; k++) {
-    //     ns_lp_printf("0x%x ", model_input->data.int8[k]);
-    // }
-    // ns_lp_printf("\n");
 
     TfLiteStatus invoke_status = interpreter->Invoke();
 
@@ -132,18 +136,20 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
         return ns_rpc_data_failure;
     }
 
+    if ((mut_cfg.config.profile_mut == 1) && (invokes_so_far == mut_cfg.config.profile_warmup)) {
+        ns_lp_printf("[INFO] requested warmup %d,  invokes_so_far %d",
+                     mut_cfg.config.profile_warmup, invokes_so_far);
+        profiler->LogCsv(); // prints and also captures events in a buffer
+        ns_stop_perf_profiler();
+    }
+
     // Prep the return block with output tensor
     memcpy(resultBuffer, model_output->data.int8, mut_cfg.config.output_length);
-    // ns_lp_printf("Result\n");
-    // for (int k = 0; k<5; k++) {
-    //     ns_lp_printf("0x%x ", model_output->data.uint8[k]);
-    // }
-    // ns_lp_printf("\nResulting Data Block To Be Sent:\n");
-    // ns_rpc_genericDataOperations_printDatablock(res);
 
     char res_msg[] = "Invoke Successful!\0";
     memcpy(msg_store, res_msg, sizeof(res_msg));
     ns_lp_printf(".");
+    invokes_so_far++;
     return ns_rpc_data_success;
 }
 
@@ -168,18 +174,7 @@ main(void) {
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
     ns_itm_printf_enable();
 
-    // ----- Non-RPC Init ------
-    // -- These are needed for the demo, not directly related to RPC
     ns_interrupt_master_enable();
-
-    // -- Init the button handler, used in the example, not needed by RPC
-    volatile int g_intButtonPressed = 0;
-    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
-                                        .button_0_enable = true,
-                                        .button_1_enable = false,
-                                        .button_0_flag = &g_intButtonPressed,
-                                        .button_1_flag = NULL};
-    NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
@@ -197,17 +192,8 @@ main(void) {
     // erpc_server_add_pre_cb_action(&ns_preAction);
     // erpc_server_add_post_cb_action(&ns_postAction);
 
-    // ns_lp_printf("Start the PC-side client, then press Button 0 to get started\n");
-    // while (g_intButtonPressed == 0) {
-    //     ns_delay_us(1000);
-    // }
-
     ns_lp_printf("Ready to receive RPC Calls\n");
 
-    // In the app loop we service USB and the RPC server
-    // Any incoming RPC calls will result in calls to the
-    // RPC handler functions defined above.
-    //
     while (1) {
         ns_rpc_genericDataOperations_pollServer(&rpcConfig);
         ns_delay_us(1000);

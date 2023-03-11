@@ -43,9 +43,11 @@ MicroProfiler::BeginEvent(const char *tag) {
     ns_reset_perf_counters();
     ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_start[num_events_]));
     ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_start[num_events_]));
-    ns_microProfilerSidecar.estimated_mac_count[num_events_] =
-        ns_microProfilerSidecar
-            .mac_count_map[num_events_ % ns_microProfilerSidecar.number_of_layers];
+    if (ns_microProfilerSidecar.has_estimated_macs) {
+        ns_microProfilerSidecar.estimated_mac_count[num_events_] =
+            ns_microProfilerSidecar
+                .mac_count_map[num_events_ % ns_microProfilerSidecar.number_of_layers];
+    }
     end_ticks_[num_events_] = start_ticks_[num_events_] - 1;
     // ns_lp_printf("START: %s handle %d: %d\n", tag, num_events_,
     // ns_microProfilerSidecar.perf_start[num_events_].lsucnt);
@@ -90,6 +92,7 @@ MicroProfiler::LogCsv() const {
     ns_cache_dump_t c;
     uint32_t macs;
 
+    ns_microProfilerSidecar.captured_event_num = num_events_;
     MicroPrintf(
         "\"Event\",\"Tag\",\"uSeconds\",\"Est MACs\",\"cycles\",\"cpi\",\"exc\",\"sleep\",\"lsu\","
         "\"fold\",\"daccess\",\"dtaglookup\",\"dhitslookup\",\"dhitsline\",\"iaccess\","
@@ -100,12 +103,29 @@ MicroProfiler::LogCsv() const {
                       &(ns_microProfilerSidecar.perf_end[i]), &p);
         ns_delta_cache(&(ns_microProfilerSidecar.cache_start[i]),
                        &(ns_microProfilerSidecar.cache_end[i]), &c);
-        macs = ns_microProfilerSidecar
-                   .estimated_mac_count[i % ns_microProfilerSidecar.number_of_layers];
+        if (ns_microProfilerSidecar.has_estimated_macs) {
+            macs = ns_microProfilerSidecar
+                       .estimated_mac_count[i % ns_microProfilerSidecar.number_of_layers];
+        } else {
+            macs = 0;
+        }
+
         MicroPrintf("%d,%s,%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", i,
                     tags_[i], ticks, macs, p.cyccnt, p.cpicnt, p.exccnt, p.sleepcnt, p.lsucnt,
                     p.foldcnt, c.daccess, c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess,
                     c.itaglookup, c.ihitslookup, c.ihitsline);
+
+    // Capture statistics for Validator if enabled
+    #ifdef NS_TFLM_VALIDATOR
+        if (i < NS_PROFILER_RPC_EVENTS_MAX) {
+            memcpy(&ns_profiler_events_stats[i].cache_delta, &c, sizeof(ns_cache_dump_t));
+            memcpy(&ns_profiler_events_stats[i].perf_delta, &p, sizeof(ns_perf_counters_t));
+            ns_profiler_events_stats[i].estimated_macs = macs;
+            ns_profiler_events_stats[i].elapsed_us = ticks;
+            strncpy(ns_profiler_events_stats[i].tag, tags_[i], NS_PROFILER_TAG_SIZE - 1);
+            ns_profiler_events_stats[i].tag[NS_PROFILER_TAG_SIZE - 1] = 0;
+        }
+    #endif
     }
 }
 

@@ -47,3 +47,16 @@
 - NeuralSPOT Release 1.0.2-alpha (minor release) *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.2-alpha, which hasn't been tagged yet.
   - [TFLM Ambiq-aware Profiler](../neuralspot/ns-harness/README.md) (new feature) - profiles per-layer TFLM model execution (time, perf counters, cache behavior).
   - Assorted minor fixes
+- NeuralSPOT Release 1.0.3-alpha *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.3-alpha, which hasn't been tagged yet.
+  - RPC improvements
+    - Adds interrupt-based server polling, reduces number of USB pings
+    - Moves RPC RX/TX buffer allocation to application code
+    - Improves USB RX error handling
+  - Makefile improvements
+    - Adds 'make reset': reset the EVB via jlink
+    - Fixes dependencies for example header files
+  - Automatic TFLM validation (new feature, WIP)
+    - Automatically converts a TFLite model file to a binary that can be run on the EVB, tuning TF arena size and RPC RX/TX buffers
+    - Deploys the binary
+    - Characterizes the binary over RPC, comparing EVB inference results to PC-side python inference results
+  - Human Activity Recognition example application, based on [HAR modelzoo](https://github.com/AmbiqAI/Human-Activity-Recognition).

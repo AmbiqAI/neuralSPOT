@@ -9,7 +9,7 @@ import struct
 import sys
 import time
 
-from mltk.core import summarize_model
+from tabulate import tabulate
 from tqdm import tqdm
 
 sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
@@ -36,13 +36,16 @@ class Params(BaseModel):
     dataset: str = Field("dataset.pkl", description="Name of dataset")
     tflite_filename: str = Field("model.tflite", description="Name of tflite model")
     tflm_filename: str = Field("mut_model_data.h", description="Name of TFLM CC file")
+    stats_filename: str = Field(
+        "stats.csv", description="Name of exported stats CSV file"
+    )
     tflm_src_path: str = Field(
         "../examples/tflm_validator/src",
         description="Path to Validator example src directory",
     )
     tty: str = Field("/dev/tty.usbmodem1234561", description="Serial device")
     baud: str = Field("115200", description="Baud rate")
-    runs: int = Field(1000, description="Number of invokes to run")
+    runs: int = Field(100, description="Number of invokes to run")
     random_data: bool = Field(True, description="Use random data")
     create_binary: bool = Field(
         True, description="Create a neuralSPOT binary based on TFlite file"
@@ -53,6 +56,8 @@ class Params(BaseModel):
     max_rpc_buf_size: int = Field(
         4096, description="Maximum bytes to be allocated for RPC RX and TX buffers"
     )
+    profile_enable: bool = Field(False, description="Enable TFLM Profiler")
+    profile_warmup: int = Field(1, description="How many inferences to profile")
 
 
 def xxd_c_dump(
@@ -169,7 +174,14 @@ def getDetails(interpreter):
 
 
 def configModel(params, client):
-    configBytes = struct.pack("<III", 0, inputLength, outputLength)
+    if params.profile_enable:
+        prof_enable = 1  # convert to int just to be explicit for serialization
+    else:
+        prof_enable = 0
+
+    configBytes = struct.pack(
+        "<IIII", prof_enable, inputLength, outputLength, params.profile_warmup - 1
+    )
     configModel = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -181,16 +193,135 @@ def configModel(params, client):
     print("[INFO] Model Configuration Return Status = %d" % status)
 
 
+def printStats(stats):
+    """
+    Stats are from this struct in EVB-land:
+    typedef struct {
+        uint32_t computed_arena_size;
+        uint32_t computed_stat_buffer_size;
+        uint32_t captured_events;
+        ns_profiler_event_stats_t stat_buffer[NS_PROFILER_RPC_EVENTS_MAX];
+    } ns_mut_stats_t;
+
+    Where:
+    typedef struct {
+        ns_cache_dump_t cache_delta;
+        ns_perf_counters_t perf_delta;
+        uint32_t estimated_macs;
+        uint32_t elapsed_us;
+        char tag[12]; ///< Tag from TFLM microprofiler
+    } ns_profiler_event_stats_t;
+
+    And:
+    typedef struct {
+        uint32_t daccess;
+        uint32_t dtaglookup;
+        uint32_t dhitslookup;
+        uint32_t dhitsline;
+        uint32_t iaccess;
+        uint32_t itaglookup;
+        uint32_t ihitslookup;
+        uint32_t ihitsline;
+    } ns_cache_dump_t;
+
+    typedef struct {
+        uint32_t cyccnt;
+        uint32_t cpicnt;
+        uint32_t exccnt;
+        uint32_t sleepcnt;
+        uint32_t lsucnt;
+        uint32_t foldcnt;
+    } ns_perf_counters_t;
+    """
+    # computed_arena_size = stats[0] # in bytes
+    computed_stat_buffer_size = stats[1]  # in bytes
+    computed_stat_per_event_size = (
+        stats[2] // 4
+    )  # stats[2] is in bytes, convert to uint32
+    captured_events = stats[3]  # generally one event per model layer
+
+    print(
+        "[INFO] Decoding statistics. Number of events = %d, buff_size = %d size = %d arraylen %d"
+        % (
+            captured_events,
+            computed_stat_buffer_size,
+            computed_stat_per_event_size,
+            len(stats),
+        )
+    )
+    # for each captured event, decode stat_buffer into cach, perf, macs, and time
+    offset = 4
+    if (
+        captured_events * computed_stat_per_event_size + offset
+    ) > computed_stat_buffer_size // 4:
+        captured_events = (computed_stat_buffer_size - offset) // (
+            computed_stat_per_event_size * 4
+        )
+        print(
+            "[WARNING] Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
+            % captured_events
+        )
+
+    table = [
+        [
+            "Event",
+            "Tag",
+            "uSeconds",
+            "Est MACs",
+            "cycles",
+            "cpi",
+            "exc",
+            "sleep",
+            "lsu",
+            "fold",
+            "daccess",
+            "dtaglookup",
+            "dhitslookup",
+            "dhitsline",
+            "iaccess",
+            "itaglookup",
+            "ihitslookup",
+            "ihitsline",
+        ]
+    ]
+
+    for i in range(captured_events):
+        row = []
+        time = stats[offset + 15]
+        macs = stats[offset + 14]
+        tag = str(
+            struct.unpack(
+                "<12s",
+                struct.pack(
+                    "<III", stats[offset + 16], stats[offset + 17], stats[offset + 18]
+                ),
+            )[0],
+            "utf-8",
+        )
+
+        row.append(i)
+        row.append(tag)
+        row.append(time)
+        row.append(macs)
+        for j in range(6):
+            row.append(stats[offset + 8 + j])
+        for j in range(8):
+            row.append(stats[offset + j])
+        table.append(row)
+        offset = offset + computed_stat_per_event_size
+    print(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
+    np.savetxt(params.stats_filename, table, delimiter=", ", fmt="% s")
+
+
 def getModelStats(params, client):
     statBlock = erpc.Reference()
     status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
     print("[INFO] Fetch stats status %d" % status)
-    # print(statBlock)
-    # print(len(statBlock.value.buffer))
+
     stat_array = struct.unpack(
         "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
     )
-    # print (stat_array)
+
     return stat_array
 
 
@@ -222,12 +353,7 @@ def validateModel(params, client):
             )
         else:
             input_data = np.array([test_data_int8[i]])
-        # print("Input data")
-        # print(input_data)
-        # print("first 5 bytes")
-        # for j in range(5):
-        #     print ("0x%s " % hex(input_data.flatten()[j]), end="")
-        # print ("")
+
         # Invoke locally and on EVB
         interpreter.set_tensor(input_details[0]["index"], input_data)
         interpreter.invoke()
@@ -248,9 +374,6 @@ def validateModel(params, client):
             "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
         )
         differences[i] = output_data[0] - out_array
-        # print(output_data[0])
-        # print(out_array)
-    # print(differences.mean(axis=0))
     return differences
 
 
@@ -259,11 +382,14 @@ def next_power_of_2(x):
 
 
 def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
-    # Print out tuned metadata file
-    # print("hello")
+    # Extract stats and export tuned metadata file
     arena_size = (stats[0] // 1024) + 1
+    stat_size = stats[1]
     buf_size = max(
-        next_power_of_2(inputLength + 50), next_power_of_2(outputLength + 50), 512
+        next_power_of_2(stat_size + 50),
+        next_power_of_2(inputLength + 50),
+        next_power_of_2(outputLength + 50),
+        512,
     )
     if arena_size > params.max_arena_size:
         print(
@@ -273,7 +399,7 @@ def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
         exit(-1)
     if buf_size > params.max_rpc_buf_size:
         print(
-            "[ERROR] Needed RPC buffer size is %dk, exceeding limit of %d (RX is %d, TX is %d)."
+            "[ERROR] Needed RPC buffer size is %d, exceeding limit of %d (RX is %d, TX is %d)."
             % (buf_size, params.max_rpc_buf_size, inputLength + 50, outputLength + 50)
         )
         exit(-1)
@@ -300,19 +426,41 @@ def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
     # print(code)
 
 
-def compile_and_deploy():
+def reset_dut():
+    makefile_result = os.system("cd .. && make reset >/dev/null 2>&1")
+    time.sleep(2)  # give jlink a chance to settle
+
+
+def compile_and_deploy(params, first_time=False):
     # Compile & Deploy
-    makefile_result = os.system(
-        "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-        # "cd .. && make -j && make TARGET=tflm_validator deploy"
-    )
+    if first_time:
+        if params.profile_enable:
+            makefile_result = os.system(
+                "cd .. && make clean >/dev/null 2>&1 && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+                # "cd .. && make -j && make TARGET=tflm_validator deploy"
+            )
+        else:
+            makefile_result = os.system(
+                "cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+                # "cd .. && make -j && make TARGET=tflm_validator deploy"
+            )
+    else:
+        if params.profile_enable:
+            makefile_result = os.system(
+                "cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+                # "cd .. && make -j && make TARGET=tflm_validator deploy"
+            )
+        else:
+            makefile_result = os.system(
+                "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+                # "cd .. && make -j && make TARGET=tflm_validator deploy"
+            )
     if makefile_result != 0:
         print("[ERROR] Make failed, return code %d" % makefile_result)
         return makefile_result
 
     time.sleep(2)
-    makefile_result = os.system("cd .. && make reset >/dev/null 2>&1")
-    time.sleep(2)  # give jlink a chance to settle
+    reset_dut()
     return makefile_result
 
 
@@ -349,7 +497,9 @@ if __name__ == "__main__":
             % (tflm_dir, tflm_dir)
         )
         print("[INFO] Compiling and deploy baseline image (large arena and buffers)")
-        compile_and_deploy()
+        compile_and_deploy(params, first_time=True)
+    else:
+        reset_dut()
 
     # Configure the model on the EVB
     try:
@@ -362,8 +512,7 @@ if __name__ == "__main__":
         print("Couldn't establish RPC connection EVB USB device %s" % params.tty)
 
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
-    # tflfp = os.path.normpath("./kws_ref_model.tflite")
-    # print(summarize_model(tflfp))
+
     interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
     interpreter.allocate_tensors()
 
@@ -383,7 +532,7 @@ if __name__ == "__main__":
     if params.create_binary:
         create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength)
         print("[INFO] Compiling and deploy tuned image (detected arena and buffers)")
-        compile_and_deploy()
+        compile_and_deploy(params, first_time=False)
         try:
             transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
             clientManager = erpc.client.ClientManager(
@@ -394,10 +543,11 @@ if __name__ == "__main__":
             print("Couldn't establish RPC connection EVB USB device %s" % params.tty)
         configModel(params, client)
 
-    # if params.characterize
-    # flash model with large arena, run it once to figure out arena_size
-    # update code, compile and flash again with Profiler enabled
-
     differences = validateModel(params, client)
-    # print(differences)
-    print(differences.mean(axis=0))
+    if params.profile_enable:
+        # Get profiling stats
+        stats = getModelStats(params, client)
+        printStats(stats)
+
+    print(differences)
+    print("Mean difference per output label: " + repr(differences.mean(axis=0)))

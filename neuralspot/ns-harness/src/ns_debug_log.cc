@@ -29,7 +29,8 @@ ns_TFDebugLog(const char *s) {
 #ifdef NS_MLPROFILE
 ns_timer_config_t *ns_microProfilerTimer;
 ns_profiler_sidecar_t ns_microProfilerSidecar;
-ns_cache_config_t cc;
+ns_cache_config_t ns_microProfiler_cache_config;
+ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
 #endif
 
 void
@@ -49,8 +50,8 @@ ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m) {
     }
     ns_init_perf_profiler();
     ns_start_perf_profiler();
-    cc.enable = true;
-    ns_cache_profiler_init(&cc);
+    ns_microProfiler_cache_config.enable = true;
+    ns_cache_profiler_init(&ns_microProfiler_cache_config);
 #endif
 }
 

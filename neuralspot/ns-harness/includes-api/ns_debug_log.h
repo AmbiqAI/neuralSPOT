@@ -24,6 +24,8 @@ extern "C" {
 
 // Match TFLM kMaxEvents
 #define NS_PROFILER_MAX_EVENTS 1024
+#define NS_PROFILER_RPC_EVENTS_MAX 40
+#define NS_PROFILER_TAG_SIZE 12
 typedef struct {
     ns_cache_dump_t cache_start[NS_PROFILER_MAX_EVENTS];
     ns_cache_dump_t cache_end[NS_PROFILER_MAX_EVENTS];
@@ -33,7 +35,17 @@ typedef struct {
     int number_of_layers; ///< Number of layers for which we have mac estimates
     uint32_t *mac_count_map;
     uint32_t estimated_mac_count[NS_PROFILER_MAX_EVENTS];
+    uint32_t captured_event_num; ///< How many events have been captured so far
 } ns_profiler_sidecar_t;
+
+/// Used by RPC validation functionality
+typedef struct {
+    ns_cache_dump_t cache_delta;
+    ns_perf_counters_t perf_delta;
+    uint32_t estimated_macs;
+    uint32_t elapsed_us;
+    char tag[NS_PROFILER_TAG_SIZE]; ///< Tag from TFLM microprofiler
+} ns_profiler_event_stats_t;
 
 typedef struct {
     uint32_t number_of_layers; ///< Number of layers for which we have mac estimates
@@ -43,6 +55,7 @@ typedef struct {
 #ifdef NS_MLPROFILE
 extern ns_timer_config_t *ns_microProfilerTimer;
 extern ns_profiler_sidecar_t ns_microProfilerSidecar;
+extern ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
 #endif
 
 extern void

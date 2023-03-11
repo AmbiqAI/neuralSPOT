@@ -1,14 +1,13 @@
 /**
- * @file basic_model.h
- * @author your name (you@domain.com)
- * @brief Basic TF Model init example
+ * @file generic_model.h
+ * @author Carlos Morales (carlos.morales@ambiq.com)
+ * @brief Generic TF Model wrapper
  * @version 0.1
- * @date 2022-10-26
+ * @date 2023-3-08
  *
- * @copyright Copyright (c) 2022
+ * @copyright Copyright (c) 2023
  *
  */
-// #include "tflm_validator.h"
 
 // NS includes
 #include "mut_model_metadata.h"
@@ -71,11 +70,18 @@ model_init(void) {
 #ifdef NS_MLPROFILE
     static tflite::MicroProfiler micro_profiler;
     profiler = &micro_profiler;
+    NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
+    #ifdef NS_MODEL_ANALYSIS
     ns_perf_mac_count_t basic_mac = {.number_of_layers = mut_model_number_of_estimates,
                                      .mac_count_map = mut_model_mac_estimates};
     ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);
-#elif NS_MLDEBUG
+    #else
+    ns_TFDebugLogInit(&basic_tickTimer, NULL);
+    #endif
+#else
+    #ifdef NS_MLDEBUG
     ns_TFDebugLogInit(NULL, NULL);
+    #endif
 #endif
 
     tflite::InitializeTarget();
@@ -102,16 +108,19 @@ model_init(void) {
         model, resolver, tensor_arena, kTensorArenaSize, error_reporter, nullptr, profiler);
 #endif
     interpreter = &static_interpreter;
+
     // Allocate memory from the tensor_arena for the model's tensors.
     TfLiteStatus allocate_status = interpreter->AllocateTensors();
-    ns_lp_printf("Needs %d arena bytes\n", interpreter->arena_used_bytes());
-    mut_stats.stats.computed_arena_size =
-        interpreter->arena_used_bytes(); // prep to send back to PC
+
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed");
         ns_lp_printf("[ERROR] AllocateTensors() failed\n");
+        mut_stats.stats.computed_arena_size = 0xDEADBEEF;
         return -1;
     }
+
+    mut_stats.stats.computed_arena_size =
+        interpreter->arena_used_bytes(); // prep to send back to PC
 
     // Obtain pointers to the model's input and output tensors.
     model_input = interpreter->input(0);

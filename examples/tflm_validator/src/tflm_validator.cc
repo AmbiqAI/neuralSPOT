@@ -13,21 +13,37 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "generic_model.h"
+#include "mut_model_data.h"
 #include "mut_model_metadata.h"
 #include "tflm_validator.h"
 
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_malloc.h"
+#include "ns_model.h"
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
 #include "ns_usb.h"
 
+// TFLM Config and arena
+ns_model_state_t tflm;
+static constexpr int kTensorArenaSize = 1024 * TFLM_VALIDATOR_ARENA_SIZE;
+alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+
+// Validator Stuff
 ns_incoming_config_t mut_cfg;
 ns_outgoing_stats_t mut_stats;
 static uint32_t invokes_so_far = 0;
+
+#ifdef NS_MLPROFILE
+// Timer is used for TF profiling
+ns_timer_config_t basic_tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
+};
+#endif
 
 /**
  * @brief Initializes the model per config struct
@@ -52,7 +68,22 @@ configureModel(const dataBlock *in) {
                  mut_cfg.config.profile_mut, mut_cfg.config.profile_warmup,
                  mut_cfg.config.input_length, mut_cfg.config.output_length);
 
-    int status = model_init();
+    tflm.runtime = TFLM;
+    tflm.model_array = mut_model;
+    tflm.arena = tensor_arena;
+    tflm.arena_size = kTensorArenaSize;
+#ifdef NS_MLPROFILE
+    tflm.tickTimer = &basic_tickTimer;
+#else
+    tflm.tickTimer = NULL;
+#endif
+    tflm.mac_estimate = NULL;
+
+    int status = ns_model_init(&tflm);
+    mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
+    ns_lp_printf("Input Size %d \n", tflm.interpreter->inputs_size());
+    ns_lp_printf("Output Size %d \n", tflm.interpreter->outputs_size());
+
     ns_rpc_genericDataOperations_printDatablock(in);
     if (status == 0) {
         return ns_rpc_data_success;
@@ -112,9 +143,7 @@ status
 infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block, needs to happen whether errors occur or not
 
-    uint8_t *resultBuffer =
-        (uint8_t *)ns_malloc(mut_cfg.config.output_length *
-                             sizeof(uint8_t)); // see above for explanation of why we need malloc
+    uint8_t *resultBuffer = (uint8_t *)ns_malloc(mut_cfg.config.output_length * sizeof(uint8_t));
     char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
     res->length = mut_cfg.config.output_length * sizeof(uint8_t);
     res->dType = uint8_e;
@@ -125,9 +154,9 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     res->buffer = binaryBlock;
 
     // 'in' contains the input tensors, treat as homogeneous block
-    memcpy(model_input->data.int8, in->buffer.data, in->buffer.dataLength);
+    memcpy(tflm.model_input->data.int8, in->buffer.data, in->buffer.dataLength);
 
-    TfLiteStatus invoke_status = interpreter->Invoke();
+    TfLiteStatus invoke_status = tflm.interpreter->Invoke();
 
     if (invoke_status != kTfLiteOk) {
         ns_lp_printf("Invoke failed\n");
@@ -139,12 +168,12 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     if ((mut_cfg.config.profile_mut == 1) && (invokes_so_far == mut_cfg.config.profile_warmup)) {
         ns_lp_printf("[INFO] requested warmup %d,  invokes_so_far %d",
                      mut_cfg.config.profile_warmup, invokes_so_far);
-        profiler->LogCsv(); // prints and also captures events in a buffer
+        tflm.profiler->LogCsv(); // prints and also captures events in a buffer
         ns_stop_perf_profiler();
     }
 
     // Prep the return block with output tensor
-    memcpy(resultBuffer, model_output->data.int8, mut_cfg.config.output_length);
+    memcpy(resultBuffer, tflm.model_output->data.int8, mut_cfg.config.output_length);
 
     char res_msg[] = "Invoke Successful!\0";
     memcpy(msg_store, res_msg, sizeof(res_msg));
@@ -172,6 +201,9 @@ main(void) {
 
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+#ifdef NS_MLPROFILE
+    NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
+#endif
     ns_itm_printf_enable();
 
     ns_interrupt_master_enable();

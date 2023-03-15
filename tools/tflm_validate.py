@@ -193,6 +193,19 @@ def configModel(params, client):
     print("[INFO] Model Configuration Return Status = %d" % status)
 
 
+def decodeStatsHead(stats):
+    computed_arena_size = stats[0]  # in bytes
+    computed_stat_buffer_size = stats[1]  # in bytes
+    computed_stat_per_event_size = stats[2]  # in bytes
+    captured_events = stats[3]  # generally one event per model layer
+    return (
+        computed_arena_size,
+        computed_stat_buffer_size,
+        computed_stat_per_event_size,
+        captured_events,
+    )
+
+
 def printStats(stats):
     """
     Stats are from this struct in EVB-land:
@@ -381,10 +394,10 @@ def next_power_of_2(x):
     return 1 if x == 0 else 2 ** math.ceil(math.log2(x))
 
 
-def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
-    # Extract stats and export tuned metadata file
-    arena_size = (stats[0] // 1024) + 1
-    stat_size = stats[1]
+def checks(stats, inputLength, outputLength):
+    arena_size, stat_size, _, _ = decodeStatsHead(stats)
+    arena_size = (arena_size // 1024) + 1
+    # stat_size = stats[1]
     buf_size = max(
         next_power_of_2(stat_size + 50),
         next_power_of_2(inputLength + 50),
@@ -403,6 +416,14 @@ def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
             % (buf_size, params.max_rpc_buf_size, inputLength + 50, outputLength + 50)
         )
         exit(-1)
+    return buf_size
+
+
+def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
+    # Extract stats and export tuned metadata header file
+    buf_size = checks(stats, inputLength, outputLength)
+    arena_size, _, _, _ = decodeStatsHead(stats)
+    arena_size = (arena_size // 1024) + 1
 
     code = """
 // Model Under Test (MUT) Metadata.
@@ -434,27 +455,17 @@ def reset_dut():
 def compile_and_deploy(params, first_time=False):
     # Compile & Deploy
     if first_time:
-        if params.profile_enable:
-            makefile_result = os.system(
-                "cd .. && make clean >/dev/null 2>&1 && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-                # "cd .. && make -j && make TARGET=tflm_validator deploy"
-            )
-        else:
-            makefile_result = os.system(
-                "cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-                # "cd .. && make -j && make TARGET=tflm_validator deploy"
-            )
+        makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
+
+    if params.profile_enable:
+        makefile_result = os.system(
+            "cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+        )
     else:
-        if params.profile_enable:
-            makefile_result = os.system(
-                "cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-                # "cd .. && make -j && make TARGET=tflm_validator deploy"
-            )
-        else:
-            makefile_result = os.system(
-                "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-                # "cd .. && make -j && make TARGET=tflm_validator deploy"
-            )
+        makefile_result = os.system(
+            "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+        )
+
     if makefile_result != 0:
         print("[ERROR] Make failed, return code %d" % makefile_result)
         return makefile_result
@@ -527,6 +538,7 @@ if __name__ == "__main__":
 
     configModel(params, client)
     stats = getModelStats(params, client)
+    checks(stats, inputLength, outputLength)
 
     # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
     if params.create_binary:

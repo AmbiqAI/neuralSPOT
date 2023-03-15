@@ -46,6 +46,7 @@ extern const ns_core_api_t ns_core_current_version;
 
 // #define NS_DISABLE_API_VALIDATION
 #define NS_STATUS_SUCCESS 0
+#define NS_STATUS_FAILURE -1
 #define NS_STATUS_INVALID_HANDLE 1
 #define NS_STATUS_INVALID_VERSION 2
 #define NS_STATUS_INVALID_CONFIG 3

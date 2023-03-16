@@ -93,7 +93,6 @@ ns_model_init(ns_model_state_t *ms) {
 
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
-        ns_lp_printf("[ERROR] AllocateTensors() failed\n");
         ms->computed_arena_size = 0xDEADBEEF;
         return NS_STATUS_FAILURE;
     }

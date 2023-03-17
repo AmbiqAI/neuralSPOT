@@ -5,6 +5,8 @@
 #ifndef __TFLM_VALIDATOR_H
 #define __TFLM_VALIDATOR_H
 #include "ns_ambiqsuite_harness.h"
+#include "ns_debug_log.h"
+
 #include <cstdlib>
 #include <cstring>
 

@@ -1,0 +1,60 @@
+rootdir := ../../..
+
+include $(rootdir)/make/helpers.mk
+include $(rootdir)/make/neuralspot_config.mk
+include $(rootdir)/make/local_overrides.mk
+include $(rootdir)/make/neuralspot_toolchain.mk
+include $(rootdir)/make/jlink.mk
+
+build := build
+includes_api :=
+pp_defines   := $(DEFINES)
+
+model_lib := $(rootdir)/build/neuralspot/ns-model/ns-model.a
+libraries := lib/har_lib.a
+includes_api += $(rootdir)/neuralspot/ns-model/includes-api
+includes_api += lib
+
+include $(rootdir)/extern/tensorflow/$(TF_VERSION)/module.mk
+objects := $(build)/har_model.o
+objects += $(build)/har_example.o
+objects += $(build)/startup_gcc.o
+
+CFLAGS     += $(addprefix -D,$(pp_defines))
+CFLAGS     += $(addprefix -I ,$(includes_api))
+
+all: $(build) $(build)/har_example.bin
+
+$(build):
+	$(Q) $(MKD) -p $@
+
+lib/har_lib.a: $(build)/har_model.o $(model_lib)
+	@echo " Archiving $< to make $@"
+	$(Q) $(AR) rcT $@ $^
+
+$(build)/%.o: src/%.c
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
+
+$(build)/%.o: src/%.cc
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
+
+$(build)/%.axf: $(objects) $(libraries)
+	@echo " Linking $(COMPILERNAME) $@"
+	$(Q) $(CC) -Wl,-T,src/linker_script.ld -o $@ $(objects) $(LFLAGS)
+
+$(build)/%.bin: $(build)/%.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $< $@
+	$(Q) @cp $(rootdir)extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(build)/board.svd
+	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
+	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
+
+.PHONY: clean
+clean:
+	$(Q) $(RM) -rf $(build)
+	$(Q) $(RM) -f lib/har_lib.a

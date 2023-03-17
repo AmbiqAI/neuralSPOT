@@ -52,7 +52,6 @@ modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example
 modules      += examples/rpc_server_example
 modules      += examples/tflm_validator
-modules      += examples/minimal
 
 # The following variables are filled in by module.mk include files
 #

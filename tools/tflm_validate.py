@@ -32,23 +32,25 @@ input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 
 
 class Params(BaseModel):
+    # General Parameters
     seed: int = Field(42, description="Random Seed")
-    dataset: str = Field("dataset.pkl", description="Name of dataset")
-    tflite_filename: str = Field("model.tflite", description="Name of tflite model")
-    tflm_filename: str = Field("mut_model_data.h", description="Name of TFLM CC file")
-    stats_filename: str = Field(
-        "stats.csv", description="Name of exported stats CSV file"
+    create_binary: bool = Field(
+        True,
+        description="Create a neuralSPOT Validation EVB image based on TFlite file",
     )
+    create_profile: bool = Field(
+        True, description="Profile the performance of the model on the EVB"
+    )
+    create_library: bool = Field(
+        True, description="Create minimal static library based on TFlite file"
+    )
+    tflite_filename: str = Field("model.tflite", description="Name of tflite model")
+
+    # Create Binary Parameters
+    tflm_filename: str = Field("mut_model_data.h", description="Name of TFLM CC file")
     tflm_src_path: str = Field(
         "../examples/tflm_validator/src",
         description="Path to Validator example src directory",
-    )
-    tty: str = Field("/dev/tty.usbmodem1234561", description="Serial device")
-    baud: str = Field("115200", description="Baud rate")
-    runs: int = Field(100, description="Number of invokes to run")
-    random_data: bool = Field(True, description="Use random data")
-    create_binary: bool = Field(
-        True, description="Create a neuralSPOT binary based on TFlite file"
     )
     max_arena_size: int = Field(
         120, description="Maximum KB to be allocated for TF arena"
@@ -56,8 +58,30 @@ class Params(BaseModel):
     max_rpc_buf_size: int = Field(
         4096, description="Maximum bytes to be allocated for RPC RX and TX buffers"
     )
-    profile_enable: bool = Field(False, description="Enable TFLM Profiler")
+
+    # Validation Parameters
+    dataset: str = Field("dataset.pkl", description="Name of dataset")
+    random_data: bool = Field(True, description="Use random data")
+    runs: int = Field(100, description="Number of inferences to run")
+
+    # Library Parameters
+    model_name: str = Field(
+        "model", description="Name of model to be used in generated library"
+    )
+    model_path: str = Field(
+        "../projects/models",
+        description="Directory where generated library will be placed",
+    )
+
+    # Profile Parameters
     profile_warmup: int = Field(1, description="How many inferences to profile")
+    stats_filename: str = Field(
+        "stats.csv", description="Name of exported profile statistics CSV file"
+    )
+
+    # RPC Parameters
+    tty: str = Field("/dev/tty.usbmodem1234561", description="Serial device")
+    baud: str = Field("115200", description="Baud rate")
 
 
 def xxd_c_dump(
@@ -174,7 +198,7 @@ def getDetails(interpreter):
 
 
 def configModel(params, client):
-    if params.profile_enable:
+    if params.create_profile:
         prof_enable = 1  # convert to int just to be explicit for serialization
     else:
         prof_enable = 0
@@ -457,7 +481,7 @@ def compile_and_deploy(params, first_time=False):
     if first_time:
         makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
 
-    if params.profile_enable:
+    if params.create_profile:
         makefile_result = os.system(
             "cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
         )
@@ -473,6 +497,60 @@ def compile_and_deploy(params, first_time=False):
     time.sleep(2)
     reset_dut()
     return makefile_result
+
+
+def createFromTemplate(templateFile, destinationFile, replaceMap):
+    with open(templateFile, "r") as templatefile:
+        template = templatefile.read()
+    with open(destinationFile, "w+") as writefile:
+        for f in replaceMap:
+            template = template.replace(str(f), str(replaceMap[f]))
+        writefile.write(template)
+
+
+def generateModelLib(params, stats):
+    n = params.model_name
+    d = params.model_path
+    arena_size, _, _, _ = decodeStatsHead(stats)
+    arena_size = (arena_size // 1024) + 1
+    rm = {"<NS_AD_NAME>": n, "<NS_ARENA_SIZE>": arena_size}
+    print(f"[INFO] Generating minimal library at {d}/{n}")
+
+    # Generate a clean (no profiler) version of ns-model.a
+    # os.system("rm ../build/neuralspot/ns-model/ns-model.a")
+    # os.system("rm ../build/neuralspot/ns-model/src/ns_model.o")
+    os.system("cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1")
+
+    # Make destination directory
+    os.system(f"mkdir -p {d}/{n}")
+    os.system(f"mkdir -p {d}/{n}/tensorflow_headers")
+    os.system(f"mkdir -p {d}/{n}/lib")
+    os.system(f"mkdir -p {d}/{n}/src")
+
+    # Generate files from template
+    createFromTemplate("autodeploy/template.cc", f"{d}/{n}/src/{n}_model.cc", rm)
+    createFromTemplate("autodeploy/template.h", f"{d}/{n}/src/{n}_model.h", rm)
+    createFromTemplate("autodeploy/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm)
+    createFromTemplate(
+        "autodeploy/template_example.cc", f"{d}/{n}/src/{n}_example.cc", rm
+    )
+    createFromTemplate("autodeploy/Makefile.template", f"{d}/{n}/Makefile", rm)
+
+    # Copy needed files
+    os.system(f"cp ../neuralspot/ns-core/src/startup_gcc.c {d}/{n}/src/")
+    os.system(f"cp autodeploy/linker_script.ld {d}/{n}/src/")
+
+    # Generate model weight file
+    xxd_c_dump(
+        src_path=params.tflite_filename,
+        dst_path=f"{d}/{n}/src/{n}_model_data.h",
+        var_name=f"{n}_model",
+        chunk_len=12,
+        is_header=True,
+    )
+
+    # Generate library and example binary
+    os.system(f"cd {d}/{n} && make")
 
 
 def create_parser():
@@ -556,10 +634,13 @@ if __name__ == "__main__":
         configModel(params, client)
 
     differences = validateModel(params, client)
-    if params.profile_enable:
+    if params.create_profile:
         # Get profiling stats
         stats = getModelStats(params, client)
         printStats(stats)
 
-    print(differences)
+    # print(differences)
     print("Mean difference per output label: " + repr(differences.mean(axis=0)))
+
+    if params.create_library:
+        generateModelLib(params, stats)

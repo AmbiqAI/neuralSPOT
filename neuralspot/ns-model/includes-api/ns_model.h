@@ -28,8 +28,11 @@
 
 extern "C" {
 #endif
-#include "ns_ambiqsuite_harness.h"
-#include "ns_debug_log.h"
+
+#ifdef NS_MLPROFILE
+    #include "ns_ambiqsuite_harness.h"
+    #include "ns_debug_log.h"
+#endif
 
 typedef enum { READY, NOT_READY, ERROR } ns_model_states_e;
 typedef enum { TFLM } ns_model_runtime_e;
@@ -42,9 +45,13 @@ typedef struct {
     const unsigned char *model_array;
     uint8_t *arena;
     uint32_t arena_size;
+#ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
     ns_perf_mac_count_t *mac_estimate; ///< Optional, from tflm_profiler tool
-
+#else
+    void *tickTimer;
+    void *mac_estimate; ///< Optional, from tflm_profiler tool
+#endif
     // State (init by baseline code)
     const tflite::Model *model;
     tflite::MicroInterpreter *interpreter;

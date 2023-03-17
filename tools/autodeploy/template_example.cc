@@ -10,14 +10,10 @@
  *
  */
 
-#include <cstdlib>
-#include <cstring>
+// #include <cstdlib>
+// #include <cstring>
 
-#include "minimal.h"
-
-// #include "ns_ambiqsuite_harness.h"
-// #include "ns_core.h"
-#include "har_api.h"
+#include "<NS_AD_NAME>_api.h"
 #include "ns_model.h"
 
 // TFLM Config and arena
@@ -28,7 +24,7 @@ main(void) {
     // ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     // NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
 
-    int status = local_har_init(&model);
+    int status = <NS_AD_NAME> _init(&model);
 
     // 'in' contains the input tensors, treat as homogeneous block
     // memcpy(tflm.model_input->data.int8, in->buffer.data, in->buffer.dataLength);

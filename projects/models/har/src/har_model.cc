@@ -1,5 +1,5 @@
 /**
- * @file har_model.c (generated from template.cc)
+ * @file <har>_model.c (generated from template.cc)
  * @author autodeploy.py
  * @brief Generated automatically from template code by NS autodeploy script
  * @version 0.1

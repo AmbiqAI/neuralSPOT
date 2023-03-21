@@ -1,4 +1,3 @@
-import argparse
 import os
 
 from ns_utils import createFromTemplate, xxd_c_dump

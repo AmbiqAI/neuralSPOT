@@ -3,13 +3,14 @@ import struct
 import sys
 import time
 
+import erpc
 import numpy as np
-from ns_utils import get_dataset, getDetails, next_power_of_2, reset_dut
+import tensorflow as tf
+from ns_utils import get_dataset, getDetails, next_power_of_2, reset_dut, xxd_c_dump
 from tabulate import tabulate
 from tqdm import tqdm
 
 sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
-import erpc
 import GenericDataOperations_PcToEvb
 
 
@@ -312,3 +313,34 @@ def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
     with open(tflm_dir + "/" + "mut_model_metadata.h", "w") as f:
         f.write(code)
     # print(code)
+
+
+def create_validation_binary(params, baseline, stats, inputLength, outputLength):
+    tflm_dir = params.tflm_src_path
+
+    if baseline:
+        xxd_c_dump(
+            src_path=params.tflite_filename,
+            dst_path=tflm_dir + "/" + params.tflm_filename,
+            var_name="mut_model",
+            chunk_len=12,
+            is_header=True,
+        )
+        # Copy default metadata to metadata header to start from vanilla configuration
+        os.system(
+            "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h >/dev/null 2>&1"
+            % (tflm_dir, tflm_dir)
+        )
+        print("[INFO] Compiling and deploying baseline image (large arena and buffers)")
+        compile_and_deploy(params, first_time=True)
+    else:
+        create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength)
+        print("[INFO] Compiling and deploying tuned image (detected arena and buffers)")
+        compile_and_deploy(params, first_time=False)
+
+
+def get_interpreter(params):
+    # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
+    interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
+    interpreter.allocate_tensors()
+    return interpreter

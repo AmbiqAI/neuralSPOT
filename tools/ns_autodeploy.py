@@ -1,45 +1,17 @@
-#!/usr/bin/python
-
-import argparse
-import gzip
-import math
-import os
-import pickle
-import random
-import struct
-import sys
-import time
-from pathlib import Path
-
+import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
 from autodeploy.validator import (
     checks,
-    compile_and_deploy,
     configModel,
-    create_mut_metadata,
+    create_validation_binary,
     decodeStatsHead,
+    get_interpreter,
     getModelStats,
     printStats,
     validateModel,
 )
-from ns_utils import getDetails, reset_dut, xxd_c_dump
-from tabulate import tabulate
-from tqdm import tqdm
-
-sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
-import erpc
-import GenericDataOperations_PcToEvb
-
-# import GenericDataOperations_EvbToPc
-# import GenericDataOperations_PcToEvb
-import numpy as np
-import pydantic_argparse
-
-# import soundfile as sf
-import tensorflow as tf
+from ns_utils import getDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
-
-# input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 
 
 class Params(BaseModel):
@@ -112,40 +84,15 @@ if __name__ == "__main__":
     parser = create_parser()
     params = parser.parse_typed_args()
 
-    tflm_dir = params.tflm_src_path
-
     if params.create_binary:
-        xxd_c_dump(
-            src_path=params.tflite_filename,
-            dst_path=tflm_dir + "/" + params.tflm_filename,
-            var_name="mut_model",
-            chunk_len=12,
-            is_header=True,
-        )
-        # Copy default metadata to metadata header to start from vanilla configuration
-        os.system(
-            "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h >/dev/null 2>&1"
-            % (tflm_dir, tflm_dir)
-        )
-        print("[INFO] Compiling and deploy baseline image (large arena and buffers)")
-        compile_and_deploy(params, first_time=True)
+        create_validation_binary(params, True, 0, 0, 0)
     else:
         reset_dut()
 
     # Configure the model on the EVB
-    try:
-        transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
-        clientManager = erpc.client.ClientManager(
-            transport, erpc.basic_codec.BasicCodec
-        )
-        client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
-    except:
-        print("Couldn't establish RPC connection EVB USB device %s" % params.tty)
+    client = rpc_connect_as_client(params)
 
-    # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
-
-    interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
-    interpreter.allocate_tensors()
+    interpreter = get_interpreter(params)
 
     (
         numberOfInputs,
@@ -162,17 +109,8 @@ if __name__ == "__main__":
 
     # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
     if params.create_binary:
-        create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength)
-        print("[INFO] Compiling and deploy tuned image (detected arena and buffers)")
-        compile_and_deploy(params, first_time=False)
-        try:
-            transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
-            clientManager = erpc.client.ClientManager(
-                transport, erpc.basic_codec.BasicCodec
-            )
-            client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
-        except:
-            print("Couldn't establish RPC connection EVB USB device %s" % params.tty)
+        create_validation_binary(params, False, stats, inputLength, outputLength)
+        client = rpc_connect_as_client(params)
         configModel(params, client, inputLength, outputLength)
 
     differences = validateModel(params, client, interpreter)

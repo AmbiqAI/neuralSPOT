@@ -2,9 +2,14 @@ import gzip
 import math
 import os
 import pickle
+import sys
 import time
 
 import numpy as np
+
+sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+import erpc
+import GenericDataOperations_PcToEvb
 
 
 def createFromTemplate(templateFile, destinationFile, replaceMap):
@@ -135,3 +140,15 @@ def next_power_of_2(x):
 def reset_dut():
     makefile_result = os.system("cd .. && make reset >/dev/null 2>&1")
     time.sleep(2)  # give jlink a chance to settle
+
+
+def rpc_connect_as_client(params):
+    try:
+        transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
+        clientManager = erpc.client.ClientManager(
+            transport, erpc.basic_codec.BasicCodec
+        )
+        client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
+        return client
+    except:
+        print("Couldn't establish RPC connection EVB USB device %s" % params.tty)

@@ -179,6 +179,30 @@ def getModelStats(params, client):
     return stat_array
 
 
+def chunker(seq, size):
+    return (seq[pos : pos + size] for pos in range(0, len(seq), size))
+
+
+def sendLongInputTensor(client, input_data, chunkLen):
+    # When a tensor exceeds the RPC size limit, we chunk it
+    # chunkLen = 2048
+    # print(chunkLen)
+
+    for chunk in chunker(input_data.flatten(), chunkLen):
+        # print("[INFO] Sending Chunk Len %d" % len(chunk))
+        # print(chunk)
+        # print(chunk.flatten())
+        inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
+            description="Input Chunk",
+            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+            cmd=GenericDataOperations_PcToEvb.common.command.write_cmd,
+            buffer=chunk.tobytes(),
+            length=len(chunk),
+        )
+        status = client.ns_rpc_data_sendBlockToEVB(inputChunk)
+    # print("[INFO] Send Chunk Return Status = %d" % status)
+
+
 def validateModel(params, client, interpreter):
     # Get input/output details
     input_details = interpreter.get_input_details()
@@ -222,13 +246,24 @@ def validateModel(params, client, interpreter):
         output_data = interpreter.get_tensor(output_details[0]["index"])
 
         # Do it on EVB
-        inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
-            description="Input Tensor",
-            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-            cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-            buffer=input_data.flatten().tobytes(),
-            length=inputLength,
-        )
+        if inputLength > (params.max_rpc_buf_size - 400):
+            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 400))
+            inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
+                description="Empty Tensor",
+                dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+                cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+                buffer=bytearray(),
+                length=0,
+            )
+        else:
+            inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
+                description="Input Tensor",
+                dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+                cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+                buffer=input_data.flatten().tobytes(),
+                length=inputLength,
+            )
+
         outputTensor = erpc.Reference()
 
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
@@ -280,10 +315,11 @@ def checks(params, stats, inputLength, outputLength):
         exit(-1)
     if buf_size > params.max_rpc_buf_size:
         print(
-            "[ERROR] Needed RPC buffer size is %d, exceeding limit of %d (RX is %d, TX is %d)."
+            "[INFO] Needed RPC buffer size is %d, exceeding limit of %d (RX is %d, TX is %d). Switching to chunk mode."
             % (buf_size, params.max_rpc_buf_size, inputLength + 50, outputLength + 50)
         )
-        exit(-1)
+        buf_size = params.max_rpc_buf_size
+        # exit(-1)
     return buf_size
 
 

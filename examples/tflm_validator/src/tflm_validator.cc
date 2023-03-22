@@ -35,6 +35,9 @@ alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 ns_incoming_config_t mut_cfg;
 ns_outgoing_stats_t mut_stats;
 static uint32_t invokes_so_far = 0;
+bool input_tensor_is_chunked = false;
+uint32_t input_tensor_offset = 0;
+uint32_t output_tensor_offset = 0;
 
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
@@ -81,14 +84,41 @@ configureModel(const dataBlock *in) {
 
     int status = ns_model_init(&tflm);
     mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
-    ns_lp_printf("Input Size %d \n", tflm.interpreter->inputs_size());
-    ns_lp_printf("Output Size %d \n", tflm.interpreter->outputs_size());
+    ns_lp_printf("[INFO] Input Size %d \n", tflm.interpreter->inputs_size());
+    ns_lp_printf("[INFO] Output Size %d \n", tflm.interpreter->outputs_size());
 
     ns_rpc_genericDataOperations_printDatablock(in);
     if (status == 0) {
         return ns_rpc_data_success;
     } else {
         return ns_rpc_data_failure;
+    }
+}
+
+/**
+ * @brief Gets a chunk of tensor via sendBlockToEVB_cb
+ *
+ * @param in - chunk
+ * @return status
+ */
+status
+incomingTensorChunk(const dataBlock *in) {
+    // ns_lp_printf("[INFO] PC Sent Input Tensor Chunk of %d bytes, copied to %d\n",
+    // in->buffer.dataLength, input_tensor_offset); Get latest chunk, copy into next spot in raw
+    // tensor
+    memcpy(tflm.model_input->data.int8 + input_tensor_offset, in->buffer.data,
+           in->buffer.dataLength);
+    input_tensor_offset += in->buffer.dataLength;
+    input_tensor_is_chunked = true;
+    return ns_rpc_data_success;
+}
+
+status
+decodeIncomingSendblock(const dataBlock *in) {
+    if (in->cmd == 0) {
+        return configureModel(in);
+    } else {
+        return incomingTensorChunk(in);
     }
 }
 
@@ -103,9 +133,7 @@ status
 getStatistics(dataBlock *res) {
     ns_lp_printf("[INFO] Server asked for statistics\n");
 
-    uint8_t *resultBuffer =
-        (uint8_t *)ns_malloc(sizeof(mut_stats.bytes) *
-                             sizeof(uint8_t)); // see above for explanation of why we need malloc
+    uint8_t *resultBuffer = (uint8_t *)ns_malloc(sizeof(mut_stats.bytes) * sizeof(uint8_t));
     char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
     res->length = sizeof(mut_stats.bytes) * sizeof(uint8_t);
     res->dType = uint8_e;
@@ -154,7 +182,9 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     res->buffer = binaryBlock;
 
     // 'in' contains the input tensors, treat as homogeneous block
-    memcpy(tflm.model_input->data.int8, in->buffer.data, in->buffer.dataLength);
+    if (input_tensor_is_chunked == false) {
+        memcpy(tflm.model_input->data.int8, in->buffer.data, in->buffer.dataLength);
+    } // else it is already in the input tensor
 
     TfLiteStatus invoke_status = tflm.interpreter->Invoke();
 
@@ -179,6 +209,7 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     memcpy(msg_store, res_msg, sizeof(res_msg));
     ns_lp_printf(".");
     invokes_so_far++;
+    input_tensor_offset = 0;
     return ns_rpc_data_success;
 }
 
@@ -215,7 +246,7 @@ main(void) {
                                  .rx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
                                  .tx_buf = tlfm_v_cdc_tx_ff_buf,
                                  .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
-                                 .sendBlockToEVB_cb = configureModel,
+                                 .sendBlockToEVB_cb = decodeIncomingSendblock,
                                  .fetchBlockFromEVB_cb = getStatistics,
                                  .computeOnEVB_cb = infer_on_tflm};
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");

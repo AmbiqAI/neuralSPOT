@@ -11,24 +11,24 @@ includes_api :=
 pp_defines   := $(DEFINES)
 
 model_lib := $(rootdir)/build/neuralspot/ns-model/ns-model.a
-libraries := lib/har_lib.a
+libraries := lib/vww_lib.a
 includes_api += $(rootdir)/neuralspot/ns-model/includes-api
 includes_api += lib
 
 include $(rootdir)/extern/tensorflow/$(TF_VERSION)/module.mk
-objects := $(build)/har_model.o
-objects += $(build)/har_example.o
+objects := $(build)/vww_model.o
+objects += $(build)/vww_example.o
 objects += $(build)/startup_gcc.o
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
 
-all: $(build) $(build)/har_example.bin $(build)/har_example.axf
+all: $(build) $(build)/vww_example.bin $(build)/vww_example.axf
 
 $(build):
 	$(Q) $(MKD) -p $@
 
-lib/har_lib.a: $(build)/har_model.o $(model_lib)
+lib/vww_lib.a: $(build)/vww_model.o $(model_lib)
 	@echo " Archiving $< to make $@"
 	$(Q) $(AR) rcT $@ $^
 
@@ -57,4 +57,4 @@ $(build)/%.bin: $(build)/%.axf
 .PHONY: clean
 clean:
 	$(Q) $(RM) -rf $(build)
-	$(Q) $(RM) -f lib/har_lib.a
+	$(Q) $(RM) -f lib/vww_lib.a

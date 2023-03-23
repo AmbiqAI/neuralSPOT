@@ -11,24 +11,24 @@ includes_api :=
 pp_defines   := $(DEFINES)
 
 model_lib := $(rootdir)/build/neuralspot/ns-model/ns-model.a
-libraries := lib/<NS_AD_NAME>_lib.a
+libraries := lib/NS_AD_NAME_lib.a
 includes_api += $(rootdir)/neuralspot/ns-model/includes-api
 includes_api += lib
 
 include $(rootdir)/extern/tensorflow/$(TF_VERSION)/module.mk
-objects := $(build)/<NS_AD_NAME>_model.o
-objects += $(build)/<NS_AD_NAME>_example.o
+objects := $(build)/NS_AD_NAME_model.o
+objects += $(build)/NS_AD_NAME_example.o
 objects += $(build)/startup_gcc.o
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
 
-all: $(build) $(build)/<NS_AD_NAME>_example.bin $(build)/<NS_AD_NAME>_example.axf
+all: $(build) $(build)/NS_AD_NAME_example.bin $(build)/NS_AD_NAME_example.axf
 
 $(build):
 	$(Q) $(MKD) -p $@
 
-lib/<NS_AD_NAME>_lib.a: $(build)/<NS_AD_NAME>_model.o $(model_lib)
+lib/NS_AD_NAME_lib.a: $(build)/NS_AD_NAME_model.o $(model_lib)
 	@echo " Archiving $< to make $@"
 	$(Q) $(AR) rcT $@ $^
 
@@ -57,4 +57,4 @@ $(build)/%.bin: $(build)/%.axf
 .PHONY: clean
 clean:
 	$(Q) $(RM) -rf $(build)
-	$(Q) $(RM) -f lib/<NS_AD_NAME>_lib.a
+	$(Q) $(RM) -f lib/NS_AD_NAME_lib.a

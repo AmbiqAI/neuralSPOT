@@ -93,33 +93,54 @@ def printDataBlock(block):
     print("")
 
 
-def getDetails(interpreter):
+class TensorDetails:
+    shape = ()
+    type = np.int8
+    bytes = 0
+    words = 0
+
+
+class ModelDetails:
+    numInputs = 1
+    numOutputs = 1
+    inputTensors = []
+    outputTensors = []
+
+
+def getDetails(interpreter, index=0):
     # Get input/output details, configure EVB
+    md = ModelDetails()
+
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-    numberOfInputs = len(input_details)
 
-    if numberOfInputs > 1:
+    md.numInputs = len(input_details)
+    md.numOutputs = len(output_details)
+
+    if md.numInputs > 1:
         print(
-            "Warning: model has %d inputs but this scripts only supports 1"
-            % numberOfInputs
+            "[WARNING] model has %d inputs but this scripts only supports 1"
+            % md.numInputs
         )
 
-    numberOfOutputs = len(output_details)
-    if numberOfOutputs > 1:
+    if md.numOutputs > 1:
         print(
             "Warning: model has %d outputs but this scripts only supports 1"
-            % numberOfOutputs
+            % md.numOutputs
         )
 
-    inputShape = input_details[0]["shape"]
-    inputLength = np.prod(inputShape)  # assuming bytes
+    inputShape = input_details[index]["shape"]
+    inputType = input_details[index]["dtype"]
+    print(inputType)
+    print(np.dtype(inputType).itemsize)
+    inputBytes = np.prod(inputShape) * (np.dtype(inputType).itemsize)  #  bytes
     print("[INFO] input tensor total size: %d" % inputLength)
     # print(input_details[0]["shape"])
     print("[INFO] input tensor shape " + repr(input_details[0]["shape"]))
 
-    outputShape = output_details[0]["shape"]
-    outputLength = np.prod(outputShape)  # assuming bytes
+    outputShape = output_details[index]["shape"]
+    outputType = input_details[index]["dtype"]
+    outputBytes = np.prod(outputShape) * np.dtype(outputType).itemsize  #  bytes
     print("[INFO] output tensor total size: %d" % outputLength)
     print("[INFO] output tensor shape " + repr(output_details[0]["shape"]))
 
@@ -128,8 +149,10 @@ def getDetails(interpreter):
         numberOfOutputs,
         inputShape,
         outputShape,
-        inputLength,
-        outputLength,
+        inputBytes,  # bytes
+        outputBytes,  # bytes
+        inputType,  # numpy type
+        outputType,  # numpt type
     )
 
 

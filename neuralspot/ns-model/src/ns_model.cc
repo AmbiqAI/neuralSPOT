@@ -29,6 +29,10 @@
     #include "tensorflow/lite/micro/micro_error_reporter.h"
 #endif
 
+static tflite::MicroAllocator *var_allocator = nullptr;
+static tflite::MicroResourceVariables *resource_variables = nullptr;
+static constexpr int kVarArenaSize = 1024 * 10;
+alignas(16) static uint8_t var_arena[kVarArenaSize];
 /**
  * @brief Initialize TF with model
  *
@@ -77,11 +81,13 @@ ns_model_init(ns_model_state_t *ms) {
     }
 
     static tflite::AllOpsResolver resolver;
-
+    var_allocator = tflite::MicroAllocator::Create(var_arena, kVarArenaSize, nullptr);
+    // appears to be 14 resourcevariables
+    resource_variables = tflite::MicroResourceVariables::Create(var_allocator, 15);
     // Build an interpreter to run the model with.
 #ifdef NS_TF_VERSION_fecdd5d
-    static tflite::MicroInterpreter static_interpreter(ms->model, resolver, ms->arena,
-                                                       ms->arena_size, nullptr, ms->profiler);
+    static tflite::MicroInterpreter static_interpreter(
+        ms->model, resolver, ms->arena, ms->arena_size, resource_variables, ms->profiler);
 #else
     static tflite::MicroInterpreter static_interpreter(
         ms->model, resolver, ms->arena, ms->arena_size, ms->error_reporter, nullptr, ms->profiler);

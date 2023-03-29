@@ -101,6 +101,8 @@ if __name__ == "__main__":
         outputShape,
         inputLength,
         outputLength,
+        inputType,
+        outputType,
     ) = getDetails(interpreter)
 
     configModel(params, client, inputLength, outputLength)

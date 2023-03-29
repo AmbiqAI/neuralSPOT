@@ -6,7 +6,14 @@ import time
 import erpc
 import numpy as np
 import tensorflow as tf
-from ns_utils import get_dataset, getDetails, next_power_of_2, reset_dut, xxd_c_dump
+from ns_utils import (
+    get_dataset,
+    getDetails,
+    next_power_of_2,
+    printDataBlock,
+    reset_dut,
+    xxd_c_dump,
+)
 from tabulate import tabulate
 from tqdm import tqdm
 
@@ -23,6 +30,7 @@ def configModel(params, client, inputLength, outputLength):
     configBytes = struct.pack(
         "<IIII", prof_enable, inputLength, outputLength, params.profile_warmup - 1
     )
+    print("Config il %d, ol %d" % (inputLength, outputLength))
     configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -187,9 +195,13 @@ def sendLongInputTensor(client, input_data, chunkLen):
     # When a tensor exceeds the RPC size limit, we chunk it
     # chunkLen = 2048
     # print(chunkLen)
+    # ChunkLen is in bytes, convert to word size
+    chunkLen = chunkLen // input_data.flatten().itemsize
+    # print(chunkLen)
+    # print(len(input_data.flatten()))
 
     for chunk in chunker(input_data.flatten(), chunkLen):
-        # print("[INFO] Sending Chunk Len %d" % len(chunk))
+        print("[INFO] Sending Chunk Len %d" % len(chunk))
         # print(chunk)
         # print(chunk.flatten())
         inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
@@ -214,8 +226,13 @@ def validateModel(params, client, interpreter):
         outputShape,
         inputLength,
         outputLength,
+        inputType,
+        outputType,
     ) = getDetails(interpreter)
-
+    print(input_details)
+    print(output_details)
+    print(inputType)
+    print(outputType)
     runs = params.runs
     print("[INFO] Calling invoke %d times." % runs)
 
@@ -230,13 +247,18 @@ def validateModel(params, client, interpreter):
     else:
         print("[INFO] Generate random dataset.")
 
-    differences = np.zeros((runs, outputLength))
+    differences = np.zeros((runs, outputLength // (np.dtype(outputType).itemsize)))
     for i in tqdm(range(runs)):
         # Generate random input
         if params.random_data:
-            input_data = np.random.randint(
-                -127, 127, size=tuple(inputShape), dtype=np.int8
-            )
+            if inputType == np.int8:
+                input_data = np.random.randint(
+                    -127, 127, size=tuple(inputShape), dtype=np.int8
+                )
+            else:
+                input_data = (
+                    np.random.random(size=tuple(inputShape)).astype(inputType) * 2 - 1
+                )
         else:
             input_data = np.array([test_data_int8[i]])
 
@@ -267,9 +289,19 @@ def validateModel(params, client, interpreter):
         outputTensor = erpc.Reference()
 
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
-        out_array = struct.unpack(
-            "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
-        )
+        # printDataBlock(outputTensor)
+        print(len(outputTensor.value.buffer))
+        if outputType is np.int8:
+            out_array = struct.unpack(
+                "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
+            )
+        elif outputType is np.float32:
+            out_array = struct.unpack(
+                "<" + "f" * (len(outputTensor.value.buffer) // 4),
+                outputTensor.value.buffer,
+            )
+        print(output_data[0])
+        print(out_array)
         differences[i] = output_data[0] - out_array
     return differences
 

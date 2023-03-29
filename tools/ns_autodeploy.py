@@ -10,7 +10,7 @@ from autodeploy.validator import (
     printStats,
     validateModel,
 )
-from ns_utils import getDetails, reset_dut, rpc_connect_as_client
+from ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
 
 
@@ -93,17 +93,9 @@ if __name__ == "__main__":
     client = rpc_connect_as_client(params)
 
     interpreter = get_interpreter(params)
-
-    (
-        numberOfInputs,
-        numberOfOutputs,
-        inputShape,
-        outputShape,
-        inputLength,
-        outputLength,
-        inputType,
-        outputType,
-    ) = getDetails(interpreter)
+    md = ModelDetails(interpreter)
+    inputLength = md.totalInputTensorBytes
+    outputLength = md.totalOutputTensorBytes
 
     configModel(params, client, inputLength, outputLength)
     stats = getModelStats(params, client)
@@ -115,13 +107,13 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)
         configModel(params, client, inputLength, outputLength)
 
-    differences = validateModel(params, client, interpreter)
+    differences = validateModel(params, client, interpreter, md)
     if params.create_profile:
         # Get profiling stats
         stats = getModelStats(params, client)
         printStats(stats, params.stats_filename)
 
-    # print(differences)
+    print(differences)
     print("Mean difference per output label: " + repr(differences.mean(axis=0)))
 
     if params.create_library:

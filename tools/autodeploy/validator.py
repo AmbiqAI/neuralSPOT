@@ -7,8 +7,9 @@ import erpc
 import numpy as np
 import tensorflow as tf
 from ns_utils import (
+    ModelDetails,
+    TensorDetails,
     get_dataset,
-    getDetails,
     next_power_of_2,
     printDataBlock,
     reset_dut,
@@ -193,17 +194,13 @@ def chunker(seq, size):
 
 def sendLongInputTensor(client, input_data, chunkLen):
     # When a tensor exceeds the RPC size limit, we chunk it
-    # chunkLen = 2048
-    # print(chunkLen)
+
     # ChunkLen is in bytes, convert to word size
     chunkLen = chunkLen // input_data.flatten().itemsize
-    # print(chunkLen)
-    # print(len(input_data.flatten()))
 
     for chunk in chunker(input_data.flatten(), chunkLen):
-        print("[INFO] Sending Chunk Len %d" % len(chunk))
-        # print(chunk)
-        # print(chunk.flatten())
+        # print("[INFO] Sending Chunk Len %d" % len(chunk))
+
         inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
             description="Input Chunk",
             dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -215,24 +212,13 @@ def sendLongInputTensor(client, input_data, chunkLen):
     # print("[INFO] Send Chunk Return Status = %d" % status)
 
 
-def validateModel(params, client, interpreter):
-    # Get input/output details
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    (
-        numberOfInputs,
-        numberOfOutputs,
-        inputShape,
-        outputShape,
-        inputLength,
-        outputLength,
-        inputType,
-        outputType,
-    ) = getDetails(interpreter)
-    print(input_details)
-    print(output_details)
-    print(inputType)
-    print(outputType)
+def validateModel(params, client, interpreter, md):
+    print(str(md))
+    print(md)
+    # print(input_details)
+    # print(output_details)
+    # print(inputType)
+    # print(outputType)
     runs = params.runs
     print("[INFO] Calling invoke %d times." % runs)
 
@@ -240,35 +226,40 @@ def validateModel(params, client, interpreter):
         # Load validation data from specified pkl file
         print("[INFO] Load dataset from %s." % params.dataset)
         data, labels, test_data, test_labels = get_dataset(params)
-        input_scale, input_zero_point = input_details[0]["quantization"]
+        input_scale = md.inputTensors[0].scale
+        input_zero_point = md.inputTensors[0].zeroPoint
         test_data_int8 = np.asarray(
             test_data / input_scale + input_zero_point, dtype=np.int8
         )
     else:
         print("[INFO] Generate random dataset.")
 
-    differences = np.zeros((runs, outputLength // (np.dtype(outputType).itemsize)))
+    differences = np.zeros((runs, md.outputTensors[0].words))
     for i in tqdm(range(runs)):
         # Generate random input
         if params.random_data:
-            if inputType == np.int8:
+            if md.inputTensors[0].type == np.int8:
                 input_data = np.random.randint(
-                    -127, 127, size=tuple(inputShape), dtype=np.int8
+                    -127, 127, size=tuple(md.inputTensors[0].shape), dtype=np.int8
                 )
             else:
                 input_data = (
-                    np.random.random(size=tuple(inputShape)).astype(inputType) * 2 - 1
+                    np.random.random(size=tuple(md.inputTensors[0].shape)).astype(
+                        md.inputTensors[0].type
+                    )
+                    * 2
+                    - 1
                 )
         else:
             input_data = np.array([test_data_int8[i]])
 
         # Invoke locally and on EVB
-        interpreter.set_tensor(input_details[0]["index"], input_data)
+        interpreter.set_tensor(md.input_details[0]["index"], input_data)
         interpreter.invoke()
-        output_data = interpreter.get_tensor(output_details[0]["index"])
+        output_data = interpreter.get_tensor(md.output_details[0]["index"])
 
         # Do it on EVB
-        if inputLength > (params.max_rpc_buf_size - 400):
+        if md.inputTensors[0].bytes > (params.max_rpc_buf_size - 400):
             sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 400))
             inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
                 description="Empty Tensor",
@@ -283,25 +274,25 @@ def validateModel(params, client, interpreter):
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
                 cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
                 buffer=input_data.flatten().tobytes(),
-                length=inputLength,
+                length=md.inputTensors[0].bytes,
             )
 
         outputTensor = erpc.Reference()
 
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
-        # printDataBlock(outputTensor)
-        print(len(outputTensor.value.buffer))
-        if outputType is np.int8:
+        # print(len(outputTensor.value.buffer))
+
+        if md.outputTensors[0].type is np.int8:
             out_array = struct.unpack(
                 "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
             )
-        elif outputType is np.float32:
+        elif md.outputTensors[0].type is np.float32:
             out_array = struct.unpack(
                 "<" + "f" * (len(outputTensor.value.buffer) // 4),
                 outputTensor.value.buffer,
             )
-        print(output_data[0])
-        print(out_array)
+        # print(output_data[0])
+        # print(out_array)
         differences[i] = output_data[0] - out_array
     return differences
 

@@ -11,7 +11,8 @@
 #include <cstring>
 
 typedef struct {
-    uint32_t profile_mut;    ///> 1 -> enable ML Profiling and reporting
+    uint32_t profile_mut; ///> 1 -> enable ML Profiling and reporting
+    // uint32_t num_resource_variables; ///> number of TFLM ResourceVariables to allocate
     uint32_t input_length;   ///> in bytes
     uint32_t output_length;  ///> in bytes
     uint32_t profile_warmup; ///> how many inferences to run before profiling

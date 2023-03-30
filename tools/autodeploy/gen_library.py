@@ -3,11 +3,11 @@ import os
 from ns_utils import createFromTemplate, xxd_c_dump
 
 
-def generateModelLib(params, arena_size):
+def generateModelLib(params, arena_size_k):
     n = params.model_name
     d = params.model_path
-    arena_size = (arena_size // 1024) + 1
-    rm = {"NS_AD_NAME": n, "NS_ARENA_SIZE": arena_size}
+    # arena_size = (arena_size // 1024) + 1
+    rm = {"NS_AD_NAME": n, "NS_AD_ARENA_SIZE": arena_size_k}
     print(f"[INFO] Generating minimal library at {d}/{n}")
 
     # Generate a clean (no profiler) version of ns-model.a

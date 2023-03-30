@@ -29,10 +29,6 @@
     #include "tensorflow/lite/micro/micro_error_reporter.h"
 #endif
 
-static tflite::MicroAllocator *var_allocator = nullptr;
-static tflite::MicroResourceVariables *resource_variables = nullptr;
-static constexpr int kVarArenaSize = 1024 * 10;
-alignas(16) static uint8_t var_arena[kVarArenaSize];
 /**
  * @brief Initialize TF with model
  *
@@ -55,8 +51,6 @@ ns_model_init(ns_model_state_t *ms) {
     ms->profiler = &micro_profiler;
 
     #ifdef NS_MODEL_ANALYSIS
-    ns_perf_mac_count_t basic_mac = {.number_of_layers = mut_model_number_of_estimates,
-                                     .mac_count_map = mut_model_mac_estimates};
     ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
     #else
     ns_TFDebugLogInit(ms->tickTimer, NULL);
@@ -81,9 +75,18 @@ ns_model_init(ns_model_state_t *ms) {
     }
 
     static tflite::AllOpsResolver resolver;
-    var_allocator = tflite::MicroAllocator::Create(var_arena, kVarArenaSize, nullptr);
-    // appears to be 14 resourcevariables
-    resource_variables = tflite::MicroResourceVariables::Create(var_allocator, 15);
+
+    // Allocate ResourceVariable stuff if needed
+    tflite::MicroResourceVariables *resource_variables;
+    tflite::MicroAllocator *var_allocator;
+
+    if (ms->rv_count != 0) {
+        var_allocator = tflite::MicroAllocator::Create(ms->rv_arena, ms->rv_arena_size, nullptr);
+        resource_variables = tflite::MicroResourceVariables::Create(var_allocator, ms->rv_count);
+    } else {
+        resource_variables = nullptr;
+    }
+
     // Build an interpreter to run the model with.
 #ifdef NS_TF_VERSION_fecdd5d
     static tflite::MicroInterpreter static_interpreter(

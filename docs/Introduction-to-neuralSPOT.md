@@ -16,17 +16,18 @@ neuralSPOT includes tools, libraries, and examples to help get your AI features 
 neuralSPOT contains Ambiq-specific embedded libraries for [audio](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio), [USB](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb), and [i2c](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) peripherals, [power management](./optimizing_using_neuralspot.md), and numerous helper functions such as [interprocess communications](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc), and [memory management](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils).
 
 ### Tools
-neuralSPOT offers [remote procedure call support](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) to ease cross-platform development. This enables scenarios such as running inference on a laptop using data collected on the EVB, or conversely, feeding data to a model deployed on the EVB.
+neuralSPOT offers [remote procedure call support](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) to ease cross-platform development. This enables scenarios such as running inference on a laptop using data collected on the EVB, or conversely, feeding data to a model deployed on the EVB. For example, neuralSPOT's [AutoDeploy Tool](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) uses RPC to automatically deploy, test, and profile TFLite models on Ambiq devices.
 
 ### Examples
-neuralSPOT includes real-world AI examples demonstrating the use of its features, and sample drivers for external peripherals. Beyond that, Ambiq’s ModelZoo is built on NeuralSPOT, giving developers powerful templates to start building AI models from.
+neuralSPOT includes real-world [AI examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples) demonstrating the use of its features, and sample drivers for external peripherals. Beyond that, Ambiq’s [ModelZoo](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Ambiq-ModelZoo.md) is built on NeuralSPOT, giving developers powerful templates to start building AI models from.
 
 ## Intended Use
-There is no one way to develop and deploy AI, so NeuralSPOT makes as few assumptions as possible. There are two principal ways in which it is [intended to be used](./Developing_with_NeuralSPOT.md):
+There is no one way to develop and deploy AI, so NeuralSPOT makes as few assumptions as possible. There are three principal ways in which it is [intended to be used](./Developing_with_NeuralSPOT.md):
 1. Develop the deployed model as a standalone application, to be integrated after it is working and optimized.
-2. Develop the model as a component in an existing application.
+2. Develop the model source code as a component in an existing application.
+3. Export a linkable, minimal self-contained static library ready to integrate into an existing application.
 
-In order to support both scenarios, NeuralSPOT includes everything needed to get your model running, including library versions of AmbiqSuite and Tensorflow Lite for Microcontrollers. 
+In order to support these scenarios, NeuralSPOT includes everything needed to get your model running, including curated versions of AmbiqSuite and Tensorflow Lite for Microcontrollers. 
 
 ### The Nest
 
@@ -65,10 +66,10 @@ See our [MPU Data Capture](https://github.com/AmbiqAI/neuralSPOT/tree/main/examp
 
 AI Specialists frequently run into mismatches between a model’s behavior on a PC and on the embedded device - these mismatches arise from numeric differences (Python almost never matches C, and even when exclusively in the C domain, CPU architectures differ in how they treat certain number formats), algorithmic differences, and more. The AI specialist can leverage NeuralSPOT to compare the PC and EVB feature extraction, inference, and output analysis portions of their model to eliminate the need for exact matches. For example, an AI specialist might choose to use the embedded platform’s feature extraction code to feed the PC-sided inference model implementation. 
 
-See our Instrumented Model (TODO) example for one way to use neuralSPOT's [RPC utilities](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) to accomplish this.
+See our [Instrumented Model example](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/tflm_validator) for one way to use neuralSPOT's [RPC utilities](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) to accomplish this.
 
 ### neuralSPOT for Application Specialists
 
 Application Specialists can use NeuralSPOT as a fast way to integrate an AI model into their application. They’ll typically leverage the ready-made Tensorflow Lite for Microcontroller [examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub), use the SDK’s audio and i2c drivers to rapidly integrate their data sources, and [optimize](./optimizing_using_neuralspot.md) for power, performance, and size after it all works.
 
-See [Developing using neuralSPOT](./Developing_with_NeuralSPOT.md) for a discussion of how various workflows are supported.
+See [Developing using neuralSPOT](./Developing_with_NeuralSPOT.md) for a discussion of how various workflows are supported. For developers that don't need neuralSPOT's helpers and libraries, a minimal static library including nothing but the model and runtime can be generated using the [AutoDeploy Tool](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools).

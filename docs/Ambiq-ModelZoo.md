@@ -20,17 +20,21 @@ Built on top of neuralSPOT, our models take advantage of the Apollo4 family's am
 
 ### Neural Network Speech
 
-This real-time model is actually a collection of 3 separate models that work together to implement a speech-based user interface. The Voice Activity Detector is small, efficient model that listens for speech, and ignores everything else. When it detects speech, it 'wakes up' the keyword spotter that listens for a specific keyphrase that tells the devices that it is being addressed. If the keyword is spotted, the rest of the phrase is decoded by the speech-to-intent. model, which infers the intent of the user.
+This [real-time model](https://github.com/AmbiqAI/nnsp) is actually a collection of 3 separate models that work together to implement a speech-based user interface. The Voice Activity Detector is small, efficient model that listens for speech, and ignores everything else. When it detects speech, it 'wakes up' the keyword spotter that listens for a specific keyphrase that tells the devices that it is being addressed. If the keyword is spotted, the rest of the phrase is decoded by the speech-to-intent. model, which infers the intent of the user.
 
-### Heart Arrhythmia Classification
+### Heartkit, with Heart Arrhythmia Classification
 
-This real-time model analyses the signal from a single-lead ECG sensor to detect irregular heartbeats ('AFIB arrhythmia'). The model is designed to be able to detect other types of anomalies such as atrial flutter, and will be continuously extended and improved.
+This [real-time model](https://github.com/AmbiqAI/ecg-arrhythmia) analyzes the signal from a single-lead ECG sensor to classify beats and detect irregular heartbeats ('AFIB arrhythmia'). The model is designed to be able to detect other types of anomalies such as atrial flutter, and will be continuously extended and improved.
 
 > *NOTE* This is demonstration model only, not intended for medical applications.
 
-### Speech De-Noise (COMING SOON)
+### Speech De-Noise
 
-This real-time model processes audio containing speech, and removes non-speech noise to better isolate the main speaker's voice. The approach taken in this implementation closely mimics that described in the paper [TinyLSTMs: Efficient Neural Speech Enhancement for Hearing Aids](https://arxiv.org/abs/2005.11138) by Federov et al. Namely, a small recurrent neural network is employed to learn a denoising mask that is multiplied with the original noisy input to produce denoised output.
+This [real-time model](https://github.com/AmbiqAI/nnse) processes audio containing speech, and removes non-speech noise to better isolate the main speaker's voice. The approach taken in this implementation closely mimics that described in the paper [TinyLSTMs: Efficient Neural Speech Enhancement for Hearing Aids](https://arxiv.org/abs/2005.11138) by Federov et al. Namely, a small recurrent neural network is employed to learn a denoising mask that is multiplied with the original noisy input to produce denoised output.
+
+### Human Activity Recognition
+
+This [real-time model](https://github.com/AmbiqAI/Human-Activity-Recognition) analyses accelerometer and gyroscopic data to recognize a person's movement and classify it into a few types of activity such as 'walking', 'running', 'climbing stairs', etc.
 
 ## A Word About Datasets
 

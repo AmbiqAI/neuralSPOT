@@ -6,7 +6,16 @@ import time
 import erpc
 import numpy as np
 import tensorflow as tf
-from ns_utils import get_dataset, getDetails, next_power_of_2, reset_dut, xxd_c_dump
+from ns_utils import (
+    ModelDetails,
+    TensorDetails,
+    createFromTemplate,
+    get_dataset,
+    next_power_of_2,
+    printDataBlock,
+    reset_dut,
+    xxd_c_dump,
+)
 from tabulate import tabulate
 from tqdm import tqdm
 
@@ -14,15 +23,20 @@ sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 import GenericDataOperations_PcToEvb
 
 
-def configModel(params, client, inputLength, outputLength):
+def configModel(params, client, md):
     if params.create_profile:
         prof_enable = 1  # convert to int just to be explicit for serialization
     else:
         prof_enable = 0
 
     configBytes = struct.pack(
-        "<IIII", prof_enable, inputLength, outputLength, params.profile_warmup - 1
+        "<IIII",
+        prof_enable,
+        md.totalInputTensorBytes,
+        md.totalOutputTensorBytes,
+        params.profile_warmup - 1,
     )
+    # print("Config il %d, ol %d" % (inputLength, outputLength))
     configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -32,6 +46,55 @@ def configModel(params, client, inputLength, outputLength):
     )
     status = client.ns_rpc_data_sendBlockToEVB(configBlock)
     print("[INFO] Model Configuration Return Status = %d" % status)
+
+
+class ModelConfiguration:
+    rv_count = 0  # Resource Variables needed by the model
+
+    def __init__(self, params):
+        self.arena_size_k = params.max_arena_size
+        self.arena_size = params.max_arena_size * 1024
+        self.stat_buffer_size = params.max_rpc_buf_size  # in bytes
+        self.adjusted_stat_buffer_size = params.max_rpc_buf_size  # in bytes
+        ModelConfiguration.rv_count = params.resource_variable_count
+        self.stat_per_event_size = (
+            -1
+        )  # dontcare, -1 will force an error if used elsewhere
+        self.events = -1
+
+    def update_from_stats(self, stats, md):
+        self.arena_size = stats[0]  # in bytes
+        self.arena_size_k = (stats[0] // 1024) + 1
+        self.stat_buffer_size = stats[1]  # in bytes
+        self.stat_per_event_size = stats[2]  # in bytes
+        self.events = stats[3]  # generally one event per model layer
+        self.compute_buf_size(md)
+
+    def compute_buf_size(self, md):
+        self.adjusted_stat_buf_size = max(
+            next_power_of_2(self.stat_buffer_size + 50),
+            next_power_of_2(md.totalInputTensorBytes + 50),
+            next_power_of_2(md.totalOutputTensorBytes + 50),
+            512,  # min
+        )
+
+    def check(self, params):
+        if self.arena_size_k > params.max_arena_size:
+            print(
+                "[ERROR] TF Arena Size is %dk, exceeding limit of %dk."
+                % (self.arena_size_k, params.max_arena_size)
+            )
+        if self.adjusted_stat_buffer_size > params.max_rpc_buf_size:
+            print(
+                "[INFO] Needed RPC buffer size is %d, exceeding limit of %d. Switching to chunk mode."
+                % (self.adjusted_stat_buffer_size, params.max_rpc_buf_size)
+            )
+
+    # def __init__(self, default=True, dataSource=0):
+    #     if default:
+    #         self.init_from_params(dataSource)
+    #     else:
+    #         self.decode_from_stats(dataSource)
 
 
 def decodeStatsHead(stats):
@@ -185,13 +248,13 @@ def chunker(seq, size):
 
 def sendLongInputTensor(client, input_data, chunkLen):
     # When a tensor exceeds the RPC size limit, we chunk it
-    # chunkLen = 2048
-    # print(chunkLen)
+
+    # ChunkLen is in bytes, convert to word size
+    chunkLen = chunkLen // input_data.flatten().itemsize
 
     for chunk in chunker(input_data.flatten(), chunkLen):
         # print("[INFO] Sending Chunk Len %d" % len(chunk))
-        # print(chunk)
-        # print(chunk.flatten())
+
         inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
             description="Input Chunk",
             dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -203,18 +266,9 @@ def sendLongInputTensor(client, input_data, chunkLen):
     # print("[INFO] Send Chunk Return Status = %d" % status)
 
 
-def validateModel(params, client, interpreter):
-    # Get input/output details
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    (
-        numberOfInputs,
-        numberOfOutputs,
-        inputShape,
-        outputShape,
-        inputLength,
-        outputLength,
-    ) = getDetails(interpreter)
+def validateModel(params, client, interpreter, md):
+    # print(str(md))
+    # print(md)
 
     runs = params.runs
     print("[INFO] Calling invoke %d times." % runs)
@@ -223,31 +277,41 @@ def validateModel(params, client, interpreter):
         # Load validation data from specified pkl file
         print("[INFO] Load dataset from %s." % params.dataset)
         data, labels, test_data, test_labels = get_dataset(params)
-        input_scale, input_zero_point = input_details[0]["quantization"]
+        input_scale = md.inputTensors[0].scale
+        input_zero_point = md.inputTensors[0].zeroPoint
         test_data_int8 = np.asarray(
             test_data / input_scale + input_zero_point, dtype=np.int8
         )
     else:
         print("[INFO] Generate random dataset.")
 
-    differences = np.zeros((runs, outputLength))
+    differences = np.zeros((runs, md.outputTensors[0].words))
     for i in tqdm(range(runs)):
         # Generate random input
         if params.random_data:
-            input_data = np.random.randint(
-                -127, 127, size=tuple(inputShape), dtype=np.int8
-            )
+            if md.inputTensors[0].type == np.int8:
+                input_data = np.random.randint(
+                    -127, 127, size=tuple(md.inputTensors[0].shape), dtype=np.int8
+                )
+            else:
+                input_data = (
+                    np.random.random(size=tuple(md.inputTensors[0].shape)).astype(
+                        md.inputTensors[0].type
+                    )
+                    * 2
+                    - 1
+                )
         else:
             input_data = np.array([test_data_int8[i]])
 
         # Invoke locally and on EVB
-        interpreter.set_tensor(input_details[0]["index"], input_data)
+        interpreter.set_tensor(md.input_details[0]["index"], input_data)
         interpreter.invoke()
-        output_data = interpreter.get_tensor(output_details[0]["index"])
+        output_data = interpreter.get_tensor(md.output_details[0]["index"])
 
         # Do it on EVB
-        if inputLength > (params.max_rpc_buf_size - 400):
-            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 400))
+        if md.inputTensors[0].bytes > (params.max_rpc_buf_size - 600):
+            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 600))
             inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
                 description="Empty Tensor",
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -261,15 +325,25 @@ def validateModel(params, client, interpreter):
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
                 cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
                 buffer=input_data.flatten().tobytes(),
-                length=inputLength,
+                length=md.inputTensors[0].bytes,
             )
 
         outputTensor = erpc.Reference()
 
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
-        out_array = struct.unpack(
-            "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
-        )
+        # print(len(outputTensor.value.buffer))
+
+        if md.outputTensors[0].type is np.int8:
+            out_array = struct.unpack(
+                "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
+            )
+        elif md.outputTensors[0].type is np.float32:
+            out_array = struct.unpack(
+                "<" + "f" * (len(outputTensor.value.buffer) // 4),
+                outputTensor.value.buffer,
+            )
+        # print(output_data[0])
+        # print(out_array)
         differences[i] = output_data[0] - out_array
     return differences
 
@@ -297,61 +371,78 @@ def compile_and_deploy(params, first_time=False):
     return makefile_result
 
 
-def checks(params, stats, inputLength, outputLength):
-    arena_size, stat_size, _, _ = decodeStatsHead(stats)
-    arena_size = (arena_size // 1024) + 1
-    # stat_size = stats[1]
-    buf_size = max(
-        next_power_of_2(stat_size + 50),
-        next_power_of_2(inputLength + 50),
-        next_power_of_2(outputLength + 50),
-        512,
-    )
-    if arena_size > params.max_arena_size:
-        print(
-            "[ERROR] TF Arena Size is %dk, exceeding limit of %d."
-            % (arena_size, params.max_arena_size)
-        )
-        exit(-1)
-    if buf_size > params.max_rpc_buf_size:
-        print(
-            "[INFO] Needed RPC buffer size is %d, exceeding limit of %d (RX is %d, TX is %d). Switching to chunk mode."
-            % (buf_size, params.max_rpc_buf_size, inputLength + 50, outputLength + 50)
-        )
-        buf_size = params.max_rpc_buf_size
-        # exit(-1)
-    return buf_size
+# def checks(params, stats, inputLength, outputLength):
+#     arena_size, stat_size, _, _ = decodeStatsHead(stats)
+#     arena_size = (arena_size // 1024) + 1
+#     # stat_size = stats[1]
+#     buf_size = max(
+#         next_power_of_2(stat_size + 50),
+#         next_power_of_2(inputLength + 50),
+#         next_power_of_2(outputLength + 50),
+#         512,
+#     )
+#     if arena_size > params.max_arena_size:
+#         print(
+#             "[ERROR] TF Arena Size is %dk, exceeding limit of %d."
+#             % (arena_size, params.max_arena_size)
+#         )
+#         exit(-1)
+#     if buf_size > params.max_rpc_buf_size:
+#         print(
+#             "[INFO] Needed RPC buffer size is %d, exceeding limit of %d (RX is %d, TX is %d). Switching to chunk mode."
+#             % (buf_size, params.max_rpc_buf_size, inputLength + 50, outputLength + 50)
+#         )
+#         buf_size = params.max_rpc_buf_size
+#         # exit(-1)
+#     return buf_size
 
 
-def create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength):
+def create_mut_metadata(tflm_dir, mc):
     # Extract stats and export tuned metadata header file
-    buf_size = checks(params, stats, inputLength, outputLength)
-    arena_size, _, _, _ = decodeStatsHead(stats)
-    arena_size = (arena_size // 1024) + 1
+    # buf_size = checks(params, stats, inputLength, outputLength)
+    # arena_size = (arena_size // 1024) + 1
+    # rv_count = params.resource_variable_count
 
-    code = """
-// Model Under Test (MUT) Metadata.
-// This file is automatically generated by neuralspot's tflm_validate tool
-#ifndef __MUT_MODEL_METADATA_H
-#define __MUT_MODEL_METADATA_H
-
-// Calculated Arena and RPC buffer sizes
-"""
-
+    rm = {
+        "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
+        "NS_AD_ARENA_SIZE": mc.arena_size_k,
+        "NS_AD_RV_COUNT": mc.rv_count,
+    }
+    print(rm)
     print(
-        "[INFO] Create metadata file with %d arena size, RPC RX/TX buffer %d"
-        % (arena_size, buf_size)
+        "[INFO] Create metadata file with %dk arena size, RPC RX/TX buffer %d, RV Count %d"
+        % (mc.arena_size_k, mc.adjusted_stat_buffer_size, mc.rv_count)
     )
-    code = code + "#define TFLM_VALIDATOR_ARENA_SIZE " + repr(arena_size) + "\n"
-    code = code + "#define TFLM_VALIDATOR_RX_BUFSIZE " + repr(buf_size) + "\n"
-    code = code + "#define TFLM_VALIDATOR_TX_BUFSIZE " + repr(buf_size) + "\n"
-    code = code + "#endif // __MUT_MODEL_METADATA_H"
-    with open(tflm_dir + "/" + "mut_model_metadata.h", "w") as f:
-        f.write(code)
-    # print(code)
+    createFromTemplate(
+        "autodeploy/templates/template_mut_metadata.h",
+        f"{tflm_dir}/mut_model_metadata.h",
+        rm,
+    )
 
 
-def create_validation_binary(params, baseline, stats, inputLength, outputLength):
+#     code = """
+# // Model Under Test (MUT) Metadata.
+# // This file is automatically generated by neuralspot's tflm_validate tool
+# #ifndef __MUT_MODEL_METADATA_H
+# #define __MUT_MODEL_METADATA_H
+
+# // Calculated Arena and RPC buffer sizes
+# """
+
+#     print(
+#         "[INFO] Create metadata file with %d arena size, RPC RX/TX buffer %d"
+#         % (arena_size, buf_size)
+#     )
+#     code = code + "#define TFLM_VALIDATOR_ARENA_SIZE " + repr(arena_size) + "\n"
+#     code = code + "#define TFLM_VALIDATOR_RX_BUFSIZE " + repr(buf_size) + "\n"
+#     code = code + "#define TFLM_VALIDATOR_TX_BUFSIZE " + repr(buf_size) + "\n"
+#     code = code + "#endif // __MUT_MODEL_METADATA_H"
+#     with open(tflm_dir + "/" + "mut_model_metadata.h", "w") as f:
+#         f.write(code)
+#     # print(code)
+
+
+def create_validation_binary(params, baseline, mc, md):
     tflm_dir = params.tflm_src_path
 
     if baseline:
@@ -362,17 +453,28 @@ def create_validation_binary(params, baseline, stats, inputLength, outputLength)
             chunk_len=12,
             is_header=True,
         )
-        # Copy default metadata to metadata header to start from vanilla configuration
-        os.system(
-            "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h >/dev/null 2>&1"
-            % (tflm_dir, tflm_dir)
-        )
-        print("[INFO] Compiling and deploying baseline image (large arena and buffers)")
-        compile_and_deploy(params, first_time=True)
-    else:
-        create_mut_metadata(params, tflm_dir, stats, inputLength, outputLength)
-        print("[INFO] Compiling and deploying tuned image (detected arena and buffers)")
-        compile_and_deploy(params, first_time=False)
+    print(
+        f"[INFO] Compiling and deploying Validation image - baseline {baseline}, arena {mc.arena_size_k}k, RPC buffers {mc.adjusted_stat_buffer_size}, Resource Variables {mc.rv_count}"
+    )
+    create_mut_metadata(tflm_dir, mc)
+    compile_and_deploy(params, first_time=baseline)
+
+    # Copy default metadata to metadata header to start from vanilla configuration
+    # os.system(
+    #     "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h >/dev/null 2>&1"
+    #     % (tflm_dir, tflm_dir)
+    # )
+
+    # Configure metadata for max parameters
+    #     create_mut_metadata(params, tflm_dir, mc)
+    #     # create_mut_metadata(params, tflm_dir, params.max_arena_size, params.max_rpc_buf_size-50, params.max_rpc_buf_size-50)
+    #     print("[INFO] Compiling and deploying baseline image (large arena and buffers)")
+    #     compile_and_deploy(params, first_time=True)
+    # else:
+    #     # arena_size, _, _, _ = decodeStatsHead(stats)
+    #     create_mut_metadata(params, tflm_dir, mc)
+    #     print("[INFO] Compiling and deploying tuned image (detected arena and buffers)")
+    #     compile_and_deploy(params, first_time=False)
 
 
 def get_interpreter(params):

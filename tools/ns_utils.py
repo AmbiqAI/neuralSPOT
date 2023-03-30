@@ -93,44 +93,49 @@ def printDataBlock(block):
     print("")
 
 
-def getDetails(interpreter):
-    # Get input/output details, configure EVB
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    numberOfInputs = len(input_details)
+class TensorDetails:
+    def __init__(self, details):
+        self.shape = details["shape"]
+        self.type = details["dtype"]
+        self.scale, self.zeroPoint = details["quantization"]
+        self.words = np.prod(self.shape)
+        self.bytes = self.words * np.dtype(self.type).itemsize
 
-    if numberOfInputs > 1:
-        print(
-            "Warning: model has %d inputs but this scripts only supports 1"
-            % numberOfInputs
+    def __str__(self):
+        return (
+            f"[INFO] Data Type = {self.type}\n"
+            + f"[INFO] Length in Words = {self.words}\n"
+            + f"[INFO] Length in Bytes = {self.bytes}"
         )
 
-    numberOfOutputs = len(output_details)
-    if numberOfOutputs > 1:
-        print(
-            "Warning: model has %d outputs but this scripts only supports 1"
-            % numberOfOutputs
+
+class ModelDetails:
+    def __init__(self, interpreter):
+        self.input_details = interpreter.get_input_details()
+        self.output_details = interpreter.get_output_details()
+        self.numInputs = len(self.input_details)
+        self.numOutputs = len(self.output_details)
+        self.inputTensors = []
+        self.totalInputTensorBytes = 0
+        for i in range(self.numInputs):
+            self.inputTensors.append(TensorDetails(self.input_details[i]))
+            self.totalInputTensorBytes += self.inputTensors[i].bytes
+
+        self.outputTensors = []
+        self.totalOutputTensorBytes = 0
+        for i in range(self.numOutputs):
+            self.outputTensors.append(TensorDetails(self.output_details[i]))
+            self.totalOutputTensorBytes += self.outputTensors[i].bytes
+
+    def __str__(self):
+        return (
+            f"[INFO] Number of Input Tensors = {self.numInputs}\n"
+            + f"[INFO] Number of output Tensors = {self.numOutputs}\n"
+            + f"[INFO] Input Tensor Details:\n"
+            + str(self.inputTensors)
+            + f"[INFO] Output Tensor Details:\n"
+            + str(self.outputTensors)
         )
-
-    inputShape = input_details[0]["shape"]
-    inputLength = np.prod(inputShape)  # assuming bytes
-    print("[INFO] input tensor total size: %d" % inputLength)
-    # print(input_details[0]["shape"])
-    print("[INFO] input tensor shape " + repr(input_details[0]["shape"]))
-
-    outputShape = output_details[0]["shape"]
-    outputLength = np.prod(outputShape)  # assuming bytes
-    print("[INFO] output tensor total size: %d" % outputLength)
-    print("[INFO] output tensor shape " + repr(output_details[0]["shape"]))
-
-    return (
-        numberOfInputs,
-        numberOfOutputs,
-        inputShape,
-        outputShape,
-        inputLength,
-        outputLength,
-    )
 
 
 def next_power_of_2(x):

@@ -43,8 +43,12 @@ typedef struct {
     // Configuration (init by application)
     ns_model_runtime_e runtime; ///< Future use
     const unsigned char *model_array;
-    uint8_t *arena;
+    uint8_t *arena; ///< Tensor Arena
     uint32_t arena_size;
+    uint8_t *rv_arena;      ///< ResourceVariable Arena
+    uint32_t rv_arena_size; ///< Size of RV arena, in bytes
+    uint32_t rv_count;      ///< Number of resource variables
+
 #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
     ns_perf_mac_count_t *mac_estimate; ///< Optional, from tflm_profiler tool

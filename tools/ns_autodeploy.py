@@ -1,10 +1,9 @@
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
 from autodeploy.validator import (
-    checks,
+    ModelConfiguration,
     configModel,
     create_validation_binary,
-    decodeStatsHead,
     get_interpreter,
     getModelStats,
     printStats,
@@ -40,6 +39,10 @@ class Params(BaseModel):
     )
     max_rpc_buf_size: int = Field(
         4096, description="Maximum bytes to be allocated for RPC RX and TX buffers"
+    )
+    resource_variable_count: int = Field(
+        0,
+        description="Maximum ResourceVariables needed by model (typically used by RNNs)",
     )
 
     # Validation Parameters
@@ -84,28 +87,34 @@ if __name__ == "__main__":
     parser = create_parser()
     params = parser.parse_typed_args()
 
+    interpreter = get_interpreter(params)
+    mc = ModelConfiguration(params)
+    md = ModelDetails(interpreter)
+    print(mc)
+    print(md)
     if params.create_binary:
-        create_validation_binary(params, True, 0, 0, 0)
+        create_validation_binary(params, True, mc, md)
     else:
         reset_dut()
 
     # Configure the model on the EVB
     client = rpc_connect_as_client(params)
 
-    interpreter = get_interpreter(params)
-    md = ModelDetails(interpreter)
-    inputLength = md.totalInputTensorBytes
-    outputLength = md.totalOutputTensorBytes
+    # inputLength = md.totalInputTensorBytes
+    # outputLength = md.totalOutputTensorBytes
 
-    configModel(params, client, inputLength, outputLength)
+    configModel(params, client, md)
     stats = getModelStats(params, client)
-    checks(params, stats, inputLength, outputLength)
+    mc.update_from_stats(stats, md)
+    mc.check(params)
+
+    # checks(params, stats, inputLength, outputLength)
 
     # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
     if params.create_binary:
-        create_validation_binary(params, False, stats, inputLength, outputLength)
-        client = rpc_connect_as_client(params)
-        configModel(params, client, inputLength, outputLength)
+        create_validation_binary(params, False, mc, md)
+        client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
+        configModel(params, client, md)
 
     differences = validateModel(params, client, interpreter, md)
     if params.create_profile:
@@ -117,5 +126,5 @@ if __name__ == "__main__":
     print("Mean difference per output label: " + repr(differences.mean(axis=0)))
 
     if params.create_library:
-        arena_size, _, _, _ = decodeStatsHead(stats)
-        generateModelLib(params, arena_size)
+        # arena_size, _, _, _ = decodeStatsHead(stats)
+        generateModelLib(params, mc.arena_size_k)

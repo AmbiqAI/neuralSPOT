@@ -28,8 +28,15 @@
 
 // TFLM Config and arena
 ns_model_state_t tflm;
+
+// TF Tensor Arena
 static constexpr int kTensorArenaSize = 1024 * TFLM_VALIDATOR_ARENA_SIZE;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+
+// Resource Variable Arena
+static constexpr int kVarArenaSize =
+    4 * (TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES + 1) * sizeof(tflite::MicroResourceVariables);
+alignas(16) static uint8_t var_arena[kVarArenaSize];
 
 // Validator Stuff
 ns_incoming_config_t mut_cfg;
@@ -75,6 +82,10 @@ configureModel(const dataBlock *in) {
     tflm.model_array = mut_model;
     tflm.arena = tensor_arena;
     tflm.arena_size = kTensorArenaSize;
+    tflm.rv_arena = var_arena;
+    tflm.rv_arena_size = kVarArenaSize;
+    tflm.rv_count = TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES;
+
 #ifdef NS_MLPROFILE
     tflm.tickTimer = &basic_tickTimer;
 #else
@@ -256,7 +267,8 @@ main(void) {
     // erpc_server_add_post_cb_action(&ns_postAction);
 
     ns_lp_printf("Ready to receive RPC Calls\n");
-
+    ns_lp_printf("Debug kv %d, va %d, mrv %d\n", kVarArenaSize, sizeof(var_arena),
+                 sizeof(tflite::MicroResourceVariables));
     while (1) {
         ns_rpc_genericDataOperations_pollServer(&rpcConfig);
         ns_delay_us(1000);

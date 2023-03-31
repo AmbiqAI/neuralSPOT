@@ -168,16 +168,27 @@ def printStats(stats, stats_filename):
     )
     # for each captured event, decode stat_buffer into cach, perf, macs, and time
     offset = 4
-    if (
-        captured_events * computed_stat_per_event_size + offset
-    ) > computed_stat_buffer_size // 4:
-        captured_events = (computed_stat_buffer_size - offset) // (
-            computed_stat_per_event_size * 4
-        )
+
+    # Array may not contain entire event log (limited by ns_ambiq_harness' NS_PROFILER_RPC_EVENTS_MAX), truncate to whatever
+    # we got back
+    print((len(stats) - offset) // computed_stat_per_event_size)
+    if ((len(stats) - offset) // computed_stat_per_event_size) < captured_events:
+        captured_events = (len(stats) - offset) // computed_stat_per_event_size
         print(
             "[WARNING] Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
             % captured_events
         )
+
+    # if (
+    #     captured_events * computed_stat_per_event_size + offset
+    # ) > computed_stat_buffer_size // 4:
+    #     captured_events = (computed_stat_buffer_size - offset) // (
+    #         computed_stat_per_event_size * 4
+    #     )
+    #     print(
+    #         "[WARNING] Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
+    #         % captured_events
+    #     )
 
     table = [
         [
@@ -203,6 +214,7 @@ def printStats(stats, stats_filename):
     ]
 
     for i in range(captured_events):
+        print(i)
         row = []
         time = stats[offset + 15]
         macs = stats[offset + 14]
@@ -238,6 +250,19 @@ def getModelStats(params, client):
     stat_array = struct.unpack(
         "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
     )
+
+    print("--" + repr(statBlock.value.description) + "---")
+    if statBlock.value.description != "FullStats":
+        # Stats are too long to fit in one xfer. Repeated calls to fetchBlock will return chunks
+        while statBlock.value.description != "LastStats":
+            status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
+            print(
+                "[INFO] Fetch stats chunk status %d, msg %s"
+                % (status, statBlock.value.description)
+            )
+            stat_array = stat_array + struct.unpack(
+                "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
+            )
 
     return stat_array
 

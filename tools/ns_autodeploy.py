@@ -44,6 +44,10 @@ class Params(BaseModel):
         0,
         description="Maximum ResourceVariables needed by model (typically used by RNNs)",
     )
+    max_profile_events: int = Field(
+        40,
+        description="Maximum number of events (layers) captured during model profiling",
+    )
 
     # Validation Parameters
     dataset: str = Field("dataset.pkl", description="Name of dataset")
@@ -90,8 +94,6 @@ if __name__ == "__main__":
     interpreter = get_interpreter(params)
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
-    print(mc)
-    print(md)
     if params.create_binary:
         create_validation_binary(params, True, mc, md)
     else:
@@ -122,7 +124,7 @@ if __name__ == "__main__":
         stats = getModelStats(params, client)
         printStats(stats, params.stats_filename)
 
-    print(differences)
+    # print(differences)
     print("Mean difference per output label: " + repr(differences.mean(axis=0)))
 
     if params.create_library:

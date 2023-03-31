@@ -24,7 +24,7 @@ extern "C" {
 
 // Match TFLM kMaxEvents
 #define NS_PROFILER_MAX_EVENTS 1024
-#define NS_PROFILER_RPC_EVENTS_MAX 40
+// #define NS_PROFILER_RPC_EVENTS_MAX 128
 #define NS_PROFILER_TAG_SIZE 12
 typedef struct {
     ns_cache_dump_t cache_start[NS_PROFILER_MAX_EVENTS];

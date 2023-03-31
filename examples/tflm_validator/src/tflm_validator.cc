@@ -43,8 +43,12 @@ ns_incoming_config_t mut_cfg;
 ns_outgoing_stats_t mut_stats;
 static uint32_t invokes_so_far = 0;
 bool input_tensor_is_chunked = false;
+bool output_tensor_is_chunked = false;
+bool stats_is_chunked = false;
 uint32_t input_tensor_offset = 0;
 uint32_t output_tensor_offset = 0;
+uint32_t stats_offset = 0;
+uint32_t stats_remaining = 0;
 
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
@@ -142,16 +146,22 @@ decodeIncomingSendblock(const dataBlock *in) {
  */
 status
 getStatistics(dataBlock *res) {
-    ns_lp_printf("[INFO] Server asked for statistics\n");
 
-    uint8_t *resultBuffer = (uint8_t *)ns_malloc(sizeof(mut_stats.bytes) * sizeof(uint8_t));
+    uint32_t statSize = sizeof(mut_stats.bytes) * sizeof(uint8_t);
+    uint32_t bufSize = (statSize <= (TFLM_VALIDATOR_RX_BUFSIZE - 400))
+                           ? statSize
+                           : (TFLM_VALIDATOR_RX_BUFSIZE - 400);
+
+    ns_lp_printf("[INFO] Server asked for statistics (%d bytes), send back %d bytes\n", statSize,
+                 bufSize);
+
+    uint8_t *resultBuffer = (uint8_t *)ns_malloc(bufSize);
     char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
-    res->length = sizeof(mut_stats.bytes) * sizeof(uint8_t);
+    res->length = bufSize;
     res->dType = uint8_e;
     res->description = msg_store;
     res->cmd = generic_cmd;
-    binary_t binaryBlock = {.data = (uint8_t *)resultBuffer,
-                            .dataLength = sizeof(mut_stats.bytes) * sizeof(uint8_t)};
+    binary_t binaryBlock = {.data = (uint8_t *)resultBuffer, .dataLength = bufSize};
     res->buffer = binaryBlock;
     mut_stats.stats.computed_stat_buffer_size = sizeof(mut_stats.bytes);
     mut_stats.stats.computed_stat_per_event_size = sizeof(ns_profiler_event_stats_t);
@@ -162,12 +172,73 @@ getStatistics(dataBlock *res) {
 #else
     mut_stats.stats.captured_events = 0;
 #endif
-    memcpy(resultBuffer, mut_stats.bytes, sizeof(mut_stats.bytes) * sizeof(uint8_t));
 
-    char msg[] = "StatsOK\0";
-    memcpy(msg_store, msg, sizeof(msg));
+    memcpy(resultBuffer, mut_stats.bytes, bufSize);
+
+    if (bufSize == statSize) {
+        stats_offset = 0;
+        stats_is_chunked = false;
+        stats_remaining = 0;
+        char msg[] = "FullStats\0";
+        memcpy(msg_store, msg, sizeof(msg));
+    } else {
+        // We have to chunk the response
+        stats_offset = bufSize;
+        stats_remaining = statSize - stats_offset;
+        stats_is_chunked = true;
+        char msg[] = "PartStats\0";
+        memcpy(msg_store, msg, sizeof(msg));
+    }
 
     return ns_rpc_data_success;
+}
+
+status
+getStatChunk(dataBlock *res) {
+    // Return a chunk of stats
+
+    uint32_t chunkSize = (stats_remaining <= (TFLM_VALIDATOR_RX_BUFSIZE - 400))
+                             ? stats_remaining
+                             : (TFLM_VALIDATOR_RX_BUFSIZE - 400);
+
+    ns_lp_printf("[INFO] Server asked for stats chunk, stats remaining %d, offset %d, sending %d\n",
+                 stats_remaining, stats_offset, chunkSize);
+
+    uint8_t *resultBuffer = (uint8_t *)ns_malloc(chunkSize);
+    char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
+    res->length = sizeof(mut_stats.bytes) * sizeof(uint8_t);
+    res->dType = uint8_e;
+    res->description = msg_store;
+    res->cmd = write_cmd;
+    binary_t binaryBlock = {.data = (uint8_t *)resultBuffer, .dataLength = chunkSize};
+    res->buffer = binaryBlock;
+
+    memcpy(resultBuffer, mut_stats.bytes + stats_offset, chunkSize);
+    stats_remaining = stats_remaining - chunkSize;
+    if (stats_remaining == 0) {
+        stats_is_chunked = false;
+        stats_offset = 0;
+        char msg[] = "LastStats\0";
+        ns_lp_printf("[INFO] Last stats chunk\n");
+        memcpy(msg_store, msg, sizeof(msg));
+    } else {
+        stats_offset = stats_offset + chunkSize;
+        char msg[] = "PartStats\0";
+        ns_lp_printf("[INFO] Part stats chunk sr %d, cs %d, so %d\n", stats_remaining, chunkSize,
+                     stats_offset);
+        memcpy(msg_store, msg, sizeof(msg));
+    }
+
+    return ns_rpc_data_success;
+}
+
+status
+decodeIncomingFetchblock(dataBlock *ret) {
+    if (stats_is_chunked == false) {
+        return getStatistics(ret);
+    } else {
+        return getStatChunk(ret);
+    }
 }
 
 // Handler for computeOnEVB, invoked by PC
@@ -258,7 +329,7 @@ main(void) {
                                  .tx_buf = tlfm_v_cdc_tx_ff_buf,
                                  .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = decodeIncomingSendblock,
-                                 .fetchBlockFromEVB_cb = getStatistics,
+                                 .fetchBlockFromEVB_cb = decodeIncomingFetchblock,
                                  .computeOnEVB_cb = infer_on_tflm};
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 

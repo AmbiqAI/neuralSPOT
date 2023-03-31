@@ -131,10 +131,10 @@ class ModelDetails:
         return (
             f"[INFO] Number of Input Tensors = {self.numInputs}\n"
             + f"[INFO] Number of output Tensors = {self.numOutputs}\n"
-            + f"[INFO] Input Tensor Details:\n"
-            + str(self.inputTensors)
-            + f"[INFO] Output Tensor Details:\n"
-            + str(self.outputTensors)
+            # + f"[INFO] Input Tensor Details:\n"
+            # + str(self.inputTensors)
+            # + f"[INFO] Output Tensor Details:\n"
+            # + str(self.outputTensors)
         )
 
 

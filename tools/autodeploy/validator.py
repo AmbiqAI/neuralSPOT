@@ -90,12 +90,6 @@ class ModelConfiguration:
                 % (self.adjusted_stat_buffer_size, params.max_rpc_buf_size)
             )
 
-    # def __init__(self, default=True, dataSource=0):
-    #     if default:
-    #         self.init_from_params(dataSource)
-    #     else:
-    #         self.decode_from_stats(dataSource)
-
 
 def decodeStatsHead(stats):
     computed_arena_size = stats[0]  # in bytes
@@ -167,28 +161,16 @@ def printStats(stats, stats_filename):
         )
     )
     # for each captured event, decode stat_buffer into cach, perf, macs, and time
-    offset = 4
+    offset = 4  # size of stats preamble
 
     # Array may not contain entire event log (limited by ns_ambiq_harness' NS_PROFILER_RPC_EVENTS_MAX), truncate to whatever
     # we got back
-    print((len(stats) - offset) // computed_stat_per_event_size)
     if ((len(stats) - offset) // computed_stat_per_event_size) < captured_events:
         captured_events = (len(stats) - offset) // computed_stat_per_event_size
         print(
             "[WARNING] Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
             % captured_events
         )
-
-    # if (
-    #     captured_events * computed_stat_per_event_size + offset
-    # ) > computed_stat_buffer_size // 4:
-    #     captured_events = (computed_stat_buffer_size - offset) // (
-    #         computed_stat_per_event_size * 4
-    #     )
-    #     print(
-    #         "[WARNING] Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
-    #         % captured_events
-    #     )
 
     table = [
         [
@@ -214,7 +196,6 @@ def printStats(stats, stats_filename):
     ]
 
     for i in range(captured_events):
-        print(i)
         row = []
         time = stats[offset + 15]
         macs = stats[offset + 14]
@@ -251,7 +232,6 @@ def getModelStats(params, client):
         "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
     )
 
-    print("--" + repr(statBlock.value.description) + "---")
     if statBlock.value.description != "FullStats":
         # Stats are too long to fit in one xfer. Repeated calls to fetchBlock will return chunks
         while statBlock.value.description != "LastStats":
@@ -278,8 +258,6 @@ def sendLongInputTensor(client, input_data, chunkLen):
     chunkLen = chunkLen // input_data.flatten().itemsize
 
     for chunk in chunker(input_data.flatten(), chunkLen):
-        # print("[INFO] Sending Chunk Len %d" % len(chunk))
-
         inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
             description="Input Chunk",
             dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -288,13 +266,9 @@ def sendLongInputTensor(client, input_data, chunkLen):
             length=len(chunk),
         )
         status = client.ns_rpc_data_sendBlockToEVB(inputChunk)
-    # print("[INFO] Send Chunk Return Status = %d" % status)
 
 
 def validateModel(params, client, interpreter, md):
-    # print(str(md))
-    # print(md)
-
     runs = params.runs
     print("[INFO] Calling invoke %d times." % runs)
 
@@ -380,7 +354,7 @@ def compile_and_deploy(params, first_time=False):
 
     if params.create_profile:
         makefile_result = os.system(
-            "cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={params.max_profile_events}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
         )
     else:
         makefile_result = os.system(
@@ -396,44 +370,14 @@ def compile_and_deploy(params, first_time=False):
     return makefile_result
 
 
-# def checks(params, stats, inputLength, outputLength):
-#     arena_size, stat_size, _, _ = decodeStatsHead(stats)
-#     arena_size = (arena_size // 1024) + 1
-#     # stat_size = stats[1]
-#     buf_size = max(
-#         next_power_of_2(stat_size + 50),
-#         next_power_of_2(inputLength + 50),
-#         next_power_of_2(outputLength + 50),
-#         512,
-#     )
-#     if arena_size > params.max_arena_size:
-#         print(
-#             "[ERROR] TF Arena Size is %dk, exceeding limit of %d."
-#             % (arena_size, params.max_arena_size)
-#         )
-#         exit(-1)
-#     if buf_size > params.max_rpc_buf_size:
-#         print(
-#             "[INFO] Needed RPC buffer size is %d, exceeding limit of %d (RX is %d, TX is %d). Switching to chunk mode."
-#             % (buf_size, params.max_rpc_buf_size, inputLength + 50, outputLength + 50)
-#         )
-#         buf_size = params.max_rpc_buf_size
-#         # exit(-1)
-#     return buf_size
-
-
 def create_mut_metadata(tflm_dir, mc):
     # Extract stats and export tuned metadata header file
-    # buf_size = checks(params, stats, inputLength, outputLength)
-    # arena_size = (arena_size // 1024) + 1
-    # rv_count = params.resource_variable_count
 
     rm = {
         "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
         "NS_AD_ARENA_SIZE": mc.arena_size_k,
         "NS_AD_RV_COUNT": mc.rv_count,
     }
-    print(rm)
     print(
         "[INFO] Create metadata file with %dk arena size, RPC RX/TX buffer %d, RV Count %d"
         % (mc.arena_size_k, mc.adjusted_stat_buffer_size, mc.rv_count)
@@ -443,28 +387,6 @@ def create_mut_metadata(tflm_dir, mc):
         f"{tflm_dir}/mut_model_metadata.h",
         rm,
     )
-
-
-#     code = """
-# // Model Under Test (MUT) Metadata.
-# // This file is automatically generated by neuralspot's tflm_validate tool
-# #ifndef __MUT_MODEL_METADATA_H
-# #define __MUT_MODEL_METADATA_H
-
-# // Calculated Arena and RPC buffer sizes
-# """
-
-#     print(
-#         "[INFO] Create metadata file with %d arena size, RPC RX/TX buffer %d"
-#         % (arena_size, buf_size)
-#     )
-#     code = code + "#define TFLM_VALIDATOR_ARENA_SIZE " + repr(arena_size) + "\n"
-#     code = code + "#define TFLM_VALIDATOR_RX_BUFSIZE " + repr(buf_size) + "\n"
-#     code = code + "#define TFLM_VALIDATOR_TX_BUFSIZE " + repr(buf_size) + "\n"
-#     code = code + "#endif // __MUT_MODEL_METADATA_H"
-#     with open(tflm_dir + "/" + "mut_model_metadata.h", "w") as f:
-#         f.write(code)
-#     # print(code)
 
 
 def create_validation_binary(params, baseline, mc, md):
@@ -483,23 +405,6 @@ def create_validation_binary(params, baseline, mc, md):
     )
     create_mut_metadata(tflm_dir, mc)
     compile_and_deploy(params, first_time=baseline)
-
-    # Copy default metadata to metadata header to start from vanilla configuration
-    # os.system(
-    #     "cp %s/mut_model_metadata_default.h %s/mut_model_metadata.h >/dev/null 2>&1"
-    #     % (tflm_dir, tflm_dir)
-    # )
-
-    # Configure metadata for max parameters
-    #     create_mut_metadata(params, tflm_dir, mc)
-    #     # create_mut_metadata(params, tflm_dir, params.max_arena_size, params.max_rpc_buf_size-50, params.max_rpc_buf_size-50)
-    #     print("[INFO] Compiling and deploying baseline image (large arena and buffers)")
-    #     compile_and_deploy(params, first_time=True)
-    # else:
-    #     # arena_size, _, _, _ = decodeStatsHead(stats)
-    #     create_mut_metadata(params, tflm_dir, mc)
-    #     print("[INFO] Compiling and deploying tuned image (detected arena and buffers)")
-    #     compile_and_deploy(params, first_time=False)
 
 
 def get_interpreter(params):

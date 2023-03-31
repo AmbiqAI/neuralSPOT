@@ -15,9 +15,10 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 | External Component                   | Versions         | Notes                                                        |
 | ------------------------------------ | ---------------- | ------------------------------------------------------------ |
 | AmbiqSuite                           | 4.1.0, 4.2.0, 4.3.0 | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
-| Tensorflow Lite for Microcontrollers | 2.3.1, c046d6e   |                                                              |
+| Tensorflow Lite for Microcontrollers | 2.3.1, c046d6e, fecdd5d |                                                              |
 | Embedded RPC                         | 1.9.1 Ambiq Fork | Please use this [fork](https://github.com/AmbiqAI/erpc).     |
 | SEGGER RTT                           | 7.70a            |                                                              |
+| CMSIS-NN | 5.9.0 | |
 
 ### Hardware
 
@@ -38,10 +39,12 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 
 | Example                                                      | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [basic_tf_stub](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub) | NeuralSPOT's primary example, this audio-based AI model showcases Tensorflow integration, audio sampling and feature extraction, RPC, IPC, and more. It is used as the 'egg' for NeuralSPOT nests. |
+| [basic_tf_stub](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub) | NeuralSPOT's primary example, this audio-based AI model implements KWS to showcase Tensorflow integration, audio sampling and feature extraction, RPC, IPC, and more. It is used as the 'egg' for NeuralSPOT nests. |
 | [mpu_data_collection](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/mpu_data_collection) | Shows how to configure and read sensor values from the [MPU6050](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c), and how to use RPC to send those values to a PC. This is useful for creating accelerometer/gyroscope datasets, for example. |
 | [rpc_client](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_client_example) | Shows how to use `ns-rpc` when the EVB is a *client* and the PC is the *server* to collect audio data from the AUDADC and dump it into a WAV file (useful for generating audio datasets). In this configuration, the EVB calls remote procedures and the PC executes those procedures . This example is designed to work with [`generic_data.py`](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py) (part of [ns-rpc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc)), a python script running on the PC that can be run as server or client. |
 | [rpc_server](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server_example) | Shows how to use `ns-rpc` when the EVB is the *server* and the PC is the *client*. In this configuration, the PC calls remote procedures and the EVB executes those procedures . This example is designed to work with [`generic_data.py`](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py) (part of [ns-rpc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc)), a python script running on the PC that can be run as server or client. |
+| [har](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/har) | This example implements a simple Human Activity Recognition model. It collects data from an MPU6050 accelerometer and gyroscopic sensor, and classifies the data into one of 5 activities (sitting, standing, walking, jogging, go up stairs). This example is based on the [Human Activity Recognition Model Zoo repository](https://github.com/AmbiqAI/Human-Activity-Recognition). |
+| [tflm_validator](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/tflm_validator) | TF Lite for Microcontrollers Validation target. This isn't, strictly speaking, an example. Rather, it is a harness used by neuralSPOT automatic TFLite deployment, validation, and performance profiling tool. |
 
 
 
@@ -66,7 +69,8 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 | ns_timer               | ns-utils       | Reading Apollo4 clocks and setting periodic interrupts       | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
 | ns_power_profile       | ns-utils       | Prints power-relevant register configuration for expert analysis | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
 | ns_energy_monitor      | ns-utils       | Utility for marking regions of interest for external power monitors | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_cache_profile       | ns-utils       | Prints cache utilization statistics                          | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_cache_profile       | ns-utils       | Tools to capture and analyze cache utilization statistics    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_perf_profile        | ns-utils       | Tools to capture and analyze CPU perf utilization registers  | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
 | ns_peripherals_power   | ns-peripherals | Optimized, customizable Apollo4 power configuration for common AI applications. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
 | ns_peripherals_button  | ns-peripherals | Utility for reading EVB buttons via ISRs                     | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
 | ns_peripherals_led     | ns-peripherals | Utility for controlling EVB LEDs                             | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
@@ -75,6 +79,16 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 | ns_max86150_i2c_driver | ns-i2c         | MAX86150 driver                                              | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
 | ns_rpc_generic_data    | ns-rpc         | A generic data RPC implementation offering both client and server modes for sending blocks of data, computing on a block a data and getting a result, and printing remote message. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) |
 | ns_ambiqsuite_harness  | ns-harness     | Wrappers for common AmbiqSuite operations such as printing, deep-sleep compatible printing, adding delays, etc. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_micro_profiler      | ns-harness     | Tools for per-layer performance profiling                    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
 | ns_debug_log           | ns-harness     | Implementation of printf for Tensorflow debug prints         | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
 | ns_usb                 | ns-usb         | TinyUSB CDC (TTY) driver for USB port 1.                     | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb) |
 | ns_ipc_ring_buffer     | ns-ipc         | Ring buffer IPC mechanism for getting peripheral data into AI applications | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc) |
+
+# Tools
+
+| Tool                | Description                                                  | Location                                                     |
+| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ns_autodeploy.py    | All-in-one tool for automatically deploying, validating, profiling, and packaging a TFLite-based model | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
+| ns_mac_estimator.py | Analyzes a TFLite file, estimates MACs per model layer, and exports a C header file for use with ns_micro_profiler | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
+| generic_data.py     | Example PC-side script for interacting with EVB via remote procedure calls. | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
+

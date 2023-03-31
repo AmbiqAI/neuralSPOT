@@ -46,6 +46,7 @@ MLDEBUG := 0
 # 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0
 TFLM_VALIDATOR := 0
+TFLM_VALIDATOR_MAX_EVENTS := 40
 # AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
 # ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
 

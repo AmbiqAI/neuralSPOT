@@ -16,12 +16,23 @@ typedef struct {
     uint32_t input_length;   ///> in bytes
     uint32_t output_length;  ///> in bytes
     uint32_t profile_warmup; ///> how many inferences to run before profiling
+    uint32_t num_input_tensors;
+    uint32_t num_output_tensors;
 } ns_mut_config_t;
 
 typedef union {
     ns_mut_config_t config;
     char bytes[sizeof(ns_mut_config_t)];
 } ns_incoming_config_t;
+
+typedef struct {
+    uint32_t tensorSizeBytes;
+} ns_tensor_details_t;
+
+typedef union {
+    ns_tensor_details_t details;
+    char bytes[sizeof(ns_tensor_details_t)];
+} ns_incoming_tensor_details_u;
 
 typedef struct {
     uint32_t computed_arena_size;

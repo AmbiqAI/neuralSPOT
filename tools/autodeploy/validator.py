@@ -22,6 +22,9 @@ from tqdm import tqdm
 sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 import GenericDataOperations_PcToEvb
 
+modelConfigPreambleSize = 6  # number of uint32_t words
+modelStatPreambleSize = 4  # number of uint32_t words
+
 
 def configModel(params, client, md):
     if params.create_profile:
@@ -29,12 +32,39 @@ def configModel(params, client, md):
     else:
         prof_enable = 0
 
+    inputTensorByteLengths = []
+    for tensor in md.inputTensors:
+        inputTensorByteLengths.append(tensor.bytes)
+
+    outputTensorByteLengths = []
+    for tensor in md.outputTensors:
+        outputTensorByteLengths.append(tensor.bytes)
+    print(inputTensorByteLengths)
+    print(outputTensorByteLengths)
+    print(
+        "I"
+        * (
+            modelConfigPreambleSize
+            + len(inputTensorByteLengths)
+            + len(outputTensorByteLengths)
+        )
+    )
     configBytes = struct.pack(
-        "<IIII",
+        "<"
+        + "I"
+        * (
+            modelConfigPreambleSize
+            + len(inputTensorByteLengths)
+            + len(outputTensorByteLengths)
+        ),
         prof_enable,
         md.totalInputTensorBytes,
         md.totalOutputTensorBytes,
         params.profile_warmup - 1,
+        md.numInputs,
+        md.numOutputs,
+        *inputTensorByteLengths,
+        *outputTensorByteLengths,
     )
     # print("Config il %d, ol %d" % (inputLength, outputLength))
     configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
@@ -284,7 +314,11 @@ def validateModel(params, client, interpreter, md):
     else:
         print("[INFO] Generate random dataset.")
 
-    differences = np.zeros((runs, md.outputTensors[0].words))
+    differences = []
+    for i in range(md.numOutputs):
+        differences.append([])
+
+    # differences = np.zeros((md.numOutputs, md.outputTensors[0].words))
     for i in tqdm(range(runs)):
         # Generate random input
         if params.random_data:
@@ -306,7 +340,6 @@ def validateModel(params, client, interpreter, md):
         # Invoke locally and on EVB
         interpreter.set_tensor(md.input_details[0]["index"], input_data)
         interpreter.invoke()
-        output_data = interpreter.get_tensor(md.output_details[0]["index"])
 
         # Do it on EVB
         if md.inputTensors[0].bytes > (params.max_rpc_buf_size - 600):
@@ -332,18 +365,41 @@ def validateModel(params, client, interpreter, md):
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
         # print(len(outputTensor.value.buffer))
 
-        if md.outputTensors[0].type is np.int8:
-            out_array = struct.unpack(
-                "<" + "b" * len(outputTensor.value.buffer), outputTensor.value.buffer
-            )
-        elif md.outputTensors[0].type is np.float32:
-            out_array = struct.unpack(
-                "<" + "f" * (len(outputTensor.value.buffer) // 4),
-                outputTensor.value.buffer,
-            )
-        # print(output_data[0])
-        # print(out_array)
-        differences[i] = output_data[0] - out_array
+        # Output tensors are packed into outputTensor buffer in order (0,1,...)
+        # Assume each has a different length and type, and unpack them into
+        # an array for later comparison.
+        otOffset = 0
+        otIndex = 0
+        # out_array = []
+        # differences[outputTensor][difference_array]
+        for ot in md.outputTensors:
+            if ot.type is np.int8:
+                out_array = list(
+                    struct.unpack_from(
+                        "<" + "b" * ot.bytes, outputTensor.value.buffer, otOffset
+                    )
+                )
+            elif md.outputTensors[0].type is np.float32:
+                out_array = list(
+                    struct.unpack_from(
+                        "<" + "f" * ot.words, outputTensor.value.buffer, otOffset
+                    )
+                )
+
+            local_output_data = interpreter.get_tensor(
+                md.output_details[otIndex]["index"]
+            ).flatten()
+            # print(f"off {otOffset} idx {otIndex}, li %d" % md.output_details[otIndex]["index"])
+            # print(md.output_details[otIndex])
+            # print(local_output_data)
+            # print(out_array)
+            # print("---")
+            # print(local_output_data - out_array)
+            differences[otIndex].append(local_output_data - out_array)
+            # print(differences)
+            otOffset += ot.bytes
+            otIndex += 1
+        # print(differences)
     return differences
 
 

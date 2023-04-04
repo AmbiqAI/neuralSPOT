@@ -109,8 +109,16 @@ ns_model_init(ns_model_state_t *ms) {
     ms->computed_arena_size = ms->interpreter->arena_used_bytes(); // prep to send back to PC
 
     // Obtain pointers to the model's input and output tensors.
-    ms->model_input = ms->interpreter->input(0);
-    ms->model_output = ms->interpreter->output(0);
+    for (int t = 0; t <= ms->numInputTensors; t++) {
+        ms->model_input[t] = ms->interpreter->input(t);
+    }
+
+    for (int t = 0; t <= ms->numOutputTensors; t++) {
+        ms->model_output[t] = ms->interpreter->output(t);
+    }
+
+    // ms->model_input = ms->interpreter->input(0);
+    // ms->model_output = ms->interpreter->output(0);
 
     ms->state = READY;
     return NS_STATUS_SUCCESS;

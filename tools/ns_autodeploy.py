@@ -1,3 +1,4 @@
+import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
 from autodeploy.validator import (
@@ -94,6 +95,9 @@ if __name__ == "__main__":
     interpreter = get_interpreter(params)
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
+    print(md)
+    print(md.outputTensors[0])
+    # print(md.outputTensors[1])
     if params.create_binary:
         create_validation_binary(params, True, mc, md)
     else:
@@ -124,8 +128,13 @@ if __name__ == "__main__":
         stats = getModelStats(params, client)
         printStats(stats, params.stats_filename)
 
-    # print(differences)
-    print("Mean difference per output label: " + repr(differences.mean(axis=0)))
+    otIndex = 0
+    for d in differences:
+        print(
+            f"Mean difference per output label in tensor({otIndex}): "
+            + repr(np.array(d).mean(axis=0))
+        )
+        otIndex += 1
 
     if params.create_library:
         # arena_size, _, _, _ = decodeStatsHead(stats)

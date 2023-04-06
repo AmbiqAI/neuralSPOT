@@ -19,6 +19,7 @@ from ns_utils import (
 )
 from tabulate import tabulate
 from tqdm import tqdm
+from utils.tflite_helpers import CreateAddFromSnakeOpName
 
 sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 import GenericDataOperations_PcToEvb
@@ -36,6 +37,9 @@ class ModelStructureDetails:
             self.opsetList,
             graph_count,
         ) = analyze_tflite_file(tflite_filename)
+
+        # Resource Variable Count corresponds to number of VAR_HANDLE ops in overallOpsNameList[0]
+        self.rv_count = self.overallOpsNameList[0].count("VAR_HANDLE")
 
         # Handle subgraphs: this code assumes there are a maximum of two graphs, and
         # the base graph (0) calls the subgraph only once (via CALL_ONCE). In order to
@@ -56,6 +60,14 @@ class ModelStructureDetails:
                     self.opsNameList.extend(self.overallOpsNameList[1])
                 baseGraphIndex += 1
 
+        self.layers = len(self.opsNameList)
+
+    def getAddList(self):
+        retval = ""
+        for i, opname in self.opsetList[0].items():
+            retval += f"resolver.{CreateAddFromSnakeOpName(opname)}();\n"
+        return retval, len(self.opsetList[0])
+
 
 class ModelConfiguration:
     rv_count = 0  # Resource Variables needed by the model
@@ -65,12 +77,13 @@ class ModelConfiguration:
         self.arena_size = params.max_arena_size * 1024
         self.stat_buffer_size = params.max_rpc_buf_size  # in bytes
         self.adjusted_stat_buffer_size = params.max_rpc_buf_size  # in bytes
-        ModelConfiguration.rv_count = params.resource_variable_count
+        # ModelConfiguration.rv_count = params.resource_variable_count
         self.stat_per_event_size = (
             -1
         )  # dontcare, -1 will force an error if used elsewhere
         self.events = -1
         self.modelStructureDetails = ModelStructureDetails(params.tflite_filename)
+        self.rv_count = self.modelStructureDetails.rv_count
 
     def update_from_stats(self, stats, md):
         self.arena_size = stats[0]  # in bytes
@@ -433,14 +446,15 @@ def printStats(stats, stats_filename):
     np.savetxt(stats_filename, table, delimiter=", ", fmt="% s")
 
 
-def compile_and_deploy(params, first_time=False):
+def compile_and_deploy(params, mc, first_time=False):
 
     if first_time:
         makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
 
     if params.create_profile:
         makefile_result = os.system(
-            f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={params.max_profile_events}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            # f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={params.max_profile_events}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
         )
     else:
         makefile_result = os.system(
@@ -483,6 +497,20 @@ def create_mut_metadata(tflm_dir, mc):
     )
 
 
+def create_mut_modelinit(tflm_dir, mc):
+    adds, addsLen = mc.modelStructureDetails.getAddList()
+    rm = {
+        "NS_AD_NAME": "tflm_validator",
+        "NS_AD_NUM_OPS": addsLen,
+        "NS_AD_RESOLVER_ADDS": adds,
+    }
+    createFromTemplate(
+        "autodeploy/templates/template_ns_model.cc",
+        f"{tflm_dir}/mut_model_init.cc",
+        rm,
+    )
+
+
 def create_validation_binary(params, baseline, mc):
     tflm_dir = params.tflm_src_path
 
@@ -498,7 +526,8 @@ def create_validation_binary(params, baseline, mc):
         f"[INFO] Compiling and deploying Validation image - baseline {baseline}, arena {mc.arena_size_k}k, RPC buffers {mc.adjusted_stat_buffer_size}, Resource Variables {mc.rv_count}"
     )
     create_mut_metadata(tflm_dir, mc)
-    compile_and_deploy(params, first_time=baseline)
+    create_mut_modelinit(tflm_dir, mc)
+    compile_and_deploy(params, mc, first_time=baseline)
 
 
 def get_interpreter(params):

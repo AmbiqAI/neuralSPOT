@@ -30,7 +30,7 @@ $(build):
 
 lib/NS_AD_NAME_lib.a: $(build)/NS_AD_NAME_model.o $(model_lib)
 	@echo " Archiving $< to make $@"
-	$(Q) $(AR) rcT $@ $^
+	$(Q) $(AR) rsc $@ $^
 
 $(build)/%.o: src/%.c
 	@echo " Compiling $(COMPILERNAME) $< to make $@"

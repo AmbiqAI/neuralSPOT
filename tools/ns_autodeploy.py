@@ -131,4 +131,4 @@ if __name__ == "__main__":
         otIndex += 1
 
     if params.create_library:
-        generateModelLib(params, mc.arena_size_k)
+        generateModelLib(params, mc, md)

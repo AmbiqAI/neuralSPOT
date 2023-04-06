@@ -1,5 +1,5 @@
 /**
- * @file generic_model.h
+ * @file Template for generic_model.h
  * @author Carlos Morales (carlos.morales@ambiq.com)
  * @brief Generic TF Model wrapper
  * @version 0.1
@@ -10,9 +10,9 @@
  */
 
 // NS includes
-#include "ns_model.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
+#include "ns_model.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 #include "tensorflow/lite/micro/all_ops_resolver.h"
@@ -38,7 +38,7 @@
  *
  */
 int
-ns_model_init(ns_model_state_t *ms) {
+tflm_validator_model_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
     tflite::MicroErrorReporter micro_error_reporter;
@@ -50,11 +50,8 @@ ns_model_init(ns_model_state_t *ms) {
     static tflite::MicroProfiler micro_profiler;
     ms->profiler = &micro_profiler;
 
-    // #ifdef NS_MODEL_ANALYSIS
     ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
-    // #else
-    // ns_TFDebugLogInit(ms->tickTimer, NULL);
-    // #endif
+
 #else
     #ifdef NS_MLDEBUG
     ns_TFDebugLogInit(NULL, NULL);
@@ -74,8 +71,24 @@ ns_model_init(ns_model_state_t *ms) {
         return NS_STATUS_FAILURE;
     }
 
+#ifdef NS_TF_VERSION_fecdd5d
+    static tflite::MicroMutableOpResolver<11> resolver;
+#else
+    static tflite::MicroMutableOpResolver<11> resolver(error_reporter);
+#endif
+    resolver.AddQuantize();
+    resolver.AddCallOnce();
+    resolver.AddVarHandle();
+    resolver.AddReadVariable();
+    resolver.AddConcatenation();
+    resolver.AddStridedSlice();
+    resolver.AddAssignVariable();
+    resolver.AddConv2D();
+    resolver.AddMaxPool2D();
+    resolver.AddFullyConnected();
+    resolver.AddDequantize();
+
     // static tflite::AllOpsResolver resolver;
-    static tflite::MicroMutableOpResolver<6> resolver;
 
     // Allocate ResourceVariable stuff if needed
     tflite::MicroResourceVariables *resource_variables;
@@ -120,24 +133,4 @@ ns_model_init(ns_model_state_t *ms) {
 
     ms->state = READY;
     return NS_STATUS_SUCCESS;
-}
-
-uint32_t
-ns_tf_get_num_input_tensors(ns_model_state_t *ms) {
-    return ms->interpreter->inputs_size();
-}
-
-uint32_t
-ns_tf_get_num_output_tensors(ns_model_state_t *ms) {
-    return ms->interpreter->inputs_size();
-}
-
-TfLiteTensor *
-ns_tf_get_input_tensor(ns_model_state_t *ms, uint32_t index) {
-    return ms->interpreter->input(index);
-}
-
-TfLiteTensor *
-ns_tf_get_output_tensor(ns_model_state_t *ms, uint32_t index) {
-    return ms->interpreter->output(index);
 }

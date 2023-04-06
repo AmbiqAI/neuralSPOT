@@ -116,11 +116,13 @@ configureModel(const dataBlock *in) {
            4 * mut_cfg.config.num_output_tensors);
 
 #ifdef NS_MLPROFILE
+    ns_perf_mac_count_t basic_mac = {.number_of_layers = tflm_validator_number_of_estimates,
+                                     .mac_count_map = tflm_validator_mac_estimates};
     tflm.tickTimer = &basic_tickTimer;
+    tflm.mac_estimates = &basic_mac;
 #else
     tflm.tickTimer = NULL;
 #endif
-    tflm.mac_estimate = NULL;
 
     int status = ns_model_init(&tflm);
     mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
@@ -311,7 +313,7 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
 
     // Prep the return block with output tensor
     int offset = 0;
-    for (int t = 0; t < mut_cfg.config.num_output_tensors; t++) {
+    for (uint32_t t = 0; t < mut_cfg.config.num_output_tensors; t++) {
         memcpy(resultBuffer + offset, tflm.model_output[t]->data.int8,
                outputTensorDetails[t].details.tensorSizeBytes);
         offset += outputTensorDetails[t].details.tensorSizeBytes;

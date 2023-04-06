@@ -1,3 +1,4 @@
+import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
 from autodeploy.validator import (
@@ -92,29 +93,26 @@ if __name__ == "__main__":
     params = parser.parse_typed_args()
 
     interpreter = get_interpreter(params)
+
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
+
     if params.create_binary:
-        create_validation_binary(params, True, mc, md)
+        create_validation_binary(params, True, mc)
     else:
         reset_dut()
 
     # Configure the model on the EVB
     client = rpc_connect_as_client(params)
 
-    # inputLength = md.totalInputTensorBytes
-    # outputLength = md.totalOutputTensorBytes
-
     configModel(params, client, md)
     stats = getModelStats(params, client)
     mc.update_from_stats(stats, md)
     mc.check(params)
 
-    # checks(params, stats, inputLength, outputLength)
-
     # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
     if params.create_binary:
-        create_validation_binary(params, False, mc, md)
+        create_validation_binary(params, False, mc)
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
@@ -124,9 +122,13 @@ if __name__ == "__main__":
         stats = getModelStats(params, client)
         printStats(stats, params.stats_filename)
 
-    # print(differences)
-    print("Mean difference per output label: " + repr(differences.mean(axis=0)))
+    otIndex = 0
+    for d in differences:
+        print(
+            f"Mean difference per output label in tensor({otIndex}): "
+            + repr(np.array(d).mean(axis=0))
+        )
+        otIndex += 1
 
     if params.create_library:
-        # arena_size, _, _, _ = decodeStatsHead(stats)
         generateModelLib(params, mc.arena_size_k)

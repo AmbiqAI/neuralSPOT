@@ -50,6 +50,9 @@ uint32_t output_tensor_offset = 0;
 uint32_t stats_offset = 0;
 uint32_t stats_remaining = 0;
 
+ns_incoming_tensor_details_u inputTensorDetails[NS_MAX_INPUT_TENSORS];
+ns_incoming_tensor_details_u outputTensorDetails[NS_MAX_OUTPUT_TENSORS];
+
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
 ns_timer_config_t basic_tickTimer = {
@@ -70,17 +73,31 @@ configureModel(const dataBlock *in) {
     ns_lp_printf("[INFO] PC requested model initialization\n");
 
     // Grab incoming buffer, decode into config struct
-    if (in->buffer.dataLength != sizeof(mut_cfg)) {
-        ns_lp_printf("[ERROR] Configuration Size mismatch, expected %d, got %d", sizeof(mut_cfg),
+    if (in->buffer.dataLength < sizeof(mut_cfg)) { // Sanity check before memcpy
+        ns_lp_printf("[ERROR] Incoming config is too small, expected %d, got %d\n", sizeof(mut_cfg),
                      in->buffer.dataLength);
         return ns_rpc_data_failure;
     }
 
     memcpy(&mut_cfg, in->buffer.data, sizeof(mut_cfg));
+
+    if (in->buffer.dataLength != (sizeof(mut_cfg) + 4 * (mut_cfg.config.num_input_tensors +
+                                                         mut_cfg.config.num_output_tensors))) {
+        ns_lp_printf("[ERROR] Configuration Size mismatch, expected %d, got %d\n",
+                     sizeof(mut_cfg) +
+                         4 * (mut_cfg.config.num_input_tensors + mut_cfg.config.num_output_tensors),
+                     in->buffer.dataLength);
+        return ns_rpc_data_failure;
+    }
+
     ns_lp_printf("[INFO] MUT configuration: profile %d, warmup %d, input tensor length %d, output "
                  "tensor length %d\n",
                  mut_cfg.config.profile_mut, mut_cfg.config.profile_warmup,
                  mut_cfg.config.input_length, mut_cfg.config.output_length);
+
+    // buffer.data contains variable length arrays after the preamble
+    // uint32_t inputTensorLengths[numInputTensors]
+    // uint32_t outputTensorLengths[numPutputTensors]
 
     tflm.runtime = TFLM;
     tflm.model_array = mut_model;
@@ -89,13 +106,23 @@ configureModel(const dataBlock *in) {
     tflm.rv_arena = var_arena;
     tflm.rv_arena_size = kVarArenaSize;
     tflm.rv_count = TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES;
+    tflm.numInputTensors = mut_cfg.config.num_input_tensors;
+    tflm.numOutputTensors = mut_cfg.config.num_output_tensors;
+
+    memcpy(&inputTensorDetails, in->buffer.data + sizeof(mut_cfg),
+           4 * mut_cfg.config.num_input_tensors);
+    memcpy(&outputTensorDetails,
+           in->buffer.data + sizeof(mut_cfg) + (4 * mut_cfg.config.num_input_tensors),
+           4 * mut_cfg.config.num_output_tensors);
 
 #ifdef NS_MLPROFILE
+    ns_perf_mac_count_t basic_mac = {.number_of_layers = tflm_validator_number_of_estimates,
+                                     .mac_count_map = tflm_validator_mac_estimates};
     tflm.tickTimer = &basic_tickTimer;
+    tflm.mac_estimates = &basic_mac;
 #else
     tflm.tickTimer = NULL;
 #endif
-    tflm.mac_estimate = NULL;
 
     int status = ns_model_init(&tflm);
     mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
@@ -121,7 +148,7 @@ incomingTensorChunk(const dataBlock *in) {
     // ns_lp_printf("[INFO] PC Sent Input Tensor Chunk of %d bytes, copied to %d\n",
     // in->buffer.dataLength, input_tensor_offset); Get latest chunk, copy into next spot in raw
     // tensor
-    memcpy(tflm.model_input->data.int8 + input_tensor_offset, in->buffer.data,
+    memcpy(tflm.model_input[0]->data.int8 + input_tensor_offset, in->buffer.data,
            in->buffer.dataLength);
     input_tensor_offset += in->buffer.dataLength;
     input_tensor_is_chunked = true;
@@ -265,7 +292,7 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
 
     // 'in' contains the input tensors, treat as homogeneous block
     if (input_tensor_is_chunked == false) {
-        memcpy(tflm.model_input->data.int8, in->buffer.data, in->buffer.dataLength);
+        memcpy(tflm.model_input[0]->data.int8, in->buffer.data, in->buffer.dataLength);
     } // else it is already in the input tensor
 
     TfLiteStatus invoke_status = tflm.interpreter->Invoke();
@@ -285,7 +312,12 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     }
 
     // Prep the return block with output tensor
-    memcpy(resultBuffer, tflm.model_output->data.int8, mut_cfg.config.output_length);
+    int offset = 0;
+    for (uint32_t t = 0; t < mut_cfg.config.num_output_tensors; t++) {
+        memcpy(resultBuffer + offset, tflm.model_output[t]->data.int8,
+               outputTensorDetails[t].details.tensorSizeBytes);
+        offset += outputTensorDetails[t].details.tensorSizeBytes;
+    }
 
     char res_msg[] = "Invoke Successful!\0";
     memcpy(msg_store, res_msg, sizeof(res_msg));

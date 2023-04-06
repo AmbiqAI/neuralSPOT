@@ -37,6 +37,9 @@ extern "C" {
 typedef enum { READY, NOT_READY, ERROR } ns_model_states_e;
 typedef enum { TFLM } ns_model_runtime_e;
 
+#define NS_MAX_INPUT_TENSORS 3
+#define NS_MAX_OUTPUT_TENSORS 3
+
 typedef struct {
     ns_model_states_e state;
 
@@ -48,10 +51,12 @@ typedef struct {
     uint8_t *rv_arena;      ///< ResourceVariable Arena
     uint32_t rv_arena_size; ///< Size of RV arena, in bytes
     uint32_t rv_count;      ///< Number of resource variables
+    uint32_t numInputTensors;
+    uint32_t numOutputTensors;
 
 #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
-    ns_perf_mac_count_t *mac_estimate; ///< Optional, from tflm_profiler tool
+    ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
 #else
     void *tickTimer;
     void *mac_estimate; ///< Optional, from tflm_profiler tool
@@ -59,8 +64,8 @@ typedef struct {
     // State (init by baseline code)
     const tflite::Model *model;
     tflite::MicroInterpreter *interpreter;
-    TfLiteTensor *model_input;
-    TfLiteTensor *model_output;
+    TfLiteTensor *model_input[NS_MAX_INPUT_TENSORS];
+    TfLiteTensor *model_output[NS_MAX_OUTPUT_TENSORS];
     tflite::MicroProfiler *profiler;
     tflite::ErrorReporter *error_reporter;
 

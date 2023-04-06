@@ -56,7 +56,7 @@ typedef struct {
 
 #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
-    ns_perf_mac_count_t *mac_estimate; ///< Optional, from tflm_profiler tool
+    ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
 #else
     void *tickTimer;
     void *mac_estimate; ///< Optional, from tflm_profiler tool

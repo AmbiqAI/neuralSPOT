@@ -6,6 +6,7 @@ import time
 import erpc
 import numpy as np
 import tensorflow as tf
+from ns_tflite_analyze import analyze_tflite_file
 from ns_utils import (
     ModelDetails,
     TensorDetails,
@@ -26,56 +27,34 @@ modelConfigPreambleSize = 6  # number of uint32_t words
 modelStatPreambleSize = 4  # number of uint32_t words
 
 
-def configModel(params, client, md):
-    if params.create_profile:
-        prof_enable = 1  # convert to int just to be explicit for serialization
-    else:
-        prof_enable = 0
+class ModelStructureDetails:
+    def __init__(self, tflite_filename):
+        (
+            self.code,
+            self.overallOpsNameList,
+            self.overallMacEstimates,
+            self.opsetList,
+            graph_count,
+        ) = analyze_tflite_file(tflite_filename)
 
-    inputTensorByteLengths = []
-    for tensor in md.inputTensors:
-        inputTensorByteLengths.append(tensor.bytes)
-
-    outputTensorByteLengths = []
-    for tensor in md.outputTensors:
-        outputTensorByteLengths.append(tensor.bytes)
-    print(inputTensorByteLengths)
-    print(outputTensorByteLengths)
-    print(
-        "I"
-        * (
-            modelConfigPreambleSize
-            + len(inputTensorByteLengths)
-            + len(outputTensorByteLengths)
-        )
-    )
-    configBytes = struct.pack(
-        "<"
-        + "I"
-        * (
-            modelConfigPreambleSize
-            + len(inputTensorByteLengths)
-            + len(outputTensorByteLengths)
-        ),
-        prof_enable,
-        md.totalInputTensorBytes,
-        md.totalOutputTensorBytes,
-        params.profile_warmup - 1,
-        md.numInputs,
-        md.numOutputs,
-        *inputTensorByteLengths,
-        *outputTensorByteLengths,
-    )
-    # print("Config il %d, ol %d" % (inputLength, outputLength))
-    configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
-        description="Model Config",
-        dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-        cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-        buffer=configBytes,
-        length=9,
-    )
-    status = client.ns_rpc_data_sendBlockToEVB(configBlock)
-    print("[INFO] Model Configuration Return Status = %d" % status)
+        # Handle subgraphs: this code assumes there are a maximum of two graphs, and
+        # the base graph (0) calls the subgraph only once (via CALL_ONCE). In order to
+        # align this case with EVB execution, we insert the subgraph into where the CALL_ONCE is found
+        if graph_count == 1:
+            self.macEstimates = self.overallMacEstimates[0]
+            self.opsNameList = self.overallOpsNameList[0]
+        elif graph_count == 2:
+            self.macEstimates = []
+            self.opsNameList = []
+            baseGraphIndex = 0
+            for op in self.overallOpsNameList[0]:
+                self.macEstimates.append(self.overallMacEstimates[0][baseGraphIndex])
+                self.opsNameList.append(op)
+                if op == "CALL_ONCE":
+                    # insert the subgraph
+                    self.macEstimates.extend(self.overallMacEstimates[1])
+                    self.opsNameList.extend(self.overallOpsNameList[1])
+                baseGraphIndex += 1
 
 
 class ModelConfiguration:
@@ -91,6 +70,7 @@ class ModelConfiguration:
             -1
         )  # dontcare, -1 will force an error if used elsewhere
         self.events = -1
+        self.modelStructureDetails = ModelStructureDetails(params.tflite_filename)
 
     def update_from_stats(self, stats, md):
         self.arena_size = stats[0]  # in bytes
@@ -121,17 +101,204 @@ class ModelConfiguration:
             )
 
 
-def decodeStatsHead(stats):
-    computed_arena_size = stats[0]  # in bytes
-    computed_stat_buffer_size = stats[1]  # in bytes
-    computed_stat_per_event_size = stats[2]  # in bytes
-    captured_events = stats[3]  # generally one event per model layer
-    return (
-        computed_arena_size,
-        computed_stat_buffer_size,
-        computed_stat_per_event_size,
-        captured_events,
+def configModel(params, client, md):
+    if params.create_profile:
+        prof_enable = 1  # convert to int just to be explicit for serialization
+    else:
+        prof_enable = 0
+
+    inputTensorByteLengths = []
+    for tensor in md.inputTensors:
+        inputTensorByteLengths.append(tensor.bytes)
+
+    outputTensorByteLengths = []
+    for tensor in md.outputTensors:
+        outputTensorByteLengths.append(tensor.bytes)
+
+    configBytes = struct.pack(
+        "<"
+        + "I"
+        * (
+            modelConfigPreambleSize
+            + len(inputTensorByteLengths)
+            + len(outputTensorByteLengths)
+        ),
+        prof_enable,
+        md.totalInputTensorBytes,
+        md.totalOutputTensorBytes,
+        params.profile_warmup - 1,
+        md.numInputs,
+        md.numOutputs,
+        *inputTensorByteLengths,
+        *outputTensorByteLengths,
     )
+    # print("Config il %d, ol %d" % (inputLength, outputLength))
+    configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
+        description="Model Config",
+        dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+        cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+        buffer=configBytes,
+        length=9,
+    )
+    status = client.ns_rpc_data_sendBlockToEVB(configBlock)
+    print("[INFO] Model Configuration Return Status = %d" % status)
+
+
+def getModelStats(params, client):
+    statBlock = erpc.Reference()
+    status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
+    print("[INFO] Fetch stats status %d" % status)
+
+    stat_array = struct.unpack(
+        "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
+    )
+
+    if statBlock.value.description != "FullStats":
+        # Stats are too long to fit in one xfer. Repeated calls to fetchBlock will return chunks
+        while statBlock.value.description != "LastStats":
+            status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
+            print(
+                "[INFO] Fetch stats chunk status %d, msg %s"
+                % (status, statBlock.value.description)
+            )
+            stat_array = stat_array + struct.unpack(
+                "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
+            )
+
+    return stat_array
+
+
+def chunker(seq, size):
+    return (seq[pos : pos + size] for pos in range(0, len(seq), size))
+
+
+def sendLongInputTensor(client, input_data, chunkLen):
+    """
+    When a tensor exceeds the RPC size limit, we chunk it
+    """
+    # ChunkLen is in bytes, convert to word size
+    chunkLen = chunkLen // input_data.flatten().itemsize
+
+    for chunk in chunker(input_data.flatten(), chunkLen):
+        inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
+            description="Input Chunk",
+            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+            cmd=GenericDataOperations_PcToEvb.common.command.write_cmd,
+            buffer=chunk.tobytes(),
+            length=len(chunk),
+        )
+        status = client.ns_rpc_data_sendBlockToEVB(inputChunk)
+
+
+def validateModel(params, client, interpreter, md):
+    """
+    Generates input vectors (random or from a pkl) and sends them to both
+    the local TFLite model and the one running on the EVB. It compares the
+    results (small differences are OK due to differing runtimes and CPU numeric
+    behavior) and prints a simple report. If profiling is enabled, it leverages
+    neuralSPOT microprofiler extension to report on per-layer performance, include
+    latency, cache behavior, and more.
+    """
+    runs = params.runs
+    print("[INFO] Calling invoke %d times." % runs)
+
+    if not params.random_data:
+        # Load validation data from specified pkl file
+        print("[INFO] Load dataset from %s." % params.dataset)
+        data, labels, test_data, test_labels = get_dataset(params)
+        input_scale = md.inputTensors[0].scale
+        input_zero_point = md.inputTensors[0].zeroPoint
+        test_data_int8 = np.asarray(
+            test_data / input_scale + input_zero_point, dtype=np.int8
+        )
+    else:
+        print("[INFO] Generate random dataset.")
+
+    differences = (
+        []
+    )  # accumulator for per-output differences between local and EVB models
+    for i in range(md.numOutputs):
+        differences.append([])
+
+    for i in tqdm(range(runs)):
+
+        # Generate or load data
+        if params.random_data:
+            # Generate random input
+            if md.inputTensors[0].type == np.int8:
+                input_data = np.random.randint(
+                    -127, 127, size=tuple(md.inputTensors[0].shape), dtype=np.int8
+                )
+            else:
+                input_data = (
+                    np.random.random(size=tuple(md.inputTensors[0].shape)).astype(
+                        md.inputTensors[0].type
+                    )
+                    * 2
+                    - 1
+                )
+        else:
+            input_data = np.array([test_data_int8[i]])
+
+        # Invoke locally and on EVB
+        interpreter.set_tensor(md.input_details[0]["index"], input_data)
+        interpreter.invoke()  # local invoke
+
+        # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
+        if md.inputTensors[0].bytes > (
+            params.max_rpc_buf_size - 600
+        ):  # TODO: calculate the 600
+            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 600))
+            inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
+                description="Empty Tensor",
+                dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+                cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+                buffer=bytearray(),
+                length=0,
+            )
+        else:
+            inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
+                description="Input Tensor",
+                dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+                cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+                buffer=input_data.flatten().tobytes(),
+                length=md.inputTensors[0].bytes,
+            )
+
+        outputTensor = (
+            erpc.Reference()
+        )  # empty outputTensor, will be filled in by EVB RPC call
+
+        stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)  # on EVB
+        if stat != 0:
+            print(f"[ERROR] EVB invoke returned {stat}")
+
+        # Resulting output tensors are packed into outputTensor buffer in order (0,1,...)
+        # Each has a different length and type; unpack them into an array for later comparison.
+        otOffset = 0
+        otIndex = 0
+        for ot in md.outputTensors:
+            if ot.type is np.int8:
+                out_array = list(
+                    struct.unpack_from(
+                        "<" + "b" * ot.bytes, outputTensor.value.buffer, otOffset
+                    )
+                )
+            elif md.outputTensors[0].type is np.float32:
+                out_array = list(
+                    struct.unpack_from(
+                        "<" + "f" * ot.words, outputTensor.value.buffer, otOffset
+                    )
+                )
+
+            local_output_data = interpreter.get_tensor(
+                md.output_details[otIndex]["index"]
+            ).flatten()
+
+            differences[otIndex].append(local_output_data - out_array)
+            otOffset += ot.bytes
+            otIndex += 1
+    return differences
 
 
 def printStats(stats, stats_filename):
@@ -191,7 +358,7 @@ def printStats(stats, stats_filename):
         )
     )
     # for each captured event, decode stat_buffer into cach, perf, macs, and time
-    offset = 4  # size of stats preamble
+    offset = modelStatPreambleSize  # size of stats preamble
 
     # Array may not contain entire event log (limited by ns_ambiq_harness' NS_PROFILER_RPC_EVENTS_MAX), truncate to whatever
     # we got back
@@ -225,6 +392,10 @@ def printStats(stats, stats_filename):
         ]
     ]
 
+    totalMacs = 0
+    totalTime = 0
+    totalCycles = 0
+
     for i in range(captured_events):
         row = []
         time = stats[offset + 15]
@@ -243,6 +414,9 @@ def printStats(stats, stats_filename):
         row.append(tag)
         row.append(time)
         row.append(macs)
+        totalMacs += macs
+        totalTime += time
+        totalCycles += stats[offset + 8]
         for j in range(6):
             row.append(stats[offset + 8 + j])
         for j in range(8):
@@ -250,161 +424,17 @@ def printStats(stats, stats_filename):
         table.append(row)
         offset = offset + computed_stat_per_event_size
     print(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
+    print(
+        f"[INFO] Model Performance Analysis: Total Inference Time {totalTime}uS, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
+    )
+    print(
+        f"[INFO] MAC/second {totalMacs*1000000/totalTime}, cycles/MAC {totalCycles/totalMacs}"
+    )
     np.savetxt(stats_filename, table, delimiter=", ", fmt="% s")
 
 
-def getModelStats(params, client):
-    statBlock = erpc.Reference()
-    status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
-    print("[INFO] Fetch stats status %d" % status)
-
-    stat_array = struct.unpack(
-        "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
-    )
-
-    if statBlock.value.description != "FullStats":
-        # Stats are too long to fit in one xfer. Repeated calls to fetchBlock will return chunks
-        while statBlock.value.description != "LastStats":
-            status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
-            print(
-                "[INFO] Fetch stats chunk status %d, msg %s"
-                % (status, statBlock.value.description)
-            )
-            stat_array = stat_array + struct.unpack(
-                "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
-            )
-
-    return stat_array
-
-
-def chunker(seq, size):
-    return (seq[pos : pos + size] for pos in range(0, len(seq), size))
-
-
-def sendLongInputTensor(client, input_data, chunkLen):
-    # When a tensor exceeds the RPC size limit, we chunk it
-
-    # ChunkLen is in bytes, convert to word size
-    chunkLen = chunkLen // input_data.flatten().itemsize
-
-    for chunk in chunker(input_data.flatten(), chunkLen):
-        inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
-            description="Input Chunk",
-            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-            cmd=GenericDataOperations_PcToEvb.common.command.write_cmd,
-            buffer=chunk.tobytes(),
-            length=len(chunk),
-        )
-        status = client.ns_rpc_data_sendBlockToEVB(inputChunk)
-
-
-def validateModel(params, client, interpreter, md):
-    runs = params.runs
-    print("[INFO] Calling invoke %d times." % runs)
-
-    if not params.random_data:
-        # Load validation data from specified pkl file
-        print("[INFO] Load dataset from %s." % params.dataset)
-        data, labels, test_data, test_labels = get_dataset(params)
-        input_scale = md.inputTensors[0].scale
-        input_zero_point = md.inputTensors[0].zeroPoint
-        test_data_int8 = np.asarray(
-            test_data / input_scale + input_zero_point, dtype=np.int8
-        )
-    else:
-        print("[INFO] Generate random dataset.")
-
-    differences = []
-    for i in range(md.numOutputs):
-        differences.append([])
-
-    # differences = np.zeros((md.numOutputs, md.outputTensors[0].words))
-    for i in tqdm(range(runs)):
-        # Generate random input
-        if params.random_data:
-            if md.inputTensors[0].type == np.int8:
-                input_data = np.random.randint(
-                    -127, 127, size=tuple(md.inputTensors[0].shape), dtype=np.int8
-                )
-            else:
-                input_data = (
-                    np.random.random(size=tuple(md.inputTensors[0].shape)).astype(
-                        md.inputTensors[0].type
-                    )
-                    * 2
-                    - 1
-                )
-        else:
-            input_data = np.array([test_data_int8[i]])
-
-        # Invoke locally and on EVB
-        interpreter.set_tensor(md.input_details[0]["index"], input_data)
-        interpreter.invoke()
-
-        # Do it on EVB
-        if md.inputTensors[0].bytes > (params.max_rpc_buf_size - 600):
-            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 600))
-            inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
-                description="Empty Tensor",
-                dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-                cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-                buffer=bytearray(),
-                length=0,
-            )
-        else:
-            inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
-                description="Input Tensor",
-                dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
-                cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
-                buffer=input_data.flatten().tobytes(),
-                length=md.inputTensors[0].bytes,
-            )
-
-        outputTensor = erpc.Reference()
-
-        stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)
-        # print(len(outputTensor.value.buffer))
-
-        # Output tensors are packed into outputTensor buffer in order (0,1,...)
-        # Assume each has a different length and type, and unpack them into
-        # an array for later comparison.
-        otOffset = 0
-        otIndex = 0
-        # out_array = []
-        # differences[outputTensor][difference_array]
-        for ot in md.outputTensors:
-            if ot.type is np.int8:
-                out_array = list(
-                    struct.unpack_from(
-                        "<" + "b" * ot.bytes, outputTensor.value.buffer, otOffset
-                    )
-                )
-            elif md.outputTensors[0].type is np.float32:
-                out_array = list(
-                    struct.unpack_from(
-                        "<" + "f" * ot.words, outputTensor.value.buffer, otOffset
-                    )
-                )
-
-            local_output_data = interpreter.get_tensor(
-                md.output_details[otIndex]["index"]
-            ).flatten()
-            # print(f"off {otOffset} idx {otIndex}, li %d" % md.output_details[otIndex]["index"])
-            # print(md.output_details[otIndex])
-            # print(local_output_data)
-            # print(out_array)
-            # print("---")
-            # print(local_output_data - out_array)
-            differences[otIndex].append(local_output_data - out_array)
-            # print(differences)
-            otOffset += ot.bytes
-            otIndex += 1
-        # print(differences)
-    return differences
-
-
 def compile_and_deploy(params, first_time=False):
-    # Compile & Deploy
+
     if first_time:
         makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
 
@@ -427,12 +457,20 @@ def compile_and_deploy(params, first_time=False):
 
 
 def create_mut_metadata(tflm_dir, mc):
-    # Extract stats and export tuned metadata header file
+    """
+    Create mut_model_metadata.h, a config header for examples/tflm_validator. Can be
+     used to create the default (large buffer) configuration or a version tuned on
+     stats discovered by running the default
+    """
 
     rm = {
         "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
         "NS_AD_ARENA_SIZE": mc.arena_size_k,
         "NS_AD_RV_COUNT": mc.rv_count,
+        "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
+        "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
+        .replace("[", "")
+        .replace("]", ""),
     }
     print(
         "[INFO] Create metadata file with %dk arena size, RPC RX/TX buffer %d, RV Count %d"
@@ -445,7 +483,7 @@ def create_mut_metadata(tflm_dir, mc):
     )
 
 
-def create_validation_binary(params, baseline, mc, md):
+def create_validation_binary(params, baseline, mc):
     tflm_dir = params.tflm_src_path
 
     if baseline:

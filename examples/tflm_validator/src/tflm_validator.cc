@@ -52,6 +52,8 @@ uint32_t stats_remaining = 0;
 
 ns_incoming_tensor_details_u inputTensorDetails[NS_MAX_INPUT_TENSORS];
 ns_incoming_tensor_details_u outputTensorDetails[NS_MAX_OUTPUT_TENSORS];
+extern int
+tflm_validator_model_init(ns_model_state_t *ms);
 
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
@@ -124,7 +126,7 @@ configureModel(const dataBlock *in) {
     tflm.tickTimer = NULL;
 #endif
 
-    int status = ns_model_init(&tflm);
+    int status = tflm_validator_model_init(&tflm);
     mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
     ns_lp_printf("[INFO] Input Size %d \n", tflm.interpreter->inputs_size());
     ns_lp_printf("[INFO] Output Size %d \n", tflm.interpreter->outputs_size());

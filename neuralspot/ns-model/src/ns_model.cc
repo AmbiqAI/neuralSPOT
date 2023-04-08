@@ -74,7 +74,8 @@ ns_model_init(ns_model_state_t *ms) {
         return NS_STATUS_FAILURE;
     }
 
-    static tflite::AllOpsResolver resolver;
+    // static tflite::AllOpsResolver resolver;
+    static tflite::MicroMutableOpResolver<6> resolver;
 
     // Allocate ResourceVariable stuff if needed
     tflite::MicroResourceVariables *resource_variables;

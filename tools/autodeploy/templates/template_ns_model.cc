@@ -1,17 +1,17 @@
 /**
- * @file <NS_AD_NAME>_model.c (generated from template.cc)
- * @author autodeploy.py
- * @brief Generated automatically from template code by NS autodeploy script
+ * @file Template for generic_model.h
+ * @author Carlos Morales (carlos.morales@ambiq.com)
+ * @brief Generic TF Model wrapper
  * @version 0.1
- * @date 2023-03-15
+ * @date 2023-3-08
  *
  * @copyright Copyright (c) 2023
  *
  */
 
-#include "NS_AD_NAME_api.h"
-#include "NS_AD_NAME_model.h"
-#include "NS_AD_NAME_model_data.h"
+// NS includes
+#include "ns_ambiqsuite_harness.h"
+#include "ns_debug_log.h"
 #include "ns_model.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
@@ -29,42 +29,34 @@
     #include "tensorflow/lite/micro/micro_error_reporter.h"
 #endif
 
-static constexpr int NS_AD_NAME_tensor_arena_size = 1024 * NS_AD_NAME_COMPUTED_ARENA_SIZE;
-alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
-
-// Resource Variable Arena
-static constexpr int NS_AD_NAME_resource_var_arena_size =
-    4 * (NS_AD_RV_COUNT + 1) * sizeof(tflite::MicroResourceVariables);
-alignas(16) static uint8_t NS_AD_NAME_var_arena[NS_AD_NAME_resource_var_arena_size];
-
+/**
+ * @brief Initialize TF with model
+ *
+ * This code is fairly common across most TF-based models.
+ * The major differences relate to input and output tensor
+ * handling.
+ *
+ */
 int
-NS_AD_NAME_init(ns_model_state_t *ms);
-
-int
-NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
-    ms->runtime = TFLM;
-    ms->model_array = NS_AD_NAME_model;
-    ms->arena = NS_AD_NAME_tensor_arena;
-    ms->arena_size = NS_AD_NAME_tensor_arena_size;
-    ms->rv_arena = NS_AD_NAME_var_arena;
-    ms->rv_arena_size = NS_AD_NAME_resource_var_arena_size;
-    ms->rv_count = NS_AD_RV_COUNT;
-    ms->numInputTensors = NS_AD_NUM_INPUT_VECTORS;
-    ms->numOutputTensors = NS_AD_NUM_OUTPUT_VECTORS;
-
-    ms->tickTimer = NULL;
-    ms->mac_estimate = NULL;
-
-    int status = NS_AD_NAME_init(ms);
-    return status;
-}
-
-int
-NS_AD_NAME_init(ns_model_state_t *ms) {
+NS_AD_NAME_model_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
     tflite::MicroErrorReporter micro_error_reporter;
     ms->error_reporter = &micro_error_reporter;
+
+#ifdef NS_MLPROFILE
+    // Need a timer for the profiler to collect latencies
+    NS_TRY(ns_timer_init(ms->tickTimer), "Timer init failed.\n");
+    static tflite::MicroProfiler micro_profiler;
+    ms->profiler = &micro_profiler;
+
+    ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
+
+#else
+    #ifdef NS_MLDEBUG
+    ns_TFDebugLogInit(NULL, NULL);
+    #endif
+#endif
 
     tflite::InitializeTarget();
 
@@ -76,7 +68,7 @@ NS_AD_NAME_init(ns_model_state_t *ms) {
                              "Model provided is schema version %d not equal "
                              "to supported version %d.",
                              ms->model->version(), TFLITE_SCHEMA_VERSION);
-        return NS_AD_NAME_STATUS_FAILURE;
+        return NS_STATUS_FAILURE;
     }
 
 #ifdef NS_TF_VERSION_fecdd5d
@@ -85,6 +77,8 @@ NS_AD_NAME_init(ns_model_state_t *ms) {
     static tflite::MicroMutableOpResolver<NS_AD_NUM_OPS> resolver(error_reporter);
 #endif
     NS_AD_RESOLVER_ADDS
+
+    // static tflite::AllOpsResolver resolver;
 
     // Allocate ResourceVariable stuff if needed
     tflite::MicroResourceVariables *resource_variables;
@@ -112,8 +106,11 @@ NS_AD_NAME_init(ns_model_state_t *ms) {
 
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
-        return NS_AD_NAME_STATUS_FAILURE;
+        ms->computed_arena_size = 0xDEADBEEF;
+        return NS_STATUS_FAILURE;
     }
+
+    ms->computed_arena_size = ms->interpreter->arena_used_bytes(); // prep to send back to PC
 
     // Obtain pointers to the model's input and output tensors.
     for (uint32_t t = 0; t <= ms->numInputTensors; t++) {
@@ -125,5 +122,5 @@ NS_AD_NAME_init(ns_model_state_t *ms) {
     }
 
     ms->state = READY;
-    return NS_AD_NAME_STATUS_SUCCESS;
+    return NS_STATUS_SUCCESS;
 }

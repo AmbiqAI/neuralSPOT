@@ -10,7 +10,6 @@ build := build
 includes_api :=
 pp_defines   := $(DEFINES)
 
-model_lib := $(rootdir)/build/neuralspot/ns-model/ns-model.a
 libraries := lib/NS_AD_NAME_lib.a
 includes_api += $(rootdir)/neuralspot/ns-model/includes-api
 includes_api += lib
@@ -28,9 +27,9 @@ all: $(build) $(build)/NS_AD_NAME_example.bin $(build)/NS_AD_NAME_example.axf
 $(build):
 	$(Q) $(MKD) -p $@
 
-lib/NS_AD_NAME_lib.a: $(build)/NS_AD_NAME_model.o $(model_lib)
+lib/NS_AD_NAME_lib.a: $(build)/NS_AD_NAME_model.o
 	@echo " Archiving $< to make $@"
-	$(Q) $(AR) rcT $@ $^
+	$(Q) $(AR) rsc $@ $^
 
 $(build)/%.o: src/%.c
 	@echo " Compiling $(COMPILERNAME) $< to make $@"

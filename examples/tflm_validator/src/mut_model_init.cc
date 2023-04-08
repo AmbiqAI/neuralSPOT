@@ -72,21 +72,16 @@ tflm_validator_model_init(ns_model_state_t *ms) {
     }
 
 #ifdef NS_TF_VERSION_fecdd5d
-    static tflite::MicroMutableOpResolver<11> resolver;
+    static tflite::MicroMutableOpResolver<6> resolver;
 #else
-    static tflite::MicroMutableOpResolver<11> resolver(error_reporter);
+    static tflite::MicroMutableOpResolver<6> resolver(ms->error_reporter);
 #endif
-    resolver.AddQuantize();
-    resolver.AddCallOnce();
-    resolver.AddVarHandle();
-    resolver.AddReadVariable();
-    resolver.AddConcatenation();
-    resolver.AddStridedSlice();
-    resolver.AddAssignVariable();
+    resolver.AddExpandDims();
     resolver.AddConv2D();
+    resolver.AddReshape();
     resolver.AddMaxPool2D();
     resolver.AddFullyConnected();
-    resolver.AddDequantize();
+    resolver.AddSoftmax();
 
     // static tflite::AllOpsResolver resolver;
 

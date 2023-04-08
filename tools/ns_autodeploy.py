@@ -116,7 +116,7 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
-    differences = validateModel(params, client, interpreter, md)
+    differences = validateModel(params, client, interpreter, md, mc)
     if params.create_profile:
         # Get profiling stats
         stats = getModelStats(params, client)

@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 from ns_utils import createFromTemplate, xxd_c_dump
 
 
@@ -48,6 +49,7 @@ def generateModelLib(params, mc, md):
     # Copy needed files
     os.system(f"cp ../neuralspot/ns-core/src/startup_gcc.c {d}/{n}/src/")
     os.system(f"cp autodeploy/templates/linker_script.ld {d}/{n}/src/")
+    os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/lib/")
 
     # Generate model weight file
     xxd_c_dump(
@@ -56,6 +58,31 @@ def generateModelLib(params, mc, md):
         var_name=f"{n}_model",
         chunk_len=12,
         is_header=True,
+    )
+
+    # Generate input/output tensor example data
+    # inputs = str([list(i) for i in mc.exampleTensors.inputTensors].flatten()).replace("[","{").replace("]","}")
+    # outputs = str([list(i) for i in mc.exampleTensors.outputTensors].flatten).replace("[","{").replace("]","}")
+
+    flatInput = [
+        element for sublist in mc.exampleTensors.inputTensors for element in sublist
+    ]
+    flatOutput = [
+        element for sublist in mc.exampleTensors.outputTensors for element in sublist
+    ]
+    inputs = str(flatInput).replace("[", "{").replace("]", "}")
+    outputs = str(flatOutput).replace("[", "{").replace("]", "}")
+
+    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t"}
+
+    rm["NS_AD_INPUT_TENSORS"] = inputs
+    rm["NS_AD_OUTPUT_TENSORS"] = outputs
+    rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
+    rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
+    createFromTemplate(
+        "autodeploy/templates/template_example_tensors.h",
+        f"{d}/{n}/src/{n}_example_tensors.h",
+        rm,
     )
 
     # Generate library and example binary

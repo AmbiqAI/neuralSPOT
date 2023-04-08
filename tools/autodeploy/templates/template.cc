@@ -38,10 +38,10 @@ static constexpr int NS_AD_NAME_resource_var_arena_size =
 alignas(16) static uint8_t NS_AD_NAME_var_arena[NS_AD_NAME_resource_var_arena_size];
 
 int
-NS_AD_NAME_minimal_init(ns_model_state_t *ms);
+NS_AD_NAME_init(ns_model_state_t *ms);
 
 int
-NS_AD_NAME_init(ns_model_state_t *ms) {
+NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
     ms->runtime = TFLM;
     ms->model_array = NS_AD_NAME_model;
     ms->arena = NS_AD_NAME_tensor_arena;
@@ -55,12 +55,12 @@ NS_AD_NAME_init(ns_model_state_t *ms) {
     ms->tickTimer = NULL;
     ms->mac_estimate = NULL;
 
-    int status = NS_AD_NAME_minimal_init(ms);
+    int status = NS_AD_NAME_init(ms);
     return status;
 }
 
 int
-NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
+NS_AD_NAME_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
     tflite::MicroErrorReporter micro_error_reporter;

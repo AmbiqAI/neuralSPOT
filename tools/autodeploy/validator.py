@@ -69,6 +69,12 @@ class ModelStructureDetails:
         return retval, len(self.opsetList[0])
 
 
+class ExampleTensors:
+    def __init__(self, inputTensors, outputTensors):
+        self.inputTensors = inputTensors
+        self.outputTensors = outputTensors
+
+
 class ModelConfiguration:
     rv_count = 0  # Resource Variables needed by the model
 
@@ -100,6 +106,9 @@ class ModelConfiguration:
             next_power_of_2(md.totalOutputTensorBytes + 50),
             512,  # min
         )
+
+    def update_from_validation(self, inputTensors, outputTensors):
+        self.exampleTensors = ExampleTensors(inputTensors, outputTensors)
 
     def check(self, params):
         if self.arena_size_k > params.max_arena_size:
@@ -203,7 +212,7 @@ def sendLongInputTensor(client, input_data, chunkLen):
         status = client.ns_rpc_data_sendBlockToEVB(inputChunk)
 
 
-def validateModel(params, client, interpreter, md):
+def validateModel(params, client, interpreter, md, mc):
     """
     Generates input vectors (random or from a pkl) and sends them to both
     the local TFLite model and the one running on the EVB. It compares the
@@ -234,7 +243,7 @@ def validateModel(params, client, interpreter, md):
         differences.append([])
 
     for i in tqdm(range(runs)):
-
+        inExamples = []
         # Generate or load data
         if params.random_data:
             # Generate random input
@@ -253,8 +262,12 @@ def validateModel(params, client, interpreter, md):
         else:
             input_data = np.array([test_data_int8[i]])
 
+        if i == 0:
+            inExamples.append(input_data.flatten())  # Capture inputs for AutoGen
+
         # Invoke locally and on EVB
         interpreter.set_tensor(md.input_details[0]["index"], input_data)
+
         interpreter.invoke()  # local invoke
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
@@ -290,6 +303,7 @@ def validateModel(params, client, interpreter, md):
         # Each has a different length and type; unpack them into an array for later comparison.
         otOffset = 0
         otIndex = 0
+        outExamples = []
         for ot in md.outputTensors:
             if ot.type is np.int8:
                 out_array = list(
@@ -297,7 +311,7 @@ def validateModel(params, client, interpreter, md):
                         "<" + "b" * ot.bytes, outputTensor.value.buffer, otOffset
                     )
                 )
-            elif md.outputTensors[0].type is np.float32:
+            elif ot.type is np.float32:
                 out_array = list(
                     struct.unpack_from(
                         "<" + "f" * ot.words, outputTensor.value.buffer, otOffset
@@ -308,9 +322,20 @@ def validateModel(params, client, interpreter, md):
                 md.output_details[otIndex]["index"]
             ).flatten()
 
+            if i == 0:
+                outExamples.append(
+                    np.array(out_array).flatten()
+                )  # Capture outputs for AutoGen
+
             differences[otIndex].append(local_output_data - out_array)
             otOffset += ot.bytes
             otIndex += 1
+
+        if i == 0:
+            # capture first input and output tensor set
+            # Input is from local TF, output is from EVB
+            mc.update_from_validation(inExamples, outExamples)
+
     return differences
 
 

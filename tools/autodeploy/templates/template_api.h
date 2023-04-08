@@ -13,4 +13,7 @@
 extern int
 NS_AD_NAME_init(ns_model_state_t *ms);
 
+extern int
+NS_AD_NAME_minimal_init(ns_model_state_t *ms);
+
 #endif

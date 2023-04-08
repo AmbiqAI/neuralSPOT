@@ -3,7 +3,12 @@ import os
 import sys
 from pathlib import Path
 
-from utils.tflite_helpers import CreateDictFromFlatbuffer, OpCodeMapper, TensorAnalyze
+from utils.tflite_helpers import (
+    CreateAddFromSnakeOpName,
+    CreateDictFromFlatbuffer,
+    OpCodeMapper,
+    TensorAnalyze,
+)
 
 
 def analyze_tflite_file(tflite_file, model_name=""):  # pylint: disable=invalid-name
@@ -139,12 +144,17 @@ def main(argv):
         print("Usage: %s <input tflite>" % (argv[0]))
     else:
         code, ops, macs, opset, slen = analyze_tflite_file(tflite_input)
+
+        print(opset[0])
+
+        for i, opname in opset[0].items():
+            CreateAddFromSnakeOpName(opname)
+
         print(code)
-        # print(opset)
-        # print(ops)
-        # print(str(macs).replace("[","").replace("]",""))
-        # print(macs)
-        # print(slen)
+        print(ops)
+        print(str(macs).replace("[", "").replace("]", ""))
+        print(macs)
+        print(slen)
 
 
 if __name__ == "__main__":

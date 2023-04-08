@@ -36,7 +36,7 @@ modules      += neuralspot/ns-usb
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-rpc
 modules      += neuralspot/ns-i2c
-modules      += neuralspot/ns-model
+# modules      += neuralspot/ns-model
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)

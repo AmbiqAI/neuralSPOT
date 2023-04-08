@@ -110,6 +110,17 @@ def CreateDictFromFlatbuffer(buffer_data):
     return FlatbufferToDict(model, preserve_as_numpy=False)
 
 
+def CreateAddFromSnakeOpName(snake):
+    components = snake.split("_")
+    addName = "Add"
+    for s in components:
+        if s != "2D":
+            s = s.lower().title()
+        addName += s
+
+    return addName
+
+
 class TensorAnalyze:
     """Maps a list of tensor indices to a tooltip hoverable indicator of more."""
 

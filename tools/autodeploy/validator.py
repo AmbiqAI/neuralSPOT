@@ -19,6 +19,7 @@ from ns_utils import (
 )
 from tabulate import tabulate
 from tqdm import tqdm
+from utils.tflite_helpers import CreateAddFromSnakeOpName
 
 sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 import GenericDataOperations_PcToEvb
@@ -36,6 +37,9 @@ class ModelStructureDetails:
             self.opsetList,
             graph_count,
         ) = analyze_tflite_file(tflite_filename)
+
+        # Resource Variable Count corresponds to number of VAR_HANDLE ops in overallOpsNameList[0]
+        self.rv_count = self.overallOpsNameList[0].count("VAR_HANDLE")
 
         # Handle subgraphs: this code assumes there are a maximum of two graphs, and
         # the base graph (0) calls the subgraph only once (via CALL_ONCE). In order to
@@ -56,6 +60,20 @@ class ModelStructureDetails:
                     self.opsNameList.extend(self.overallOpsNameList[1])
                 baseGraphIndex += 1
 
+        self.layers = len(self.opsNameList)
+
+    def getAddList(self):
+        retval = ""
+        for i, opname in self.opsetList[0].items():
+            retval += f"resolver.{CreateAddFromSnakeOpName(opname)}();\n"
+        return retval, len(self.opsetList[0])
+
+
+class ExampleTensors:
+    def __init__(self, inputTensors, outputTensors):
+        self.inputTensors = inputTensors
+        self.outputTensors = outputTensors
+
 
 class ModelConfiguration:
     rv_count = 0  # Resource Variables needed by the model
@@ -65,12 +83,13 @@ class ModelConfiguration:
         self.arena_size = params.max_arena_size * 1024
         self.stat_buffer_size = params.max_rpc_buf_size  # in bytes
         self.adjusted_stat_buffer_size = params.max_rpc_buf_size  # in bytes
-        ModelConfiguration.rv_count = params.resource_variable_count
+        # ModelConfiguration.rv_count = params.resource_variable_count
         self.stat_per_event_size = (
             -1
         )  # dontcare, -1 will force an error if used elsewhere
         self.events = -1
         self.modelStructureDetails = ModelStructureDetails(params.tflite_filename)
+        self.rv_count = self.modelStructureDetails.rv_count
 
     def update_from_stats(self, stats, md):
         self.arena_size = stats[0]  # in bytes
@@ -87,6 +106,9 @@ class ModelConfiguration:
             next_power_of_2(md.totalOutputTensorBytes + 50),
             512,  # min
         )
+
+    def update_from_validation(self, inputTensors, outputTensors):
+        self.exampleTensors = ExampleTensors(inputTensors, outputTensors)
 
     def check(self, params):
         if self.arena_size_k > params.max_arena_size:
@@ -190,7 +212,7 @@ def sendLongInputTensor(client, input_data, chunkLen):
         status = client.ns_rpc_data_sendBlockToEVB(inputChunk)
 
 
-def validateModel(params, client, interpreter, md):
+def validateModel(params, client, interpreter, md, mc):
     """
     Generates input vectors (random or from a pkl) and sends them to both
     the local TFLite model and the one running on the EVB. It compares the
@@ -221,7 +243,7 @@ def validateModel(params, client, interpreter, md):
         differences.append([])
 
     for i in tqdm(range(runs)):
-
+        inExamples = []
         # Generate or load data
         if params.random_data:
             # Generate random input
@@ -240,8 +262,12 @@ def validateModel(params, client, interpreter, md):
         else:
             input_data = np.array([test_data_int8[i]])
 
+        if i == 0:
+            inExamples.append(input_data.flatten())  # Capture inputs for AutoGen
+
         # Invoke locally and on EVB
         interpreter.set_tensor(md.input_details[0]["index"], input_data)
+
         interpreter.invoke()  # local invoke
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
@@ -277,6 +303,7 @@ def validateModel(params, client, interpreter, md):
         # Each has a different length and type; unpack them into an array for later comparison.
         otOffset = 0
         otIndex = 0
+        outExamples = []
         for ot in md.outputTensors:
             if ot.type is np.int8:
                 out_array = list(
@@ -284,7 +311,7 @@ def validateModel(params, client, interpreter, md):
                         "<" + "b" * ot.bytes, outputTensor.value.buffer, otOffset
                     )
                 )
-            elif md.outputTensors[0].type is np.float32:
+            elif ot.type is np.float32:
                 out_array = list(
                     struct.unpack_from(
                         "<" + "f" * ot.words, outputTensor.value.buffer, otOffset
@@ -295,9 +322,20 @@ def validateModel(params, client, interpreter, md):
                 md.output_details[otIndex]["index"]
             ).flatten()
 
+            if i == 0:
+                outExamples.append(
+                    np.array(out_array).flatten()
+                )  # Capture outputs for AutoGen
+
             differences[otIndex].append(local_output_data - out_array)
             otOffset += ot.bytes
             otIndex += 1
+
+        if i == 0:
+            # capture first input and output tensor set
+            # Input is from local TF, output is from EVB
+            mc.update_from_validation(inExamples, outExamples)
+
     return differences
 
 
@@ -433,14 +471,15 @@ def printStats(stats, stats_filename):
     np.savetxt(stats_filename, table, delimiter=", ", fmt="% s")
 
 
-def compile_and_deploy(params, first_time=False):
+def compile_and_deploy(params, mc, first_time=False):
 
     if first_time:
         makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
 
     if params.create_profile:
         makefile_result = os.system(
-            f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={params.max_profile_events}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            # f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={params.max_profile_events}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
         )
     else:
         makefile_result = os.system(
@@ -483,6 +522,20 @@ def create_mut_metadata(tflm_dir, mc):
     )
 
 
+def create_mut_modelinit(tflm_dir, mc):
+    adds, addsLen = mc.modelStructureDetails.getAddList()
+    rm = {
+        "NS_AD_NAME": "tflm_validator",
+        "NS_AD_NUM_OPS": addsLen,
+        "NS_AD_RESOLVER_ADDS": adds,
+    }
+    createFromTemplate(
+        "autodeploy/templates/template_ns_model.cc",
+        f"{tflm_dir}/mut_model_init.cc",
+        rm,
+    )
+
+
 def create_validation_binary(params, baseline, mc):
     tflm_dir = params.tflm_src_path
 
@@ -498,7 +551,8 @@ def create_validation_binary(params, baseline, mc):
         f"[INFO] Compiling and deploying Validation image - baseline {baseline}, arena {mc.arena_size_k}k, RPC buffers {mc.adjusted_stat_buffer_size}, Resource Variables {mc.rv_count}"
     )
     create_mut_metadata(tflm_dir, mc)
-    compile_and_deploy(params, first_time=baseline)
+    create_mut_modelinit(tflm_dir, mc)
+    compile_and_deploy(params, mc, first_time=baseline)
 
 
 def get_interpreter(params):

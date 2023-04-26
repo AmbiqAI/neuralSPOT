@@ -74,7 +74,7 @@ tflm_validator_model_init(ns_model_state_t *ms) {
 #ifdef NS_TF_VERSION_fecdd5d
     static tflite::MicroMutableOpResolver<6> resolver;
 #else
-    static tflite::MicroMutableOpResolver<6> resolver(ms->error_reporter);
+    static tflite::MicroMutableOpResolver<6> resolver(error_reporter);
 #endif
     resolver.AddExpandDims();
     resolver.AddConv2D();

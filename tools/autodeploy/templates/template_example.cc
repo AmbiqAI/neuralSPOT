@@ -1,8 +1,8 @@
 /**
- * @file tflm_validator.cc
+ * @file NS_AD_NAME_example.cc
  * @author Carlos Morales
- * @brief Shell application for instantiating a TFLM model and allowing a RPC
- * client to set input tensors, invoke() it, and collect output tensors
+ * @brief Minimal application instantiating a TFLM model, feeding it
+ * a test input tensor, and checking the result
  * @version 0.1
  * @date 2023-02-28
  *
@@ -28,8 +28,9 @@ Notes:
   types, with all dtype, dimensions, etc, preserved as usual.
 */
 
-// TFLM Config and arena
+// TFLM Config
 static ns_model_state_t model;
+volatile int example_status = 0; // Prevent the compiler from optimizing out while loops
 
 int
 main(void) {
@@ -39,7 +40,7 @@ main(void) {
 
     if (status == NS_AD_NAME_STATUS_FAILURE) {
         while (1)
-            ; // hang
+            example_status = NS_AD_NAME_STATUS_INIT_FAILED; // hang
     }
 
     // At this point, the model is ready to use - init and allocations were successful
@@ -63,7 +64,7 @@ main(void) {
 
     if (invoke_status != kTfLiteOk) {
         while (1)
-            ; // invoke failed, so hang
+            example_status = NS_AD_NAME_STATUS_FAILURE; // invoke failed, so hang
     }
 
     // Compare the bytes of the output tensors against expected values
@@ -73,12 +74,13 @@ main(void) {
                         ((char *)NS_AD_NAME_example_output_tensors) + offset,
                         model.model_output[i]->bytes)) {
             while (1)
-                ; // miscompare, so hang
+                example_status = NS_AD_NAME_STATUS_INVALID_CONFIG; // miscompare, so hang
         }
         offset += model.model_output[i]->bytes;
     }
 
     while (1) {
         // Success!
+        example_status = NS_AD_NAME_STATUS_SUCCESS;
     }
 }

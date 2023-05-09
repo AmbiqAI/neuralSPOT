@@ -92,6 +92,21 @@ typedef enum {
     NS_AUDIO_SOURCE_AUDADC ///< Collect data from AUDADC
 } ns_audio_source_e;
 
+/// ADC Clock Source
+typedef enum {
+    NS_CLKSEL_XTHS,
+    NS_CLKSEL_HFRC,
+    NS_CLKSEL_HFRC2,
+    NS_CLKSEL_HFRC2_ADJ
+} ns_audio_audadc_clksel_e;
+
+typedef struct {
+    ns_audio_audadc_clksel_e clock;
+    bool low_power_mode;
+    bool repeating_trigger_mode;
+    bool dcmp_enable;
+} ns_audadc_cfg_t;
+
 // Forward declaration to get around using it in cb
 struct ns_audio_cfg;
 
@@ -119,10 +134,13 @@ typedef struct ns_audio_cfg {
     uint16_t numSamples;            ///< Samples collected per callback
     uint16_t sampleRate;            ///< In Hz
 
+    /** AUDADC Config - only used by audadc driver */
+    ns_audadc_cfg_t *audadc_config;
+
     /** Internals */
     void *audioSystemHandle;            ///< Handle, filled by init
     ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
-
+    float fLGAdB;
 } ns_audio_config_t;
 
 extern ns_audio_config_t *g_ns_audio_config;

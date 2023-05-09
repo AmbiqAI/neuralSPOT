@@ -51,9 +51,6 @@ uint32_t g_ui32SampleToRTT = 0;
 /**
  * @brief Audio Configuration and State
  *
- * This is populated here with some sane results, but it
- * isn't valid until futher initialized by ns_audio_init
- *
  */
 ns_audio_config_t *g_ns_audio_config = NULL;
 
@@ -93,12 +90,23 @@ ns_audio_init(ns_audio_config_t *cfg) {
                                          .pData = g_ns_audio_config->audioBuffer,
                                          .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2};
 
-        ns_ipc_ring_buffer_init(cfg->bufferHandle, setup);
-        g_ns_audio_config->bufferHandle = cfg->bufferHandle;
+        ns_ipc_ring_buffer_init(g_ns_audio_config->bufferHandle, setup);
+        g_ns_audio_config->bufferHandle = g_ns_audio_config->bufferHandle;
     }
 
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        if (g_ns_audio_config->audadc_config == NULL) {
+            g_ns_audio_config->audadc_config = &ns_audadc_default;
+        }
+
         if (audadc_init()) {
+            return NS_STATUS_INIT_FAILED;
+        }
+
+        // Trigger the AUDADC sampling for the first time manually.
+        if (AM_HAL_STATUS_SUCCESS !=
+            am_hal_audadc_sw_trigger(g_ns_audio_config->audioSystemHandle)) {
+            am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
             return NS_STATUS_INIT_FAILED;
         }
     }

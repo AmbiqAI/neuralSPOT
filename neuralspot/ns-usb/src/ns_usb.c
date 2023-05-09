@@ -86,7 +86,12 @@ ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
     if (ns_core_check_api(cfg->api, &ns_usb_oldest_supported_version, &ns_usb_current_version)) {
         return NS_STATUS_INVALID_VERSION;
     }
+
+    if ((cfg->rx_buffer == NULL) || (cfg->tx_buffer == NULL)) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
 #endif
+
     usb_config.deviceType = cfg->deviceType;
     usb_config.rx_buffer = cfg->rx_buffer;
     usb_config.rx_bufferLength = cfg->rx_bufferLength;

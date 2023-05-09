@@ -20,8 +20,6 @@ sequenceDiagram
     PC->>-EVB: ns_rpc_data_success
 ```
 
-
-
 We demonstrate the following EVB->PC procedure calls:
 
 - `ns_rpc_data_remotePrintOnPC("Hello World\n")`: Calls ns_rpc_data_remotePrintOnPC() on the PC, which is implemented in python. The example server simply prints the string to the terminal.
@@ -31,13 +29,11 @@ We demonstrate the following EVB->PC procedure calls:
 It's a client/server system needing some careful staging, described below.
 
 ## Installation and Setup
-You'll need to install some laptop-side software, including ERPC's python library.
+You'll need to install some laptop-side software.
 
 > *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
 
-1. Clone our erpc fork (git@github.com:AmbiqAI/erpc.git)
-2. Install erpc_python (instructions here: https://github.com/AmbiqAI/erpc/tree/develop/erpc_python)
-3. Install Python Libraries needed for our example Python application - see [here](../../neuralspot/ns-rpc/README.md) for a how to run it for the first time.
+To install the Python Libraries needed to run our example Python application, see [here](../../neuralspot/ns-rpc/README.md).
 
 ## Running the RPC-client example
 Running RPC requires a bit of staging. The PC-side server cant start until the USB TTY interface
@@ -53,7 +49,7 @@ pressing the button to let the EVB it is ready to start RPCing.
 5. At this point, the second USB connection should come alive and mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on a windows PC it'll be `COMx` or similar. If the device doesn't pop up, there is a problem. It won't show up until "Press Button" shows up, so make sure you got that far.
 6. Start the laptop-side RPC server:
 ```bash
-$> cd neuralSPOT/neuralspot/ns-rpc/python/ns-rpc-genericdata
+$> cd neuralSPOT/tools
 $> python -m generic_data -t /dev/tty.usbmodem1234561 -o myaudio.wav -m server
 Server started - waiting for client to send a eRPC request
 ```

@@ -12,7 +12,7 @@ The basic_tf_stub example is based on a speech to intent model.
 **/
 
 #define RINGBUFFER_MODE
-// #define RPC_ENABLED
+#define RPC_ENABLED
 // #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 

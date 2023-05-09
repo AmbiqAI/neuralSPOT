@@ -36,6 +36,11 @@ volatile bool static g_audioRecording = false;
 int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
 uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
 
+#define MY_USB_RX_BUFSIZE 2048
+#define MY_USB_TX_BUFSIZE 2048
+static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
+static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
+
 void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     uint32_t *pui32_buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
@@ -66,7 +71,9 @@ main(void) {
     // ----- Non-RPC Init ------
     // -- These are needed for the demo, not directly related to RPC
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed\n");
+    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
     // ---
 
     ns_itm_printf_enable();
@@ -108,6 +115,10 @@ main(void) {
 
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
                                  .mode = NS_RPC_GENERICDATA_CLIENT,
+                                 .rx_buf = my_cdc_rx_ff_buf,
+                                 .rx_bufLength = MY_USB_RX_BUFSIZE,
+                                 .tx_buf = my_cdc_tx_ff_buf,
+                                 .tx_bufLength = MY_USB_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = NULL,
                                  .fetchBlockFromEVB_cb = NULL,
                                  .computeOnEVB_cb = NULL};

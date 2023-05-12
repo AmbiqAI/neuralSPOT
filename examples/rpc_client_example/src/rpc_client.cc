@@ -34,19 +34,40 @@
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
 int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
-uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
+uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3] __attribute__((aligned(16)));
+am_hal_audadc_sample_t sLGSampleBuffer[SAMPLES_IN_FRAME * 2];
 
 #define MY_USB_RX_BUFSIZE 2048
 #define MY_USB_TX_BUFSIZE 2048
 static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
 static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
 
+uint32_t *ui32BufferPing = audadcSampleBuffer;
+uint32_t *ui32BufferPong = (uint32_t *)(audadcSampleBuffer + SAMPLES_IN_FRAME);
+uint32_t *ui32BufferPtr = audadcSampleBuffer;
+
+uint32_t *
+ns_audadc_dma_get_buffer() {
+
+    // Invalidate DAXI to make sure CPU sees the new data when loaded.
+
+    ui32BufferPtr = (ui32BufferPtr == ui32BufferPong) ? ui32BufferPing : ui32BufferPong;
+
+    return ui32BufferPtr;
+}
+
 void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *pui32_buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
-
+    // uint32_t *pui32_buffer = (uint32_t *)ns_audadc_dma_get_buffer();
+    uint32_t ui32PcmSampleCnt = config->numSamples;
     if (g_audioRecording) {
-        ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
+        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
+                                   &ui32PcmSampleCnt, true, &sLGSampleBuffer[0], false, NULL, NULL);
+        for (int indx = 0; indx < ui32PcmSampleCnt; indx++) {
+            in16AudioDataBuffer[indx] =
+                sLGSampleBuffer[indx].int16Sample; // Low gain samples (MIC0) data to left channel.
+        }
+        // ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
         g_audioReady = true;
     }
 }
@@ -71,13 +92,15 @@ main(void) {
     // ----- Non-RPC Init ------
     // -- These are needed for the demo, not directly related to RPC
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
-    // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
-    NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed\n");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    // NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed\n");
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
     // ---
 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
+    ns_lp_printf("DMA buffer 1 0x%x, 2 0x%x\n", audadcSampleBuffer,
+                 audadcSampleBuffer + SAMPLES_IN_FRAME);
 
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;

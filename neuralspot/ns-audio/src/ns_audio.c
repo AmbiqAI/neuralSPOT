@@ -121,13 +121,26 @@ ns_audio_init(ns_audio_config_t *cfg) {
     return AM_HAL_STATUS_SUCCESS;
 }
 
+// void
+// ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
+//     for (int i = 0; i < len; i++) {
+//         pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
+//         if (i == 4) {
+//             // Workaround for AUDADC sample glitch, here while it is root caused
+//             pcm[3] = (pcm[2] + pcm[4]) / 2;
+//         }
+//     }
+// }
+
 void
-ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
-    for (int i = 0; i < len; i++) {
-        pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
-        if (i == 4) {
-            // Workaround for AUDADC sample glitch, here while it is root caused
-            pcm[3] = (pcm[2] + pcm[4]) / 2;
-        }
+ns_audio_getPCM(ns_audio_config_t *config, int16_t *pcm) {
+    uint32_t ui32PcmSampleCnt = config->numSamples;
+
+    am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer, &ui32PcmSampleCnt,
+                               true, config->workingBuffer, false, NULL, config->sOffsetCalib);
+
+    for (int indx = 0; indx < ui32PcmSampleCnt; indx++) {
+        pcm[indx] = config->workingBuffer[indx]
+                        .int16Sample; // Low gain samples (MIC0) data to left channel.
     }
 }

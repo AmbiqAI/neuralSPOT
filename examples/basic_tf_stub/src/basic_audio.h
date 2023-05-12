@@ -50,7 +50,7 @@ uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
  */
 static void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *pui32_buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
+    // uint32_t *pui32_buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
 
     if (audioRecording) {
         // if (audioReady) {
@@ -58,7 +58,8 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         // }
 
         // Raw PCM data is 32b (14b/channel) - convert it to 16b PCM
-        ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
+        // ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
+        ns_audio_getPCM(config, in16AudioDataBuffer);
 
 #ifdef RINGBUFFER_MODE
         ns_ipc_ring_buffer_push(&(config->bufferHandle[0]), in16AudioDataBuffer,

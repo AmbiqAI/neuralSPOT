@@ -438,8 +438,8 @@ audadc_init(ns_audio_config_t *cfg) {
     //
     // Calculate DC offset calibartion parameter.
     //
-    if (AM_HAL_STATUS_SUCCESS !=
-        am_hal_audadc_slot_dc_offset_calculate(g_AUDADCHandle, 4, &sOffsetCalib)) {
+    if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_slot_dc_offset_calculate(
+                                     g_AUDADCHandle, 4, g_ns_audio_config->sOffsetCalib)) {
         am_util_stdio_printf("Error - failed to calculate offset calibration parameter.\n");
     }
     #endif

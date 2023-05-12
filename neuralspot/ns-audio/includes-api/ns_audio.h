@@ -128,11 +128,12 @@ typedef struct ns_audio_cfg {
     void *audioBuffer;             ///< Where the audio will be located when callback occurs
 
     /** Audio Config */
-    ns_audio_source_e eAudioSource; ///< Choose audio source such as AUDADC
-    uint32_t *sampleBuffer;         ///< Where samples are DMA'd to
-    uint8_t numChannels;            ///< Number of audio channels, currently 1 or 2
-    uint16_t numSamples;            ///< Samples collected per callback
-    uint16_t sampleRate;            ///< In Hz
+    ns_audio_source_e eAudioSource;        ///< Choose audio source such as AUDADC
+    uint32_t *sampleBuffer;                ///< Where samples are DMA'd to
+    am_hal_audadc_sample_t *workingBuffer; ///< Working buffer used by AUDADC, otherwise NULL
+    uint8_t numChannels;                   ///< Number of audio channels, currently 1 or 2
+    uint16_t numSamples;                   ///< Samples collected per callback
+    uint16_t sampleRate;                   ///< In Hz
 
     /** AUDADC Config - only used by audadc driver */
     ns_audadc_cfg_t *audadc_config;
@@ -141,6 +142,8 @@ typedef struct ns_audio_cfg {
     void *audioSystemHandle;            ///< Handle, filled by init
     ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
     float fLGAdB;
+    am_hal_offset_cal_coeffs_array_t *sOffsetCalib;
+
 } ns_audio_config_t;
 
 extern ns_audio_config_t *g_ns_audio_config;
@@ -161,7 +164,7 @@ ns_audio_init(ns_audio_config_t *);
  * @param len - number of sample words to convert
  */
 extern void
-ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
+ns_audio_getPCM(ns_audio_config_t *config, int16_t *pcm);
 
 #ifdef __cplusplus
 }

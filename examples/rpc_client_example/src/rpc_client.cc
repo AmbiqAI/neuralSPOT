@@ -35,55 +35,64 @@ volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
 int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
 uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3] __attribute__((aligned(16)));
-am_hal_audadc_sample_t sLGSampleBuffer[SAMPLES_IN_FRAME * 2];
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * 2];
+am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 
-#define MY_USB_RX_BUFSIZE 2048
-#define MY_USB_TX_BUFSIZE 2048
-static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
-static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
+// uint32_t *ui32BufferPing = audadcSampleBuffer;
+// uint32_t *ui32BufferPong = (uint32_t *)(audadcSampleBuffer + SAMPLES_IN_FRAME);
+// uint32_t *ui32BufferPtr = audadcSampleBuffer;
 
-uint32_t *ui32BufferPing = audadcSampleBuffer;
-uint32_t *ui32BufferPong = (uint32_t *)(audadcSampleBuffer + SAMPLES_IN_FRAME);
-uint32_t *ui32BufferPtr = audadcSampleBuffer;
+// uint32_t *
+// ns_audadc_dma_get_buffer() {
 
-uint32_t *
-ns_audadc_dma_get_buffer() {
+//     // Invalidate DAXI to make sure CPU sees the new data when loaded.
 
-    // Invalidate DAXI to make sure CPU sees the new data when loaded.
+//     ui32BufferPtr = (ui32BufferPtr == ui32BufferPong) ? ui32BufferPing : ui32BufferPong;
 
-    ui32BufferPtr = (ui32BufferPtr == ui32BufferPong) ? ui32BufferPing : ui32BufferPong;
-
-    return ui32BufferPtr;
-}
+//     return ui32BufferPtr;
+// }
 
 void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     // uint32_t *pui32_buffer = (uint32_t *)ns_audadc_dma_get_buffer();
-    uint32_t ui32PcmSampleCnt = config->numSamples;
+    // uint32_t ui32PcmSampleCnt = config->numSamples;
     if (g_audioRecording) {
-        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
-                                   &ui32PcmSampleCnt, true, &sLGSampleBuffer[0], false, NULL, NULL);
-        for (int indx = 0; indx < ui32PcmSampleCnt; indx++) {
-            in16AudioDataBuffer[indx] =
-                sLGSampleBuffer[indx].int16Sample; // Low gain samples (MIC0) data to left channel.
-        }
-        // ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
+        // am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
+        //                            &ui32PcmSampleCnt, true, &sLGSampleBuffer[0], false, NULL,
+        //                            NULL);
+        // for (int indx = 0; indx < ui32PcmSampleCnt; indx++) {
+        //     in16AudioDataBuffer[indx] =
+        //         sLGSampleBuffer[indx].int16Sample; // Low gain samples (MIC0) data to left
+        //         channel.
+        // }
+        ns_audio_getPCM(config, in16AudioDataBuffer);
         g_audioReady = true;
     }
 }
 
-ns_audio_config_t audioConfig = {.api = &ns_audio_V1_0_0,
-                                 .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-                                 .callback = audio_frame_callback,
-                                 .audioBuffer = (void *)&in16AudioDataBuffer,
-                                 .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-                                 .sampleBuffer = audadcSampleBuffer,
-                                 .numChannels = NUM_CHANNELS,
-                                 .numSamples = SAMPLES_IN_FRAME,
-                                 .sampleRate = SAMPLE_RATE,
-                                 .audioSystemHandle = NULL,
-                                 .bufferHandle = NULL};
+ns_audio_config_t audioConfig = {
+    .api = &ns_audio_V1_0_0,
+    .eAudioApiMode = NS_AUDIO_API_CALLBACK,
+    .callback = audio_frame_callback,
+    .audioBuffer = (void *)&in16AudioDataBuffer,
+    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .sampleBuffer = audadcSampleBuffer,
+    .workingBuffer = sLGSampleBuffer,
+    .numChannels = NUM_CHANNELS,
+    .numSamples = SAMPLES_IN_FRAME,
+    .sampleRate = SAMPLE_RATE,
+    .audioSystemHandle = NULL, // filled in by init
+    .bufferHandle = NULL,      // only for ringbuffer mode
+    .sOffsetCalib = NULL,      // filled in by init
+};
 // -- Audio Stuff Ends ----------------------
+
+// RPC Stuff
+#define MY_USB_RX_BUFSIZE 2048
+#define MY_USB_TX_BUFSIZE 2048
+static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
+static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
+// End RPC Stuff
 
 int
 main(void) {
@@ -113,7 +122,7 @@ main(void) {
 
     // -- Audio init
     int recordingWin = NUM_FRAMES;
-    NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
+    // NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;

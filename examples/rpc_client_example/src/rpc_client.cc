@@ -33,39 +33,24 @@
 
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
-int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
-uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3] __attribute__((aligned(16)));
-am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * 2];
+
+#if NUM_CHANNELS == 1
+int16_t static audioDataBuffer[SAMPLES_IN_FRAME];
+#else
+int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
+#endif
+alignas(16) uint32_t static audadcDMABuffer[SAMPLES_IN_FRAME * NUM_CHANNELS + 3]
+    __attribute__((aligned(16)));
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS];
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
-
-// uint32_t *ui32BufferPing = audadcSampleBuffer;
-// uint32_t *ui32BufferPong = (uint32_t *)(audadcSampleBuffer + SAMPLES_IN_FRAME);
-// uint32_t *ui32BufferPtr = audadcSampleBuffer;
-
-// uint32_t *
-// ns_audadc_dma_get_buffer() {
-
-//     // Invalidate DAXI to make sure CPU sees the new data when loaded.
-
-//     ui32BufferPtr = (ui32BufferPtr == ui32BufferPong) ? ui32BufferPing : ui32BufferPong;
-
-//     return ui32BufferPtr;
-// }
 
 void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    // uint32_t *pui32_buffer = (uint32_t *)ns_audadc_dma_get_buffer();
-    // uint32_t ui32PcmSampleCnt = config->numSamples;
     if (g_audioRecording) {
-        // am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
-        //                            &ui32PcmSampleCnt, true, &sLGSampleBuffer[0], false, NULL,
-        //                            NULL);
-        // for (int indx = 0; indx < ui32PcmSampleCnt; indx++) {
-        //     in16AudioDataBuffer[indx] =
-        //         sLGSampleBuffer[indx].int16Sample; // Low gain samples (MIC0) data to left
-        //         channel.
-        // }
-        ns_audio_getPCM(config, in16AudioDataBuffer);
+        if (g_audioReady) {
+            ns_lp_printf("Overflow!\n");
+        }
+        ns_audio_getPCM(config, audioDataBuffer);
         g_audioReady = true;
     }
 }
@@ -74,16 +59,16 @@ ns_audio_config_t audioConfig = {
     .api = &ns_audio_V1_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
-    .audioBuffer = (void *)&in16AudioDataBuffer,
+    .audioBuffer = (void *)&audioDataBuffer,
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-    .sampleBuffer = audadcSampleBuffer,
+    .sampleBuffer = audadcDMABuffer,
     .workingBuffer = sLGSampleBuffer,
     .numChannels = NUM_CHANNELS,
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
-    .audioSystemHandle = NULL, // filled in by init
-    .bufferHandle = NULL,      // only for ringbuffer mode
-    .sOffsetCalib = NULL,      // filled in by init
+    .audioSystemHandle = NULL,     // filled in by init
+    .bufferHandle = NULL,          // only for ringbuffer mode
+    .sOffsetCalib = &sOffsetCalib, // filled in by init
 };
 // -- Audio Stuff Ends ----------------------
 
@@ -108,8 +93,6 @@ main(void) {
 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
-    ns_lp_printf("DMA buffer 1 0x%x, 2 0x%x\n", audadcSampleBuffer,
-                 audadcSampleBuffer + SAMPLES_IN_FRAME);
 
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;
@@ -122,17 +105,23 @@ main(void) {
 
     // -- Audio init
     int recordingWin = NUM_FRAMES;
-    // NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
+    NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
-    binary_t binaryBlock = {.data = (uint8_t *)in16AudioDataBuffer, // point this to audio buffer
-                            .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)};
+    binary_t binaryBlock = {.data = (uint8_t *)audioDataBuffer, // point this to audio buffer
+                            .dataLength = sizeof(audioDataBuffer)};
+
+#if NUM_CHANNELS == 1
     char msg_store[30] = "Audio16bPCM_to_WAV";
+#else
+    char msg_store[30] = "Audio32bPCM_to_WAV";
+#endif
+
     char msg_compute[30] = "CalculateMFCC_Please";
 
     // Block sent to PC
-    dataBlock outBlock = {.length = SAMPLES_IN_FRAME * sizeof(int16_t),
+    dataBlock outBlock = {.length = sizeof(audioDataBuffer),
                           .dType = uint8_e,
                           .description = msg_store,
                           .cmd = write_cmd,
@@ -181,6 +170,7 @@ main(void) {
     // interfaces. Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
 
+    int fc = 0;
     while (1) {
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             g_audioRecording = true;

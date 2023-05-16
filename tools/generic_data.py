@@ -33,23 +33,61 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
         # my_calls = my_calls +1
 
         if (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
+            block.description == "Audio32bPCM_to_WAV"
+        ):
+            # Data is a 32 stereo bit PCM sample
+            printDataBlock(block)
+            data = struct.unpack("<" + "h" * (len(block.buffer) // 2), block.buffer)
+            data = np.array(data)
+            wDataL = np.array([0] * (block.length // 4), dtype=float)
+            wDataR = np.array([0] * (block.length // 4), dtype=float)
+
+            # Copy it into numpy array as a float
+            for i in range(block.length // 4):
+                wDataL[i] = data[2 * i]
+                wDataR[i] = data[2 * i + 1]
+
+            wDataL = wDataL / 32768.0
+            wDataR = wDataR / 32768.0
+
+            outFileNameL = outFileName + "_Left.wav"
+            outFileNameR = outFileName + "_Right.wav"
+
+            if os.path.isfile(outFileNameL):
+                with sf.SoundFile(outFileNameL, mode="r+") as wfile:
+                    wfile.seek(0, sf.SEEK_END)
+                    wfile.write(wDataL)
+                with sf.SoundFile(outFileNameR, mode="r+") as wfile:
+                    wfile.seek(0, sf.SEEK_END)
+                    wfile.write(wDataR)
+            else:
+                sf.write(
+                    outFileNameL, wDataL, samplerate=16000
+                )  # writes to the new file
+                sf.write(
+                    outFileNameR, wDataR, samplerate=16000
+                )  # writes to the new file
+
+        elif (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
             block.description == "Audio16bPCM_to_WAV"
         ):
-            # Data is a 16 bit PCM sample
+            # Data is a 16 bit Mono PCM sample
             data = struct.unpack("<" + "h" * (len(block.buffer) // 2), block.buffer)
             data = np.array(data)
             wData = np.array([0] * (block.length // 2), dtype=float)
-
+            outFileNameMono = outFileName + "_mono.wav"
             # Copy it into numpy array as a float
             for i in range(block.length // 2):
                 wData[i] = data[i]
             wData = wData / 32768.0
-            if os.path.isfile(outFileName):
-                with sf.SoundFile(outFileName, mode="r+") as wfile:
+            if os.path.isfile(outFileNameMono):
+                with sf.SoundFile(outFileNameMono, mode="r+") as wfile:
                     wfile.seek(0, sf.SEEK_END)
                     wfile.write(wData)
             else:
-                sf.write(outFileName, wData, samplerate=16000)  # writes to the new file
+                sf.write(
+                    outFileNameMono, wData, samplerate=16000
+                )  # writes to the new file
 
         # MPU6050 capture handler
         elif (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (

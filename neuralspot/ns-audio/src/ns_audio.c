@@ -133,14 +133,28 @@ ns_audio_init(ns_audio_config_t *cfg) {
 // }
 
 void
-ns_audio_getPCM(ns_audio_config_t *config, int16_t *pcm) {
-    uint32_t ui32PcmSampleCnt = config->numSamples;
+ns_audio_getPCM(ns_audio_config_t *config, void *pcm) {
+    uint32_t ui32PcmSampleCnt = config->numSamples * config->numChannels;
+    uint32_t LeftChCount = 0;
+    uint32_t RightChCount = 0;
+
+    uint32_t *pcm32 = (uint32_t *)pcm;
+    uint16_t *pcm16 = (uint16_t *)pcm;
 
     am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer, &ui32PcmSampleCnt,
                                true, config->workingBuffer, false, NULL, config->sOffsetCalib);
 
-    for (int indx = 0; indx < ui32PcmSampleCnt; indx++) {
-        pcm[indx] = config->workingBuffer[indx]
-                        .int16Sample; // Low gain samples (MIC0) data to left channel.
+    for (int i = 0; i < ui32PcmSampleCnt; i++) {
+        if (config->numChannels == 1) {
+            pcm16[i] = config->workingBuffer[i].int16Sample;
+        } else {
+            if (config->workingBuffer[i].ui16AudChannel == 0) {
+                // Low gain samples (MIC0) data to left channel.
+                pcm32[LeftChCount++] = (config->workingBuffer[i].int16Sample & 0x0000FFFF);
+            } else {
+                // right channel (MIC2, MIC3) data
+                pcm32[RightChCount++] |= ((config->workingBuffer[i].int16Sample) << 16);
+            }
+        }
     }
 }

@@ -212,7 +212,7 @@ audadc_config_dma(ns_audio_config_t *cfg) {
     g_sAUDADCDMAConfig.bDynamicPriority = true;
     g_sAUDADCDMAConfig.ePriority = AM_HAL_AUDADC_PRIOR_SERVICE_IMMED;
     g_sAUDADCDMAConfig.bDMAEnable = true;
-    g_sAUDADCDMAConfig.ui32SampleCount = cfg->numSamples;
+    g_sAUDADCDMAConfig.ui32SampleCount = cfg->numSamples * cfg->numChannels;
 
     // uint32_t ui32AUDADCDataPtr = (uint32_t)((uint32_t)(cfg->sampleBuffer + 3) & ~0xF);
 
@@ -379,7 +379,6 @@ am_audadc0_isr(void) {
     if (ui32IntMask & AM_HAL_AUDADC_INT_FIFOOVR1) {
         if (AUDADCn(0)->DMASTAT_b.DMACPL) {
             g_bAUDADCDMAError = false;
-            // am_hal_audadc_interrupt_service(g_AUDADCHandle, &g_sAUDADCDMAConfig);
 
             // g_bAUDADCDMAComplete = true;
             g_ns_audio_config->callback(g_ns_audio_config, 0);

@@ -164,7 +164,7 @@ ns_audio_init(ns_audio_config_t *);
  * @param len - number of sample words to convert
  */
 extern void
-ns_audio_getPCM(ns_audio_config_t *config, int16_t *pcm);
+ns_audio_getPCM(ns_audio_config_t *config, void *pcm);
 
 #ifdef __cplusplus
 }

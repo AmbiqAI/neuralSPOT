@@ -87,25 +87,44 @@ typedef enum {
     NS_AUDIO_API_TASK,       ///< FreeRTOS task event (TODO)
 } ns_audio_api_mode_e;
 
-/// Audio Source (current only AUDADC is supported)
+/// Audio Source (current only AUDADC and PDM are supported)
 typedef enum {
-    NS_AUDIO_SOURCE_AUDADC ///< Collect data from AUDADC
+    NS_AUDIO_SOURCE_AUDADC, ///< Collect data from AUDADC
+    NS_AUDIO_SOURCE_PDM,    ///< Collect data from PDM
 } ns_audio_source_e;
 
-/// ADC Clock Source
+/// Audio Clock Source
 typedef enum {
     NS_CLKSEL_XTHS,
+    NS_CLKSEL_HFXTAL,
     NS_CLKSEL_HFRC,
     NS_CLKSEL_HFRC2,
     NS_CLKSEL_HFRC2_ADJ
-} ns_audio_audadc_clksel_e;
+} ns_audio_clksel_e;
 
 typedef struct {
-    ns_audio_audadc_clksel_e clock;
+    ns_audio_clksel_e clock;
     bool low_power_mode;
     bool repeating_trigger_mode;
     bool dcmp_enable;
 } ns_audadc_cfg_t;
+
+typedef enum {
+    NS_AUDIO_PDM_CLK_750KHZ,
+    NS_AUDIO_PDM_CLK_1_5MHZ,
+} ns_audio_pdm_clock_e;
+
+typedef enum {
+    NS_AUDIO_PDM_MICBOARD_0,
+    NS_AUDIO_PDM_MICBOARD_1,
+    NS_AUDIO_PDM_MICBOARD_2,
+} ns_audio_pdm_micsel_e;
+
+typedef struct {
+    ns_audio_clksel_e clock;
+    ns_audio_pdm_clock_e clock_freq;
+    ns_audio_pdm_micsel_e mic; ///< VoS Kit breakout board PDM mic slot
+} ns_pdm_cfg_t;
 
 // Forward declaration to get around using it in cb
 struct ns_audio_cfg;
@@ -137,6 +156,9 @@ typedef struct ns_audio_cfg {
 
     /** AUDADC Config - only used by audadc driver */
     ns_audadc_cfg_t *audadc_config;
+
+    /** PDM Config - only used by the pdm driver*/
+    ns_pdm_cfg_t *pdm_config;
 
     /** Internals */
     void *audioSystemHandle;            ///< Handle, filled by init

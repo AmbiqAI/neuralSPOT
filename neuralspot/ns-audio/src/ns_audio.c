@@ -22,6 +22,7 @@
 #include "am_util.h"
 #include "ns_audadc.h"
 #include "ns_ipc_ring_buffer.h"
+#include "ns_pdm.h"
 
 const ns_core_api_t ns_audio_V0_0_1 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1};
 
@@ -58,9 +59,7 @@ uint32_t
 ns_audio_init(ns_audio_config_t *cfg) {
 
 #ifndef NS_DISABLE_API_VALIDATION
-    //
     // Check the handle.
-    //
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
     }
@@ -109,6 +108,17 @@ ns_audio_init(ns_audio_config_t *cfg) {
             am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
             return NS_STATUS_INIT_FAILED;
         }
+    } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        if (g_ns_audio_config->pdm_config == NULL) {
+            g_ns_audio_config->pdm_config = &ns_pdm_default;
+        }
+
+        if (pdm_init(g_ns_audio_config)) {
+            return NS_STATUS_INIT_FAILED;
+        }
+
+    } else {
+        return NS_STATUS_INVALID_CONFIG;
     }
 
 #ifdef NS_RTT_AUDIODEBUG
@@ -120,17 +130,6 @@ ns_audio_init(ns_audio_config_t *cfg) {
 
     return AM_HAL_STATUS_SUCCESS;
 }
-
-// void
-// ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
-//     for (int i = 0; i < len; i++) {
-//         pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
-//         if (i == 4) {
-//             // Workaround for AUDADC sample glitch, here while it is root caused
-//             pcm[3] = (pcm[2] + pcm[4]) / 2;
-//         }
-//     }
-// }
 
 void
 ns_audio_getPCM(ns_audio_config_t *config, void *pcm) {

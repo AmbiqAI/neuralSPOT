@@ -399,8 +399,6 @@ am_audadc0_isr(void) {
 //*****************************************************************************
 uint32_t
 audadc_init(ns_audio_config_t *cfg) {
-    // g_adc = (AUDADC_Type *)AUDADC_BASE;
-    // g_mcuctrl = (MCUCTRL_Type *)MCUCTRL_BASE;
 
     // Power up PrePGA
     audadc_pga_init(g_ns_audio_config);

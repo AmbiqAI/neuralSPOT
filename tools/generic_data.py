@@ -36,7 +36,7 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
             block.description == "Audio32bPCM_to_WAV"
         ):
             # Data is a 32 stereo bit PCM sample
-            printDataBlock(block)
+            # printDataBlock(block)
             data = struct.unpack("<" + "h" * (len(block.buffer) // 2), block.buffer)
             data = np.array(data)
             wDataL = np.array([0] * (block.length // 4), dtype=float)
@@ -47,6 +47,8 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
                 wDataL[i] = data[2 * i]
                 wDataR[i] = data[2 * i + 1]
 
+            # print(wDataL)
+            # print(wDataR)
             wDataL = wDataL / 32768.0
             wDataR = wDataR / 32768.0
 

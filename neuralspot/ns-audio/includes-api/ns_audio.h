@@ -115,9 +115,9 @@ typedef enum {
 } ns_audio_pdm_clock_e;
 
 typedef enum {
-    NS_AUDIO_PDM_MICBOARD_0,
-    NS_AUDIO_PDM_MICBOARD_1,
-    NS_AUDIO_PDM_MICBOARD_2,
+    NS_AUDIO_PDM_MICBOARD_0 = 0, // value corresponds to PDM Module
+    NS_AUDIO_PDM_MICBOARD_1 = 2,
+    NS_AUDIO_PDM_MICBOARD_2 = 1,
 } ns_audio_pdm_micsel_e;
 
 typedef struct {

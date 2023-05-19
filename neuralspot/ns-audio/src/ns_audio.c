@@ -110,12 +110,12 @@ ns_audio_init(ns_audio_config_t *cfg) {
         }
     } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         if (g_ns_audio_config->pdm_config == NULL) {
-            g_ns_audio_config->pdm_config = &ns_pdm_default;
+            // g_ns_audio_config->pdm_config = &ns_pdm_default;
         }
 
-        if (pdm_init(g_ns_audio_config)) {
-            return NS_STATUS_INIT_FAILED;
-        }
+        // if (pdm_init(g_ns_audio_config)) {
+        //     return NS_STATUS_INIT_FAILED;
+        // }
 
     } else {
         return NS_STATUS_INVALID_CONFIG;
@@ -131,6 +131,20 @@ ns_audio_init(ns_audio_config_t *cfg) {
     return AM_HAL_STATUS_SUCCESS;
 }
 
+uint32_t synthData = 0;
+
+void
+gen_synthetic_audadc(ns_audio_config_t *config, uint32_t cnt) {
+    uint8_t channel = 0;
+    for (int i = 0; i < cnt; i++) {
+        // Generate synthetic ADC data
+        config->sampleBuffer[i] = (synthData & 0xFFF) << 4;
+        config->sampleBuffer[i] |= channel << 19;
+        synthData++;
+        channel = (channel + 1) % 2;
+    }
+}
+
 void
 ns_audio_getPCM(ns_audio_config_t *config, void *pcm) {
     uint32_t ui32PcmSampleCnt = config->numSamples * config->numChannels;
@@ -140,6 +154,7 @@ ns_audio_getPCM(ns_audio_config_t *config, void *pcm) {
     uint32_t *pcm32 = (uint32_t *)pcm;
     uint16_t *pcm16 = (uint16_t *)pcm;
 
+    // gen_synthetic_audadc(config, ui32PcmSampleCnt);
     am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer, &ui32PcmSampleCnt,
                                true, config->workingBuffer, false, NULL, config->sOffsetCalib);
 
@@ -156,4 +171,5 @@ ns_audio_getPCM(ns_audio_config_t *config, void *pcm) {
             }
         }
     }
+    memset(config->sampleBuffer, 0, config->numSamples * config->numChannels);
 }

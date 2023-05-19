@@ -26,9 +26,9 @@
 #include "ns_rpc_generic_data.h"
 
 // -- Audio Stuff - needed for demo, not RPC ----------------------
-#define NUM_CHANNELS 1
-#define NUM_FRAMES 100
-#define SAMPLES_IN_FRAME 480
+#define NUM_CHANNELS 2
+#define NUM_FRAMES 140
+#define SAMPLES_IN_FRAME 360
 #define SAMPLE_RATE 16000
 
 volatile bool static g_audioReady = false;
@@ -39,8 +39,7 @@ int16_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #else
 int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
-alignas(16) uint32_t static audadcDMABuffer[SAMPLES_IN_FRAME * NUM_CHANNELS + 3]
-    __attribute__((aligned(16)));
+alignas(16) uint32_t static audadcDMABuffer[SAMPLES_IN_FRAME * NUM_CHANNELS];
 am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS];
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 
@@ -170,7 +169,6 @@ main(void) {
     // interfaces. Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
 
-    int fc = 0;
     while (1) {
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             g_audioRecording = true;

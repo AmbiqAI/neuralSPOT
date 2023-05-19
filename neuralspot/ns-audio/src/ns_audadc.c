@@ -47,27 +47,10 @@
 AUDADC_Type *g_adc;
 MCUCTRL_Type *g_mcuctrl;
 
-//*****************************************************************************
-//
-// AUDADC Sample buffer.
-//
-//*****************************************************************************
-
-// static uint32_t *g_ui32AUDADCSampleBuffer; //[AUDADC_MAX_SAMPLE_BUF_SIZE * 2 + 3];
-
-//
 // AUDADC Device Handle.
-//
 static void *g_AUDADCHandle;
 
-//
-// AUDADC DMA complete flag.
-//
-// static volatile bool g_bAUDADCDMAComplete;
-
-//
 // AUDADC DMA error flag.
-//
 static volatile bool g_bAUDADCDMAError;
 
 // AXI Scratch buffer
@@ -81,10 +64,6 @@ static uint32_t axiScratchBuf[20];
 // AUDADC gain configuration information.
 //
 //*****************************************************************************
-#define CH_A0_EN 1
-#define CH_A1_EN 1
-#define CH_B0_EN 0
-#define CH_B1_EN 0
 
 #define PREAMP_FULL_GAIN 24 // Enable op amps for full gain range
 #define CH_A0_GAIN_DB 18
@@ -107,8 +86,10 @@ am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 #endif // AM_PART_APOLLO4P && AUDADC_DC_OFFSET_CAL
 
 ns_audadc_cfg_t ns_audadc_default = {
-    .clock = NS_CLKSEL_HFRC,
-    .low_power_mode = false,
+    // .clock = NS_CLKSEL_HFRC,
+    // .low_power_mode = false,
+    .clock = NS_CLKSEL_HFRC2_ADJ,
+    .low_power_mode = true,
     .repeating_trigger_mode = true,
     .dcmp_enable = false,
 };
@@ -213,10 +194,6 @@ audadc_config_dma(ns_audio_config_t *cfg) {
     g_sAUDADCDMAConfig.ePriority = AM_HAL_AUDADC_PRIOR_SERVICE_IMMED;
     g_sAUDADCDMAConfig.bDMAEnable = true;
     g_sAUDADCDMAConfig.ui32SampleCount = cfg->numSamples * cfg->numChannels;
-
-    // uint32_t ui32AUDADCDataPtr = (uint32_t)((uint32_t)(cfg->sampleBuffer + 3) & ~0xF);
-
-    // g_sAUDADCDMAConfig.ui32TargetAddress = ui32AUDADCDataPtr;
     g_sAUDADCDMAConfig.ui32TargetAddress = (uint32_t)cfg->sampleBuffer;
     g_sAUDADCDMAConfig.ui32TargetAddressReverse =
         g_sAUDADCDMAConfig.ui32TargetAddress +
@@ -264,12 +241,9 @@ audadc_config(ns_audadc_cfg_t *cfg) {
         AUDADCIrttConfig.ui32IrttCountMax = 93;
         break;
     case NS_CLKSEL_HFRC2:
-        AUDADCConfig.eClock = AM_HAL_AUDADC_CLKSEL_HFRC2_48MHz;
-        AUDADCIrttConfig.ui32IrttCountMax = 93;
-        break;
     case NS_CLKSEL_HFRC2_ADJ:
         AUDADCConfig.eClock = AM_HAL_AUDADC_CLKSEL_HFRC2_48MHz;
-        AUDADCIrttConfig.ui32IrttCountMax = 47;
+        AUDADCIrttConfig.ui32IrttCountMax = 93;
         break;
     }
 
@@ -376,13 +350,18 @@ am_audadc0_isr(void) {
     }
 
     // If we got a DMA complete, set the flag.
-    if (ui32IntMask & AM_HAL_AUDADC_INT_FIFOOVR1) {
+    // if (ui32IntMask & AM_HAL_AUDADC_INT_FIFOOVR1) {
+    if (ui32IntMask & AM_HAL_AUDADC_INT_DCMP) {
         if (AUDADCn(0)->DMASTAT_b.DMACPL) {
             g_bAUDADCDMAError = false;
 
             // g_bAUDADCDMAComplete = true;
             g_ns_audio_config->callback(g_ns_audio_config, 0);
             audadc_config_dma(g_ns_audio_config);
+        } else {
+            if (AUDADCn(0)->DMASTAT_b.DMACPL) {
+                am_util_stdio_printf("WHAT clearing AUDADC interrupt status\n");
+            }
         }
     }
 

@@ -26,9 +26,9 @@
 #include "ns_rpc_generic_data.h"
 
 // -- Audio Stuff - needed for demo, not RPC ----------------------
-#define NUM_CHANNELS 2
-#define NUM_FRAMES 140
-#define SAMPLES_IN_FRAME 360
+#define NUM_CHANNELS 1
+#define NUM_FRAMES 100
+#define SAMPLES_IN_FRAME 480
 #define SAMPLE_RATE 16000
 
 volatile bool static g_audioReady = false;
@@ -39,7 +39,7 @@ int16_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #else
 int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
-alignas(16) uint32_t static audadcDMABuffer[SAMPLES_IN_FRAME * NUM_CHANNELS];
+alignas(16) uint32_t static audadcDMABuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];
 am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS];
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 
@@ -59,7 +59,7 @@ ns_audio_config_t audioConfig = {
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&audioDataBuffer,
-    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .eAudioSource = NS_AUDIO_SOURCE_PDM,
     .sampleBuffer = audadcDMABuffer,
     .workingBuffer = sLGSampleBuffer,
     .numChannels = NUM_CHANNELS,

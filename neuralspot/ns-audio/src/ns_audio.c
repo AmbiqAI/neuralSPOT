@@ -110,12 +110,12 @@ ns_audio_init(ns_audio_config_t *cfg) {
         }
     } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         if (g_ns_audio_config->pdm_config == NULL) {
-            // g_ns_audio_config->pdm_config = &ns_pdm_default;
+            g_ns_audio_config->pdm_config = &ns_pdm_default;
         }
 
-        // if (pdm_init(g_ns_audio_config)) {
-        //     return NS_STATUS_INIT_FAILED;
-        // }
+        if (pdm_init(g_ns_audio_config)) {
+            return NS_STATUS_INIT_FAILED;
+        }
 
     } else {
         return NS_STATUS_INVALID_CONFIG;
@@ -148,28 +148,38 @@ gen_synthetic_audadc(ns_audio_config_t *config, uint32_t cnt) {
 void
 ns_audio_getPCM(ns_audio_config_t *config, void *pcm) {
     uint32_t ui32PcmSampleCnt = config->numSamples * config->numChannels;
-    uint32_t LeftChCount = 0;
-    uint32_t RightChCount = 0;
 
-    uint32_t *pcm32 = (uint32_t *)pcm;
-    uint16_t *pcm16 = (uint16_t *)pcm;
+    if (config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        uint32_t LeftChCount = 0;
+        uint32_t RightChCount = 0;
 
-    // gen_synthetic_audadc(config, ui32PcmSampleCnt);
-    am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer, &ui32PcmSampleCnt,
-                               true, config->workingBuffer, false, NULL, config->sOffsetCalib);
+        uint32_t *pcm32 = (uint32_t *)pcm;
+        uint16_t *pcm16 = (uint16_t *)pcm;
 
-    for (int i = 0; i < ui32PcmSampleCnt; i++) {
-        if (config->numChannels == 1) {
-            pcm16[i] = config->workingBuffer[i].int16Sample;
-        } else {
-            if (config->workingBuffer[i].ui16AudChannel == 0) {
-                // Low gain samples (MIC0) data to left channel.
-                pcm32[LeftChCount++] = (config->workingBuffer[i].int16Sample & 0x0000FFFF);
+        // gen_synthetic_audadc(config, ui32PcmSampleCnt);
+        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
+                                   &ui32PcmSampleCnt, true, config->workingBuffer, false, NULL,
+                                   config->sOffsetCalib);
+
+        for (int i = 0; i < ui32PcmSampleCnt; i++) {
+            if (config->numChannels == 1) {
+                pcm16[i] = config->workingBuffer[i].int16Sample;
             } else {
-                // right channel (MIC2, MIC3) data
-                pcm32[RightChCount++] |= ((config->workingBuffer[i].int16Sample) << 16);
+                if (config->workingBuffer[i].ui16AudChannel == 0) {
+                    // Low gain samples (MIC0) data to left channel.
+                    pcm32[LeftChCount++] = (config->workingBuffer[i].int16Sample & 0x0000FFFF);
+                } else {
+                    // right channel (MIC2, MIC3) data
+                    pcm32[RightChCount++] |= ((config->workingBuffer[i].int16Sample) << 16);
+                }
             }
         }
+    } else if (config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        // uint8_t *pcm8 = (uint8_t *)pcm;
+
+        // for ( uint32_t i = 0; i < ui32PcmSampleCnt; i++ ){
+        //     pcm8[2 * i] = (config->sampleBuffer[i] & 0xFF00) >> 8U;
+        //     pcm8[2 * i + 1] = (config->sampleBuffer[i] & 0xFF0000) >> 16U;
+        // }
     }
-    memset(config->sampleBuffer, 0, config->numSamples * config->numChannels);
 }

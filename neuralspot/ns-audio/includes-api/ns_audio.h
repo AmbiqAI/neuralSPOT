@@ -124,6 +124,7 @@ typedef struct {
     ns_audio_clksel_e clock;
     ns_audio_pdm_clock_e clock_freq;
     ns_audio_pdm_micsel_e mic; ///< VoS Kit breakout board PDM mic slot
+    uint8_t numBytes;          // size of sample word in bytes
 } ns_pdm_cfg_t;
 
 // Forward declaration to get around using it in cb
@@ -159,6 +160,7 @@ typedef struct ns_audio_cfg {
 
     /** PDM Config - only used by the pdm driver*/
     ns_pdm_cfg_t *pdm_config;
+    am_hal_pdm_transfer_t sTransfer;
 
     /** Internals */
     void *audioSystemHandle;            ///< Handle, filled by init

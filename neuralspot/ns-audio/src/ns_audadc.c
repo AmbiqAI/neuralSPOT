@@ -245,6 +245,9 @@ audadc_config(ns_audadc_cfg_t *cfg) {
         AUDADCConfig.eClock = AM_HAL_AUDADC_CLKSEL_HFRC2_48MHz;
         AUDADCIrttConfig.ui32IrttCountMax = 93;
         break;
+    case NS_CLKSEL_HFXTAL:
+        // Not allowed for AUDADC
+        return NS_STATUS_INVALID_CONFIG;
     }
 
     if (cfg->low_power_mode) {
@@ -356,6 +359,10 @@ am_audadc0_isr(void) {
             g_bAUDADCDMAError = false;
 
             // g_bAUDADCDMAComplete = true;
+            if (g_ns_audio_config->api->version.major < 2) {
+                am_hal_audadc_interrupt_service(g_AUDADCHandle, &g_sAUDADCDMAConfig);
+            }
+
             g_ns_audio_config->callback(g_ns_audio_config, 0);
             audadc_config_dma(g_ns_audio_config);
         } else {

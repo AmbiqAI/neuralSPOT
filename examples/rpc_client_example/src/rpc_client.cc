@@ -35,13 +35,18 @@ volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
 
 #if NUM_CHANNELS == 1
-int16_t static audioDataBuffer[SAMPLES_IN_FRAME];
+int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
 #else
 int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
-alignas(16) uint32_t static audadcDMABuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];
-am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS];
+
+alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME *
+                                              NUM_CHANNELS]; // working buffer used by AUDADC
+
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
+#endif
 
 void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
@@ -49,25 +54,28 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
         if (g_audioReady) {
             ns_lp_printf("Overflow!\n");
         }
-        ns_audio_getPCM(config, audioDataBuffer);
+        ns_audio_getPCM_v2(config, audioDataBuffer);
         g_audioReady = true;
     }
 }
 
 ns_audio_config_t audioConfig = {
-    .api = &ns_audio_V1_0_0,
+    .api = &ns_audio_V2_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&audioDataBuffer,
-    .eAudioSource = NS_AUDIO_SOURCE_PDM,
-    .sampleBuffer = audadcDMABuffer,
+    // .eAudioSource = NS_AUDIO_SOURCE_PDM,
+    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .sampleBuffer = dmaBuffer,
     .workingBuffer = sLGSampleBuffer,
     .numChannels = NUM_CHANNELS,
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
-    .audioSystemHandle = NULL,     // filled in by init
-    .bufferHandle = NULL,          // only for ringbuffer mode
-    .sOffsetCalib = &sOffsetCalib, // filled in by init
+    .audioSystemHandle = NULL, // filled in by init
+    .bufferHandle = NULL,      // only for ringbuffer mode
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+    .sOffsetCalib = &sOffsetCalib,
+#endif
 };
 // -- Audio Stuff Ends ----------------------
 

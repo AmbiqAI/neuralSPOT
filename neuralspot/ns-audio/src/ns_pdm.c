@@ -26,14 +26,6 @@ ns_pdm_cfg_t ns_pdm_default = {
     .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
 };
 
-//*****************************************************************************
-//
-// Start a transaction to get some number of bytes from the PDM interface.
-//
-//*****************************************************************************
-
-// AM_SHARED_RW uint32_t gpui32PdmDmaBuf[PCM_FRAME_SIZE * USE_MIC_NUM * 2 + 3];
-
 void
 pdm_trigger_dma(ns_audio_config_t *config) {
 
@@ -87,6 +79,10 @@ pdm_init(ns_audio_config_t *config) {
         pdmConfig.ePDMClkSpeed = AM_HAL_PDM_CLK_HFXTAL;
         pdmConfig.eClkDivider = AM_HAL_PDM_MCLKDIV_3;
         break;
+    case NS_CLKSEL_XTHS:
+    case NS_CLKSEL_HFRC2:
+        ns_lp_printf("Clock not supported by PDM\n");
+        return NS_STATUS_INVALID_CONFIG;
     }
 
     // PDM Frequency Config
@@ -170,7 +166,6 @@ pdm_init(ns_audio_config_t *config) {
     // NVIC_SetPriority(g_ePdmInterrupts[cfg->mic],AM_IRQ_PRIORITY_DEFAULT);
     NVIC_SetPriority(g_ePdmInterrupts[cfg->mic], 7);
     NVIC_EnableIRQ(g_ePdmInterrupts[cfg->mic]);
-    // NVIC_SetPriority(g_ePdmInterrupts[pdm_config->mic], NVIC_configKERNEL_INTERRUPT_PRIORITY);
 
     am_hal_pdm_enable(pvPDMHandle);
     pdm_trigger_dma(config);
@@ -224,12 +219,9 @@ am_pdm_isr_common(uint8_t pdmNumber) {
 
     } else if (ui32Status & (AM_HAL_PDM_INT_UNDFL | AM_HAL_PDM_INT_OVF)) {
         am_hal_pdm_fifo_flush(pvPDMHandle);
-        ns_lp_printf("am_hal_pdm_fifo_flush() %d\n", ui32Status);
+        // ns_lp_printf("am_hal_pdm_fifo_flush() %d\n", ui32Status);
     }
 
-    //
-    // When Threshold causes ISR, Grab samples from packed FIFO and make sure we don't underflow
-    //
 #if configUSE_SYSVIEWER
     traceISR_EXIT(); // Should be comment out when it is Apollo 3
 #endif               // configUSE_SYSVIEWER

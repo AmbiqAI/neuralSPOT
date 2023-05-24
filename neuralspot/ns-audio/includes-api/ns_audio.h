@@ -66,13 +66,16 @@ extern "C" {
     { .major = 0, .minor = 0, .revision = 1 }
 #define NS_AUDIO_V1_0_0                                                                            \
     { .major = 1, .minor = 0, .revision = 0 }
+#define NS_AUDIO_V2_0_0                                                                            \
+    { .major = 2, .minor = 0, .revision = 0 }
 
 #define NS_AUDIO_OLDEST_SUPPORTED_VERSION NS_AUDIO_V0_0_1
-#define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V1_0_0
+#define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V2_0_0
 #define NS_AUDIO_API_ID 0xCA0001
 
 extern const ns_core_api_t ns_audio_V0_0_1;
 extern const ns_core_api_t ns_audio_V1_0_0;
+extern const ns_core_api_t ns_audio_V2_0_0;
 extern const ns_core_api_t ns_audio_oldest_supported_version;
 extern const ns_core_api_t ns_audio_current_version;
 
@@ -166,8 +169,10 @@ typedef struct ns_audio_cfg {
     void *audioSystemHandle;            ///< Handle, filled by init
     ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
     float fLGAdB;
-    am_hal_offset_cal_coeffs_array_t *sOffsetCalib;
 
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+    am_hal_offset_cal_coeffs_array_t *sOffsetCalib;
+#endif
 } ns_audio_config_t;
 
 extern ns_audio_config_t *g_ns_audio_config;
@@ -188,7 +193,16 @@ ns_audio_init(ns_audio_config_t *);
  * @param len - number of sample words to convert
  */
 extern void
-ns_audio_getPCM(ns_audio_config_t *config, void *pcm);
+ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
+
+/**
+ * @brief Extract int16 PCM from AUDADC or PDM sources
+ *
+ * @param config - ns audio config
+ * @param pcm - resulting PCM data
+ */
+extern void
+ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm);
 
 #ifdef __cplusplus
 }

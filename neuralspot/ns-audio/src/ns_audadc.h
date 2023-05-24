@@ -57,12 +57,17 @@ extern "C" {
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_audio.h"
 
 /// Size of a single AUDADC sample
 #define AUDADC_MAX_SAMPLE_BUF_SIZE                                                                 \
     (NS_AUDIO_DMA_BUFFER_SIZE) // Should be padded to 12 samples
                                // follow current DMA/FIFO mechanism:
                                // DMA trigger on FIFO 75% full
+
+// AUDADC defaults
+extern ns_audadc_cfg_t ns_audadc_default;
+extern ns_audadc_cfg_t ns_audadc_vos_default;
 
 /// AUDADC subsystem init - should only be invoked by ns_audio, not directly
 extern uint32_t

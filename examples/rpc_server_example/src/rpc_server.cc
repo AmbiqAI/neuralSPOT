@@ -19,7 +19,6 @@
 #include <cstring>
 
 #include "ns_ambiqsuite_harness.h"
-#include "ns_audio.h"
 #include "ns_core.h"
 #include "ns_malloc.h"
 #include "ns_peripherals_button.h"

@@ -22,22 +22,16 @@
 #include "am_util.h"
 #include "ns_audadc.h"
 #include "ns_ipc_ring_buffer.h"
+#include "ns_pdm.h"
 
 const ns_core_api_t ns_audio_V0_0_1 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1};
-
 const ns_core_api_t ns_audio_V1_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V1_0_0};
-
+const ns_core_api_t ns_audio_V2_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V2_0_0};
 const ns_core_api_t ns_audio_oldest_supported_version = {
     .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION};
-
 const ns_core_api_t ns_audio_current_version = {.apiId = NS_AUDIO_API_ID,
                                                 .version = NS_AUDIO_CURRENT_VERSION};
 
-//
-// Enable dumping audio to RTT via the AUDIODEBUG flag.
-//
-// Requires SSRAM to be enabled, so not compatible with some power modes
-//
 #ifdef NS_RTT_AUDIODEBUG
     #include "SEGGER_RTT.h"
     #define TIMEOUT 400000 // RTT streaming timeout loop count
@@ -51,9 +45,6 @@ uint32_t g_ui32SampleToRTT = 0;
 /**
  * @brief Audio Configuration and State
  *
- * This is populated here with some sane results, but it
- * isn't valid until futher initialized by ns_audio_init
- *
  */
 ns_audio_config_t *g_ns_audio_config = NULL;
 
@@ -61,9 +52,7 @@ uint32_t
 ns_audio_init(ns_audio_config_t *cfg) {
 
 #ifndef NS_DISABLE_API_VALIDATION
-    //
     // Check the handle.
-    //
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
     }
@@ -78,6 +67,10 @@ ns_audio_init(ns_audio_config_t *cfg) {
         return NS_STATUS_INVALID_CONFIG;
     }
 
+    if ((cfg->api->version.major != 1) && (cfg->eAudioSource == NS_AUDIO_SOURCE_AUDADC) &&
+        (cfg->workingBuffer == NULL)) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
     if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples * 2) {
         return NS_STATUS_INVALID_CONFIG;
     }
@@ -93,14 +86,36 @@ ns_audio_init(ns_audio_config_t *cfg) {
                                          .pData = g_ns_audio_config->audioBuffer,
                                          .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2};
 
-        ns_ipc_ring_buffer_init(cfg->bufferHandle, setup);
-        g_ns_audio_config->bufferHandle = cfg->bufferHandle;
+        ns_ipc_ring_buffer_init(g_ns_audio_config->bufferHandle, setup);
+        g_ns_audio_config->bufferHandle = g_ns_audio_config->bufferHandle;
     }
 
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        if (g_ns_audio_config->audadc_config == NULL) {
+            g_ns_audio_config->audadc_config = &ns_audadc_default;
+        }
+
         if (audadc_init()) {
             return NS_STATUS_INIT_FAILED;
         }
+
+        // Trigger the AUDADC sampling for the first time manually.
+        if (AM_HAL_STATUS_SUCCESS !=
+            am_hal_audadc_sw_trigger(g_ns_audio_config->audioSystemHandle)) {
+            am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
+            return NS_STATUS_INIT_FAILED;
+        }
+    } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        if (g_ns_audio_config->pdm_config == NULL) {
+            g_ns_audio_config->pdm_config = &ns_pdm_default;
+        }
+
+        if (pdm_init(g_ns_audio_config)) {
+            return NS_STATUS_INIT_FAILED;
+        }
+
+    } else {
+        return NS_STATUS_INVALID_CONFIG;
     }
 
 #ifdef NS_RTT_AUDIODEBUG
@@ -113,13 +128,74 @@ ns_audio_init(ns_audio_config_t *cfg) {
     return AM_HAL_STATUS_SUCCESS;
 }
 
+// static uint32_t synthData = 0;
+// static void
+// gen_synthetic_audadc(ns_audio_config_t *config, uint32_t cnt) {
+//     uint8_t channel = 0;
+//     for (int i = 0; i < cnt; i++) {
+//         // Generate synthetic ADC data
+//         config->sampleBuffer[i] = (synthData & 0xFFF) << 4;
+//         config->sampleBuffer[i] |= channel << 19;
+//         synthData++;
+//         channel = (channel + 1) % 2;
+//     }
+// }
+
 void
 ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
-    for (int i = 0; i < len; i++) {
-        pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
-        if (i == 4) {
-            // Workaround for AUDADC sample glitch, here while it is root caused
-            pcm[3] = (pcm[2] + pcm[4]) / 2;
+    if (g_ns_audio_config->api->version.major < 2) {
+        for (int i = 0; i < len; i++) {
+            pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
+            if (i == 4) {
+                // Workaround for AUDADC sample glitch, here while it is root caused
+                pcm[3] = (pcm[2] + pcm[4]) / 2;
+            }
         }
+    } else {
+        ns_audio_getPCM_v2(g_ns_audio_config, pcm);
+    }
+}
+
+void
+ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
+    uint32_t ui32PcmSampleCnt = config->numSamples * config->numChannels;
+
+    if (config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        uint32_t LeftChCount = 0;
+        uint32_t RightChCount = 0;
+
+        uint32_t *pcm32 = (uint32_t *)pcm;
+        uint16_t *pcm16 = (uint16_t *)pcm;
+
+        // gen_synthetic_audadc(config, ui32PcmSampleCnt);
+#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
+                                   &ui32PcmSampleCnt, true, config->workingBuffer, false, NULL);
+#else
+        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
+                                   &ui32PcmSampleCnt, true, config->workingBuffer, false, NULL,
+                                   config->sOffsetCalib);
+#endif
+        for (int i = 0; i < ui32PcmSampleCnt; i++) {
+            if (config->numChannels == 1) {
+                pcm16[i] = config->workingBuffer[i].int16Sample;
+            } else {
+                if (config->workingBuffer[i].ui16AudChannel == 0) {
+                    // Low gain samples (MIC0) data to left channel.
+                    pcm32[LeftChCount++] = (config->workingBuffer[i].int16Sample & 0x0000FFFF);
+                } else {
+                    // right channel (MIC2, MIC3) data
+                    pcm32[RightChCount++] |= ((config->workingBuffer[i].int16Sample) << 16);
+                }
+            }
+        }
+    } else if (config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        // ISR current does the work, do nothing here
+        // uint8_t *pcm8 = (uint8_t *)pcm;
+
+        // for ( uint32_t i = 0; i < ui32PcmSampleCnt; i++ ){
+        //     pcm8[2 * i] = (config->sampleBuffer[i] & 0xFF00) >> 8U;
+        //     pcm8[2 * i + 1] = (config->sampleBuffer[i] & 0xFF0000) >> 16U;
+        // }
     }
 }

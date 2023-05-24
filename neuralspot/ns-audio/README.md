@@ -3,14 +3,32 @@
 
 # NeuralSPOT Audio Library Subsystem
 This library helps implement audio-based AI features on Ambiq's platform by simplifying common operations such as:
-1. Reading audio data from peripherals such as the low-power analog microphone input (AUDADC)
+1. Reading audio data from peripherals such as the low-power analog microphone input (AUDADC) or certain digital mics (PDM)
 2. Calculating common input features such as Mel Spectograms
 3. Transferring data between the EVB and a PC (with the help of NeuralSPOT RPC)
 
 NS-audio includes the following components:
 1. `ns_audio`: this is the front-end to the audio sampling subsystem, and provides multiple mechanisms for accessing the collected data
 2. `ns_audadc`: facilities for initializing and operating the AUDADC. Developers shouldn't have to access this system directly
-3. `ns_mfcc`: implements an optimized, C-based MFCC calculator.
+3. `ns_pdm`: facilities for initializing and operating the PDM. Developers shouldn't have to access this system directly
+4. `ns_mfcc`: implements an optimized, C-based MFCC calculator.
+
+### Version 2.0.0 Release Notes
+
+Version 2.0.0 adds features and fixes minor bugs. Taking advantage of these changes requires an API change, but backwards compatibility has been preserved via the API version feature.
+
+New features include:
+
+1. **PDM support**: PDM is now supported as an audio input source. Note that the EVB does not include digital microphones. PDM support has been tested with the VoS kit digital microphones.
+2. **Dual-channel support**: 2 channel audio can now be captured for both AUDADC and PDM sources
+
+To take advantage of the above features, several application layer changes are required. In summary:
+
+1. The API version must be updated to 2.0.0
+2. The various audio buffer declarations must be updated, and a new working buffer must be allocated
+3. The audio interrupt callback may optionally be updated to save stack space.
+
+To illustrate the needed changes, the [basic_tf_stub](../../examples/basic_tf_stub) example identifies the changed code with a compile switch, `AUDIO_LEGACY`.
 
 ## Using NS Audio to Sample Audio
 Briefly, sampling audio is a matter of initializing this library, hooking into its IPC, and collecting data when it is available.
@@ -24,33 +42,46 @@ There are several IPC methods available (see the IPC section below for more deta
 
 bool    static g_audioRecording = false;
 bool    static g_audioReady     = false;
-int16_t static g_in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
-uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
+#if NUM_CHANNELS == 1
+int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
+#else
+int32_t static audioDataBuffer[SAMPLES_IN_FRAME]; // 32b for stereo
+#endif
 
-// This will be called by an IRQ handler
-void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
+alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used by AUDADC
 
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+am_hal_offset_cal_coeffs_array_t sOffsetCalib;
+#endif
+
+void
+audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     if (g_audioRecording) {
-        for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
+        if (g_audioReady) {
+            ns_lp_printf("Overflow!\n");
         }
+        ns_audio_getPCM_v2(config, audioDataBuffer);
         g_audioReady = true;
     }
 }
 
-// Desired Audio Configuration
-ns_audio_config_t audio_config = {
+ns_audio_config_t audioConfig = {
+    .api = &ns_audio_V2_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-    .callback = audio_frame_callback, // declared above
-    .audioBuffer = (void *)&g_in16AudioDataBuffer,
-    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-    .sampleBuffer = audadcSampleBuffer,
-    .numChannels = NUM_CHANNELS,
+    .callback = audio_frame_callback,
+    .audioBuffer = (void *)&audioDataBuffer,
+    .eAudioSource = NS_AUDIO_SOURCE_PDM, // or NS_AUDIO_SOURCE_AUDADC
+    .sampleBuffer = dmaBuffer,
+    .workingBuffer = sLGSampleBuffer, // only needed by ADC
+    .numChannels = NUM_CHANNELS, // 1 or 2
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
-    .audioSystemHandle = NULL,        // filled in by audio_init() below
-    .bufferHandle = NULL
+    .audioSystemHandle = NULL,     // filled in by init
+    .bufferHandle = NULL,          // only for ringbuffer mode
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+    .sOffsetCalib = &sOffsetCalib,
+#endif
 };
 
 main(void) {
@@ -64,7 +95,7 @@ main(void) {
         if (g_audioReady) {
             // The callback sets g_audioReady when g_in16AudioDataBuffer has a sample
             // Do something with it...
-            ns_mfcc_compute(g_in16AudioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
+            ns_mfcc_compute(audioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
             ns_mfcc_compute(&mfcc_config, g_in16AudioDataBuffer,
                             &mfcc_buffer[mfcc_buffer_head]);
             mfcc_buffer_head += MY_MFCC_NUM_MFCC_COEFFS; // advance one frame
@@ -97,20 +128,21 @@ uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
 
 // This will be called by an IRQ handler
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
 
     if (g_audioRecording) {
-        for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer_irq[i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
+        if (g_audioReady) {
+            ns_lp_printf("Overflow!\n");
         }
+        ns_audio_getPCM_v2(config, audioDataBuffer);
+
 
         // This is the different part of the callback.
-        ns_ipc_ring_buffer_push(&(config->bufferHandle[0]),
-                                    g_in16AudioDataBuffer_irq,
-                                    (config->numSamples * 2), // in bytes
-                                    false);
+        ns_ipc_ring_buffer_push(&(config->bufferHandle[0]), in16AudioDataBuffer,
+                                (config->numSamples * 2), // in bytes
+                                false);
 
         g_audioReady = true;
+
     }
 }
 

@@ -74,7 +74,7 @@ tflm_validator_model_init(ns_model_state_t *ms) {
 #ifdef NS_TF_VERSION_fecdd5d
     static tflite::MicroMutableOpResolver<6> resolver;
 #else
-    static tflite::MicroMutableOpResolver<6> resolver(error_reporter);
+    static tflite::MicroMutableOpResolver<6> resolver(ms->error_reporter);
 #endif
     resolver.AddExpandDims();
     resolver.AddConv2D();
@@ -101,8 +101,9 @@ tflm_validator_model_init(ns_model_state_t *ms) {
     static tflite::MicroInterpreter static_interpreter(
         ms->model, resolver, ms->arena, ms->arena_size, resource_variables, ms->profiler);
 #else
-    static tflite::MicroInterpreter static_interpreter(
-        ms->model, resolver, ms->arena, ms->arena_size, ms->error_reporter, nullptr, ms->profiler);
+    static tflite::MicroInterpreter static_interpreter(ms->model, resolver, ms->arena,
+                                                       ms->arena_size, ms->error_reporter,
+                                                       resource_variables, ms->profiler);
 #endif
     ms->interpreter = &static_interpreter;
 

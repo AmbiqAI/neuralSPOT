@@ -60,3 +60,12 @@
     - Deploys the binary
     - Characterizes the binary over RPC, comparing EVB inference results to PC-side python inference results
   - Human Activity Recognition example application, based on [HAR modelzoo](https://github.com/AmbiqAI/Human-Activity-Recognition).
+
+- ns-audio 2.0.0 Release Notes
+
+  - Version 2.0.0 adds features and fixes minor bugs. Taking advantage of these changes requires an API change, but backwards compatibility has been preserved via the API version feature. New features include:
+
+    1. **PDM support**: PDM is now supported as an audio input source. Note that the EVB does not include digital microphones. PDM support has been tested with the VoS kit digital microphones.
+
+    1. **Dual-channel support**: 2 channel audio can now be captured for both AUDADC and PDM sources
+

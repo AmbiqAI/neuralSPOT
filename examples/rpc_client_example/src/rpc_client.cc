@@ -33,31 +33,58 @@
 
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
-int16_t static in16AudioDataBuffer[SAMPLES_IN_FRAME * 2];
-uint32_t static audadcSampleBuffer[SAMPLES_IN_FRAME * 2 + 3];
+
+#if NUM_CHANNELS == 1
+int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
+#else
+int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
+#endif
+
+alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME *
+                                              NUM_CHANNELS]; // working buffer used by AUDADC
+
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+am_hal_offset_cal_coeffs_array_t sOffsetCalib;
+#endif
 
 void
 audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *pui32_buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
-
     if (g_audioRecording) {
-        ns_audio_getPCM(in16AudioDataBuffer, pui32_buffer, config->numSamples);
+        if (g_audioReady) {
+            ns_lp_printf("Overflow!\n");
+        }
+        ns_audio_getPCM_v2(config, audioDataBuffer);
         g_audioReady = true;
     }
 }
 
-ns_audio_config_t audioConfig = {.api = &ns_audio_V1_0_0,
-                                 .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-                                 .callback = audio_frame_callback,
-                                 .audioBuffer = (void *)&in16AudioDataBuffer,
-                                 .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
-                                 .sampleBuffer = audadcSampleBuffer,
-                                 .numChannels = NUM_CHANNELS,
-                                 .numSamples = SAMPLES_IN_FRAME,
-                                 .sampleRate = SAMPLE_RATE,
-                                 .audioSystemHandle = NULL,
-                                 .bufferHandle = NULL};
+ns_audio_config_t audioConfig = {
+    .api = &ns_audio_V2_0_0,
+    .eAudioApiMode = NS_AUDIO_API_CALLBACK,
+    .callback = audio_frame_callback,
+    .audioBuffer = (void *)&audioDataBuffer,
+    // .eAudioSource = NS_AUDIO_SOURCE_PDM,
+    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .sampleBuffer = dmaBuffer,
+    .workingBuffer = sLGSampleBuffer,
+    .numChannels = NUM_CHANNELS,
+    .numSamples = SAMPLES_IN_FRAME,
+    .sampleRate = SAMPLE_RATE,
+    .audioSystemHandle = NULL, // filled in by init
+    .bufferHandle = NULL,      // only for ringbuffer mode
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+    .sOffsetCalib = &sOffsetCalib,
+#endif
+};
 // -- Audio Stuff Ends ----------------------
+
+// RPC Stuff
+#define MY_USB_RX_BUFSIZE 2048
+#define MY_USB_TX_BUFSIZE 2048
+static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
+static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
+// End RPC Stuff
 
 int
 main(void) {
@@ -67,6 +94,8 @@ main(void) {
     // -- These are needed for the demo, not directly related to RPC
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    // NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed\n");
+    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
     // ---
 
     ns_itm_printf_enable();
@@ -87,13 +116,19 @@ main(void) {
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
-    binary_t binaryBlock = {.data = (uint8_t *)in16AudioDataBuffer, // point this to audio buffer
-                            .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)};
+    binary_t binaryBlock = {.data = (uint8_t *)audioDataBuffer, // point this to audio buffer
+                            .dataLength = sizeof(audioDataBuffer)};
+
+#if NUM_CHANNELS == 1
     char msg_store[30] = "Audio16bPCM_to_WAV";
+#else
+    char msg_store[30] = "Audio32bPCM_to_WAV";
+#endif
+
     char msg_compute[30] = "CalculateMFCC_Please";
 
     // Block sent to PC
-    dataBlock outBlock = {.length = SAMPLES_IN_FRAME * sizeof(int16_t),
+    dataBlock outBlock = {.length = sizeof(audioDataBuffer),
                           .dType = uint8_e,
                           .description = msg_store,
                           .cmd = write_cmd,
@@ -108,6 +143,10 @@ main(void) {
 
     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
                                  .mode = NS_RPC_GENERICDATA_CLIENT,
+                                 .rx_buf = my_cdc_rx_ff_buf,
+                                 .rx_bufLength = MY_USB_RX_BUFSIZE,
+                                 .tx_buf = my_cdc_tx_ff_buf,
+                                 .tx_bufLength = MY_USB_TX_BUFSIZE,
                                  .sendBlockToEVB_cb = NULL,
                                  .fetchBlockFromEVB_cb = NULL,
                                  .computeOnEVB_cb = NULL};

@@ -29,7 +29,7 @@ static dataBlock outBlock = {
     .dType = uint8_e,
     .description = msg_store,
     .cmd = write_cmd,
-    .buffer = {.data = (uint8_t *)in16AudioDataBuffer, // point this to audio buffer
+    .buffer = {.data = (uint8_t *)audioDataBuffer, // point this to audio buffer
                .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)}};
 
 static ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,

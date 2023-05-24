@@ -13,6 +13,9 @@ The basic_tf_stub example is based on a speech to intent model.
 
 #define RINGBUFFER_MODE
 #define RPC_ENABLED
+
+// Define AUDIO_LEGACY to test pre-V2 ns-audio functionality
+// #define AUDIO_LEGACY
 // #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
@@ -166,12 +169,12 @@ main(void) {
                 int32_t mfcc_buffer_head = (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
 
 #ifdef RINGBUFFER_MODE
-                ns_ipc_ring_buffer_pop(audioBuf, &in16AudioDataBuffer, audio_config.numSamples * 2);
+                ns_ipc_ring_buffer_pop(audioBuf, &audioDataBuffer, audio_config.numSamples * 2);
 #endif
 #ifdef RPC_ENABLED
                 ns_rpc_data_sendBlockToPC(&outBlock);
 #endif
-                ns_mfcc_compute(&mfcc_config, in16AudioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
+                ns_mfcc_compute(&mfcc_config, audioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
 
                 recording_win--;
                 audioReady = false;

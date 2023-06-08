@@ -12,7 +12,8 @@ The basic_tf_stub example is based on a speech to intent model.
 **/
 
 #define RINGBUFFER_MODE
-#define RPC_ENABLED
+// #define RPC_ENABLED
+// #define USE_PDM_MICROPHONE
 
 // Define AUDIO_LEGACY to test pre-V2 ns-audio functionality
 // #define AUDIO_LEGACY

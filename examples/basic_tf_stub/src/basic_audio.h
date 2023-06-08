@@ -107,7 +107,12 @@ static ns_audio_config_t audio_config = {
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&in16AudioDataBuffer,
 #endif
+
+#ifdef USE_PDM_MICROPHONE
     .eAudioSource = NS_AUDIO_SOURCE_PDM,
+#else
+    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+#endif
     .sampleBuffer = dmaBuffer,
 #ifndef AUDIO_LEGACY
     .workingBuffer = workingBuffer,

@@ -10,36 +10,13 @@
  *
  */
 #include "ns_ambiqsuite_harness.h"
-// #include "wsf_types.h"
-// #include "wsf_msg.h"
-// #include "wsf_buf.h"
-// #include "wsf_trace.h"
-// #include "hci_api.h"
-// #include "bstream.h"
-// #include "dm_api.h"
-// #include "att_api.h"
-// #include "smp_api.h"
-// #include "app_api.h"
-// #include "app_db.h"
-// #include "app_ui.h"
-// #include "app_hw.h"
-// #include "svc_ch.h"
-// #include "svc_core.h"
-// #include "svc_dis.h"
-// #include "gatt_api.h"
-
-// #include "hci_drv_apollo.h"
-// #include "hci_drv_cooper.h"
-// #include "hci_core.h"
-// #include "att_api.h"
 #include "ns_ble.h"
 #include "svc_myservice.h"
-
-// #include "am_devices_cooper.h"
 
 /***********************************/
 /****** application-specific stuff */
 /***********************************/
+
 /**************************************************************************************************
   Client Characteristic Configuration Descriptors
 **************************************************************************************************/
@@ -54,7 +31,6 @@ enum {
 
 /*! client characteristic configuration descriptors settings, indexed by above enumeration */
 static const attsCccSet_t myServiceCccSet[MYSERVICE_NUM_CCC_IDX] = {
-    /* cccd handle                value range               security level */
     {GATT_SC_CH_CCC_HDL, ATT_CLIENT_CFG_INDICATE, DM_SEC_LEVEL_NONE}, /* AMDTP_GATT_SC_CCC_IDX */
     {MYSERVICE_TX_CH_CCC_HDL, ATT_CLIENT_CFG_NOTIFY,
      DM_SEC_LEVEL_NONE}, /* AMDTP_AMDTPS_TX_CCC_IDX */
@@ -75,12 +51,8 @@ static wsfBufPoolDesc_t myServiceBufferDescriptors[MY_SERVICE_WSF_BUFFER_POOLS] 
 static ns_ble_service_control_t myServiceControl;
 static ns_ble_connection_t myConnectionControl;
 
-void
-myServiceHandlerInit(wsfHandlerId_t handlerId);
-void
-myServiceHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
-// void
-// ns_ble_init(void);
+void myServiceHandlerInit(wsfHandlerId_t handlerId);
+void myServiceHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
 
 // void
 // myServiceDefine(void) {
@@ -110,8 +82,7 @@ myServiceHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
 //                          .permissions = ATTS_PERMIT_WRITE};
 // }
 
-void
-myServiceInit(void) {
+void myServiceInit(void) {
 
     myServiceControl.bufferPool = myServiceWSFBufferPool;
     myServiceControl.bufferPoolSize = sizeof(myServiceWSFBufferPool);

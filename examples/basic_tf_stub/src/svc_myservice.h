@@ -96,12 +96,9 @@ enum {
 // Function definitions.
 //
 //*****************************************************************************
-void
-SvcMyServiceAddGroup(void);
-void
-SvcMyServiceRemoveGroup(void);
-void
-SvcMyServiceCbackRegister(attsReadCback_t readCback, attsWriteCback_t writeCback);
+void SvcMyServiceAddGroup(void);
+void SvcMyServiceRemoveGroup(void);
+void SvcMyServiceCbackRegister(attsReadCback_t readCback, attsWriteCback_t writeCback);
 
 #ifdef __cplusplus
 }

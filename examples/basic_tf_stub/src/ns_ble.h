@@ -15,6 +15,12 @@
 extern "C" {
 #endif
 
+#include "ns_ambiqsuite_harness.h"
+#include "wsf_types.h"
+#include "wsf_buf.h"
+#include "wsf_msg.h"
+#include "wsf_trace.h"
+
 #include "app_api.h"
 #include "app_db.h"
 #include "app_hw.h"
@@ -28,16 +34,12 @@ extern "C" {
 #include "hci_api.h"
 #include "l2c_api.h"
 #include "l2c_handler.h"
-#include "ns_ambiqsuite_harness.h"
 #include "smp_api.h"
 #include "smp_handler.h"
 #include "svc_ch.h"
 #include "svc_core.h"
 #include "svc_dis.h"
-#include "wsf_buf.h"
-#include "wsf_msg.h"
-#include "wsf_trace.h"
-#include "wsf_types.h"
+
 #include <stdbool.h>
 #include <string.h>
 
@@ -148,13 +150,10 @@ typedef struct ns_ble_control {
 
 extern ns_ble_control_t g_ns_ble_control;
 
-extern void
-ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg);
-extern void
-ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
-extern void
-ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
-                    ns_ble_service_control_t *service_cfg);
+extern void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg);
+extern void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
+extern void ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
+                                ns_ble_service_control_t *service_cfg);
 
 #ifdef __cplusplus
 }

@@ -25,10 +25,16 @@ local_src := $(wildcard $(subdirectory)/wsf/sources/port/freertos/*.c)
 # Third-Party (Cordio)
 includes_api += $(subdirectory)/ble-profiles/include/app
 includes_api += $(subdirectory)/ble-profiles/sources/profiles/include
+includes_api += $(subdirectory)/ble-profiles/sources/profiles/gatt
+includes_api += $(subdirectory)/ble-profiles/sources/services
 includes_api += $(subdirectory)/wsf/include
 includes_api += $(subdirectory)/wsf/sources/port/freertos
+includes_api += $(subdirectory)/wsf/sources
 includes_api += $(subdirectory)/wsf/sources/util
 includes_api += $(subdirectory)/ble-host/include
+includes_api += $(subdirectory)/ble-host/sources/stack/cfg
+includes_api += $(subdirectory)/ble-host/sources/hci/ambiq
+includes_api += $(subdirectory)/ble-host/sources/hci/ambiq/cooper
 
 local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)

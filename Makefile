@@ -40,6 +40,7 @@ modules      += neuralspot/ns-i2c
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
+modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 modules      += extern/CMSIS/$(CMSIS_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)

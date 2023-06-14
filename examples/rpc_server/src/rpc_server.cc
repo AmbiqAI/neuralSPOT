@@ -1,5 +1,5 @@
 /**
- * @file rpc_server_example.cc
+ * @file rpc_server.cc
  * @author Carlos Morales
  * @brief Generic Data Operations RPC Example
  * @version 0.1

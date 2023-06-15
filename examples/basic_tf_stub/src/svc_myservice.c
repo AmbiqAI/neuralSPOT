@@ -32,19 +32,19 @@ static const uint8_t myserviceSvc[] = {ATT_UUID_MYSERVICE_SERVICE};
 static const uint16_t myserviceLenSvc = sizeof(myserviceSvc);
 
 /* AMDTP RX characteristic */
-static const uint8_t myserviceRxCh[] = {ATT_PROP_WRITE_NO_RSP, UINT16_TO_BYTES(MYSERVICE_RX_HDL),
-                                        ATT_UUID_MYSERVICE_RX};
+static const uint8_t myserviceRxCh[] = {
+    ATT_PROP_WRITE_NO_RSP, UINT16_TO_BYTES(MYSERVICE_RX_HDL), ATT_UUID_MYSERVICE_RX};
 static const uint16_t myserviceLenRxCh = sizeof(myserviceRxCh);
 
 /* AMDTP TX characteristic */
-static const uint8_t myserviceTxCh[] = {ATT_PROP_NOTIFY, UINT16_TO_BYTES(MYSERVICE_TX_HDL),
-                                        ATT_UUID_MYSERVICE_TX};
+static const uint8_t myserviceTxCh[] = {
+    ATT_PROP_NOTIFY, UINT16_TO_BYTES(MYSERVICE_TX_HDL), ATT_UUID_MYSERVICE_TX};
 static const uint16_t myserviceLenTxCh = sizeof(myserviceTxCh);
 
 /* AMDTP RX ack characteristic */
-static const uint8_t myserviceAckCh[] = {(ATT_PROP_WRITE_NO_RSP | ATT_PROP_NOTIFY),
-                                         UINT16_TO_BYTES(MYSERVICE_ACK_HDL),
-                                         ATT_UUID_MYSERVICE_ACK};
+static const uint8_t myserviceAckCh[] = {
+    (ATT_PROP_WRITE_NO_RSP | ATT_PROP_NOTIFY), UINT16_TO_BYTES(MYSERVICE_ACK_HDL),
+    ATT_UUID_MYSERVICE_ACK};
 static const uint16_t myserviceLenAckCh = sizeof(myserviceAckCh);
 
 /* AMDTP RX data */
@@ -72,8 +72,14 @@ static const uint16_t myserviceLenAckChCcc = sizeof(myserviceAckChCcc);
 
 /* Attribute list for AMDTP group */
 static const attsAttr_t myserviceList[] = {
-    {attPrimSvcUuid, (uint8_t *)myserviceSvc, (uint16_t *)&myserviceLenSvc, sizeof(myserviceSvc), 0,
-     ATTS_PERMIT_READ},
+    {
+        attPrimSvcUuid,
+        (uint8_t *)myserviceSvc,
+        (uint16_t *)&myserviceLenSvc,
+        sizeof(myserviceSvc),
+        0,
+        ATTS_PERMIT_READ,
+    },
     {attChUuid, (uint8_t *)myserviceRxCh, (uint16_t *)&myserviceLenRxCh, sizeof(myserviceRxCh), 0,
      ATTS_PERMIT_READ},
     {svcRxUuid, (uint8_t *)myserviceRx, (uint16_t *)&myserviceLenRx, ATT_VALUE_MAX_LEN,
@@ -114,10 +120,7 @@ static attsGroup_t svcMyServiceGroup = {NULL, (attsAttr_t *)myserviceList, NULL,
  *  \return None.
  */
 /*************************************************************************************************/
-void
-SvcMyServiceAddGroup(void) {
-    AttsAddGroup(&svcMyServiceGroup);
-}
+void SvcMyServiceAddGroup(void) { AttsAddGroup(&svcMyServiceGroup); }
 
 /*************************************************************************************************/
 /*!
@@ -128,10 +131,7 @@ SvcMyServiceAddGroup(void) {
  *  \return None.
  */
 /*************************************************************************************************/
-void
-SvcMyServiceRemoveGroup(void) {
-    AttsRemoveGroup(MYSERVICE_START_HDL);
-}
+void SvcMyServiceRemoveGroup(void) { AttsRemoveGroup(MYSERVICE_START_HDL); }
 
 /*************************************************************************************************/
 /*!
@@ -145,8 +145,7 @@ SvcMyServiceRemoveGroup(void) {
  *  \return None.
  */
 /*************************************************************************************************/
-void
-SvcMyServiceCbackRegister(attsReadCback_t readCback, attsWriteCback_t writeCback) {
+void SvcMyServiceCbackRegister(attsReadCback_t readCback, attsWriteCback_t writeCback) {
     svcMyServiceGroup.readCback = readCback;
     svcMyServiceGroup.writeCback = writeCback;
 }

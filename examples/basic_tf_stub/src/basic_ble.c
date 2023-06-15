@@ -82,6 +82,97 @@ void myServiceHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
 //                          .permissions = ATTS_PERMIT_WRITE};
 // }
 
+// void myServiceMsgProc(wsfMsgHdr_t *pMsg) {
+//     switch (pMsg->event) {
+// //     case AMDTP_TIMER_IND:
+// //       amdtps_proc_msg(&pMsg->hdr);
+// //       break;
+
+// // #ifdef MEASURE_THROUGHPUT
+// //     case AMDTP_MEAS_TP_TIMER_IND:
+// //       showThroughput();
+// //       break;
+// // #endif
+
+//     case ATTS_HANDLE_VALUE_CNF:
+//       //APP_TRACE_INFO1("ATTS_HANDLE_VALUE_CNF, status = %d", pMsg->att.hdr.status);
+//       amdtps_proc_msg(&pMsg->hdr);
+//       break;
+
+//     case ATTS_CCC_STATE_IND:
+//       amdtpProcCccState(pMsg);
+//       break;
+
+//     case DM_RESET_CMPL_IND:
+
+//     default:
+//         break;
+//     }
+// }
+
+static void myServiceProcCccState(ns_ble_msg_t *pMsg) {
+    // uint8_t status = ATT_ERR_NO_ERROR;
+    // uint16_t handle = pMsg->hdr.param;
+    // uint8_t idx = 0;
+
+    // switch (handle) {
+    // case MYSERVICE_CCC_HDL:
+    //     idx = MYSERVICE_CCC_IDX;
+    //     break;
+
+    // case MYSERVICE_RX_ACK_CCC_HDL:
+    //     idx = MYSERVICE_RX_ACK_CCC_IDX;
+    //     break;
+
+    // default:
+    //     status = ATT_ERR_ATTR_NOT_FOUND;
+    //     break;
+    // }
+
+    // if (status == ATT_ERR_NO_ERROR) {
+    //     status = AttsCccSet(handle, pMsg->hdr.statusFlags, myServiceCccSet[idx].value,
+    //                         myServiceCccSet[idx].secLevel);
+    // }
+
+    // if (status != ATT_ERR_NO_ERROR) {
+    //     AttErrorRsp(pMsg->connHandle, pMsg->hdr.event, handle, status);
+    // }
+}
+
+static void myServiceHandleValueCnf(attEvt_t *pMsg) {
+    // if (pMsg->hdr.status == ATT_ERR_NO_ERROR) {
+    //     amdtps_proc_msg(&pMsg->hdr);
+    // }
+}
+
+bool myServiceMsgProc(ns_ble_msg_t *pMsg) {
+    bool messageHandled = true;
+
+    switch (pMsg->hdr.event) {
+    case DM_CONN_OPEN_IND:
+        ns_ble_generic_conn_open((dmEvt_t *)pMsg);
+        DmConnSetDataLen(1, 251, 0x848);
+        break;
+
+    case DM_CONN_CLOSE_IND:
+        // amdtps_conn_close((dmEvt_t *) pMsg);
+        break;
+
+    case ATTS_CCC_STATE_IND:
+        myServiceProcCccState(pMsg);
+        break;
+
+    case ATTS_HANDLE_VALUE_CNF:
+        myServiceHandleValueCnf((attEvt_t *)pMsg);
+        break;
+
+    default:
+        messageHandled = false;
+        break;
+    }
+    return messageHandled;
+}
+
 void myServiceInit(void) {
 
     myServiceControl.bufferPool = myServiceWSFBufferPool;
@@ -89,14 +180,16 @@ void myServiceInit(void) {
     myServiceControl.bufferDescriptors = myServiceBufferDescriptors;
     myServiceControl.bufferDescriptorsSize = sizeof(myServiceBufferDescriptors);
     myServiceControl.wsfBufCount = MY_SERVICE_WSF_BUFFER_POOLS;
-    myServiceControl.handler_init_cb = myServiceHandlerInit;
-    myServiceControl.handler_cb = myServiceHandler;
+    myServiceControl.handler_init_cb = &myServiceHandlerInit;
+    myServiceControl.handler_cb = &myServiceHandler;
+    myServiceControl.procMsg_cb = &myServiceMsgProc;
     myServiceControl.cccSet = myServiceCccSet;
     myServiceControl.cccCount = MYSERVICE_NUM_CCC_IDX;
     // myServiceControl.ccc_cb = myServiceCccCallback;
 
-    ns_ble_generic_init(TRUE, &g_ns_ble_control,
-                        &myServiceControl); // Use defaults to init BLE stack
+    ns_ble_generic_init(
+        TRUE, &g_ns_ble_control,
+        &myServiceControl); // Use defaults to init BLE stack
     // ns_ble_per_service_init(&g_ns_ble_control, &myServiceControl); // Init service-specific stuff
 
     // myServiceDefine(&myServiceControl); // Adds service and characteristics to WSF structs

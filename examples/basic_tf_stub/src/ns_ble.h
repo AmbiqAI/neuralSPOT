@@ -71,15 +71,25 @@ extern const ns_core_api_t ns_ble_current_version;
     #define NS_BLE_CONN_MAX 1
 #endif
 
-// *** Typedefs
+// *** Typedefs Prototypes (for callbacks)
 struct ns_ble_control;
 struct ns_ble_service_control;
 
+typedef union {
+    wsfMsgHdr_t hdr;
+    dmEvt_t dm;
+    attsCccEvt_t ccc;
+    attEvt_t att;
+} ns_ble_msg_t;
+
 typedef void (*ns_ble_service_specific_handler_cb)(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
 typedef void (*ns_ble_service_specific_handler_init_cb)(wsfHandlerId_t handlerId);
-typedef void (*ns_ble_service_specific_init_cb)(wsfHandlerId_t handlerId,
-                                                struct ns_ble_control *generic_cfg,
-                                                struct ns_ble_service_control *specific_cfg);
+typedef void (*ns_ble_service_specific_init_cb)(
+    wsfHandlerId_t handlerId, struct ns_ble_control *generic_cfg,
+    struct ns_ble_service_control *specific_cfg);
+typedef bool (*ns_ble_service_specific_procMsg_cb)(ns_ble_msg_t *pMsg);
+
+/*! Application message type */
 
 /*! connection control block */
 typedef struct {
@@ -105,12 +115,19 @@ typedef struct ns_ble_service_control {
     attsCccSet_t const *cccSet;
     uint32_t cccCount;
 
+    // Advertising Data
+    const uint8_t advData;
+    const uint8_t advDataLen;
+    const uint8_t scanData;
+    const uint8_t scanDataLen;
+
     // Service callbacks
     attsReadCback_t read_cb; /*! Read callback */
 
     ns_ble_service_specific_handler_cb handler_cb; /*! Called after generic event handling */
     ns_ble_service_specific_handler_init_cb handler_init_cb; /*! Service-specific handler init */
     ns_ble_service_specific_init_cb service_init_cb;         /*! Service-specific init */
+    ns_ble_service_specific_procMsg_cb procMsg_cb;           /*! Service-specific message handler */
 
     // Internals
     // WSF Buffers
@@ -133,6 +150,8 @@ typedef struct ns_ble_control {
     uint8_t hdlListLen;       /*! Cached handle list length */
 
     // Config
+    bool secureConnections; /*! TRUE to use secure connections */
+
     // WSF Config Structs
     appAdvCfg_t *advCfg;       /*! Advertising configuration */
     appSlaveCfg_t *slaveCfg;   /*! Master configuration */
@@ -150,10 +169,17 @@ typedef struct ns_ble_control {
 
 extern ns_ble_control_t g_ns_ble_control;
 
+extern void ns_ble_generic_conn_open(dmEvt_t *pMsg);
+extern void ns_ble_generic_conn_update(dmEvt_t *pMsg);
+extern void ns_ble_generic_CccCback(attsCccEvt_t *pEvt);
+extern void ns_ble_generic_AttCback(attEvt_t *pEvt);
+extern void ns_ble_generic_DmCback(dmEvt_t *pDmEvt);
+extern void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg);
+
 extern void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg);
 extern void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
-extern void ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
-                                ns_ble_service_control_t *service_cfg);
+extern void ns_ble_generic_init(
+    bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg);
 
 #ifdef __cplusplus
 }

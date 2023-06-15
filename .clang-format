@@ -6,3 +6,4 @@ SortIncludes: false
 # AlwaysBreakAfterReturnType: All
 IndentPPDirectives: BeforeHash
 ColumnLimit: 100
+AlignAfterOpenBracket: AlwaysBreak

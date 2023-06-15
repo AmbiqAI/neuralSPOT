@@ -67,8 +67,7 @@ static smpCfg_t ns_ble_default_SmpCfg = {
  *  \return None.
  */
 /*************************************************************************************************/
-static void
-ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
+void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
     dmEvt_t *pMsg;
     uint16_t len;
 
@@ -76,11 +75,7 @@ ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 
     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
         memcpy(pMsg, pDmEvt, len);
-        // #if configUSE_AMVOS_HID
-        //     WsfMsgSend(hidAppCb.handlerId, pMsg);
-        // #else
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
-        // #endif
     }
 }
 
@@ -95,20 +90,14 @@ ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
  *  \return None.
  */
 /*************************************************************************************************/
-static void
-ns_ble_generic_AttCback(attEvt_t *pEvt) {
+void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
 
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attEvt_t));
         pMsg->pValue = (uint8_t *)(pMsg + 1);
         memcpy(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
-
-        // #if configUSE_AMVOS_HID
-        //     WsfMsgSend(hidAppCb.handlerId, pMsg);
-        // #else
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
-        // #endif
     }
 }
 
@@ -123,8 +112,7 @@ ns_ble_generic_AttCback(attEvt_t *pEvt) {
  *  \return None.
  */
 /*************************************************************************************************/
-static void
-ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
+void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     attsCccEvt_t *pMsg;
     appDbHdl_t dbHdl;
 
@@ -137,18 +125,205 @@ ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
 
     if ((pMsg = WsfMsgAlloc(sizeof(attsCccEvt_t))) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attsCccEvt_t));
-
-        // #if configUSE_AMVOS_HID
-        //     WsfMsgSend(hidAppCb.handlerId, pMsg);
-        // #else
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
-        // #endif
+    }
+}
+
+//*****************************************************************************
+//
+// Connection Update event
+//
+//*****************************************************************************
+void ns_ble_generic_conn_update(dmEvt_t *pMsg) {
+    hciLeConnUpdateCmplEvt_t *evt = (hciLeConnUpdateCmplEvt_t *)pMsg;
+
+    APP_TRACE_INFO1("connection update status = 0x%x", evt->status);
+
+    if (evt->status == 0) {
+        APP_TRACE_INFO1("handle = 0x%x", evt->handle);
+        APP_TRACE_INFO1("connInterval = 0x%x", evt->connInterval);
+        APP_TRACE_INFO1("connLatency = 0x%x", evt->connLatency);
+        APP_TRACE_INFO1("supTimeout = 0x%x", evt->supTimeout);
+    }
+}
+
+//*****************************************************************************
+//
+// Connection Open event
+//
+//*****************************************************************************
+void ns_ble_generic_conn_open(dmEvt_t *pMsg) {
+    hciLeConnCmplEvt_t *evt = (hciLeConnCmplEvt_t *)pMsg;
+
+    APP_TRACE_INFO0("connection opened\n");
+    APP_TRACE_INFO1("handle = 0x%x\n", evt->handle);
+    APP_TRACE_INFO1("role = 0x%x\n", evt->role);
+    APP_TRACE_INFO3(
+        "addrMSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[0], evt->peerAddr[1],
+        evt->peerAddr[2]);
+    APP_TRACE_INFO3(
+        "addrLSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[3], evt->peerAddr[4],
+        evt->peerAddr[5]);
+    APP_TRACE_INFO1("connInterval = 0x%x\n", evt->connInterval);
+    APP_TRACE_INFO1("connLatency = 0x%x\n", evt->connLatency);
+    APP_TRACE_INFO1("supTimeout = 0x%x\n", evt->supTimeout);
+}
+
+/*************************************************************************************************/
+/*!
+ *  \fn     amdtpSetup
+ *
+ *  \brief  Set up advertising and other procedures that need to be performed after
+ *          device reset.
+ *
+ *  \param  pMsg    Pointer to message.
+ *
+ *  \return None.
+ */
+/*************************************************************************************************/
+void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
+    ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
+
+    /* set advertising and scan response data for discoverable mode */
+    AppAdvSetData(APP_ADV_DATA_DISCOVERABLE, svc->advDataLen, (uint8_t *)&svc->advData);
+    AppAdvSetData(APP_SCAN_DATA_DISCOVERABLE, svc->scanDataLen, (uint8_t *)&svc->scanData);
+
+    /* set advertising and scan response data for connectable mode */
+    AppAdvSetData(APP_ADV_DATA_CONNECTABLE, svc->advDataLen, (uint8_t *)&svc->advData);
+    AppAdvSetData(APP_SCAN_DATA_CONNECTABLE, svc->scanDataLen, (uint8_t *)&svc->scanData);
+
+    /* start advertising; automatically set connectable/discoverable mode and bondable mode */
+    AppAdvStart(APP_MODE_AUTO_INIT);
+}
+
+/*************************************************************************************************/
+/*!
+ *  \fn     amdtpProcMsg
+ *
+ *  \brief  Process messages from the event handler.
+ *
+ *  \param  pMsg    Pointer to message.
+ *
+ *  \return None.
+ */
+/*************************************************************************************************/
+static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
+    uint8_t uiEvent = APP_UI_NONE;
+    ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
+
+    // Pass it to the service message handler first, if it returns true, then it means
+    // the message is handled by the service
+    if (svc->procMsg_cb != NULL && svc->procMsg_cb(pMsg)) {
+        return;
+    }
+
+    switch (pMsg->hdr.event) {
+    case ATTS_HANDLE_VALUE_CNF:
+        APP_TRACE_INFO1("ATTS_HANDLE_VALUE_CNF, status = %d", pMsg->att.hdr.status);
+        break;
+
+    case ATTS_CCC_STATE_IND:
+        break;
+
+    case ATT_MTU_UPDATE_IND:
+        APP_TRACE_INFO1("Negotiated MTU %d", ((attEvt_t *)pMsg)->mtu);
+        break;
+
+    case DM_CONN_DATA_LEN_CHANGE_IND:
+        APP_TRACE_INFO2(
+            "DM_CONN_DATA_LEN_CHANGE_IND, Tx=%d, Rx=%d",
+            ((hciLeDataLenChangeEvt_t *)pMsg)->maxTxOctets,
+            ((hciLeDataLenChangeEvt_t *)pMsg)->maxRxOctets);
+        break;
+
+    case DM_RESET_CMPL_IND:
+        AttsCalculateDbHash();
+        DmSecGenerateEccKeyReq();
+        ns_ble_generic_advSetup(pMsg);
+        uiEvent = APP_UI_RESET_CMPL;
+        break;
+
+    case DM_ADV_START_IND:
+        uiEvent = APP_UI_ADV_START;
+        break;
+
+    case DM_ADV_STOP_IND:
+        uiEvent = APP_UI_ADV_STOP;
+        break;
+
+    case DM_CONN_OPEN_IND:
+        ns_ble_generic_conn_open((dmEvt_t *)pMsg);
+        uiEvent = APP_UI_CONN_OPEN;
+        break;
+
+    case DM_CONN_CLOSE_IND:
+        APP_TRACE_INFO1("DM_CONN_CLOSE_IND, reason = 0x%x", pMsg->dm.connClose.reason);
+        uiEvent = APP_UI_CONN_CLOSE;
+        break;
+
+    case DM_CONN_UPDATE_IND:
+        ns_ble_generic_conn_update((dmEvt_t *)pMsg);
+        break;
+
+    case DM_PHY_UPDATE_IND:
+        APP_TRACE_INFO3(
+            "DM_PHY_UPDATE_IND status: %d, RX: %d, TX: %d", pMsg->dm.phyUpdate.status,
+            pMsg->dm.phyUpdate.rxPhy, pMsg->dm.phyUpdate.txPhy);
+        break;
+
+    case DM_SEC_PAIR_CMPL_IND:
+        if (g_ns_ble_control.secureConnections) {
+            DmSecGenerateEccKeyReq();
+        }
+        uiEvent = APP_UI_SEC_PAIR_CMPL;
+        break;
+
+    case DM_SEC_PAIR_FAIL_IND:
+        if (g_ns_ble_control.secureConnections) {
+            DmSecGenerateEccKeyReq();
+        }
+        APP_TRACE_INFO1("DM_SEC_PAIR_FAIL_IND, status = 0x%x", pMsg->dm.pairCmpl.hdr.status);
+        uiEvent = APP_UI_SEC_PAIR_FAIL;
+        break;
+
+    case DM_SEC_ENCRYPT_IND:
+        uiEvent = APP_UI_SEC_ENCRYPT;
+        break;
+
+    case DM_SEC_ENCRYPT_FAIL_IND:
+        uiEvent = APP_UI_SEC_ENCRYPT_FAIL;
+        break;
+
+    case DM_SEC_AUTH_REQ_IND:
+        AppHandlePasskey(&pMsg->dm.authReq);
+        break;
+
+    case DM_SEC_ECC_KEY_IND:
+        DmSecSetEccKey(&pMsg->dm.eccMsg.data.key);
+        break;
+
+    case DM_SEC_COMPARE_IND:
+        AppHandleNumericComparison(&pMsg->dm.cnfInd);
+        break;
+
+    case DM_HW_ERROR_IND:
+        uiEvent = APP_UI_HW_ERROR;
+        break;
+
+    case DM_VENDOR_SPEC_CMD_CMPL_IND:
+        break;
+
+    default:
+        break;
+    }
+
+    if (uiEvent != APP_UI_NONE) {
+        AppUiAction(uiEvent);
     }
 }
 
 // *** Public Functions
-void
-ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg) {
+void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg) {
 
     /* store handler ID */
     cfg->handlerId = handlerId;
@@ -168,7 +343,7 @@ ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *c
 
     /* Initialize application framework */
     AppSlaveInit();
-    AppServerInit();
+    // AppServerInit();
 
     //   /* initialize amdtp service server */
     //   amdtps_init(handlerId, (AmdtpsCfg_t *) &amdtpAmdtpsCfg, amdtpDtpRecvCback,
@@ -180,8 +355,7 @@ ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *c
     // #endif
 }
 
-void
-ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
+void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
     if (pMsg != NULL) {
         // APP_TRACE_INFO1("Amdtp got evt %d", pMsg->event);
 
@@ -201,13 +375,14 @@ ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
 
         /* perform profile and user interface-related operations */
         g_ns_ble_control.service_config->handler_cb(event, pMsg);
+        ns_ble_generic_procMsg((ns_ble_msg_t *)pMsg);
+
         // amdtpProcMsg((amdtpMsg_t *) pMsg);
     }
 }
 
-void
-ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
-                    ns_ble_service_control_t *service_cfg) {
+void ns_ble_generic_init(
+    bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg) {
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
 
@@ -228,10 +403,11 @@ ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
         g_ns_ble_control.slaveCfg = &ns_ble_default_SlaveCfg;
         g_ns_ble_control.secCfg = &ns_ble_default_SecCfg;
         g_ns_ble_control.smpCfg = &ns_ble_default_SmpCfg;
+        g_ns_ble_control.updateCfg = &ns_ble_default_UpdateCfg;
         // g_ns_ble_control.connCfg = &ns_ble_connCfg_default;
         // g_ns_ble_control.appDiscCfg = &ns_ble_appDiscCfg_default;
         // g_ns_ble_control.appCfg = &ns_ble_appCfg_default;
-
+        g_ns_ble_control.secureConnections = true;
     } else {
         // API Sanity Check
 
@@ -249,12 +425,13 @@ ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
     WsfTimerInit();
 
     // Initialize a buffer pool for WSF dynamic memory needs.
-    wsfBufMemLen = WsfBufInit(service_cfg->bufferPoolSize, (uint8_t *)service_cfg->bufferPool,
-                              service_cfg->wsfBufCount, service_cfg->bufferDescriptors);
+    wsfBufMemLen = WsfBufInit(
+        service_cfg->bufferPoolSize, (uint8_t *)service_cfg->bufferPool, service_cfg->wsfBufCount,
+        service_cfg->bufferDescriptors);
 
     if (wsfBufMemLen > service_cfg->bufferPoolSize) {
-        am_util_debug_printf("Memory pool is too small by %d\r\n",
-                             wsfBufMemLen - service_cfg->bufferPoolSize);
+        am_util_debug_printf(
+            "Memory pool is too small by %d\r\n", wsfBufMemLen - service_cfg->bufferPoolSize);
     }
 
     // Initialize the WSF security service.
@@ -309,8 +486,8 @@ ns_ble_generic_init(bool useDefault, ns_ble_control_t *generic_cfg,
     DmConnRegister(DM_CLIENT_ID_APP, &ns_ble_generic_DmCback);
     AttRegister(&ns_ble_generic_AttCback);
     AttConnRegister(AppServerConnCback);
-    AttsCccRegister(service_cfg->cccCount, (attsCccSet_t *)service_cfg->cccSet,
-                    &ns_ble_generic_CccCback);
+    AttsCccRegister(
+        service_cfg->cccCount, (attsCccSet_t *)service_cfg->cccSet, &ns_ble_generic_CccCback);
     SvcCoreGattCbackRegister(GattReadCback, GattWriteCback);
 
     // Add generic groups

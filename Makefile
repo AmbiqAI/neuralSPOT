@@ -48,6 +48,7 @@ modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
 modules      += examples/basic_tf_stub
+modules      += examples/web_ble_example
 modules      += examples/har
 modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example

@@ -10,6 +10,8 @@
  */
 #include "ns_ble.h"
 
+const ns_core_api_t ns_ble_V0_0_1 = {.apiId = NS_BLE_API_ID, .version = NS_BLE_V0_0_1};
+
 // *** Globals
 ns_ble_control_t g_ns_ble_control;
 
@@ -38,11 +40,11 @@ static appSecCfg_t ns_ble_default_SecCfg = {
 
 /*! configurable parameters for connection parameter update */
 static appUpdateCfg_t ns_ble_default_UpdateCfg = {
-    1000, /*! Connection idle period in ms before attempting */
-    6,    /*! 7.5ms */
-    12,   /*! 15ms */
+    3000, /*! Connection idle period in ms before attempting */
+    8,    /*! 7.5ms */
+    18,   /*! 15ms */
     0,    /*! Connection latency */
-    400,  /*! Supervision timeout in 10ms units */
+    600,  /*! Supervision timeout in 10ms units */
     5     /*! Number of update attempts before giving up */
 };
 
@@ -70,11 +72,13 @@ static smpCfg_t ns_ble_default_SmpCfg = {
 void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
     dmEvt_t *pMsg;
     uint16_t len;
-
+    ns_lp_printf("ns_ble_generic_DmCback\n");
     len = DmSizeOfEvt(pDmEvt);
 
     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
         memcpy(pMsg, pDmEvt, len);
+        ns_lp_printf(
+            "ns_ble_generic_DmCback: pMsg->hdr.event = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -92,11 +96,14 @@ void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 /*************************************************************************************************/
 void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
-
+    ns_lp_printf("ns_ble_generic_AttCback\n");
+    ATT_TRACE_INFO0("ATT_TRACE Works\n");
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attEvt_t));
         pMsg->pValue = (uint8_t *)(pMsg + 1);
         memcpy(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
+        ns_lp_printf(
+            "ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -115,16 +122,18 @@ void ns_ble_generic_AttCback(attEvt_t *pEvt) {
 void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     attsCccEvt_t *pMsg;
     appDbHdl_t dbHdl;
-
+    ns_lp_printf("ns_ble_generic_CccCback\n");
     /* if CCC not set from initialization and there's a device record */
     if ((pEvt->handle != ATT_HANDLE_NONE) &&
         ((dbHdl = AppDbGetHdl((dmConnId_t)pEvt->hdr.param)) != APP_DB_HDL_NONE)) {
         /* store value in device database */
+        ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
         AppDbSetCccTblValue(dbHdl, pEvt->idx, pEvt->value);
     }
 
     if ((pMsg = WsfMsgAlloc(sizeof(attsCccEvt_t))) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attsCccEvt_t));
+        ns_lp_printf("ns_ble_generic_CccCback allocated ok\n");
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -137,13 +146,13 @@ void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
 void ns_ble_generic_conn_update(dmEvt_t *pMsg) {
     hciLeConnUpdateCmplEvt_t *evt = (hciLeConnUpdateCmplEvt_t *)pMsg;
 
-    APP_TRACE_INFO1("connection update status = 0x%x", evt->status);
+    ns_lp_printf("connection update status = 0x%x", evt->status);
 
     if (evt->status == 0) {
-        APP_TRACE_INFO1("handle = 0x%x", evt->handle);
-        APP_TRACE_INFO1("connInterval = 0x%x", evt->connInterval);
-        APP_TRACE_INFO1("connLatency = 0x%x", evt->connLatency);
-        APP_TRACE_INFO1("supTimeout = 0x%x", evt->supTimeout);
+        ns_lp_printf("handle = 0x%x", evt->handle);
+        ns_lp_printf("connInterval = 0x%x", evt->connInterval);
+        ns_lp_printf("connLatency = 0x%x", evt->connLatency);
+        ns_lp_printf("supTimeout = 0x%x", evt->supTimeout);
     }
 }
 
@@ -155,18 +164,18 @@ void ns_ble_generic_conn_update(dmEvt_t *pMsg) {
 void ns_ble_generic_conn_open(dmEvt_t *pMsg) {
     hciLeConnCmplEvt_t *evt = (hciLeConnCmplEvt_t *)pMsg;
 
-    APP_TRACE_INFO0("connection opened\n");
-    APP_TRACE_INFO1("handle = 0x%x\n", evt->handle);
-    APP_TRACE_INFO1("role = 0x%x\n", evt->role);
+    ns_lp_printf("connection opened\n");
+    ns_lp_printf("handle = 0x%x\n", evt->handle);
+    ns_lp_printf("role = 0x%x\n", evt->role);
     APP_TRACE_INFO3(
         "addrMSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[0], evt->peerAddr[1],
         evt->peerAddr[2]);
     APP_TRACE_INFO3(
         "addrLSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[3], evt->peerAddr[4],
         evt->peerAddr[5]);
-    APP_TRACE_INFO1("connInterval = 0x%x\n", evt->connInterval);
-    APP_TRACE_INFO1("connLatency = 0x%x\n", evt->connLatency);
-    APP_TRACE_INFO1("supTimeout = 0x%x\n", evt->supTimeout);
+    ns_lp_printf("connInterval = 0x%x\n", evt->connInterval);
+    ns_lp_printf("connLatency = 0x%x\n", evt->connLatency);
+    ns_lp_printf("supTimeout = 0x%x\n", evt->supTimeout);
 }
 
 /*************************************************************************************************/
@@ -183,14 +192,14 @@ void ns_ble_generic_conn_open(dmEvt_t *pMsg) {
 /*************************************************************************************************/
 void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
     ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
-
+    ns_lp_printf("ns_ble_generic_advSetup\n");
     /* set advertising and scan response data for discoverable mode */
-    AppAdvSetData(APP_ADV_DATA_DISCOVERABLE, svc->advDataLen, (uint8_t *)&svc->advData);
-    AppAdvSetData(APP_SCAN_DATA_DISCOVERABLE, svc->scanDataLen, (uint8_t *)&svc->scanData);
+    AppAdvSetData(APP_ADV_DATA_DISCOVERABLE, svc->advDataLen, (uint8_t *)svc->advData);
+    AppAdvSetData(APP_SCAN_DATA_DISCOVERABLE, svc->scanDataLen, (uint8_t *)svc->scanData);
 
     /* set advertising and scan response data for connectable mode */
-    AppAdvSetData(APP_ADV_DATA_CONNECTABLE, svc->advDataLen, (uint8_t *)&svc->advData);
-    AppAdvSetData(APP_SCAN_DATA_CONNECTABLE, svc->scanDataLen, (uint8_t *)&svc->scanData);
+    AppAdvSetData(APP_ADV_DATA_CONNECTABLE, svc->advDataLen, (uint8_t *)svc->advData);
+    AppAdvSetData(APP_SCAN_DATA_CONNECTABLE, svc->scanDataLen, (uint8_t *)svc->scanData);
 
     /* start advertising; automatically set connectable/discoverable mode and bondable mode */
     AppAdvStart(APP_MODE_AUTO_INIT);
@@ -210,7 +219,7 @@ void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
 static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
     uint8_t uiEvent = APP_UI_NONE;
     ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
-
+    ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
     // Pass it to the service message handler first, if it returns true, then it means
     // the message is handled by the service
     if (svc->procMsg_cb != NULL && svc->procMsg_cb(pMsg)) {
@@ -219,14 +228,14 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
 
     switch (pMsg->hdr.event) {
     case ATTS_HANDLE_VALUE_CNF:
-        APP_TRACE_INFO1("ATTS_HANDLE_VALUE_CNF, status = %d", pMsg->att.hdr.status);
+        ns_lp_printf("ATTS_HANDLE_VALUE_CNF, status = %d", pMsg->att.hdr.status);
         break;
 
     case ATTS_CCC_STATE_IND:
         break;
 
     case ATT_MTU_UPDATE_IND:
-        APP_TRACE_INFO1("Negotiated MTU %d", ((attEvt_t *)pMsg)->mtu);
+        ns_lp_printf("Negotiated MTU %d", ((attEvt_t *)pMsg)->mtu);
         break;
 
     case DM_CONN_DATA_LEN_CHANGE_IND:
@@ -237,6 +246,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
         break;
 
     case DM_RESET_CMPL_IND:
+        ns_lp_printf("DM_RESET_CMPL_IND\n");
         AttsCalculateDbHash();
         DmSecGenerateEccKeyReq();
         ns_ble_generic_advSetup(pMsg);
@@ -257,7 +267,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
         break;
 
     case DM_CONN_CLOSE_IND:
-        APP_TRACE_INFO1("DM_CONN_CLOSE_IND, reason = 0x%x", pMsg->dm.connClose.reason);
+        ns_lp_printf("DM_CONN_CLOSE_IND, reason = 0x%x", pMsg->dm.connClose.reason);
         uiEvent = APP_UI_CONN_CLOSE;
         break;
 
@@ -282,7 +292,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
         if (g_ns_ble_control.secureConnections) {
             DmSecGenerateEccKeyReq();
         }
-        APP_TRACE_INFO1("DM_SEC_PAIR_FAIL_IND, status = 0x%x", pMsg->dm.pairCmpl.hdr.status);
+        ns_lp_printf("DM_SEC_PAIR_FAIL_IND, status = 0x%x", pMsg->dm.pairCmpl.hdr.status);
         uiEvent = APP_UI_SEC_PAIR_FAIL;
         break;
 
@@ -324,9 +334,10 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
 
 // *** Public Functions
 void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg) {
-
+    ns_lp_printf("ns_ble_generic_handlerInit\n");
     /* store handler ID */
     cfg->handlerId = handlerId;
+    g_ns_ble_control.handlerId = handlerId;
 
     /* Set configuration pointers */
     pAppAdvCfg = g_ns_ble_control.advCfg;
@@ -338,8 +349,10 @@ void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control
     pSmpCfg = g_ns_ble_control.smpCfg;
 
     // Application specific initialization
-    cfg->handler_init_cb(handlerId);
-    cfg->service_init_cb(handlerId, &g_ns_ble_control, cfg);
+    if (cfg->handler_init_cb != NULL)
+        cfg->handler_init_cb(handlerId);
+    // if (cfg->service_init_cb != NULL)
+    //     cfg->service_init_cb(handlerId, &g_ns_ble_control, cfg);
 
     /* Initialize application framework */
     AppSlaveInit();
@@ -356,8 +369,9 @@ void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control
 }
 
 void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
+    ns_lp_printf("ns_ble_generic_handler: %d\n", event);
     if (pMsg != NULL) {
-        // APP_TRACE_INFO1("Amdtp got evt %d", pMsg->event);
+        // ns_lp_printf("Amdtp got evt %d", pMsg->event);
 
         /* process ATT messages */
         if (pMsg->event >= ATT_CBACK_START && pMsg->event <= ATT_CBACK_END) {
@@ -374,21 +388,25 @@ void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
         }
 
         /* perform profile and user interface-related operations */
-        g_ns_ble_control.service_config->handler_cb(event, pMsg);
+        if (g_ns_ble_control.service_config->handler_cb != NULL)
+            g_ns_ble_control.service_config->handler_cb(event, pMsg);
+
         ns_ble_generic_procMsg((ns_ble_msg_t *)pMsg);
 
         // amdtpProcMsg((amdtpMsg_t *) pMsg);
     }
 }
 
+void ns_ble_pre_init(void) {
+    // Set NVICs for BLE
+    NVIC_SetPriority(COOPER_IOM_IRQn, 4);
+    NVIC_SetPriority(AM_COOPER_IRQn, 4);
+}
+
 void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg) {
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
-
-    // Set NVICs for BLE
-    NVIC_SetPriority(COOPER_IOM_IRQn, 4);
-    NVIC_SetPriority(AM_COOPER_IRQn, 4);
 
     // Boot the radio.
     HciDrvRadioBoot(1);
@@ -430,7 +448,7 @@ void ns_ble_generic_init(
         service_cfg->bufferDescriptors);
 
     if (wsfBufMemLen > service_cfg->bufferPoolSize) {
-        am_util_debug_printf(
+        ns_lp_printf(
             "Memory pool is too small by %d\r\n", wsfBufMemLen - service_cfg->bufferPoolSize);
     }
 
@@ -486,8 +504,8 @@ void ns_ble_generic_init(
     DmConnRegister(DM_CLIENT_ID_APP, &ns_ble_generic_DmCback);
     AttRegister(&ns_ble_generic_AttCback);
     AttConnRegister(AppServerConnCback);
-    AttsCccRegister(
-        service_cfg->cccCount, (attsCccSet_t *)service_cfg->cccSet, &ns_ble_generic_CccCback);
+    AttsCccRegister(service_cfg->cccCount, service_cfg->cccSet, &ns_ble_generic_CccCback);
+
     SvcCoreGattCbackRegister(GattReadCback, GattWriteCback);
 
     // Add generic groups
@@ -497,4 +515,38 @@ void ns_ble_generic_init(
     // if (useDefault) {
     //     *control = &g_ns_ble_control;
     // }
+}
+
+// void
+// ns_ble_radio_task(void *pvParameters) {
+//     ns_ble_generic_init(true, NULL, NULL);
+// }
+
+//*****************************************************************************
+//
+// GPIO interrupt handler.
+//
+//*****************************************************************************
+void am_cooper_irq_isr(void) {
+    uint32_t ui32IntStatus;
+    AM_CRITICAL_BEGIN
+    am_hal_gpio_interrupt_irq_status_get(AM_COOPER_IRQn, false, &ui32IntStatus);
+    am_hal_gpio_interrupt_irq_clear(AM_COOPER_IRQn, ui32IntStatus);
+    AM_CRITICAL_END
+    am_hal_gpio_interrupt_service(AM_COOPER_IRQn, ui32IntStatus);
+}
+
+//*****************************************************************************
+//
+// UART interrupt handler. TODO
+//
+//*****************************************************************************
+void am_uart_isr(void) {
+    uint32_t ui32Status;
+
+    //
+    // Read and save the interrupt status, but clear out the status register.
+    //
+    ui32Status = UARTn(0)->MIS;
+    UARTn(0)->IEC = ui32Status;
 }

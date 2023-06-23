@@ -39,6 +39,11 @@ NS_MALLOC_HEAP_SIZE_IN_K := 16
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
 
+##### BLE Defines
+DEFINES+= SEC_ECC_CFG=SEC_ECC_CFG_HCI
+DEFINES+= WSF_TRACE_ENABLED
+DEFINES+= AM_DEBUG_PRINTF
+
 ##### Common AI Precompiler Directives #####
 # 1 = load TF library with debug info, turn on TF debug statements
 MLDEBUG := 0

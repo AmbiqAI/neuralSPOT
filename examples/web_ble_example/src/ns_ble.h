@@ -61,11 +61,31 @@ extern const ns_core_api_t ns_ble_V0_0_1;
 extern const ns_core_api_t ns_ble_oldest_supported_version;
 extern const ns_core_api_t ns_ble_current_version;
 
-// *** Macros
+// *** Helper Macros
+#define NS_BLE_CHAR_DECL(_char)                                                                    \
+    {                                                                                              \
+        .pUuid = attChUuid, .pValue = (uint8_t *)_char##Ch, .pLen = (uint16_t *)&_char##ChLen,     \
+        .maxLen = sizeof(_char##Ch), .settings = 0, .permissions = ATTS_PERMIT_READ,               \
+    }
+
+#define NS_BLE_CHAR_VAL(_prop, _settings, _permissions)                                            \
+    {                                                                                              \
+        .pUuid = _prop##ChUuid, .pValue = (uint8_t *)_prop##ChData,                                \
+        .pLen = (uint16_t *)&_prop##ChDataLen, .maxLen = sizeof(_prop##ChData),                    \
+        .settings = _settings, .permissions = _permissions,                                        \
+    }
+
+#define NS_BLE_CCC_DECL(_prop)                                                                     \
+    {                                                                                              \
+        .pUuid = attCliChCfgUuid, .pValue = (uint8_t *)_prop##ChCcc,                               \
+        .pLen = (uint16_t *)&_prop##ChCccLen, .maxLen = sizeof(_prop##ChCcc),                      \
+        .settings = ATTS_SET_CCC, .permissions = (ATTS_PERMIT_READ | ATTS_PERMIT_WRITE),           \
+    }
+
 /*! Base UUID:  00002760-08C2-11E1-9073-0E8AC72EXXXX */
-#define NS_ATT_UUID_BASE                                                                           \
+#define NS_BLE_ATT_UUID_BASE                                                                       \
     0x2E, 0xC7, 0x8A, 0x0E, 0x73, 0x90, 0xE1, 0x11, 0xC2, 0x08, 0x60, 0x27, 0x00, 0x00
-#define NS_ATT_UUID_BUILD(part) UINT16_TO_BYTES(part), NS_ATT_UUID_BASE
+#define NS_BLE_ATT_UUID_BUILD(part) UINT16_TO_BYTES(part), NS_BLE_ATT_UUID_BASE
 
 #ifndef NS_BLE_CONN_MAX
     #define NS_BLE_CONN_MAX 1
@@ -116,13 +136,13 @@ typedef struct ns_ble_service_control {
     uint32_t cccCount;
 
     // Advertising Data
-    const uint8_t advData;
-    const uint8_t advDataLen;
-    const uint8_t scanData;
-    const uint8_t scanDataLen;
+    uint8_t *advData;
+    uint8_t advDataLen;
+    uint8_t *scanData;
+    uint8_t scanDataLen;
 
     // Service callbacks
-    attsReadCback_t read_cb; /*! Read callback */
+    // attsReadCback_t read_cb; /*! Read callback */
 
     ns_ble_service_specific_handler_cb handler_cb; /*! Called after generic event handling */
     ns_ble_service_specific_handler_init_cb handler_init_cb; /*! Service-specific handler init */
@@ -178,6 +198,7 @@ extern void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg);
 
 extern void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg);
 extern void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
+extern void ns_ble_pre_init(void);
 extern void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg);
 

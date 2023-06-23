@@ -1,8 +1,8 @@
 //*****************************************************************************
 //
-//! @file svc_myservice.h
+//! @file hci_apollo_config.h
 //!
-//! @brief AmbiqMicro Data Transfer Protocol service definition
+//! @brief This file describes the physical aspects of the HCI conection.
 //
 //*****************************************************************************
 
@@ -43,65 +43,35 @@
 // This is part of revision ambiqvos-754956a890 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
-#ifndef NS_SVC_MYSERVICE_H
-#define NS_SVC_MYSERVICE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include "ns_ble.h"
+#include <stdint.h>
+#include "am_bsp.h"
 
-// Macro definitions
-
-/*! Partial amdtp service UUIDs */
-#define ATT_UUID_MYSERVICE_SERVICE_PART 0x1011
-
-/*! Partial amdtp rx characteristic UUIDs */
-#define ATT_UUID_MYSERVICE_RX_PART 0x0011
-
-/*! Partial amdtp tx characteristic UUIDs */
-#define ATT_UUID_MYSERVICE_TX_PART 0x0012
-
-/*! Partial amdtp ack characteristic UUIDs */
-#define ATT_UUID_MYSERVICE_ACK_PART 0x0013
-
-/* Amdtp services */
-#define ATT_UUID_MYSERVICE_SERVICE NS_ATT_UUID_BUILD(ATT_UUID_MYSERVICE_SERVICE_PART)
-
-/* Amdtp characteristics */
-#define ATT_UUID_MYSERVICE_RX NS_ATT_UUID_BUILD(ATT_UUID_MYSERVICE_RX_PART)
-#define ATT_UUID_MYSERVICE_TX NS_ATT_UUID_BUILD(ATT_UUID_MYSERVICE_TX_PART)
-#define ATT_UUID_MYSERVICE_ACK NS_ATT_UUID_BUILD(ATT_UUID_MYSERVICE_ACK_PART)
-
-// AM DTP Service
-#define MYSERVICE_START_HDL 0x0800
-#define MYSERVICE_END_HDL (MYSERVICE_MAX_HDL - 1)
-
-/* AMDTP Service Handles */
-enum {
-    MYSERVICE_SVC_HDL = MYSERVICE_START_HDL, /* AMDTP service declaration */
-    MYSERVICE_RX_CH_HDL,                     /* AMDTP write command characteristic */
-    MYSERVICE_RX_HDL,                        /* AMDTP write command data */
-    MYSERVICE_TX_CH_HDL,                     /* AMDTP notify characteristic */
-    MYSERVICE_TX_HDL,                        /* AMDTP notify data */
-    MYSERVICE_TX_CH_CCC_HDL,                 /* AMDTP notify client characteristic configuration */
-    MYSERVICE_ACK_CH_HDL,                    /* AMDTP rx ack characteristic */
-    MYSERVICE_ACK_HDL,                       /* AMDTP rx ack data */
-    MYSERVICE_ACK_CH_CCC_HDL,                /* AMDTP rx ack client characteristic configuration */
-    MYSERVICE_MAX_HDL
-};
+#ifndef HCI_APOLLO_CONFIG_H
+    #define HCI_APOLLO_CONFIG_H
 
 //*****************************************************************************
 //
-// Function definitions.
+// Pin numbers and configuration.
+//
+// NOTE: RTS, CTS, and RESET are implemented as GPIOs, so no "CFG" field is
+// needed.
 //
 //*****************************************************************************
-void SvcMyServiceAddGroup(void);
-void SvcMyServiceRemoveGroup(void);
-void SvcMyServiceCbackRegister(attsReadCback_t readCback, attsWriteCback_t writeCback);
+//#define HCI_APOLLO_POWER_PIN            AM_BSP_GPIO_EM9304_POWER
+//#define HCI_APOLLO_POWER_CFG            AM_BSP_GPIO_CFG_EM9304_POWER
 
-#ifdef __cplusplus
-}
-#endif
+    #define HCI_APOLLO_RESET_PIN AM_BSP_GPIO_EM9304_RESET
 
-#endif // SVC_AMDTPS_H
+    //*****************************************************************************
+    //
+    // Other options.
+    //
+    // These options are provided in case your board setup is a little more
+    // unusual. Most boards shouldn't need these features. If in doubt, leave all
+    // of these features disabled.
+    //
+    //*****************************************************************************
+    #define HCI_APOLLO_CFG_OVERRIDE_ISR 1 // Override the exactle UART ISR
+
+#endif // HCI_APOLLO_CONFIG_H

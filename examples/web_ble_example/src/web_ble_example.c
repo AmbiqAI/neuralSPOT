@@ -15,6 +15,7 @@
 #include "ns_peripherals_power.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "arm_math.h"
 /***********************************/
 /****** application-specific stuff */
 /***********************************/
@@ -104,28 +105,41 @@ typedef struct {
     wsfTimer_t measTimer; /*! \brief periodic measurement timer */
     uint16_t handle;
     uint16_t len;
-    uint8_t value;
+    uint8_t *value;
 } webbleCb_t;
 
 static webbleCb_t webbleAccelCb;
 static webbleCb_t webbleGyroCb;
 static webbleCb_t webbleQuatCb;
 
-static void startNotifications(webbleCb_t *cb) { WsfTimerStartSec(&(cb->measTimer), 1); }
+// Values
+float temperature = 0.0;
+uint16_t humidity = 2;
+float pressure = 4.0;
+float accel[3] = {0.0, 0.0, 0.0};
+float gyro[3] = {0.0, 0.0, 0.0};
+float quat[4] = {0.0, 0.0, 0.0, 0.0};
+float bsec = 6.0;
+uint32_t co2 = 8;
+uint16_t gas = 1;
+float x = 0.0;
+
+static void startNotifications(webbleCb_t *cb) { WsfTimerStartMs(&(cb->measTimer), 200); }
 
 static void stopNotifications(webbleCb_t *cb) { WsfTimerStop(&(cb->measTimer)); }
 
 static void webbleProcCccState(ns_ble_msg_t *pMsg) {
-    ns_lp_printf("webbleProcCccState\n");
+    // ns_lp_printf("webbleProcCccState\n");
     attsCccEvt_t *pEvt = (attsCccEvt_t *)pMsg;
 
-    APP_TRACE_INFO1("[%s]", __func__);
-    APP_TRACE_INFO1("handle           = 0x%X", pEvt->handle);
-    APP_TRACE_INFO1("value            = 0x%X", pEvt->value);
-    APP_TRACE_INFO1("idx              = 0x%X", pEvt->idx);
+    // APP_TRACE_INFO1("[%s]", __func__);
+    // APP_TRACE_INFO1("handle           = 0x%X", pEvt->handle);
+    // APP_TRACE_INFO1("value            = 0x%X", pEvt->value);
+    // APP_TRACE_INFO1("idx              = 0x%X", pEvt->idx);
 
     switch (pEvt->idx) {
     case WEBBLE_GATT_SC_CCC_IDX:
+        break;
     case WEBBLE_accelerometer_CCC_IDX:
         if (pEvt->value == ATT_CLIENT_CFG_NOTIFY) {
             // enable notifications
@@ -157,42 +171,81 @@ static void webbleProcCccState(ns_ble_msg_t *pMsg) {
             // webbleControl.quaternionNotifications = false;
         }
         break;
+    default:
+        ns_lp_printf("webbleProcCccState: unknown idx %d\n", pEvt->idx);
+        break;
     }
 }
 
+int cordioisstupid = 0;
+
 static void webbleSendValue(webbleCb_t *cb, attEvt_t *pMsg) {
     dmConnId_t connId = 1;
-    ns_lp_printf("webbleSendValue\n");
+    // ns_lp_printf("webbleSendValue");
     if (AttsCccEnabled(connId, cb->measTimer.msg.status)) {
-        AttsHandleValueNtf(connId, cb->handle, cb->len, &(cb->value));
+        // if ((cb->handle == 2059) && (gyroisstupid <= 10)) {
+        if ((cordioisstupid <= 20)) {
+            // ns_lp_printf("... handle %d len %d value %d\n", cb->handle, cb->len, cb->value);
+            //     ns_lp_printf("... pmsg len %d  val %f\n", pMsg->valueLen, pMsg->pValue[0]);
+            cordioisstupid++;
+        }
+        AttsSetAttr(cb->handle, cb->len, cb->value);
+        AttsHandleValueNtf(connId, cb->handle, cb->len, cb->value);
+    } else {
+        ns_lp_printf("... not sent\n");
     }
+}
+
+static void webbleUpdateSensorValues(void) {
+    // ns_lp_printf("webbleUpdateSensorValues\n");
+    x += 0.1;
+    if (x > 2 * PI) {
+        x = 0.0;
+    }
+    accel[0] = arm_sin_f32(x);
+    accel[1] = arm_cos_f32(x);
+    accel[2] = arm_sin_f32(1 - x);
+    gyro[0] = arm_sin_f32(-x);
+    gyro[1] = arm_cos_f32(-x);
+    gyro[2] = arm_sin_f32(1 - x);
+    quat[0] = arm_sin_f32(x);
+    quat[1] = arm_cos_f32(x);
+    quat[2] = arm_sin_f32(-x);
+    quat[3] = arm_sin_f32(-x);
+    temperature = arm_sin_f32(x / 2);
+    pressure = arm_cos_f32(x / 2);
+    bsec = arm_sin_f32(x / 4);
 }
 
 static void webbleTimerExpired(webbleCb_t *cb, attEvt_t *pMsg) {
     ns_lp_printf("webbleTimerExpired\n");
+    cordioisstupid = 0;
+    webbleUpdateSensorValues();
     webbleSendValue(cb, pMsg);
     startNotifications(cb); // restart timer
 }
 
 static void webbleHandleValueCnf(attEvt_t *pMsg) {
-    ns_lp_printf("webbleHandleValueCnf\n");
+    // ns_lp_printf("webbleHandleValueCnf\n");
     // Send value depending on which characteristic is being confirmed
     switch (pMsg->handle) {
     case WEBBLE_ACCELEROMETER_HDL:
-        webbleSendValue(&webbleAccelCb, pMsg);
+        // webbleSendValue(&webbleAccelCb, pMsg);
         break;
     case WEBBLE_GYROSCOPE_HDL:
-        webbleSendValue(&webbleGyroCb, pMsg);
+        // ns_lp_printf("webbleHandleValueCnf: GYROSCOPE\n");
+        // webbleSendValue(&webbleGyroCb, pMsg);
         break;
     case WEBBLE_QUATERNION_HDL:
-        webbleSendValue(&webbleQuatCb, pMsg);
+        // ns_lp_printf("webbleHandleValueCnf: QUATERNION\n");
+        // webbleSendValue(&webbleQuatCb, pMsg);
         break;
     }
 }
 
 bool webbleMsgProc(ns_ble_msg_t *pMsg) {
     bool messageHandled = true;
-    ns_lp_printf("webbleMsgProc\n");
+    // ns_lp_printf("webbleMsgProc\n");
 
     switch (pMsg->hdr.event) {
     case DM_CONN_OPEN_IND:
@@ -241,15 +294,48 @@ uint8_t webbleWrite_cb(
 
 uint8_t webbleRead_cb(
     dmConnId_t connId, uint16_t handle, uint8_t operation, uint16_t offset, attsAttr_t *pAttr) {
-    ns_lp_printf("webbleRead_cb\n");
-    ns_lp_printf("handle: %d\n", handle);
-    *(pAttr->pValue) = handle;
+    // ns_lp_printf("webbleRead_cb\n");
+    // ns_lp_printf("handle: %d\n", handle);
+    switch (handle) {
+    case WEBBLE_ACCELEROMETER_HDL:
+        memcpy(pAttr->pValue, accel, sizeof(accel));
+        break;
+    case WEBBLE_GYROSCOPE_HDL:
+        memcpy(pAttr->pValue, gyro, sizeof(gyro));
+        break;
+    case WEBBLE_QUATERNION_HDL:
+        memcpy(pAttr->pValue, quat, sizeof(quat));
+        break;
+    case WEBBLE_TEMPERATURE_HDL:
+        memcpy(pAttr->pValue, &temperature, sizeof(temperature));
+        break;
+    case WEBBLE_HUMIDITY_HDL:
+        memcpy(pAttr->pValue, &humidity, sizeof(humidity));
+        break;
+    case WEBBLE_PRESSURE_HDL:
+        memcpy(pAttr->pValue, &pressure, sizeof(pressure));
+        break;
+    case WEBBLE_BSEC_HDL:
+        memcpy(pAttr->pValue, &bsec, sizeof(bsec));
+        break;
+    case WEBBLE_CO2_HDL:
+        memcpy(pAttr->pValue, &co2, sizeof(co2));
+        break;
+    case WEBBLE_GAS_HDL:
+        ns_lp_printf("WEBBLE_GAS_HDL\n");
+        memcpy(pAttr->pValue, &gas, sizeof(gas));
+        break;
+    }
     return ATT_SUCCESS;
 }
 
-void webbleHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) { ns_lp_printf("webbleHandler\n"); }
+void webbleHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
+    // ns_lp_printf("webbleHandler\n");
+}
 
-void webbleHandlerInit(wsfHandlerId_t handlerId) { ns_lp_printf("webbleHandlerInit\n"); }
+void webbleHandlerInit(wsfHandlerId_t handlerId) {
+    // ns_lp_printf("webbleHandlerInit\n");
+}
 
 void webbleInit(void) {
     webbleControl.bufferPool = webbleWSFBufferPool;
@@ -283,19 +369,22 @@ void webbleInit(void) {
     webbleAccelCb.measTimer.msg.event = WEBBLE_accelerometer_IND;
     webbleAccelCb.measTimer.msg.status = WEBBLE_accelerometer_CCC_IDX;
     webbleAccelCb.handle = WEBBLE_ACCELEROMETER_HDL;
-    webbleAccelCb.len = 12;
+    webbleAccelCb.value = (uint8_t *)accel;
+    webbleAccelCb.len = sizeof(accel);
 
     webbleGyroCb.measTimer.handlerId = webbleControl.handlerId;
     webbleGyroCb.measTimer.msg.event = WEBBLE_gyroscope_IND;
     webbleGyroCb.measTimer.msg.status = WEBBLE_gyroscope_CCC_IDX;
     webbleGyroCb.handle = WEBBLE_GYROSCOPE_HDL;
-    webbleGyroCb.len = 12;
+    webbleGyroCb.value = (uint8_t *)gyro;
+    webbleGyroCb.len = sizeof(gyro);
 
     webbleQuatCb.measTimer.handlerId = webbleControl.handlerId;
     webbleQuatCb.measTimer.msg.event = WEBBLE_quaternion_IND;
     webbleQuatCb.measTimer.msg.status = WEBBLE_quaternion_CCC_IDX;
     webbleQuatCb.handle = WEBBLE_QUATERNION_HDL;
-    webbleQuatCb.len = 16;
+    webbleQuatCb.value = (uint8_t *)quat;
+    webbleQuatCb.len = sizeof(quat);
 }
 
 TaskHandle_t radio_task_handle;

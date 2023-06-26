@@ -51,7 +51,7 @@ static const uint8_t webblePressureCh[] = {
 };
 static const uint16_t webblePressureChLen = sizeof(webblePressureCh);
 static const uint8_t webblePressureChUuid[] = {ATT_UUID_WEBBLE_PRESSURE};
-static float webblePressureChData[] = {0.0};
+float webblePressureChData[] = {0.0};
 static const uint16_t webblePressureChDataLen = sizeof(webblePressureChData);
 
 static const uint8_t webbleAccelerometerCh[] = {
@@ -61,8 +61,8 @@ static const uint8_t webbleAccelerometerCh[] = {
 };
 static const uint16_t webbleAccelerometerChLen = sizeof(webbleAccelerometerCh);
 static const uint8_t webbleAccelerometerChUuid[] = {ATT_UUID_WEBBLE_ACCELEROMETER};
-static float webbleAccelerometerChData[] = {0.0, 0.0, 0.0};
-static const uint16_t webbleAccelerometerChDataLen = sizeof(webbleAccelerometerChData);
+float webbleAccelerometerChData[] = {0.0, 0.0, 0.0};
+static uint16_t webbleAccelerometerChDataLen = sizeof(webbleAccelerometerChData);
 static uint8_t webbleAccelerometerChCcc[] = {UINT16_TO_BYTES(0x0000)};
 static const uint16_t webbleAccelerometerChCccLen = sizeof(webbleAccelerometerChCcc);
 
@@ -73,8 +73,8 @@ static const uint8_t webbleGyroscopeCh[] = {
 };
 static const uint16_t webbleGyroscopeChLen = sizeof(webbleGyroscopeCh);
 static const uint8_t webbleGyroscopeChUuid[] = {ATT_UUID_WEBBLE_GYROSCOPE};
-static float webbleGyroscopeChData[] = {0.0, 0.0, 0.0};
-static const uint16_t webbleGyroscopeChDataLen = sizeof(webbleGyroscopeChData);
+float webbleGyroscopeChData[] = {0.0, 0.0, 0.0};
+static uint16_t webbleGyroscopeChDataLen = sizeof(webbleGyroscopeChData);
 static uint8_t webbleGyroscopeChCcc[] = {UINT16_TO_BYTES(0x0000)};
 static const uint16_t webbleGyroscopeChCccLen = sizeof(webbleGyroscopeChCcc);
 
@@ -86,7 +86,7 @@ static const uint8_t webbleQuaternionCh[] = {
 static const uint16_t webbleQuaternionChLen = sizeof(webbleQuaternionCh);
 static const uint8_t webbleQuaternionChUuid[] = {ATT_UUID_WEBBLE_QUATERNION};
 static float webbleQuaternionChData[] = {0.0, 0.0, 0.0, 0.0};
-static const uint16_t webbleQuaternionChDataLen = sizeof(webbleQuaternionChData);
+static uint16_t webbleQuaternionChDataLen = sizeof(webbleQuaternionChData);
 static uint8_t webbleQuaternionChCcc[] = {UINT16_TO_BYTES(0x0000)};
 static const uint16_t webbleQuaternionChCccLen = sizeof(webbleQuaternionChCcc);
 
@@ -98,7 +98,7 @@ static const uint8_t webbleRgbLedCh[] = {
 static const uint16_t webbleRgbLedChLen = sizeof(webbleRgbLedCh);
 static const uint8_t webbleRgbLedChUuid[] = {ATT_UUID_WEBBLE_RGBLED};
 static uint8_t webbleRgbLedChData[] = {0, 0, 0};
-static const uint16_t webbleRgbLedChDataLen = sizeof(webbleRgbLedChData);
+static uint16_t webbleRgbLedChDataLen = sizeof(webbleRgbLedChData);
 
 static const uint8_t webbleBsecCh[] = {
     ATT_PROP_READ,
@@ -117,7 +117,7 @@ static const uint8_t webbleCo2Ch[] = {
 };
 static const uint16_t webbleCo2ChLen = sizeof(webbleCo2Ch);
 static const uint8_t webbleCo2ChUuid[] = {ATT_UUID_WEBBLE_CO2};
-static int16_t webbleCo2ChData[] = {0};
+static uint32_t webbleCo2ChData[] = {0};
 static const uint16_t webbleCo2ChDataLen = sizeof(webbleCo2ChData);
 
 static const uint8_t webbleGasCh[] = {
@@ -174,7 +174,8 @@ static const attsAttr_t webbleAttributeList[] = {
     /* RGB is read/write */
     NS_BLE_CHAR_DECL(webbleRgbLed),
     NS_BLE_CHAR_VAL(
-        webbleRgbLed, (ATTS_SET_UUID_128 | ATTS_SET_VARIABLE_LEN | ATTS_SET_READ_CBACK),
+        webbleRgbLed,
+        (ATTS_SET_UUID_128 | ATTS_SET_VARIABLE_LEN | ATTS_SET_READ_CBACK | ATTS_SET_WRITE_CBACK),
         (ATTS_PERMIT_READ | ATTS_PERMIT_WRITE)),
 
     /* BSEC, CO2 and Gas read-only */

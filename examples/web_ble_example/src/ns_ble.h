@@ -83,9 +83,15 @@ extern const ns_core_api_t ns_ble_current_version;
     }
 
 /*! Base UUID:  00002760-08C2-11E1-9073-0E8AC72EXXXX */
-#define NS_BLE_ATT_UUID_BASE                                                                       \
-    0x2E, 0xC7, 0x8A, 0x0E, 0x73, 0x90, 0xE1, 0x11, 0xC2, 0x08, 0x60, 0x27, 0x00, 0x00
-#define NS_BLE_ATT_UUID_BUILD(part) UINT16_TO_BYTES(part), NS_BLE_ATT_UUID_BASE
+// #define NS_BLE_ATT_UUID_BASE
+//     0x2E, 0xC7, 0x8A, 0x0E, 0x73, 0x90, 0xE1, 0x11, 0xC2, 0x08, 0x60, 0x27, 0x00, 0x00
+// #define NS_BLE_ATT_UUID_BUILD(part) UINT16_TO_BYTES(part), NS_BLE_ATT_UUID_BASE
+
+/*! Base UUID:  00002760-08C2-11E1-9073-0E8AC72EXXXX */
+#define NS_BLE_ATT_UUID_PREAMBLE 0x00, 0x00, 0xb1, 0x19
+#define NS_BLE_ATT_UUID_POSTAMBLE 0x14, 0x12, 0x8a, 0x76, 0x04, 0xd1, 0x6c, 0x4f, 0x7e, 0x53
+#define NS_BLE_ATT_UUID_BUILD(part)                                                                \
+    NS_BLE_ATT_UUID_POSTAMBLE, UINT16_TO_BYTES(part), NS_BLE_ATT_UUID_PREAMBLE
 
 #ifndef NS_BLE_CONN_MAX
     #define NS_BLE_CONN_MAX 1

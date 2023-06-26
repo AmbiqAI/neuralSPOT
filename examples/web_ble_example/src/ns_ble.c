@@ -77,8 +77,8 @@ void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 
     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
         memcpy(pMsg, pDmEvt, len);
-        ns_lp_printf(
-            "ns_ble_generic_DmCback: pMsg->hdr.event = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
+        // ns_lp_printf(
+        // "ns_ble_generic_DmCback: pMsg->hdr.event = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -96,14 +96,13 @@ void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 /*************************************************************************************************/
 void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
-    ns_lp_printf("ns_ble_generic_AttCback\n");
-    ATT_TRACE_INFO0("ATT_TRACE Works\n");
+    // ns_lp_printf("ns_ble_generic_AttCback\n");
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attEvt_t));
         pMsg->pValue = (uint8_t *)(pMsg + 1);
         memcpy(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
-        ns_lp_printf(
-            "ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
+        // ns_lp_printf(
+        // "ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -127,14 +126,15 @@ void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     if ((pEvt->handle != ATT_HANDLE_NONE) &&
         ((dbHdl = AppDbGetHdl((dmConnId_t)pEvt->hdr.param)) != APP_DB_HDL_NONE)) {
         /* store value in device database */
-        ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
+        // ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
         AppDbSetCccTblValue(dbHdl, pEvt->idx, pEvt->value);
     }
 
     if ((pMsg = WsfMsgAlloc(sizeof(attsCccEvt_t))) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attsCccEvt_t));
-        ns_lp_printf("ns_ble_generic_CccCback allocated ok\n");
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
+    } else {
+        ns_lp_printf("ns_ble_generic_CccCback allocated failed\n");
     }
 }
 
@@ -219,7 +219,7 @@ void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
 static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
     uint8_t uiEvent = APP_UI_NONE;
     ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
-    ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
+    // ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
     // Pass it to the service message handler first, if it returns true, then it means
     // the message is handled by the service
     if (svc->procMsg_cb != NULL && svc->procMsg_cb(pMsg)) {
@@ -369,7 +369,7 @@ void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control
 }
 
 void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
-    ns_lp_printf("ns_ble_generic_handler: %d\n", event);
+    // ns_lp_printf("ns_ble_generic_handler: %d\n", event);
     if (pMsg != NULL) {
         // ns_lp_printf("Amdtp got evt %d", pMsg->event);
 

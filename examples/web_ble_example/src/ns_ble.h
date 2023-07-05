@@ -16,6 +16,7 @@ extern "C" {
 #endif
 
 #include "ns_ambiqsuite_harness.h"
+#include "ns_malloc.h"
 #include "wsf_types.h"
 #include "wsf_buf.h"
 #include "wsf_msg.h"
@@ -97,9 +98,13 @@ extern const ns_core_api_t ns_ble_current_version;
     #define NS_BLE_CONN_MAX 1
 #endif
 
+#define NS_BLE_MAX_SERVICES 1
+
 // *** Typedefs Prototypes (for callbacks)
-struct ns_ble_control;
-struct ns_ble_service_control;
+typedef struct ns_ble_control ns_ble_control_t;
+typedef struct ns_ble_service_control ns_ble_service_control_t;
+typedef struct ns_ble_service ns_ble_service_t;
+typedef struct ns_ble_characteristic ns_ble_characteristic_t;
 
 typedef union {
     wsfMsgHdr_t hdr;
@@ -138,7 +143,7 @@ typedef struct ns_ble_service_control {
     // WSF Service Metadata
     attsGroup_t *group; /*! Attribute group */
     attsAttr_t *list;   /*! Attribute list */
-    attsCccSet_t const *cccSet;
+    attsCccSet_t *cccSet;
     uint32_t cccCount;
 
     // Advertising Data
@@ -174,6 +179,7 @@ typedef struct ns_ble_control {
     bool_t autoConnect;       /*! TRUE if auto-connecting */
     uint8_t discState;        /*! Service discovery state */
     uint8_t hdlListLen;       /*! Cached handle list length */
+    uint16_t nextHandleId;    /*! Next handle ID to allocate */
 
     // Config
     bool secureConnections; /*! TRUE to use secure connections */
@@ -191,7 +197,117 @@ typedef struct ns_ble_control {
     // Service Config
     ns_ble_service_control_t *service_config; /*! Service configuration */
 
+    // New API ------
+    ns_ble_service_t *services[NS_BLE_MAX_SERVICES]; /*! Array of services */
+    uint16_t numServices;                            /*! Number of services */
+
 } ns_ble_control_t;
+
+// ----------------------------------------------------------------------------
+// NS BLE API
+// ----------------------------------------------------------------------------
+typedef struct {
+    uint8_t array[16];
+} ns_ble_uuid128_t;
+
+typedef struct {
+    uint32_t *pool;
+    uint32_t poolSize;
+    wsfBufPoolDesc_t *desc;
+    uint32_t descNum;
+} ns_ble_pool_config_t;
+
+typedef struct ns_ble_service {
+    // Config
+    ns_ble_uuid128_t uuid128; //! char array of 128b UUID
+    char name[31];
+    uint8_t nameLen;
+    uint16_t baseHandle; //! initialize to first handle of service
+    uint16_t numAttributes;
+    uint16_t numCharacteristics;
+    ns_ble_pool_config_t *poolConfig;
+
+    // Internals
+    uint16_t handleId;
+    ns_ble_service_control_t *control;
+    ns_ble_characteristic_t **characteristics; //! array of characteristics
+    uint16_t nextCharacteristicIndex;
+    attsCccSet_t *cccSet;
+    uint16_t nextCccIndex;
+    uint16_t nextCccIndicationHandle;
+
+    attsGroup_t group;      //! attribute group for Cordio
+    attsAttr_t *attributes; //! array of attributes for Cordio
+    uint16_t nextHandleId;
+    uint16_t maxHandle;
+    uint16_t nextAttributeIndex;
+
+    // Advertising Data
+    uint8_t *advData;
+    uint8_t advDataLen;
+    uint8_t *scanData;
+    uint8_t scanDataLen;
+
+    // Attributes
+    uint16_t primaryAttributeLen;
+    attsAttr_t primaryAttribute;
+    attsAttr_t versionAttribute;
+    attsAttr_t nameAttribute;
+
+    // Cordio Callbacks
+    attsReadCback_t readCback;   /*!< \brief Read callback function */
+    attsWriteCback_t writeCback; /*!< \brief Write callback function */
+} ns_ble_service_t;
+
+typedef int (*ns_ble_characteristic_read_handler_t)(
+    ns_ble_service_t *, ns_ble_characteristic_t *, void *);
+typedef int (*ns_ble_characteristic_write_handler_t)(
+    ns_ble_service_t *, ns_ble_characteristic_t *, void *);
+typedef int (*ns_ble_characteristic_notify_handler_t)(
+    ns_ble_service_t *, ns_ble_characteristic_t *);
+
+typedef struct ns_ble_characteristic {
+    // Config
+    ns_ble_uuid128_t uuid128; //! char array of 128b UUID
+    // uint16_t properties;
+    // uint16_t permissions;
+    // uint16_t maxLen;
+    // uint16_t initLen;
+
+    void *applicationValue; //! pointer to application's value store
+
+    // Handlers
+    ns_ble_characteristic_read_handler_t readHandlerCb;
+    ns_ble_characteristic_write_handler_t writeHandlerCb;
+    ns_ble_characteristic_notify_handler_t notifyHandlerCb;
+
+    // Attributes
+    // Declaration
+    uint8_t declarationProperties[19];
+    uint16_t declarationLen;
+    attsAttr_t declaration;
+    uint16_t declarationHandle;
+
+    // Value
+    uint8_t *pValue;
+    uint16_t valueLen;
+    attsAttr_t value;
+    uint16_t valueHandle;
+
+    // CCC (only populated for notify characteristics)
+    uint8_t cccArray[2];
+    uint16_t cccLen;
+    attsAttr_t ccc;
+    uint16_t cccHandle;
+    uint16_t cccIndex;
+    uint16_t cccIndicationHandle;
+    wsfTimer_t indicationTimer; /*! \brief periodic measurement timer */
+    uint32_t indicationPeriod;  /*! \brief periodic measurement period in ms */
+
+    // Internals
+    uint16_t handleId;
+
+} ns_ble_characteristic_t;
 
 extern ns_ble_control_t g_ns_ble_control;
 
@@ -207,6 +323,25 @@ extern void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
 extern void ns_ble_pre_init(void);
 extern void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg);
+
+enum {
+    NS_BLE_READ = 1,
+    NS_BLE_WRITE = 2,
+    NS_BLE_NOTIFY = 4,
+    NS_BLE_PROP_MAX,
+};
+
+extern int ns_ble_create_service(ns_ble_service_t *);
+extern int ns_ble_create_characteristic(
+    ns_ble_characteristic_t *c, char const *uuidString, void *applicationValue,
+    uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb,
+    ns_ble_characteristic_write_handler_t writeHandlerCb,
+    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs,
+    uint16_t *attributeCount);
+
+extern int ns_ble_add_characteristic(ns_ble_service_t *, ns_ble_characteristic_t *);
+extern int ns_ble_char2uuid(const char uuidString[16], ns_ble_uuid128_t *uuid128);
+extern int ns_ble_start_service(ns_ble_service_t *);
 
 #ifdef __cplusplus
 }

@@ -98,6 +98,12 @@ static wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS] = {
     {64, 6},
     {512, 14}};
 
+static ns_ble_pool_config_t webbleWsfBuffers = {
+    .pool = webbleWSFBufferPool,
+    .poolSize = sizeof(webbleWSFBufferPool),
+    .desc = webbleBufferDescriptors,
+    .descNum = WEBBLE_WSF_BUFFER_POOLS};
+
 static ns_ble_service_control_t webbleControl;
 static ns_ble_connection_t webbleConnectionControl;
 
@@ -119,6 +125,7 @@ float pressure = 4.0;
 float accel[3] = {0.0, 0.0, 0.0};
 float gyro[3] = {0.0, 0.0, 0.0};
 float quat[4] = {0.0, 0.0, 0.0, 0.0};
+uint8_t rgb[] = {0, 0, 0};
 float bsec = 6.0;
 uint32_t co2 = 8;
 uint16_t gas = 1;
@@ -294,8 +301,8 @@ uint8_t webbleWrite_cb(
 
 uint8_t webbleRead_cb(
     dmConnId_t connId, uint16_t handle, uint8_t operation, uint16_t offset, attsAttr_t *pAttr) {
-    // ns_lp_printf("webbleRead_cb\n");
-    // ns_lp_printf("handle: %d\n", handle);
+    ns_lp_printf("webbleRead_cb\n");
+    ns_lp_printf("handle: %d\n", handle);
     switch (handle) {
     case WEBBLE_ACCELEROMETER_HDL:
         memcpy(pAttr->pValue, accel, sizeof(accel));
@@ -353,7 +360,6 @@ void webbleInit(void) {
     webbleControl.procMsg_cb = &webbleMsgProc;
     webbleControl.cccSet = webbleCccSet;
     webbleControl.cccCount = WEBBLE_NUM_CCC_IDX;
-    // webbleControl.ccc_cb = webbleCccCallback;
 
     ns_ble_generic_init(TRUE, &g_ns_ble_control,
                         &webbleControl); // Use defaults to init BLE stack
@@ -389,10 +395,12 @@ void webbleInit(void) {
 
 TaskHandle_t radio_task_handle;
 TaskHandle_t my_xSetupTask;
+int ideal_main(void);
 
 void RadioTask(void *pvParameters) {
     ns_lp_printf("RadioTask\n");
-    webbleInit();
+    // webbleInit();
+    NS_TRY(ideal_main(), "ideal_main failed.\n");
     ns_lp_printf("RadioTask: webbleInit done\n");
     while (1) {
         wsfOsDispatcher();
@@ -419,8 +427,138 @@ int main(void) {
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
     ns_lp_printf("Hello World\n");
+    // ideal_main();
     xTaskCreate(setup_task, "Setup", 512, 0, 3, &my_xSetupTask);
     vTaskStartScheduler();
     while (1) {
     };
+}
+
+// ----------------------------------------------------------------------------
+
+#define webbleUuid(uuid) "19b10000" uuid "537e4f6cd104768a1214"
+
+int webbleReadHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *dest) {
+    ns_lp_printf("webbleReadHandler\n");
+    memcpy(dest, c->applicationValue, c->valueLen);
+    return NS_STATUS_SUCCESS;
+}
+
+int webbleWriteHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *src) {
+    ns_lp_printf("webbleWriteHandler\n");
+    return NS_STATUS_SUCCESS;
+}
+
+int webbleNotifyHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c) {
+    ns_lp_printf("webbleNotifyHandler\n");
+    webbleUpdateSensorValues();
+    return NS_STATUS_SUCCESS;
+}
+
+ns_ble_service_t webbleService;
+ns_ble_characteristic_t webbleTemperature, webbleHumidity, webblePressure;
+ns_ble_characteristic_t webbleAccel, webbleGyro, webbleQuat;
+ns_ble_characteristic_t webbleRgb, webbleBsec, webbleCo2, webbleGas;
+
+void print_attribute(attsAttr_t *a, attsAttr_t *b) {
+    ns_lp_printf(
+        "a. settings: %d, permissions %d, maxLen %d\n", a->settings, a->permissions, a->maxLen);
+    ns_lp_printf(
+        "b. settings: %d, permissions %d, maxLen %d\n", b->settings, b->permissions, b->maxLen);
+    if (a->settings & ATTS_SET_UUID_128) {
+        ns_lp_printf("a. UUID: ");
+        for (int i = 0; i < 16; i++) {
+            ns_lp_printf("%02x", a->pUuid[i]);
+        }
+        ns_lp_printf("\n");
+        ns_lp_printf("b. UUID: ");
+        for (int i = 0; i < 16; i++) {
+            ns_lp_printf("%02x", b->pUuid[i]);
+        }
+        ns_lp_printf("\n");
+    }
+}
+
+int ideal_main(void) {
+
+    char webbleName[] = "Webble";
+
+    // Initialize BLE service with default values
+    // memcpy(&webbleService, &defaultBleService, sizeof(defaultBleService));
+
+    // Customize Service-specific fields
+    NS_TRY(
+        ns_ble_char2uuid(webbleUuid("0000"), &(webbleService.uuid128)), "Failed to convert UUID\n");
+    memcpy(webbleService.name, webbleName, sizeof(webbleService.name));
+    webbleService.nameLen = sizeof(webbleName) - 1; // exclude null terminator
+    webbleService.baseHandle = 0x0800;
+    webbleService.poolConfig = &webbleWsfBuffers;
+    webbleService.numAttributes = 0;
+
+    // Define characteristics to add to service
+    // uint16_t attributeCount = 0; // keeps track of the number of attributes added to the service
+
+    ns_ble_create_characteristic(
+        &webbleTemperature, webbleUuid("2001"), &temperature, sizeof(temperature), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleHumidity, webbleUuid("3001"), &humidity, sizeof(humidity), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webblePressure, webbleUuid("4001"), &pressure, sizeof(pressure), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleAccel, webbleUuid("5001"), accel, sizeof(accel), NS_BLE_READ | NS_BLE_NOTIFY, NULL,
+        NULL, &webbleNotifyHandler, 200, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleGyro, webbleUuid("6001"), gyro, sizeof(gyro), NS_BLE_READ | NS_BLE_NOTIFY, NULL,
+        NULL, &webbleNotifyHandler, 200, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleQuat, webbleUuid("7001"), quat, sizeof(quat), NS_BLE_READ | NS_BLE_NOTIFY, NULL,
+        NULL, &webbleNotifyHandler, 200, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleRgb, webbleUuid("8001"), rgb, sizeof(rgb), NS_BLE_READ | NS_BLE_WRITE,
+        &webbleReadHandler, &webbleWriteHandler, NULL, 0, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleBsec, webbleUuid("9001"), &bsec, sizeof(bsec), NS_BLE_READ, &webbleReadHandler, NULL,
+        NULL, 0, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleCo2, webbleUuid("9002"), &co2, sizeof(co2), NS_BLE_READ, &webbleReadHandler, NULL,
+        NULL, 0, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleGas, webbleUuid("9003"), &gas, sizeof(gas), NS_BLE_READ, &webbleReadHandler, NULL,
+        NULL, 0, &(webbleService.numAttributes));
+
+    // Create the service
+    webbleService.numCharacteristics = 10;
+    ns_ble_create_service(&webbleService);
+    ns_ble_add_characteristic(&webbleService, &webbleTemperature);
+    ns_ble_add_characteristic(&webbleService, &webbleHumidity);
+    ns_ble_add_characteristic(&webbleService, &webblePressure);
+    ns_ble_add_characteristic(&webbleService, &webbleAccel);
+    ns_ble_add_characteristic(&webbleService, &webbleGyro);
+    ns_ble_add_characteristic(&webbleService, &webbleQuat);
+    ns_ble_add_characteristic(&webbleService, &webbleRgb);
+    ns_ble_add_characteristic(&webbleService, &webbleBsec);
+    ns_ble_add_characteristic(&webbleService, &webbleCo2);
+    ns_ble_add_characteristic(&webbleService, &webbleGas);
+
+    // for (int i = 0; i < webbleService.numAttributes; i++) {
+    //     // ns_lp_printf("%d. %02x %02x \n", i, ((uint8_t*)webbleService.attributes)[i],
+    //     ((uint8_t*)webbleAttributeList)[i]); ns_lp_printf("%d. \n", i);
+    //     print_attribute(&((attsAttr_t*)webbleService.attributes)[i],
+    //     &((attsAttr_t*)webbleAttributeList)[i]);
+    // }
+
+    ns_ble_start_service(&webbleService); // Initialize BLE, create structs, start service
+    return NS_STATUS_SUCCESS;
 }

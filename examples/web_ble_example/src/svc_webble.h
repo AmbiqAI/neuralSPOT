@@ -128,6 +128,8 @@ void SvcWebbleAddGroup(void);
 void SvcWebbleRemoveGroup(void);
 void SvcWebbleCbackRegister(attsReadCback_t readCback, attsWriteCback_t writeCback);
 
+extern const attsAttr_t webbleAttributeList[];
+
 #ifdef __cplusplus
 }
 #endif

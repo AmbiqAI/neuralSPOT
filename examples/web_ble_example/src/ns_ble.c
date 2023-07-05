@@ -58,6 +58,70 @@ static smpCfg_t ns_ble_default_SmpCfg = {
     0,                   /*! Device authentication requirements */
 };
 
+/**************************************************************************************************
+  Advertising Data
+**************************************************************************************************/
+
+/*! advertising data, discoverable mode */
+static const uint8_t ns_ble_generic_data_disc[] = {
+    /*! flags */
+    2,                        /*! length */
+    DM_ADV_TYPE_FLAGS,        /*! AD type */
+    DM_FLAG_LE_GENERAL_DISC | /*! flags */
+        DM_FLAG_LE_BREDR_NOT_SUP,
+
+    /*! tx power */
+    2,                    /*! length */
+    DM_ADV_TYPE_TX_POWER, /*! AD type */
+    0,                    /*! tx power */
+
+    /*! service UUID list */
+    3,                   /*! length */
+    DM_ADV_TYPE_16_UUID, /*! AD type */
+    UINT16_TO_BYTES(ATT_UUID_DEVICE_INFO_SERVICE),
+
+    17,                                              /*! length */
+    DM_ADV_TYPE_128_UUID,                            /*! AD type */
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // placeholder for 128-bit UUID
+
+/*! scan data, discoverable mode */
+static const uint8_t ns_ble_generic_scan_data_disc[] = {
+    /*! device name */
+    32,                     /*! length */
+    DM_ADV_TYPE_LOCAL_NAME, /*! AD type */
+    'n',
+    's',
+    '_',
+    'g',
+    'e',
+    'n',
+    'e',
+    'r', // 31 bytes
+    'i',
+    'c',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+};
+
 /*************************************************************************************************/
 /*!
  *  \fn     ns_ble_generic_DmCback
@@ -219,7 +283,7 @@ void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
 static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
     uint8_t uiEvent = APP_UI_NONE;
     ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
-    // ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
+    ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
     // Pass it to the service message handler first, if it returns true, then it means
     // the message is handled by the service
     if (svc->procMsg_cb != NULL && svc->procMsg_cb(pMsg)) {
@@ -369,7 +433,7 @@ void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control
 }
 
 void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
-    // ns_lp_printf("ns_ble_generic_handler: %d\n", event);
+    ns_lp_printf("ns_ble_generic_handler: %d\n", event);
     if (pMsg != NULL) {
         // ns_lp_printf("Amdtp got evt %d", pMsg->event);
 
@@ -434,6 +498,7 @@ void ns_ble_generic_init(
             memcpy(&g_ns_ble_control, generic_cfg, sizeof(ns_ble_control_t));
         }
     }
+    g_ns_ble_control.nextHandleId = 0;
 
     g_ns_ble_control.service_config = service_cfg;
 
@@ -549,4 +614,460 @@ void am_uart_isr(void) {
     //
     ui32Status = UARTn(0)->MIS;
     UARTn(0)->IEC = ui32Status;
+}
+
+//*****************************************************************************
+// API
+//*****************************************************************************
+
+void ns_ble_new_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
+    ns_lp_printf("webbleHandler\n");
+}
+
+void ns_ble_new_handler_init(wsfHandlerId_t handlerId) { ns_lp_printf("webbleHandlerInit\n"); }
+
+static void ns_ble_generic_new_handle_cnf(attEvt_t *pMsg){};
+
+static void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
+    dmConnId_t connId = 1;
+    ns_lp_printf("webbleSendValue");
+    if (AttsCccEnabled(connId, c->indicationTimer.msg.status)) {
+        AttsSetAttr(c->valueHandle, c->valueLen, c->applicationValue);
+        AttsHandleValueNtf(connId, c->valueHandle, c->valueLen, c->applicationValue);
+    } else {
+        ns_lp_printf("... not sent\n");
+    }
+}
+
+static bool ns_ble_handle_indication_timer_expired(ns_ble_msg_t *pMsg) {
+    uint8_t event = pMsg->hdr.event;
+    ns_ble_service_t *service;
+    ns_lp_printf("webbleIndicationTimerExpired check\n");
+    for (int i = 0; i < g_ns_ble_control.numServices; i++) {
+        service = g_ns_ble_control.services[i];
+        for (int j = 0; j < service->numCharacteristics; j++) {
+            if (service->characteristics[j]->cccIndicationHandle == event) {
+                ns_ble_characteristic_t *c = service->characteristics[j];
+                // Found a match, handle timer expiry
+                // Call the callback to update the value of attribute
+                ns_lp_printf("webbleIndicationTimerExpired\n");
+                c->notifyHandlerCb(service, c);
+
+                // Send the value
+                ns_ble_send_value(c, (attEvt_t *)pMsg);
+                // Restart timer
+                WsfTimerStartMs(&c->indicationTimer, c->indicationPeriod);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+static void ns_ble_process_ccc_state(attsCccEvt_t *pMsg) {
+    uint8_t idx = pMsg->idx;
+    ns_ble_service_t *service;
+    ns_lp_printf("webbleProcessCccState\n");
+    for (int i = 0; i < g_ns_ble_control.numServices; i++) {
+        service = g_ns_ble_control.services[i];
+        for (int j = 0; j < service->numCharacteristics; j++) {
+            ns_ble_characteristic_t *c = service->characteristics[j];
+            ns_lp_printf("webbleProcessCccState: %d %d %d\n", j, idx, c->cccIndex);
+            if (service->characteristics[j]->cccIndex == idx) {
+                if (pMsg->value == ATT_CLIENT_CFG_NOTIFY) {
+                    // Start the timer
+                    ns_lp_printf("webbleStartTimer\n");
+                    WsfTimerStartMs(&c->indicationTimer, c->indicationPeriod);
+                } else {
+                    // Stop the timer
+                    ns_lp_printf("webbleStopTimer\n");
+                    WsfTimerStop(&c->indicationTimer);
+                }
+            }
+        }
+    }
+}
+
+bool ns_ble_new_proc_msg(ns_ble_msg_t *pMsg) {
+    bool messageHandled = true;
+    ns_lp_printf("webbleMsgProc\n");
+
+    switch (pMsg->hdr.event) {
+    case DM_CONN_OPEN_IND:
+        ns_ble_generic_conn_open((dmEvt_t *)pMsg);
+        DmConnSetDataLen(1, 251, 0x848);
+        break;
+
+    case DM_CONN_CLOSE_IND:
+        // amdtps_conn_close((dmEvt_t *) pMsg);
+        break;
+
+    case ATTS_CCC_STATE_IND:
+        ns_ble_process_ccc_state((attsCccEvt_t *)pMsg);
+        break;
+
+    case ATTS_HANDLE_VALUE_CNF:
+        ns_ble_generic_new_handle_cnf((attEvt_t *)pMsg);
+        break;
+    default:
+        // Check to see if even matches an indication handle, if so, call the
+        // handler.
+        messageHandled = ns_ble_handle_indication_timer_expired(pMsg);
+        break;
+    }
+
+    return messageHandled;
+}
+
+int ns_ble_char2uuid(char const uuidString[16], ns_ble_uuid128_t *uuid128) {
+    // Convert the string into uint array needed by WSF
+    // Written by CoPilot!
+
+    ns_lp_printf("ns_ble_char2uuid: %s\n", uuidString);
+    for (int i = 0; i < 16; i++) {
+        char c1 = uuidString[i * 2];
+        char c2 = uuidString[i * 2 + 1];
+        if (c1 >= '0' && c1 <= '9') {
+            uuid128->array[15 - i] = (c1 - '0') << 4;
+        } else if (c1 >= 'a' && c1 <= 'f') {
+            uuid128->array[15 - i] = (c1 - 'a' + 10) << 4;
+        } else if (c1 >= 'A' && c1 <= 'F') {
+            uuid128->array[15 - i] = (c1 - 'A' + 10) << 4;
+        } else {
+            return -1;
+        }
+
+        if (c2 >= '0' && c2 <= '9') {
+            uuid128->array[15 - i] |= (c2 - '0');
+        } else if (c2 >= 'a' && c2 <= 'f') {
+            uuid128->array[15 - i] |= (c2 - 'a' + 10);
+        } else if (c2 >= 'A' && c2 <= 'F') {
+            uuid128->array[15 - i] |= (c2 - 'A' + 10);
+        } else {
+            return -1;
+        }
+    }
+
+    return NS_STATUS_SUCCESS;
+}
+
+uint16_t ns_ble_get_next_handle_id(ns_ble_service_t *service) {
+    return g_ns_ble_control.nextHandleId++;
+}
+
+uint8_t ns_ble_generic_write_cback(
+    dmConnId_t connId, uint16_t handle, uint8_t operation, uint16_t offset, uint16_t len,
+    uint8_t *pValue, attsAttr_t *pAttr) {
+    ns_lp_printf("ns_ble_generic_write_cback, handle %d\n", handle);
+    for (int i = 0; i < g_ns_ble_control.numServices; i++) {
+        ns_ble_service_t *service = g_ns_ble_control.services[i];
+        for (int j = 0; j < service->numCharacteristics; j++) {
+            if (service->characteristics[j]->valueHandle == handle) {
+                if (service->characteristics[j]->writeHandlerCb) {
+                    return service->characteristics[j]->writeHandlerCb(
+                        service, service->characteristics[j], pAttr->pValue);
+                }
+            }
+        }
+    }
+
+    return ATT_ERR_HANDLE;
+}
+
+uint8_t ns_ble_generic_read_cback(
+    dmConnId_t connId, uint16_t handle, uint8_t operation, uint16_t offset, attsAttr_t *pAttr) {
+    ns_lp_printf("ns_ble_generic_read_cback, handle %d\n", handle);
+    for (int i = 0; i < g_ns_ble_control.numServices; i++) {
+        ns_ble_service_t *service = g_ns_ble_control.services[i];
+        for (int j = 0; j < service->numCharacteristics; j++) {
+            if (service->characteristics[j]->valueHandle == handle) {
+                if (service->characteristics[j]->readHandlerCb) {
+                    return service->characteristics[j]->readHandlerCb(
+                        service, service->characteristics[j], pAttr->pValue);
+                }
+            }
+        }
+    }
+    ns_lp_printf("ns_ble_generic_read_cback, handle %d, not found\n", handle);
+    return ATT_ERR_HANDLE;
+}
+
+// Create a Service
+int ns_ble_create_service(ns_ble_service_t *service) {
+    service->nextHandleId = service->baseHandle;
+    service->handleId = ns_ble_get_next_handle_id(service);
+    service->attributes = NULL;
+    service->readCback = ns_ble_generic_read_cback;
+    service->writeCback = ns_ble_generic_write_cback;
+
+    // *** Fill in service attributes
+    // Primary Service Declaration
+    service->primaryAttributeLen = sizeof(service->uuid128.array); // need a pointer for some reason
+    service->primaryAttribute.pUuid = attPrimSvcUuid;
+    service->primaryAttribute.pValue = service->uuid128.array;
+    service->primaryAttribute.pLen = &(service->primaryAttributeLen);
+    service->primaryAttribute.maxLen = sizeof(service->uuid128.array);
+    service->primaryAttribute.settings = 0;
+    service->primaryAttribute.permissions = ATTS_PERMIT_READ;
+
+    uint16_t incomingNumAttributes = service->numAttributes;
+    service->numAttributes++;
+    // Create Attribute List and add primary service declaration
+    service->attributes = ns_malloc(sizeof(attsAttr_t) * service->numAttributes);
+    if (service->attributes == NULL) {
+        return NS_STATUS_FAILURE;
+    }
+    // *** Service Attributes
+    // Add primary service declaration
+    memcpy(&(service->attributes[0]), &(service->primaryAttribute), sizeof(attsAttr_t));
+    service->nextAttributeIndex = 1;
+    service->nextHandleId++;
+
+    // Allocate memory for characteristic array
+    service->characteristics =
+        ns_malloc(sizeof(ns_ble_characteristic_t *) * service->numCharacteristics);
+    service->nextCharacteristicIndex = 0;
+
+    // *** Discovery and Advertisement structs
+    // Copy over the generic values, then overwrite with service-specific values
+
+    // Advertisement Data
+    service->advData = ns_malloc(sizeof(ns_ble_generic_data_disc));
+    if (service->advData == NULL) {
+        return NS_STATUS_FAILURE;
+    }
+    service->advDataLen = sizeof(ns_ble_generic_data_disc);
+    memcpy(service->advData, &ns_ble_generic_data_disc, sizeof(ns_ble_generic_data_disc));
+    memcpy(
+        service->advData + 12, &service->uuid128,
+        sizeof(service->uuid128)); // uuid128 is at offset 12
+
+    // Scan Data
+    service->scanData = ns_malloc(sizeof(ns_ble_generic_scan_data_disc));
+    if (service->scanData == NULL) {
+        return NS_STATUS_FAILURE;
+    }
+
+    // service->scanDataLen = sizeof(ns_ble_generic_scan_data_disc);
+    service->scanDataLen = service->nameLen + 2;
+    memcpy(service->scanData, &ns_ble_generic_scan_data_disc, service->scanDataLen);
+    memcpy(service->scanData + 2, service->name, service->nameLen); // name is at offset 2
+    service->scanData[0] = service->nameLen + 1;
+
+    // *** CCC Configuration
+    // Allocate memory for CCCSet array
+    // Fill in as Notify attributes are added
+
+    // The number of CCC attributes can be calculated from numCharacteristics and numAttributes
+    // There are always at least 2 attributes (declaration and value). Characteristics
+    // with CCC will have a 3rd attribute (CCC).
+    uint16_t numCccAttributes = incomingNumAttributes - service->numCharacteristics * 2;
+    service->cccSet =
+        ns_malloc(sizeof(attsCccSet_t) * (numCccAttributes + 1)); // add one for GAT_SC
+    if (service->cccSet == NULL) {
+        return NS_STATUS_FAILURE;
+    }
+    service->cccSet[0].handle = GATT_SC_CH_CCC_HDL;
+    service->cccSet[0].valueRange = ATT_CLIENT_CFG_INDICATE;
+    service->cccSet[0].secLevel = DM_SEC_LEVEL_NONE;
+    service->nextCccIndex = 1;
+    service->nextCccIndicationHandle = 0xC0; // TODO pick a better way to start this
+
+    // *** TODO name and version attributes
+
+    // *** Create and populate service control block
+    service->control = ns_malloc(sizeof(ns_ble_service_control_t));
+    if (service->control == NULL) {
+        return NS_STATUS_FAILURE;
+    }
+
+    // *** Fill in service control block
+    // TODO: refactor service and control block structs
+    service->control->bufferPool = service->poolConfig->pool;
+    service->control->bufferPoolSize = service->poolConfig->poolSize;
+    service->control->bufferDescriptors = service->poolConfig->desc;
+    service->control->wsfBufCount = service->poolConfig->descNum;
+    service->control->advData = service->advData;
+    service->control->advDataLen = service->advDataLen;
+    service->control->scanData = service->scanData;
+    service->control->scanDataLen = service->scanDataLen;
+    service->control->cccSet = service->cccSet;
+    service->control->cccCount = numCccAttributes + 1;
+    service->control->handler_init_cb = &ns_ble_new_handler_init;
+    service->control->handler_cb = &ns_ble_new_handler;
+    service->control->procMsg_cb = &ns_ble_new_proc_msg;
+
+    // Generic_init will fill in g_ns_ble_control with handlerIds
+    // (after initializing the cordio stack.)
+    ns_ble_generic_init(TRUE, &g_ns_ble_control, service->control);
+    g_ns_ble_control.services[0] = service;
+    g_ns_ble_control.numServices = 1;
+
+    return NS_STATUS_SUCCESS;
+}
+
+// Create a Characteristic and related attributes
+int ns_ble_create_characteristic(
+    ns_ble_characteristic_t *c, const char *uuidString, void *applicationValue,
+    uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb,
+    ns_ble_characteristic_write_handler_t writeHandlerCb,
+    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs,
+    uint16_t *attributeCount) {
+    uint8_t prop = 0;
+    uint16_t permissions = 0;
+
+    c->readHandlerCb = readHandlerCb;
+    c->writeHandlerCb = writeHandlerCb;
+    c->notifyHandlerCb = notifyHandlerCb;
+
+    // Remember mem location of attribute's value
+    // (different from WSF 'value', which is a placeholder)
+    c->applicationValue = applicationValue;
+    c->valueLen = valueLength;
+
+    NS_TRY(ns_ble_char2uuid(uuidString, &(c->uuid128)), "Failed to create UUID\n");
+
+    // Parse properties
+    if (properties & NS_BLE_READ) {
+        permissions |= ATTS_PERMIT_READ;
+        prop |= ATT_PROP_READ;
+    }
+
+    if (properties & NS_BLE_WRITE) {
+        permissions |= ATTS_PERMIT_WRITE;
+        prop |= ATT_PROP_WRITE;
+    }
+
+    if (properties & NS_BLE_NOTIFY) {
+        prop |= ATT_PROP_NOTIFY;
+    }
+    c->pValue = ns_malloc(valueLength);
+
+    // Create Attribute List entries (Declaration, Value, CCC)
+    // Characteristic Declaration Attribute
+
+    // Declaration Properties
+    c->declarationProperties[0] = prop;
+    c->declarationProperties[1] = 0; // placeholder for declaration handle
+    c->declarationProperties[2] = 0; // placeholder for declaration handle
+    memcpy(&(c->declarationProperties[3]), c->uuid128.array, 16);
+    c->declarationLen = sizeof(c->declarationProperties);
+
+    // Put declaration attribute together
+    c->declaration.pUuid = attChUuid;
+    c->declaration.pValue = c->declarationProperties;
+    c->declaration.pLen = &(c->declarationLen);
+    c->declaration.maxLen = sizeof(c->declarationProperties);
+    c->declaration.settings = 0;
+    c->declaration.permissions = ATTS_PERMIT_READ;
+    *attributeCount += 1;
+
+    // Characteristic Value Attribute
+    c->value.pUuid = c->uuid128.array;
+    c->value.pValue = c->pValue;
+    c->value.pLen = &(c->valueLen);
+    c->value.maxLen = valueLength;
+    c->value.settings = ATTS_SET_UUID_128 | ATTS_SET_VARIABLE_LEN;
+    if (readHandlerCb != NULL) {
+        c->value.settings |= ATTS_SET_READ_CBACK;
+    }
+    if (writeHandlerCb != NULL) {
+        c->value.settings |= ATTS_SET_WRITE_CBACK;
+    }
+    c->value.permissions = permissions;
+    *attributeCount += 1;
+
+    // If Notify, add CCC
+    if (properties & NS_BLE_NOTIFY) {
+        // Create the CCC attribute
+        c->cccLen = sizeof(c->cccArray);
+        c->ccc.pUuid = attCliChCfgUuid;
+        c->ccc.pValue = c->cccArray;
+        c->ccc.pLen = &(c->cccLen);
+        c->ccc.maxLen = sizeof(c->cccArray);
+        c->ccc.settings = ATTS_SET_CCC;
+        c->ccc.permissions = ATTS_PERMIT_READ | ATTS_PERMIT_WRITE;
+        c->indicationPeriod = periodMs;
+        *attributeCount += 1;
+    } else {
+        c->ccc.pUuid = NULL;
+    }
+
+    return NS_STATUS_SUCCESS;
+}
+
+int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c) {
+    // Add Characteristic to Service Attribute List
+    // Declaration Attribute
+    memcpy(&(s->attributes[s->nextAttributeIndex++]), &(c->declaration), sizeof(attsAttr_t));
+
+    // Value Attribute
+    memcpy(&(s->attributes[s->nextAttributeIndex++]), &(c->value), sizeof(attsAttr_t));
+
+    // CCC Attribute
+    if (c->ccc.pUuid != NULL) {
+        memcpy(&(s->attributes[s->nextAttributeIndex++]), &(c->ccc), sizeof(attsAttr_t));
+    }
+
+    // Set Characteristic Handles
+    c->declarationHandle = s->nextHandleId++;
+    c->valueHandle = s->nextHandleId++;
+    c->declarationProperties[1] = c->valueHandle & 0xff;
+    c->declarationProperties[2] = (c->valueHandle >> 8) & 0xff;
+
+    // CCC if notify for the characteristic
+    if (c->ccc.pUuid != NULL) {
+        c->cccHandle = s->nextHandleId++;
+        c->cccIndicationHandle = s->nextCccIndicationHandle++;
+        c->cccIndex = s->nextCccIndex;
+
+        // Add an entry to the CCC table
+        s->cccSet[s->nextCccIndex].handle = c->cccHandle;
+        s->cccSet[s->nextCccIndex].valueRange = ATT_CLIENT_CFG_NOTIFY;
+        s->cccSet[s->nextCccIndex].secLevel = DM_SEC_LEVEL_NONE;
+
+        // Set up CCC timer
+        c->indicationTimer.handlerId = g_ns_ble_control.handlerId;
+        c->indicationTimer.msg.event = c->cccIndicationHandle;
+        c->indicationTimer.msg.status = s->nextCccIndex;
+        s->nextCccIndex += 1;
+    }
+
+    // Add Characteristic to Service Characteristic List
+    s->characteristics[s->nextCharacteristicIndex++] = c;
+
+    return NS_STATUS_SUCCESS;
+}
+
+int ns_ble_start_service(ns_ble_service_t *s) {
+    // Finish creating Service structures, then kick it off
+
+    // Populate Group
+    s->group.pNext = NULL;
+    s->group.pAttr = s->attributes;
+    s->group.readCback = s->readCback;
+    s->group.writeCback = s->writeCback;
+    s->group.startHandle = s->baseHandle;
+    s->group.endHandle = s->nextHandleId - 1;
+
+    // for (int i=0; i<s->numCharacteristics; i++) {
+    //     ns_lp_printf("Characteristic %d: %d\n", i, s->characteristics[i]->declarationHandle);
+    //     for (int j=0; j<s->characteristics[i]->declarationLen; j++) {
+    //         ns_lp_printf("%02x ", s->characteristics[i]->declarationProperties[j]);
+    //     }
+    //     ns_lp_printf("\n");
+    // }d
+
+    // Print attributes
+    for (int i = 0; i < s->numAttributes; i++) {
+        ns_lp_printf("Attribute %d: \n", i);
+        for (int j = 0; j < 16; j++) {
+            ns_lp_printf("%02x ", s->attributes[i].pUuid[j]);
+        }
+        ns_lp_printf("\n");
+    }
+
+    AttsAddGroup(&(s->group));
+    GattSetSvcChangedIdx(0); // TODO something better here
+    DmDevReset();
 }

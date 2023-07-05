@@ -131,7 +131,7 @@ static uint16_t webbleGasChData[] = {0};
 static const uint16_t webbleGasChDataLen = sizeof(webbleGasChData);
 
 // Build the attribute list
-static const attsAttr_t webbleAttributeList[] = {
+const attsAttr_t webbleAttributeList[] = {
     {
         .pUuid = attPrimSvcUuid,
         .pValue = (uint8_t *)webbleSvc,
@@ -195,7 +195,7 @@ static const attsAttr_t webbleAttributeList[] = {
         ATTS_PERMIT_READ),
 };
 
-static attsGroup_t webbleGroup = {
+attsGroup_t webbleGroup = {
     NULL, (attsAttr_t *)webbleAttributeList, NULL, NULL, WEBBLE_START_HDL, WEBBLE_END_HDL};
 
 /*************************************************************************************************/

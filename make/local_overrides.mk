@@ -1,6 +1,6 @@
 # Put your local overrides in here
-# EVB    :=blue_kbr_evb
-# TARGET :=web_ble_example
+EVB    :=blue_kbr_evb
+TARGET :=web_ble
 # DEFINES+= CFG_TUSB_DEBUG=2
 # TF_VERSION := R2.3.1
 # TF_VERSION := 0c46d6e

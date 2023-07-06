@@ -1,12 +1,12 @@
 # Put your local overrides in here
-EVB    :=blue_kbr_evb
-TARGET :=web_ble_example
+# EVB    :=blue_kbr_evb
+# TARGET :=web_ble_example
 # DEFINES+= CFG_TUSB_DEBUG=2
 # TF_VERSION := R2.3.1
 # TF_VERSION := 0c46d6e
-# AS_VERSION := R4.1.0
+# AS_VERSION := R4.2.0
 
 # DEFINES+= NS_AUDIO_DMA_BUFFER_SIZE=16000
 # DEFINES+= NS_MALLOC_HEAP_SIZE_IN_K=32
 # STACK_SIZE_IN_32B_WORDS := 8192
-NS_MALLOC_HEAP_SIZE_IN_K := 32
+# NS_MALLOC_HEAP_SIZE_IN_K := 32

@@ -36,11 +36,16 @@ modules      += neuralspot/ns-usb
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-rpc
 modules      += neuralspot/ns-i2c
+ifeq ($(AS_VERSION),R4.3.0)
+modules      += neuralspot/ns-ble
+endif
 # modules      += neuralspot/ns-model
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
+ifeq ($(AS_VERSION),R4.3.0)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
+endif
 modules      += extern/CMSIS/$(CMSIS_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
@@ -48,7 +53,9 @@ modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
 modules      += examples/basic_tf_stub
+ifeq ($(AS_VERSION),R4.3.0)
 modules      += examples/web_ble_example
+endif
 modules      += examples/har
 modules      += examples/mpu_data_collection
 modules      += examples/rpc_client_example

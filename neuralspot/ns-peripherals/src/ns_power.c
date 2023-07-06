@@ -54,91 +54,96 @@ const ns_core_api_t ns_power_V0_0_1 = {.apiId = NS_POWER_API_ID, .version = NS_P
 
 const ns_core_api_t ns_power_V1_0_0 = {.apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0};
 
-const ns_core_api_t ns_power_oldest_supported_version = {.apiId = NS_POWER_API_ID,
-                                                         .version = NS_POWER_V0_0_1};
+const ns_core_api_t ns_power_oldest_supported_version = {
+    .apiId = NS_POWER_API_ID, .version = NS_POWER_V0_0_1};
 
-const ns_core_api_t ns_power_current_version = {.apiId = NS_POWER_API_ID,
-                                                .version = NS_POWER_V1_0_0};
+const ns_core_api_t ns_power_current_version = {
+    .apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0};
 
-const ns_power_config_t ns_development_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                                  .api = &ns_power_V1_0_0,
-                                                  .bNeedAudAdc = true,
-                                                  .bNeedSharedSRAM = true,
-                                                  .bNeedCrypto = false,
-                                                  .bNeedBluetooth = true,
-                                                  .bNeedUSB = true,
-                                                  .bNeedIOM = true,
-                                                  .bNeedAlternativeUART = true,
-                                                  .b128kTCM = false,
-                                                  .bEnableTempCo = false,
-                                                  .bNeedITM = true};
+const ns_power_config_t ns_development_default = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .api = &ns_power_V1_0_0,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = true,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = true,
+    .bNeedUSB = true,
+    .bNeedIOM = true,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = true};
 
-const ns_power_config_t ns_good_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                           .api = &ns_power_V1_0_0,
-                                           .bNeedAudAdc = false,
-                                           .bNeedSharedSRAM = false,
-                                           .bNeedCrypto = false,
-                                           .bNeedBluetooth = false,
-                                           .bNeedUSB = false,
-                                           .bNeedIOM = false,
-                                           .bNeedAlternativeUART = false,
-                                           .b128kTCM = false,
-                                           .bEnableTempCo = false,
-                                           .bNeedITM = true};
+const ns_power_config_t ns_good_default = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .api = &ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = true};
 
-const ns_power_config_t ns_mlperf_mode1 = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                           .api = &ns_power_V1_0_0,
-                                           .bNeedAudAdc = false,
-                                           .bNeedSharedSRAM = false,
-                                           .bNeedCrypto = false,
-                                           .bNeedBluetooth = false,
-                                           .bNeedUSB = false,
-                                           .bNeedIOM = false,
-                                           .bNeedAlternativeUART = true,
-                                           .b128kTCM = false,
-                                           .bEnableTempCo = true,
-                                           .bNeedITM = false};
+const ns_power_config_t ns_mlperf_mode1 = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .api = &ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = true,
+    .bNeedITM = false};
 
-const ns_power_config_t ns_mlperf_mode2 = {.eAIPowerMode = NS_MINIMUM_PERF,
-                                           .api = &ns_power_V1_0_0,
-                                           .bNeedAudAdc = false,
-                                           .bNeedSharedSRAM = false,
-                                           .bNeedCrypto = false,
-                                           .bNeedBluetooth = false,
-                                           .bNeedUSB = false,
-                                           .bNeedIOM = false,
-                                           .bNeedAlternativeUART = true,
-                                           .b128kTCM = false,
-                                           .bEnableTempCo = true,
-                                           .bNeedITM = false};
+const ns_power_config_t ns_mlperf_mode2 = {
+    .eAIPowerMode = NS_MINIMUM_PERF,
+    .api = &ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = true,
+    .bNeedITM = false};
 
-const ns_power_config_t ns_mlperf_mode3 = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                           .api = &ns_power_V1_0_0,
-                                           .bNeedAudAdc = false,
-                                           .bNeedSharedSRAM = false,
-                                           .bNeedCrypto = false,
-                                           .bNeedBluetooth = false,
-                                           .bNeedUSB = false,
-                                           .bNeedIOM = false,
-                                           .bNeedAlternativeUART = true,
-                                           .b128kTCM = true,
-                                           .bEnableTempCo = true,
-                                           .bNeedITM = false};
+const ns_power_config_t ns_mlperf_mode3 = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .api = &ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = true,
+    .bEnableTempCo = true,
+    .bNeedITM = false};
 
-const ns_power_config_t ns_audio_default = {.eAIPowerMode = NS_MAXIMUM_PERF,
-                                            .api = &ns_power_V1_0_0,
-                                            .bNeedAudAdc = true,
-                                            .bNeedSharedSRAM = false,
-                                            .bNeedCrypto = false,
-                                            .bNeedBluetooth = false,
-                                            .bNeedUSB = false,
-                                            .bNeedIOM = false,
-                                            .bNeedAlternativeUART = false,
-                                            .b128kTCM = false,
-                                            .bEnableTempCo = true,
-                                            .bNeedITM = false};
-uint32_t
-ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
+const ns_power_config_t ns_audio_default = {
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .api = &ns_power_V1_0_0,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false,
+    .bEnableTempCo = true,
+    .bNeedITM = false};
+uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
@@ -153,8 +158,7 @@ ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
 // Internal method for turning off peripherals
 //
 //*****************************************************************************
-void
-ns_power_down_peripherals(const ns_power_config_t *pCfg) {
+void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
 
     //
     // Disable the XTAL.
@@ -243,8 +247,7 @@ ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
 }
 
-uint32_t
-ns_power_config(const ns_power_config_t *pCfg) {
+uint32_t ns_power_config(const ns_power_config_t *pCfg) {
     uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
 
 #ifndef NS_DISABLE_API_VALIDATION
@@ -252,8 +255,8 @@ ns_power_config(const ns_power_config_t *pCfg) {
         return NS_STATUS_INVALID_HANDLE;
     }
 
-    if (ns_core_check_api(pCfg->api, &ns_power_oldest_supported_version,
-                          &ns_power_current_version)) {
+    if (ns_core_check_api(
+            pCfg->api, &ns_power_oldest_supported_version, &ns_power_current_version)) {
         return NS_STATUS_INVALID_VERSION;
     }
 
@@ -267,17 +270,19 @@ ns_power_config(const ns_power_config_t *pCfg) {
 
     // configure SRAM & other memories
     if (pCfg->bNeedSharedSRAM == false) {
-        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {.eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
-                                                   .eActiveWithMCU = AM_HAL_PWRCTRL_SRAM_NONE,
-                                                   .eActiveWithDSP = AM_HAL_PWRCTRL_SRAM_NONE,
-                                                   .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
+        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
+            .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithMCU = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithDSP = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
         am_hal_pwrctrl_sram_config(&SRAMMemCfg);
 
-        am_hal_pwrctrl_dsp_memory_config_t sExtSRAMMemCfg = {.bEnableICache = false,
-                                                             .bRetainCache = false,
-                                                             .bEnableRAM = false,
-                                                             .bActiveRAM = false,
-                                                             .bRetainRAM = false};
+        am_hal_pwrctrl_dsp_memory_config_t sExtSRAMMemCfg = {
+            .bEnableICache = false,
+            .bRetainCache = false,
+            .bEnableRAM = false,
+            .bActiveRAM = false,
+            .bRetainRAM = false};
         am_hal_pwrctrl_dsp_memory_config(AM_HAL_DSP0, &sExtSRAMMemCfg);
     } else {
         am_hal_daxi_config_t DaxiConfigLongAging = {
@@ -292,11 +297,11 @@ ns_power_config(const ns_power_config_t *pCfg) {
         am_hal_daxi_config(&DaxiConfigLongAging);
     }
 
-    // The following two lines cause audio capture to be distorted - TBI
-    // if (pCfg->bNeedAudAdc == false) {
-    am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+    // The following line cause BLE to stop working - TODO
+    if (pCfg->bNeedBluetooth == false) {
+        am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+    }
     am_hal_cachectrl_enable();
-    //}
 
     // configure peripherals
     ns_power_down_peripherals(pCfg);
@@ -306,12 +311,13 @@ ns_power_config(const ns_power_config_t *pCfg) {
 
     if (pCfg->b128kTCM == true) {
 
-        am_hal_pwrctrl_mcu_memory_config_t McuMemCfg = {.eCacheCfg = AM_HAL_PWRCTRL_CACHE_ALL,
-                                                        .bRetainCache = true,
-                                                        .eDTCMCfg = AM_HAL_PWRCTRL_DTCM_128K,
-                                                        .eRetainDTCM = AM_HAL_PWRCTRL_DTCM_128K,
-                                                        .bEnableNVM0 = true,
-                                                        .bRetainNVM0 = false};
+        am_hal_pwrctrl_mcu_memory_config_t McuMemCfg = {
+            .eCacheCfg = AM_HAL_PWRCTRL_CACHE_ALL,
+            .bRetainCache = true,
+            .eDTCMCfg = AM_HAL_PWRCTRL_DTCM_128K,
+            .eRetainDTCM = AM_HAL_PWRCTRL_DTCM_128K,
+            .bEnableNVM0 = true,
+            .bRetainNVM0 = false};
 
         am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
     }
@@ -342,8 +348,7 @@ ns_power_config(const ns_power_config_t *pCfg) {
  * systems as needed.
  *
  */
-void
-ns_deep_sleep(void) {
+void ns_deep_sleep(void) {
 
     if (g_ns_state.uartPrintCurrentlyEnabled) {
         am_bsp_uart_printf_disable();

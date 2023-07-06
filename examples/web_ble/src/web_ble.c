@@ -267,9 +267,9 @@ void setup_task(void *pvParameters) {
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
-    // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
-    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
-    am_bsp_low_power_init();
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
+    // am_bsp_low_power_init();
 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();

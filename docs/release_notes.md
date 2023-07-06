@@ -9,6 +9,7 @@
 | 4B_audadc_support     | 0.0.1   | n/a      | AUDADC is not supported on Apollo4B devices running AmbiqSuite4.1.0 |
 | hello_world_hardfault | 0.0.1   |          | Hello World example EdgeImpulse project causes HardFault due to misaligned memory access |
 | TFLM Profiler         | 1.0.2   | n/a      | TFLM profiling not supported for TFLM version 2.3.1          |
+| ns-ble_support        | 0.0.1   | n/a      | BLE is only supported for AmbiqSuite 4.3.0 and beyond.       |
 
 
 
@@ -68,4 +69,14 @@
     1. **PDM support**: PDM is now supported as an audio input source. Note that the EVB does not include digital microphones. PDM support has been tested with the VoS kit digital microphones.
 
     1. **Dual-channel support**: 2 channel audio can now be captured for both AUDADC and PDM sources
+
+- ns-ble 0.0.1 Release Notes
+  - The alpha release of ns-ble adds BLE server support for Bluetooth-enabled EVBs.
+    - **Simplified API**: ns-ble offers a simplified BLE API, which supports
+      - BLE service creation
+      - BLE characteristic creation (read, write, and notify characteristics supported)
+      - Simplified event handling (read, write, and notify)
+
+    - **web_ble_example**: this new example application implements a mocked-up WebBLE service designed to serve sensor data to WebBLE dashboard.
+
 

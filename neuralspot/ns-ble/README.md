@@ -37,7 +37,7 @@ A *Characteristic* is a data source (e.g. thermometer reading) or sink (e.g. the
 
 ### Creating a Service
 
-The code snippet below creates a minimal Service, with a read-only, a read-write, and a notify Characteristic ('webble' refers to WebBLE, but this example can be connected to by any Client). For a full example, see [here](../../examples/web_ble_example/README.md).
+The code snippet below creates a minimal Service, with a read-only, a read-write, and a notify Characteristic ('webble' refers to WebBLE, but this example can be connected to by any Client). For a full example, see [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/web_ble).
 
 ```c
 #include "ns_ble.h"

@@ -38,7 +38,7 @@ NeuralSPOT lives on GitHub as an open-source, highly collaborative project which
 
 - The [main repo](https://github.com/AmbiqAI/neuralSPOT) is a useful place to get started.
 - Our development flow is based on Nests, described [here](./Developing_with_NeuralSPOT.md).
-- The examples documents how to [integrate TF Lite for Microcontrollers](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub), how to set up and use our [debug tools](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/rpc_client_example/rpc-client.md) (and [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server_example)), and how to instantiate our [various](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/s2i) [drivers](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/har/har.md).
+- The examples documents how to [integrate TF Lite for Microcontrollers](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub), how to set up and use our [debug tools](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/rpc_client/rpc-client.md) (and [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server)), and how to instantiate our [various](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/s2i) [drivers](https://github.com/AmbiqAI/neuralSPOT/blob/main/examples/har/har.md).
 - The [neuralSPOT libraries](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot) each have detailed documentation for how to use them.
 - For those interesting in contributing to neuralSPOT or adapting it to their projects, we have a [Developers Guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/developer_guide.md).
 - Finally, the code is [documented](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/docs/html/index.html) (it's HTML, so you'll have to clone the repo because GitHub won't render it).
@@ -60,7 +60,7 @@ neuralSPOT is intended to help each of these developers.
 
 Data Specialists can leverage neuralSPOT to ease collection of data from real sensors onto a remote device such as a PC, and to fine-tune sensor settings to get the data into the shape the AI specialist needs. They can also use it to test new datasets against deployed models.
 
-See our [MPU Data Capture](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/mpu_data_collection) and [Audio Data Capture](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_client_example) examples for a guide on how this can be done.
+See our [MPU Data Capture](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/mpu_data_collection) and [Audio Data Capture](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_client) examples for a guide on how this can be done.
 
 ### neuralSPOT for AI Specialists
 

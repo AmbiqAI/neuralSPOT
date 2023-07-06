@@ -52,15 +52,19 @@ modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
+ifeq ($(EXAMPLE),all)
 modules      += examples/basic_tf_stub
 ifeq ($(AS_VERSION),R4.3.0)
-modules      += examples/web_ble_example
+modules      += examples/web_ble
 endif
 modules      += examples/har
 modules      += examples/mpu_data_collection
-modules      += examples/rpc_client_example
-modules      += examples/rpc_server_example
+modules      += examples/rpc_client
+modules      += examples/rpc_server
 modules      += examples/tflm_validator
+else
+modules 	 += examples/$(EXAMPLE)
+endif
 
 # The following variables are filled in by module.mk include files
 #
@@ -274,7 +278,7 @@ reset: $(JLINK_RESET_CF)
 .PHONY: deploy
 deploy: $(JLINK_CF)
 	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."
-	$(Q) $(JLINK) $(JLINK_CMD)
+	- $(Q) $(JLINK) $(JLINK_CMD)
 	$(Q) $(RM) $(JLINK_CF)
 
 .PHONY: view

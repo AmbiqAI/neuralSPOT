@@ -45,6 +45,7 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 | [rpc_server](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server_example) | Shows how to use `ns-rpc` when the EVB is the *server* and the PC is the *client*. In this configuration, the PC calls remote procedures and the EVB executes those procedures . This example is designed to work with [`generic_data.py`](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py) (part of [ns-rpc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc)), a python script running on the PC that can be run as server or client. |
 | [har](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/har) | This example implements a simple Human Activity Recognition model. It collects data from an MPU6050 accelerometer and gyroscopic sensor, and classifies the data into one of 5 activities (sitting, standing, walking, jogging, go up stairs). This example is based on the [Human Activity Recognition Model Zoo repository](https://github.com/AmbiqAI/Human-Activity-Recognition). |
 | [tflm_validator](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/tflm_validator) | TF Lite for Microcontrollers Validation target. This isn't, strictly speaking, an example. Rather, it is a harness used by neuralSPOT automatic TFLite deployment, validation, and performance profiling tool. |
+| [web_ble_example](../examples/web_ble_example)               | Web BLE (bluetooth low energy) example application. This example turns the EVB into a bluetooth peripheral (in BLE terms, a 'server') communicating with a WebBLE dashboard running on the laptop browser. |
 
 
 
@@ -82,6 +83,7 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 | ns_micro_profiler      | ns-harness     | Tools for per-layer performance profiling                    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
 | ns_debug_log           | ns-harness     | Implementation of printf for Tensorflow debug prints         | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
 | ns_usb                 | ns-usb         | TinyUSB CDC (TTY) driver for USB port 1.                     | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb) |
+| ns_ble                 | ns-ble         | Simple BLE library for creating BLE peripheral servers.      |                                                              |
 | ns_ipc_ring_buffer     | ns-ipc         | Ring buffer IPC mechanism for getting peripheral data into AI applications | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc) |
 
 # Tools

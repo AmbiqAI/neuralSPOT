@@ -269,12 +269,9 @@ typedef int (*ns_ble_characteristic_notify_handler_t)(
 typedef struct ns_ble_characteristic {
     // Config
     ns_ble_uuid128_t uuid128; //! char array of 128b UUID
-    // uint16_t properties;
-    // uint16_t permissions;
-    // uint16_t maxLen;
-    // uint16_t initLen;
 
     void *applicationValue; //! pointer to application's value store
+    uint16_t valueLen;      //! In bytes
 
     // Handlers
     ns_ble_characteristic_read_handler_t readHandlerCb;
@@ -290,7 +287,6 @@ typedef struct ns_ble_characteristic {
 
     // Value
     uint8_t *pValue;
-    uint16_t valueLen;
     attsAttr_t value;
     uint16_t valueHandle;
 
@@ -309,21 +305,6 @@ typedef struct ns_ble_characteristic {
 
 } ns_ble_characteristic_t;
 
-extern ns_ble_control_t g_ns_ble_control;
-
-extern void ns_ble_generic_conn_open(dmEvt_t *pMsg);
-extern void ns_ble_generic_conn_update(dmEvt_t *pMsg);
-extern void ns_ble_generic_CccCback(attsCccEvt_t *pEvt);
-extern void ns_ble_generic_AttCback(attEvt_t *pEvt);
-extern void ns_ble_generic_DmCback(dmEvt_t *pDmEvt);
-extern void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg);
-
-extern void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg);
-extern void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg);
-extern void ns_ble_pre_init(void);
-extern void ns_ble_generic_init(
-    bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg);
-
 enum {
     NS_BLE_READ = 1,
     NS_BLE_WRITE = 2,
@@ -331,7 +312,44 @@ enum {
     NS_BLE_PROP_MAX,
 };
 
-extern int ns_ble_create_service(ns_ble_service_t *);
+/**
+ * @brief Call this function from the setup_task, prior to creating the RadioTask
+ * All this does is set up NVIC priorities
+ */
+extern void ns_ble_pre_init(void);
+
+/**
+ * @brief Create a BLE service based on the given configuration.
+ *
+ * @param s - a pointer to a service configuration struct. Relevant fields are:
+ *  - uuid128: a 128-bit UUID for the service
+ *  - name: a string name for the service, up to 31 characters
+ *  - nameLen: the length of the name string
+ *  - baseHandle: the first handle ID of the service. This is used by BLE to identify attributes of
+ * the service
+ *  - numAttributes: keeps track of the number of attributes in the service. Initialize to 0.
+ *  - poolConfig: a pointer to a WSF pool configuration struct.
+ * @return int
+ */
+extern int ns_ble_create_service(ns_ble_service_t *s);
+
+/**
+ * @brief Define a characteristic for subsequent addition to a service.
+ *
+ * @param c - config struct, populated by this function
+ * @param uuidString - a 16-byte UUID string
+ * @param applicationValue - a pointer to the application's value store
+ * @param valueLength - the length of the value store, in bytes
+ * @param properties - a bitmask of properties for the characteristic, from the enum above
+ * @param readHandlerCb - a callback function for read requests if the characteristic is readable
+ * @param writeHandlerCb - a callback function for write requests if the characteristic is writable
+ * @param notifyHandlerCb - a callback function for notify requests if the characteristic is
+ * "subscribe-able"
+ * @param periodMs - the period of the notify timer, in milliseconds
+ * @param attributeCount - a pointer to the service's attribute count. This is incremented by the
+ * function.
+ * @return int
+ */
 extern int ns_ble_create_characteristic(
     ns_ble_characteristic_t *c, char const *uuidString, void *applicationValue,
     uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb,
@@ -339,9 +357,35 @@ extern int ns_ble_create_characteristic(
     ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs,
     uint16_t *attributeCount);
 
-extern int ns_ble_add_characteristic(ns_ble_service_t *, ns_ble_characteristic_t *);
+/**
+ * @brief Add a characteristic to a service. This function should be called after all
+ * characteristics have been defined using ns_ble_create_characteristic.
+ *
+ * @param s - a pointer to the service to which the characteristic should be added
+ * @param c - a pointer to the characteristic to be added
+ *
+ * @return int
+ */
+extern int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c);
+
+/**
+ * @brief Helper function to convert a 16-byte UUID string to a 128-bit UUID byte array.
+ * UUID string must be exactly 16 characters long and only contain hex characters.
+ *
+ * @param uuidString - a 16-byte UUID string
+ * @param uuid128 - a pointer to a 128-bit UUID byte array (uuid128.array)
+ * @return int
+ */
 extern int ns_ble_char2uuid(const char uuidString[16], ns_ble_uuid128_t *uuid128);
-extern int ns_ble_start_service(ns_ble_service_t *);
+
+/**
+ * @brief Invoked by RadioTask to start the service. This function should be called after all
+ * characteristics have been added.
+ *
+ * @param s - a pointer to the service to be started
+ * @return int
+ */
+extern int ns_ble_start_service(ns_ble_service_t *s);
 
 #ifdef __cplusplus
 }

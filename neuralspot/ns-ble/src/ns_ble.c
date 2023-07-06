@@ -58,10 +58,6 @@ static smpCfg_t ns_ble_default_SmpCfg = {
     0,                   /*! Device authentication requirements */
 };
 
-/**************************************************************************************************
-  Advertising Data
-**************************************************************************************************/
-
 /*! advertising data, discoverable mode */
 static const uint8_t ns_ble_generic_data_disc[] = {
     /*! flags */
@@ -133,10 +129,10 @@ static const uint8_t ns_ble_generic_scan_data_disc[] = {
  *  \return None.
  */
 /*************************************************************************************************/
-void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
+static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
     dmEvt_t *pMsg;
     uint16_t len;
-    ns_lp_printf("ns_ble_generic_DmCback\n");
+    // ns_lp_printf("ns_ble_generic_DmCback\n");
     len = DmSizeOfEvt(pDmEvt);
 
     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
@@ -158,7 +154,7 @@ void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
  *  \return None.
  */
 /*************************************************************************************************/
-void ns_ble_generic_AttCback(attEvt_t *pEvt) {
+static void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
     // ns_lp_printf("ns_ble_generic_AttCback\n");
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
@@ -182,10 +178,10 @@ void ns_ble_generic_AttCback(attEvt_t *pEvt) {
  *  \return None.
  */
 /*************************************************************************************************/
-void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
+static void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     attsCccEvt_t *pMsg;
     appDbHdl_t dbHdl;
-    ns_lp_printf("ns_ble_generic_CccCback\n");
+    // ns_lp_printf("ns_ble_generic_CccCback\n");
     /* if CCC not set from initialization and there's a device record */
     if ((pEvt->handle != ATT_HANDLE_NONE) &&
         ((dbHdl = AppDbGetHdl((dmConnId_t)pEvt->hdr.param)) != APP_DB_HDL_NONE)) {
@@ -202,61 +198,39 @@ void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     }
 }
 
-//*****************************************************************************
-//
-// Connection Update event
-//
-//*****************************************************************************
-void ns_ble_generic_conn_update(dmEvt_t *pMsg) {
-    hciLeConnUpdateCmplEvt_t *evt = (hciLeConnUpdateCmplEvt_t *)pMsg;
+static void ns_ble_generic_conn_update(dmEvt_t *pMsg) {
+    // hciLeConnUpdateCmplEvt_t *evt = (hciLeConnUpdateCmplEvt_t *)pMsg;
 
-    ns_lp_printf("connection update status = 0x%x", evt->status);
+    // ns_lp_printf("connection update status = 0x%x", evt->status);
 
-    if (evt->status == 0) {
-        ns_lp_printf("handle = 0x%x", evt->handle);
-        ns_lp_printf("connInterval = 0x%x", evt->connInterval);
-        ns_lp_printf("connLatency = 0x%x", evt->connLatency);
-        ns_lp_printf("supTimeout = 0x%x", evt->supTimeout);
-    }
+    // if (evt->status == 0) {
+    //     ns_lp_printf("handle = 0x%x", evt->handle);
+    //     ns_lp_printf("connInterval = 0x%x", evt->connInterval);
+    //     ns_lp_printf("connLatency = 0x%x", evt->connLatency);
+    //     ns_lp_printf("supTimeout = 0x%x", evt->supTimeout);
+    // }
 }
 
-//*****************************************************************************
-//
-// Connection Open event
-//
-//*****************************************************************************
-void ns_ble_generic_conn_open(dmEvt_t *pMsg) {
-    hciLeConnCmplEvt_t *evt = (hciLeConnCmplEvt_t *)pMsg;
+static void ns_ble_generic_conn_open(dmEvt_t *pMsg) {
+    // hciLeConnCmplEvt_t *evt = (hciLeConnCmplEvt_t *)pMsg;
 
-    ns_lp_printf("connection opened\n");
-    ns_lp_printf("handle = 0x%x\n", evt->handle);
-    ns_lp_printf("role = 0x%x\n", evt->role);
-    APP_TRACE_INFO3(
-        "addrMSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[0], evt->peerAddr[1],
-        evt->peerAddr[2]);
-    APP_TRACE_INFO3(
-        "addrLSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[3], evt->peerAddr[4],
-        evt->peerAddr[5]);
-    ns_lp_printf("connInterval = 0x%x\n", evt->connInterval);
-    ns_lp_printf("connLatency = 0x%x\n", evt->connLatency);
-    ns_lp_printf("supTimeout = 0x%x\n", evt->supTimeout);
+    // ns_lp_printf("connection opened\n");
+    // ns_lp_printf("handle = 0x%x\n", evt->handle);
+    // ns_lp_printf("role = 0x%x\n", evt->role);
+    // APP_TRACE_INFO3(
+    //     "addrMSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[0], evt->peerAddr[1],
+    //     evt->peerAddr[2]);
+    // APP_TRACE_INFO3(
+    //     "addrLSB = %02x%02x%02x%02x%02x%02x\n", evt->peerAddr[3], evt->peerAddr[4],
+    //     evt->peerAddr[5]);
+    // ns_lp_printf("connInterval = 0x%x\n", evt->connInterval);
+    // ns_lp_printf("connLatency = 0x%x\n", evt->connLatency);
+    // ns_lp_printf("supTimeout = 0x%x\n", evt->supTimeout);
 }
 
-/*************************************************************************************************/
-/*!
- *  \fn     amdtpSetup
- *
- *  \brief  Set up advertising and other procedures that need to be performed after
- *          device reset.
- *
- *  \param  pMsg    Pointer to message.
- *
- *  \return None.
- */
-/*************************************************************************************************/
-void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
+static void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
     ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
-    ns_lp_printf("ns_ble_generic_advSetup\n");
+    // ns_lp_printf("ns_ble_generic_advSetup\n");
     /* set advertising and scan response data for discoverable mode */
     AppAdvSetData(APP_ADV_DATA_DISCOVERABLE, svc->advDataLen, (uint8_t *)svc->advData);
     AppAdvSetData(APP_SCAN_DATA_DISCOVERABLE, svc->scanDataLen, (uint8_t *)svc->scanData);
@@ -269,21 +243,10 @@ void ns_ble_generic_advSetup(ns_ble_msg_t *pMsg) {
     AppAdvStart(APP_MODE_AUTO_INIT);
 }
 
-/*************************************************************************************************/
-/*!
- *  \fn     amdtpProcMsg
- *
- *  \brief  Process messages from the event handler.
- *
- *  \param  pMsg    Pointer to message.
- *
- *  \return None.
- */
-/*************************************************************************************************/
 static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
     uint8_t uiEvent = APP_UI_NONE;
     ns_ble_service_control_t *svc = g_ns_ble_control.service_config;
-    ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
+    // ns_lp_printf("ns_ble_generic_procMsg %d\n", pMsg->hdr.event);
     // Pass it to the service message handler first, if it returns true, then it means
     // the message is handled by the service
     if (svc->procMsg_cb != NULL && svc->procMsg_cb(pMsg)) {
@@ -396,9 +359,8 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
     }
 }
 
-// *** Public Functions
 void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg) {
-    ns_lp_printf("ns_ble_generic_handlerInit\n");
+    // ns_lp_printf("ns_ble_generic_handlerInit\n");
     /* store handler ID */
     cfg->handlerId = handlerId;
     g_ns_ble_control.handlerId = handlerId;
@@ -420,20 +382,10 @@ void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control
 
     /* Initialize application framework */
     AppSlaveInit();
-    // AppServerInit();
-
-    //   /* initialize amdtp service server */
-    //   amdtps_init(handlerId, (AmdtpsCfg_t *) &amdtpAmdtpsCfg, amdtpDtpRecvCback,
-    //   amdtpDtpTransCback);
-
-    // #ifdef MEASURE_THROUGHPUT
-    //   measTpTimer.handlerId = handlerId;
-    //   measTpTimer.msg.event = AMDTP_MEAS_TP_TIMER_IND;
-    // #endif
 }
 
 void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
-    ns_lp_printf("ns_ble_generic_handler: %d\n", event);
+    // ns_lp_printf("ns_ble_generic_handler: %d\n", event);
     if (pMsg != NULL) {
         // ns_lp_printf("Amdtp got evt %d", pMsg->event);
 
@@ -459,12 +411,6 @@ void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
 
         // amdtpProcMsg((amdtpMsg_t *) pMsg);
     }
-}
-
-void ns_ble_pre_init(void) {
-    // Set NVICs for BLE
-    NVIC_SetPriority(COOPER_IOM_IRQn, 4);
-    NVIC_SetPriority(AM_COOPER_IRQn, 4);
 }
 
 void ns_ble_generic_init(
@@ -582,16 +528,6 @@ void ns_ble_generic_init(
     // }
 }
 
-// void
-// ns_ble_radio_task(void *pvParameters) {
-//     ns_ble_generic_init(true, NULL, NULL);
-// }
-
-//*****************************************************************************
-//
-// GPIO interrupt handler.
-//
-//*****************************************************************************
 void am_cooper_irq_isr(void) {
     uint32_t ui32IntStatus;
     AM_CRITICAL_BEGIN
@@ -601,48 +537,49 @@ void am_cooper_irq_isr(void) {
     am_hal_gpio_interrupt_service(AM_COOPER_IRQn, ui32IntStatus);
 }
 
-//*****************************************************************************
-//
-// UART interrupt handler. TODO
-//
-//*****************************************************************************
 void am_uart_isr(void) {
     uint32_t ui32Status;
 
-    //
     // Read and save the interrupt status, but clear out the status register.
-    //
     ui32Status = UARTn(0)->MIS;
     UARTn(0)->IEC = ui32Status;
 }
 
 //*****************************************************************************
-// API
+// ns-ble Simplified BLE API
 //*****************************************************************************
 
-void ns_ble_new_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
-    ns_lp_printf("webbleHandler\n");
+void ns_ble_pre_init(void) {
+    // Set NVICs for BLE
+    NVIC_SetPriority(COOPER_IOM_IRQn, 4);
+    NVIC_SetPriority(AM_COOPER_IRQn, 4);
 }
 
-void ns_ble_new_handler_init(wsfHandlerId_t handlerId) { ns_lp_printf("webbleHandlerInit\n"); }
+void ns_ble_new_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
+    // ns_lp_printf("ns_ble_new_handler\n");
+}
+
+void ns_ble_new_handler_init(wsfHandlerId_t handlerId) {
+    // ns_lp_printf("ns_ble_new_handler_init\n");
+}
 
 static void ns_ble_generic_new_handle_cnf(attEvt_t *pMsg){};
 
 static void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
     dmConnId_t connId = 1;
-    ns_lp_printf("webbleSendValue");
+    // ns_lp_printf("ns_ble_send_value");
     if (AttsCccEnabled(connId, c->indicationTimer.msg.status)) {
         AttsSetAttr(c->valueHandle, c->valueLen, c->applicationValue);
         AttsHandleValueNtf(connId, c->valueHandle, c->valueLen, c->applicationValue);
     } else {
-        ns_lp_printf("... not sent\n");
+        // ns_lp_printf("... not sent\n");
     }
 }
 
 static bool ns_ble_handle_indication_timer_expired(ns_ble_msg_t *pMsg) {
     uint8_t event = pMsg->hdr.event;
     ns_ble_service_t *service;
-    ns_lp_printf("webbleIndicationTimerExpired check\n");
+    // ns_lp_printf("ns_ble_handle_indication_timer_expired\n");
     for (int i = 0; i < g_ns_ble_control.numServices; i++) {
         service = g_ns_ble_control.services[i];
         for (int j = 0; j < service->numCharacteristics; j++) {
@@ -650,7 +587,6 @@ static bool ns_ble_handle_indication_timer_expired(ns_ble_msg_t *pMsg) {
                 ns_ble_characteristic_t *c = service->characteristics[j];
                 // Found a match, handle timer expiry
                 // Call the callback to update the value of attribute
-                ns_lp_printf("webbleIndicationTimerExpired\n");
                 c->notifyHandlerCb(service, c);
 
                 // Send the value
@@ -667,20 +603,20 @@ static bool ns_ble_handle_indication_timer_expired(ns_ble_msg_t *pMsg) {
 static void ns_ble_process_ccc_state(attsCccEvt_t *pMsg) {
     uint8_t idx = pMsg->idx;
     ns_ble_service_t *service;
-    ns_lp_printf("webbleProcessCccState\n");
+    // ns_lp_printf("ns_ble_process_ccc_state\n");
     for (int i = 0; i < g_ns_ble_control.numServices; i++) {
         service = g_ns_ble_control.services[i];
         for (int j = 0; j < service->numCharacteristics; j++) {
             ns_ble_characteristic_t *c = service->characteristics[j];
-            ns_lp_printf("webbleProcessCccState: %d %d %d\n", j, idx, c->cccIndex);
+            // ns_lp_printf("webbleProcessCccState: %d %d %d\n", j, idx, c->cccIndex);
             if (service->characteristics[j]->cccIndex == idx) {
                 if (pMsg->value == ATT_CLIENT_CFG_NOTIFY) {
                     // Start the timer
-                    ns_lp_printf("webbleStartTimer\n");
+                    // ns_lp_printf("webbleStartTimer\n");
                     WsfTimerStartMs(&c->indicationTimer, c->indicationPeriod);
                 } else {
                     // Stop the timer
-                    ns_lp_printf("webbleStopTimer\n");
+                    // ns_lp_printf("webbleStopTimer\n");
                     WsfTimerStop(&c->indicationTimer);
                 }
             }
@@ -690,7 +626,7 @@ static void ns_ble_process_ccc_state(attsCccEvt_t *pMsg) {
 
 bool ns_ble_new_proc_msg(ns_ble_msg_t *pMsg) {
     bool messageHandled = true;
-    ns_lp_printf("webbleMsgProc\n");
+    // ns_lp_printf("ns_ble_new_proc_msg\n");
 
     switch (pMsg->hdr.event) {
     case DM_CONN_OPEN_IND:
@@ -723,7 +659,7 @@ int ns_ble_char2uuid(char const uuidString[16], ns_ble_uuid128_t *uuid128) {
     // Convert the string into uint array needed by WSF
     // Written by CoPilot!
 
-    ns_lp_printf("ns_ble_char2uuid: %s\n", uuidString);
+    // ns_lp_printf("ns_ble_char2uuid: %s\n", uuidString);
     for (int i = 0; i < 16; i++) {
         char c1 = uuidString[i * 2];
         char c2 = uuidString[i * 2 + 1];
@@ -765,7 +701,7 @@ uint8_t ns_ble_generic_write_cback(
             if (service->characteristics[j]->valueHandle == handle) {
                 if (service->characteristics[j]->writeHandlerCb) {
                     return service->characteristics[j]->writeHandlerCb(
-                        service, service->characteristics[j], pAttr->pValue);
+                        service, service->characteristics[j], pValue);
                 }
             }
         }
@@ -776,7 +712,7 @@ uint8_t ns_ble_generic_write_cback(
 
 uint8_t ns_ble_generic_read_cback(
     dmConnId_t connId, uint16_t handle, uint8_t operation, uint16_t offset, attsAttr_t *pAttr) {
-    ns_lp_printf("ns_ble_generic_read_cback, handle %d\n", handle);
+    // ns_lp_printf("ns_ble_generic_read_cback, handle %d\n", handle);
     for (int i = 0; i < g_ns_ble_control.numServices; i++) {
         ns_ble_service_t *service = g_ns_ble_control.services[i];
         for (int j = 0; j < service->numCharacteristics; j++) {
@@ -920,7 +856,7 @@ int ns_ble_create_characteristic(
     c->writeHandlerCb = writeHandlerCb;
     c->notifyHandlerCb = notifyHandlerCb;
 
-    // Remember mem location of attribute's value
+    // *** Remember mem location of attribute's value
     // (different from WSF 'value', which is a placeholder)
     c->applicationValue = applicationValue;
     c->valueLen = valueLength;
@@ -943,9 +879,9 @@ int ns_ble_create_characteristic(
     }
     c->pValue = ns_malloc(valueLength);
 
-    // Create Attribute List entries (Declaration, Value, CCC)
-    // Characteristic Declaration Attribute
+    // *** Create Attribute List entries (Declaration, Value, CCC)
 
+    // Characteristic Declaration Attribute
     // Declaration Properties
     c->declarationProperties[0] = prop;
     c->declarationProperties[1] = 0; // placeholder for declaration handle
@@ -997,7 +933,7 @@ int ns_ble_create_characteristic(
 }
 
 int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c) {
-    // Add Characteristic to Service Attribute List
+    // *** Add Characteristic to Service Attributes List
     // Declaration Attribute
     memcpy(&(s->attributes[s->nextAttributeIndex++]), &(c->declaration), sizeof(attsAttr_t));
 
@@ -1009,13 +945,13 @@ int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c) {
         memcpy(&(s->attributes[s->nextAttributeIndex++]), &(c->ccc), sizeof(attsAttr_t));
     }
 
-    // Set Characteristic Handles
+    // *** Set Characteristic Handles
     c->declarationHandle = s->nextHandleId++;
     c->valueHandle = s->nextHandleId++;
     c->declarationProperties[1] = c->valueHandle & 0xff;
     c->declarationProperties[2] = (c->valueHandle >> 8) & 0xff;
 
-    // CCC if notify for the characteristic
+    // *** CCC table and time setup (if notify is enabled for the characteristic)
     if (c->ccc.pUuid != NULL) {
         c->cccHandle = s->nextHandleId++;
         c->cccIndicationHandle = s->nextCccIndicationHandle++;
@@ -1040,7 +976,7 @@ int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c) {
 }
 
 int ns_ble_start_service(ns_ble_service_t *s) {
-    // Finish creating Service structures, then kick it off
+    // *** Finish creating Service structures, then kick it off
 
     // Populate Group
     s->group.pNext = NULL;
@@ -1050,24 +986,11 @@ int ns_ble_start_service(ns_ble_service_t *s) {
     s->group.startHandle = s->baseHandle;
     s->group.endHandle = s->nextHandleId - 1;
 
-    // for (int i=0; i<s->numCharacteristics; i++) {
-    //     ns_lp_printf("Characteristic %d: %d\n", i, s->characteristics[i]->declarationHandle);
-    //     for (int j=0; j<s->characteristics[i]->declarationLen; j++) {
-    //         ns_lp_printf("%02x ", s->characteristics[i]->declarationProperties[j]);
-    //     }
-    //     ns_lp_printf("\n");
-    // }d
-
-    // Print attributes
-    for (int i = 0; i < s->numAttributes; i++) {
-        ns_lp_printf("Attribute %d: \n", i);
-        for (int j = 0; j < 16; j++) {
-            ns_lp_printf("%02x ", s->attributes[i].pUuid[j]);
-        }
-        ns_lp_printf("\n");
-    }
-
     AttsAddGroup(&(s->group));
     GattSetSvcChangedIdx(0); // TODO something better here
+
+    // *** Kick off the service
     DmDevReset();
+
+    return NS_STATUS_SUCCESS;
 }

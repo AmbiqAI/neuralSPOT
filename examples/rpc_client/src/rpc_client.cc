@@ -40,16 +40,15 @@ int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
 int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
 
-alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
-am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME *
-                                              NUM_CHANNELS]; // working buffer used by AUDADC
+alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];     // DMA target
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+                                                                                // used by AUDADC
 
 #ifndef NS_AMBIQSUITE_VERSION_R4_1_0
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 #endif
 
-void
-audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
+void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     if (g_audioRecording) {
         if (g_audioReady) {
             ns_lp_printf("Overflow!\n");
@@ -86,8 +85,7 @@ static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
 static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
 // End RPC Stuff
 
-int
-main(void) {
+int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
     // ----- Non-RPC Init ------
@@ -103,11 +101,12 @@ main(void) {
 
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;
-    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
-                                        .button_0_enable = true,
-                                        .button_1_enable = false,
-                                        .button_0_flag = &g_intButtonPressed,
-                                        .button_1_flag = NULL};
+    ns_button_config_t button_config = {
+        .api = &ns_button_V1_0_0,
+        .button_0_enable = true,
+        .button_1_enable = false,
+        .button_0_flag = &g_intButtonPressed,
+        .button_1_flag = NULL};
     NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     // -- Audio init
@@ -116,8 +115,9 @@ main(void) {
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
-    binary_t binaryBlock = {.data = (uint8_t *)audioDataBuffer, // point this to audio buffer
-                            .dataLength = sizeof(audioDataBuffer)};
+    binary_t binaryBlock = {
+        .data = (uint8_t *)audioDataBuffer, // point this to audio buffer
+        .dataLength = sizeof(audioDataBuffer)};
 
 #if NUM_CHANNELS == 1
     char msg_store[30] = "Audio16bPCM_to_WAV";
@@ -128,28 +128,31 @@ main(void) {
     char msg_compute[30] = "CalculateMFCC_Please";
 
     // Block sent to PC
-    dataBlock outBlock = {.length = sizeof(audioDataBuffer),
-                          .dType = uint8_e,
-                          .description = msg_store,
-                          .cmd = write_cmd,
-                          .buffer = binaryBlock};
+    dataBlock outBlock = {
+        .length = sizeof(audioDataBuffer),
+        .dType = uint8_e,
+        .description = msg_store,
+        .cmd = write_cmd,
+        .buffer = binaryBlock};
 
     // Block sent to PC for computation
-    dataBlock computeBlock = {.length = SAMPLES_IN_FRAME * sizeof(int16_t),
-                              .dType = uint8_e,
-                              .description = msg_compute,
-                              .cmd = extract_cmd,
-                              .buffer = binaryBlock};
+    dataBlock computeBlock = {
+        .length = SAMPLES_IN_FRAME * sizeof(int16_t),
+        .dType = uint8_e,
+        .description = msg_compute,
+        .cmd = extract_cmd,
+        .buffer = binaryBlock};
 
-    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
-                                 .mode = NS_RPC_GENERICDATA_CLIENT,
-                                 .rx_buf = my_cdc_rx_ff_buf,
-                                 .rx_bufLength = MY_USB_RX_BUFSIZE,
-                                 .tx_buf = my_cdc_tx_ff_buf,
-                                 .tx_bufLength = MY_USB_TX_BUFSIZE,
-                                 .sendBlockToEVB_cb = NULL,
-                                 .fetchBlockFromEVB_cb = NULL,
-                                 .computeOnEVB_cb = NULL};
+    ns_rpc_config_t rpcConfig = {
+        .api = &ns_rpc_gdo_V1_0_0,
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .rx_buf = my_cdc_rx_ff_buf,
+        .rx_bufLength = MY_USB_RX_BUFSIZE,
+        .tx_buf = my_cdc_tx_ff_buf,
+        .tx_bufLength = MY_USB_TX_BUFSIZE,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL};
     // Result of computation
     dataBlock resultBlock;
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB

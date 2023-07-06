@@ -27,6 +27,7 @@ CMSIS_VERSION := CMSIS_5-5.9.0
 
 ##### Application Defaults #####
 # default target for binary-specific operations such as 'deploy'
+EXAMPLE     := all
 TARGET      := basic_tf_stub
 NESTCOMP    := extern/AmbiqSuite
 NESTEGG := basic_tf_stub

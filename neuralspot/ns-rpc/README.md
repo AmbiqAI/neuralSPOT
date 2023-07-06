@@ -33,8 +33,8 @@ ns-rpc/
 Examples for using ns-rpc:
 
 - [Basic TF Stub](../../examples/basic_tf_stub/README.md)
-- [Client Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_client_example/README.md)
-- [Server Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_server_example/README.md)
+- [Client Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_client/README.md)
+- [Server Example](https://github.com/AmbiqAI/neuralSPOT/examples/rpc_server/README.md)
 
 Guidelines for creating new interfaces or modifying existing interfaces can be found in our [developer's guide](https://github.com/AmbiqAI/neuralSPOT/docs/developer_guide.md#neuralspot-developers-guide).
 

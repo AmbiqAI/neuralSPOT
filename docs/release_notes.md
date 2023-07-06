@@ -77,6 +77,6 @@
       - BLE characteristic creation (read, write, and notify characteristics supported)
       - Simplified event handling (read, write, and notify)
 
-    - **web_ble_example**: this new example application implements a mocked-up WebBLE service designed to serve sensor data to WebBLE dashboard.
+    - **web_ble example**: this new example application implements a mocked-up WebBLE service designed to serve sensor data to WebBLE dashboard.
 
 

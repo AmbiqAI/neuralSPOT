@@ -32,8 +32,7 @@
 // These functions are passed to ns_rpc init as callbacks.
 
 // Handler for sendBlockToEVB, invoked by PC
-status
-example_sendBlockToEVB(const dataBlock *block) {
+status example_sendBlockToEVB(const dataBlock *block) {
     ns_lp_printf("LOCAL Received call to sendBlockToEVB\n");
     // Grab block and do something with it
     // ...
@@ -42,8 +41,7 @@ example_sendBlockToEVB(const dataBlock *block) {
 }
 
 // Handler for fetchBlockFromEVB, invoked by PC
-status
-example_fetchBlockFromEVB(dataBlock *block) {
+status example_fetchBlockFromEVB(dataBlock *block) {
     ns_lp_printf("LOCAL Received call to fetchBlockFromEVB\n");
 
     // For strings (binary->description) and binary structs (block->buffer)
@@ -75,8 +73,7 @@ example_fetchBlockFromEVB(dataBlock *block) {
 }
 
 // Handler for computeOnEVB, invoked by PC
-status
-example_computeOnEVB(const dataBlock *in, dataBlock *res) {
+status example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     uint32_t i;
 
     ns_lp_printf("LOCAL Received call to computeOnEVB\n");
@@ -116,8 +113,7 @@ example_computeOnEVB(const dataBlock *in, dataBlock *res) {
 uint8_t my_cdc_rx_ff_buf[MY_RX_BUFSIZE];
 uint8_t my_cdc_tx_ff_buf[MY_TX_BUFSIZE];
 
-int
-main(void) {
+int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
@@ -130,23 +126,25 @@ main(void) {
 
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;
-    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
-                                        .button_0_enable = true,
-                                        .button_1_enable = false,
-                                        .button_0_flag = &g_intButtonPressed,
-                                        .button_1_flag = NULL};
+    ns_button_config_t button_config = {
+        .api = &ns_button_V1_0_0,
+        .button_0_enable = true,
+        .button_1_enable = false,
+        .button_0_flag = &g_intButtonPressed,
+        .button_1_flag = NULL};
     NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     // Add callbacks to handle incoming requests
-    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
-                                 .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
-                                 .rx_buf = my_cdc_rx_ff_buf,
-                                 .rx_bufLength = MY_RX_BUFSIZE,
-                                 .tx_buf = my_cdc_tx_ff_buf,
-                                 .tx_bufLength = MY_TX_BUFSIZE,
-                                 .sendBlockToEVB_cb = example_sendBlockToEVB,
-                                 .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
-                                 .computeOnEVB_cb = example_computeOnEVB};
+    ns_rpc_config_t rpcConfig = {
+        .api = &ns_rpc_gdo_V1_0_0,
+        .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+        .rx_buf = my_cdc_rx_ff_buf,
+        .rx_bufLength = MY_RX_BUFSIZE,
+        .tx_buf = my_cdc_tx_ff_buf,
+        .tx_bufLength = MY_TX_BUFSIZE,
+        .sendBlockToEVB_cb = example_sendBlockToEVB,
+        .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
+        .computeOnEVB_cb = example_computeOnEVB};
 
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 

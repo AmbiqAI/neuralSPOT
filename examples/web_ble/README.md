@@ -34,14 +34,14 @@ Simply click [here](https://arduino.github.io/ArduinoAI/NiclaSenseME-dashboard/)
 
 The EVB will show up as a Cordio device. On the dashboard, click the 'Connect' button near the top:
 
-<img src="/Users/carlosmorales/Library/Application Support/typora-user-images/image-20230706130007268.png" alt="image-20230706130007268" style="zoom:50%;" />
+<img src="../../docs/images/image-20230706130007268.png" alt="image-20230706130007268" style="zoom:50%;" />
 
 Select the 'Cordio' device, then click 'Pair'.
 
-<img src="/Users/carlosmorales/Library/Application Support/typora-user-images/image-20230706130129910.png" alt="image-20230706130129910" style="zoom:50%;" />
+<img src="../../docs/images/image-20230706130129910.png" alt="image-20230706130129910" style="zoom:50%;" />
 
 If all goes well, you should see something like this:
 
-<img src="/Users/carlosmorales/Library/Application Support/typora-user-images/image-20230706130220263.png" alt="image-20230706130220263" style="zoom:50%;" />
+<img src="../../docs/images/image-20230706130220263.png" alt="image-20230706130220263" style="zoom:50%;" />
 
 (pay no attention the the Gas Value - NaN error, this is a JS bug in the dashboard code).

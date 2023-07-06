@@ -1,4 +1,4 @@
-local_app_name := web_ble_example
+local_app_name := web_ble
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.cpp)

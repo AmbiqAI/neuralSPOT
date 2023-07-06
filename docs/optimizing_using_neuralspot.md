@@ -54,7 +54,7 @@ The Audio library takes advantage of Apollo4 Plus' highly efficient audio periph
 
 ### Power Configuration Library
 
-The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](../examples/rpc_client_example/src/rpc_client.cc). It is typically called once, during initialization. 
+The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](../examples/rpc_client/src/rpc_client.cc). It is typically called once, during initialization. 
 
 > **NOTE** This is useful during feature development and optimization, but most AI features are meant to be integrated into a larger application which usually dictates power configuration.
 

@@ -52,7 +52,7 @@ LFLAGS+=
 CPFLAGS = -Obinary
 ODFLAGS = -S
 
-$(info Building for $(PART)_$(EVB))
+$(info Running makefile for $(PART)_$(EVB))
 DEFINES+= NEURALSPOT
 DEFINES+= $(PART)_$(EVB)
 DEFINES+= PART_$(PART)

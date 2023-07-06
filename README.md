@@ -32,6 +32,7 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | BOARD | Defines the target SoC (currently either apollo4b or apollo4p) | apollo4p |
 | EVB | Defines the EVB type (evb or evb_blue) | evb |
 | BINDIR | Name of directories where binaries and build artifacts are stored. Note that there will be one build directory per binary or library being created | build |
+| EXAMPLE | Name of example to be built. By default, all examples will be built. |
 | NESTDIR | Relative path and directory name where nest will be created | nest |
 | NESTCOMP | root path to a single component to be updated in nest | extern/AmbiqSuite |
 | NESTEGG | name of neuralspot example used to create nest | basic_tf_stub |

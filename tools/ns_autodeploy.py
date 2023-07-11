@@ -1,3 +1,5 @@
+import logging as log
+
 import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
@@ -38,6 +40,10 @@ class Params(BaseModel):
     max_arena_size: int = Field(
         120, description="Maximum KB to be allocated for TF arena"
     )
+    arena_size_scratch_buffer_padding: int = Field(
+        0,
+        description="(TFLM Workaround) Padding to be added to arena size to account for scratch buffer (in KB)",
+    )
     max_rpc_buf_size: int = Field(
         4096, description="Maximum bytes to be allocated for RPC RX and TX buffers"
     )
@@ -70,6 +76,9 @@ class Params(BaseModel):
         "stats.csv", description="Name of exported profile statistics CSV file"
     )
 
+    # Logging Parameters
+    verbosity: int = Field(1, description="Verbosity level (0-4)")
+
     # RPC Parameters
     tty: str = Field("/dev/tty.usbmodem1234561", description="Serial device")
     baud: str = Field("115200", description="Baud rate")
@@ -91,9 +100,21 @@ if __name__ == "__main__":
     # parse cmd parameters
     parser = create_parser()
     params = parser.parse_typed_args()
+    print("")  # put a blank line between obnoxious TF output and our output
+
+    # set logging level
+    log.basicConfig(
+        level=log.DEBUG
+        if params.verbosity > 2
+        else log.INFO
+        if params.verbosity > 1
+        else log.WARNING,
+        format="%(levelname)s: %(message)s",
+    )
 
     interpreter = get_interpreter(params)
 
+    print("*** Phase 1: Create and fine-tune EVB image")
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
 
@@ -116,6 +137,8 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
+    print("*** Phase 2: Characterize model performance on EVB")
+
     differences = validateModel(params, client, interpreter, md, mc)
     if params.create_profile:
         # Get profiling stats
@@ -125,10 +148,11 @@ if __name__ == "__main__":
     otIndex = 0
     for d in differences:
         print(
-            f"Mean difference per output label in tensor({otIndex}): "
+            f"Model Output Comparison: Mean difference per output label in tensor({otIndex}): "
             + repr(np.array(d).mean(axis=0))
         )
         otIndex += 1
 
     if params.create_library:
+        print("*** Phase 3: Generate minimal static library")
         generateModelLib(params, mc, md)

@@ -78,5 +78,3 @@
       - Simplified event handling (read, write, and notify)
 
     - **web_ble example**: this new example application implements a mocked-up WebBLE service designed to serve sensor data to WebBLE dashboard.
-
-

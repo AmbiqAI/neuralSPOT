@@ -1,4 +1,6 @@
+import logging as log
 import os
+import shutil
 import struct
 import sys
 import time
@@ -80,6 +82,12 @@ class ModelConfiguration:
 
     def __init__(self, params):
         self.arena_size_k = params.max_arena_size
+
+        # TFLM arena_used_bytes(), which is used to calculate arena size, has a bug
+        # where it does not account for scratch buffer padding. This is a workaround.
+        self.arena_size_scratch_buffer_padding_k = (
+            params.arena_size_scratch_buffer_padding
+        )
         self.arena_size = params.max_arena_size * 1024
         self.stat_buffer_size = params.max_rpc_buf_size  # in bytes
         self.adjusted_stat_buffer_size = params.max_rpc_buf_size  # in bytes
@@ -116,9 +124,10 @@ class ModelConfiguration:
                 "[ERROR] TF Arena Size is %dk, exceeding limit of %dk."
                 % (self.arena_size_k, params.max_arena_size)
             )
+            exit("[ERROR] TF Arena Size is too large")
         if self.adjusted_stat_buffer_size > params.max_rpc_buf_size:
-            print(
-                "[INFO] Needed RPC buffer size is %d, exceeding limit of %d. Switching to chunk mode."
+            log.info(
+                "Needed RPC buffer size is %d, exceeding limit of %d. Switching to chunk mode."
                 % (self.adjusted_stat_buffer_size, params.max_rpc_buf_size)
             )
 
@@ -163,13 +172,32 @@ def configModel(params, client, md):
         length=9,
     )
     status = client.ns_rpc_data_sendBlockToEVB(configBlock)
-    print("[INFO] Model Configuration Return Status = %d" % status)
+    if status != 0:
+        print("[ERROR] Model Configuration Send Status = %d" % status)
+        print(
+            "[ERROR] This may be caused by allocating too little memory for the tensor arena."
+        )
+        print(
+            "[ERROR] This script uses TFLM's arena_used_bytes() function to determine the arena size,"
+        )
+        print(
+            "[ERROR] which has a bug where it does not account for scratch buffer padding."
+        )
+        print(
+            "[ERROR] To manually add a padding for scratch buffers, use the --arena_size_scratch_buffer_padding option."
+        )
+        exit("Model Configuration Failed")
+    else:
+        log.info("Model Configuration Return Status = %d" % status)
 
 
 def getModelStats(params, client):
     statBlock = erpc.Reference()
     status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
-    print("[INFO] Fetch stats status %d" % status)
+    log.info("Fetch stats status %d" % status)
+    if status != 0:
+        print("[ERROR] Model Stats Fetch Status = %d" % status)
+        exit("Model Stats Fetch Failed")
 
     stat_array = struct.unpack(
         "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
@@ -179,8 +207,8 @@ def getModelStats(params, client):
         # Stats are too long to fit in one xfer. Repeated calls to fetchBlock will return chunks
         while statBlock.value.description != "LastStats":
             status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
-            print(
-                "[INFO] Fetch stats chunk status %d, msg %s"
+            log.info(
+                "Fetch stats chunk status %d, msg %s"
                 % (status, statBlock.value.description)
             )
             stat_array = stat_array + struct.unpack(
@@ -222,11 +250,11 @@ def validateModel(params, client, interpreter, md, mc):
     latency, cache behavior, and more.
     """
     runs = params.runs
-    print("[INFO] Calling invoke %d times." % runs)
+    print("Calling invoke on EVB %d times." % runs)
 
     if not params.random_data:
         # Load validation data from specified pkl file
-        print("[INFO] Load dataset from %s." % params.dataset)
+        log.info("Loading dataset from %s." % params.dataset)
         data, labels, test_data, test_labels = get_dataset(params)
         input_scale = md.inputTensors[0].scale
         input_zero_point = md.inputTensors[0].zeroPoint
@@ -234,7 +262,7 @@ def validateModel(params, client, interpreter, md, mc):
             test_data / input_scale + input_zero_point, dtype=np.int8
         )
     else:
-        print("[INFO] Generate random dataset.")
+        log.info("Generating random dataset.")
 
     differences = (
         []
@@ -298,6 +326,7 @@ def validateModel(params, client, interpreter, md, mc):
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)  # on EVB
         if stat != 0:
             print(f"[ERROR] EVB invoke returned {stat}")
+            exit("EVB invoke failed")
 
         # Resulting output tensors are packed into outputTensor buffer in order (0,1,...)
         # Each has a different length and type; unpack them into an array for later comparison.
@@ -386,8 +415,8 @@ def printStats(stats, stats_filename):
     )  # stats[2] is in bytes, convert to uint32
     captured_events = stats[3]  # generally one event per model layer
 
-    print(
-        "[INFO] Decoding statistics. Number of events = %d, buff_size = %d size = %d arraylen %d"
+    log.info(
+        "Decoding statistics. Number of events = %d, buff_size = %d size = %d arraylen %d"
         % (
             captured_events,
             computed_stat_buffer_size,
@@ -402,8 +431,8 @@ def printStats(stats, stats_filename):
     # we got back
     if ((len(stats) - offset) // computed_stat_per_event_size) < captured_events:
         captured_events = (len(stats) - offset) // computed_stat_per_event_size
-        print(
-            "[WARNING] Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
+        log.warning(
+            "Number of events greater than allowed for by RPC buffer size (suggestion: increase NS_PROFILER_RPC_EVENTS_MAX). Statistics will be truncated to %d events"
             % captured_events
         )
 
@@ -461,12 +490,18 @@ def printStats(stats, stats_filename):
             row.append(stats[offset + j])
         table.append(row)
         offset = offset + computed_stat_per_event_size
-    print(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
+
+    log.info(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
     print(
-        f"[INFO] Model Performance Analysis: Total Inference Time {totalTime}uS, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
+        f"Model Performance Analysis: Total Inference Time {totalTime}uS, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
     )
     print(
-        f"[INFO] MAC/second {totalMacs*1000000/totalTime}, cycles/MAC {totalCycles/totalMacs}"
+        f"Model Performance Analysis: MAC/second {totalMacs*1000000/totalTime}, cycles/MAC {totalCycles/totalMacs}"
+    )
+
+    print(
+        "Model Performance Analysis: Per-layer performance statistics saved to: %s"
+        % stats_filename
     )
     np.savetxt(stats_filename, table, delimiter=", ", fmt="% s")
 
@@ -477,14 +512,24 @@ def compile_and_deploy(params, mc, first_time=False):
         makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
 
     if params.create_profile:
-        makefile_result = os.system(
-            # f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={params.max_profile_events}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-            f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-        )
+        if params.verbosity > 3:
+            makefile_result = os.system(
+                f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make TARGET=tflm_validator deploy"
+            )
+        else:
+            makefile_result = os.system(
+                f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            )
     else:
-        makefile_result = os.system(
-            "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
-        )
+        if params.verbosity > 3:
+
+            makefile_result = os.system(
+                "cd .. && make -j && make TARGET=tflm_validator deploy"
+            )
+        else:
+            makefile_result = os.system(
+                "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+            )
 
     if makefile_result != 0:
         print("[ERROR] Make failed, return code %d" % makefile_result)
@@ -504,16 +549,21 @@ def create_mut_metadata(tflm_dir, mc):
 
     rm = {
         "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
-        "NS_AD_ARENA_SIZE": mc.arena_size_k,
+        "NS_AD_ARENA_SIZE": mc.arena_size_k + mc.arena_size_scratch_buffer_padding_k,
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
         "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
         .replace("[", "")
         .replace("]", ""),
     }
-    print(
-        "[INFO] Create metadata file with %dk arena size, RPC RX/TX buffer %d, RV Count %d"
-        % (mc.arena_size_k, mc.adjusted_stat_buffer_size, mc.rv_count)
+    log.info(
+        "Create metadata file with %dk arena size, %dk padding, RPC RX/TX buffer %d, RV Count %d"
+        % (
+            mc.arena_size_k,
+            mc.arena_size_scratch_buffer_padding_k,
+            mc.adjusted_stat_buffer_size,
+            mc.rv_count,
+        )
     )
     createFromTemplate(
         "autodeploy/templates/template_mut_metadata.h",
@@ -536,8 +586,29 @@ def create_mut_modelinit(tflm_dir, mc):
     )
 
 
+def create_mut_main(tflm_dir, mc):
+    # make directory for tflm_validator
+    os.makedirs(tflm_dir, exist_ok=True)
+
+    # Copy template main.cc to tflm_dir
+    shutil.copyfile(
+        "autodeploy/templates/template_tflm_validator.cc",
+        f"{tflm_dir}/tflm_validator.cc",
+    )
+    shutil.copyfile(
+        "autodeploy/templates/template_tflm_validator.h", f"{tflm_dir}/tflm_validator.h"
+    )
+    shutil.copyfile(
+        "autodeploy/templates/template_tflm_validator.mk", f"{tflm_dir}/../module.mk"
+    )
+    shutil.copyfile(
+        "autodeploy/templates/template_ns_model.h", f"{tflm_dir}/ns_model.h"
+    )
+
+
 def create_validation_binary(params, baseline, mc):
     tflm_dir = params.tflm_src_path
+    create_mut_main(tflm_dir, mc)
 
     if baseline:
         xxd_c_dump(
@@ -547,9 +618,16 @@ def create_validation_binary(params, baseline, mc):
             chunk_len=12,
             is_header=True,
         )
-    print(
-        f"[INFO] Compiling and deploying Validation image - baseline {baseline}, arena {mc.arena_size_k}k, RPC buffers {mc.adjusted_stat_buffer_size}, Resource Variables {mc.rv_count}"
-    )
+
+    if baseline:
+        print(
+            f"Compiling and deploying Baseline image: arena size = {mc.arena_size_k}k, RPC buffer size = {mc.adjusted_stat_buffer_size}, Resource Variables count = {mc.rv_count}"
+        )
+    else:
+        print(
+            f"Compiling and deploying Tuned image:    arena size = {mc.arena_size_k}k, RPC buffer size = {mc.adjusted_stat_buffer_size}, Resource Variables count = {mc.rv_count}"
+        )
+
     create_mut_metadata(tflm_dir, mc)
     create_mut_modelinit(tflm_dir, mc)
     compile_and_deploy(params, mc, first_time=baseline)

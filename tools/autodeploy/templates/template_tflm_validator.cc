@@ -52,8 +52,7 @@ uint32_t stats_remaining = 0;
 
 ns_incoming_tensor_details_u inputTensorDetails[NS_MAX_INPUT_TENSORS];
 ns_incoming_tensor_details_u outputTensorDetails[NS_MAX_OUTPUT_TENSORS];
-extern int
-tflm_validator_model_init(ns_model_state_t *ms);
+extern int tflm_validator_model_init(ns_model_state_t *ms);
 
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
@@ -70,14 +69,14 @@ ns_timer_config_t basic_tickTimer = {
  * @param block - serialized tflm_config_struct
  * @return status
  */
-status
-configureModel(const dataBlock *in) {
+status configureModel(const dataBlock *in) {
     ns_lp_printf("[INFO] PC requested model initialization\n");
 
     // Grab incoming buffer, decode into config struct
     if (in->buffer.dataLength < sizeof(mut_cfg)) { // Sanity check before memcpy
-        ns_lp_printf("[ERROR] Incoming config is too small, expected %d, got %d\n", sizeof(mut_cfg),
-                     in->buffer.dataLength);
+        ns_lp_printf(
+            "[ERROR] Incoming config is too small, expected %d, got %d\n", sizeof(mut_cfg),
+            in->buffer.dataLength);
         return ns_rpc_data_failure;
     }
 
@@ -85,17 +84,19 @@ configureModel(const dataBlock *in) {
 
     if (in->buffer.dataLength != (sizeof(mut_cfg) + 4 * (mut_cfg.config.num_input_tensors +
                                                          mut_cfg.config.num_output_tensors))) {
-        ns_lp_printf("[ERROR] Configuration Size mismatch, expected %d, got %d\n",
-                     sizeof(mut_cfg) +
-                         4 * (mut_cfg.config.num_input_tensors + mut_cfg.config.num_output_tensors),
-                     in->buffer.dataLength);
+        ns_lp_printf(
+            "[ERROR] Configuration Size mismatch, expected %d, got %d\n",
+            sizeof(mut_cfg) +
+                4 * (mut_cfg.config.num_input_tensors + mut_cfg.config.num_output_tensors),
+            in->buffer.dataLength);
         return ns_rpc_data_failure;
     }
 
-    ns_lp_printf("[INFO] MUT configuration: profile %d, warmup %d, input tensor length %d, output "
-                 "tensor length %d\n",
-                 mut_cfg.config.profile_mut, mut_cfg.config.profile_warmup,
-                 mut_cfg.config.input_length, mut_cfg.config.output_length);
+    ns_lp_printf(
+        "[INFO] MUT configuration: profile %d, warmup %d, input tensor length %d, output "
+        "tensor length %d\n",
+        mut_cfg.config.profile_mut, mut_cfg.config.profile_warmup, mut_cfg.config.input_length,
+        mut_cfg.config.output_length);
 
     // buffer.data contains variable length arrays after the preamble
     // uint32_t inputTensorLengths[numInputTensors]
@@ -111,22 +112,26 @@ configureModel(const dataBlock *in) {
     tflm.numInputTensors = mut_cfg.config.num_input_tensors;
     tflm.numOutputTensors = mut_cfg.config.num_output_tensors;
 
-    memcpy(&inputTensorDetails, in->buffer.data + sizeof(mut_cfg),
-           4 * mut_cfg.config.num_input_tensors);
-    memcpy(&outputTensorDetails,
-           in->buffer.data + sizeof(mut_cfg) + (4 * mut_cfg.config.num_input_tensors),
-           4 * mut_cfg.config.num_output_tensors);
+    memcpy(
+        &inputTensorDetails, in->buffer.data + sizeof(mut_cfg),
+        4 * mut_cfg.config.num_input_tensors);
+    memcpy(
+        &outputTensorDetails,
+        in->buffer.data + sizeof(mut_cfg) + (4 * mut_cfg.config.num_input_tensors),
+        4 * mut_cfg.config.num_output_tensors);
 
 #ifdef NS_MLPROFILE
-    ns_perf_mac_count_t basic_mac = {.number_of_layers = tflm_validator_number_of_estimates,
-                                     .mac_count_map = tflm_validator_mac_estimates};
+    ns_perf_mac_count_t basic_mac = {
+        .number_of_layers = tflm_validator_number_of_estimates,
+        .mac_count_map = tflm_validator_mac_estimates};
     tflm.tickTimer = &basic_tickTimer;
     tflm.mac_estimates = &basic_mac;
 #else
     tflm.tickTimer = NULL;
 #endif
-
+    ns_lp_printf("[INFO] Initializing Model\n");
     int status = tflm_validator_model_init(&tflm);
+    ns_lp_printf("[INFO] Model Initialized status = %d\n", status);
     mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
     ns_lp_printf("[INFO] Input Size %d \n", tflm.interpreter->inputs_size());
     ns_lp_printf("[INFO] Output Size %d \n", tflm.interpreter->outputs_size());
@@ -145,20 +150,19 @@ configureModel(const dataBlock *in) {
  * @param in - chunk
  * @return status
  */
-status
-incomingTensorChunk(const dataBlock *in) {
+status incomingTensorChunk(const dataBlock *in) {
     // ns_lp_printf("[INFO] PC Sent Input Tensor Chunk of %d bytes, copied to %d\n",
     // in->buffer.dataLength, input_tensor_offset); Get latest chunk, copy into next spot in raw
     // tensor
-    memcpy(tflm.model_input[0]->data.int8 + input_tensor_offset, in->buffer.data,
-           in->buffer.dataLength);
+    memcpy(
+        tflm.model_input[0]->data.int8 + input_tensor_offset, in->buffer.data,
+        in->buffer.dataLength);
     input_tensor_offset += in->buffer.dataLength;
     input_tensor_is_chunked = true;
     return ns_rpc_data_success;
 }
 
-status
-decodeIncomingSendblock(const dataBlock *in) {
+status decodeIncomingSendblock(const dataBlock *in) {
     if (in->cmd == 0) {
         return configureModel(in);
     } else {
@@ -173,16 +177,15 @@ decodeIncomingSendblock(const dataBlock *in) {
  * @param block - serialized tflm_stats_struct
  * @return status
  */
-status
-getStatistics(dataBlock *res) {
+status getStatistics(dataBlock *res) {
 
     uint32_t statSize = sizeof(mut_stats.bytes) * sizeof(uint8_t);
     uint32_t bufSize = (statSize <= (TFLM_VALIDATOR_RX_BUFSIZE - 400))
                            ? statSize
                            : (TFLM_VALIDATOR_RX_BUFSIZE - 400);
 
-    ns_lp_printf("[INFO] Server asked for statistics (%d bytes), send back %d bytes\n", statSize,
-                 bufSize);
+    ns_lp_printf(
+        "[INFO] Server asked for statistics (%d bytes), send back %d bytes\n", statSize, bufSize);
 
     uint8_t *resultBuffer = (uint8_t *)ns_malloc(bufSize);
     char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
@@ -196,8 +199,8 @@ getStatistics(dataBlock *res) {
     mut_stats.stats.computed_stat_per_event_size = sizeof(ns_profiler_event_stats_t);
 #ifdef NS_TFLM_VALIDATOR
     mut_stats.stats.captured_events = ns_microProfilerSidecar.captured_event_num;
-    memcpy(mut_stats.stats.stat_buffer, ns_profiler_events_stats,
-           sizeof(mut_stats.stats.stat_buffer));
+    memcpy(
+        mut_stats.stats.stat_buffer, ns_profiler_events_stats, sizeof(mut_stats.stats.stat_buffer));
 #else
     mut_stats.stats.captured_events = 0;
 #endif
@@ -222,16 +225,16 @@ getStatistics(dataBlock *res) {
     return ns_rpc_data_success;
 }
 
-status
-getStatChunk(dataBlock *res) {
+status getStatChunk(dataBlock *res) {
     // Return a chunk of stats
 
     uint32_t chunkSize = (stats_remaining <= (TFLM_VALIDATOR_RX_BUFSIZE - 400))
                              ? stats_remaining
                              : (TFLM_VALIDATOR_RX_BUFSIZE - 400);
 
-    ns_lp_printf("[INFO] Server asked for stats chunk, stats remaining %d, offset %d, sending %d\n",
-                 stats_remaining, stats_offset, chunkSize);
+    ns_lp_printf(
+        "[INFO] Server asked for stats chunk, stats remaining %d, offset %d, sending %d\n",
+        stats_remaining, stats_offset, chunkSize);
 
     uint8_t *resultBuffer = (uint8_t *)ns_malloc(chunkSize);
     char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
@@ -253,16 +256,16 @@ getStatChunk(dataBlock *res) {
     } else {
         stats_offset = stats_offset + chunkSize;
         char msg[] = "PartStats\0";
-        ns_lp_printf("[INFO] Part stats chunk sr %d, cs %d, so %d\n", stats_remaining, chunkSize,
-                     stats_offset);
+        ns_lp_printf(
+            "[INFO] Part stats chunk sr %d, cs %d, so %d\n", stats_remaining, chunkSize,
+            stats_offset);
         memcpy(msg_store, msg, sizeof(msg));
     }
 
     return ns_rpc_data_success;
 }
 
-status
-decodeIncomingFetchblock(dataBlock *ret) {
+status decodeIncomingFetchblock(dataBlock *ret) {
     if (stats_is_chunked == false) {
         return getStatistics(ret);
     } else {
@@ -278,8 +281,7 @@ decodeIncomingFetchblock(dataBlock *ret) {
  * @param res - output tensor
  * @return status - fail if not configured or if invoke fails
  */
-status
-infer_on_tflm(const dataBlock *in, dataBlock *res) {
+status infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block, needs to happen whether errors occur or not
 
     uint8_t *resultBuffer = (uint8_t *)ns_malloc(mut_cfg.config.output_length * sizeof(uint8_t));
@@ -288,8 +290,9 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     res->dType = uint8_e;
     res->description = msg_store;
     res->cmd = generic_cmd;
-    binary_t binaryBlock = {.data = (uint8_t *)resultBuffer,
-                            .dataLength = mut_cfg.config.output_length * sizeof(uint8_t)};
+    binary_t binaryBlock = {
+        .data = (uint8_t *)resultBuffer,
+        .dataLength = mut_cfg.config.output_length * sizeof(uint8_t)};
     res->buffer = binaryBlock;
 
     // 'in' contains the input tensors, treat as homogeneous block
@@ -307,8 +310,9 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     }
 
     if ((mut_cfg.config.profile_mut == 1) && (invokes_so_far == mut_cfg.config.profile_warmup)) {
-        ns_lp_printf("[INFO] requested warmup %d,  invokes_so_far %d",
-                     mut_cfg.config.profile_warmup, invokes_so_far);
+        ns_lp_printf(
+            "[INFO] requested warmup %d,  invokes_so_far %d", mut_cfg.config.profile_warmup,
+            invokes_so_far);
         tflm.profiler->LogCsv(); // prints and also captures events in a buffer
         ns_stop_perf_profiler();
     }
@@ -316,8 +320,9 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block with output tensor
     int offset = 0;
     for (uint32_t t = 0; t < mut_cfg.config.num_output_tensors; t++) {
-        memcpy(resultBuffer + offset, tflm.model_output[t]->data.int8,
-               outputTensorDetails[t].details.tensorSizeBytes);
+        memcpy(
+            resultBuffer + offset, tflm.model_output[t]->data.int8,
+            outputTensorDetails[t].details.tensorSizeBytes);
         offset += outputTensorDetails[t].details.tensorSizeBytes;
     }
 
@@ -329,21 +334,14 @@ infer_on_tflm(const dataBlock *in, dataBlock *res) {
     return ns_rpc_data_success;
 }
 
-void
-ns_preAction(void) {
-    ns_lp_printf("Starting action\n");
-}
+void ns_preAction(void) { ns_lp_printf("Starting action\n"); }
 
-void
-ns_postAction(void) {
-    ns_lp_printf("Stopping action\n");
-}
+void ns_postAction(void) { ns_lp_printf("Stopping action\n"); }
 
 uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE];
 uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE];
 
-int
-main(void) {
+int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
@@ -356,15 +354,16 @@ main(void) {
     ns_interrupt_master_enable();
 
     // Add callbacks to handle incoming requests
-    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
-                                 .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
-                                 .rx_buf = tflm_v_cdc_rx_ff_buf,
-                                 .rx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
-                                 .tx_buf = tlfm_v_cdc_tx_ff_buf,
-                                 .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
-                                 .sendBlockToEVB_cb = decodeIncomingSendblock,
-                                 .fetchBlockFromEVB_cb = decodeIncomingFetchblock,
-                                 .computeOnEVB_cb = infer_on_tflm};
+    ns_rpc_config_t rpcConfig = {
+        .api = &ns_rpc_gdo_V1_0_0,
+        .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+        .rx_buf = tflm_v_cdc_rx_ff_buf,
+        .rx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
+        .tx_buf = tlfm_v_cdc_tx_ff_buf,
+        .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
+        .sendBlockToEVB_cb = decodeIncomingSendblock,
+        .fetchBlockFromEVB_cb = decodeIncomingFetchblock,
+        .computeOnEVB_cb = infer_on_tflm};
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
     // Add some pre/post callbacks
@@ -372,8 +371,9 @@ main(void) {
     // erpc_server_add_post_cb_action(&ns_postAction);
 
     ns_lp_printf("Ready to receive RPC Calls\n");
-    ns_lp_printf("Debug kv %d, va %d, mrv %d\n", kVarArenaSize, sizeof(var_arena),
-                 sizeof(tflite::MicroResourceVariables));
+    ns_lp_printf(
+        "Debug kv %d, va %d, mrv %d\n", kVarArenaSize, sizeof(var_arena),
+        sizeof(tflite::MicroResourceVariables));
     while (1) {
         ns_rpc_genericDataOperations_pollServer(&rpcConfig);
         ns_delay_us(1000);

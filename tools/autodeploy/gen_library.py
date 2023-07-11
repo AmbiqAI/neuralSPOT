@@ -1,3 +1,4 @@
+import logging as log
 import os
 
 import numpy as np
@@ -18,7 +19,7 @@ def generateModelLib(params, mc, md):
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
     }
-    print(f"[INFO] Generating minimal library at {d}/{n}")
+    print(f"Generating minimal library at {d}/{n}")
 
     # Generate a clean (no profiler) version of ns-model.a
     os.system("cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1")
@@ -86,4 +87,11 @@ def generateModelLib(params, mc, md):
     )
 
     # Generate library and example binary
-    os.system(f"cd {d}/{n} && make")
+    if params.verbosity > 3:
+        makefile_result = os.system(f"cd {d}/{n} && make -j")
+    else:
+        makefile_result = os.system(f"cd {d}/{n} && make -j >/dev/null 2>&1")
+
+    if makefile_result != 0:
+        log.error("Makefile failed to build minimal example library")
+        exit("Makefile failed to build minimal example library")

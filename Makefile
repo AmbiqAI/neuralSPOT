@@ -52,6 +52,9 @@ modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
+ifeq ($(TFLM_VALIDATOR),1)
+modules      += projects/models/tflm_validator
+else
 ifeq ($(EXAMPLE),all)
 modules      += examples/basic_tf_stub
 ifeq ($(AS_VERSION),R4.3.0)
@@ -61,9 +64,11 @@ modules      += examples/har
 modules      += examples/mpu_data_collection
 modules      += examples/rpc_client
 modules      += examples/rpc_server
-modules      += examples/tflm_validator
+# modules      += projects/models/tflm_validator
+# modules      += examples/tflm_validator
 else
 modules 	 += examples/$(EXAMPLE)
+endif
 endif
 
 # The following variables are filled in by module.mk include files

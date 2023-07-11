@@ -32,8 +32,8 @@ This will produce output similar to:
 ![image-20230331154338838](../docs/images/image-20230331154338838.png)
 
 ### Caveats
-
-This script is experimental, with known limitations (we're working on addressing these):
-- Only one input and output tensor are supported
-
-- Only 1 subgraph is supported
+There is a known TFLM bug wherein the arena size estimator fails to account for temporary scratch buffers. If this occurs, the defaul ns_autodeploy parameters will cause a configuration failure, and the script will exit with the following error:
+```bash
+Model Configuration Failed
+```
+When this occurs, padding for scratch buffers must be manually added via the `--arena_size_scratch_buffer_padding` option. The value, in kilobytes, must be chosen via experimentation (in other words, pick a number and go up or down from there).

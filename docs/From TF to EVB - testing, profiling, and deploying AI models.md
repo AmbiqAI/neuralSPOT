@@ -48,10 +48,5 @@ $> python -m ns_autodeploy --tflite-filename=mymodel.tflite --model-name example
 
 As part of the process, AutoDeploy generates two ready-to-deploy binary files and the source code used to generate them:
 
-1. `neuralSPOT/examples/tflm_validator/` contains a small application that implements the model and uses RPC to validate and profile it.
+1. `neuralSPOT/projects/models/tflm_validator/` contains a small application that implements the model and uses RPC to validate and profile it.
 2. `neuralSPOT/projects/models/example_model` contains a minimal static library that can be linked with applications wishing to invoke the model, and a trivial example of how to do so.
-
-
-
-
-

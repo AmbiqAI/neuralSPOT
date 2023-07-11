@@ -1,5 +1,6 @@
 import logging as log
 import os
+import shutil
 import struct
 import sys
 import time
@@ -185,7 +186,7 @@ def configModel(params, client, md):
         print(
             "[ERROR] To manually add a padding for scratch buffers, use the --arena_size_scratch_buffer_padding option."
         )
-        exit("Model Configuration Send Failed")
+        exit("Model Configuration Failed")
     else:
         log.info("Model Configuration Return Status = %d" % status)
 
@@ -585,8 +586,29 @@ def create_mut_modelinit(tflm_dir, mc):
     )
 
 
+def create_mut_main(tflm_dir, mc):
+    # make directory for tflm_validator
+    os.makedirs(tflm_dir, exist_ok=True)
+
+    # Copy template main.cc to tflm_dir
+    shutil.copyfile(
+        "autodeploy/templates/template_tflm_validator.cc",
+        f"{tflm_dir}/tflm_validator.cc",
+    )
+    shutil.copyfile(
+        "autodeploy/templates/template_tflm_validator.h", f"{tflm_dir}/tflm_validator.h"
+    )
+    shutil.copyfile(
+        "autodeploy/templates/template_tflm_validator.mk", f"{tflm_dir}/../module.mk"
+    )
+    shutil.copyfile(
+        "autodeploy/templates/template_ns_model.h", f"{tflm_dir}/ns_model.h"
+    )
+
+
 def create_validation_binary(params, baseline, mc):
     tflm_dir = params.tflm_src_path
+    create_mut_main(tflm_dir, mc)
 
     if baseline:
         xxd_c_dump(

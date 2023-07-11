@@ -37,8 +37,7 @@
  * handling.
  *
  */
-int
-tflm_validator_model_init(ns_model_state_t *ms) {
+int tflm_validator_model_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
     tflite::MicroErrorReporter micro_error_reporter;
@@ -57,59 +56,63 @@ tflm_validator_model_init(ns_model_state_t *ms) {
     ns_TFDebugLogInit(NULL, NULL);
     #endif
 #endif
-
+    ns_lp_printf("Initializing model...\n");
     tflite::InitializeTarget();
-
+    ns_lp_printf("Target initialized.\n");
     // Map the model into a usable data structure. This doesn't involve any
     // copying or parsing, it's a very lightweight operation.
     ms->model = tflite::GetModel(ms->model_array);
     if (ms->model->version() != TFLITE_SCHEMA_VERSION) {
-        TF_LITE_REPORT_ERROR(ms->error_reporter,
-                             "Model provided is schema version %d not equal "
-                             "to supported version %d.",
-                             ms->model->version(), TFLITE_SCHEMA_VERSION);
+        TF_LITE_REPORT_ERROR(
+            ms->error_reporter,
+            "Model provided is schema version %d not equal "
+            "to supported version %d.",
+            ms->model->version(), TFLITE_SCHEMA_VERSION);
         return NS_STATUS_FAILURE;
     }
-
+    ns_lp_printf("Model mapped.\n");
 #ifdef NS_TF_VERSION_fecdd5d
-    static tflite::MicroMutableOpResolver<6> resolver;
+    static tflite::MicroMutableOpResolver<9> resolver;
 #else
-    static tflite::MicroMutableOpResolver<6> resolver(ms->error_reporter);
+    static tflite::MicroMutableOpResolver<9> resolver(ms->error_reporter);
 #endif
-    resolver.AddExpandDims();
     resolver.AddConv2D();
-    resolver.AddReshape();
+    resolver.AddDepthwiseConv2D();
     resolver.AddMaxPool2D();
+    resolver.AddMean();
+    resolver.AddMinimum();
+    resolver.AddRelu();
+    resolver.AddMul();
+    resolver.AddAdd();
     resolver.AddFullyConnected();
-    resolver.AddSoftmax();
 
     // static tflite::AllOpsResolver resolver;
 
     // Allocate ResourceVariable stuff if needed
     tflite::MicroResourceVariables *resource_variables;
     tflite::MicroAllocator *var_allocator;
-
+    ns_lp_printf("Allocating resource variables...\n");
     if (ms->rv_count != 0) {
         var_allocator = tflite::MicroAllocator::Create(ms->rv_arena, ms->rv_arena_size, nullptr);
         resource_variables = tflite::MicroResourceVariables::Create(var_allocator, ms->rv_count);
     } else {
         resource_variables = nullptr;
     }
-
+    ns_lp_printf("Resource variables allocated.\n");
     // Build an interpreter to run the model with.
 #ifdef NS_TF_VERSION_fecdd5d
     static tflite::MicroInterpreter static_interpreter(
         ms->model, resolver, ms->arena, ms->arena_size, resource_variables, ms->profiler);
 #else
-    static tflite::MicroInterpreter static_interpreter(ms->model, resolver, ms->arena,
-                                                       ms->arena_size, ms->error_reporter,
-                                                       resource_variables, ms->profiler);
+    static tflite::MicroInterpreter static_interpreter(
+        ms->model, resolver, ms->arena, ms->arena_size, ms->error_reporter, resource_variables,
+        ms->profiler);
 #endif
     ms->interpreter = &static_interpreter;
-
+    ns_lp_printf("Interpreter built.\n");
     // Allocate memory from the tensor_arena for the model's tensors.
     TfLiteStatus allocate_status = ms->interpreter->AllocateTensors();
-
+    ns_lp_printf("Tensors allocated.\n");
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
         ms->computed_arena_size = 0xDEADBEEF;
@@ -117,13 +120,13 @@ tflm_validator_model_init(ns_model_state_t *ms) {
     }
 
     ms->computed_arena_size = ms->interpreter->arena_used_bytes(); // prep to send back to PC
-
+    ns_lp_printf("Arena size computed., %d\n", ms->computed_arena_size);
     // Obtain pointers to the model's input and output tensors.
-    for (uint32_t t = 0; t <= ms->numInputTensors; t++) {
+    for (uint32_t t = 0; t < ms->numInputTensors; t++) {
         ms->model_input[t] = ms->interpreter->input(t);
     }
 
-    for (uint32_t t = 0; t <= ms->numOutputTensors; t++) {
+    for (uint32_t t = 0; t < ms->numOutputTensors; t++) {
         ms->model_output[t] = ms->interpreter->output(t);
     }
 

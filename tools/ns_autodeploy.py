@@ -32,9 +32,10 @@ class Params(BaseModel):
     tflite_filename: str = Field("model.tflite", description="Name of tflite model")
 
     # Create Binary Parameters
-    tflm_filename: str = Field("mut_model_data.h", description="Name of TFLM CC file")
+    tflm_filename: str = Field("mut_model_data.h", description="Name of TFLM C file")
     tflm_src_path: str = Field(
-        "../examples/tflm_validator/src",
+        # "../examples/tflm_validator/src",
+        "../projects/models/tflm_validator/src",
         description="Path to Validator example src directory",
     )
     max_arena_size: int = Field(

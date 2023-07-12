@@ -1,0 +1,3 @@
+[submodule "neuralspot/neuralspot/ns-ahrs/Adafruit_AHRS"]
+	path = neuralspot/neuralspot/ns-ahrs/Adafruit_AHRS
+	url = https://github.com/adafruit/Adafruit_AHRS.git

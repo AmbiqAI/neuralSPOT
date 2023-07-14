@@ -3,6 +3,7 @@ import logging as log
 import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
+from autodeploy.measure_power import generatePowerBinary, measurePower
 from autodeploy.validator import (
     ModelConfiguration,
     configModel,
@@ -29,6 +30,11 @@ class Params(BaseModel):
     create_library: bool = Field(
         True, description="Create minimal static library based on TFlite file"
     )
+    measure_power: bool = Field(
+        True,
+        description="Measure power consumption of the model on the EVB using Joulescope",
+    )
+
     tflite_filename: str = Field("model.tflite", description="Name of tflite model")
 
     # Create Binary Parameters
@@ -60,7 +66,13 @@ class Params(BaseModel):
     # Validation Parameters
     dataset: str = Field("dataset.pkl", description="Name of dataset")
     random_data: bool = Field(True, description="Use random data")
-    runs: int = Field(100, description="Number of inferences to run")
+    runs: int = Field(
+        100, description="Number of inferences to run for characterization"
+    )
+    runs_power: int = Field(
+        100, description="Number of inferences to run for power measurement"
+    )
+    cpu_mode: int = Field(96, description="CPU Speed (MHz) - can be 96 or 192")
 
     # Library Parameters
     model_name: str = Field(
@@ -144,7 +156,7 @@ if __name__ == "__main__":
     if params.create_profile:
         # Get profiling stats
         stats = getModelStats(params, client)
-        printStats(stats, params.stats_filename)
+        cycles, macs, time = printStats(stats, params.stats_filename)
 
     otIndex = 0
     for d in differences:
@@ -157,3 +169,20 @@ if __name__ == "__main__":
     if params.create_library:
         print("*** Phase 3: Generate minimal static library")
         generateModelLib(params, mc, md)
+
+    if params.measure_power:
+        print("*** Phase 4: Measure power")
+        if params.cpu_mode == 192:
+            cpu_mode = "NS_MAXIMUM_PERF"
+        else:
+            cpu_mode = "NS_MININUM_PERF"
+
+        generatePowerBinary(params, mc, md, "NS_MAXIMUM_PERF")
+        i, v, p, c, e = measurePower()
+        energy = (e["value"] / params.runs_power) * 1000000  # Joules
+        print(f"Ran {params.runs_power} Invokes at 192Mhz: {energy:.3f} uJ per Invoke")
+
+        generatePowerBinary(params, mc, md, "NS_MINIMUM_PERF")
+        i, v, p, c, ee = measurePower()
+        energy = (ee["value"] / params.runs_power) * 1000000  # Joules
+        print(f"Ran {params.runs_power} Invokes at 96Mhz: {energy:.3f} uJ per Invoke")

@@ -70,12 +70,13 @@ typedef struct {
     ns_core_api_t const *api; ///< API prefix
     bool button_0_enable;
     bool button_1_enable;
+    bool joulescope_trigger_enable;
     int volatile *button_0_flag;
     int volatile *button_1_flag;
+    int volatile *joulescope_trigger_flag;
 } ns_button_config_t;
 
-extern uint32_t
-ns_peripheral_button_init(ns_button_config_t *);
+extern uint32_t ns_peripheral_button_init(ns_button_config_t *);
 
 #ifdef __cplusplus
 }

@@ -12,7 +12,7 @@ def generateModelLib(params, mc, md):
     # arena_size = (arena_size // 1024) + 1
     rm = {
         "NS_AD_NAME": n,
-        "NS_AD_ARENA_SIZE": mc.arena_size_k,
+        "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,

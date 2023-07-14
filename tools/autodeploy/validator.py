@@ -504,6 +504,7 @@ def printStats(stats, stats_filename):
         % stats_filename
     )
     np.savetxt(stats_filename, table, delimiter=", ", fmt="% s")
+    return totalCycles, totalMacs, totalTime
 
 
 def compile_and_deploy(params, mc, first_time=False):
@@ -514,25 +515,26 @@ def compile_and_deploy(params, mc, first_time=False):
     if params.create_profile:
         if params.verbosity > 3:
             makefile_result = os.system(
-                f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make TARGET=tflm_validator deploy"
+                f"cd .. && make -j AUTODEPLOY=1 TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make AUTODEPLOY=1 EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. && make -j TFLM_VALIDATOR=1 MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. && make -j AUTODEPLOY=1 TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make AUTODEPLOY=1 EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                "cd .. && make -j && make TARGET=tflm_validator deploy"
+                "cd .. && make -j AUTODEPLOY=1 EXAMPLE=tflm_validator && make AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                "cd .. && make -j >/dev/null 2>&1 && make TARGET=tflm_validator deploy >/dev/null 2>&1"
+                "cd .. && make -j AUTODEPLOY=1 >/dev/null 2>&1 && make AUTODEPLOY=1 EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
             )
 
     if makefile_result != 0:
         print("[ERROR] Make failed, return code %d" % makefile_result)
+        exit("Make failed, return code %d" % makefile_result)
         return makefile_result
 
     time.sleep(2)

@@ -39,6 +39,20 @@ ns_button_config_t joulescopeTrigger_config = {
     .button_1_flag = NULL,
     .joulescope_trigger_flag = &joulescopeTrigger};
 
+const ns_power_config_t ns_power_measurement = {
+    .api = &ns_power_V1_0_0,
+    .eAIPowerMode = NS_MAXIMUM_PERF,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = false};
+
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
@@ -46,19 +60,22 @@ int main(void) {
     myState_e state = WAITING_TO_RUN;
 
     // Initialize the model, get handle if successful
-    int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
     ns_init_power_monitor_state();
     ns_set_power_monitor_state(NS_IDLE);
 
-    NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed.\n");
+    NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
+    // ns_itm_printf_enable();
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");
 
+    int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
     ns_interrupt_master_enable();
     if (status == NS_AD_NAME_STATUS_FAILURE) {
         while (1)
+            // ns_lp_printf("Model init failed.\n");
             example_status = NS_AD_NAME_STATUS_INIT_FAILED; // hang
     }
+    // ns_lp_printf("Model init successful.\n");
 
     // At this point, the model is ready to use - init and allocations were successful
     // Note that the model handle is not meant to be opaque, the structure is defined
@@ -66,7 +83,6 @@ int main(void) {
 
     // Get data about input and output tensors
     int numInputs = model.numInputTensors;
-    int numOutputs = model.numOutputTensors;
 
     // Initialize input tensors
     int offset = 0;
@@ -100,7 +116,7 @@ int main(void) {
             // ns_lp_printf("Running...\n");
             ns_set_power_monitor_state(1);
             for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
-                TfLiteStatus invoke_status = model.interpreter->Invoke();
+                model.interpreter->Invoke();
             }
             // ns_delay_us(1100000);
             state = SIGNAL_END_TO_JS;
@@ -114,26 +130,6 @@ int main(void) {
             state = WAITING_TO_RUN;
             break;
         }
-    }
-    // Execute the model
-    TfLiteStatus invoke_status = model.interpreter->Invoke();
-
-    if (invoke_status != kTfLiteOk) {
-        while (1)
-            example_status = NS_AD_NAME_STATUS_FAILURE; // invoke failed, so hang
-    }
-
-    // Compare the bytes of the output tensors against expected values
-    offset = 0;
-    for (int i = 0; i < numOutputs; i++) {
-        if (0 != memcmp(
-                     model.model_output[i]->data.int8,
-                     ((char *)NS_AD_NAME_example_output_tensors) + offset,
-                     model.model_output[i]->bytes)) {
-            while (1)
-                example_status = NS_AD_NAME_STATUS_INVALID_CONFIG; // miscompare, so hang
-        }
-        offset += model.model_output[i]->bytes;
     }
 
     while (1) {

@@ -1,9 +1,11 @@
+import datetime
 import logging as log
 import os
 import queue
 import shutil
 import signal
 import time
+import traceback
 
 import numpy as np
 from joulescope import scan
@@ -27,7 +29,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
     }
-    print(f"Generating power binary at {d}/{n}")
+    print(f"Compiling and deploying {cpu_mode} binary measurement at {d}/{n}")
 
     # Generate a clean (no profiler) version of ns-model.a
     os.system("cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1")
@@ -101,7 +103,9 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         makefile_result = os.system(
             f"cd .. && make -j AUTODEPLOY=1 EXAMPLE={n} >/dev/null 2>&1 && make AUTODEPLOY=1 EXAMPLE={n} TARGET={n} deploy >/dev/null 2>&1"
         )
-
+    # makefile_result = os.system(
+    #         f"cd .. && make -j AUTODEPLOY=1 EXAMPLE={n} && make AUTODEPLOY=1 TARGET={n} EXAMPLE={n} deploy"
+    #     )
     if makefile_result != 0:
         log.error("Makefile failed to build minimal example library")
         exit("Makefile failed to build minimal example library")
@@ -141,6 +145,7 @@ def statistics_callback(serial_number, stats):
         values.append(value)
     ", ".join(values)
     # print(f"{serial_number} {t:.1f}: " + ', '.join(values))
+
     if state == "reporting":
         state = "quit"
 
@@ -159,6 +164,7 @@ def handle_queue(q):
             args = q.get(block=False)
             statistics_callback(*args)
         except queue.Empty:
+            # print("Queue empty")
             return  # no more data
 
 
@@ -166,24 +172,28 @@ def measurePower():
     global state
     _quit = False
     statistics_queue = queue.Queue()  # resynchronize to main thread
+    startTime = 0
+    stopTime = 0
 
     def stop_fn(*args, **kwargs):
         nonlocal _quit
         _quit = True
 
     signal.signal(signal.SIGINT, stop_fn)  # also quit on CTRL-C
-    devices = scan(config="off")
+    devices = scan(config="auto")
     try:
         for device in devices:
             cbk = statistics_callback_factory(device, statistics_queue)
             device.statistics_callback_register(cbk, "sensor")
+            device.close()
             device.open()
+            device.parameter_set("reduction_frequency", "50 Hz")
+            device.parameter_set("io_voltage", "3.3V")
             device.parameter_set("sensor_power", "on")
             device.parameter_set("i_range", "auto")
             device.parameter_set("v_range", "15V")
-            device.parameter_set("gpo0", "1")  # send trigger to EVB
             device.statistics_accumulators_clear()
-
+            device.parameter_set("gpo0", "1")  # send trigger to EVB
         while not _quit:
             for device in devices:
                 gpi = device.extio_status()["gpi_value"]["value"]
@@ -191,26 +201,35 @@ def measurePower():
                     if gpi == 3:
                         device.parameter_set("gpo0", "0")  # send trigger to EVB
                         state = "getting_ready"
-                        print("Waiting for trigger to be acknowledged")
+                        log.info("Waiting for trigger to be acknowledged")
                 elif state == "getting_ready":
                     if gpi == 1:
                         state = "collecting"
                         device.statistics_accumulators_clear()
-                        print("Collecting")
+                        log.info("Collecting")
+                        startTime = datetime.datetime.now()
                 elif state == "collecting":
                     if gpi == 2:
+                        stopTime = datetime.datetime.now()
+                        # print ("Elapsed inference time: %d" % (stopTime - startTime))
+                        td = stopTime - startTime
                         state = "reporting"
-                        print("Done collecting")
+                        log.info("Done collecting")
+
                 elif state == "quit":
-                    print("transitioning to quitting")
+                    state = "start"
                     stop_fn()
 
                 device.status()
-            time.sleep(0.1)
+            time.sleep(0.01)
             handle_queue(statistics_queue)
+
+    except:
+        log.error("Failed interacting with Joulescope")
+        traceback.print_exc()
 
     finally:
         for device in devices:
-            print("closing device")
+            device.stop()
             device.close()
-            return i, v, p, c, e
+            return td, i, v, p, c, e

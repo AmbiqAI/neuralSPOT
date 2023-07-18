@@ -49,7 +49,13 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 #define MPU_AXES 6
 #define FILTER_UPDATE_RATE_HZ 100
 #define NUMSAMPLES 10
-float g_sensorData[MPU_FRAME_SIZE][MPU_AXES]; // 3 axes for each of accel and gyro
+// RPC Stuff
+#define MY_USB_RX_BUFSIZE 2048
+#define MY_USB_TX_BUFSIZE 2048
+static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
+static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
+// End RPC Stuff
+float g_sensorData[7]; // 3 axes for each of accel and gyro
 float g_sensorMean[MPU_AXES];
 float g_sensorStd[MPU_AXES];
 
@@ -96,22 +102,27 @@ main(void) {
     // model_init();
    // DataBlock init
     binary_t binaryBlock = {.data = (uint8_t *)g_sensorData, // point this to audio buffer
-                            .dataLength = NUMSAMPLES * 7 * sizeof(float)};
+                            .dataLength = 1 * 7 * sizeof(float)};
     char msg_store[30] = "MPU6050-Data-to-CSV";
 
     // Block sent to PC
-    dataBlock outBlock = {.length = NUMSAMPLES * 7 * sizeof(float),
+    dataBlock outBlock = {.length = 1 * 7 * sizeof(float),
                           .dType = float32_e,
                           .description = msg_store,
                           .cmd = write_cmd,
                           .buffer = binaryBlock};
 
     // Initialize the Generic RPC Client interface
-    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
-                                 .mode = NS_RPC_GENERICDATA_CLIENT,
-                                 .sendBlockToEVB_cb = NULL,
-                                 .fetchBlockFromEVB_cb = NULL,
-                                 .computeOnEVB_cb = NULL};
+    ns_rpc_config_t rpcConfig = {
+        .api = &ns_rpc_gdo_V1_0_0,
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .rx_buf = my_cdc_rx_ff_buf,
+        .rx_bufLength = MY_USB_RX_BUFSIZE,
+        .tx_buf = my_cdc_tx_ff_buf,
+        .tx_bufLength = MY_USB_TX_BUFSIZE,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL};
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
 
     // Button global - will be set by neuralSPOT button helper
@@ -186,8 +197,8 @@ main(void) {
                     gyroVals[axis] = mpu6050_gyro_to_deg_per_sec(gyroVals[axis], GYRO_FS_500DPS);
                 }
                 ns_lp_printf("accel values: %d, %d, %d\n", accelVals[0], accelVals[1], accelVals[2]);
-                ns_lp_printf("gyro values: %f, %f, %f\n", g_sensorData[0][3], g_sensorData[0][4], g_sensorData[0][5]);
-                nxp_update(&filter, g_sensorData[0][3], g_sensorData[0][4], g_sensorData[0][5], accelVals[0], accelVals[1], accelVals[2], 1, 1, 1);
+                ns_lp_printf("gyro values: %f, %f, %f\n", gyroVals[0], gyroVals[1], gyroVals[2]);
+                nxp_update(&filter, gyroVals[0], gyroVals[1], gyroVals[2], accelVals[0], accelVals[1], accelVals[2], 1, 1, 1);
                 // print the heading, pitch and roll
                 roll = nxp_getRoll(&filter);
                 pitch = nxp_getPitch(&filter);
@@ -205,17 +216,17 @@ main(void) {
                 ns_lp_printf("%f,", qy);
                 ns_lp_printf("%f\n", qz); 
                 // Capture data in RPC buffer
-                g_sensorData[0][1] = qw;
-                g_sensorData[0][2] = qx;
-                g_sensorData[0][3] = qy;
-                g_sensorData[0][4] = qz;
-                g_sensorData[1][0] = heading;
-                g_sensorData[1][1] = pitch;
-                g_sensorData[1][2] = roll;
+                g_sensorData[0] = qw;
+                g_sensorData[1] = qx;
+                g_sensorData[2] = qy;
+                g_sensorData[3] = qz;
+                g_sensorData[4] = heading;
+                g_sensorData[5] = pitch;
+                g_sensorData[6] = roll;
                 // Send to PC every NUMSAMPLES have been captured
                 sample = (sample + 1) % NUMSAMPLES;
                 if (sample == 0) {
-                    ns_lp_printf(".");
+                    ns_lp_printf(".\n");
                     ns_rpc_data_sendBlockToPC(&outBlock);
                 }
                 ns_delay_us(5000);

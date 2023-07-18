@@ -174,7 +174,6 @@ int main(void) {
     g_audioRecording = false;
 
     ns_printf("Starting remote procedure call demo.\n");
-
     // In the app loop we service USB and the RPC server while
     // we collect data and send it over the various RPC
     // interfaces. Any incoming RPC calls will result in calls to the

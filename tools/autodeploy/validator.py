@@ -493,10 +493,10 @@ def printStats(stats, stats_filename):
 
     log.info(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
     print(
-        f"Model Performance Analysis: Total Inference Time {totalTime}uS, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
+        f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
     )
     print(
-        f"Model Performance Analysis: MAC/second {totalMacs*1000000/totalTime}, cycles/MAC {totalCycles/totalMacs}"
+        f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}, cycles/MAC {(totalCycles/totalMacs):.2f}"
     )
 
     print(

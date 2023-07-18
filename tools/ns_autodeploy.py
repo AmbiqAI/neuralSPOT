@@ -114,7 +114,16 @@ if __name__ == "__main__":
     parser = create_parser()
     params = parser.parse_typed_args()
     print("")  # put a blank line between obnoxious TF output and our output
-
+    stage = 1
+    total_stages = 0
+    if params.create_binary:
+        total_stages += 1
+    if params.create_profile:
+        total_stages += 1
+    if params.create_library:
+        total_stages += 1
+    if params.measure_power:
+        total_stages += 1
     # set logging level
     log.basicConfig(
         level=log.DEBUG
@@ -127,7 +136,10 @@ if __name__ == "__main__":
 
     interpreter = get_interpreter(params)
 
-    print("*** Phase 1: Create and fine-tune EVB image")
+    print(
+        f"*** Stage [{stage}/{total_stages}]: Create and fine-tune EVB model characterization image"
+    )
+    stage += 1
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
 
@@ -150,8 +162,9 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
-    print("*** Phase 2: Characterize model performance on EVB")
-
+    print("")
+    print(f"*** Stage [{stage}/{total_stages}]: Characterize model performance on EVB")
+    stage += 1
     differences = validateModel(params, client, interpreter, md, mc)
     if params.create_profile:
         # Get profiling stats
@@ -166,23 +179,35 @@ if __name__ == "__main__":
         )
         otIndex += 1
 
-    if params.create_library:
-        print("*** Phase 3: Generate minimal static library")
-        generateModelLib(params, mc, md)
-
     if params.measure_power:
-        print("*** Phase 4: Measure power")
+        print("")
+        print(
+            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope"
+        )
         if params.cpu_mode == 192:
             cpu_mode = "NS_MAXIMUM_PERF"
         else:
             cpu_mode = "NS_MININUM_PERF"
 
-        generatePowerBinary(params, mc, md, "NS_MAXIMUM_PERF")
-        i, v, p, c, e = measurePower()
-        energy = (e["value"] / params.runs_power) * 1000000  # Joules
-        print(f"Ran {params.runs_power} Invokes at 192Mhz: {energy:.3f} uJ per Invoke")
+        cpu_mode = "NS_MINIMUM_PERF"
+        for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:
+            generatePowerBinary(params, mc, md, cpu_mode)
+            td, i, v, p, c, e = measurePower()
+            energy = (e["value"] / params.runs_power) * 1000000  # Joules
+            t = (td.total_seconds() * 1000) / params.runs_power
+            w = (e["value"] / td.total_seconds()) * 1000
+            print(
+                f"Model Power Measurement in {cpu_mode} mode: {t:.3f} ms and {energy:.3f} uJ per inference (avg {w:.3f} mW))"
+            )
 
-        generatePowerBinary(params, mc, md, "NS_MINIMUM_PERF")
-        i, v, p, c, ee = measurePower()
-        energy = (ee["value"] / params.runs_power) * 1000000  # Joules
-        print(f"Ran {params.runs_power} Invokes at 96Mhz: {energy:.3f} uJ per Invoke")
+        # generatePowerBinary(params, mc, md, "NS_MINIMUM_PERF")
+        # td, i, v, p, c, ee = measurePower()
+        # energy = (ee["value"] / params.runs_power) * 1000000  # Joules
+        # t = (td.total_seconds()*1000)/params.runs_power
+        # print(f"{params.runs_power} invokes at {cpu_mode}: {t:.3f} ms and {energy:.3f} uJ per inference")
+
+    if params.create_library:
+        print("")
+        print(f"*** Stage [{stage}/{total_stages}]: Generate minimal static library")
+        generateModelLib(params, mc, md)
+        stage += 1

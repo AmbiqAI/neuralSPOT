@@ -27,8 +27,14 @@ ns_i2c_config_t i2cConfig = {.api = &ns_i2c_V1_0_0, .iom = 1};
 
 uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
 
-int
-main(void) {
+// RPC Stuff
+#define MY_USB_RX_BUFSIZE 2048
+#define MY_USB_TX_BUFSIZE 2048
+static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
+static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
+// End RPC Stuff
+
+int main(void) {
     uint16_t sample = 0;
     int16_t temperatureVal;
     int16_t accelVals[AXES];
@@ -42,34 +48,42 @@ main(void) {
     ns_interrupt_master_enable();
 
     // DataBlock init
-    binary_t binaryBlock = {.data = (uint8_t *)g_sensorData, // point this to audio buffer
-                            .dataLength = NUMSAMPLES * 7 * sizeof(float)};
+    binary_t binaryBlock = {
+        .data = (uint8_t *)g_sensorData, // point this to audio buffer
+        .dataLength = NUMSAMPLES * 7 * sizeof(float)};
     char msg_store[30] = "MPU6050-Data-to-CSV";
 
     // Block sent to PC
-    dataBlock outBlock = {.length = NUMSAMPLES * 7 * sizeof(float),
-                          .dType = float32_e,
-                          .description = msg_store,
-                          .cmd = write_cmd,
-                          .buffer = binaryBlock};
+    dataBlock outBlock = {
+        .length = NUMSAMPLES * 7 * sizeof(float),
+        .dType = float32_e,
+        .description = msg_store,
+        .cmd = write_cmd,
+        .buffer = binaryBlock};
 
     // Initialize the Generic RPC Client interface
-    ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
-                                 .mode = NS_RPC_GENERICDATA_CLIENT,
-                                 .sendBlockToEVB_cb = NULL,
-                                 .fetchBlockFromEVB_cb = NULL,
-                                 .computeOnEVB_cb = NULL};
+    ns_rpc_config_t rpcConfig = {
+        .api = &ns_rpc_gdo_V1_0_0,
+        .mode = NS_RPC_GENERICDATA_CLIENT,
+        .rx_buf = my_cdc_rx_ff_buf,
+        .rx_bufLength = MY_USB_RX_BUFSIZE,
+        .tx_buf = my_cdc_tx_ff_buf,
+        .tx_bufLength = MY_USB_TX_BUFSIZE,
+        .sendBlockToEVB_cb = NULL,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL};
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // inits RPC and USB
 
     // Button global - will be set by neuralSPOT button helper
     int volatile g_intButtonPressed = 0;
 
     // Button Peripheral Config Struct
-    ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
-                                        .button_0_enable = true,
-                                        .button_1_enable = false,
-                                        .button_0_flag = &g_intButtonPressed,
-                                        .button_1_flag = NULL};
+    ns_button_config_t button_config = {
+        .api = &ns_button_V1_0_0,
+        .button_0_enable = true,
+        .button_1_enable = false,
+        .button_0_flag = &g_intButtonPressed,
+        .button_1_flag = NULL};
     NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     ns_lp_printf("Please avoid moving sensor until calibration is finished (~20s).\n");
@@ -80,12 +94,13 @@ main(void) {
     g_intButtonPressed = 0;
     ns_lp_printf("Running calibration...\n");
 
-    mpu6050_config_t mpu_config = {.clock_src = CLOCK_GZ_PLL,
-                                   .dlpf_cfg = DLPF_044HZ,
-                                   .gyro_fullscale_range = GYRO_FS_500DPS,
-                                   .accel_fullscale_range = ACCEL_FS_4G,
-                                   .sample_rate = 100,
-                                   .sleep_cfg = 0};
+    mpu6050_config_t mpu_config = {
+        .clock_src = CLOCK_GZ_PLL,
+        .dlpf_cfg = DLPF_044HZ,
+        .gyro_fullscale_range = GYRO_FS_500DPS,
+        .accel_fullscale_range = ACCEL_FS_4G,
+        .sample_rate = 100,
+        .sleep_cfg = 0};
 
     NS_TRY(ns_i2c_interface_init(&i2cConfig, 100000), "i2c Interface Init Failed.\n");
     NS_TRY(mpu6050_init(&i2cConfig, &mpu_config, mpuAddr), "MPU6050 Init Failed.\n");

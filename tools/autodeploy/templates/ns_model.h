@@ -73,8 +73,8 @@ typedef struct {
     uint32_t computed_arena_size;
 } ns_model_state_t;
 
-extern int
-ns_model_init(ns_model_state_t *ms);
+// extern int
+// ns_model_init(ns_model_state_t *ms);
 
 #ifdef __cplusplus
 }

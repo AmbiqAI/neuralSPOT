@@ -67,15 +67,23 @@ extern const ns_core_api_t ns_button_current_version;
 #define NS_BUTTON_API_ID 0xCA0003
 
 typedef struct {
-    ns_core_api_t const *api; ///< API prefix
-    bool button_0_enable;
-    bool button_1_enable;
-    int volatile *button_0_flag;
-    int volatile *button_1_flag;
+    ns_core_api_t const *api;              ///< API prefix
+    bool button_0_enable;                  ///< Enable button 0 monitoring
+    bool button_1_enable;                  ///< Enable button 1 monitoring
+    bool joulescope_trigger_enable;        ///< Enable joulescope trigger
+    int volatile *button_0_flag;           ///< Flag to set when button 0 is pressed
+    int volatile *button_1_flag;           ///< Flag to set when button 1 is pressed
+    int volatile *joulescope_trigger_flag; ///< Flag to set when joulescope trigger is pressed
 } ns_button_config_t;
 
-extern uint32_t
-ns_peripheral_button_init(ns_button_config_t *);
+/**
+ * @brief Initialize button monitoring per the configuration struct
+ *
+ * @param ns_button_config_t* : button configuration struct
+ *
+ * @return uint32_t
+ */
+extern uint32_t ns_peripheral_button_init(ns_button_config_t *);
 
 #ifdef __cplusplus
 }

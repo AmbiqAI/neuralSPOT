@@ -19,6 +19,7 @@ Briefly, the script will:
 1. Perform an initial characterization over USB using RPC and use the results to fine-tune the application's memory allocation, then flash the fine-tuned version.
 1. Run invoke() both locally and on the EVB, feeding the same data to both, optionally profiling the performance of the first invoke() on the EVB
 1. Compare the resulting output tensors and summarize the differences, and report the performance (and store it in a CSV)
+1. If a joulescope is present and power profiling is enable, run 96Mhz and 192Mhz inferences to measure power, energy, and time per inference.
 1. Create a static library (with headers) containing the model, TFLM, and a minimal wrapper to ease integration into applications.
 
 Example usage:
@@ -30,6 +31,8 @@ $> python -m ns_autodeploy --tflite-filename=../trained_models/model.tflite --ra
 This will produce output similar to:
 
 ![image-20230331154338838](../docs/images/image-20230331154338838.png)
+
+### WIP
 
 ### Caveats
 There is a known TFLM bug wherein the arena size estimator fails to account for temporary scratch buffers. If this occurs, the defaul ns_autodeploy parameters will cause a configuration failure, and the script will exit with the following error:

@@ -3,6 +3,7 @@ import logging as log
 import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
+from autodeploy.measure_power import generatePowerBinary, measurePower
 from autodeploy.validator import (
     ModelConfiguration,
     configModel,
@@ -29,6 +30,11 @@ class Params(BaseModel):
     create_library: bool = Field(
         True, description="Create minimal static library based on TFlite file"
     )
+    measure_power: bool = Field(
+        False,
+        description="Measure power consumption of the model on the EVB using Joulescope",
+    )
+
     tflite_filename: str = Field("model.tflite", description="Name of tflite model")
 
     # Create Binary Parameters
@@ -60,7 +66,13 @@ class Params(BaseModel):
     # Validation Parameters
     dataset: str = Field("dataset.pkl", description="Name of dataset")
     random_data: bool = Field(True, description="Use random data")
-    runs: int = Field(100, description="Number of inferences to run")
+    runs: int = Field(
+        100, description="Number of inferences to run for characterization"
+    )
+    runs_power: int = Field(
+        100, description="Number of inferences to run for power measurement"
+    )
+    cpu_mode: int = Field(96, description="CPU Speed (MHz) - can be 96 or 192")
 
     # Library Parameters
     model_name: str = Field(
@@ -97,12 +109,109 @@ def create_parser():
     )
 
 
+class adResults:
+    def __init__(self, p) -> None:
+        self.profileTotalInferenceTime = 0
+        self.profileTotalEstimatedMacs = 0
+        self.profileTotalCycles = 0
+        self.profileTotalLayers = 0
+        self.powerMaxPerfInferenceTime = 0
+        self.powerMinPerfInferenceTime = 0
+        self.powerMaxPerfJoules = 0
+        self.powerMinPerfJoules = 0
+        self.powerMaxPerfWatts = 0
+        self.powerMinPerfWatts = 0
+        self.powerIterations = p.runs_power
+        self.stats_filename = p.stats_filename
+        self.model_name = p.tflite_filename
+
+    def print(self):
+        print("")
+        print((f"Charcterization Report for {self.model_name}:"))
+        print(f"[Profile] Per-Layer Statistics file:         {self.stats_filename}")
+        print(
+            f"[Profile] Max Perf Inference Time (ms):      {(self.profileTotalInferenceTime/1000):0.3f}"
+        )
+        print(
+            f"[Profile] Total Estimated MACs:              {self.profileTotalEstimatedMacs}"
+        )
+        print(f"[Profile] Total CPU Cycles:                  {self.profileTotalCycles}")
+        print(f"[Profile] Total Model Layers:                {self.profileTotalLayers}")
+        print(
+            f"[Profile] MACs per second:                   {((self.profileTotalEstimatedMacs*1000000)/self.profileTotalInferenceTime):0.3f}"
+        )
+        print(
+            f"[Profile] Cycles per MAC:                    {(self.profileTotalCycles/self.profileTotalEstimatedMacs):0.3f}"
+        )
+        print(
+            f"[Power]   Max Perf Inference Time (ms):      {self.powerMaxPerfInferenceTime:0.3f}"
+        )
+        print(
+            f"[Power]   Max Perf Inference Energy (uJ):    {self.powerMaxPerfJoules:0.3f}"
+        )
+        print(
+            f"[Power]   Max Perf Inference Avg Power (mW): {self.powerMaxPerfWatts:0.3f}"
+        )
+        print(
+            f"[Power]   Min Perf Inference Time (ms):      {self.powerMinPerfInferenceTime:0.3f}"
+        )
+        print(
+            f"[Power]   Min Perf Inference Energy (uJ):    {self.powerMinPerfJoules:0.3f}"
+        )
+        print(
+            f"[Power]   Min Perf Inference Avg Power (mW): {self.powerMinPerfWatts:0.3f}"
+        )
+        print(
+            f"""
+Notes:
+        - Statistics marked with [Profile] are collected from the first inference, whereas [Power] statistics
+          are collected from the average of the {self.powerIterations} inferences. This will lead to slight
+          differences due to cache warmup, etc.
+        - CPU cycles are captured via Arm ETM traces
+        - MACs are estimated based on the number of operations in the model, not via instrumented code
+"""
+        )
+
+    def setProfile(
+        self,
+        profileTotalInferenceTime,
+        profileTotalEstimatedMacs,
+        profileTotalCycles,
+        profileTotalLayers,
+    ):
+        self.profileTotalInferenceTime = profileTotalInferenceTime
+        self.profileTotalEstimatedMacs = profileTotalEstimatedMacs
+        self.profileTotalCycles = profileTotalCycles
+        self.profileTotalLayers = profileTotalLayers
+
+    def setPower(self, cpu_mode, mSeconds, uJoules, mWatts):
+        if cpu_mode == "NS_MINIMUM_PERF":
+            self.powerMinPerfInferenceTime = mSeconds
+            self.powerMinPerfJoules = uJoules
+            self.powerMinPerfWatts = mWatts
+        else:
+            self.powerMaxPerfInferenceTime = mSeconds
+            self.powerMaxPerfJoules = uJoules
+            self.powerMaxPerfWatts = mWatts
+
+
 if __name__ == "__main__":
     # parse cmd parameters
     parser = create_parser()
     params = parser.parse_typed_args()
-    print("")  # put a blank line between obnoxious TF output and our output
+    results = adResults(params)
 
+    print("")  # put a blank line between obnoxious TF output and our output
+    stage = 1
+    total_stages = 0
+    if params.create_binary:
+        total_stages += 1
+    if params.create_profile:
+        total_stages += 1
+    if params.create_library:
+        total_stages += 1
+    if params.measure_power:
+        total_stages += 1
     # set logging level
     log.basicConfig(
         level=log.DEBUG
@@ -115,7 +224,10 @@ if __name__ == "__main__":
 
     interpreter = get_interpreter(params)
 
-    print("*** Phase 1: Create and fine-tune EVB image")
+    print(
+        f"*** Stage [{stage}/{total_stages}]: Create and fine-tune EVB model characterization image"
+    )
+    stage += 1
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
 
@@ -138,22 +250,51 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
-    print("*** Phase 2: Characterize model performance on EVB")
-
+    print("")
+    print(f"*** Stage [{stage}/{total_stages}]: Characterize model performance on EVB")
+    stage += 1
     differences = validateModel(params, client, interpreter, md, mc)
     if params.create_profile:
         # Get profiling stats
         stats = getModelStats(params, client)
-        printStats(stats, params.stats_filename)
+        cycles, macs, time, layers = printStats(stats, params.stats_filename)
+        results.setProfile(time, macs, cycles, layers)
 
     otIndex = 0
     for d in differences:
-        print(
+        log.info(
             f"Model Output Comparison: Mean difference per output label in tensor({otIndex}): "
             + repr(np.array(d).mean(axis=0))
         )
         otIndex += 1
 
+    if params.measure_power:
+        print("")
+        print(
+            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope"
+        )
+
+        for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:
+            generatePowerBinary(params, mc, md, cpu_mode)
+            td, i, v, p, c, e = measurePower()
+            energy = (e["value"] / params.runs_power) * 1000000  # Joules
+            t = (td.total_seconds() * 1000) / params.runs_power
+            w = (e["value"] / td.total_seconds()) * 1000
+            results.setPower(cpu_mode=cpu_mode, mSeconds=t, uJoules=energy, mWatts=w)
+            log.info(
+                f"Model Power Measurement in {cpu_mode} mode: {t:.3f} ms and {energy:.3f} uJ per inference (avg {w:.3f} mW))"
+            )
+
+        # generatePowerBinary(params, mc, md, "NS_MINIMUM_PERF")
+        # td, i, v, p, c, ee = measurePower()
+        # energy = (ee["value"] / params.runs_power) * 1000000  # Joules
+        # t = (td.total_seconds()*1000)/params.runs_power
+        # print(f"{params.runs_power} invokes at {cpu_mode}: {t:.3f} ms and {energy:.3f} uJ per inference")
+
     if params.create_library:
-        print("*** Phase 3: Generate minimal static library")
+        print("")
+        print(f"*** Stage [{stage}/{total_stages}]: Generate minimal static library")
         generateModelLib(params, mc, md)
+        stage += 1
+
+    results.print()

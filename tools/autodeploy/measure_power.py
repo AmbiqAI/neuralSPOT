@@ -16,7 +16,6 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     n = params.model_name + "_power"
     d = params.model_path
     adds, addsLen = mc.modelStructureDetails.getAddList()
-    # arena_size = (arena_size // 1024) + 1
 
     rm = {
         "NS_AD_NAME": n,
@@ -29,10 +28,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
     }
-    print(f"Compiling and deploying {cpu_mode} binary measurement at {d}/{n}")
-
-    # Generate a clean (no profiler) version of ns-model.a
-    os.system("cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1")
+    print(f"Compiling and deploying {cpu_mode} power measurement binary at {d}/{n}")
 
     # Make destination directory
     os.system(f"mkdir -p {d}/{n}")
@@ -56,8 +52,6 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     )
 
     # Copy needed files
-    # os.system(f"cp ../neuralspot/ns-core/src/startup_gcc.c {d}/{n}/src/")
-    # os.system(f"cp autodeploy/templates/linker_script.ld {d}/{n}/src/")
     os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/src/")
 
     # Generate model weight file
@@ -70,9 +64,6 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     )
 
     # Generate input/output tensor example data
-    # inputs = str([list(i) for i in mc.exampleTensors.inputTensors].flatten()).replace("[","{").replace("]","}")
-    # outputs = str([list(i) for i in mc.exampleTensors.outputTensors].flatten).replace("[","{").replace("]","}")
-
     flatInput = [
         element for sublist in mc.exampleTensors.inputTensors for element in sublist
     ]
@@ -106,6 +97,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     # makefile_result = os.system(
     #         f"cd .. && make -j AUTODEPLOY=1 EXAMPLE={n} && make AUTODEPLOY=1 TARGET={n} EXAMPLE={n} deploy"
     #     )
+
     if makefile_result != 0:
         log.error("Makefile failed to build minimal example library")
         exit("Makefile failed to build minimal example library")

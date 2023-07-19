@@ -492,19 +492,19 @@ def printStats(stats, stats_filename):
         offset = offset + computed_stat_per_event_size
 
     log.info(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
-    print(
+    log.info(
         f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
     )
-    print(
+    log.info(
         f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}, cycles/MAC {(totalCycles/totalMacs):.2f}"
     )
 
-    print(
+    log.info(
         "Model Performance Analysis: Per-layer performance statistics saved to: %s"
         % stats_filename
     )
     np.savetxt(stats_filename, table, delimiter=", ", fmt="% s")
-    return totalCycles, totalMacs, totalTime
+    return totalCycles, totalMacs, totalTime, captured_events
 
 
 def compile_and_deploy(params, mc, first_time=False):

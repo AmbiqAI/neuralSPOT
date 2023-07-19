@@ -30,7 +30,7 @@ main() {
 
 ## Reading EVB Buttons
 
-This part of the component eases reading the EVB user buttons, a common operation when creating AI demos or tests.
+This part of the component eases reading the EVB user buttons, a common operation when creating AI demos or tests. There is also support for reading a GPIO input as a button for use as an external trigger.
 
 ```c
 main() {

@@ -62,7 +62,6 @@ void ns_joulescope_trigger_handler(void *pArg) { *g_ns_peripheral_joulescope_tri
 
 uint32_t ns_peripheral_button_init(ns_button_config_t *cfg) {
     uint32_t ui32IntStatus;
-    uint32_t intNum = 0;
     uint32_t ui32BUTTON0GpioNum = AM_BSP_GPIO_BUTTON0;
     uint32_t ui32BUTTON1GpioNum = AM_BSP_GPIO_BUTTON1;
     uint32_t ui32JoulescopeTriggerGpioNum = 24;

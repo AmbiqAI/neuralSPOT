@@ -99,7 +99,7 @@ const ns_power_config_t ns_mlperf_mode1 = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
-    .bEnableTempCo = true,
+    .bEnableTempCo = false,
     .bNeedITM = false};
 
 const ns_power_config_t ns_mlperf_mode2 = {
@@ -113,7 +113,7 @@ const ns_power_config_t ns_mlperf_mode2 = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
-    .bEnableTempCo = true,
+    .bEnableTempCo = false,
     .bNeedITM = false};
 
 const ns_power_config_t ns_mlperf_mode3 = {
@@ -127,7 +127,7 @@ const ns_power_config_t ns_mlperf_mode3 = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = true,
     .b128kTCM = true,
-    .bEnableTempCo = true,
+    .bEnableTempCo = false,
     .bNeedITM = false};
 
 const ns_power_config_t ns_audio_default = {
@@ -141,8 +141,9 @@ const ns_power_config_t ns_audio_default = {
     .bNeedIOM = false,
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
-    .bEnableTempCo = true,
+    .bEnableTempCo = false,
     .bNeedITM = false};
+
 uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))

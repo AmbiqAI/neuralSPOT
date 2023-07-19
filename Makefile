@@ -52,8 +52,10 @@ modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules      += extern/erpc/$(ERPC_VERSION)
 
 # Example (executable binary) Modules
-ifeq ($(TFLM_VALIDATOR),1)
-modules      += projects/models/tflm_validator
+ifeq ($(AUTODEPLOY),1)
+# For tools/ns_autodeploy, we have a single module in projects/models
+# This is used for tflm_validator, genLib, and power binaries
+modules      += projects/models/$(EXAMPLE)
 else
 ifeq ($(EXAMPLE),all)
 modules      += examples/basic_tf_stub

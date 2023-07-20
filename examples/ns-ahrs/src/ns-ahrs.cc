@@ -103,7 +103,7 @@ main(void) {
    // DataBlock init
     binary_t binaryBlock = {.data = (uint8_t *)g_sensorData, // point this to audio buffer
                             .dataLength = 1 * 7 * sizeof(float)};
-    char msg_store[30] = "MPU6050-Data-to-CSV";
+    char msg_store[30] = "Quaternion Plotter";
 
     // Block sent to PC
     dataBlock outBlock = {.length = 1 * 7 * sizeof(float),
@@ -224,7 +224,7 @@ main(void) {
                 g_sensorData[5] = pitch;
                 g_sensorData[6] = roll;
                 // Send to PC every NUMSAMPLES have been captured
-                sample = (sample + 1) % NUMSAMPLES;
+                sample = (sample + 1) % 2;
                 if (sample == 0) {
                     ns_lp_printf(".\n");
                     ns_rpc_data_sendBlockToPC(&outBlock);

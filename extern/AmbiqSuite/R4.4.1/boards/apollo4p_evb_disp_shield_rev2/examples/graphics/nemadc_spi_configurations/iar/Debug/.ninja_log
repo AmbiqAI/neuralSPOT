@@ -1,0 +1,13 @@
+# ninja log v5
+0	480	7113801076097906	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_resources.o	3168955bcf22489
+518	1018	7113801081467925	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_devices_dc_xspi_raydium.o	baa4c77586a7429c
+1049	1552	7113801086799856	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_utils.o	4b044c1cdd65a525
+1582	2039	7113801091692998	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_util_delay.o	a04a02b68d547a8b
+2068	2225	7113801093613014	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/am_util_stdio.o	372b0621c318236
+2254	2753	7113801098825655	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_hal.o	75ba6b7e062f2ea8
+2782	2831	7113801099701274	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_event.o	8f2fea7a2fb9cda
+2868	3440	7113801105673868	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nema_dc_hal.o	bb9c72dc0f506f79
+3475	3541	7113801106803885	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/startup_iar.o	d2269f3ec36d848e
+3571	4955	7113801120816320	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nemadc_spi_configurations.o	edcf731f7a9fcf60
+4984	5122	7113801122626319	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nemadc_spi_configurations.out	e0d03a8f9672c26f
+5153	5165	7113801123146329	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_spi_configurations/iar/bin/nemadc_spi_configurations.bin	3a30a921bdca4e8d

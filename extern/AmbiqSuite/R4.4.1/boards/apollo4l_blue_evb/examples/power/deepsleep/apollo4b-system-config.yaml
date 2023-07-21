@@ -1,0 +1,129 @@
+Resources:
+    MCU:
+        - GPIO0
+        - GPIO5
+    DSP0:
+        - GPIO0
+        - PDM
+    DSP1:
+        - IOM
+
+MemorySections:
+    MCU_MRAM:
+        start:  0x00018000
+        length: 0x001E8000
+
+    DSP0_MRAM:
+        start:  0x00000000
+        length: 0x00000000
+
+    DSP1_MRAM:
+        start:  0x00000000
+        length: 0x00000000
+
+    MCU_TCM:
+        # The deepsleep example can run with only 8KB TCM
+        start:  0x10000000
+        length: 0x00001F00
+
+    DSP0_TCM:
+        start:  0x10008000
+        length: 0x00008000
+
+    DSP1_TCM:
+        start:  0x10010000
+        length: 0x00008000
+
+    SHARED_SRAM:
+        # With all shared RAM disabled, must allocate a small amount of TCM for it.
+        start:  0x10001F00
+        length: 0x00000100
+
+    MCU_SRAM:
+        start:  0x00000000
+        length: 0x00000000
+
+    DSP0_SRAM:
+        start:  0x10028000
+        length: 0x00008000
+
+    DSP1_SRAM:
+        start:  0x10030000
+        length: 0x00008000
+
+    #
+    # Custom sections can be added here.
+    #
+    custom_sections:
+        # - blockname: CUSTOM
+        #   start:  0x00000000
+        #   length: 0x00000000
+        #   sections:
+        #       - "one"
+        #       - "two"
+
+DSP0Interrupt:
+    0: 'ADC'
+    1:
+    2:
+    3:
+    4:
+    5:
+    6:
+    7:
+    8:
+    9:
+    10:
+    11:
+    12:
+    13:
+    14:
+    15:
+    16:
+    17:
+    18:
+    19:
+    20:
+    21:
+    22:
+    23:
+    24:
+    25:
+    26:
+    27:
+    28:
+    29:
+    30:
+
+DSP1Interrupt:
+    0:
+    1:
+    2:
+    3:
+    4:
+    5:
+    6:
+    7:
+    8:
+    9:
+    10:
+    11:
+    12:
+    13:
+    14:
+    15:
+    16:
+    17:
+    18:
+    19:
+    20:
+    21:
+    22:
+    23:
+    24:
+    25:
+    26:
+    27:
+    28:
+    29:
+    30:

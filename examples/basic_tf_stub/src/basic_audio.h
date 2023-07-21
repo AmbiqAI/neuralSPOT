@@ -31,7 +31,7 @@ bool volatile static audioReady = false;
 #ifdef RINGBUFFER_MODE
 // Ringbuffer storage
 ns_ipc_ring_buffer_t audioBuf[1];
-static uint8_t pui8AudioBuff[SAMPLES_IN_FRAME * 2 * 2]; // two buffers, 2 bytes/entry
+static uint8_t pui8AudioBuff[SAMPLES_IN_FRAME * 2 * NUM_CHANNELS]; // 2 bytes/entry per channel
 #endif
 
 // Audio buffers for application
@@ -44,9 +44,15 @@ int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
     #else
 int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
     #endif
-alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
-am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME *
-                                            NUM_CHANNELS]; // working buffer used by AUDADC
+alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
+    #ifndef USE_PDM_MICROPHONE
+am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used
+                                                                              // by AUDADC
+    #endif // USE_PDM_MICROPHONE
+#endif     // AUDIO_LEGACY
+
+#if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
+am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 #endif
 
 /**
@@ -59,8 +65,7 @@ am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME *
  * print a debug message and overwrite.
  *
  */
-static void
-audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
+static void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 #ifdef AUDIO_LEGACY
     uint32_t *pui32_buffer = (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
 #endif
@@ -78,9 +83,10 @@ audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 #endif
 
 #ifdef RINGBUFFER_MODE
-        ns_ipc_ring_buffer_push(&(config->bufferHandle[0]), audioDataBuffer,
-                                (config->numSamples * 2), // in bytes
-                                false);
+        ns_ipc_ring_buffer_push(
+            &(config->bufferHandle[0]), audioDataBuffer,
+            (config->numSamples * 2), // in bytes
+            false);
 #endif
         audioReady = true;
     }
@@ -105,7 +111,7 @@ static ns_audio_config_t audio_config = {
 #else
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
-    .audioBuffer = (void *)&in16AudioDataBuffer,
+    .audioBuffer = (void *)&audioDataBuffer,
 #endif
 
 #ifdef USE_PDM_MICROPHONE
@@ -114,7 +120,7 @@ static ns_audio_config_t audio_config = {
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
 #endif
     .sampleBuffer = dmaBuffer,
-#ifndef AUDIO_LEGACY
+#if !defined(AUDIO_LEGACY) && defined(NS_AUDADC_PRESENT) && !defined(USE_PDM_MICROPHONE)
     .workingBuffer = workingBuffer,
 #endif
     .numChannels = NUM_CHANNELS,
@@ -122,8 +128,11 @@ static ns_audio_config_t audio_config = {
     .sampleRate = SAMPLE_RATE,
     .audioSystemHandle = NULL, // filled in by audio_init()
 #ifdef RINGBUFFER_MODE
-    .bufferHandle = audioBuf
+    .bufferHandle = audioBuf,
 #else
-    .bufferHandle = NULL
+    .bufferHandle = NULL,
+#endif
+#if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
+    .sOffsetCalib = &sOffsetCalib,
 #endif
 };

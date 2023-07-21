@@ -32,24 +32,31 @@ modules      += neuralspot/ns-harness
 modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
+
+ifeq ($(USB_PRESENT),1)
 modules      += neuralspot/ns-usb
-modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-rpc
+endif
+
+modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-i2c
-ifeq ($(AS_VERSION),R4.3.0)
+ifeq ($(BLE_SUPPORTED),1)
 modules      += neuralspot/ns-ble
 endif
 # modules      += neuralspot/ns-model
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
-ifeq ($(AS_VERSION),R4.3.0)
+ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 modules      += extern/CMSIS/$(CMSIS_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
+
+ifeq ($(USB_PRESENT),1)
 modules      += extern/erpc/$(ERPC_VERSION)
+endif
 
 # Example (executable binary) Modules
 ifeq ($(AUTODEPLOY),1)
@@ -59,15 +66,17 @@ modules      += projects/models/$(EXAMPLE)
 else
 ifeq ($(EXAMPLE),all)
 modules      += examples/basic_tf_stub
-ifeq ($(AS_VERSION),R4.3.0)
+ifeq ($(BLE_SUPPORTED),1)
 modules      += examples/web_ble
 endif
 modules      += examples/har
-modules      += examples/mpu_data_collection
+
+ifeq ($(USB_PRESENT),1)
 modules      += examples/rpc_client
 modules      += examples/rpc_server
-# modules      += projects/models/tflm_validator
-# modules      += examples/tflm_validator
+modules      += examples/mpu_data_collection
+endif
+
 else
 modules 	 += examples/$(EXAMPLE)
 endif

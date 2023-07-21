@@ -220,24 +220,30 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_MSPI1);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_MSPI2);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_GFX);
+
+#ifndef AM_PART_APOLLO4L
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DISP);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DISPPHY);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_SDIO);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_USB);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_USBPHY);
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM1);
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM2);
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM3);
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_I2S1);
+#endif
+
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_SDIO);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DEBUG);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDREC);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDPB);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM0);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM1);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM2);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM3);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_I2S0);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_I2S1);
 
+#ifndef AM_PART_APOLLO4L
     if (pCfg->bNeedAudAdc == false) {
         am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);
     }
+#endif
 
     if (pCfg->bNeedCrypto == false) {
         // Power down Crypto.
@@ -278,6 +284,7 @@ uint32_t ns_power_config(const ns_power_config_t *pCfg) {
             .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_NONE};
         am_hal_pwrctrl_sram_config(&SRAMMemCfg);
 
+#ifndef AM_PART_APOLLO4L
         am_hal_pwrctrl_dsp_memory_config_t sExtSRAMMemCfg = {
             .bEnableICache = false,
             .bRetainCache = false,
@@ -285,6 +292,7 @@ uint32_t ns_power_config(const ns_power_config_t *pCfg) {
             .bActiveRAM = false,
             .bRetainRAM = false};
         am_hal_pwrctrl_dsp_memory_config(AM_HAL_DSP0, &sExtSRAMMemCfg);
+#endif
     } else {
         am_hal_daxi_config_t DaxiConfigLongAging = {
             .bDaxiPassThrough = false,
@@ -324,8 +332,8 @@ uint32_t ns_power_config(const ns_power_config_t *pCfg) {
     }
 
     if (pCfg->bEnableTempCo) {
-#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
-        ns_lp_printf("WARNING TempCo not supported by AmbiqSuite R4.1.0\n");
+#if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L)
+        ns_lp_printf("WARNING TempCo not supported by AmbiqSuite R4.1.0 or Apollo4 Lite\n");
 #else
         // Make sure the trim version is high enough before attempting to init
         uint32_t ui32Ret, ui32TrimVer;
@@ -364,7 +372,9 @@ void ns_deep_sleep(void) {
         g_ns_state.cryptoCurrentlyEnabled = false;
     }
 
-#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+#if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L)
+    // TEMPCO not supported in this version
+#else
     if (g_ns_state.tempcoCurrentlyEnabled) {
         am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_DEEPSLEEP, true);
     }

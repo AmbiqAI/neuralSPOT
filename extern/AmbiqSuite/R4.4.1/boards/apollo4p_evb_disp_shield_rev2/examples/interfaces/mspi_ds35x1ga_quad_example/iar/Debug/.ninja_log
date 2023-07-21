@@ -1,0 +1,11 @@
+# ninja log v5
+0	486	7113807343543122	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_id.o	81126953cbe19f94
+502	985	7113807348531423	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_faultisr.o	cd45eae5e62d000c
+1003	1458	7113807353288086	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_delay.o	8a29f7c844639ccb
+1475	1986	7113807358549376	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.o	a660b59b1f457361
+2016	2076	7113807359564975	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/startup_iar.o	be43c379a3dc5b05
+2105	2258	7113807361380906	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_util_stdio.o	b8a1409121d2caed
+2284	2749	7113807366192132	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_resources.o	de007d76f041fbca
+2774	3438	7113807373061110	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/am_devices_mspi_ds35x1ga.o	a090c2205f920dd9
+3454	3626	7113807375026763	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.out	c00cbc4eb7aa76c3
+3656	3669	7113807375576770	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/interfaces/mspi_ds35x1ga_quad_example/iar/bin/mspi_ds35x1ga_quad_example.bin	75997850ee473262

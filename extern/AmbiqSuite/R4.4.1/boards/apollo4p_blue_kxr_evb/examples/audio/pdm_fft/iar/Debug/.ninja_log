@@ -1,0 +1,9 @@
+# ninja log v5
+1	484	7113762920886975	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/am_resources.o	e7b57977fde01aa
+505	976	7113762925817802	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/am_util_delay.o	d2167e7675d6547
+992	1573	7113762931790887	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/am_util_faultisr.o	e2fad521e3b48a17
+1587	2441	7113762940557867	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/am_util_stdio.o	6b27513f5428e278
+2459	3153	7113762947589293	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/pdm_fft.o	d5c6a64d49b8684e
+3177	3245	7113762948600686	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/startup_iar.o	2497dc0c802cefba
+3261	3386	7113762950040673	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/pdm_fft.out	f38a59424f71f3ac
+3408	3422	7113762950490675	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/audio/pdm_fft/iar/bin/pdm_fft.bin	7a15fc1ad71209d9

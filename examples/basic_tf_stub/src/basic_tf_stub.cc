@@ -12,7 +12,9 @@ The basic_tf_stub example is based on a speech to intent model.
 **/
 
 #define RINGBUFFER_MODE
+#ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
+#endif
 // #define USE_PDM_MICROPHONE
 
 // Define AUDIO_LEGACY to test pre-V2 ns-audio functionality
@@ -36,6 +38,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_core.h"
 #ifdef RPC_ENABLED
     #include "basic_rpc_client.h"
+    #include "ns_usb.h"
 #endif
 
 /// NeuralSPOT Includes
@@ -43,7 +46,6 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_energy_monitor.h"
 #include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
-#include "ns_usb.h"
 
 static int recording_win = NUM_FRAMES;
 
@@ -54,8 +56,7 @@ typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, WAIT_FOR_FRAME, I
  *
  * @return int
  */
-int
-main(void) {
+int main(void) {
     float tmp = 0;
     float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
     float output[kCategoryCount];
@@ -155,6 +156,7 @@ main(void) {
                 state = WAIT_FOR_FRAME;
                 ns_set_power_monitor_state(NS_DATA_COLLECTION);
                 buttonPressed = false;
+                ns_delay_us(250000); // wait for button click noise to die down
                 audioRecording = true;
                 ns_lp_printf("\nListening for 1 second.\n");
 #ifdef RPC_ENABLED
@@ -230,8 +232,9 @@ main(void) {
                 output[i] = (model_output->data.int8[i] - model_output->params.zero_point) *
                             model_output->params.scale;
                 if (output[i] > 0.3) {
-                    ns_lp_printf("\n[%s] with %d%% certainty\n", kCategoryLabels[i],
-                                 (uint8_t)(output[i] * 100));
+                    ns_lp_printf(
+                        "\n[%s] with %d%% certainty\n", kCategoryLabels[i],
+                        (uint8_t)(output[i] * 100));
                 }
 
                 if (output[i] > max_val) {

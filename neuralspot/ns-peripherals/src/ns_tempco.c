@@ -9,7 +9,7 @@
  *
  */
 
-#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+#if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L)
 // TEMPCO not supported in this version
 #else
 
@@ -28,16 +28,15 @@ void *g_ns_tempco_ADCHandle;
 
 static uint32_t
 adc_temperature_samples_get(uint32_t ui32NumSamples, am_hal_adc_sample_t sSamples[]);
-static void
-adc_trigger_wait(void);
-static void
-ns_tempco_callback(ns_timer_config_t *c);
+static void adc_trigger_wait(void);
+static void ns_tempco_callback(ns_timer_config_t *c);
 
-ns_timer_config_t g_ns_tempcoTimer = {.api = &ns_timer_V1_0_0,
-                                      .timer = NS_TIMER_TEMPCO,
-                                      .enableInterrupt = true,
-                                      .periodInMicroseconds = 10 * 1024, // 10 seconds
-                                      .callback = ns_tempco_callback};
+ns_timer_config_t g_ns_tempcoTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_TEMPCO,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 10 * 1024, // 10 seconds
+    .callback = ns_tempco_callback};
 
 //*****************************************************************************
 //
@@ -48,17 +47,16 @@ ns_timer_config_t g_ns_tempcoTimer = {.api = &ns_timer_V1_0_0,
 // enabled via a call to am_hal_adc_enable().
 //
 //*****************************************************************************
-uint32_t
-ns_tempco_init(void) {
+uint32_t ns_tempco_init(void) {
     uint32_t ui32Retval;
-    am_hal_adc_config_t sADC_Cfg = {.eClock =
-                                        AM_HAL_ADC_CLKSEL_HFRC_24MHZ, // Select the ADC Clock source
-                                    .ePolarity = AM_HAL_ADC_TRIGPOL_RISING,  // Polarity
-                                    .eTrigger = AM_HAL_ADC_TRIGSEL_SOFTWARE, // ADC trigger source
-                                    .eClockMode = AM_HAL_ADC_CLKMODE_LOW_POWER, // Clock mode
-                                    .ePowerMode = AM_HAL_ADC_LPMODE1, // Power mode for idle state
-                                    .eRepeat = AM_HAL_ADC_SINGLE_SCAN,
-                                    .eRepeatTrigger = AM_HAL_ADC_RPTTRIGSEL_TMR};
+    am_hal_adc_config_t sADC_Cfg = {
+        .eClock = AM_HAL_ADC_CLKSEL_HFRC_24MHZ,     // Select the ADC Clock source
+        .ePolarity = AM_HAL_ADC_TRIGPOL_RISING,     // Polarity
+        .eTrigger = AM_HAL_ADC_TRIGSEL_SOFTWARE,    // ADC trigger source
+        .eClockMode = AM_HAL_ADC_CLKMODE_LOW_POWER, // Clock mode
+        .ePowerMode = AM_HAL_ADC_LPMODE1,           // Power mode for idle state
+        .eRepeat = AM_HAL_ADC_SINGLE_SCAN,
+        .eRepeatTrigger = AM_HAL_ADC_RPTTRIGSEL_TMR};
 
     // Set the slot to use for temperature
     g_ns_tempco_ui32TempcoADCslot = TEMPCO_ADC_TEMPERATURE_SLOT;
@@ -103,8 +101,7 @@ ns_tempco_init(void) {
 }
 
 // timer ISR callback
-static void
-ns_tempco_callback(ns_timer_config_t *c) {
+static void ns_tempco_callback(ns_timer_config_t *c) {
     // Power up, configure, and enable the ADC.
     am_hal_adc_power_control(g_ns_tempco_ADCHandle, AM_HAL_SYSCTRL_WAKE, true);
 
@@ -132,8 +129,7 @@ ns_tempco_callback(ns_timer_config_t *c) {
 // ****************************************************************************
 // Function to trigger the ADC and wait for a value in the FIFO.
 // ****************************************************************************
-static void
-adc_trigger_wait(void) {
+static void adc_trigger_wait(void) {
     // Trigger and wait for something to show up in the FIFO.
     uint32_t ui32Cnt0;
 

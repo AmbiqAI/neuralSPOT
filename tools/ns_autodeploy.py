@@ -1,4 +1,5 @@
 import logging as log
+import pickle
 
 import numpy as np
 import pydantic_argparse
@@ -35,15 +36,18 @@ class Params(BaseModel):
         description="Measure power consumption of the model on the EVB using Joulescope",
     )
 
-    tflite_filename: str = Field("model.tflite", description="Name of tflite model")
+    tflite_filename: str = Field(
+        "model.tflite", description="Name of tflite model to be analyzed"
+    )
 
     # Create Binary Parameters
-    tflm_filename: str = Field("mut_model_data.h", description="Name of TFLM C file")
-    tflm_src_path: str = Field(
-        # "../examples/tflm_validator/src",
-        "../projects/models/tflm_validator/src",
-        description="Path to Validator example src directory",
+    tflm_filename: str = Field(
+        "mut_model_data.h", description="Name of TFLM C file for Characterization phase"
     )
+    # tflm_src_path: str = Field(
+    #     "../projects/models/tflm_validator/src",
+    #     description="Root directory for ns_autodeploy to place generated files",
+    # )
     max_arena_size: int = Field(
         120, description="Maximum KB to be allocated for TF arena"
     )
@@ -78,16 +82,16 @@ class Params(BaseModel):
     model_name: str = Field(
         "model", description="Name of model to be used in generated library"
     )
-    model_path: str = Field(
-        "../projects/models",
+    working_directory: str = Field(
+        "../projects/autodeploy",
         description="Directory where generated library will be placed",
     )
 
     # Profile Parameters
     profile_warmup: int = Field(1, description="How many inferences to profile")
-    stats_filename: str = Field(
-        "stats.csv", description="Name of exported profile statistics CSV file"
-    )
+    # stats_filename: str = Field(
+    #     "stats.csv", description="Name of exported profile statistics CSV file"
+    # )
 
     # Logging Parameters
     verbosity: int = Field(1, description="Verbosity level (0-4)")
@@ -122,13 +126,15 @@ class adResults:
         self.powerMaxPerfWatts = 0
         self.powerMinPerfWatts = 0
         self.powerIterations = p.runs_power
-        self.stats_filename = p.stats_filename
-        self.model_name = p.tflite_filename
+        # self.stats_filename = p.stats_filename
+        self.model_name = p.model_name
 
     def print(self):
         print("")
         print((f"Charcterization Report for {self.model_name}:"))
-        print(f"[Profile] Per-Layer Statistics file:         {self.stats_filename}")
+        print(
+            f"[Profile] Per-Layer Statistics file:         {self.model_name}_stats.csv"
+        )
         print(
             f"[Profile] Max Perf Inference Time (ms):      {(self.profileTotalInferenceTime/1000):0.3f}"
         )
@@ -212,6 +218,7 @@ if __name__ == "__main__":
         total_stages += 1
     if params.measure_power:
         total_stages += 1
+
     # set logging level
     log.basicConfig(
         level=log.DEBUG
@@ -224,49 +231,91 @@ if __name__ == "__main__":
 
     interpreter = get_interpreter(params)
 
-    print(
-        f"*** Stage [{stage}/{total_stages}]: Create and fine-tune EVB model characterization image"
-    )
-    stage += 1
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
 
+    # Pickle the model details for later use
+    # mc_file = open("model_config.pkl", "wb")
+    # pickle.dump(mc, mc_file)
+    # mc_file.close()
+
     if params.create_binary:
+        print(
+            f"*** Stage [{stage}/{total_stages}]: Create and fine-tune EVB model characterization image"
+        )
+        stage += 1
         create_validation_binary(params, True, mc)
-    else:
-        reset_dut()
 
-    # Configure the model on the EVB
-    client = rpc_connect_as_client(params)
+        # Configure the model on the EVB
+        client = rpc_connect_as_client(params)
 
-    configModel(params, client, md)
-    stats = getModelStats(params, client)
-    mc.update_from_stats(stats, md)
-    mc.check(params)
+        configModel(params, client, md)
+        stats = getModelStats(params, client)
+        mc.update_from_stats(stats, md)
+        mc.check(params)
 
-    # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
-    if params.create_binary:
+        # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
         create_validation_binary(params, False, mc)
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
-    print("")
-    print(f"*** Stage [{stage}/{total_stages}]: Characterize model performance on EVB")
-    stage += 1
-    differences = validateModel(params, client, interpreter, md, mc)
     if params.create_profile:
+        print("")
+        print(
+            f"*** Stage [{stage}/{total_stages}]: Characterize model performance on EVB"
+        )
+        stage += 1
+        differences = validateModel(params, client, interpreter, md, mc)
         # Get profiling stats
         stats = getModelStats(params, client)
-        cycles, macs, time, layers = printStats(stats, params.stats_filename)
+        stats_filename = (
+            params.working_directory
+            + "/"
+            + params.model_name
+            + "/"
+            + params.model_name
+            + "_stats.csv"
+        )
+        cycles, macs, time, layers = printStats(stats, stats_filename)
         results.setProfile(time, macs, cycles, layers)
 
-    otIndex = 0
-    for d in differences:
-        log.info(
-            f"Model Output Comparison: Mean difference per output label in tensor({otIndex}): "
-            + repr(np.array(d).mean(axis=0))
-        )
-        otIndex += 1
+        otIndex = 0
+        for d in differences:
+            log.info(
+                f"Model Output Comparison: Mean difference per output label in tensor({otIndex}): "
+                + repr(np.array(d).mean(axis=0))
+            )
+            otIndex += 1
+
+    pkl_dir = params.working_directory + "/" + params.model_name + "/"
+    mc_name = pkl_dir + params.model_name + "_mc.pkl"
+    md_name = pkl_dir + params.model_name + "_md.pkl"
+    results_name = pkl_dir + params.model_name + "_results.pkl"
+
+    if (params.create_profile == False) or (params.create_binary == False):
+        # Read MC and MD from Pickle file
+        log.info("Reading MC and MD from Pickle files")
+        mc_file = open(mc_name, "rb")
+        mc = pickle.load(mc_file)
+        mc_file.close()
+        md_file = open(md_name, "rb")
+        md = pickle.load(md_file)
+        md_file.close()
+        results_file = open(results_name, "rb")
+        results = pickle.load(results_file)
+        results_file.close()
+    else:
+        # Pickle the model details for later use
+        log.info("Writing MC and MD to Pickle files")
+        mc_file = open(mc_name, "wb")
+        pickle.dump(mc, mc_file)
+        mc_file.close()
+        md_file = open(md_name, "wb")
+        pickle.dump(md, md_file)
+        md_file.close()
+        results_file = open(results_name, "wb")
+        pickle.dump(results, results_file)
+        results_file.close()
 
     if params.measure_power:
         print("")
@@ -275,6 +324,7 @@ if __name__ == "__main__":
         )
 
         for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:
+            # for cpu_mode in ["NS_MINIMUM_PERF"]:
             generatePowerBinary(params, mc, md, cpu_mode)
             td, i, v, p, c, e = measurePower()
             energy = (e["value"] / params.runs_power) * 1000000  # Joules

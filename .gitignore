@@ -8,7 +8,7 @@ _deps
 ./docs/doxygen/doxy_out/rtf
 ./make/local_overrides.mk
 *.tflite
-projects/models
+projects/autodeploy
 *.old
 *.log
 *.wav

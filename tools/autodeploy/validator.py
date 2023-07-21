@@ -508,6 +508,8 @@ def printStats(stats, stats_filename):
 
 
 def compile_and_deploy(params, mc, first_time=False):
+    d = params.working_directory + "/" + params.model_name
+    d = d.replace("../", "")
 
     if first_time:
         makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
@@ -515,21 +517,21 @@ def compile_and_deploy(params, mc, first_time=False):
     if params.create_profile:
         if params.verbosity > 3:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make AUTODEPLOY=1 EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make AUTODEPLOY=1 EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                "cd .. && make -j AUTODEPLOY=1 EXAMPLE=tflm_validator && make AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator && make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                "cd .. && make -j AUTODEPLOY=1 >/dev/null 2>&1 && make AUTODEPLOY=1 EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
             )
 
     if makefile_result != 0:
@@ -569,7 +571,7 @@ def create_mut_metadata(tflm_dir, mc):
     )
     createFromTemplate(
         "autodeploy/templates/template_mut_metadata.h",
-        f"{tflm_dir}/mut_model_metadata.h",
+        f"{tflm_dir}/src/mut_model_metadata.h",
         rm,
     )
 
@@ -583,39 +585,41 @@ def create_mut_modelinit(tflm_dir, mc):
     }
     createFromTemplate(
         "autodeploy/templates/template_ns_model.cc",
-        f"{tflm_dir}/mut_model_init.cc",
+        f"{tflm_dir}/src/mut_model_init.cc",
         rm,
     )
 
 
 def create_mut_main(tflm_dir, mc):
     # make directory for tflm_validator
-    os.makedirs(tflm_dir, exist_ok=True)
+    os.makedirs(tflm_dir + "/src/", exist_ok=True)
 
     # Copy template main.cc to tflm_dir
     shutil.copyfile(
         "autodeploy/templates/template_tflm_validator.cc",
-        f"{tflm_dir}/tflm_validator.cc",
+        f"{tflm_dir}/src/tflm_validator.cc",
     )
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.h", f"{tflm_dir}/tflm_validator.h"
+        "autodeploy/templates/template_tflm_validator.h",
+        f"{tflm_dir}/src/tflm_validator.h",
     )
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.mk", f"{tflm_dir}/../module.mk"
+        "autodeploy/templates/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
     )
     shutil.copyfile(
-        "autodeploy/templates/template_ns_model.h", f"{tflm_dir}/ns_model.h"
+        "autodeploy/templates/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
     )
 
 
 def create_validation_binary(params, baseline, mc):
-    tflm_dir = params.tflm_src_path
+    # tflm_dir = params.tflm_src_path
+    tflm_dir = params.working_directory + "/" + params.model_name + "/tflm_validator"
     create_mut_main(tflm_dir, mc)
 
     if baseline:
         xxd_c_dump(
             src_path=params.tflite_filename,
-            dst_path=tflm_dir + "/" + params.tflm_filename,
+            dst_path=tflm_dir + "/src/" + params.tflm_filename,
             var_name="mut_model",
             chunk_len=12,
             is_header=True,

@@ -1,4 +1,4 @@
-rootdir := ../../..
+rootdir := ../../../..
 
 include $(rootdir)/make/helpers.mk
 include $(rootdir)/make/neuralspot_config.mk

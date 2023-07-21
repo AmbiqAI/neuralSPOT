@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FONT_ASSETS>
+    <FONT ID="1" SIZE="8" PATH="arial.ttf" BPP="8" KERNING_SUPPORT="0" RANGE_COUNT="1" NEMA_MEM_POOL="0">
+        <RANGE START="32" END="127"/>
+    </FONT>
+    <FONT ID="2" SIZE="6" PATH="arial.ttf" BPP="8" KERNING_SUPPORT="0" RANGE_COUNT="1" NEMA_MEM_POOL="0">
+        <RANGE START="32" END="127"/>
+    </FONT>
+    <FONT ID="5" SIZE="14" PATH="arial.ttf" BPP="8" KERNING_SUPPORT="0" RANGE_COUNT="1" NEMA_MEM_POOL="0">
+        <RANGE START="32" END="127"/>
+    </FONT>
+</FONT_ASSETS>

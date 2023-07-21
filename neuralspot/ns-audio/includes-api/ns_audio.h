@@ -151,12 +151,18 @@ typedef struct ns_audio_cfg {
     void *audioBuffer;             ///< Where the audio will be located when callback occurs
 
     /** Audio Config */
-    ns_audio_source_e eAudioSource;        ///< Choose audio source such as AUDADC
-    uint32_t *sampleBuffer;                ///< Where samples are DMA'd to
+    ns_audio_source_e eAudioSource; ///< Choose audio source such as AUDADC
+    uint32_t *sampleBuffer;         ///< Where samples are DMA'd to
+
+#ifdef AM_PART_APOLLO4L
+    void *workingBuffer; ///< Not used for Apollo4 Lite
+#else
     am_hal_audadc_sample_t *workingBuffer; ///< Working buffer used by AUDADC, otherwise NULL
-    uint8_t numChannels;                   ///< Number of audio channels, currently 1 or 2
-    uint16_t numSamples;                   ///< Samples collected per callback
-    uint16_t sampleRate;                   ///< In Hz
+#endif
+
+    uint8_t numChannels; ///< Number of audio channels, currently 1 or 2
+    uint16_t numSamples; ///< Samples collected per callback
+    uint16_t sampleRate; ///< In Hz
 
     /** AUDADC Config - only used by audadc driver */
     ns_audadc_cfg_t *audadc_config;
@@ -170,7 +176,9 @@ typedef struct ns_audio_cfg {
     ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
     float fLGAdB;
 
-#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+#if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L)
+    void *sOffsetCalib;
+#else
     am_hal_offset_cal_coeffs_array_t *sOffsetCalib;
 #endif
 } ns_audio_config_t;
@@ -182,8 +190,7 @@ extern ns_audio_config_t *g_ns_audio_config;
  *
  * @param cfg : desired configuration
  */
-extern uint32_t
-ns_audio_init(ns_audio_config_t *);
+extern uint32_t ns_audio_init(ns_audio_config_t *);
 
 /**
  * @brief Extract int16 PCM from data collected by ADC
@@ -192,8 +199,7 @@ ns_audio_init(ns_audio_config_t *);
  * @param raw - incoming data from ADC engine
  * @param len - number of sample words to convert
  */
-extern void
-ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
+extern void ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
 
 /**
  * @brief Extract int16 PCM from AUDADC or PDM sources
@@ -201,8 +207,7 @@ ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
  * @param config - ns audio config
  * @param pcm - resulting PCM data
  */
-extern void
-ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm);
+extern void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm);
 
 #ifdef __cplusplus
 }

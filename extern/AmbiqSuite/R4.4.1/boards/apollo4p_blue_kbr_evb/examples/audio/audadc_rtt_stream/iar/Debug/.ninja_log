@@ -1,0 +1,12 @@
+# ninja log v5
+1	518	7113729146613905	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_devices_led.o	87706ab0588ba43c
+534	999	7113729151428826	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_resources.o	7bda506b85242fc3
+1018	1488	7113729156311394	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_delay.o	8e17e183b2626b26
+1514	1627	7113729157802458	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/SEGGER_RTT_printf.o	e65895dde92c84d
+1645	2133	7113729162800801	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_faultisr.o	aa77f4eebd75d1da
+2157	2314	7113729164686393	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/am_util_stdio.o	43ea876cb460595
+2331	2859	7113729170033713	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.o	c4aa5677e1d58e43
+2885	3100	7113729172528977	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/SEGGER_RTT.o	c9ed9ddabe50d925
+3120	3184	7113729173398960	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/startup_iar.o	49d78d78cbc10591
+3207	3345	7113729175004563	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.out	9fa94dae6610ff23
+3364	3377	7113729175424565	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/audadc_rtt_stream/iar/bin/audadc_rtt_stream.bin	d94037dece5775

@@ -1,0 +1,13 @@
+# ninja log v5
+1	90	7113684795876556	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_event.o	4da2bd720a8b0417
+125	674	7113684801616552	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_utils.o	95aa053f783b998f
+712	1328	7113684808177514	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_dc_hal.o	755c41fdd00b06d9
+1364	1866	7113684813533226	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_util_delay.o	41848af4170f7a7
+1901	2082	7113684815810946	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_util_stdio.o	bd8cfd359b15972f
+2120	2661	7113684821493891	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nema_hal.o	9b2aa306a6b58f4b
+2694	3189	7113684826777044	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_resources.o	e3ded348f952ae6c
+3225	3769	7113684832566821	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/am_devices_dc_dsi_raydium.o	41ddc788a8d6a046
+3803	9113	7113684885856114	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nemadc_scrolling_effect.o	b2a8a23e8d5032b9
+9146	9225	7113684887256131	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/startup_iar.o	89b526e4545b780c
+9263	9419	7113684889256118	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nemadc_scrolling_effect.out	a7ea26633168d9e2
+9445	9485	7113684890026111	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemadc_scrolling_effect/iar/bin/nemadc_scrolling_effect.bin	266e506617ca9451

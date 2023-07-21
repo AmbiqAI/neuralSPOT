@@ -181,7 +181,7 @@ int webble_service_init(void) {
     // Customize Service-specific fields
     NS_TRY(
         ns_ble_char2uuid(webbleUuid("0000"), &(webbleService.uuid128)), "Failed to convert UUID\n");
-    memcpy(webbleService.name, webbleName, sizeof(webbleService.name));
+    memcpy(webbleService.name, webbleName, sizeof(webbleName));
     webbleService.nameLen = sizeof(webbleName) - 1; // exclude null terminator
     webbleService.baseHandle = 0x0800;
     webbleService.poolConfig = &webbleWsfBuffers;

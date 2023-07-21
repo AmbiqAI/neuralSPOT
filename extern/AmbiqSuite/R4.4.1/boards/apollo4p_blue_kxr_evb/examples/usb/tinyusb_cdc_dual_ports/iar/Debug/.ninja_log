@@ -1,0 +1,17 @@
+# ninja log v5
+0	499	7113793263600600	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_util_id.o	e5aa3e4558ea1842
+520	989	7113793268454782	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_resources.o	be7635347b981496
+1014	1486	7113793273464790	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_util_delay.o	c12578240337553e
+1508	2001	7113793278609170	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/apollo4_board.o	c308060cb67bb7cf
+2025	2190	7113793280559166	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/cdc_device.o	e3e881302005ce79
+2213	2747	7113793286082128	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/dcd_apollo4.o	e7368ecb2b718782
+2784	2946	7113793288142331	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/am_util_stdio.o	205ab62fd37660b3
+2973	3042	7113793289112294	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/startup_iar.o	22b3bb7f6c092527
+3077	3262	7113793291302326	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tusb_fifo.o	e3502d74282bf534
+3286	3418	7113793292862290	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tusb.o	b1e1733d6ec29f01
+3444	3761	7113793296285537	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/usbd.o	669a8a1630f7c10f
+3791	3915	7113793297815556	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/usbd_control.o	59612e257950fb91
+3947	4046	7113793299133190	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/usb_descriptors.o	caa092122123d5a8
+4084	4187	7113793300543228	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tinyusb_cdc_dual_ports.o	7835dacef7c448f9
+4209	4400	7113793302683207	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tinyusb_cdc_dual_ports.out	91e1a65e556f4b2
+4424	4438	7113793303183207	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/usb/tinyusb_cdc_dual_ports/iar/bin/tinyusb_cdc_dual_ports.bin	34aeda3a6c0e45e7

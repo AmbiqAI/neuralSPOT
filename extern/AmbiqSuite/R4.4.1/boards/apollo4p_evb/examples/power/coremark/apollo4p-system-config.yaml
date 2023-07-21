@@ -1,0 +1,23 @@
+MemorySections:
+    MCU_MRAM:
+        start:  0x00018000
+        end:    0x001FFFFF
+
+    MCU_TCM:
+        # Limit power examples to 8KB TCM.
+        # Check config-template.ini for stack sizing.
+        start:  0x10000000
+        length: 0x00001F00
+
+    SHARED_SRAM:
+        # With all shared RAM disabled, must allocate a small amount of TCM for it.
+        start:  0x10001F00
+        length: 0x00000100
+
+    EXTENDED_SRAM:
+        start:  0x10160000
+        end:    0x101BFFFF
+
+    SHARED_SRAM2:
+        start:  0x101C0000
+        end:    0x102BFFFF

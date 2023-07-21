@@ -33,6 +33,17 @@ NESTCOMP    := extern/AmbiqSuite
 NESTEGG := basic_tf_stub
 NESTSOURCEDIR := examples/$(NESTEGG)/src
 
+##### AmbiqSuite Config and HW Feature Control Flags #####
+ifneq ($(BOARD),apollo4l)
+DEFINES+= AM_HAL_TEMPCO_LP
+DEFINES+= NS_AUDADC_PRESENT
+DEFINES+= NS_PDM1TO3_PRESENT
+DEFINES+= NS_USB1_PRESENT
+USB_PRESENT := 1
+else
+USB_PRESENT := 0
+endif
+
 # application stack and heap size
 STACK_SIZE_IN_32B_WORDS := 4096
 NS_MALLOC_HEAP_SIZE_IN_K := 16
@@ -41,6 +52,15 @@ NS_MALLOC_HEAP_SIZE_IN_K := 16
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
 
 ##### BLE Defines
+## BLE is only support for AmbiqSuite R4.3.0 and later
+ifeq ($(AS_VERSION),R4.3.0)
+BLE_SUPPORTED := 1
+else ifeq ($(AS_VERSION),R4.4.1)
+BLE_SUPPORTED := 1
+else
+BLE_SUPPORTED := 0
+endif
+
 DEFINES+= SEC_ECC_CFG=SEC_ECC_CFG_HCI
 # DEFINES+= WSF_TRACE_ENABLED
 # DEFINES+= HCI_TRACE_ENABLED
@@ -56,6 +76,3 @@ TFLM_VALIDATOR := 0
 TFLM_VALIDATOR_MAX_EVENTS := 40
 # AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
 # ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
-
-##### AmbiqSuite Config #####
-DEFINES+= AM_HAL_TEMPCO_LP

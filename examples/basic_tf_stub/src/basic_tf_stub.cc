@@ -15,8 +15,10 @@ The basic_tf_stub example is based on a speech to intent model.
 #ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
 #endif
-// #define USE_PDM_MICROPHONE
 
+#ifndef NS_AUDADC_PRESENT
+    #define USE_PDM_MICROPHONE
+#endif
 // Define AUDIO_LEGACY to test pre-V2 ns-audio functionality
 // #define AUDIO_LEGACY
 // #define ENERGY_MONITOR_ENABLE

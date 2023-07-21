@@ -7,7 +7,7 @@ from ns_utils import createFromTemplate, xxd_c_dump
 
 def generateModelLib(params, mc, md):
     n = params.model_name
-    d = params.model_path
+    d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
     # arena_size = (arena_size // 1024) + 1
     rm = {

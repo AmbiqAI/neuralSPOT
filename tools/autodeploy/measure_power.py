@@ -14,7 +14,7 @@ from ns_utils import createFromTemplate, xxd_c_dump
 
 def generatePowerBinary(params, mc, md, cpu_mode):
     n = params.model_name + "_power"
-    d = params.model_path
+    d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
 
     rm = {
@@ -28,7 +28,9 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
     }
-    print(f"Compiling and deploying {cpu_mode} power measurement binary at {d}/{n}")
+    print(
+        f"Compiling, deploying, and measuring {cpu_mode} power with binary at {d}/{n}"
+    )
 
     # Make destination directory
     os.system(f"mkdir -p {d}/{n}")
@@ -85,22 +87,30 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         rm,
     )
 
+    # Remove ../ from path
+    d = d.replace("../", "")
+
     # Generate library and example binary
     if params.verbosity > 3:
+        print(
+            f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+        )
         makefile_result = os.system(
-            f"cd .. && make -j AUTODEPLOY=1 EXAMPLE={n} && make AUTODEPLOY=1 TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. && make -j AUTODEPLOY=1 EXAMPLE={n} >/dev/null 2>&1 && make AUTODEPLOY=1 EXAMPLE={n} TARGET={n} deploy >/dev/null 2>&1"
+            f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >/dev/null 2>&1"
         )
+    # print (f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy")
+
     # makefile_result = os.system(
-    #         f"cd .. && make -j AUTODEPLOY=1 EXAMPLE={n} && make AUTODEPLOY=1 TARGET={n} EXAMPLE={n} deploy"
+    #         f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
     #     )
 
     if makefile_result != 0:
-        log.error("Makefile failed to build minimal example library")
-        exit("Makefile failed to build minimal example library")
+        log.error("Makefile failed to build power measurement binary")
+        exit("Makefile failed to build power measurement binary")
 
 
 # Joulescope-specific Code

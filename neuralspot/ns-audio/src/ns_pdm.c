@@ -17,7 +17,12 @@
 #include "ns_core.h"
 
 static void *pvPDMHandle;
+
+#ifndef AM_PART_APOLLO4L
 static const IRQn_Type g_ePdmInterrupts[] = {PDM0_IRQn, PDM1_IRQn, PDM2_IRQn, PDM3_IRQn};
+#else
+static const IRQn_Type g_ePdmInterrupts[] = {PDM0_IRQn};
+#endif
 
 ns_pdm_cfg_t ns_pdm_default = {
     .clock = NS_CLKSEL_HFRC,
@@ -26,8 +31,7 @@ ns_pdm_cfg_t ns_pdm_default = {
     .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
 };
 
-void
-pdm_trigger_dma(ns_audio_config_t *config) {
+void pdm_trigger_dma(ns_audio_config_t *config) {
 
     // Configure DMA and target address.
     config->sTransfer.ui32TotalCount =
@@ -40,8 +44,7 @@ pdm_trigger_dma(ns_audio_config_t *config) {
     am_hal_pdm_dma_start(pvPDMHandle, &(config->sTransfer));
 }
 
-uint32_t
-pdm_init(ns_audio_config_t *config) {
+uint32_t pdm_init(ns_audio_config_t *config) {
     ns_pdm_cfg_t *cfg = config->pdm_config;
 
     // Common PDM Configuration
@@ -132,6 +135,14 @@ pdm_init(ns_audio_config_t *config) {
     // Configure the necessary pins.
     am_hal_gpio_pincfg_t sGpioConfig;
 
+#ifdef AM_PART_APOLLO4L
+    // There is only PDM0
+    sGpioConfig = g_AM_BSP_GPIO_PDM0_CLK;
+    sGpioConfig.GP.cfg_b.eDriveStrength = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P5X;
+
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_PDM0_CLK, sGpioConfig);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_PDM0_DATA, g_AM_BSP_GPIO_PDM0_DATA);
+#else
     switch (cfg->mic) {
     case NS_AUDIO_PDM_MICBOARD_0:
         sGpioConfig = g_AM_BSP_GPIO_PDM0_CLK;
@@ -155,13 +166,15 @@ pdm_init(ns_audio_config_t *config) {
         am_hal_gpio_pinconfig(AM_BSP_GPIO_PDM1_DATA, g_AM_BSP_GPIO_PDM1_DATA);
         break;
     }
+#endif
 
     am_hal_pdm_fifo_flush(pvPDMHandle);
 
     // Configure and enable PDM interrupts (set up to trigger on DMA
     // completion).
-    am_hal_pdm_interrupt_enable(pvPDMHandle, (AM_HAL_PDM_INT_DERR | AM_HAL_PDM_INT_DCMP |
-                                              AM_HAL_PDM_INT_UNDFL | AM_HAL_PDM_INT_OVF));
+    am_hal_pdm_interrupt_enable(
+        pvPDMHandle,
+        (AM_HAL_PDM_INT_DERR | AM_HAL_PDM_INT_DCMP | AM_HAL_PDM_INT_UNDFL | AM_HAL_PDM_INT_OVF));
 
     // NVIC_SetPriority(g_ePdmInterrupts[cfg->mic],AM_IRQ_PRIORITY_DEFAULT);
     NVIC_SetPriority(g_ePdmInterrupts[cfg->mic], 7);
@@ -178,8 +191,7 @@ pdm_init(ns_audio_config_t *config) {
 //
 //*****************************************************************************
 
-void
-am_pdm_isr_common(uint8_t pdmNumber) {
+void am_pdm_isr_common(uint8_t pdmNumber) {
     uint32_t ui32Status;
 
 #if configUSE_SYSVIEWER
@@ -227,15 +239,6 @@ am_pdm_isr_common(uint8_t pdmNumber) {
 #endif               // configUSE_SYSVIEWER
 }
 
-void
-am_pdm0_isr(void) {
-    am_pdm_isr_common(0);
-}
-void
-am_pdm1_isr(void) {
-    am_pdm_isr_common(1);
-}
-void
-am_pdm2_isr(void) {
-    am_pdm_isr_common(2);
-}
+void am_pdm0_isr(void) { am_pdm_isr_common(0); }
+void am_pdm1_isr(void) { am_pdm_isr_common(1); }
+void am_pdm2_isr(void) { am_pdm_isr_common(2); }

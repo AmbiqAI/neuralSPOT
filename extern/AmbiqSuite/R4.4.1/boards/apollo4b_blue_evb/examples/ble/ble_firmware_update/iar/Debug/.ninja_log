@@ -1,0 +1,10 @@
+# ninja log v5
+1	457	7113644797914410	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/am_resources.o	c587807d9565f1d4
+484	3859	7113644831891827	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/am_devices_cooper.o	3bbb0f0ea042f8f0
+3878	3950	7113644832891836	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/startup_iar.o	259b387170d1d7e8
+3976	4452	7113644837844713	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/am_util_delay.o	b7e47b952f1db19
+4477	5362	7113644847009981	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/am_util_stdio.o	b2b4479cf1a9d89
+5379	6832	7113644861606071	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/ble_firmware_update.o	cb182858a512434f
+6850	7455	7113644867867339	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/am_util_ble_cooper.o	8492ab7878d0b446
+7484	7638	7113644869807335	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/ble_firmware_update.out	acfaa8e2efdeaf79
+7662	7681	7113644870327366	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/ble/ble_firmware_update/iar/bin/ble_firmware_update.bin	c26a80add151edeb

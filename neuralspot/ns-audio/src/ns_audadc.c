@@ -27,22 +27,24 @@
 //
 //*****************************************************************************
 
-#include "ns_audadc.h"
-#include "am_bsp.h"
-#include "am_mcu_apollo.h"
-#include "am_util.h"
-#include "ns_audio.h"
-#include "ns_core.h"
+#ifndef AM_PART_APOLLO4L
+
+    #include "ns_audadc.h"
+    #include "am_bsp.h"
+    #include "am_mcu_apollo.h"
+    #include "am_util.h"
+    #include "ns_audio.h"
+    #include "ns_core.h"
 
 // #define HFRC2_ADJ            0
 // #define AUDADC_EXAMPLE_DEBUG 1
 // #define FIFO_READ            0
 
-#define XTHS 0
-#define HFRC 1
-#define HFRC2 2
-#define HFRC2_ADJ 3
-#define CLK_SRC HFRC // NEW example has HFRC2_ADJ
+    #define XTHS 0
+    #define HFRC 1
+    #define HFRC2 2
+    #define HFRC2_ADJ 3
+    #define CLK_SRC HFRC // NEW example has HFRC2_ADJ
 
 AUDADC_Type *g_adc;
 MCUCTRL_Type *g_mcuctrl;
@@ -53,23 +55,23 @@ static void *g_AUDADCHandle;
 // AUDADC DMA error flag.
 static volatile bool g_bAUDADCDMAError;
 
-// AXI Scratch buffer
-// Need to allocate 20 Words even though we only need 16, to ensure we have 16
-// Byte alignment
-#ifndef AM_PART_APOLLO4P
+    // AXI Scratch buffer
+    // Need to allocate 20 Words even though we only need 16, to ensure we have 16
+    // Byte alignment
+    #ifndef AM_PART_APOLLO4P
 static uint32_t axiScratchBuf[20];
-#endif
+    #endif
 //*****************************************************************************
 //
 // AUDADC gain configuration information.
 //
 //*****************************************************************************
 
-#define PREAMP_FULL_GAIN 24 // Enable op amps for full gain range
-#define CH_A0_GAIN_DB 18
-#define CH_A1_GAIN_DB 18
-#define CH_B0_GAIN_DB 12
-#define CH_B1_GAIN_DB 12
+    #define PREAMP_FULL_GAIN 24 // Enable op amps for full gain range
+    #define CH_A0_GAIN_DB 18
+    #define CH_A1_GAIN_DB 18
+    #define CH_B0_GAIN_DB 12
+    #define CH_B1_GAIN_DB 12
 
 am_hal_audadc_gain_config_t g_sAudadcGainConfig = {
     .ui32LGA = 0,      // 0 code
@@ -81,9 +83,9 @@ am_hal_audadc_gain_config_t g_sAudadcGainConfig = {
 
 am_hal_audadc_dma_config_t g_sAUDADCDMAConfig; // global because needed by ISR
 
-#if defined(AM_PART_APOLLO4P) && AUDADC_DC_OFFSET_CAL
+    #if defined(AM_PART_APOLLO4P) && AUDADC_DC_OFFSET_CAL
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
-#endif // AM_PART_APOLLO4P && AUDADC_DC_OFFSET_CAL
+    #endif // AM_PART_APOLLO4P && AUDADC_DC_OFFSET_CAL
 
 ns_audadc_cfg_t ns_audadc_default = {
     // .clock = NS_CLKSEL_HFRC,
@@ -106,8 +108,7 @@ ns_audadc_cfg_t ns_audadc_vos_default = {
 // Configure the AUDADC SLOT.
 //
 //*****************************************************************************
-uint32_t
-audadc_slot_config(ns_audio_config_t *cfg) {
+uint32_t audadc_slot_config(ns_audio_config_t *cfg) {
     am_hal_audadc_slot_config_t AUDADCSlotConfig;
 
     // Set up an AUDADC slot
@@ -116,11 +117,11 @@ audadc_slot_config(ns_audio_config_t *cfg) {
     if (cfg->audadc_config->clock == NS_CLKSEL_XTHS) {
         AUDADCSlotConfig.ui32TrkCyc = 24;
     } else {
-#if defined(AM_PART_APOLLO4P)
+    #if defined(AM_PART_APOLLO4P)
         AUDADCSlotConfig.ui32TrkCyc = 34; // new example has '34'
-#else
+    #else
         AUDADCSlotConfig.ui32TrkCyc = 30;
-#endif
+    #endif
     }
     AUDADCSlotConfig.eChannel = AM_HAL_AUDADC_SLOT_CHSEL_SE0;
     AUDADCSlotConfig.bWindowCompare = false;
@@ -157,13 +158,12 @@ audadc_slot_config(ns_audio_config_t *cfg) {
     return NS_STATUS_SUCCESS;
 }
 
-static void
-audadc_pga_init(ns_audio_config_t *cfg) {
-#ifndef AM_PART_APOLLO4P
+static void audadc_pga_init(ns_audio_config_t *cfg) {
+    #ifndef AM_PART_APOLLO4P
     // Set up scratch AXI buf (needs 64B - aligned to 16 Bytes)
-    am_hal_daxi_control(AM_HAL_DAXI_CONTROL_AXIMEM,
-                        (uint8_t *)((uint32_t)(axiScratchBuf + 3) & ~0xF));
-#endif
+    am_hal_daxi_control(
+        AM_HAL_DAXI_CONTROL_AXIMEM, (uint8_t *)((uint32_t)(axiScratchBuf + 3) & ~0xF));
+    #endif
 
     // Power up PrePGA
     am_hal_audadc_refgen_powerup();
@@ -187,8 +187,7 @@ audadc_pga_init(ns_audio_config_t *cfg) {
     am_util_delay_ms(400);
 }
 
-static void
-audadc_config_dma(ns_audio_config_t *cfg) {
+static void audadc_config_dma(ns_audio_config_t *cfg) {
     // Configure the AUDADC to use DMA for the sample transfer.
     g_sAUDADCDMAConfig.bDynamicPriority = true;
     g_sAUDADCDMAConfig.ePriority = AM_HAL_AUDADC_PRIOR_SERVICE_IMMED;
@@ -214,8 +213,7 @@ audadc_config_dma(ns_audio_config_t *cfg) {
  * @param cfg - AUDADC-specific configuration
  * @return uint32_t status
  */
-uint32_t
-audadc_config(ns_audadc_cfg_t *cfg) {
+uint32_t audadc_config(ns_audadc_cfg_t *cfg) {
 
     // Set up the AUDADC configuration parameters. These settings are reasonable
     // for accurate measurements at a low sample rate.
@@ -321,12 +319,12 @@ audadc_config(ns_audadc_cfg_t *cfg) {
     audadc_config_dma(g_ns_audio_config);
 
     if (cfg->dcmp_enable) {
-        am_hal_audadc_interrupt_enable(g_AUDADCHandle,
-                                       AM_HAL_AUDADC_INT_DERR | AM_HAL_AUDADC_INT_DCMP);
+        am_hal_audadc_interrupt_enable(
+            g_AUDADCHandle, AM_HAL_AUDADC_INT_DERR | AM_HAL_AUDADC_INT_DCMP);
     } else {
-        am_hal_audadc_interrupt_enable(g_AUDADCHandle, AM_HAL_AUDADC_INT_DERR |
-                                                           AM_HAL_AUDADC_INT_DCMP |
-                                                           AM_HAL_AUDADC_INT_FIFOOVR1);
+        am_hal_audadc_interrupt_enable(
+            g_AUDADCHandle,
+            AM_HAL_AUDADC_INT_DERR | AM_HAL_AUDADC_INT_DCMP | AM_HAL_AUDADC_INT_FIFOOVR1);
     }
 
     return NS_STATUS_SUCCESS;
@@ -337,8 +335,7 @@ audadc_config(ns_audadc_cfg_t *cfg) {
 // Interrupt handler for the AUDADC.
 //
 //*****************************************************************************
-void
-am_audadc0_isr(void) {
+void am_audadc0_isr(void) {
     uint32_t ui32IntMask;
 
     // Read the interrupt status.
@@ -383,8 +380,7 @@ am_audadc0_isr(void) {
 // Setup the AUDADC
 //
 //*****************************************************************************
-uint32_t
-audadc_init(ns_audio_config_t *cfg) {
+uint32_t audadc_init(ns_audio_config_t *cfg) {
 
     // Power up PrePGA
     audadc_pga_init(g_ns_audio_config);
@@ -415,9 +411,9 @@ audadc_init(ns_audio_config_t *cfg) {
         return NS_STATUS_INIT_FAILED;
     }
 
-#ifdef NEW_EXAMPLE
+    #ifdef NEW_EXAMPLE
 
-    #if defined(AM_PART_APOLLO4P) && defined(DC_OFFSET_CAL) && (AS_VERSION = R4_3_0)
+        #if defined(AM_PART_APOLLO4P) && defined(DC_OFFSET_CAL) && (AS_VERSION = R4_3_0)
     //
     // Calculate DC offset calibartion parameter.
     //
@@ -425,11 +421,13 @@ audadc_init(ns_audio_config_t *cfg) {
                                      g_AUDADCHandle, 4, g_ns_audio_config->sOffsetCalib)) {
         am_util_stdio_printf("Error - failed to calculate offset calibration parameter.\n");
     }
+        #endif
     #endif
-#endif
     NVIC_SetPriority(AUDADC0_IRQn, AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ(AUDADC0_IRQn);
     am_hal_interrupt_master_enable();
 
     return NS_STATUS_SUCCESS;
 }
+
+#endif // AM_PART_APOLLO4L

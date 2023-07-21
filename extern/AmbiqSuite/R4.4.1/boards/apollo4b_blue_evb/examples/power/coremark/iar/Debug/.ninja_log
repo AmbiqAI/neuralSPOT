@@ -1,0 +1,16 @@
+# ninja log v5
+0	524	7113676134851106	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/am_resources.o	198f4973f83bd36d
+542	1077	7113676140380984	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/am_time.o	3d5a7cd0c6a3512b
+1098	1714	7113676146780932	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/am_devices_led.o	365ff2ce8e41feab
+1731	2572	7113676155352212	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/core_list_join.o	fba0dc5649bfaea6
+2593	3098	7113676160623718	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/am_util_delay.o	4ac21e9803b3b86b
+3116	4154	7113676171190192	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/core_main.o	ff4ada626cd9f8ef
+4173	5204	7113676181779793	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/am_util_stdio.o	715c76d103bf3b48
+5223	6422	7113676193895377	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/core_matrix.o	dcb633be64c4fc16
+6441	7161	7113676201300959	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/core_util.o	f8e6c9ba483eabad
+7180	7281	7113676202596652	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/startup_iar.o	544ca73cc438e897
+7302	7978	7113676209418263	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/core_portme.o	8a94259ac186fa76
+7997	8808	7113676217744112	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/core_state.o	bb1e00a7dd765fcd
+8826	8881	7113676218604089	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/coremark.o	f5194fe724e93918
+8902	9068	7113676220474084	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/coremark.out	2924a6e7a8063fa1
+9089	9103	7113676220954094	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/power/coremark/iar/bin/coremark.bin	71148b7c1eed5ebb

@@ -9,7 +9,7 @@
  *
  */
 
-#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+#if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L)
 // TEMPCO not supported in this version
 #else
 
@@ -36,8 +36,7 @@ extern am_hal_adc_sample_t g_ns_tempco_sSamples[AM_HAL_TEMPCO_NUMSAMPLES];
 extern void *g_ns_tempco_ADCHandle;
         #define TEMPCO_ADC_TEMPERATURE_SLOT 5
 
-extern uint32_t
-ns_tempco_init(void);
+extern uint32_t ns_tempco_init(void);
 
         #ifdef __cplusplus
 }

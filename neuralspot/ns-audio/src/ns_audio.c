@@ -20,7 +20,11 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
-#include "ns_audadc.h"
+
+#ifndef AM_PART_APOLLO4L
+    #include "ns_audadc.h"
+#endif
+
 #include "ns_ipc_ring_buffer.h"
 #include "ns_pdm.h"
 
@@ -29,8 +33,8 @@ const ns_core_api_t ns_audio_V1_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_A
 const ns_core_api_t ns_audio_V2_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V2_0_0};
 const ns_core_api_t ns_audio_oldest_supported_version = {
     .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION};
-const ns_core_api_t ns_audio_current_version = {.apiId = NS_AUDIO_API_ID,
-                                                .version = NS_AUDIO_CURRENT_VERSION};
+const ns_core_api_t ns_audio_current_version = {
+    .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_CURRENT_VERSION};
 
 #ifdef NS_RTT_AUDIODEBUG
     #include "SEGGER_RTT.h"
@@ -48,8 +52,7 @@ uint32_t g_ui32SampleToRTT = 0;
  */
 ns_audio_config_t *g_ns_audio_config = NULL;
 
-uint32_t
-ns_audio_init(ns_audio_config_t *cfg) {
+uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 
 #ifndef NS_DISABLE_API_VALIDATION
     // Check the handle.
@@ -58,14 +61,25 @@ ns_audio_init(ns_audio_config_t *cfg) {
     }
 
     // check API version
-    if (ns_core_check_api(cfg->api, &ns_audio_oldest_supported_version,
-                          &ns_audio_current_version)) {
+    if (ns_core_check_api(
+            cfg->api, &ns_audio_oldest_supported_version, &ns_audio_current_version)) {
         return NS_STATUS_INVALID_VERSION;
     }
 
     if ((cfg->callback == NULL) || (cfg->audioBuffer == NULL) || (cfg->sampleBuffer == NULL)) {
         return NS_STATUS_INVALID_CONFIG;
     }
+
+    #ifdef AM_PART_APOLLO4L
+    if (cfg->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
+
+    if (cfg->numChannels != 1) {
+        return NS_STATUS_INVALID_CONFIG; // APOLLO4L only supports 1 channel
+    }
+
+    #endif
 
     if ((cfg->api->version.major != 1) && (cfg->eAudioSource == NS_AUDIO_SOURCE_AUDADC) &&
         (cfg->workingBuffer == NULL)) {
@@ -82,15 +96,20 @@ ns_audio_init(ns_audio_config_t *cfg) {
 
     if (g_ns_audio_config->eAudioApiMode == NS_AUDIO_API_RINGBUFFER) {
         // init a ringbuffer
-        ns_ipc_ringbuff_setup_t setup = {.indx = 0,
-                                         .pData = g_ns_audio_config->audioBuffer,
-                                         .ui32ByteSize = g_ns_audio_config->numSamples * 2 * 2};
+        ns_ipc_ringbuff_setup_t setup = {
+            .indx = 0,
+            .pData = g_ns_audio_config->audioBuffer,
+            .ui32ByteSize = g_ns_audio_config->numSamples * 2};
 
         ns_ipc_ring_buffer_init(g_ns_audio_config->bufferHandle, setup);
         g_ns_audio_config->bufferHandle = g_ns_audio_config->bufferHandle;
     }
 
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef AM_PART_APOLLO4L
+        am_util_stdio_printf("Error - Trying to init non-existant AUDADC on Apollo4 Lite\n");
+        return NS_STATUS_INIT_FAILED;
+#else
         if (g_ns_audio_config->audadc_config == NULL) {
             g_ns_audio_config->audadc_config = &ns_audadc_default;
         }
@@ -105,6 +124,7 @@ ns_audio_init(ns_audio_config_t *cfg) {
             am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
             return NS_STATUS_INIT_FAILED;
         }
+#endif
     } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         if (g_ns_audio_config->pdm_config == NULL) {
             g_ns_audio_config->pdm_config = &ns_pdm_default;
@@ -120,8 +140,8 @@ ns_audio_init(ns_audio_config_t *cfg) {
 
 #ifdef NS_RTT_AUDIODEBUG
     SEGGER_RTT_Init();
-    SEGGER_RTT_ConfigUpBuffer(1, "DataLogger", g_rttRecorderBuffer, RTT_BUFFER_LENGTH,
-                              SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+    SEGGER_RTT_ConfigUpBuffer(
+        1, "DataLogger", g_rttRecorderBuffer, RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
     am_util_stdio_printf("RTT Control Block Address:  0x%08X\n", (uint32_t)&_SEGGER_RTT);
 #endif
 
@@ -141,8 +161,7 @@ ns_audio_init(ns_audio_config_t *cfg) {
 //     }
 // }
 
-void
-ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
+void ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
     if (g_ns_audio_config->api->version.major < 2) {
         for (int i = 0; i < len; i++) {
             pcm[i] = (int16_t)(raw[i] & 0x0000FFF0);
@@ -156,8 +175,11 @@ ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
     }
 }
 
-void
-ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
+void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
+#ifdef AM_PART_APOLLO4L
+    // Apollo4 Lite only supports PDM, and there is nothing to do for PDM here
+    return;
+#else
     uint32_t ui32PcmSampleCnt = config->numSamples * config->numChannels;
 
     if (config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
@@ -168,14 +190,15 @@ ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
         uint16_t *pcm16 = (uint16_t *)pcm;
 
         // gen_synthetic_audadc(config, ui32PcmSampleCnt);
-#ifdef NS_AMBIQSUITE_VERSION_R4_1_0
-        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
-                                   &ui32PcmSampleCnt, true, config->workingBuffer, false, NULL);
-#else
-        am_hal_audadc_samples_read(config->audioSystemHandle, config->sampleBuffer,
-                                   &ui32PcmSampleCnt, true, config->workingBuffer, false, NULL,
-                                   config->sOffsetCalib);
-#endif
+    #ifdef NS_AMBIQSUITE_VERSION_R4_1_0
+        am_hal_audadc_samples_read(
+            config->audioSystemHandle, config->sampleBuffer, &ui32PcmSampleCnt, true,
+            config->workingBuffer, false, NULL);
+    #else
+        am_hal_audadc_samples_read(
+            config->audioSystemHandle, config->sampleBuffer, &ui32PcmSampleCnt, true,
+            config->workingBuffer, false, NULL, config->sOffsetCalib);
+    #endif
         for (int i = 0; i < ui32PcmSampleCnt; i++) {
             if (config->numChannels == 1) {
                 pcm16[i] = config->workingBuffer[i].int16Sample;
@@ -198,4 +221,5 @@ ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
         //     pcm8[2 * i + 1] = (config->sampleBuffer[i] & 0xFF0000) >> 16U;
         // }
     }
+#endif
 }

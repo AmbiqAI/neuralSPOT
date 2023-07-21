@@ -1,0 +1,8 @@
+# ninja log v5
+0	523	7113679160797514	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/am_resources.o	fe5eda59efb3f669
+544	1040	7113679165976343	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/am_util_delay.o	f246688af614ed5b
+1061	1241	7113679168077637	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/am_util_stdio.o	2bd98cdc18b62ffc
+1261	1803	7113679173597629	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/ios_fifo_host.o	6fdc2cb0e7d46494
+1821	1897	7113679174658917	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/startup_iar.o	e81cff3b4a483779
+1917	2044	7113679176207310	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/ios_fifo_host.out	83fa60170e1962b3
+2059	2077	7113679176637299	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/interfaces/ios_fifo_host/iar/bin/ios_fifo_host.bin	19c23d3061b6b007

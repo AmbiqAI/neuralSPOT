@@ -1,0 +1,23 @@
+# ninja log v5
+1	2149	7113687938184912	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nemagfx_transition_effects.o	469b2b44441d1918
+2183	2217	7113687939144860	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/portasm.o	6919b4de9a0e2b6d
+2252	2865	7113687945380577	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/am_devices_display_generic.o	ba7c37d1d78c388c
+2896	3026	7113687947106247	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/event_groups.o	b1ce52b21e6cca10
+3079	3248	7113687949286245	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/am_util_stdio.o	c0ce43c8fd628d21
+3279	3337	7113687950196247	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/gui_task.o	975b36d5fdc56189
+3378	3845	7113687955175862	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/am_resources.o	272f80827a7c1d64
+3883	4010	7113687956921675	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/heap_4.o	a57b3c57f030b23f
+4042	4511	7113687961847303	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/am_util_delay.o	dda3e7207c464b46
+4555	5065	7113687967375081	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nema_utils.o	853982fcd0154909
+5103	5680	7113687973540728	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nema_dc_hal.o	ee666f9a6f601e7e
+5716	5775	7113687974569760	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nema_event.o	931e8739df3a8c1a
+5817	6327	7113687980005421	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nema_hal.o	c71d244a38bd954c
+6361	6454	7113687981345441	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/list.o	524d2a922adf7ad6
+6506	7059	7113687987290291	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/port.o	2e5ef99b71f944a6
+7098	7496	7113687991700334	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/tasks.o	590ce5663414d9c9
+7542	7765	7113687994451613	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/queue.o	9dd1140a2d68c201
+7809	7882	7113687995655570	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/startup_iar.o	a72cd231add46a25
+7934	8451	7113688001225548	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/rtos.o	c704ca75b1342288
+8486	8645	7113688003271162	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/timers.o	26bb3657dc51bde6
+8677	8897	7113688005808950	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nemagfx_transition_effects.out	d661c9ec77e81da5
+8930	8953	7113688006498935	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/nemagfx_transition_effects/iar/bin/nemagfx_transition_effects.bin	8ebd28050da4360e

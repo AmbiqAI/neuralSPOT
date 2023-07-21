@@ -1,0 +1,10 @@
+# ninja log v5
+1	494	7113788713325239	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/am_util_faultisr.o	38234a0739a04a63
+508	969	7113788718068281	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/am_resources.o	260ced7c96dacbb6
+986	1441	7113788722803878	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/am_util_delay.o	5020ccb53bbdc820
+1455	1949	7113788727870088	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/apollo4_sec_bl.o	33dae3db6cb297a6
+1964	2490	7113788733290081	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/apollo4_secblProc.o	eaed11376de27a11
+2506	2567	7113788734155720	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/startup_iar.o	e51c41d2c3542397
+2584	2740	7113788735863208	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/am_util_stdio.o	fa888504f55b26a6
+2763	2894	7113788737433192	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/apollo4_sec_bl.out	5136d372d80b5cc8
+2914	2926	7113788737833196	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kxr_evb/examples/crypto/apollo4_sec_bl/iar/bin/apollo4_sec_bl.bin	4e4a5b55d467a983

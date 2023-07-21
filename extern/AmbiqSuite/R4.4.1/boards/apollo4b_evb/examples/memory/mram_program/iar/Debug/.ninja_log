@@ -1,0 +1,9 @@
+# ninja log v5
+0	582	7113679431539262	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/am_resources.o	170a7ac5d8f0b22a
+602	1156	7113679437502740	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/am_util_faultisr.o	c305aa7da0becaad
+1175	1676	7113679442722737	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/am_util_delay.o	6a803d736c8f3c6c
+1693	2224	7113679448229535	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/mram_program.o	54bda6f3db5f8e18
+2243	2337	7113679449429532	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/startup_iar.o	1c78c3469818bc16
+2357	2547	7113679451539531	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/am_util_stdio.o	f376e3db6c99002d
+2565	2682	7113679453079529	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/mram_program.out	76b538626be35904
+2699	2713	7113679453459542	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb/examples/memory/mram_program/iar/bin/mram_program.bin	b18cd52e2967a324

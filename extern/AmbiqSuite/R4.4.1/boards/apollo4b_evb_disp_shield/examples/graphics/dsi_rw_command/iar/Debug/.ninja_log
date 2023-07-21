@@ -1,0 +1,13 @@
+# ninja log v5
+0	568	7113684061129216	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_devices_dc_dsi_raydium.o	b29c57c6946e8aba
+601	1090	7113684066347712	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_resources.o	ba8609f12580003
+1117	1647	7113684071942244	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_hal.o	6099a61ed577389f
+1683	2177	7113684077229365	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_util_delay.o	ab32b39f3e4a7804
+2211	2822	7113684083579964	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/dsi_rw_command.o	4052e5328950d557
+2853	3509	7113684090340846	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_dc_hal.o	19177b3e4662d147
+3542	3642	7113684091740872	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_event.o	4b604b794b9c49a5
+3675	3901	7113684094256497	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/am_util_stdio.o	b5849af4c56c1545
+3932	4491	7113684100245639	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/nema_utils.o	7a7d042b09fa480d
+4524	4627	7113684101675615	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/startup_iar.o	eb96d9441c14e092
+4661	4820	7113684103811225	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/dsi_rw_command.out	22c1c1f1111075af
+4844	4861	7113684104321258	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_evb_disp_shield/examples/graphics/dsi_rw_command/iar/bin/dsi_rw_command.bin	7911988b4ead81ab

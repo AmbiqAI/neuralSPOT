@@ -1,0 +1,13 @@
+# ninja log v5
+0	182	7113800516505255	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/am_util_stdio.o	6c247521dc26e16
+228	801	7113800522560908	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nema_dc_hal.o	c2e4942e86f23d39
+833	1292	7113800527492852	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/am_util_delay.o	ee44f43d3a8c4ca
+1321	1369	7113800528338522	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nema_event.o	10eca5ab42ccad60
+1400	1896	7113800533510617	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nema_hal.o	ab793e392a513bcf
+1926	2436	7113800538904749	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nema_utils.o	a5d090af131ac7cc
+2466	2918	7113800543762899	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/am_resources.o	387c6e828a03f93d
+2949	3452	7113800549071552	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/am_devices_dc_dsi_raydium.o	c1fb0651bca8e48
+3482	3547	7113800550121544	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/startup_iar.o	8309300ddd94c191
+3578	8703	7113800601366859	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nemadc_darkening_effect.o	411e07e447da53b1
+8733	8897	7113800603626814	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nemadc_darkening_effect.out	3b0e51d1571dc190
+8920	8963	7113800604392721	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb_disp_shield_rev2/examples/graphics/nemadc_darkening_effect/iar/bin/nemadc_darkening_effect.bin	4b08df9c6ccaed9

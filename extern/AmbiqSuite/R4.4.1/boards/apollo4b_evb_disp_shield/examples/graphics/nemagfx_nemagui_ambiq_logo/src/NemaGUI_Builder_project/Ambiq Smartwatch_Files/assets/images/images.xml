@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IMAGE_ASSETS>
+    <IMAGE ID="0" NAME="AmbiqSmartwatch_MainScreen.png" FORMAT="28" R_DEFAULT="0" G_DEFAULT="0" B_DEFAULT="0" PATH="AmbiqSmartwatch_MainScreen.png" TEXTURE_FILTERING="1" GEN_H_FILE="1" NEMA_MEM_POOL="0"/>
+    <IMAGE ID="1" NAME="AmbiqSmartwatch_WatchFace.png" FORMAT="28" R_DEFAULT="0" G_DEFAULT="0" B_DEFAULT="0" PATH="AmbiqSmartwatch_WatchFace.png" TEXTURE_FILTERING="1" GEN_H_FILE="1" NEMA_MEM_POOL="0"/>
+    <IMAGE ID="2" NAME="AmbiqSmartwatch_ContactScreen.png" FORMAT="28" R_DEFAULT="0" G_DEFAULT="0" B_DEFAULT="0" PATH="AmbiqSmartwatch_ContactScreen.png" TEXTURE_FILTERING="1" GEN_H_FILE="1" NEMA_MEM_POOL="0"/>
+    <IMAGE ID="3" NAME="SecondsHand.png" FORMAT="32" R_DEFAULT="0" G_DEFAULT="0" B_DEFAULT="0" PATH="SecondsHand.png" TEXTURE_FILTERING="1" GEN_H_FILE="1" NEMA_MEM_POOL="0"/>
+    <IMAGE ID="4" NAME="MinutesHand.png" FORMAT="32" R_DEFAULT="0" G_DEFAULT="0" B_DEFAULT="0" PATH="MinutesHand.png" TEXTURE_FILTERING="1" GEN_H_FILE="1" NEMA_MEM_POOL="0"/>
+    <IMAGE ID="5" NAME="HoursHand.png" FORMAT="32" R_DEFAULT="0" G_DEFAULT="0" B_DEFAULT="0" PATH="HoursHand.png" TEXTURE_FILTERING="1" GEN_H_FILE="1" NEMA_MEM_POOL="0"/>
+</IMAGE_ASSETS>

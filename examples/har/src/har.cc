@@ -34,7 +34,9 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 #include "ns_mpu6050_i2c_driver.h"
 #include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
-#include "ns_usb.h"
+#ifdef NS_USB_PRESENT
+    #include "ns_usb.h"
+#endif
 
 typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, INFERING } myState_e;
 
@@ -45,8 +47,8 @@ float g_sensorData[MPU_FRAME_SIZE][MPU_AXES]; // 3 axes for each of accel and gy
 float g_sensorMean[MPU_AXES];
 float g_sensorStd[MPU_AXES];
 constexpr size_t kCategoryCount = 6;
-const char *kCategoryLabels[kCategoryCount] = {"Walking", "Jogging", "Stairs", "Sitting",
-                                               "Standing"};
+const char *kCategoryLabels[kCategoryCount] = {
+    "Walking", "Jogging", "Stairs", "Sitting", "Standing"};
 
 // i2c Config for MPU6050
 uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
@@ -60,8 +62,7 @@ ns_i2c_config_t i2cConfig = {.api = &ns_i2c_V1_0_0, .iom = 1};
  * @param delay
  * @return uint32_t
  */
-uint32_t
-collect_mpu_frame(ns_i2c_config_t *i2cConfig, int samples, uint32_t delay) {
+uint32_t collect_mpu_frame(ns_i2c_config_t *i2cConfig, int samples, uint32_t delay) {
     // Collects a frame of MPU data and puts it in g_sensorData global
     // Calculates the mean for each axis and we go along
     int16_t accelVals[MPU_AXES];
@@ -103,8 +104,7 @@ collect_mpu_frame(ns_i2c_config_t *i2cConfig, int samples, uint32_t delay) {
  *
  * @return int
  */
-int
-main(void) {
+int main(void) {
     float tmp = 0;
     float output[kCategoryCount];
     uint8_t output_max = 0;
@@ -152,12 +152,13 @@ main(void) {
     buttonPressed = false;
     ns_lp_printf("Running calibration...\n");
 
-    mpu6050_config_t mpu_config = {.clock_src = CLOCK_GZ_PLL,
-                                   .dlpf_cfg = DLPF_044HZ,
-                                   .gyro_fullscale_range = GYRO_FS_500DPS,
-                                   .accel_fullscale_range = ACCEL_FS_4G,
-                                   .sample_rate = 20,
-                                   .sleep_cfg = 0};
+    mpu6050_config_t mpu_config = {
+        .clock_src = CLOCK_GZ_PLL,
+        .dlpf_cfg = DLPF_044HZ,
+        .gyro_fullscale_range = GYRO_FS_500DPS,
+        .accel_fullscale_range = ACCEL_FS_4G,
+        .sample_rate = 20,
+        .sleep_cfg = 0};
 
     NS_TRY(ns_i2c_interface_init(&i2cConfig, 100000), "i2c Interface Init Failed.\n");
     NS_TRY(mpu6050_init(&i2cConfig, &mpu_config, mpuAddr), "MPU6050 Init Failed.\n");
@@ -235,8 +236,9 @@ main(void) {
                 output[i] = (model_output->data.int8[i] - model_output->params.zero_point) *
                             model_output->params.scale;
                 if (output[i] > 0.3) {
-                    ns_lp_printf("\n[%s] with %d%% certainty\n", kCategoryLabels[i],
-                                 (uint8_t)(output[i] * 100));
+                    ns_lp_printf(
+                        "\n[%s] with %d%% certainty\n", kCategoryLabels[i],
+                        (uint8_t)(output[i] * 100));
                 }
 
                 if (output[i] > max_val) {

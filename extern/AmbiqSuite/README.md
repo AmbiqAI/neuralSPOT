@@ -22,7 +22,6 @@ rm -rf makedefs
 rm -rf third_party/tools
 rm -rf third_party/FatFs
 rm -rf third_party/ThinkSi
-rm -rf third_party/cordio
 rm -rf third_party/crypto
 rm -rf third_party/prime_mpi
 rm -rf third_party/uecc

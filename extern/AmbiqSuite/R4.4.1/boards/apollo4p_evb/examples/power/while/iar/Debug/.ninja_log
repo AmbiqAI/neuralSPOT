@@ -1,0 +1,7 @@
+# ninja log v5
+0	87	7113798315632474	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb/examples/power/while/iar/bin/startup_iar.o	d8c8578f0f6d3137
+104	951	7113798324264051	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb/examples/power/while/iar/bin/am_util_stdio.o	74d50516c07c181f
+971	1417	7113798328855315	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb/examples/power/while/iar/bin/am_resources.o	3aff4fecb095c48c
+1437	1940	7113798334090740	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb/examples/power/while/iar/bin/while.o	efdc5281277a2bf8
+1957	2060	7113798335390735	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb/examples/power/while/iar/bin/while.out	a67c2aad4ef9634
+2073	2085	7113798335706367	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_evb/examples/power/while/iar/bin/while.bin	1b12d254cfad0925

@@ -7,8 +7,11 @@ NESTDIR := nest
 SHELL  :=/bin/bash
 
 ##### Target Hardware Defaults #####
+ifndef BOARD
 BOARD  :=apollo4p
-BOARDROOT := $(firstword $(subst _, ,$(BOARD)))
+endif
+BRD   :=$(BOARD)
+BOARDROOT = $(firstword $(subst _, ,$(BRD)))
 EVB    :=evb
 PART   = $(BOARDROOT)
 CPU    = cortex-m4
@@ -19,7 +22,7 @@ FPU    = fpv4-sp-d16
 FABI     = hard
 
 ##### Extern Library Defaults #####
-AS_VERSION := R4.3.0
+AS_VERSION := R4.4.1
 TF_VERSION := fecdd5d
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
@@ -34,7 +37,7 @@ NESTEGG := basic_tf_stub
 NESTSOURCEDIR := examples/$(NESTEGG)/src
 
 ##### AmbiqSuite Config and HW Feature Control Flags #####
-ifneq ($(BOARD),apollo4l)
+ifneq ($(BRD),apollo4l)
 DEFINES+= AM_HAL_TEMPCO_LP
 DEFINES+= NS_AUDADC_PRESENT
 DEFINES+= NS_PDM1TO3_PRESENT
@@ -50,6 +53,7 @@ NS_MALLOC_HEAP_SIZE_IN_K := 16
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
+DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
 
 ##### BLE Defines
 ## BLE is only support for AmbiqSuite R4.3.0 and later

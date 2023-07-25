@@ -205,13 +205,13 @@ def measurePower():
                         state = "getting_ready"
                         log.info("Waiting for trigger to be acknowledged")
                 elif state == "getting_ready":
-                    if gpi == 1:
+                    if gpi == 0:
                         state = "collecting"
                         device.statistics_accumulators_clear()
                         log.info("Collecting")
                         startTime = datetime.datetime.now()
                 elif state == "collecting":
-                    if gpi == 2:
+                    if gpi != 0:
                         stopTime = datetime.datetime.now()
                         # print ("Elapsed inference time: %d" % (stopTime - startTime))
                         td = stopTime - startTime

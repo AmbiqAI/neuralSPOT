@@ -99,6 +99,7 @@ int main(void) {
 
         case WAITING_TO_RUN:
             if (joulescopeTrigger) {
+                ns_delay_us(100000);
                 state = SIGNAL_START_TO_JS;
                 joulescopeTrigger = false;
             }
@@ -114,7 +115,7 @@ int main(void) {
 
         case RUNNING:
             // ns_lp_printf("Running...\n");
-            ns_set_power_monitor_state(1);
+            ns_set_power_monitor_state(0);
             for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
                 model.interpreter->Invoke();
             }

@@ -20,63 +20,48 @@ const ns_core_api_t ns_usb_V0_0_1 = {.apiId = NS_USB_API_ID, .version = NS_USB_V
 
 const ns_core_api_t ns_usb_V1_0_0 = {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
 
-const ns_core_api_t ns_usb_oldest_supported_version = {.apiId = NS_USB_API_ID,
-                                                       .version = NS_USB_V0_0_1};
+const ns_core_api_t ns_usb_oldest_supported_version = {
+    .apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1};
 
 const ns_core_api_t ns_usb_current_version = {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
 
-static ns_usb_config_t usb_config = {.api = &ns_usb_V1_0_0,
-                                     .deviceType = NS_USB_CDC_DEVICE,
-                                     .rx_buffer = NULL,
-                                     .rx_bufferLength = 0,
-                                     .tx_buffer = NULL,
-                                     .tx_bufferLength = 0,
-                                     .rx_cb = NULL,
-                                     .tx_cb = NULL,
-                                     .service_cb = NULL};
+static ns_usb_config_t usb_config = {
+    .api = &ns_usb_V1_0_0,
+    .deviceType = NS_USB_CDC_DEVICE,
+    .rx_buffer = NULL,
+    .rx_bufferLength = 0,
+    .tx_buffer = NULL,
+    .tx_bufferLength = 0,
+    .rx_cb = NULL,
+    .tx_cb = NULL,
+    .service_cb = NULL};
 
 volatile static uint8_t gGotUSBRx = 0;
 
-bool
-ns_usb_data_available(usb_handle_t handle) {
-    return (gGotUSBRx == 1);
-}
+bool ns_usb_data_available(usb_handle_t handle) { return (gGotUSBRx == 1); }
 
-uint32_t
-ns_get_cdc_rx_bufferLength() {
-    return usb_config.rx_bufferLength;
-}
-uint32_t
-ns_get_cdc_tx_bufferLength() {
-    return usb_config.tx_bufferLength;
-}
+uint32_t ns_get_cdc_rx_bufferLength() { return usb_config.rx_bufferLength; }
+uint32_t ns_get_cdc_tx_bufferLength() { return usb_config.tx_bufferLength; }
 
-uint8_t *
-ns_usb_get_rx_buffer() {
-    return usb_config.rx_buffer;
-}
+uint8_t *ns_usb_get_rx_buffer() { return usb_config.rx_buffer; }
 
-uint8_t *
-ns_usb_get_tx_buffer() {
-    return usb_config.tx_buffer;
-}
+uint8_t *ns_usb_get_tx_buffer() { return usb_config.tx_buffer; }
 
-static void
-ns_usb_service_callback(ns_timer_config_t *c) {
+static void ns_usb_service_callback(ns_timer_config_t *c) {
     // Invoked in ISR context
     tud_task();
     if (usb_config.service_cb != NULL)
         usb_config.service_cb(gGotUSBRx);
 }
 
-ns_timer_config_t g_ns_usbTimer = {.api = &ns_timer_V1_0_0,
-                                   .timer = NS_TIMER_USB,
-                                   .enableInterrupt = true,
-                                   .periodInMicroseconds = 1000,
-                                   .callback = ns_usb_service_callback};
+ns_timer_config_t g_ns_usbTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_USB,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 1000,
+    .callback = ns_usb_service_callback};
 
-uint32_t
-ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
+uint32_t ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
 
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
@@ -110,15 +95,13 @@ ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
     return NS_STATUS_SUCCESS;
 }
 
-void
-ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx_cb txcb) {
+void ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx_cb txcb) {
     ((ns_usb_config_t *)handle)->rx_cb = rxcb;
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
 
 // Invoked when CDC interface received data from host
-void
-tud_cdc_rx_cb(uint8_t itf) {
+void tud_cdc_rx_cb(uint8_t itf) {
     (void)itf;
     ns_usb_transaction_t rx;
     if (usb_config.rx_cb != NULL) {
@@ -130,11 +113,10 @@ tud_cdc_rx_cb(uint8_t itf) {
         usb_config.rx_cb(&rx);
     }
     gGotUSBRx = 1;
-    // ns_lp_printf("---rx---\n");
+    ns_lp_printf("---rx---\n");
 }
 
-void
-tud_cdc_tx_complete_cb(uint8_t itf) {
+void tud_cdc_tx_complete_cb(uint8_t itf) {
     (void)itf;
     ns_usb_transaction_t rx;
     if (usb_config.tx_cb != NULL) {
@@ -145,7 +127,7 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
         rx.itf = itf;
         usb_config.tx_cb(&rx);
     }
-    // ns_lp_printf("---tx---\n");
+    ns_lp_printf("---tx---\n");
 }
 
 /**
@@ -156,8 +138,7 @@ tud_cdc_tx_complete_cb(uint8_t itf) {
  * @param bufsize Requested number of bytes
  * @return uint32_t
  */
-uint32_t
-ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
+uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     // USB reads one block at a time, loop until we get full
     // request
@@ -205,7 +186,7 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     //     %d, %d, af2 cnt,sem: %d, %d\n",
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
-    // ns_lp_printf("Got bytes %d\n", bytes_rx);
+    ns_lp_printf("Got bytes %d\n", bytes_rx);
     //  ns_delay_us(100);
 
     // dontoptimizeme = after + after_sem + before + before_sem + after2 + after2_sem;
@@ -217,13 +198,12 @@ ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
  *
  * @param h handle
  */
-void
-ns_usb_handle_read_error(usb_handle_t h) {
+void ns_usb_handle_read_error(usb_handle_t h) {
     int i;
     for (i = 0; i < 100; i++) {
         ns_delay_us(10000);
     }
-    ns_printf("after wait\n");
+    ns_lp_printf("after wait\n");
     tud_cdc_read_flush();
     gGotUSBRx = 0; // may be set by final RX
 }
@@ -236,14 +216,15 @@ ns_usb_handle_read_error(usb_handle_t h) {
  * @param bufsize Requested number of bytes
  * @return uint32_t
  */
-uint32_t
-ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
+uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
+    ns_lp_printf("NS USB  asked to send %d, \n", bufsize);
+
     while (bytes_tx < bufsize) {
         bytes_tx += tud_cdc_write((void *)(buffer + bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
-        // ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
+        ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
 
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);

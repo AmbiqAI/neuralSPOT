@@ -221,7 +221,12 @@ status getStatistics(dataBlock *res) {
         char msg[] = "PartStats\0";
         memcpy(msg_store, msg, sizeof(msg));
     }
-
+    ns_lp_printf(
+        "[INFO] Sending stats chunk, sr %d, cs %d, so %d\n", stats_remaining, bufSize,
+        stats_offset);
+    ns_lp_printf(
+        "[INFO] size of rx buffer %d, and tx buffer is %d\n", TFLM_VALIDATOR_RX_BUFSIZE,
+        TFLM_VALIDATOR_TX_BUFSIZE);
     return ns_rpc_data_success;
 }
 

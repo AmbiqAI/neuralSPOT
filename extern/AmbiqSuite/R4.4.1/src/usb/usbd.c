@@ -566,7 +566,7 @@ void tud_task (void)
           usbd_class_driver_t const * driver = get_driver( _usbd_dev.ep2drv[epnum][ep_dir] );
           TU_ASSERT(driver, );
 
-          TU_LOG2("  %s xfer callback2\r\n", driver->name);
+          TU_LOG2("  %s xfer callback\r\n", driver->name);
           driver->xfer_cb(event.rhport, ep_addr, (xfer_result_t)event.xfer_complete.result, event.xfer_complete.len);
         }
       }

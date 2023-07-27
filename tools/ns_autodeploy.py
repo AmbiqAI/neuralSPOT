@@ -177,10 +177,10 @@ Notes:
         - MACs are estimated based on the number of operations in the model, not via instrumented code
 """
         )
-        print(
+        log.info(
             f"{self.model_name},96,{self.profileTotalEstimatedMacs},{self.profileTotalCycles},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts}"
         )
-        print(
+        log.info(
             f"{self.model_name},192,{self.profileTotalEstimatedMacs},{self.profileTotalCycles},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts}"
         )
 

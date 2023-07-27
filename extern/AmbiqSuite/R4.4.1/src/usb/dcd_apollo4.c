@@ -40,7 +40,7 @@
 static void *pUSBHandle = NULL;
 
 static void dcd_usb_dev_evt_callback(am_hal_usb_dev_event_e eDevState) ;
-static uint32_t dcd_usb_setHFCR2( void ) ;
+// static uint32_t dcd_usb_setHFCR2( void ) ;
 static void dcd_usb_ep_xfer_complete_callback(const uint8_t ep_addr,
                                               const uint16_t xfer_len,
                                               am_hal_usb_xfer_code_e code,
@@ -353,25 +353,25 @@ static am_hal_usb_charger_type_e dcd_usb_charger_type;
 
 /*------------------------------------------------------------------*/
 
-//*****************************************************************************
-//
-//! @brief setup and enable HFRC2 when usb mode is highspeed
-//! 
-//! @param enable  true will enable HFCR2
-//! @param enable  false will disable HFCR2 
-//
-//*****************************************************************************
-static uint32_t
-dcd_usb_setHFCR2( void )
-{
-#if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_HIGH_SPEED
-    am_hal_usb_hs_clock_type am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_HFRC2 ;
-#else
-    am_hal_usb_hs_clock_type am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_DISABLE ;
-#endif
-    return am_hal_usb_control(AM_HAL_CLKGEN_CONTROL_SET_HFRC2_TYPE, &am_hal_hfrc2_clock_type ) ;
+// //*****************************************************************************
+// //
+// //! @brief setup and enable HFRC2 when usb mode is highspeed
+// //! 
+// //! @param enable  true will enable HFCR2
+// //! @param enable  false will disable HFCR2 
+// //
+// //*****************************************************************************
+// static uint32_t
+// dcd_usb_setHFCR2( void )
+// {
+// #if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_HIGH_SPEED
+//     am_hal_usb_hs_clock_type am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_HFRC2 ;
+// #else
+//     am_hal_usb_hs_clock_type am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_DISABLE ;
+// #endif
+//     return am_hal_usb_control(AM_HAL_CLKGEN_CONTROL_SET_HFRC2_TYPE, &am_hal_hfrc2_clock_type ) ;
 
-}
+// }
 
 
 /*------------------------------------------------------------------*/
@@ -460,7 +460,7 @@ dcd_init (uint8_t rhport)
     //
     // start HFCR2 if the USB will run at HIGH speed
     //
-    uint32_t ui32hfcr2_status = dcd_usb_setHFCR2();
+    // uint32_t ui32hfcr2_status = dcd_usb_setHFCR2();
 
     //
     // set USB PHY reset disable
@@ -468,16 +468,16 @@ dcd_init (uint8_t rhport)
     am_hal_usb_disable_phy_reset_override();
 
 
-#if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_FULL_SPEED
-    am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_FULL;
-#else
-    am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_HIGH;
-#endif
+// #if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_FULL_SPEED
+//     am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_FULL;
+// #else
+//     am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_HIGH;
+// #endif
 
-    if (ui32hfcr2_status == AM_HAL_STATUS_SUCCESS)
-    {
-        am_hal_usb_set_dev_speed(pUSBHandle, eUsbSpeed);
-    }
+    // if (ui32hfcr2_status == AM_HAL_STATUS_SUCCESS) // NeuralSPOT TODO - this is a hack, enabling these lines kill RPC in some cases
+    // {
+    //     am_hal_usb_set_dev_speed(pUSBHandle, eUsbSpeed);
+    // }
 
     am_hal_usb_intr_usb_enable(pUSBHandle, USB_INTRUSB_Reset_Msk);
 

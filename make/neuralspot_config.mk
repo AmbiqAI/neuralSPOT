@@ -22,7 +22,9 @@ FPU    = fpv4-sp-d16
 FABI     = hard
 
 ##### Extern Library Defaults #####
+ifndef AS_VERSION
 AS_VERSION := R4.4.1
+endif
 TF_VERSION := fecdd5d
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
@@ -53,7 +55,7 @@ NS_MALLOC_HEAP_SIZE_IN_K := 16
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
-DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
+# DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_HIGH_SPEED
 
 ##### BLE Defines
 ## BLE is only support for AmbiqSuite R4.3.0 and later

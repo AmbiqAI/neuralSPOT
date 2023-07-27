@@ -300,9 +300,12 @@ def validateModel(params, client, interpreter, md, mc):
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
         if md.inputTensors[0].bytes > (
-            params.max_rpc_buf_size - 600
+            params.max_rpc_buf_size - 800
         ):  # TODO: calculate the 600
-            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 600))
+            log.info(
+                f"Input tensor exceeds RPC buffer size, chunking from {md.inputTensors[0].bytes} to {(params.max_rpc_buf_size - 800)}"
+            )
+            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 800))
             inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
                 description="Empty Tensor",
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -311,6 +314,9 @@ def validateModel(params, client, interpreter, md, mc):
                 length=0,
             )
         else:
+            log.info(
+                f"Input tensor fits in RPC buffer, sending {md.inputTensors[0].bytes}"
+            )
             inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
                 description="Input Tensor",
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -322,7 +328,7 @@ def validateModel(params, client, interpreter, md, mc):
         outputTensor = (
             erpc.Reference()
         )  # empty outputTensor, will be filled in by EVB RPC call
-
+        log.info("Calling EVB invoke")
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)  # on EVB
         if stat != 0:
             print(f"[ERROR] EVB invoke returned {stat}")

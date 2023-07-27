@@ -151,8 +151,10 @@ status configureModel(const dataBlock *in) {
  * @return status
  */
 status incomingTensorChunk(const dataBlock *in) {
-    // ns_lp_printf("[INFO] PC Sent Input Tensor Chunk of %d bytes, copied to %d\n",
-    // in->buffer.dataLength, input_tensor_offset); Get latest chunk, copy into next spot in raw
+    ns_lp_printf(
+        "[INFO] PC Sent Input Tensor Chunk of %d bytes, copied to %d\n", in->buffer.dataLength,
+        input_tensor_offset);
+    // Get latest chunk, copy into next spot in raw
     // tensor
     memcpy(
         tflm.model_input[0]->data.int8 + input_tensor_offset, in->buffer.data,

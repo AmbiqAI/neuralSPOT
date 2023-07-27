@@ -113,7 +113,7 @@ void tud_cdc_rx_cb(uint8_t itf) {
         usb_config.rx_cb(&rx);
     }
     gGotUSBRx = 1;
-    ns_lp_printf("---rx---\n");
+    // ns_lp_printf("---rx---\n");
 }
 
 void tud_cdc_tx_complete_cb(uint8_t itf) {
@@ -127,7 +127,7 @@ void tud_cdc_tx_complete_cb(uint8_t itf) {
         rx.itf = itf;
         usb_config.tx_cb(&rx);
     }
-    ns_lp_printf("---tx---\n");
+    // ns_lp_printf("---tx---\n");
 }
 
 /**
@@ -186,7 +186,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     //     %d, %d, af2 cnt,sem: %d, %d\n",
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
-    ns_lp_printf("Got bytes %d\n", bytes_rx);
+    // ns_lp_printf("Got bytes %d\n", bytes_rx);
     //  ns_delay_us(100);
 
     // dontoptimizeme = after + after_sem + before + before_sem + after2 + after2_sem;
@@ -203,7 +203,7 @@ void ns_usb_handle_read_error(usb_handle_t h) {
     for (i = 0; i < 100; i++) {
         ns_delay_us(10000);
     }
-    ns_lp_printf("after wait\n");
+    ns_lp_printf("In error after wait\n");
     tud_cdc_read_flush();
     gGotUSBRx = 0; // may be set by final RX
 }
@@ -219,12 +219,12 @@ void ns_usb_handle_read_error(usb_handle_t h) {
 uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
-    ns_lp_printf("NS USB  asked to send %d, \n", bufsize);
+    // ns_lp_printf("NS USB  asked to send %d, \n", bufsize);
 
     while (bytes_tx < bufsize) {
         bytes_tx += tud_cdc_write((void *)(buffer + bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
-        ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
+        // ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
 
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);

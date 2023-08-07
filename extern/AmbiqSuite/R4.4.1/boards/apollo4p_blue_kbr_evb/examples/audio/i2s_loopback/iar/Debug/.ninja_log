@@ -1,9 +1,0 @@
-# ninja log v5
-0	481	7113729286200915	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/am_resources.o	85f8d9be137460be
-501	1071	7113729292110898	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/am_util_faultisr.o	b296372a6014e08d
-1096	1557	7113729296950900	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/am_util_delay.o	2542da4f6a02e9a8
-1574	2422	7113729305697169	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/am_util_stdio.o	95a03a49a0c68f2b
-2441	3128	7113729312682792	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/i2s_loopback.o	225b90086d518b2a
-3147	3210	7113729313593164	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/startup_iar.o	9cf6fa58ce4985ff
-3225	3324	7113729314738242	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/i2s_loopback.out	a8f3d994ae130182
-3346	3358	7113729315153504	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4p_blue_kbr_evb/examples/audio/i2s_loopback/iar/bin/i2s_loopback.bin	257c6a6ae2c26ac0

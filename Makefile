@@ -207,10 +207,10 @@ $(BINDIR)/%.o: %.s
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-	$(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
+	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
 	$(Q) $(SIZE) @$*.sizeinput $< > $*.size
 
-#	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
+# $(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
 
 
 .PHONY: docs

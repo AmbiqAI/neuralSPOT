@@ -1,9 +1,0 @@
-# ninja log v5
-1	438	7113722119628705	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/am_util_delay.o	623863f80d73b0cd
-452	874	7113722124004335	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/am_util_id.o	71c86723090b062a
-890	1301	7113722128277962	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/am_resources.o	28f2c45e31a23a6a
-1323	1772	7113722132984693	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/info_dump.o	cf5080fa2f442497
-1796	1951	7113722134847409	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/am_util_stdio.o	a395373423ccda1f
-1966	2028	7113722135616336	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/startup_iar.o	80674fb9a22f87eb
-2042	2140	7113722136766318	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/info_dump.out	37021da3760a542
-2159	2172	7113722137160351	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4l_blue_evb/examples/memory/info_dump/iar/bin/info_dump.bin	1a1f426c2473d0a5

@@ -1,9 +1,0 @@
-# ninja log v5
-0	495	7113672567156883	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/am_util_faultisr.o	bd1b3c50edde5723
-519	983	7113672572023050	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/am_resources.o	ccd8e81b3f60b309
-1006	1477	7113672576935388	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/am_util_delay.o	92d3cd47a3a9d5b2
-1502	2027	7113672582448157	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/rsa_sign_verify.o	30165477f82481ef
-2062	2129	7113672583578137	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/startup_iar.o	b6f9a505ca5fef19
-2162	2320	7113672585490818	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/am_util_stdio.o	4c8c01c5657ac0fd
-2350	2522	7113672587410810	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/rsa_sign_verify.out	a3c6d78e007af576
-2545	2560	7113672587990820	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rsa_sign_verify/iar/bin/rsa_sign_verify.bin	4be9168633f75b1b

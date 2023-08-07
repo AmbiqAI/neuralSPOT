@@ -1,9 +1,0 @@
-# ninja log v5
-0	469	7113672437374984	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/am_resources.o	c71bd81bb531c092
-497	958	7113672442254982	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/am_util_delay.o	38ef47fc30af3568
-982	1475	7113672447414736	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/am_util_faultisr.o	daa8b1f356eb020f
-1497	1995	7113672452614743	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/rng_test.o	bffe288cad55233b
-2014	2173	7113672454490345	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/am_util_stdio.o	f5a45c43aff34493
-2192	2257	7113672455356042	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/startup_iar.o	7d827ccce6c4f794
-2285	2422	7113672456972360	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/rng_test.out	1dedfa277a488356
-2444	2458	7113672457452365	C:/jenkins-agent/workspace/ambiqsuite4_rel/workspace/boards/apollo4b_blue_evb/examples/crypto/rng_test/iar/bin/rng_test.bin	b83404b12d5160b3

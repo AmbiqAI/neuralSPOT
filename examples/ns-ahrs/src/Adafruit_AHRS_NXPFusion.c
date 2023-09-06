@@ -268,12 +268,12 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
   // initial orientation lock to accelerometer and magnetometer eCompass
   // orientation
   // *********************************************************************************
+  
   if (fabsf(mx) <= 50.0f && fabsf(my) <= 50.0f && fabsf(mz) <= 50.0f) {
     ValidMagCal = 1;
   } else {
     ValidMagCal = 0;
   }
-
   // do a once-only orientation lock after the first valid magnetic calibration
   if (ValidMagCal && !ctx->FirstOrientationLock) {
     // get the 6DOF orientation matrix and initial inclination angle
@@ -284,7 +284,6 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
     // once
     ctx->FirstOrientationLock = 1;
   }
-
   // *********************************************************************************
   // calculate a priori rotation matrix
   // *********************************************************************************
@@ -306,16 +305,13 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
   for (i = X; i <= Z; i++) {
     rvec[i] = (Yp[i] - ctx->bPl[i]) * ctx->Fastdeltat;
   }
-
   // compute the incremental quaternion fDeltaq from the rotation vector
   fQuaternionFromRotationVectorDeg(&ctx->Deltaq, rvec, 1.0F);
-
   // incrementally rotate the a priori orientation quaternion fqMi
   // the a posteriori quaternion fqPl is re-normalized later so this update is
   // stable
   qAeqAxB(&ctx->qMi, &ctx->Deltaq);
   //}
-
   // get the a priori rotation matrix from the a priori quaternion
   fRotationMatrixFromQuaternion(ctx->RMi, &ctx->qMi);
   // *********************************************************************************
@@ -323,7 +319,6 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
   // of the gravity and geomagnetic vectors and errors
   // the most recent 'Fast' measurements are used to reduce phase errors
   // *********************************************************************************
-
   for (i = X; i <= Z; i++) {
     // compute the a priori gyro estimate of the gravitational vector (g, sensor
     // frame) using an absolute rotation of the global frame gravity vector
@@ -350,11 +345,10 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
     ctx->mErrSeMi[i] = Mag[i] - ctx->mSeGyMi[i];
     // ns_lp_printf("%f\n",  ctx->aSePl[i]);
   }
- 
   // *********************************************************************************
   // update variable elements of measurement matrix C
   // *********************************************************************************
-
+  
   // update measurement matrix C with -alpha(g-)x and -alpha(m-)x from gyro (g,
   // uT, sensor frame)
   ctx->C6x12[0][1] = FDEGTORAD * ctx->gSeGyMi[Z];
@@ -389,6 +383,7 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
   // P+ is used here as a working array to reduce RAM usage and is re-computed
   // later
   // *********************************************************************************
+  
 
   // set ftmpA12x6 = P- * C^T = Qw * C^T where Qw and C are both sparse
   // C also has a significant number of +1 and -1 entries
@@ -428,8 +423,6 @@ void nxp_update(Adafruit_NXPSensorFusion* ctx, float gx, float gy, float gz, flo
       pftmpA12x6ij++;
     }
   }
-  // ns_lp_printf("%f, %f, %f\n", *pftmpA12x6ij, *pfC6x12jk, *pfQw12x12ik);
-  // ns_deep_sleep();
 
   // set symmetric P+ (6x6 scratch sub-matrix) to C * P- * C^T + Qv
   // = C * (Qw * C^T) + Qv = C * ftmpA12x6 + Qv

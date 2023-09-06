@@ -65,6 +65,7 @@ modules      += examples/mpu_data_collection
 modules      += examples/rpc_client
 modules      += examples/rpc_server
 modules      += examples/ns-ahrs
+
 # modules      += projects/models/tflm_validator
 # modules      += examples/tflm_validator
 else

@@ -18,7 +18,7 @@ sources   += $2
 $1: $(call source-to-object,$2)
 	@echo " Building $(AR) $$@ to make library $$@"
 	@mkdir -p $$(@D)
-	$(Q) $(AR) rsc $$@ $$^
+	$(Q) $(AR) $(ARFLAGS) $$@ $$^
 endef
 
 # $(call make-axf, axf-name, source-file-list, main-file)

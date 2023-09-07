@@ -7,20 +7,50 @@ endif
 
 .PRECIOUS: %.o
 
+$(info rrrr $(OS))
+WSLENV ?= notwsl
+$(info ---- $(WSLENV))
+UNAME_R := $(shell uname -r)
+ifneq ($(filter %WSL2,$(UNAME_R)),)
+EXEEXT:=.exe
+endif
+
+
+ifndef WSLENV
+# Windows and WSL are a mess. Add executable extension when
+# running in WSL.
+EXEEXT = .exe
+$(info Here)
+endif
+
 #### Required Executables ####
-CC = $(TOOLCHAIN)-gcc
-GCC = $(TOOLCHAIN)-gcc
-CPP = $(TOOLCHAIN)-cpp
-LD = $(TOOLCHAIN)-ld
-CP = $(TOOLCHAIN)-objcopy
-OD = $(TOOLCHAIN)-objdump
-RD = $(TOOLCHAIN)-readelf
-AR = $(TOOLCHAIN)-ar
-SIZE = $(TOOLCHAIN)-size
-LINT = clang-tidy
+ifeq ($(TOOLCHAIN),arm-none-eabi)
+CC = $(TOOLCHAIN)-gcc$(EXEEXT)
+GCC = $(TOOLCHAIN)-gcc$(EXEEXT)
+CPP = $(TOOLCHAIN)-cpp$(EXEEXT)
+LD = $(TOOLCHAIN)-ld$(EXEEXT)
+CP = $(TOOLCHAIN)-objcopy$(EXEEXT)
+OD = $(TOOLCHAIN)-objdump$(EXEEXT)
+RD = $(TOOLCHAIN)-readelf$(EXEEXT)
+AR = $(TOOLCHAIN)-ar$(EXEEXT)
+SIZE = $(TOOLCHAIN)-size$(EXEEXT)
+else ifeq ($(TOOLCHAIN),arm)
+CC = armclang$(EXEEXT)
+GCC = armclang$(EXEEXT)
+CPP = armclang$(EXEEXT)
+LD = armlink$(EXEEXT)
+CP = fromelf$(EXEEXT)
+OD = fromelf$(EXEEXT)
+AR = armar$(EXEEXT)
+endif
+
+
+
+LINT = clang-tidy$(EXEEXT)
 RM = $(shell which rm 2>/dev/null)
 MKD = "mkdir"
-DOX = doxygen
+DOX = doxygen$(EXEEXT)
+
 
 # EXECUTABLES = CC LD CP OD AR RD SIZE GCC JLINK JLINK_SWO
 # K := $(foreach exec,$(EXECUTABLES),\
@@ -34,6 +64,7 @@ DOX = doxygen
 # 	$(RM) -rf bin
 # else
 
+ifeq ($(TOOLCHAIN),arm-none-eabi)
 CFLAGS+= -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exceptions
 CCFLAGS+= -fno-use-cxa-atexit
@@ -51,6 +82,30 @@ LFLAGS+=
 
 CPFLAGS = -Obinary
 ODFLAGS = -S
+ARFLAGS = rsc
+else ifeq ($(TOOLCHAIN),arm)
+CONLY_FLAGS+= -std=c99
+CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=$(FABI) -c
+CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
+CFLAGS+= -Ofast
+CFLAGS+= -gdwarf-4 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations 
+CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion
+CFLAGS+= -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros
+CFLAGS+= -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management
+CFLAGS+= -Wno-parentheses-equality -Wno-reserved-identifier
+CFLAGS+= -MMD -MP
+CCFLAGS+= -fno-use-cxa-atexit 
+
+LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
+LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
+LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+LFLAGS+= --info sizes --info totals --info unused --info veneers
+
+CPFLAGS = --bin --output
+ODFLAGS = -cedrst
+ARFLAGS= -r -s -c
+ASMFLAGS+=  --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=hard -masm=auto -gdwarf-4
+endif
 
 $(info Running makefile for $(PART)_$(EVB))
 DEFINES+= NEURALSPOT

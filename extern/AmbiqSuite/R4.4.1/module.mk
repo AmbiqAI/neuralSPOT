@@ -8,15 +8,20 @@ endif
 
 # Base AmbiqSuite
 includes_api += $(subdirectory)/boards/$(BOARD)_$(EVB)/bsp
-# includes_api += $(subdirectory)/CMSIS/ARM/Include
+includes_api += $(subdirectory)/CMSIS/ARM/Include
 includes_api += $(subdirectory)/CMSIS/AmbiqMicro/Include
 includes_api += $(subdirectory)/devices
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)/hal/mcu
 includes_api += $(subdirectory)/utils
 
+ifeq ($(TOOLCHAIN),arm)
+lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.lib
+lib_prebuilt += $(subdirectory)/lib/$(PART)/$(EVB)/libam_bsp.lib
+else
 lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.a
 lib_prebuilt += $(subdirectory)/lib/$(PART)/$(EVB)/libam_bsp.a
+endif
 # lib_prebuilt += $(subdirectory)/lib/libarm_cortexM4lf_math.a
 
 # Third-Party (FreeRTOS)

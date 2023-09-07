@@ -161,13 +161,13 @@
     #define ERPC_MESSAGE_LOGGING (ERPC_MESSAGE_LOGGING_DISABLED)
 #endif
 
-#if defined(__CC_ARM) || defined(__ARMCC_VERSION) /* Keil MDK */
-    #define THROW_BADALLOC throw(std::bad_alloc)
-    #define THROW throw()
-#else
+// #if defined(__CC_ARM) || defined(__ARMCC_VERSION) /* Keil MDK */
+//     #define THROW_BADALLOC throw(std::bad_alloc)
+//     #define THROW throw()
+// #else
     #define THROW_BADALLOC
     #define THROW
-#endif
+// #endif
 
 #ifndef ERPC_TRANSPORT_MU_USE_MCMGR
     #if defined(__has_include)

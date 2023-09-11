@@ -1,10 +1,10 @@
 
 ##### Toolchain Defaults #####
-# TOOLCHAIN ?= arm-none-eabi
-# COMPILERNAME := gcc
+TOOLCHAIN ?= arm-none-eabi
+COMPILERNAME := gcc
 
-TOOLCHAIN ?= arm
-COMPILERNAME := clang
+# TOOLCHAIN ?= arm
+# COMPILERNAME := clang
 BINDIR := build
 NESTDIR := nest
 SHELL  :=/bin/bash
@@ -55,11 +55,6 @@ USB_PRESENT := 1
 else
 USB_PRESENT := 0
 endif
-
-ifeq ($(TOOLCHAIN),arm)
-DEFINES+= keil6
-endif
-
 
 # application stack and heap size
 STACK_SIZE_IN_32B_WORDS := 4096

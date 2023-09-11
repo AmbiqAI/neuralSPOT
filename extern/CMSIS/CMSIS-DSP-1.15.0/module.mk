@@ -33,7 +33,11 @@
 includes_api += $(subdirectory)/Include
 includes_api += $(subdirectory)/PrivateInclude
 
+ifeq ($(TOOLCHAIN),arm)
 lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-m4-armclang.a
+else
+lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-m4-gcc.a
+endif
 # lib_prebuilt += $(subdirectory)/lib/libcmsis-nn.a
 
 local_bin := $(BINDIR)/$(subdirectory)

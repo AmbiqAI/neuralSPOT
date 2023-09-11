@@ -107,6 +107,11 @@ ARFLAGS= -r -s -c
 ASMFLAGS+=  --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=hard -masm=auto -gdwarf-4
 endif
 
+ifeq ($(TOOLCHAIN),arm)
+DEFINES+= keil6
+DEFINES+= _RTE_
+endif
+
 $(info Running makefile for $(PART)_$(EVB))
 DEFINES+= NEURALSPOT
 DEFINES+= $(PART)_$(EVB)

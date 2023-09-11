@@ -9,12 +9,11 @@ includes_api += $(subdirectory)/third_party/gemmlowp
 # ifeq ($(MLPROFILE),1)
 # lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-withlogs.a
 # else
-# lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm55-clang-nofp-mve.a
-# lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm55-clang-shortenum.a
-# lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm55-clang-debug-lm-dwarf4-O0-fp.a
-# lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm55-release-Ofast-fp.a
-# lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm55-windowsclang-dwarf-shortenum.a
+ifeq ($(TOOLCHAIN),arm)
 lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-armclang-release.a
+else
+lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-release.a
+endif
 # lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm55-gcc.a
 # endif
 # endif

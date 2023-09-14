@@ -1,5 +1,5 @@
 /**
- @file har.cc
+ @file ns-ahrs.cc
 
  @brief Mahony sensor fusion algorithm using NeuralSPOT
 
@@ -35,7 +35,6 @@ http://davidegironi.blogspot.com/2013/02/avr-atmega-mpu6050-gyroscope-and.html#.
 #include <cstring>
 
 
-// HAR is trained to detect activity over a 10s window of 6 axis (accel+gyro) data, sampled at 20Hz
 #define MPU_FRAME_SIZE 200
 #define MPU_AXES 6
 #define FILTER_UPDATE_RATE_HZ 100

@@ -1,11 +1,31 @@
-from itertools import product, combinations
-from collections import defaultdict
-from serial import Serial
-import matplotlib.pyplot as plt
-import numpy as np
-import quaternion
-import datetime
+'''
+@file quaternion_plotter.py
 
+@brief quaternion plotter using neuralSPOT
+
+quaternion_plotter is a quaternion visualizer using the scripts found here:
+https://github.com/scottshambaugh/mpl_quaternion_views.git 
+''' 
+import argparse
+import os
+import random
+import struct
+import sys
+import time
+import erpc
+sys.path.append("../../../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+import GenericDataOperations_EvbToPc
+import GenericDataOperations_PcToEvb
+import numpy as np
+import soundfile as sf
+import quaternion
+from collections import defaultdict
+import datetime
+import matplotlib.pyplot as plt
+from itertools import product, combinations
+
+
+input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 
 data_fields = {'quat_w', 'quat_x', 'quat_y', 'quat_z', 'accel_x', 'accel_y', 'accel_z',
                'gyro_x', 'gyro_y', 'gyro_z', 'compass_x', 'compass_y', 'compass_z'}
@@ -46,10 +66,17 @@ def elev_azim_roll_to_quat(elev, azim, roll, angle_offsets=(0, 0, 0)):
 
 
 class quaternion_plotter():
-    def __init__(self, angles_init=(0, 0, 0), port='/dev/ttyACM0', baudrate=115200):
-        self.port = port
-        self.baudrate = baudrate
-        self.running = True
+    def __init__(self, angles_init=(0, 0, 0)):
+        self.plot_3d_only = True
+        if self.plot_3d_only:
+            layout = [['3d']]
+        else:
+            layout = [['3d', '3d',   'q'],
+                      ['3d', '3d', 'ang']]
+        self.fig, self.axd = plt.subplot_mosaic(layout)
+        ss = self.axd['3d'].get_subplotspec()
+        self.axd['3d'].remove()
+        self.axd['3d'] = self.fig.add_subplot(ss, projection='3d')
         self.data = defaultdict(float)
         self.n = 0
         self.read_freq = 1e3
@@ -74,29 +101,11 @@ class quaternion_plotter():
         # self.gyros = [self.gyro]
         # self.mags = [self.mag]
 
-
-    def update_data(self, line):
-        if line:
-            remaining_keys = data_fields.copy()
-            try:
-                string = line.decode()  # convert the byte string to a unicode string
-                for datapoint in string.split():
-                    key, val = datapoint.split(':')
-                    if key in remaining_keys:
-                        self.data[key] = float(val)
-                        remaining_keys.remove(key)
-            except:
-                # Bad data
-                pass
-            # for key in remaining_keys:
-            #     self.data[key] = None
-
-
-    def process_data(self):
-        q0 = self.data['quat_w']
-        q1 = self.data['quat_x']
-        q2 = self.data['quat_y']
-        q3 = self.data['quat_z']
+    def process_data(self, data):
+        q0 = data[0][0]
+        q1 = data[0][1]
+        q2 = data[0][2]
+        q3 = data[0][3]
         self.q = np.quaternion(q0, q1, q2, q3)
 
         elev, azim, roll = quat_to_elev_azim_roll(self.q, self.angles_init)
@@ -120,53 +129,6 @@ class quaternion_plotter():
         # self.accels.append(self.accel)
         # self.gyros.append(self.gyro)
         # self.mags.append(self.mag)
-
-
-    def run(self):
-        plot_3d_only = True
-        if plot_3d_only:
-            layout = [['3d']]
-        else:
-            layout = [['3d', '3d',   'q'],
-                      ['3d', '3d', 'ang']]
-        fig, axd = plt.subplot_mosaic(layout)
-        ss = axd['3d'].get_subplotspec()
-        axd['3d'].remove()
-        axd['3d'] = fig.add_subplot(ss, projection='3d')
-
-        with Serial(self.port, self.baudrate, timeout=1) as ser:
-            while self.running:
-                dt = datetime.datetime.now() - self.t
-                if dt.total_seconds() >= 1./self.read_freq:
-                    try:
-                        line = ser.readline()
-                        if line:
-                            self.update_data(line)
-                            self.process_data()
-                            self.update_timeseries()
-                    except:
-                        pass
-
-                # Init plots
-                if self.n == 1:
-                    self.plot_cuboid(axd['3d'])
-                    if not plot_3d_only:
-                        self.plot_q_line(axd['q'])
-                        self.plot_ang_line(axd['ang'])
-                    plt.show(block=False)
-
-                # Update plots
-                if self.n > 0:
-                    dt = self.t - self.last_plotted
-                    if dt.total_seconds() >= 1./self.plot_freq:
-                        self.update_cuboid_plot(axd['3d'])
-                        if not plot_3d_only:
-                            self.update_q_plot(axd['q'])
-                            self.update_ang_plot(axd['ang'])
-                        fig.canvas.draw()
-                        fig.canvas.flush_events()
-                        self.last_plotted = datetime.datetime.now()
-
 
     ## Plotting init methods
     def plot_cuboid(self, ax):
@@ -248,11 +210,179 @@ class quaternion_plotter():
             line.set_ydata([angs[i] for angs in self.angs[-npoints-1:]])
         ax.set_xlim([times[0], times[-1]])
 
-
-def main():
-    qp = quaternion_plotter(port='/dev/ttyACM0', angles_init=(0, 0, 180))
-    qp.run()
+# Define the RPC service handlers - one for each EVB-to-PC RPC function
 
 
-if __name__ == '__main__':
-    main()
+class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
+    def ns_rpc_data_sendBlockToPC(self, block):
+        # Example decode of incoming block - unpack to WAV or CSV depending on block.description
+        # MPU6050 capture handler
+        if (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
+            block.description == "Quaternion Plotter"
+        ):
+            ncols = 7
+            # Data is a 32bit Float MPU packed sample
+            data = struct.unpack(f"<{len(block.buffer)//4}f", block.buffer)
+            # Convert data into 2D list with ncols columns. We drop leftover values
+            data = [
+                data[i : i + ncols]
+                for i in range(0, ncols * (len(data) // ncols), ncols)
+            ]
+
+            dt = datetime.datetime.now() - quat.t
+            if dt.total_seconds() >= 1./quat.read_freq:
+                try:
+                    quat.process_data(data)
+                    quat.update_timeseries()
+                except:
+                    pass
+
+            # Init plots
+            if quat.n == 1:
+                quat.plot_cuboid(quat.axd['3d'])
+                if not quat.plot_3d_only:
+                    quat.plot_q_line(quat.axd['q'])
+                    quat.plot_ang_line(quat.axd['ang'])
+                plt.show(block=False)
+
+            # Update plots
+            if quat.n > 0:
+                dt = quat.t - quat.last_plotted
+                if dt.total_seconds() >= 1./quat.plot_freq:
+                    quat.update_cuboid_plot(quat.axd['3d'])
+                    if not quat.plot_3d_only:
+                        quat.update_q_plot(quat.axd['q'])
+                        quat.update_ang_plot(quat.axd['ang'])
+                    quat.fig.canvas.draw()
+                    quat.fig.canvas.flush_events()
+                    self.last_plotted = datetime.datetime.now()
+        sys.stdout.flush()
+        return 0
+
+    def ns_rpc_data_fetchBlockFromPC(self, block):
+        print("Got a ns_rpc_data_fetchBlockFromPC call.")
+        sys.stdout.flush()
+        return 0
+
+    def ns_rpc_data_computeOnPC(self, in_block, result_block):
+        # print("Got a ns_rpc_data_computeOnPC call.")
+
+        # Example Computation
+        if (
+            in_block.cmd == GenericDataOperations_EvbToPc.common.command.extract_cmd
+        ) and (in_block.description == "CalculateMFCC_Please"):
+            result_block.value = GenericDataOperations_EvbToPc.common.dataBlock(
+                description="*\0",
+                dType=GenericDataOperations_EvbToPc.common.dataType.uint8_e,
+                cmd=GenericDataOperations_EvbToPc.common.command.generic_cmd,
+                buffer=bytearray([0, 1, 2, 3]),
+                length=4,
+            )
+
+        # print(result_block)
+        sys.stdout.flush()
+        return 0
+
+    def ns_rpc_data_remotePrintOnPC(self, msg):
+        print("%s" % msg)
+        sys.stdout.flush()
+        return 0
+
+
+def runServer(transport):
+    handler = DataServiceHandler()
+    service = GenericDataOperations_EvbToPc.server.evb_to_pcService(handler)
+    server = erpc.simple_server.SimpleServer(transport, erpc.basic_codec.BasicCodec)
+    server.add_service(service)
+    print("\r\nServer started - waiting for EVB to send an eRPC request")
+    global quat
+    quat = quaternion_plotter()
+    sys.stdout.flush()
+    server.run()
+
+
+def printDataBlock(block):
+    print("Description: %s" % block.description)
+    print("Length: %s" % block.length)
+    print("cmd: %s" % block.cmd)
+    print("dType: %s" % block.dType)
+    for i in range(len(block.buffer)):
+        print("0x%x " % block.buffer[i], end="")
+    print("")
+
+
+def runClient(transport):
+    clientManager = erpc.client.ClientManager(transport, erpc.basic_codec.BasicCodec)
+    client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
+    print("\r\nClient started - press enter send remote procedure calls to EVB")
+    input_fn()
+
+    while True:
+        outBlock = GenericDataOperations_PcToEvb.common.dataBlock(
+            description="Message to EVB",
+            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+            cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
+            buffer=bytearray([0, 10, 20, 30]),
+            length=4,
+        )
+
+        print("\r\nSending ns_rpc_data_sendBlockToEVB\r\n=========")
+        printDataBlock(outBlock)
+        stat = client.ns_rpc_data_sendBlockToEVB(outBlock)
+        print("=========")
+
+        print("\r\nSending example_fetchBlockFromEVB\r\n=========")
+        retBlock = erpc.Reference()
+        stat = client.ns_rpc_data_fetchBlockFromEVB(retBlock)
+        print("Recieved dataBlock:")
+        printDataBlock(retBlock.value)
+        print("=========")
+
+        print("\r\nSending example_computeOnEVB\r\n=========")
+        print("Sent dataBlock:")
+        printDataBlock(outBlock)
+        stat = client.ns_rpc_data_computeOnEVB(outBlock, retBlock)
+        print("Recieved dataBlock:")
+        printDataBlock(retBlock.value)
+        print("=========")
+
+        # wait for key press
+        print("\r\n*** Press Enter do it again...")
+        sys.stdout.flush()
+        input_fn()
+
+
+if __name__ == "__main__":
+    # parse cmd parameters
+    argParser = argparse.ArgumentParser(description="Quaternion Plotter")
+    argParser.add_argument(
+        "-m",
+        "--mode",
+        default="server",
+        help="eRPC Mode (client or server, default is server)",
+    )
+    argParser.add_argument(
+        "-t",
+        "--tty",
+        default="/dev/tty.usbmodem1234561",
+        help="Serial device (default value is None)",
+    )
+    argParser.add_argument(
+        "-B", "--baud", default="115200", help="Baud (default value is 115200)"
+    )
+    argParser.add_argument(
+        "-o",
+        "--out",
+        default="audio.wav",
+        help="File where data will be written (default is audio.wav",
+    )
+
+    args = argParser.parse_args()
+    transport = erpc.transport.SerialTransport(args.tty, int(args.baud))
+    outFileName = args.out
+    my_calls = 0
+
+    if args.mode == "client":
+        runClient(transport)
+    else:
+        runServer(transport)

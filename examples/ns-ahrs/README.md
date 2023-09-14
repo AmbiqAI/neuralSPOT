@@ -1,7 +1,7 @@
 # Mahony filter Quaternion Plotter Example
 This example implements a sensor fusion algorithm with the Mahony filter and a quaternion plotter. It collects data from an MPU6050 accelerometer and gyroscopic sensor, calculates the quaternion values and uses eRPC to send the values to be plotted by a python script. This example is based on (http://davidegironi.blogspot.com/2013/02/avr-atmega-mpu6050-gyroscope-and.html#.VzjDKfnhCUk) and (https://github.com/scottshambaugh/mpl_quaternion_views.git).
 
-To use this model, you'll need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)) and install and setup eRPC ([instructions here](../examples/rpc_server/README.md))
+To use this model, you'll need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)) and install and setup eRPC ([instructions here](../rpc_server/README.md))
 
 # Building and Running the Example
 ```bash

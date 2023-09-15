@@ -84,10 +84,10 @@ CPFLAGS = -Obinary
 ODFLAGS = -S
 ARFLAGS = rsc
 else ifeq ($(TOOLCHAIN),arm)
-CONLY_FLAGS+= -std=c99
+CONLY_FLAGS+= -xc -std=c99
 CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=$(FABI) -c
 CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
-CFLAGS+= -Ofast
+CFLAGS+= -O0
 CFLAGS+= -gdwarf-4 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations 
 CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion
 CFLAGS+= -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros
@@ -96,7 +96,9 @@ CFLAGS+= -Wno-parentheses-equality -Wno-reserved-identifier
 CFLAGS+= -MMD -MP
 CCFLAGS+= -fno-use-cxa-atexit 
 
-LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
+
+# LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
+LFLAGS+=  --cpu=Cortex-M4.fp.sp
 LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
 LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers
@@ -104,7 +106,14 @@ LFLAGS+= --info sizes --info totals --info unused --info veneers
 CPFLAGS = --bin --output
 ODFLAGS = -cedrst
 ARFLAGS= -r -s -c
-ASMFLAGS+=  --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=hard -masm=auto -gdwarf-4
+ASMFLAGS+= --target=arm-arm-none-eabi -mthumb -mcpu=$(CPU) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto
+
+# --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto 
+ASMFLAGS+= -Wa,armasm,--diag_suppress=A1950W -c
+ASMFLAGS+= -gdwarf-4
+# -IC:/Users/xbox/AppData/Local/Arm/Packs/AmbiqMicro/Apollo_DFP/1.3.2/Device/Include
+ASMFLAGS+= -Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"APOLLO4p_2048 SETA 1"
+
 endif
 
 ifeq ($(TOOLCHAIN),arm)

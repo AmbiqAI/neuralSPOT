@@ -1,10 +1,11 @@
 
 ##### Toolchain Defaults #####
-TOOLCHAIN ?= arm-none-eabi
-COMPILERNAME := gcc
+# TOOLCHAIN ?= arm-none-eabi
+# COMPILERNAME := gcc
 
-# TOOLCHAIN ?= arm
-# COMPILERNAME := clang
+TOOLCHAIN ?= arm
+COMPILERNAME := clang
+
 BINDIR := build
 NESTDIR := nest
 SHELL  :=/bin/bash

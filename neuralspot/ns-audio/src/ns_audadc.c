@@ -255,7 +255,7 @@ uint32_t audadc_config(ns_audadc_cfg_t *cfg) {
     } else {
         AUDADCConfig.eClockMode = AM_HAL_AUDADC_CLKMODE_LOW_LATENCY;
         AUDADCConfig.ePowerMode = AM_HAL_AUDADC_LPMODE0;
-        AUDADCConfig.eSampMode = AUDADC_CFG_SAMPMODE_MED;
+        AUDADCConfig.eSampMode = AM_HAL_AUDADC_SAMPMODE_MED;
     }
 
     if ((cfg->clock == NS_CLKSEL_HFRC2) || (cfg->clock == NS_CLKSEL_HFRC2_ADJ)) {

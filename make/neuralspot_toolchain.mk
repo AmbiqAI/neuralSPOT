@@ -7,21 +7,6 @@ endif
 
 .PRECIOUS: %.o
 
-$(info rrrr $(OS))
-WSLENV ?= notwsl
-$(info ---- $(WSLENV))
-UNAME_R := $(shell uname -r)
-ifneq ($(filter %WSL2,$(UNAME_R)),)
-EXEEXT:=.exe
-endif
-
-
-ifndef WSLENV
-# Windows and WSL are a mess. Add executable extension when
-# running in WSL.
-EXEEXT = .exe
-$(info Here)
-endif
 
 #### Required Executables ####
 ifeq ($(TOOLCHAIN),arm-none-eabi)
@@ -89,7 +74,7 @@ CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=$(FABI) -c
 CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
 CFLAGS+= -O0
 CFLAGS+= -gdwarf-4 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations 
-CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion
+CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-typedef-redefinition
 CFLAGS+= -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros
 CFLAGS+= -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management
 CFLAGS+= -Wno-parentheses-equality -Wno-reserved-identifier

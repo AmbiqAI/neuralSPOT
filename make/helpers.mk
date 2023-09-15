@@ -1,3 +1,16 @@
+
+# WSLENV ?= notwsl
+UNAME_R := $(shell uname -r)
+ifneq ($(filter %WSL2,$(UNAME_R)),)
+EXEEXT:=.exe
+endif
+
+# ifndef WSLENV
+# # Windows and WSL are a mess. Add executable extension when
+# # running in WSL.
+# EXEEXT = .exe
+# endif
+
 source-to-object = $(addprefix $(BINDIR)/,$(subst .c,.o,$(filter %.c,$1))) \
                    $(addprefix $(BINDIR)/,$(subst .s,.o,$(filter %.s,$1))) \
                    $(addprefix $(BINDIR)/,$(subst .cc,.o,$(filter %.cc,$1))) \

@@ -12,7 +12,7 @@ $> make TARGET=ns-ahrs deploy # flashes HAR to the target EVB
 $> make view # connects to EVB SWO via SEGGER Jlink
 # open a second terminal. In second terminal:
 $> cd examples/ns-ahrs/src
-$> python -m quaternion_plotter -t COMx -o quaternion.csv -m server # more details on installation and setup of RPC can be found ([instructions here](../rpc_server/README.md))
+$> python -m quaternion_plotter -t COMx -o quaternion.csv -m server # more details on installation and setup of RPC can be found at ../rpc_server/README.md
 If all went well, you can press Button 0, which will start the event loop. At this point, the quaternions will be computed and plotted continuously.
 ```
 # NXP filter

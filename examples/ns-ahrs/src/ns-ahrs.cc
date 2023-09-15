@@ -61,7 +61,7 @@ ns_i2c_config_t i2cConfig = {.api = &ns_i2c_V1_0_0, .iom = 1};
  */
 
 /**
- * @brief Main ns-ahras - infinite loop listening and calculating
+ * @brief Main ns-ahrs - infinite loop listening and calculating
  *
  * @return int
  */

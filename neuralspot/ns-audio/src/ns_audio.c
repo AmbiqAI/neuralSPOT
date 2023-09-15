@@ -114,7 +114,7 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
             g_ns_audio_config->audadc_config = &ns_audadc_default;
         }
 
-        if (audadc_init()) {
+        if (audadc_init(cfg)) {
             return NS_STATUS_INIT_FAILED;
         }
 

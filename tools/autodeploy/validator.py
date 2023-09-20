@@ -171,7 +171,9 @@ def configModel(params, client, md):
         buffer=configBytes,
         length=9,
     )
+    print("Sending model config")
     status = client.ns_rpc_data_sendBlockToEVB(configBlock)
+    print("Model config status %d" % status)
     if status != 0:
         print("[ERROR] Model Configuration Send Status = %d" % status)
         print(
@@ -516,28 +518,43 @@ def printStats(stats, stats_filename):
 def compile_and_deploy(params, mc, first_time=False):
     d = params.working_directory + "/" + params.model_name
     d = d.replace("../", "")
+    # Windows sucks
+    if os.name == 'posix':
+        ws3 = '/dev/null'
+        ws = '-j'
+        ws1 = '&&'
+    else:
+        ws3 = 'NUL'
+        ws = ''
+        ws1 = '&'
+        # d = d.replace("/", "\\")
 
+    print("sigh")
     if first_time:
-        makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
+        # makefile_result = os.system("cd .. {ws1} make clean >{ws2} 2>&1")
+        # makefile_result = os.system("make clean")
+        makefile_result = os.system("cd .. & make clean")
+    print("more sigh")
 
     if params.create_profile:
         if params.verbosity > 3:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
+            print(f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy")
         else:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator && make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator {ws1} make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
 
     if makefile_result != 0:
@@ -547,6 +564,7 @@ def compile_and_deploy(params, mc, first_time=False):
 
     time.sleep(2)
     reset_dut()
+    print("here now")
     return makefile_result
 
 
@@ -641,7 +659,9 @@ def create_validation_binary(params, baseline, mc):
         )
 
     create_mut_metadata(tflm_dir, mc)
+    print("why???")
     create_mut_modelinit(tflm_dir, mc)
+    print("why?????")
     compile_and_deploy(params, mc, first_time=baseline)
 
 

@@ -13,14 +13,14 @@
 #define NS_BASELINE
 #ifdef __cplusplus
 
-    #include "tensorflow/lite/micro/all_ops_resolver.h"
+    // #include "tensorflow/lite/micro/all_ops_resolver.h"
     #include "tensorflow/lite/micro/kernels/micro_ops.h"
     #include "tensorflow/lite/micro/micro_interpreter.h"
     #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
     #include "tensorflow/lite/micro/micro_profiler.h"
     #include "tensorflow/lite/micro/system_setup.h"
     #include "tensorflow/lite/schema/schema_generated.h"
-    #ifdef NS_TF_VERSION_fecdd5d
+#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
         #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
     #else
         #include "tensorflow/lite/micro/micro_error_reporter.h"

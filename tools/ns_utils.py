@@ -13,6 +13,7 @@ import GenericDataOperations_PcToEvb
 
 
 def createFromTemplate(templateFile, destinationFile, replaceMap):
+    # print("Here %s, %s" % (templateFile, destinationFile))
     with open(templateFile, "r") as templatefile:
         template = templatefile.read()
     with open(destinationFile, "w+") as writefile:
@@ -143,7 +144,17 @@ def next_power_of_2(x):
 
 
 def reset_dut():
-    makefile_result = os.system("cd .. && make reset >/dev/null 2>&1")
+    # Windows sucks
+    if os.name == 'posix':
+        ws3 = '/dev/null'
+        ws = '-j'
+        ws1 = '&&'
+    else:
+        ws3 = 'NUL'
+        ws = ''
+        ws1 = '&'
+        # d = d.replace("/", "\\")
+    makefile_result = os.system("cd .. {ws1} make reset >{ws3} 2>&1")
     time.sleep(2)  # give jlink a chance to settle
 
 

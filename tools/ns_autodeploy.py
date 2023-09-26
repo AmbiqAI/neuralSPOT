@@ -253,12 +253,9 @@ if __name__ == "__main__":
         create_validation_binary(params, True, mc)
 
         # Configure the model on the EVB
-        print("howdy")
         client = rpc_connect_as_client(params)
-        print("howdy2")
 
         configModel(params, client, md)
-        print("howdy3")
 
         stats = getModelStats(params, client)
         mc.update_from_stats(stats, md)

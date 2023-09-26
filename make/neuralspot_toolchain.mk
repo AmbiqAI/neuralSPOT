@@ -70,10 +70,10 @@ ODFLAGS = -S
 ARFLAGS = rsc
 else ifeq ($(TOOLCHAIN),arm)
 CONLY_FLAGS+= -xc -std=c99
-CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfloat-abi=$(FABI) -c
+CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI) -c
 CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
-CFLAGS+= -O0
-CFLAGS+= -gdwarf-4 -ffunction-sections -Wno-packed -Wno-missing-variable-declarations 
+CFLAGS+= -gdwarf-4 -Ofast
+CFLAGS+= -ffunction-sections -Wno-packed -Wno-missing-variable-declarations 
 CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-typedef-redefinition
 CFLAGS+= -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros
 CFLAGS+= -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management
@@ -81,12 +81,12 @@ CFLAGS+= -Wno-parentheses-equality -Wno-reserved-identifier
 CFLAGS+= -MMD -MP
 CCFLAGS+= -fno-use-cxa-atexit 
 
-
 # LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
-LFLAGS+=  --cpu=Cortex-M4.fp.sp
+LFLAGS+=  --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
 LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
+LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb
 LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
-LFLAGS+= --info sizes --info totals --info unused --info veneers
+LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 
 CPFLAGS = --bin --output
 ODFLAGS = -cedrst

@@ -1,10 +1,12 @@
 
 ##### Toolchain Defaults #####
 TOOLCHAIN ?= arm-none-eabi
+ifeq ($(TOOLCHAIN),arm-none-eabi)
 COMPILERNAME := gcc
-
+else ifeq ($(TOOLCHAIN),arm)
 # TOOLCHAIN ?= arm
-# COMPILERNAME := clang
+COMPILERNAME := clang
+endif
 
 BINDIR := build
 NESTDIR := nest

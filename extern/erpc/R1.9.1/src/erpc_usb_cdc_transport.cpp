@@ -10,6 +10,7 @@
 #include "erpc_usb_cdc_transport.hpp"
 #include "ns_usb.h"
 #include "ns_ambiqsuite_harness.h"
+#include "tusb.h"
 
 using namespace erpc;
 

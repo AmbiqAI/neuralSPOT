@@ -11,14 +11,17 @@ JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
 ifeq ($(OS),Windows_NT) # for windows
   JLINK = JLink
   JLINK_SWO = JLinkSWOViewerCL
-else # for linux
-  JLINK = JLinkExe
+else ifndef EXEEXT # for linux
+  JLINK = JLinkExe$(EXEEXT)
   UNAME_S := $(shell uname -s)
   ifeq ($(UNAME_S),Darwin)
     JLINK_SWO = JLinkSWOViewerCL
   else
     JLINK_SWO = JLinkSWOViewer_CL
   endif
+else
+  JLINK = JLink.exe
+  JLINK_SWO = JLinkSWOViewerCL.exe
 endif
 
 JLINK_CMD = -nogui 1 -device $(JLINK_DEVICE) -if SWD -speed $(JLINK_IF_SPEED) -commandfile $(JLINK_CF)

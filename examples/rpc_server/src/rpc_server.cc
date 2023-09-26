@@ -108,8 +108,8 @@ status example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     return ns_rpc_data_success;
 }
 
-#define MY_RX_BUFSIZE 512
-#define MY_TX_BUFSIZE 512
+#define MY_RX_BUFSIZE 4096
+#define MY_TX_BUFSIZE 4096
 uint8_t my_cdc_rx_ff_buf[MY_RX_BUFSIZE];
 uint8_t my_cdc_tx_ff_buf[MY_TX_BUFSIZE];
 

@@ -25,7 +25,7 @@ The basic_tf_stub example is based on a speech to intent model.
 // #define LOWEST_POWER_MODE
 
 // ARM perf requires ITM to be enabled, impacting power measurements.
-// For profiling measurements to work, example must be compiled using the MLPROFILE=1 make parameter
+// For profiling measurements to wpork, example must be compiled using the MLPROFILE=1 make parameter
 #ifdef NS_MLPROFILE
     #define MEASURE_ARM_PERF true
 #else

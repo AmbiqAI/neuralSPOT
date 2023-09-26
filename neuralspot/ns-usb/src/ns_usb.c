@@ -15,6 +15,7 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_timer.h"
+#include "tusb.h"
 
 const ns_core_api_t ns_usb_V0_0_1 = {.apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1};
 
@@ -25,7 +26,7 @@ const ns_core_api_t ns_usb_oldest_supported_version = {
 
 const ns_core_api_t ns_usb_current_version = {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0};
 
-static ns_usb_config_t usb_config = {
+ns_usb_config_t usb_config = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_CDC_DEVICE,
     .rx_buffer = NULL,
@@ -36,7 +37,7 @@ static ns_usb_config_t usb_config = {
     .tx_cb = NULL,
     .service_cb = NULL};
 
-volatile static uint8_t gGotUSBRx = 0;
+volatile uint8_t gGotUSBRx = 0;
 
 bool ns_usb_data_available(usb_handle_t handle) { return (gGotUSBRx == 1); }
 
@@ -100,36 +101,6 @@ void ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
 
-// Invoked when CDC interface received data from host
-void tud_cdc_rx_cb(uint8_t itf) {
-    (void)itf;
-    ns_usb_transaction_t rx;
-    if (usb_config.rx_cb != NULL) {
-        rx.handle = &usb_config;
-        rx.rx_buffer = usb_config.rx_buffer;
-        rx.tx_buffer = usb_config.tx_buffer;
-        rx.status = AM_HAL_STATUS_SUCCESS;
-        rx.itf = itf;
-        usb_config.rx_cb(&rx);
-    }
-    gGotUSBRx = 1;
-    // ns_lp_printf("---rx---\n");
-}
-
-void tud_cdc_tx_complete_cb(uint8_t itf) {
-    (void)itf;
-    ns_usb_transaction_t rx;
-    if (usb_config.tx_cb != NULL) {
-        rx.handle = &usb_config;
-        rx.rx_buffer = usb_config.rx_buffer;
-        rx.tx_buffer = usb_config.tx_buffer;
-        rx.status = AM_HAL_STATUS_SUCCESS;
-        rx.itf = itf;
-        usb_config.tx_cb(&rx);
-    }
-    // ns_lp_printf("---tx---\n");
-}
-
 /**
  * @brief Blocking USB Receive Data
  *
@@ -143,7 +114,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     // USB reads one block at a time, loop until we get full
     // request
     uint32_t bytes_rx = 0;
-    uint32_t retries = 10000;
+    uint32_t retries = 100000;
     uint32_t block_retries = 3; // number of rx blocks we'll retry
 
     // if (gGotUSBRx == 0)
@@ -151,17 +122,19 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     //             gGotUSBRx);
     // uint32_t before = tud_cdc_available();
     // uint8_t before_sem = gGotUSBRx;
-    // // ns_delay_us(10);
+    // ns_delay_us(10);
     // uint32_t after = tud_cdc_available();
     // uint8_t after_sem = gGotUSBRx;
     while (tud_cdc_available() < bufsize) {
-        ns_interrupt_master_disable(); // critical region
-        gGotUSBRx = 0;                 // set to 1 in IRQ context, need to disable IRQs for a bit
         // ns_lp_printf("Mystery path after %d %d %d\n", after, after_sem, gGotUSBRx);
+        ns_interrupt_master_disable(); // critical region
+        if (tud_cdc_available() < bufsize) {
+            gGotUSBRx = 0;             // set to 1 in IRQ context, need to disable IRQs for a bit
+        }
+        ns_interrupt_master_enable();
 
         // Wait for a block to come in
-        while (gGotUSBRx == 0) {
-            ns_interrupt_master_enable();
+        while ((gGotUSBRx == 0) && (tud_cdc_available() < bufsize)) {
             ns_delay_us(150);
             retries--;
             if (retries == 0) {
@@ -182,8 +155,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     gGotUSBRx = 0;
     bytes_rx = tud_cdc_read((void *)buffer, bufsize);
     // if (retries != 10000)
-    //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem:
-    //     %d, %d, af2 cnt,sem: %d, %d\n",
+    //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem: %d, %d, af2 cnt,sem: %d, %d\n",
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
     // ns_lp_printf("Got bytes %d\n", bytes_rx);

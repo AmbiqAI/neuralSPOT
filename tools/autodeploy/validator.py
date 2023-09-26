@@ -516,28 +516,38 @@ def printStats(stats, stats_filename):
 def compile_and_deploy(params, mc, first_time=False):
     d = params.working_directory + "/" + params.model_name
     d = d.replace("../", "")
+    # Windows sucks
+    if os.name == 'posix':
+        ws3 = '/dev/null'
+        ws = '-j'
+        ws1 = '&&'
+    else:
+        ws3 = 'NUL'
+        ws = ''
+        ws1 = '&'
+        # d = d.replace("/", "\\")
 
     if first_time:
-        makefile_result = os.system("cd .. && make clean >/dev/null 2>&1")
+        makefile_result = os.system(f"cd .. {ws1} make clean")
 
     if params.create_profile:
         if params.verbosity > 3:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator && make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator {ws1} make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >/dev/null 2>&1"
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
 
     if makefile_result != 0:

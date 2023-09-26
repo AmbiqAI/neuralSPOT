@@ -50,7 +50,8 @@ modules      += extern/AmbiqSuite/$(AS_VERSION)
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
-modules      += extern/CMSIS/$(CMSIS_VERSION)
+# modules      += extern/CMSIS/$(CMSIS_VERSION)
+modules += extern/CMSIS/CMSIS-DSP-1.15.0
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
 
@@ -194,13 +195,28 @@ $(BINDIR)/%.o: %.c
 $(BINDIR)/%.o: %.s
 	@echo " Assembling $(COMPILERNAME) $<"
 	$(Q) $(MKD) -p $(@D)
-	$(Q) $(CC) -c $(CFLAGS) $< -o $@
+	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
 
 %.axf: src/%.o $(objects) $(libraries)
 	@echo " Linking $(COMPILERNAME) $@"
 	@mkdir -p $(@D)
+ifeq ($(TOOLCHAIN),arm)
+	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
+# $(Q) $(LD) $< $(objects) $(lib_prebuilt) $(LFLAGS) --list=$*.map -o $@
+else
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
+endif
 
+ifeq ($(TOOLCHAIN),arm)
+%.bin: %.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $@ $<
+	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
+	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
+	# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+	# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
+else
 %.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
@@ -209,7 +225,7 @@ $(BINDIR)/%.o: %.s
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
 	$(Q) $(SIZE) @$*.sizeinput $< > $*.size
-
+endif
 # $(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
 
 
@@ -242,7 +258,7 @@ nest: all
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
 	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
-	@cp neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
+	@cp -R neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested

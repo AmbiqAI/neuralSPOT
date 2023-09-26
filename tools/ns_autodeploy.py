@@ -256,6 +256,7 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)
 
         configModel(params, client, md)
+
         stats = getModelStats(params, client)
         mc.update_from_stats(stats, md)
         mc.check(params)

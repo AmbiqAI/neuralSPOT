@@ -39,7 +39,7 @@ setup(
         "numpy>=1.21.6",
         "soundfile>=0.10.3",
         "pyserial",
-        "pyjoulescope",
+#        "pyjoulescope",
         "erpc @ git+https://github.com/ambiqai/erpc.git#egg=erpc&subdirectory=erpc_python=1.9.1",
     ],
 )

@@ -1,6 +1,6 @@
 import logging as log
 import os
-
+import shutil
 import numpy as np
 from ns_utils import createFromTemplate, xxd_c_dump
 
@@ -10,6 +10,18 @@ def generateModelLib(params, mc, md):
     d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
     # arena_size = (arena_size // 1024) + 1
+    # Windows sucks
+    if os.name == 'posix':
+        ws_null = '/dev/null'
+        ws_j = '-j'
+        ws_and = '&&'
+        ws_p = '-p'
+    else:
+        ws_null = 'NUL'
+        ws_j = ''
+        ws_and = '&'
+        ws_p = ''
+
     rm = {
         "NS_AD_NAME": n,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
@@ -22,13 +34,16 @@ def generateModelLib(params, mc, md):
     print(f"Generating minimal library at {d}/{n}")
 
     # Generate a clean (no profiler) version of ns-model.a
-    os.system("cd .. && make clean >/dev/null 2>&1 && make -j >/dev/null 2>&1")
+    os.system(f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} >{ws_null} 2>&1")
 
     # Make destination directory
-    os.system(f"mkdir -p {d}/{n}")
-    os.system(f"mkdir -p {d}/{n}/tensorflow_headers")
-    os.system(f"mkdir -p {d}/{n}/lib")
-    os.system(f"mkdir -p {d}/{n}/src")
+    os.makedirs(f"{d}/{n}", exist_ok=True)
+    print(f"mkdir {ws_p} {d}/{n}")
+    os.makedirs(f"{d}/{n}/tensorflow_headers", exist_ok=True)
+    os.makedirs(f"{d}/{n}/lib", exist_ok=True)
+    os.makedirs(f"{d}/{n}/src", exist_ok=True)
+    os.makedirs(f"{d}/{n}/src/gcc", exist_ok=True)
+    os.makedirs(f"{d}/{n}/src/armclang", exist_ok=True)
 
     # Generate files from template
     createFromTemplate(
@@ -48,9 +63,15 @@ def generateModelLib(params, mc, md):
     )
 
     # Copy needed files
-    os.system(f"cp ../neuralspot/ns-core/src/startup_gcc.c {d}/{n}/src/")
-    os.system(f"cp autodeploy/templates/linker_script.ld {d}/{n}/src/")
-    os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/lib/")
+    shutil.copy("../neuralspot/ns-core/src/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/")
+    shutil.copy("../neuralspot/ns-core/src/armclang/startup_armclang.s", f"{d}/{n}/src/armclang/")
+    # os.system(f"cp ../neuralspot/ns-core/src/startup_gcc.c {d}/{n}/src/")
+
+    shutil.copy("autodeploy/templates/linker_script.ld", f"{d}/{n}/src/")
+    shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/lib/")
+
+    # os.system(f"cp autodeploy/templates/linker_script.ld {d}/{n}/src/")
+    # os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/lib/")
 
     # Generate model weight file
     xxd_c_dump(
@@ -88,9 +109,9 @@ def generateModelLib(params, mc, md):
 
     # Generate library and example binary
     if params.verbosity > 3:
-        makefile_result = os.system(f"cd {d}/{n} && make -j")
+        makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j}")
     else:
-        makefile_result = os.system(f"cd {d}/{n} && make -j >/dev/null 2>&1")
+        makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j} >{ws_null} 2>&1")
 
     if makefile_result != 0:
         log.error("Makefile failed to build minimal example library")

@@ -15,7 +15,7 @@
 #include "ns_model.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
-#include "tensorflow/lite/micro/all_ops_resolver.h"
+// #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
@@ -23,7 +23,7 @@
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
 
-#ifdef NS_TF_VERSION_fecdd5d
+#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
     #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
 #else
     #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -71,7 +71,7 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
         return NS_STATUS_FAILURE;
     }
     ns_lp_printf("Model mapped.\n");
-#ifdef NS_TF_VERSION_fecdd5d
+#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
     static tflite::MicroMutableOpResolver<NS_AD_NUM_OPS> resolver;
 #else
     static tflite::MicroMutableOpResolver<NS_AD_NUM_OPS> resolver(ms->error_reporter);
@@ -92,7 +92,7 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     }
     ns_lp_printf("Resource variables allocated.\n");
     // Build an interpreter to run the model with.
-#ifdef NS_TF_VERSION_fecdd5d
+#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
     static tflite::MicroInterpreter static_interpreter(
         ms->model, resolver, ms->arena, ms->arena_size, resource_variables, ms->profiler);
 #else

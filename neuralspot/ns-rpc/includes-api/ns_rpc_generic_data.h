@@ -12,12 +12,13 @@
 #ifndef NS_RPC_GENERIC_DATA_H
 #define NS_RPC_GENERIC_DATA_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 #include "GenericDataOperations_EvbToPc.h"
 #include "GenericDataOperations_PcToEvb.h"
 #include "erpc_server_setup.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "ns_core.h"
 
 #define NS_RPC_GDO_V0_0_1                                                                          \

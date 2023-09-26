@@ -90,17 +90,19 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     # Remove ../ from path
     d = d.replace("../", "")
 
+    ws = '-j' if os.name == 'posix' else ''
+
     # Generate library and example binary
     if params.verbosity > 3:
         print(
-            f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. && make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. && make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >/dev/null 2>&1"
+            f"cd .. && make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >/dev/null 2>&1"
         )
     # print (f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy")
 

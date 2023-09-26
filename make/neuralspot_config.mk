@@ -1,7 +1,13 @@
 
 ##### Toolchain Defaults #####
 TOOLCHAIN ?= arm-none-eabi
+ifeq ($(TOOLCHAIN),arm-none-eabi)
 COMPILERNAME := gcc
+else ifeq ($(TOOLCHAIN),arm)
+# TOOLCHAIN ?= arm
+COMPILERNAME := clang
+endif
+
 BINDIR := build
 NESTDIR := nest
 SHELL  :=/bin/bash
@@ -28,7 +34,7 @@ ifndef AS_VERSION
 AS_VERSION := R4.4.1
 endif
 ifndef TF_VERSION
-TF_VERSION := fecdd5d
+TF_VERSION := d5f819d_Aug_10_2023
 endif
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
@@ -62,7 +68,7 @@ DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
 # DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_HIGH_SPEED
 
 ##### BLE Defines
-## BLE is only support for AmbiqSuite R4.3.0 and later
+## BLE is only supported by neuralSPOT for AmbiqSuite R4.3.0 and later
 ifeq ($(AS_VERSION),R4.3.0)
 BLE_SUPPORTED := 1
 else ifeq ($(AS_VERSION),R4.4.1)

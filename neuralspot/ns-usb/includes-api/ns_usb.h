@@ -19,7 +19,6 @@ extern "C" {
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_core.h"
-#include "tusb.h"
 
 #define NS_USB_V0_0_1                                                                              \
     { .major = 0, .minor = 0, .revision = 1 }

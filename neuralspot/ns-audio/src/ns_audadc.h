@@ -71,7 +71,7 @@ extern ns_audadc_cfg_t ns_audadc_vos_default;
 
 /// AUDADC subsystem init - should only be invoked by ns_audio, not directly
 extern uint32_t
-audadc_init();
+audadc_init(ns_audio_config_t *cfg);
 
 #ifdef __cplusplus
 }

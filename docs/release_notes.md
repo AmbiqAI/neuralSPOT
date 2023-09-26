@@ -78,3 +78,11 @@
       - Simplified event handling (read, write, and notify)
 
     - **web_ble example**: this new example application implements a mocked-up WebBLE service designed to serve sensor data to WebBLE dashboard.
+
+- NeuralSPOT 1.1.2-alpha pre-release
+  - Adds support for Arm's armclang toolchain
+  - Adds support for recent tensorflow lite for microcontrollers (git hash d5f819d)
+  - Adds support for CMSIS-DSP version 1.15.0
+  - Fixes various usb race conditions, rpc_server example hang
+  - Adds 16-byte alignment to model definitions (needed by armclang)
+  - removes unneeded files

@@ -258,7 +258,7 @@ nest: all
 		cp $$file $(NESTDIR)"/libs/" ; \
 	done
 	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
-	@cp neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
+	@cp -R neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested

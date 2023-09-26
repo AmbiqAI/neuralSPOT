@@ -202,13 +202,14 @@ $(BINDIR)/%.o: %.s
 	@mkdir -p $(@D)
 ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
+# $(Q) $(LD) $< $(objects) $(lib_prebuilt) $(LFLAGS) --list=$*.map -o $@
 else
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
 endif
 
 ifeq ($(TOOLCHAIN),arm)
 %.bin: %.axf
-	@echo " Copying 2 $(COMPILERNAME) $@..."
+	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $@ $<
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
@@ -217,7 +218,7 @@ ifeq ($(TOOLCHAIN),arm)
 	# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 else
 %.bin: %.axf
-	@echo " Copying 1 $(COMPILERNAME) $@..."
+	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd

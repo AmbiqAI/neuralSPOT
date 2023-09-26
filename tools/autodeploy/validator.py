@@ -171,9 +171,7 @@ def configModel(params, client, md):
         buffer=configBytes,
         length=9,
     )
-    print("Sending model config")
     status = client.ns_rpc_data_sendBlockToEVB(configBlock)
-    print("Model config status %d" % status)
     if status != 0:
         print("[ERROR] Model Configuration Send Status = %d" % status)
         print(
@@ -529,19 +527,14 @@ def compile_and_deploy(params, mc, first_time=False):
         ws1 = '&'
         # d = d.replace("/", "\\")
 
-    print("sigh")
     if first_time:
-        # makefile_result = os.system("cd .. {ws1} make clean >{ws2} 2>&1")
-        # makefile_result = os.system("make clean")
-        makefile_result = os.system("cd .. & make clean")
-    print("more sigh")
+        makefile_result = os.system(f"cd .. {ws1} make clean")
 
     if params.create_profile:
         if params.verbosity > 3:
             makefile_result = os.system(
                 f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
-            print(f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy")
         else:
             makefile_result = os.system(
                 f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
@@ -564,7 +557,6 @@ def compile_and_deploy(params, mc, first_time=False):
 
     time.sleep(2)
     reset_dut()
-    print("here now")
     return makefile_result
 
 
@@ -659,9 +651,7 @@ def create_validation_binary(params, baseline, mc):
         )
 
     create_mut_metadata(tflm_dir, mc)
-    print("why???")
     create_mut_modelinit(tflm_dir, mc)
-    print("why?????")
     compile_and_deploy(params, mc, first_time=baseline)
 
 

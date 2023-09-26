@@ -12,12 +12,12 @@ def generateModelLib(params, mc, md):
     # arena_size = (arena_size // 1024) + 1
     # Windows sucks
     if os.name == 'posix':
-        ws3_null = '/dev/null'
+        ws_null = '/dev/null'
         ws_j = '-j'
         ws_and = '&&'
         ws_p = '-p'
     else:
-        ws3_null = 'NUL'
+        ws_null = 'NUL'
         ws_j = ''
         ws_and = '&'
         ws_p = ''
@@ -34,7 +34,7 @@ def generateModelLib(params, mc, md):
     print(f"Generating minimal library at {d}/{n}")
 
     # Generate a clean (no profiler) version of ns-model.a
-    os.system(f"cd .. {ws_and} make clean >{ws3_null} 2>&1 {ws_and} make {ws_j} >{ws3_null} 2>&1")
+    os.system(f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} >{ws_null} 2>&1")
 
     # Make destination directory
     os.makedirs(f"{d}/{n}", exist_ok=True)
@@ -111,7 +111,7 @@ def generateModelLib(params, mc, md):
     if params.verbosity > 3:
         makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j}")
     else:
-        makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j} >{ws_p} 2>&1")
+        makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j} >{ws_null} 2>&1")
 
     if makefile_result != 0:
         log.error("Makefile failed to build minimal example library")

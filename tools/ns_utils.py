@@ -71,7 +71,7 @@ def xxd_c_dump(
             wfp.write(f"#ifndef __{var_name.upper()}_H{os.linesep}")
             wfp.write(f"#define __{var_name.upper()}_H{os.linesep}")
 
-        wfp.write(f"const unsigned char {var_name}[] = {{{os.linesep}")
+        wfp.write(f"alignas(16) const unsigned char {var_name}[] = {{{os.linesep}")
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"

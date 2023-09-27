@@ -228,7 +228,7 @@ def sendLongInputTensor(client, input_data, chunkLen):
     """
     # ChunkLen is in bytes, convert to word size
     chunkLen = chunkLen // input_data.flatten().itemsize
-
+    print("Chunking input tensor into %d byte chunks" % chunkLen)
     for chunk in chunker(input_data.flatten(), chunkLen):
         inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
             description="Input Chunk",
@@ -300,12 +300,12 @@ def validateModel(params, client, interpreter, md, mc):
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
         if md.inputTensors[0].bytes > (
-            params.max_rpc_buf_size - 800
+            params.max_rpc_buf_size - 1000
         ):  # TODO: calculate the 600
             log.info(
-                f"Input tensor exceeds RPC buffer size, chunking from {md.inputTensors[0].bytes} to {(params.max_rpc_buf_size - 800)}"
+                f"Input tensor exceeds RPC buffer size, chunking from {md.inputTensors[0].bytes} to {(params.max_rpc_buf_size - 1000)}"
             )
-            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 800))
+            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 1000))
             inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
                 description="Empty Tensor",
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -324,7 +324,7 @@ def validateModel(params, client, interpreter, md, mc):
                 buffer=input_data.flatten().tobytes(),
                 length=md.inputTensors[0].bytes,
             )
-
+        print("Calling EVB invoke pre ref")
         outputTensor = (
             erpc.Reference()
         )  # empty outputTensor, will be filled in by EVB RPC call
@@ -523,12 +523,12 @@ def compile_and_deploy(params, mc, first_time=False):
         ws1 = '&&'
     else:
         ws3 = 'NUL'
-        ws = ''
+        ws = '-j'
         ws1 = '&'
         # d = d.replace("/", "\\")
 
     if first_time:
-        makefile_result = os.system(f"cd .. {ws1} make clean")
+        makefile_result = os.system(f"cd .. {ws1} make clean >{ws3} 2>&1 ")
 
     if params.create_profile:
         if params.verbosity > 3:

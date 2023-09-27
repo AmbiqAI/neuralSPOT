@@ -131,7 +131,7 @@ class adResults:
 
     def print(self):
         print("")
-        print((f"Charcterization Report for {self.model_name}:"))
+        print((f"Characterization Report for {self.model_name}:"))
         print(
             f"[Profile] Per-Layer Statistics file:         {self.model_name}_stats.csv"
         )
@@ -245,14 +245,16 @@ if __name__ == "__main__":
     # pickle.dump(mc, mc_file)
     # mc_file.close()
 
+    # if params.create_binary or params.create_profile:
+    #     # Configure the model on the EVB
+    #     client = rpc_connect_as_client(params)
+
     if params.create_binary:
         print(
             f"*** Stage [{stage}/{total_stages}]: Create and fine-tune EVB model characterization image"
         )
         stage += 1
         create_validation_binary(params, True, mc)
-
-        # Configure the model on the EVB
         client = rpc_connect_as_client(params)
 
         configModel(params, client, md)

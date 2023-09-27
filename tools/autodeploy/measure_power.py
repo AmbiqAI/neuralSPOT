@@ -33,8 +33,11 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     )
 
     # Make destination directory
-    os.system(f"mkdir -p {d}/{n}")
-    os.system(f"mkdir -p {d}/{n}/src")
+    os.makedirs(f"{d}/{n}", exist_ok=True)
+    os.makedirs(f"{d}/{n}/src", exist_ok=True)
+
+    # os.system(f"mkdir -p {d}/{n}")
+    # os.system(f"mkdir -p {d}/{n}/src")
 
     # Generate files from template
     createFromTemplate(
@@ -90,25 +93,32 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     # Remove ../ from path
     d = d.replace("../", "")
 
-    ws = '-j' if os.name == 'posix' else ''
+    # Windows sucks
+    if os.name == 'posix':
+        ws_null = '/dev/null'
+        ws_j = '-j'
+        ws_and = '&&'
+        ws_p = '-p'
+    else:
+        ws_null = 'NUL'
+        ws_j = ''
+        ws_and = '&&'
+        ws_p = ''
 
     # Generate library and example binary
     if params.verbosity > 3:
         print(
-            f"cd .. && make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd .. && make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. && make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >/dev/null 2>&1 && make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >/dev/null 2>&1"
+            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
-    # print (f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy")
 
-    # makefile_result = os.system(
-    #         f"cd .. && make -j AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} && make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
-    #     )
+    time.sleep(5)
 
     if makefile_result != 0:
         log.error("Makefile failed to build power measurement binary")

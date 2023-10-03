@@ -202,7 +202,6 @@ $(BINDIR)/%.o: %.s
 	@mkdir -p $(@D)
 ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
-# $(Q) $(LD) $< $(objects) $(lib_prebuilt) $(LFLAGS) --list=$*.map -o $@
 else
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
 endif

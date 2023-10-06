@@ -31,6 +31,9 @@ class Params(BaseModel):
     create_library: bool = Field(
         True, description="Create minimal static library based on TFlite file"
     )
+    create_ambiqsuite_example: bool = Field(
+        True, description="Create AmbiqSuite example based on TFlite file"
+    )
     measure_power: bool = Field(
         False,
         description="Measure power consumption of the model on the EVB using Joulescope",
@@ -224,6 +227,8 @@ if __name__ == "__main__":
         total_stages += 1
     if params.measure_power:
         total_stages += 1
+    if params.create_ambiqsuite_example:
+        total_stages += 1
 
     # set logging level
     log.basicConfig(
@@ -344,16 +349,16 @@ if __name__ == "__main__":
                 f"Model Power Measurement in {cpu_mode} mode: {t:.3f} ms and {energy:.3f} uJ per inference (avg {w:.3f} mW))"
             )
 
-        # generatePowerBinary(params, mc, md, "NS_MINIMUM_PERF")
-        # td, i, v, p, c, ee = measurePower()
-        # energy = (ee["value"] / params.runs_power) * 1000000  # Joules
-        # t = (td.total_seconds()*1000)/params.runs_power
-        # print(f"{params.runs_power} invokes at {cpu_mode}: {t:.3f} ms and {energy:.3f} uJ per inference")
-
     if params.create_library:
         print("")
         print(f"*** Stage [{stage}/{total_stages}]: Generate minimal static library")
-        generateModelLib(params, mc, md)
+        generateModelLib(params, mc, md, ambiqsuite=False)
+        stage += 1
+
+    if params.create_ambiqsuite_example:
+        print("")
+        print(f"*** Stage [{stage}/{total_stages}]: Generate AmbiqSuite Example")
+        generateModelLib(params, mc, md, ambiqsuite=True)
         stage += 1
 
     results.print()

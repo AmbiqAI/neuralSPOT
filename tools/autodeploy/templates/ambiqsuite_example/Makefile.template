@@ -12,7 +12,7 @@ include $(rootdir)/make/local_overrides.mk
 include $(rootdir)/make/neuralspot_toolchain.mk
 include $(rootdir)/make/jlink.mk
 
-includes_api :=
+includes_api := .
 pp_defines   := $(DEFINES)
 
 includes_api += $(rootdir)/neuralspot/ns-model/includes-api
@@ -45,7 +45,7 @@ includes_api += $(as_base)/third_party/tinyusb/source/src/device
 # AmbiqSuite Libraries
 ifeq ($(TOOLCHAIN),arm)
 lib_prebuilt += $(as_base)/mcu/$(PART)/hal/mcu/keil6/bin/libam_hal.lib
-lib_prebuilt += $(as_base)/lib/$(PART)/$(EVB)/libam_bsp.lib
+lib_prebuilt += $(as_base)/boards/$(PART)_$(EVB)/bsp/keil6/bin/libam_bsp.lib
 else
 lib_prebuilt += $(as_base)/mcu/apollo4p/hal/mcu/gcc/bin/libam_hal.a
 lib_prebuilt += $(as_base)/boards/$(PART)_$(EVB)/bsp/gcc/bin/libam_bsp.a
@@ -54,18 +54,21 @@ endif
 VPATH = $(rootdir)/src
 VPATH += $(as_base)/utils
 
-objects := $(build)/$(app_name)_model.o
+
+ifeq ($(TOOLCHAIN),arm)
+objects := $(build)/startup_armclang.o
+else
+objects := $(build)/startup_gcc.o
+endif
+
+objects += $(build)/$(app_name)_model.o
 objects += $(build)/$(app_name)_example.o
+objects += $(build)/am_resources.o
 objects += $(build)/am_util_delay.o
 objects += $(build)/am_util_id.o
 objects += $(build)/am_util_stdio.o
 objects += $(build)/am_util_string.o
-
-ifeq ($(TOOLCHAIN),arm)
-objects += $(build)/startup_armclang.o
-else
-objects += $(build)/startup_gcc.o
-endif
+# $(info objects: $(objects))
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
@@ -90,16 +93,32 @@ $(build)/%.o: %.s
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
 
-$(build)/%.axf: $(objects) $(libraries)
+%.axf: $(objects) $(libraries)
 	@echo " Linking $(COMPILERNAME) $@"
+	@mkdir -p $(@D)
+ifeq ($(TOOLCHAIN),arm)
+	$(Q) $(LD) $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
+else
 	$(Q) $(CC) -Wl,-T,linker_script.ld -o $@ $(objects) $(LFLAGS)
+endif
 
-$(build)/%.bin: $(build)/%.axf
+ifeq ($(TOOLCHAIN),arm)
+%.bin: %.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $@ $<
+	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
+	# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+	# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
+else
+%.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
+	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+	$(Q) $(SIZE) @$*.sizeinput $< > $*.size
+endif
 
 $(JLINK_CF):
 	@echo " Creating JLink command sequence input file... $(deploy_target)"
@@ -131,3 +150,5 @@ view:
 .PHONY: clean
 clean:
 	$(Q) $(RM) -rf $(build)
+
+.SECONDARY: $(objects)

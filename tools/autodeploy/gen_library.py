@@ -89,7 +89,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             f"{d}/{n}/gcc/Makefile",
             rm,
         )
-        rm["NS_AD_TOOLCHAIN"] = "armclang"
+        rm["NS_AD_TOOLCHAIN"] = "arm"
         createFromTemplate(
             "autodeploy/templates/ambiqsuite_example/Makefile.template",
             f"{d}/{n}/armclang/Makefile",
@@ -108,6 +108,9 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             "../neuralspot/ns-core/src/armclang/linker_script.sct", f"{d}/{n}/armclang/"
         )
         shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
+        shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
+        shutil.copy("autodeploy/templates/ambiqsuite_example/src/am_resources.c", f"{d}/{n}/src/")
+        shutil.copy("autodeploy/templates/ambiqsuite_example/src/am_hal_usbregs-override.h", f"{d}/{n}/src/")
 
         shutil.copytree(
             "autodeploy/templates/ambiqsuite_example/src/tensorflow_headers",

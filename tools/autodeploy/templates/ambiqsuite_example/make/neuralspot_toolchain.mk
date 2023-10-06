@@ -5,9 +5,6 @@ ifneq ($(VERBOSE),1)
 Q:=@
 endif
 
-.PRECIOUS: %.o
-
-
 #### Required Executables ####
 ifeq ($(TOOLCHAIN),arm-none-eabi)
 CC = $(TOOLCHAIN)-gcc$(EXEEXT)
@@ -35,19 +32,6 @@ LINT = clang-tidy$(EXEEXT)
 RM = $(shell which rm 2>/dev/null)
 MKD = "mkdir"
 DOX = doxygen$(EXEEXT)
-
-
-# EXECUTABLES = CC LD CP OD AR RD SIZE GCC JLINK JLINK_SWO
-# K := $(foreach exec,$(EXECUTABLES),\
-#         $(if $(shell which $($(exec)) 2>/dev/null),,\
-#         $(info $(exec) not found on PATH ($($(exec))).)$(exec)))
-# $(if $(strip $(value K)),$(info Required Program(s) $(strip $(value K)) not found))
-
-# ifneq ($(strip $(value K)),)
-# all clean:
-# 	$(info Tools $(TOOLCHAIN)-$(COMPILERNAME) not installed.)
-# 	$(RM) -rf bin
-# else
 
 ifeq ($(TOOLCHAIN),arm-none-eabi)
 CFLAGS+= -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
@@ -83,20 +67,17 @@ CCFLAGS+= -fno-use-cxa-atexit
 
 # LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
 LFLAGS+=  --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
-LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
-LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb
+LFLAGS+= --strict --scatter "./linker_script.sct" --undefined=__scatterload_copy
 LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 
 CPFLAGS = --bin --output
 ODFLAGS = -cedrst
 ARFLAGS= -r -s -c
-ASMFLAGS+= --target=arm-arm-none-eabi -mthumb -mcpu=$(CPU) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto
 
-# --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto
+ASMFLAGS+= --target=arm-arm-none-eabi -mthumb -mcpu=$(CPU) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto
 ASMFLAGS+= -Wa,armasm,--diag_suppress=A1950W -c
 ASMFLAGS+= -gdwarf-4
-# -IC:/Users/xbox/AppData/Local/Arm/Packs/AmbiqMicro/Apollo_DFP/1.3.2/Device/Include
 ASMFLAGS+= -Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"APOLLO4p_2048 SETA 1"
 
 endif

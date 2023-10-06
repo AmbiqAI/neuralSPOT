@@ -9,6 +9,7 @@
  *
  */
 
+#include "am_hal_usbregs-override.h"
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_model.h"
 #include "NS_AD_NAME_model_data.h"

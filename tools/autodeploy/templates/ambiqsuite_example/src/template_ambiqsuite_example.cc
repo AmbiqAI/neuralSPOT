@@ -10,6 +10,7 @@
  *
  */
 
+#include "am_hal_usbregs-override.h"
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_example_tensors.h"
 #include "ns_model.h"

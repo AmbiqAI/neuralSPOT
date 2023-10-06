@@ -228,7 +228,7 @@ def sendLongInputTensor(client, input_data, chunkLen):
     """
     # ChunkLen is in bytes, convert to word size
     chunkLen = chunkLen // input_data.flatten().itemsize
-    print("Chunking input tensor into %d byte chunks" % chunkLen)
+    # print("Chunking input tensor into %d byte chunks" % chunkLen)
     for chunk in chunker(input_data.flatten(), chunkLen):
         inputChunk = GenericDataOperations_PcToEvb.common.dataBlock(
             description="Input Chunk",
@@ -324,7 +324,6 @@ def validateModel(params, client, interpreter, md, mc):
                 buffer=input_data.flatten().tobytes(),
                 length=md.inputTensors[0].bytes,
             )
-        print("Calling EVB invoke pre ref")
         outputTensor = (
             erpc.Reference()
         )  # empty outputTensor, will be filled in by EVB RPC call
@@ -517,14 +516,14 @@ def compile_and_deploy(params, mc, first_time=False):
     d = params.working_directory + "/" + params.model_name
     d = d.replace("../", "")
     # Windows sucks
-    if os.name == 'posix':
-        ws3 = '/dev/null'
-        ws = '-j'
-        ws1 = '&&'
+    if os.name == "posix":
+        ws3 = "/dev/null"
+        ws = "-j"
+        ws1 = "&&"
     else:
-        ws3 = 'NUL'
-        ws = '-j'
-        ws1 = '&'
+        ws3 = "NUL"
+        ws = "-j"
+        ws1 = "&"
         # d = d.replace("/", "\\")
 
     if first_time:

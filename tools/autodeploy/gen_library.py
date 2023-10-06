@@ -1,26 +1,33 @@
 import logging as log
 import os
 import shutil
+
 import numpy as np
 from ns_utils import createFromTemplate, xxd_c_dump
 
 
-def generateModelLib(params, mc, md):
-    n = params.model_name
+def generateModelLib(params, mc, md, ambiqsuite=False):
+
+    if ambiqsuite:
+        n = params.model_name + "_ambiqsuite"
+    else:
+        n = params.model_name
+
     d = params.working_directory + "/" + params.model_name
+
     adds, addsLen = mc.modelStructureDetails.getAddList()
     # arena_size = (arena_size // 1024) + 1
     # Windows sucks
-    if os.name == 'posix':
-        ws_null = '/dev/null'
-        ws_j = '-j'
-        ws_and = '&&'
-        ws_p = '-p'
+    if os.name == "posix":
+        ws_null = "/dev/null"
+        ws_j = "-j"
+        ws_and = "&&"
+        ws_p = "-p"
     else:
-        ws_null = 'NUL'
-        ws_j = ''
-        ws_and = '&'
-        ws_p = ''
+        ws_null = "NUL"
+        ws_j = ""
+        ws_and = "&"
+        ws_p = ""
 
     rm = {
         "NS_AD_NAME": n,
@@ -30,48 +37,112 @@ def generateModelLib(params, mc, md):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
+        "NS_AD_TOOLCHAIN": "arm-none-eabi",
     }
-    print(f"Generating minimal library at {d}/{n}")
 
-    # Generate a clean (no profiler) version of ns-model.a
-    os.system(f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} >{ws_null} 2>&1")
+    if ambiqsuite:
+        print(f"Generating AmbiqSuite example at {d}/{n}")
+        # Make destination directory
+        os.makedirs(f"{d}/{n}", exist_ok=True)
+        os.makedirs(f"{d}/{n}/src", exist_ok=True)
+        os.makedirs(f"{d}/{n}/src/tensorflow_headers", exist_ok=True)
+        os.makedirs(f"{d}/{n}/lib", exist_ok=True)
+        os.makedirs(f"{d}/{n}/gcc", exist_ok=True)
+        os.makedirs(f"{d}/{n}/armclang", exist_ok=True)
+        os.makedirs(f"{d}/{n}/keil6", exist_ok=True)
+        os.makedirs(f"{d}/{n}/make", exist_ok=True)
+    else:
+        print(f"Generating minimal library at {d}/{n}")
 
-    # Make destination directory
-    os.makedirs(f"{d}/{n}", exist_ok=True)
-    print(f"mkdir {ws_p} {d}/{n}")
-    os.makedirs(f"{d}/{n}/tensorflow_headers", exist_ok=True)
-    os.makedirs(f"{d}/{n}/lib", exist_ok=True)
-    os.makedirs(f"{d}/{n}/src", exist_ok=True)
-    os.makedirs(f"{d}/{n}/src/gcc", exist_ok=True)
-    os.makedirs(f"{d}/{n}/src/armclang", exist_ok=True)
+        # Generate a clean (no profiler) version of ns-model.a
+        os.system(
+            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} >{ws_null} 2>&1"
+        )
 
-    # Generate files from template
-    createFromTemplate(
-        "autodeploy/templates/template.cc", f"{d}/{n}/src/{n}_model.cc", rm
-    )
+        # Make destination directory
+        os.makedirs(f"{d}/{n}", exist_ok=True)
+        os.makedirs(f"{d}/{n}/tensorflow_headers", exist_ok=True)
+        os.makedirs(f"{d}/{n}/lib", exist_ok=True)
+        os.makedirs(f"{d}/{n}/src", exist_ok=True)
+        os.makedirs(f"{d}/{n}/src/gcc", exist_ok=True)
+        os.makedirs(f"{d}/{n}/src/armclang", exist_ok=True)
+
+    # Generate files from templates
     createFromTemplate(
         "autodeploy/templates/template.h", f"{d}/{n}/src/{n}_model.h", rm
     )
-    createFromTemplate(
-        "autodeploy/templates/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
-    )
-    createFromTemplate(
-        "autodeploy/templates/template_example.cc", f"{d}/{n}/src/{n}_example.cc", rm
-    )
-    createFromTemplate(
-        "autodeploy/templates/Makefile.template", f"{d}/{n}/Makefile", rm
-    )
 
-    # Copy needed files
-    shutil.copy("../neuralspot/ns-core/src/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/")
-    shutil.copy("../neuralspot/ns-core/src/armclang/startup_armclang.s", f"{d}/{n}/src/armclang/")
-    # os.system(f"cp ../neuralspot/ns-core/src/startup_gcc.c {d}/{n}/src/")
+    # Generate target-specific files from templates
+    if ambiqsuite:
+        createFromTemplate(
+            "autodeploy/templates/ambiqsuite_example/src/template_ambiqsuite_model.cc",
+            f"{d}/{n}/src/{n}_model.cc",
+            rm,
+        )
+        createFromTemplate(
+            "autodeploy/templates/ambiqsuite_example/src/template_ambiqsuite_example.cc",
+            f"{d}/{n}/src/{n}_example.cc",
+            rm,
+        )
+        createFromTemplate(
+            "autodeploy/templates/ambiqsuite_example/Makefile.template",
+            f"{d}/{n}/gcc/Makefile",
+            rm,
+        )
+        rm["NS_AD_TOOLCHAIN"] = "armclang"
+        createFromTemplate(
+            "autodeploy/templates/ambiqsuite_example/Makefile.template",
+            f"{d}/{n}/armclang/Makefile",
+            rm,
+        )
+        createFromTemplate(
+            "autodeploy/templates/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+        )
+        shutil.copy("../neuralspot/ns-core/src/gcc/startup_gcc.c", f"{d}/{n}/src/")
+        shutil.copy("../neuralspot/ns-core/src/gcc/linker_script.ld", f"{d}/{n}/gcc/")
 
-    shutil.copy("autodeploy/templates/linker_script.ld", f"{d}/{n}/src/")
-    shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/lib/")
+        shutil.copy(
+            "../neuralspot/ns-core/src/armclang/startup_armclang.s", f"{d}/{n}/src/"
+        )
+        shutil.copy(
+            "../neuralspot/ns-core/src/armclang/linker_script.sct", f"{d}/{n}/armclang/"
+        )
+        shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
 
-    # os.system(f"cp autodeploy/templates/linker_script.ld {d}/{n}/src/")
-    # os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/lib/")
+        shutil.copytree(
+            "autodeploy/templates/ambiqsuite_example/src/tensorflow_headers",
+            f"{d}/{n}/src/tensorflow_headers/",
+            dirs_exist_ok=True,
+        )
+        shutil.copytree(
+            "autodeploy/templates/ambiqsuite_example/make",
+            f"{d}/{n}/make",
+            dirs_exist_ok=True,
+        )
+
+    else:
+        createFromTemplate(
+            "autodeploy/templates/template.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        )
+        createFromTemplate(
+            "autodeploy/templates/template_example.cc",
+            f"{d}/{n}/src/{n}_example.cc",
+            rm,
+        )
+        createFromTemplate(
+            "autodeploy/templates/Makefile.template", f"{d}/{n}/Makefile", rm
+        )
+        createFromTemplate(
+            "autodeploy/templates/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
+        )
+        shutil.copy("../neuralspot/ns-core/src/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/")
+        shutil.copy(
+            "../neuralspot/ns-core/src/armclang/startup_armclang.s",
+            f"{d}/{n}/src/armclang/",
+        )
+
+        shutil.copy("autodeploy/templates/linker_script.ld", f"{d}/{n}/src/")
+        shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/lib/")
 
     # Generate model weight file
     xxd_c_dump(
@@ -83,9 +154,6 @@ def generateModelLib(params, mc, md):
     )
 
     # Generate input/output tensor example data
-    # inputs = str([list(i) for i in mc.exampleTensors.inputTensors].flatten()).replace("[","{").replace("]","}")
-    # outputs = str([list(i) for i in mc.exampleTensors.outputTensors].flatten).replace("[","{").replace("]","}")
-
     flatInput = [
         element for sublist in mc.exampleTensors.inputTensors for element in sublist
     ]
@@ -107,12 +175,17 @@ def generateModelLib(params, mc, md):
         rm,
     )
 
-    # Generate library and example binary
-    if params.verbosity > 3:
-        makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j}")
+    if ambiqsuite:
+        print("AmbiqSuite example generated successfully at " + d + "/" + n)
     else:
-        makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j} >{ws_null} 2>&1")
+        # Generate library and example binary
+        if params.verbosity > 3:
+            makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j}")
+        else:
+            makefile_result = os.system(
+                f"cd {d}/{n} {ws_and} make {ws_j} >{ws_null} 2>&1"
+            )
 
-    if makefile_result != 0:
-        log.error("Makefile failed to build minimal example library")
-        exit("Makefile failed to build minimal example library")
+        if makefile_result != 0:
+            log.error("Makefile failed to build minimal example library")
+            exit("Makefile failed to build minimal example library")

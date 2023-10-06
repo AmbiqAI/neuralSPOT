@@ -145,16 +145,16 @@ def next_power_of_2(x):
 
 def reset_dut():
     # Windows sucks
-    if os.name == 'posix':
-        ws3 = '/dev/null'
-        ws = '-j'
-        ws1 = '&&'
+    if os.name == "posix":
+        ws3 = "/dev/null"
+        ws = "-j"
+        ws1 = "&&"
     else:
-        ws3 = 'NUL'
-        ws = ''
-        ws1 = '&'
+        ws3 = "NUL"
+        ws = ""
+        ws1 = "&"
         # d = d.replace("/", "\\")
-    makefile_result = os.system("cd .. {ws1} make reset >{ws3} 2>&1")
+    makefile_result = os.system(f"cd .. {ws1} make reset >{ws3} 2>&1")
     time.sleep(2)  # give jlink a chance to settle
 
 

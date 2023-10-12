@@ -11,12 +11,22 @@ Each model's repository includes:
 - **Data preparation scripts** which help you collect the data you need, put it into the right shape, and perform any feature extraction or other pre-processing needed before it is used to train the model. 
 - **Training scripts** that specify the model architecture, train the model, and in some cases, perform training-aware model compression such as quantization and pruning
 - **Inference scripts** to test the resulting model and **conversion scripts** that export it into something that can be deployed on Ambiq's hardware platforms.
-- **Jupyter Notebooks** and documentation helping navigate all of the above.
 - Where possible, **pre-trained deployable models**, and **power-optimized firmware** connecting to Apollo4's sensors and peripherals.
 
 ## The Models
 
 Built on top of neuralSPOT, our models take advantage of the Apollo4 family's amazing power efficiency to accomplish common, practical endpoint AI tasks such as speech processing and health monitoring. 
+
+| Model    | Description                                                  | Sensor                             | Pre-trained? | Real-Time? |
+| -------- | ------------------------------------------------------------ | ---------------------------------- | ------------ | ---------- |
+| NNSP     | Neural Network Speech Processing - 3-in-1 model including voice activity detection, keyword spotting, and speech-to-intent | Analog or digital microphone       | no           | Yes        |
+| NNSE     | Neural Network Speech Enhancer - removes background noise from speech. | Analog or digital microphone       | Yes          | Yes        |
+| NNID     | Neural Network Speaker Identification - identifies a speaker based on their speech pattern. | Analog or digital microphone       | Yes          | Yes        |
+| ESC      | Environmental Sound Classification - identifies sounds such as crying babies, barking dogs, and gunshots. | Analog or digital microphone       | Yes          | Yes        |
+| HeartKit | Analyzes ECG data to classify beats, identify ECG segments, and detect irregular heartbeats. | ECG over I2C                       | Yes          | Yes        |
+| HAR      | Human Activity Recognition - detects activities such as running, walking, sitting, and climbing stairs. | Accelerometer + Gyroscope over I2C | Yes          | Yes        |
+
+
 
 ### Neural Network Speech
 
@@ -30,11 +40,19 @@ This [real-time model](https://github.com/AmbiqAI/ecg-arrhythmia) analyzes the s
 
 ### Speech De-Noise
 
-This [real-time model](https://github.com/AmbiqAI/nnse) processes audio containing speech, and removes non-speech noise to better isolate the main speaker's voice. The approach taken in this implementation closely mimics that described in the paper [TinyLSTMs: Efficient Neural Speech Enhancement for Hearing Aids](https://arxiv.org/abs/2005.11138) by Federov et al. Namely, a small recurrent neural network is employed to learn a denoising mask that is multiplied with the original noisy input to produce denoised output.
+This [real-time model](https://github.com/AmbiqAI/nnse) processes audio containing speech, and removes non-speech noise to better isolate the main speaker's voice. Our approach is a novel combination of speech enhancement techniques that result in a very compact model producing high quality speech.
 
 ### Human Activity Recognition
 
 This [real-time model](https://github.com/AmbiqAI/Human-Activity-Recognition) analyses accelerometer and gyroscopic data to recognize a person's movement and classify it into a few types of activity such as 'walking', 'running', 'climbing stairs', etc.
+
+### Speaker Identification
+
+This [real-time model](https://github.com/AmbiqAI/nnid) listens to speech and identifies the speaker as one of up to five speakers. New speakers are added post-training, avoiding the necessity of a full re-training of the model.
+
+### Environmental Sound Classification
+
+This [real-time model](https://github.com/AmbiqAI/esc) listens to sounds and identifies bark dogs, gun shots, sirens, babies crying, or 'other'. This type of model is useful for security and accessability applications.
 
 ## A Word About Datasets
 

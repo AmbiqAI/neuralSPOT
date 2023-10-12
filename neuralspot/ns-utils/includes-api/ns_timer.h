@@ -7,28 +7,32 @@
  *
  * @copyright Copyright (c) 2022
  *
+ * \addtogroup ns-timer
+ * @{
+ * @ingroup ns-utils
+ *
  */
 
 #ifndef NS_TIMER
-#define NS_TIMER
+    #define NS_TIMER
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 extern "C" {
-#endif
+    #endif
 
-#include "am_bsp.h"
-#include "am_mcu_apollo.h"
-#include "am_util.h"
-#include "ns_core.h"
+    #include "am_bsp.h"
+    #include "am_mcu_apollo.h"
+    #include "am_util.h"
+    #include "ns_core.h"
 
-#define NS_TIMER_V0_0_1                                                                            \
-    { .major = 0, .minor = 0, .revision = 1 }
-#define NS_TIMER_V1_0_0                                                                            \
-    { .major = 1, .minor = 0, .revision = 0 }
+    #define NS_TIMER_V0_0_1                                                                        \
+        { .major = 0, .minor = 0, .revision = 1 }
+    #define NS_TIMER_V1_0_0                                                                        \
+        { .major = 1, .minor = 0, .revision = 0 }
 
-#define NS_TIMER_OLDEST_SUPPORTED_VERSION NS_TIMER_V0_0_1
-#define NS_TIMER_CURRENT_VERSION NS_TIMER_V1_0_0
-#define NS_TIMER_API_ID 0xCA0002
+    #define NS_TIMER_OLDEST_SUPPORTED_VERSION NS_TIMER_V0_0_1
+    #define NS_TIMER_CURRENT_VERSION NS_TIMER_V1_0_0
+    #define NS_TIMER_API_ID 0xCA0002
 
 extern const ns_core_api_t ns_timer_V0_0_1;
 extern const ns_core_api_t ns_timer_V1_0_0;
@@ -49,6 +53,10 @@ typedef enum {
     NS_TIMER_TEMPCO = 3     ///< Used by ns_tempco to periodically collect temps
 } ns_timers_e;
 
+/**
+ * @brief ns-timer configuration struct
+ *
+ */
 typedef struct ns_timer_config {
     const ns_core_api_t *api;      ///< API prefix
     ns_timers_e timer;             ///< NS_TIMER_COUNTER, NS_TIMER_INTERRUPT, or NS_TIMER_USB
@@ -68,8 +76,7 @@ typedef struct ns_timer_config {
  * @param cfg
  * @return uint32_t status
  */
-extern uint32_t
-ns_timer_init(ns_timer_config_t *cfg);
+extern uint32_t ns_timer_init(ns_timer_config_t *cfg);
 
 /**
  * @brief Read current value of timer
@@ -77,8 +84,7 @@ ns_timer_init(ns_timer_config_t *cfg);
  * @param cfg
  * @return uint32_t timer if success, 0xDEADBEEF if bad handle
  */
-extern uint32_t
-ns_us_ticker_read(ns_timer_config_t *cfg);
+extern uint32_t ns_us_ticker_read(ns_timer_config_t *cfg);
 
 /**
  * @brief Clear timer
@@ -86,11 +92,10 @@ ns_us_ticker_read(ns_timer_config_t *cfg);
  * @param cfg
  * @return uint32_t status
  */
-extern uint32_t
-ns_timer_clear(ns_timer_config_t *cfg);
+extern uint32_t ns_timer_clear(ns_timer_config_t *cfg);
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
+    #endif
 #endif
-
-#endif
+/** @}*/

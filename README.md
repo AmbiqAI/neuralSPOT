@@ -1,22 +1,25 @@
 # NeuralSPOT
 NeuralSPOT is Ambiq's AI SDK. It is open-source, real-time, and OS-agnostic. NeuralSPOT is designed to help AI feature developers in 3 important ways:
 
+![image-20230727151931018](./docs/images/image-20230727151931018.png){align=right width=25%}
+
 1. **Initial development and fine-tuning of the AI model**: neuralSPOT has tools to rapidly [characterize the performance and size](./docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md) of a TFLite model on Ambiq processors.
 2. **Rapid AI feature prototyping**: neuralSPOT's library of easy to use drivers, feature extractors, helper functions, and communication mechanisms accelerate the development of stand-alone AI feature applications to test the model in real-world situations with real-world data and latencies.
 3. **AI model library export**: once an AI model has been developed and refined via prototyping, neuralSPOT allows one-click deployment of a static library implementing the AI model, suitable to linking into larger embedded applications.
 
-![image-20230727151931018](./docs/images/image-20230727151931018.png)
-
 
 NeuralSPOT wraps an AI-centric API around the AmbiqSuite SDK to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
 
-![image-20220811095223908](./docs/images/image-20220811095223908.png)
+<figure markdown>
+![image-20220811095223908](./docs/images/image-20220811095223908.png){width=75%}
+<figcaption>It helps with inference, too!</figcaption>
+</figure>
 
-NeuralSPOT's documentation is spread throughout the repository - generally, every component has its own documentation, which can be overwhelming. Please visit [`doc/`](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs) for high level documents useful as a starting point for understanding neuralSPOT's overall structure and intended usage.
+NeuralSPOT's documentation is spread throughout the repository - generally, every component has its own documentation, which can be overwhelming. Please visit [`docs/`](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs) for high level documents useful as a starting point for understanding neuralSPOT's overall structure and intended usage.
 
 # Building and Deploying NeuralSPOT
-
 NeuralSPOT make system is can be used in two ways:
+
 1. **As the 'base of operations' for your AI development**. Intended for stand-alone EVB development, you can add new binary (axf) targets to the /examples directory.
 2. **As a seed for adding NeuralSPOT to a larger project**. In this mode of operations, you would use NeuralSPOT to create a stub project (a "nest", described below) with everything needed to start running AI on EVBs.
 
@@ -55,32 +58,31 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 > `$> git update-index --assume-unchanged make/local_overrides.mk`
 
 # NeuralSPOT Structure and Directories
-
 NeuralSPOT consists of the neuralspot library, required external components, tools, and examples.
 
 <img src="./docs/images/image-20230727151002947.png" alt="image-20230727151002947" style="zoom:50%;" />
 
-The directory structure reflects the code structure
+The directory structure reflects the code structure:
 
-```/neuralspot - contains all code for NeuralSPOT libraries
-/neuralspot # Sensor, communications, and helper libraries
-/extern     # External dependencies, including TF and AmbiqSuite
-/examples   # Example applications, each of which can be compiled to a deployable binary
-/projects   # Examples of how to integrate external projects such as EdgeImpulse models
-/make       # Makefile helpers, including neuralspot-config.mk and local_overrides.mk
-/tools	    # AutoDeploy and RPC python-based tools
-/tests.     # Simple compatibility tests
-/docs       # introductory documents, guides, and release notes
+```
+/neuralspot - contains all code for NeuralSPOT libraries
+	/neuralspot # Sensor, communications, and helper libraries
+	/extern     # External dependencies, including TF and AmbiqSuite
+	/examples   # Example applications, each of which can be compiled to a deployable binary
+	/projects   # Examples of how to integrate external projects such as EdgeImpulse models
+	/make       # Makefile helpers, including neuralspot-config.mk and local_overrides.mk
+	/tools	    # AutoDeploy and RPC python-based tools
+	/tests      # Simple compatibility tests
+	/docs       # introductory documents, guides, and release notes
 ```
 
-# NeuralSPOT Theory of Operations
 
+# NeuralSPOT Theory of Operations
 NeuralSPOT is a SDK for AI development on Ambiq products via an AI-friendly API. It offers a set of libraries for accessing hardware, pre-configured instances of external dependencies such as AmbiqSuite and Tensorflow Lite for Microcontrollers, and a handful of examples which compile into deployable binaries.
 
 <img src="./docs/images/ns-layers.png" alt="layers" style="zoom:50%;" />
 
 ## NeuralSPOT Libraries and Features
-
 NeuralSPOT is continuously growing, and offers the following libraries today - for a full list of features, see our [Feature Guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/feature-guide.md).
 
 1. `ns-audio`: [Library for sampling audio](neuralspot/ns-audio/ns-audio.md) from Ambiq's audio interfaces and sending them to an AI application via several IPC methods. This library also contains audio-centric common AI feature helpers such as configurable Mel-spectogram computation.
@@ -92,11 +94,9 @@ NeuralSPOT is continuously growing, and offers the following libraries today - f
 7. ... and many more
 
 ## The Nest
-
 The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files, along with a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](docs/Developing_with_NeuralSPOT.md).
 
 ### Building Nest
-
 Before building a nest, you must first build NeuralSPOT for your desired target. By default, the nest will be created in NeuralSPOT's root directory - set NESTDIR to change where it is built.
 
 ```bash

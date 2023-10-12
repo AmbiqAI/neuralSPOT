@@ -85,4 +85,6 @@
   - Adds support for CMSIS-DSP version 1.15.0
   - Fixes various usb race conditions, rpc_server example hang
   - Adds 16-byte alignment to model definitions (needed by armclang)
+  - Better Windows support
+  - Adds AmbiqSuite example export to Autodeploy 
   - removes unneeded files

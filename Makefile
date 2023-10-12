@@ -10,13 +10,13 @@ include make/jlink.mk
 # 'modules' list below.
 
 # There are certain hardcoded assumptions that must be followed
-# When adding a module. Module directories must look like this:
+# When adding a module. Module directories must look something like this:
 # .../mymodule/
 #   module.mk
 #   src/ <- contains C, CC, S, and private H files
 #   includes-api/ <- contains public header files
 #
-# Build artifacts (.o, .d, etc) are placed adjacent to src/
+# Build artifacts (.o, .d, etc) are placed
 # in the $BINDIR directory (defaults to 'build') which is
 # created when needed and remove by 'make clean'
 #
@@ -32,55 +32,56 @@ modules      += neuralspot/ns-harness
 modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
-
-ifeq ($(USB_PRESENT),1)
-modules      += neuralspot/ns-usb
-modules      += neuralspot/ns-rpc
-endif
-
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-i2c
-ifeq ($(BLE_SUPPORTED),1)
-modules      += neuralspot/ns-ble
+
+ifeq ($(USB_PRESENT),1)
+	modules      += neuralspot/ns-usb
+	modules      += neuralspot/ns-rpc
 endif
-# modules      += neuralspot/ns-model
+
+ifeq ($(BLE_SUPPORTED),1)
+	modules      += neuralspot/ns-ble
+endif
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
+modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
+modules      += extern/tensorflow/$(TF_VERSION)
+modules      += extern/SEGGER_RTT/$(SR_VERSION)
+
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
-# modules      += extern/CMSIS/$(CMSIS_VERSION)
-modules += extern/CMSIS/CMSIS-DSP-1.15.0
-modules      += extern/tensorflow/$(TF_VERSION)
-modules      += extern/SEGGER_RTT/$(SR_VERSION)
 
 ifeq ($(USB_PRESENT),1)
 modules      += extern/erpc/$(ERPC_VERSION)
 endif
 
 # Example (executable binary) Modules
+
 ifeq ($(AUTODEPLOY),1)
 # For tools/ns_autodeploy, we have a single module in projects/models
 # This is used for tflm_validator, genLib, and power binaries
-modules      += $(ADPATH)/$(EXAMPLE)
+	modules      += $(ADPATH)/$(EXAMPLE)
 else
-ifeq ($(EXAMPLE),all)
-modules      += examples/basic_tf_stub
-ifeq ($(BLE_SUPPORTED),1)
-modules      += examples/web_ble
-endif
-modules      += examples/har
+	ifeq ($(EXAMPLE),all)
+		modules      += examples/basic_tf_stub
+		modules      += examples/har
 
-ifeq ($(USB_PRESENT),1)
-modules      += examples/rpc_client
-modules      += examples/rpc_server
-modules      += examples/mpu_data_collection
-endif
+		ifeq ($(BLE_SUPPORTED),1)
+			modules      += examples/web_ble
+		endif
 
-else
-modules 	 += examples/$(EXAMPLE)
-endif
+		ifeq ($(USB_PRESENT),1)
+			modules      += examples/rpc_client
+			modules      += examples/rpc_server
+			modules      += examples/mpu_data_collection
+		endif
+
+	else
+		modules 	 += examples/$(EXAMPLE)
+	endif
 endif
 
 # The following variables are filled in by module.mk include files
@@ -93,6 +94,7 @@ endif
 # Add all your source files to 'sources'
 # Add any locally needed pre-processing defines to 'pp_defines'
 # Add your local build dir to 'bindirs'
+# Add any needed include paths to 'includes_api'
 
 examples     :=
 mains        :=
@@ -230,12 +232,14 @@ endif
 
 
 .PHONY: docs
+docs: export DOXYGEN_OUTPUT_DIRECTORY = docs/docs
+docs: export
 docs:
 	@echo " Making Documents"
 	@echo "INCLUDES = $(doc_sources)"
 	@echo "EXCLUDE_PATTERNS = */AmbiqSuite/* */tensorflow/* */$(BINDIR)/* */$(NESTDIR)/*"
 #	@echo "H_INCLUDES = $(all_includes)"
-#	$(Q) $(DOX) docs/Doxyfile
+	$(Q) $(DOX) docs/doxygen/Doxyfile
 
 .PHONY: nest
 nest: all

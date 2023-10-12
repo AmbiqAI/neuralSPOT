@@ -7,9 +7,8 @@
  *
  * @copyright Copyright (c) 2022
  *
- * \addtogroup NeuralSPOT-Power
+ * \addtogroup ns-power
  *  @{
- * @ingroup NeuralSPOT-Peripherals
  */
 
 //*****************************************************************************
@@ -50,24 +49,24 @@
 //
 //*****************************************************************************
 #ifndef NS_POWER
-#define NS_POWER
+    #define NS_POWER
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 extern "C" {
-#endif
+    #endif
 
-#include "am_bsp.h"
-#include "am_mcu_apollo.h"
-#include "am_util.h"
+    #include "am_bsp.h"
+    #include "am_mcu_apollo.h"
+    #include "am_util.h"
 
-#define NS_POWER_V0_0_1                                                                            \
-    { .major = 0, .minor = 0, .revision = 1 }
-#define NS_POWER_V1_0_0                                                                            \
-    { .major = 1, .minor = 0, .revision = 0 }
+    #define NS_POWER_V0_0_1                                                                        \
+        { .major = 0, .minor = 0, .revision = 1 }
+    #define NS_POWER_V1_0_0                                                                        \
+        { .major = 1, .minor = 0, .revision = 0 }
 
-#define NS_POWER_OLDEST_SUPPORTED_VERSION NS_POWER_V0_0_1
-#define NS_POWER_CURRENT_VERSION NS_POWER_V1_0_0
-#define NS_POWER_API_ID 0xCA0007
+    #define NS_POWER_OLDEST_SUPPORTED_VERSION NS_POWER_V0_0_1
+    #define NS_POWER_CURRENT_VERSION NS_POWER_V1_0_0
+    #define NS_POWER_API_ID 0xCA0007
 
 extern const ns_core_api_t ns_power_V0_0_1;
 extern const ns_core_api_t ns_power_V1_0_0;
@@ -109,16 +108,14 @@ extern const ns_power_config_t ns_audio_default; ///< Good for AI that uses audi
  * @param ns_power_config_t Desired power mode
  * @return uint32_t success/failure
  */
-extern uint32_t
-ns_power_config(const ns_power_config_t *);
+extern uint32_t ns_power_config(const ns_power_config_t *);
 
 /**
  * @brief neuralSPOT-aware deep_sleep - turns off certain systems off before sleeping
  * and turns them back upon waking.
  *
  */
-extern void
-ns_deep_sleep(void);
+extern void ns_deep_sleep(void);
 
 /**
  * @brief Sets CPU frequency to one of the ns_power_modes
@@ -126,11 +123,10 @@ ns_deep_sleep(void);
  * @param eAIPowerMode
  * @return uint32_t status
  */
-uint32_t
-ns_set_performance_mode(ns_power_mode_e eAIPowerMode);
+uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode);
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
-/** @}*/
+    #endif
 #endif // NS_POWER
+/** @}*/

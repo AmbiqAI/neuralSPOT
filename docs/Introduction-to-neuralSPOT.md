@@ -1,18 +1,13 @@
 # Welcome to neuralSPOT
 #### Because AI is hard enough.
 neuralSPOT is an AI developer-focused SDK in the true sense of the word: it includes everything you need to get your AI model onto Ambiq’s platform. You’ll find libraries for talking to sensors, managing SoC peripherals, and controlling power and memory configurations, along with tools for easily debugging your model from your laptop or PC, and examples that tie it all together.
-
-<img src="./images/image-20220927160935318.png" alt="you-are-here" style="zoom:40%;" />
+![You Are Here](./images/image-20220927160935318.png)
 
 ## Major Components
 neuralSPOT includes tools, libraries, and examples to help get your AI features implemented, optimized, and deployed.
-
-<img src="./images/ns-layers.png" alt="neuralSPOT layers" style="zoom:50%;" />
-
-
+![neuralSPOT Layers](./images/ns-layers.png)
 
 ### Libraries
-
 neuralSPOT contains Ambiq-specific embedded libraries for [audio](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio), [USB](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb), and [i2c](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) peripherals, [power management](./optimizing_using_neuralspot.md), and numerous helper functions such as [interprocess communications](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc), and [memory management](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils).
 
 ### Tools

@@ -4,9 +4,6 @@
 //!
 //! @brief NeuralSPOT AUDADC Audio
 //!
-//! \addtogroup NeuralSPOT-AUDADC
-//! @{
-//! @ingroup NeuralSPOT-Audio
 //
 //*****************************************************************************
 
@@ -59,7 +56,7 @@ extern "C" {
 #include "am_util.h"
 #include "ns_audio.h"
 
-/// Size of a single AUDADC sample
+// Size of a single AUDADC sample
 #define AUDADC_MAX_SAMPLE_BUF_SIZE                                                                 \
     (NS_AUDIO_DMA_BUFFER_SIZE) // Should be padded to 12 samples
                                // follow current DMA/FIFO mechanism:
@@ -69,9 +66,8 @@ extern "C" {
 extern ns_audadc_cfg_t ns_audadc_default;
 extern ns_audadc_cfg_t ns_audadc_vos_default;
 
-/// AUDADC subsystem init - should only be invoked by ns_audio, not directly
-extern uint32_t
-audadc_init(ns_audio_config_t *cfg);
+// AUDADC subsystem init - should only be invoked by ns_audio, not directly
+extern uint32_t audadc_init(ns_audio_config_t *cfg);
 
 #ifdef __cplusplus
 }

@@ -1,17 +1,18 @@
 # Understanding neuralSPOT via the Basic Tensorflow Example
-
+#### Foo
 Often, the best way to ramp up on a new software library is through a comprehensive example - this is why neuralSPOt includes `basic_tf_stub`, a [illustrative example](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub) that leverages many of neuralSPOT's features.
 
 In this article, we walk through the example block-by-block, using it as a guide to building AI features using neuralSPOT.
 
 > *Side Note* A "stub" in the developer world is a bit of code meant as a sort of placeholder, hence the example's name: it is meant to be code where you replace the existing TF (tensorflow) model and replace it with your own.
 
-# Everything but the Kitchen Sink
+## Everything but the Kitchen Sink
 Basic_TF_Stub is a deployable KWS AI model based [MLPerf KWS benchmark](https://github.com/mlcommons/tiny/tree/master/benchmark/training/keyword_spotting) - it grafts neuralSPOT's integration code into the existing model in order to make it a functioning keyword spotter. 
 
 The code uses the Apollo4's low voltage AUDADC analog microphone interface to collect audio. Once collected, it processes the audio by extracting melscale spectograms, and passes those to a Tensorflow Lite for Microcontrollers model for inference. After invoking the model, the code processes the result and prints it out on the SWO debug interface. Optionally, it will dump the collected audio to a PC via a USB cable.
 
 Along the way, this example uses many neuralSPOT features, including:
+
 1. [ns-audio](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) paired with the [AUDADC driver](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-audio/src/ns_audadc.c) to collect audio
 2. [ns-ipc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc) to use a ringbuffer to pass the audio to example application
 3. [ns-mfcc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) to compute the mel spectogram

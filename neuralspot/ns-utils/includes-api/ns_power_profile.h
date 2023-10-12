@@ -5,10 +5,6 @@
 //!
 //! @brief Functions to aid power profiling and debugging
 //!
-//! @addtogroup BSP Board Support Package (BSP), release date: TBD
-//! @addtogroup apollo4 BSP for the Apollo4
-//! @ingroup BSP
-//! @{
 //
 //*****************************************************************************
 
@@ -318,8 +314,7 @@ typedef struct {
     uint32_t AU_DMASTAT;
 } am_bsp_pp_b4_t;
 
-void
-ns_print_JSON();
+void ns_print_JSON();
 
 //*****************************************************************************
 //
@@ -328,17 +323,10 @@ ns_print_JSON();
 // bDebug: a flag to indicate it's a debug or not
 // uNumber: snapshot number
 //*****************************************************************************
-void
-ns_pp_snapshot(bool bDebug, uint32_t uNumber);
+void ns_pp_snapshot(bool bDebug, uint32_t uNumber);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif // NS_POWER_PROFILE_H
-       //*****************************************************************************
-       //
-       // End Doxygen group.
-       //! @}
-       //
-       //*****************************************************************************

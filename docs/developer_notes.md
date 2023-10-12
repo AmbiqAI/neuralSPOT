@@ -39,3 +39,7 @@ NeuralSPOT is moving to version 1.0.0. As we exit Version Zero, we'll start bein
 - We'll start a persistent `development` branch to replace how we've been using the `main` branch.
 
 Select APIs will be version checked: when calling Init() for that API, a version must be specified, and this version will be checked against a range of supported versions. We'll do our best to maintain compatibility of code updates at least one major version back from the latest released version.
+
+### 10-9-2023 - CM
+#### Armclang
+NeuralSPOT now features experimental support for Arm's proprietary Armclang compilation toolchain. All examples have been tested and shown to work, but some larger RPC transactions are failing (mostly impacting large-tensor autodeploy operations). Performance improves for some TFLM models, but degrades for others.

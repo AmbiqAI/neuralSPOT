@@ -1,61 +1,22 @@
 # Developing with NeuralSPOT
 
-NeuralSPOT is a developer-centric toolkit for creating AI-powered features for an application. Recognizing that there are almost as many development flows as there are developers, neuralSPOT includes a flexible deployment mechanism to ease integration into many types of flows - we call it the *Nest*.
+The NeuralSPOT AI SDK is a collection of software libraries, tools, and examples designed to help developers create AI features for Ambiq platforms. It is open-source, OS-agnostic, and supports most Ambiq devices.
 
-The Nest is a fully contained instantiation of your feature, ready to be compiled and linked into your larger project. It accomodates three major types of workflow:
+NeuralSPOT is intended to be used on Ambiq platform evaluation boards (EVBs), and is primarily for developers that already have an AI model and want to deploy and refine it on Ambiq devices.
 
-1. Developing your feature within NeuralSPOT and deploy it periodically to your application.
-2. Developing your feature as a standalone project, taking updates from neuralSPOT as needed and integrating with a larger complex project.
-3. Developing your feature directly within your application - similar to developing a standalone AI feature project.
+Some example use-cases:
 
-## Developing Within neuralSPOT
+1. **Create a demonstration application**: NeuralSPOT's libraries make creating complex AI demos easier by taking care of the 'hard stuff' such as power configuration, memory layout, and peripheral (BLE, USB, Audio, and more) configuration. Building a demo around a new model can be done in hours instead of weeks.
+2. **Develop, characterize, and refine a Tensorflow Lite model**: NeuralSPOT includes tools to automatically analyze your TFLite model and create all the necessary code to instantiate it on Ambiq platforms. Once deployed, those same tools can characterize the model's performance and power utilization, and finally export it as a minimal static library or AmbiqSuite example.
+3. **Develop and debug sensor feature extraction**: processing sensor data for use by the model (aka 'feature extraction') is a critical (and error prone) part of AI development. NeuralSPOT's RPC allow you to calculate features on a laptop using Python and compare the results with the firmware version's output. This is usually a manual and tedious process.
 
-This is the simplest approach for developing a new AI feature because it integrates closely with neuralSPOT's code base without the need for exporting include files and static libraries. Roughly, the flow is:
+Each of these use cases entails a different development flow - NeuralSPOT accomodates this by offering various ways to develop:
 
-1. Create a project within neuralSPOT's example directory (neuralSPOT will be treated as an example)
-2. Develop within that directory, compiling neuralSPOT and feature code as needed. This code can be directly deployed and run as a standalone application 
-3. When ready to deploy to your application, use `make nestall` to drop in your feature in it's entirety.
+1. **NeuralSPOT as an application layer**: neuralSPOT can be used as an application development environment where its easy-to-use libraries, easy tensorflow integration, an rich I/O are leveraged to produce applications running on the EVB.
+2. **NeuralSPOT as a characterization and debug tool**: neuralSPOT's remote procedure call (RPC) support makes it easy to develop AI in a hybrid environment, where part of the code is running on Python on a PC and the rest is running on the EVB. 
+3. **NeuralSPOT as a deployment tool**: beyond simple compilation and flashing of applications, neuralSPOT offers 3 primary ways to export entire applications or minimal AI model instantiations into other projects: [Nests](NeuralSPOT_Nests.md), minimal static libraries, and ambiqsuite examples.
 
-## Developing as a Standalone Application
+Each of these flows is designed to work with the other flows - for example, you can fine tune a model, then export it to an example for demo development, then finally export the whole thing as a self-contained application ready to be integrated into a larger project.
 
-This approach involves creating a Nest from within neuralSPOT and developing your code within the nest. The flow is roughly:
 
-1. Create a 'base' Nest by using `make nestall`
-2. Develop your feature within that Nest - similar to above, this code can be directly deployed and run as a standalone application.
-   1. When neuralSPOT updates or upgrades are needed use either 'make nestcomponent' to install a component, or 'make nest' to do a (almost, see below for caveats) non-destructive redeployment of neuralSPOT to the Nest.
-3. When done, copy over to your application
-
-## Developing as an Application Component
-
-This is similar to developing as a standalone application - you'll use the same `make nestall` , `make nest` , and `make nestcomponent` features as above. The main difference will be the need to integrate nest compilation and linking into your larger application's existing code build system.
-
-## Making and Managing Nests
-
-As briefly alluded to below, neuralSPOT's build system can be used to create a and manage Nests via three make targets:
-
-| Command                                                      | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `make NESTDIR=<directory> NESTEGG=<example> nestall`          | Creates an nest from scratch. It will overwrite anything already there, including code in src/ and makefiles. It will attempt to preserve existing src/ code if needed (in src/preserved) but it doesn't attempt anything fancy like code merges. |
-| `make NESTDIR=<directory> NESTEGG=<example> nest`             | Copies all neuralSPOT components (libraries and external components) overwritting any components already there. It will not copy over makefiles or anything in the src/ directory. |
-| `make NESTDIR=<directory> NESTCOMP=<nestcomponent> nestcomponent` | Will only copy the specified component, including all header and static library files. |
-
-### Behind the Scenes
-
-While convenient, making a Nest is not that sophisticated. It is helpful to understand what actually happens behind the scenes when creating and managing nests.
-
-Both the `nest` and `nestall` make targets do the following:
-
-1. Create needed directories at NESTDIR - see [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/README.md#nest-directory-contents) for the directory structure
-2. Copy all of neuralSPOT's static libraries, including external and neuralspot libraries
-3. Copies the example code specified by TARGET (if the target is `nestall`)
-   1. If there are files in NESTDIR/src already (for example, if you are upgrading an existing Nest), `nestall` will copy those files into /src/preserved.
-4. Create makefiles needed to compile and link the example.
-   1. The `nestall` target overwrites existing Nest makefiles, while `nest` copies them over with a `.suggestedmakefile` suffix.
-
-The `nestcomponent` target is the best way to upgrade a single component within an existing Nest (for example, picking up a new version of AmbiqSuite). It works by copying only headers and libraries that are part of that component - in practice, those that are located under the directory specified by NESTCOMP. For example:
-
-```bash
-$> make NESTCOMP=extern/AmbiqSuite/R4.3.0 nestcomponent # copies/overwrites just AS 4.3.0
-$> make NESTCOMP=neuralspot/ns-harness nestcomponent # copies/overwrites the ns-harness library
-```
 

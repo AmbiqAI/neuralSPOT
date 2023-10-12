@@ -1,0 +1,132 @@
+site_name: NeuralSPOT
+site_dir: ./site
+docs_dir: ./neuralSPOT
+site_description: Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
+repo_name: AmbiqAI/neuralSPOT
+repo_url: https://github.com/AmbiqAI/neuralSPOT
+# copyright: Copyright &copy; 2023 Ambiq
+
+exclude_docs: |
+  extern/*
+  projects/*
+
+nav:
+  - neuralSPOT: README.md
+  - "AI at Ambiq": docs/ai_at_ambiq.md
+  - Ambiq Model Zoo: docs/Ambiq_ModelZoo.md
+  - Getting Started:
+    - Introduction: docs/Introduction-to-neuralSPOT.md
+    - Tutorial: docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md
+    - Features: docs/features.md
+  - Developers:
+    - Developing with NeuralSPOT: docs/Developing_with_NeuralSPOT.md
+    - Developing for NeuralSPOT: docs/developer_guide.md
+    - Nests: docs/NeuralSPOT_Nests.md
+  - Tools:
+    - Automatic Testing, profiling, and deploying: "docs/From TF to EVB - testing, profiling, and deploying AI models.md"
+    - Tools Overview: tools/README.md
+  - Application Notes:
+    - neuralSPOT on Windows: docs/Application-Note-neuralSPOT-and-Windows.md
+    - Optimizing Using NeuralSPOT: docs/optimizing_using_neuralspot.md
+    - Release Notes: docs/release_notes.md
+    - Developer Notes: docs/developer_notes.md
+    - Edge Impulse Support: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
+  - Examples:
+    - Keyword Spotting: examples/basic_tf_stub/README.md
+    - Human Activity Recognition: examples/har/README.md
+    - RPC Client: examples/rpc_client/README.md
+    - RPC Server: examples/rpc_server/README.md
+    - WebBLE: examples/web_ble/README.md
+    - Data Collection: examples/mpu_data_collection/README.md
+  - Libraries:
+    - Audio: neuralspot/ns-audio/README.md
+    - Bluetooth: neuralspot/ns-ble/README.md
+    - i2c: neuralspot/ns-i2c/README.md
+    - RPC: neuralspot/ns-rpc/README.md
+    # - USB: neuralspot/ns-usb/README.md
+    - Power: neuralspot/ns-peripherals/README.md
+    - Performance Utilities: neuralspot/ns-utils/README.md
+  - Code Documentation:
+    - Audio: ns-audio/modules.md
+    - test1: ns-audio/annotated.md
+    - test2: ns-audio/files.md
+    - test3: ns-audio/namespaces.md
+    - test4: ns-audio/classes.md
+    - test5: ns-audio/hierarchy.md
+    - test6: ns-audio/pages.md
+    - test7: ns-audio/class_members.md
+    - test8: ns-audio/class_member_functions.md
+    - test9: ns-audio/class_member_variables.md
+    - testa: ns-audio/class_member_typedefs.md
+    - testb: ns-audio/class_member_enums.md
+    - testc: ns-audio/namespace_members.md
+    - testd: ns-audio/namespace_member_functions.md
+    - teste: ns-audio/namespace_member_variables.md
+    - testf: ns-audio/namespace_member_typedefs.md
+    - testg: ns-audio/namespace_member_enums.md
+    - testh: ns-audio/functions.md
+    - testi: ns-audio/macros.md
+    - testj: ns-audio/variables.md
+    - testk: ns-audio/links.md
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format ''
+  - pymdownx.snippets:
+      check_paths: true
+  - attr_list
+  - md_in_html
+
+plugins:
+  - glightbox
+  - mkdoxy:
+      projects:
+        ns-audio:
+          src-dirs: neuralSPOT/neuralspot/ns-audio
+          full-doc: True
+          debug: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h"
+            RECURSIVE: True
+      save-api: .test
+      full-doc: True
+      debug: True
+
+theme:
+  name: material
+  # favicon: assets/favicon.png
+  # logo: assets/logo-white.png
+  icon:
+      repo: fontawesome/brands/github-alt
+  font:
+    text: Roboto
+    code: Roboto Mono
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-auto
+        name: Use system theme
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark theme
+  features:
+    - content.tabs.link
+
+copyright: |
+  &copy; 2023 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>

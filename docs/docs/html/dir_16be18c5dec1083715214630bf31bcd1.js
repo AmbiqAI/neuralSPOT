@@ -1,4 +1,0 @@
-var dir_16be18c5dec1083715214630bf31bcd1 =
-[
-    [ "R1.9.1", "dir_217866bf6e9ff3b7465257cd23b234a3.html", "dir_217866bf6e9ff3b7465257cd23b234a3" ]
-];

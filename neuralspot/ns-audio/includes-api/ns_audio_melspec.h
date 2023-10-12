@@ -10,9 +10,6 @@
  *
  * @copyright Copyright (c) 2022
  *
- *  \addtogroup NeuralSPOT-MelSpec
- *  @{
- *  @ingroup NeuralSPOT-Audio
  */
 
 //*****************************************************************************
@@ -90,18 +87,15 @@ typedef struct {
 //     #define MELSPEC_COMPRESSION_EXPONENT 0.3
 // #endif
 
-extern void
-ns_melspec_init(ns_melspec_cfg_t *c);
+extern void ns_melspec_init(ns_melspec_cfg_t *c);
 
 extern void
 ns_melspec_audio_to_stft(ns_melspec_cfg_t *c, const int16_t *audio_data, float32_t *stft_out);
 
-extern void
-ns_melspec_stft_to_audio(ns_melspec_cfg_t *c, float32_t *stft_in, int16_t *audio_out);
+extern void ns_melspec_stft_to_audio(ns_melspec_cfg_t *c, float32_t *stft_in, int16_t *audio_out);
 
-extern void
-ns_melspec_stft_to_compressed_melspec(ns_melspec_cfg_t *c, const float32_t *stft_in,
-                                      float32_t *melspec_out);
+extern void ns_melspec_stft_to_compressed_melspec(
+    ns_melspec_cfg_t *c, const float32_t *stft_in, float32_t *melspec_out);
 
 extern void
 ns_melspec_melspec_to_stft(ns_melspec_cfg_t *c, const float32_t *melspec_in, float32_t *stft_out);

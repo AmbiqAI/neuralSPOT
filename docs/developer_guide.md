@@ -6,11 +6,11 @@ This document covers various guidelines for creating and modifying NeuralSPOT's 
 
 ##### Where is main()?
 
-NeuralSPOT [examples]() each contain a `main()`, and each example produces a different binary.
+NeuralSPOT [examples]() each contain a `main()`, and each example produces a different binary (AXF and BIN files).
 
 ##### Where are the linker script and reset handlers?
+NeuralSPOT's platform-specific linker scripts and startup code are located in [neuralspot/ns-core/src/gcc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/gcc) for the GCC toolchain and [neuralspot/ns-core/src/armclang](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/armclang) for the armclang toolchain.
 
-NeuralSPOT uses the AmbiqSuite [linker script](https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/linker_script.ld) and [startup_gcc](https://github.com/AmbiqAI/neuralSPOT/blob/main/extern/AmbiqSuite/R4.1.0/src/startup_gcc.c) (which defines reset handlers, vector tables, etc.). 
 
 ##### How do the makefiles work?
 
@@ -117,7 +117,7 @@ When a version is no longer supported, remove the definition for it. This will c
 
 ### Adding NeuralSPOT Examples
 
-NeuralSPOT Examples are pared-down examples showcasing NueralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.
+NeuralSPOT Examples are pared-down examples showcasing NeuralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.
 
 For every Example, NeuralSPOT will compile all the binary artifacts needed to load the application onto an EVB, such as main.axf, main.bin, and so on. These artifacts are stored in the example's temporary build directory. 
 
@@ -154,7 +154,7 @@ mains     += $(local_bin)/$(local_app_name).o
 
 Except for first line, this is all boilerplate.
 
-### Adding External Component
+### Adding External Components
 External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, and Embedded RPC.
 
 The structure of an external component included in NeuralSPOT depends on the component - for example, `extern/AmbiqSuite` doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.

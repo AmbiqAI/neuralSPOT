@@ -10,9 +10,6 @@
  *
  * @copyright Copyright (c) 2022
  *
- *  \addtogroup NeuralSPOT-MFCC
- *  @{
- *  @ingroup NeuralSPOT-Audio
  */
 
 /*
@@ -57,10 +54,8 @@ typedef struct {
     ns_fbank_t *melFBank;
 } ns_fbanks_cfg_t;
 
-extern void
-ns_fbanks_init(ns_fbanks_cfg_t *c);
-extern void
-create_mel_fbank(ns_fbanks_cfg_t *cfg);
+extern void ns_fbanks_init(ns_fbanks_cfg_t *c);
+extern void create_mel_fbank(ns_fbanks_cfg_t *cfg);
 
 #ifdef __cplusplus
 }

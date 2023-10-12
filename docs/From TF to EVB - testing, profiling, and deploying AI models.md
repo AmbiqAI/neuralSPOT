@@ -21,7 +21,7 @@ Fortunately, all the information needed to automate the middle 2 steps is tucked
 
 AutoDeploy is a tool that speeds up the AI/Embedded iteration cycle by automating most of the tedious bits - given a TFLite file, the tool will convert it to code that can run on an Ambiq EVB, then run a series of tests to characterize its embedded behavior. It then generates a minimal static library suitable implementing the model for easy integration into applications.
 
-![image-20230727120409828](./images/image-20230727120409828.png)
+![image-20231009142411775](./images/autodeploy-flow.png)
 
 ### Pain Points
 
@@ -55,6 +55,12 @@ As part of the process, AutoDeploy generates a number of artifacts, including th
 			./mymodel
 					./lib # minimal static library and API header
 					./src # tiny example that compiles the lib into an EVB image
+			./mymodel_ambiqsuite_example
+					./gcc # Makefile and linking scripts for GCC
+					./armclang # Makefile and linking scripts for armclang
+					./make # helper makefiles
+					./src  # The model and a small example app that calls it once
+						./tensorflow_headers # minimal needed to invoke TFLM
 			./tflm_validator
 					./src # Highly instrumented model validation application (leverages USB and RPC)
 			./mymodel_power
@@ -91,7 +97,7 @@ Dynamically collected statistics are:
 Estimated MACs are based on a static analysis of the TFLite file and are calculated as the theoretical MAC per layer type and shape.
 
 ## Measuring Power
-AutoDeploy can use a Joulescope to measure power. It does so by:
+AutoDeploy can use a [Joulescope](https://www.joulescope.com) to measure power. It does so by:
 1. Creating and deploying a power measurement binary to the EVB
 2. Triggering a number of inference operations by using the Joulescope's GP0out bin (which is monitored by the EVB)
 3. Waiting for certain patterns on the Joulescope's GPIn pins to know when the inference code is running
@@ -162,20 +168,115 @@ The overall procedure is:
 Using the human activity recognition model as an example, this procedure translates to something like the following steps.
 
 ```bash
-cd .../neuralSPOT/tools
-# Plug in Apollo4 Plus or Blue Plus EVB
-vi ../make/local_overrides.mk # uncomment the BOARD:=apollo4p line, comment out all other BOARD settings in this file
+$> cd .../neuralSPOT/tools
 
-python -m ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --no-create-library # small number of runs and skip creating the library to save time
+# Plug in Apollo4 Plus or Blue Plus EVB
+$> vi ../make/local_overrides.mk # uncomment the BOARD:=apollo4p line, comment out all other BOARD settings in this file
+
+$> python -m ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --no-create-library # small number of runs and skip creating the library to save time
 # Wait for successful completion of script
 
-ls ../projects/autodeploy/har
-# check for existence of har_md.pkl and har_mc.pkl
+$> ls ../projects/autodeploy/har # check for existence of har_md.pkl and har_mc.pkl
 
 # Switch the Apollo4P EVB for the Apollo4 Lite EVB, including Joulescope GPIO cables if needed
 
-vi ../make/local_overrides.mk # uncomment the BOARD:=apollo4l line, comment out all other BOARD settings in this file
+$> vi ../make/local_overrides.mk # uncomment the BOARD:=apollo4l line, comment out all other BOARD settings in this file
 
-python -m ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --measure-power --no-create-binary --no-create-profile # Skip fine-tuning and profiling steps on AP4 Lite
+$> python -m ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --measure-power --no-create-binary --no-create-profile # Skip fine-tuning and profiling steps on AP4 Lite
 # Wait for successful completion of script
 ```
+
+## Anatomy of a Model Source File
+
+Autodeploy analyses the provided TFLite file to figure out as much as it can. It then creates and deploys a 'baseline binary' to determine some information that is only available from TFLM at runtime. At the end of this process, Autodeploy knows:
+
+1. The size of the Tensor Arena
+2. The size of the Resource Variable Arena
+3. What operations need to be declared when instantiate the model.
+4. The number and size of input and output tensors, and the scale and offset needed for quantizing and dequantizing those tensors.
+
+All of this is captured in the model source file, `mymodel_model.cc`, which includes an init function that can be used by your application to populate the ns_model configuration struct.
+
+`kws_ap4_model.cc`:
+
+```c++
+...
+static constexpr int kws_ap4_ambiqsuite_tensor_arena_size = 1024 * kws_ap4_ambiqsuite_COMPUTED_ARENA_SIZE; // Computed
+alignas(16) static uint8_t kws_ap4_ambiqsuite_tensor_arena[kws_ap4_ambiqsuite_tensor_arena_size]; // defaults to placing in TCM
+
+// Resource Variable Arena
+static constexpr int kws_ap4_ambiqsuite_resource_var_arena_size =
+    4 * (SIZE + 1) * sizeof(tflite::MicroResourceVariables); // SIZE is number of Varhandles, computed by autodeploy
+alignas(16) static uint8_t kws_ap4_ambiqsuite_var_arena[kws_ap4_ambiqsuite_resource_var_arena_size];
+
+// Further down in the code...
+    static tflite::MicroMutableOpResolver<6> resolver; // '6' is computed
+    resolver.AddConv2D(); // These layers are automatically deduced from TFLite file
+		resolver.AddDepthwiseConv2D();
+		resolver.AddAveragePool2D();
+		resolver.AddReshape();
+		resolver.AddFullyConnected();
+		resolver.AddSoftmax();
+```
+
+
+
+The initialization is available via `MYMODEL_ambiqsuite_minimal_init(ns_model_state_t *ms)`. An example of its use and how input and output tensors can be initialized and decode is placed in the example's `main()` function:
+
+`kws_ap4_example.cc`
+
+```c++
+...
+static ns_model_state_t model;
+
+main() {
+  ...
+  	int status = kws_ap4_ambiqsuite_minimal_init(&model); // model init with minimal defaults
+    // At this point, the model is ready to use - init and allocations were successful
+    // Note that the model handle is not meant to be opaque, the structure is defined
+    // in ns_model.h, and contains state, config details, and model structure information
+
+    // Get data about input and output tensors
+    int numInputs = model.numInputTensors;
+    int numOutputs = model.numOutputTensors;
+  
+      // Initialize input tensors
+    int offset = 0;
+    for (int i = 0; i < numInputs; i++) {
+        am_util_debug_printf("Initializing input tensor %d (%d bytes)\n", i, model.model_input[i]->bytes);
+        memcpy(model.model_input[i]->data.int8, ((char *)kws_ap4_ambiqsuite_example_input_tensors) + offset,
+               model.model_input[i]->bytes);
+        offset += model.model_input[i]->bytes;
+    }
+  
+		// Execute the model
+    am_util_stdio_printf("Invoking model...");
+    TfLiteStatus invoke_status = model.interpreter->Invoke();
+    am_util_stdio_printf(" success!\n");
+
+    if (invoke_status != kTfLiteOk) {
+        while (1)
+            example_status = kws_ap4_ambiqsuite_STATUS_FAILURE; // invoke failed, so hang
+    }
+
+    // Compare the bytes of the output tensors against expected values
+    offset = 0;
+    am_util_stdio_printf("Checking %d output tensors\n", numOutputs);
+    for (int i = 0; i < numOutputs; i++) {
+        am_util_stdio_printf("Checking output tensor %d (%d bytes)\n", i, model.model_output[i]->bytes);
+        if (0 != memcmp(model.model_output[i]->data.int8,
+                        ((char *)kws_ap4_ambiqsuite_example_output_tensors) + offset,
+                        model.model_output[i]->bytes)) {
+            // Miscompare!
+            am_util_stdio_printf("Miscompare in output tensor %d\n", i);
+            
+            while (1)
+                example_status = kws_ap4_ambiqsuite_STATUS_INVALID_CONFIG; // miscompare, so hang
+        }
+        offset += model.model_output[i]->bytes;
+    }
+    am_util_stdio_printf("All output tensors matched expected results.\n");
+...
+}
+```
+

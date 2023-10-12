@@ -53,7 +53,6 @@ uint32_t g_ui32SampleToRTT = 0;
 ns_audio_config_t *g_ns_audio_config = NULL;
 
 uint32_t ns_audio_init(ns_audio_config_t *cfg) {
-
 #ifndef NS_DISABLE_API_VALIDATION
     // Check the handle.
     if (cfg == NULL) {

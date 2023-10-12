@@ -101,14 +101,6 @@ void ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
 
-/**
- * @brief Blocking USB Receive Data
- *
- * @param handle USB handle
- * @param buffer Pointer to buffer where data will be placed
- * @param bufsize Requested number of bytes
- * @return uint32_t
- */
 uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     // USB reads one block at a time, loop until we get full
@@ -129,7 +121,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
         // ns_lp_printf("Mystery path after %d %d %d\n", after, after_sem, gGotUSBRx);
         ns_interrupt_master_disable(); // critical region
         if (tud_cdc_available() < bufsize) {
-            gGotUSBRx = 0;             // set to 1 in IRQ context, need to disable IRQs for a bit
+            gGotUSBRx = 0; // set to 1 in IRQ context, need to disable IRQs for a bit
         }
         ns_interrupt_master_enable();
 
@@ -155,7 +147,8 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     gGotUSBRx = 0;
     bytes_rx = tud_cdc_read((void *)buffer, bufsize);
     // if (retries != 10000)
-    //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem: %d, %d, af2 cnt,sem: %d, %d\n",
+    //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem:
+    //     %d, %d, af2 cnt,sem: %d, %d\n",
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
     // ns_lp_printf("Got bytes %d\n", bytes_rx);
@@ -165,11 +158,6 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     return bytes_rx;
 }
 
-/**
- * @brief Flushes the USB RX fifo after a delay, resets ns_usb rx state
- *
- * @param h handle
- */
 void ns_usb_handle_read_error(usb_handle_t h) {
     int i;
     for (i = 0; i < 100; i++) {
@@ -180,14 +168,6 @@ void ns_usb_handle_read_error(usb_handle_t h) {
     gGotUSBRx = 0; // may be set by final RX
 }
 
-/**
- * @brief Blocking USB Send Data
- *
- * @param handle USB handle
- * @param buffer Pointer to buffer with data to be sent
- * @param bufsize Requested number of bytes
- * @return uint32_t
- */
 uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;

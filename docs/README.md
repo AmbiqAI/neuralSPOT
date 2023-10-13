@@ -15,8 +15,8 @@ NeuralSPOT documentation is spread throughout the repository - generally, every 
 | [Optimizing using NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/optimizing_using_neuralspot.md) | A guide to using NeuralSPOT's AutoDeploy tools to analyze and deploy TFLite files on Ambiq processors |
 | [Deploying EdgeImpulse Models using neuralSPOT Nests](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Deploying-EI-Models-using-neuralSPOT%20Nests.md) | A walkthrough of how to use Nests to deploy complex external SW packages |
 | [Understanding neuralSPOT via the Basic Tensorflow Example](./Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md) | A walkthrough of neuralSPOT's core example                   |
+| [Building NeuralSPOT](makefile.md)                           | Comprehensive makefile guide                                 |
 
 
 # Code Documentation
 
-Much of neuralSPOT's code is annotated using Doxygen-friendly comments - the generated HTML can be accessed [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs/docs/html/index.html).

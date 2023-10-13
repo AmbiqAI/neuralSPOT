@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="group__ns-timer" kind="group">
+    <compoundname>ns-timer</compoundname>
+    <title>Ns-timer</title>
+    <innerclass refid="structns__timer__config" prot="public">ns_timer_config</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-timer_1ga23c4e7e5ef06a4ec8992b4ef2e29a7fe" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_timers_e</name>
+        <enumvalue id="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea58655fccea1544fa36ed42e48894e0a0" prot="public">
+          <name>NS_TIMER_COUNTER</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Intended use is reading timerticks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea66d9701f71167bde23e1bf5e3ad3ef85" prot="public">
+          <name>NS_TIMER_INTERRUPT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Calls a callback periodically. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea60f189febe3fcfbb6d6880b5fd9b29aa" prot="public">
+          <name>NS_TIMER_USB</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Used by ns_usb to periodically service USB. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea6d4cd93370d10028473486e7c5644b48" prot="public">
+          <name>NS_TIMER_TEMPCO</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Used by ns_tempco to periodically collect temps. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported Timers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="49" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="49" bodyend="54"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__ns-timer_1ga760426b585f3ea2b9db3327bec0efa8a" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_timer_callback_cb) (struct ns_timer_config *)</definition>
+        <argsstring>)(struct ns_timer_config *)</argsstring>
+        <name>ns_timer_callback_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="43" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-timer_1ga984d6838242919650f525f5210550a5e" prot="public" static="no">
+        <type>struct <ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref></type>
+        <definition>typedef struct ns_timer_config ns_timer_config_t</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_config_t</name>
+        <briefdescription>
+<para>ns-timer configuration struct </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="66" column="19"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-timer_1gabd6d143a52895f2d1d03dafe4398bce4" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_V0_0_1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="37" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="18" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="37" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-timer_1ga32e9e18ab8b6a8548906ff51be681b29" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_V1_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="38" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="20" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="38" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-timer_1ga93689eef9661b59db4b442f9983dfda7" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="39" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="22" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="39" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-timer_1gab43f66097bc24e408d6ced413ea734c0" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="40" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="25" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="40" declcolumn="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-timer_1ga0fc939c8a81836c911cea74a1c0b3ad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_timer_init</definition>
+        <argsstring>(ns_timer_config_t *cfg)</argsstring>
+        <name>ns_timer_init</name>
+        <param>
+          <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize one of 3 timers supported by NeuralSPOT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>NS_TIMER_COUNTER Intended use is reading timerticks NS_TIMER_INTERRUPT Calls a callback periodically NS_TIMER_USB Used by ns_usb to periodically service USB NS_TIMER_TEMPCO Used by ns_tempco to periodically collect temps</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="79" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="72" bodyend="138" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="79" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_us_ticker_read</definition>
+        <argsstring>(ns_timer_config_t *cfg)</argsstring>
+        <name>ns_us_ticker_read</name>
+        <param>
+          <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Read current value of timer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t timer if success, 0xDEADBEEF if bad handle </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="87" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="141" bodyend="148" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="87" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_timer_clear</definition>
+        <argsstring>(ns_timer_config_t *cfg)</argsstring>
+        <name>ns_timer_clear</name>
+        <param>
+          <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Clear timer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="95" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="151" bodyend="159" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="95" declcolumn="17"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-timer_1gac51e0967a596e21fea8340692c083222" prot="public" static="no">
+        <name>NS_TIMER_V0_0_1</name>
+        <initializer>        { .major = 0, .minor = 0, .revision = 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="28" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-timer_1ga9aafb10c3163f0a681bcc5e0a088a292" prot="public" static="no">
+        <name>NS_TIMER_V1_0_0</name>
+        <initializer>        { .major = 1, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="30" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-timer_1ga10aa77e836475149c57db6423c7496a1" prot="public" static="no">
+        <name>NS_TIMER_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_TIMER_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="33" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-timer_1ga9f70041582cc5c33ccaff86d45d4a245" prot="public" static="no">
+        <name>NS_TIMER_CURRENT_VERSION</name>
+        <initializer>NS_TIMER_V1_0_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="34" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-timer_1gadcef98048173e025cee41cf66f2bc208" prot="public" static="no">
+        <name>NS_TIMER_API_ID</name>
+        <initializer>0xCA0002</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="35" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__perf__mac__count__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_perf_mac_count_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_perf_mac_count_t::number_of_layers</definition>
+        <argsstring></argsstring>
+        <name>number_of_layers</name>
+        <qualifiedname>ns_perf_mac_count_t::number_of_layers</qualifiedname>
+        <briefdescription>
+<para>Number of layers for which we have mac estimates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="51" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1abbc7e2a9f75edebeb142b0e7e0e8acf2" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::mac_count_map</definition>
+        <argsstring></argsstring>
+        <name>mac_count_map</name>
+        <qualifiedname>ns_perf_mac_count_t::mac_count_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="52" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="50" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="50" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structns__perf__mac__count__t_1abbc7e2a9f75edebeb142b0e7e0e8acf2" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>mac_count_map</name></member>
+      <member refid="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>number_of_layers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__model_8h" kind="file" language="C++">
+    <compoundname>ns_model.h</compoundname>
+    <includedby refid="ns__model_8cc" local="yes">neuralSPOT/neuralspot/ns-model/src/ns_model.cc</includedby>
+    <innerclass refid="structns__model__state__t" prot="public">ns_model_state_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-model_1gaf308c397a3628cd18e404d027d7df7ee" prot="public" static="no">
+        <name>NS_MAX_INPUT_TENSORS</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="41" column="13" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-model_1ga4b733a69104ac8999af57dba1a089ea1" prot="public" static="no">
+        <name>NS_MAX_OUTPUT_TENSORS</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="42" column="13" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-model_1gae97a396a8f9a5659c4ca4c49c85f0b2a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_model_states_e</name>
+        <enumvalue id="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa6564f2f3e15be06b670547bbcaaf0798" prot="public">
+          <name>READY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2d0ab2296896fcb80babf4dadfd039a5" prot="public">
+          <name>NOT_READY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2fd6f336d08340583bd620a7f5694c90" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="38" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-model_1ga50b88f68884a4cf569728373e3cb3d4e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_model_runtime_e</name>
+        <enumvalue id="group__ns-model_1gga50b88f68884a4cf569728373e3cb3d4ea857b412fc355bdfa2f55f3dc81fc950b" prot="public">
+          <name>TFLM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="39" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_model_init</definition>
+        <argsstring>(ns_model_state_t *ms)</argsstring>
+        <name>ns_model_init</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model state and configuration struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int status</para>
+</simplesect>
+Initialize the model.</para>
+<para>This code is fairly common across most TF-based models. The major differences relate to input and output tensor handling. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="82" column="12" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="41" bodyend="123" declfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" declline="82" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_BASELINE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BASELINE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/kernels/micro_ops.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/micro_interpreter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/micro_mutable_op_resolver.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/micro_profiler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/system_setup.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/schema/schema_generated.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#if<sp/>defined(NS_TF_VERSION_fecdd5d)<sp/>or<sp/>defined(NS_TF_VERSION_d5f819d_Aug_10_2023)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/micro_error_reporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_debug_log.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>READY,<sp/>NOT_READY,<sp/>ERROR<sp/>}<sp/>ns_model_states_e;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>TFLM<sp/>}<sp/>ns_model_runtime_e;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MAX_INPUT_TENSORS<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MAX_OUTPUT_TENSORS<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structns__model__state__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_model_states_e<sp/>state;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>(init<sp/>by<sp/>application)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structns__model__state__t_1aa1465473ecc138ec9262fea6c16e6bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_model_runtime_e<sp/><ref refid="structns__model__state__t_1aa1465473ecc138ec9262fea6c16e6bf2" kindref="member">runtime</ref>;<sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*model_array;</highlight></codeline>
+<codeline lineno="50" refid="structns__model__state__t_1a8e32f9c624f9a774367c4d81d499742c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__model__state__t_1a8e32f9c624f9a774367c4d81d499742c" kindref="member">arena</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structns__model__state__t_1ad20c8f882ed7f569eb34f0875c01402f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__model__state__t_1ad20c8f882ed7f569eb34f0875c01402f" kindref="member">arena_size</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structns__model__state__t_1a49204feb4d5d711b83070782e2aa4ef2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__model__state__t_1a49204feb4d5d711b83070782e2aa4ef2" kindref="member">rv_arena</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structns__model__state__t_1a2d50dcf6d821aed78305ed5658276456" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__model__state__t_1a2d50dcf6d821aed78305ed5658276456" kindref="member">rv_arena_size</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structns__model__state__t_1a22cd8e3e316f37185a4741b20d89f949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__model__state__t_1a22cd8e3e316f37185a4741b20d89f949" kindref="member">rv_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structns__model__state__t_1aa395cf721482b764128b06230e7821c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__model__state__t_1aa395cf721482b764128b06230e7821c1" kindref="member">numInputTensors</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structns__model__state__t_1ade303e1f7e0659d0eb2e65a40930bf90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__model__state__t_1ade303e1f7e0659d0eb2e65a40930bf90" kindref="member">numOutputTensors</ref>;<sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_timer_config_t<sp/>*tickTimer;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_perf_mac_count_t<sp/>*mac_estimates;<sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*tickTimer;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*mac_estimate;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>(init<sp/>by<sp/>baseline<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tflite::Model<sp/>*<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::MicroInterpreter<sp/>*<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structns__model__state__t_1ae073d82bf5951726662bed7f535027c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>TfLiteTensor<sp/>*model_input[NS_MAX_INPUT_TENSORS];<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structns__model__state__t_1ac2d3d2c8cee748a4ed4b8e55703d2230" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>TfLiteTensor<sp/>*model_output[NS_MAX_OUTPUT_TENSORS];<sp/></highlight></codeline>
+<codeline lineno="70" refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::MicroProfiler<sp/>*<ref refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" kindref="member">profiler</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::ErrorReporter<sp/>*<ref refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" kindref="member">error_reporter</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>computed_arena_size;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}<sp/><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" kindref="member">ns_model_init</ref>(<ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref><sp/>*ms);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h"/>
+  </compounddef>
+</doxygen>

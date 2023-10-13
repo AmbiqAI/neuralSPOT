@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__debug__log_8h" kind="file" language="C++">
+    <compoundname>ns_debug_log.h</compoundname>
+    <includes local="yes">ns_perf_profile.h</includes>
+    <includes local="yes">ns_timer.h</includes>
+    <includedby refid="ns__debug__log_8cc" local="yes">neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h</label>
+        <link refid="ns__debug__log_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_perf_profile.h</label>
+      </node>
+      <node id="3">
+        <label>ns_timer.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structns__profiler__sidecar__t" prot="public">ns_profiler_sidecar_t</innerclass>
+    <innerclass refid="structns__profiler__event__stats__t" prot="public">ns_profiler_event_stats_t</innerclass>
+    <innerclass refid="structns__perf__mac__count__t" prot="public">ns_perf_mac_count_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__debug__log_8h_1a82598054b28f12ed48d2a3d2c2c60a01" prot="public" static="no">
+        <name>NS_PROFILER_MAX_EVENTS</name>
+        <initializer>1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="26" column="9" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__debug__log_8h_1a1e99a7fc9cfecc83b53b9035cc9eccad" prot="public" static="no">
+        <name>NS_PROFILER_TAG_SIZE</name>
+        <initializer>12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="28" column="9" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__debug__log_8h_1adb32f0195004ccda1700cce37a30ae38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_TFDebugLogInit</definition>
+        <argsstring>(ns_timer_config_t *t, ns_perf_mac_count_t *m)</argsstring>
+        <name>ns_TFDebugLogInit</name>
+        <param>
+          <type>ns_timer_config_t *</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__perf__mac__count__t" kindref="compound">ns_perf_mac_count_t</ref> *</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="62" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="37" bodyend="56" declfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" declline="62" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*<sp/>Copyright<sp/>2018<sp/>The<sp/>TensorFlow<sp/>Authors.<sp/>All<sp/>Rights<sp/>Reserved.</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"></highlight></codeline>
+<codeline lineno="3"><highlight class="comment">Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="4"><highlight class="comment">you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="5"><highlight class="comment">You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"></highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"></highlight></codeline>
+<codeline lineno="9"><highlight class="comment">Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="10"><highlight class="comment">distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="11"><highlight class="comment">WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="12"><highlight class="comment">See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="13"><highlight class="comment">limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="14"><highlight class="comment">==============================================================================*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_TENSORFLOW_LITE_MICRO_DEBUG_LOG_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_TENSORFLOW_LITE_MICRO_DEBUG_LOG_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_perf_profile.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_timer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Match<sp/>TFLM<sp/>kMaxEvents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PROFILER_MAX_EVENTS<sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#define<sp/>NS_PROFILER_RPC_EVENTS_MAX<sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PROFILER_TAG_SIZE<sp/>12</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structns__profiler__sidecar__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_cache_dump_t<sp/>cache_start[NS_PROFILER_MAX_EVENTS];</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_cache_dump_t<sp/>cache_end[NS_PROFILER_MAX_EVENTS];</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_perf_counters_t<sp/>perf_start[NS_PROFILER_MAX_EVENTS];</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_perf_counters_t<sp/>perf_end[NS_PROFILER_MAX_EVENTS];</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_estimated_macs;</highlight></codeline>
+<codeline lineno="35" refid="structns__profiler__sidecar__t_1a9ec244fd0ab1ff965cd2de8b8ef7f98e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structns__profiler__sidecar__t_1a9ec244fd0ab1ff965cd2de8b8ef7f98e" kindref="member">number_of_layers</ref>;<sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>*mac_count_map;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>estimated_mac_count[NS_PROFILER_MAX_EVENTS];</highlight></codeline>
+<codeline lineno="38" refid="structns__profiler__sidecar__t_1a67d418a935faf0c316ec380e6e92ff0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__profiler__sidecar__t_1a67d418a935faf0c316ec380e6e92ff0c" kindref="member">captured_event_num</ref>;<sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}<sp/><ref refid="structns__profiler__sidecar__t" kindref="compound">ns_profiler_sidecar_t</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structns__profiler__event__stats__t" refkind="compound"><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_cache_dump_t<sp/>cache_delta;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_perf_counters_t<sp/>perf_delta;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>estimated_macs;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>elapsed_us;</highlight></codeline>
+<codeline lineno="47" refid="structns__profiler__event__stats__t_1aa12722ea1914d54678325957692018b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>tag[NS_PROFILER_TAG_SIZE];<sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}<sp/><ref refid="structns__profiler__event__stats__t" kindref="compound">ns_profiler_event_stats_t</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structns__perf__mac__count__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="51" refid="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" kindref="member">number_of_layers</ref>;<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>*mac_count_map;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}<sp/><ref refid="structns__perf__mac__count__t" kindref="compound">ns_perf_mac_count_t</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>ns_timer_config_t<sp/>*ns_microProfilerTimer;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__profiler__sidecar__t" kindref="compound">ns_profiler_sidecar_t</ref><sp/>ns_microProfilerSidecar;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__profiler__event__stats__t" kindref="compound">ns_profiler_event_stats_t</ref><sp/>ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">ns_TFDebugLogInit(ns_timer_config_t<sp/>*t,<sp/><ref refid="structns__perf__mac__count__t" kindref="compound">ns_perf_mac_count_t</ref><sp/>*m);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>extern<sp/>&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>TENSORFLOW_LITE_MICRO_DEBUG_LOG_H_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h"/>
+  </compounddef>
+</doxygen>

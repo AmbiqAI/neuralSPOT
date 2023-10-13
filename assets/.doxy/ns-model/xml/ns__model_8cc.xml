@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__model_8cc" kind="file" language="C++">
+    <compoundname>ns_model.cc</compoundname>
+    <includes refid="ns__model_8h" local="yes">ns_model.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes local="yes">ns_debug_log.h</includes>
+    <includes local="yes">tensorflow/lite/micro/kernels/micro_ops.h</includes>
+    <includes local="yes">tensorflow/lite/micro/micro_interpreter.h</includes>
+    <includes local="yes">tensorflow/lite/micro/micro_mutable_op_resolver.h</includes>
+    <includes local="yes">tensorflow/lite/micro/micro_profiler.h</includes>
+    <includes local="yes">tensorflow/lite/micro/system_setup.h</includes>
+    <includes local="yes">tensorflow/lite/schema/schema_generated.h</includes>
+    <includes local="yes">tensorflow/lite/micro/micro_error_reporter.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_model.h</label>
+        <link refid="ns__model_8h_source"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-model/src/ns_model.cc</label>
+        <link refid="ns__model_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="4">
+        <label>ns_debug_log.h</label>
+      </node>
+      <node id="5">
+        <label>tensorflow/lite/micro/kernels/micro_ops.h</label>
+      </node>
+      <node id="11">
+        <label>tensorflow/lite/micro/micro_error_reporter.h</label>
+      </node>
+      <node id="6">
+        <label>tensorflow/lite/micro/micro_interpreter.h</label>
+      </node>
+      <node id="7">
+        <label>tensorflow/lite/micro/micro_mutable_op_resolver.h</label>
+      </node>
+      <node id="8">
+        <label>tensorflow/lite/micro/micro_profiler.h</label>
+      </node>
+      <node id="9">
+        <label>tensorflow/lite/micro/system_setup.h</label>
+      </node>
+      <node id="10">
+        <label>tensorflow/lite/schema/schema_generated.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_model_init</definition>
+        <argsstring>(ns_model_state_t *ms)</argsstring>
+        <name>ns_model_init</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+<para>Initialize TF with model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize the model.</para>
+<para>This code is fairly common across most TF-based models. The major differences relate to input and output tensor handling. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" line="41" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="41" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__model_8cc_1a4abb057e576179fb16d6b4489b9e2139" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_tf_get_num_input_tensors</definition>
+        <argsstring>(ns_model_state_t *ms)</argsstring>
+        <name>ns_tf_get_num_input_tensors</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" line="126" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__model_8cc_1a6cb3f3e44d2c737efcb0126e1f9d0a92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_tf_get_num_output_tensors</definition>
+        <argsstring>(ns_model_state_t *ms)</argsstring>
+        <name>ns_tf_get_num_output_tensors</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" line="131" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__model_8cc_1af98edb992e760475196fcba3c1b42dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TfLiteTensor *</type>
+        <definition>TfLiteTensor * ns_tf_get_input_tensor</definition>
+        <argsstring>(ns_model_state_t *ms, uint32_t index)</argsstring>
+        <name>ns_tf_get_input_tensor</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" line="136" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__model_8cc_1aa22b3ee0593ea577041f645cfe5953a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TfLiteTensor *</type>
+        <definition>TfLiteTensor * ns_tf_get_output_tensor</definition>
+        <argsstring>(ns_model_state_t *ms, uint32_t index)</argsstring>
+        <name>ns_tf_get_output_tensor</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" line="141" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="141" bodyend="143"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NS<sp/>includes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_model.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_debug_log.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tensorflow<sp/>Lite<sp/>for<sp/>Microcontroller<sp/>includes<sp/>(somewhat<sp/>boilerplate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#include<sp/>&quot;tensorflow/lite/micro/all_ops_resolver.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/kernels/micro_ops.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/micro_interpreter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/micro_mutable_op_resolver.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/micro_profiler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/system_setup.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/schema/schema_generated.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(NS_TF_VERSION_fecdd5d)<sp/>or<sp/>defined(NS_TF_VERSION_d5f819d_Aug_10_2023)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/micro_error_reporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" kindref="member">ns_model_init</ref>(<ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref><sp/>*ms)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;state<sp/>=<sp/>NOT_READY;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::MicroErrorReporter<sp/>micro_error_reporter;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" kindref="member">error_reporter</ref><sp/>=<sp/>&amp;micro_error_reporter;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Need<sp/>a<sp/>timer<sp/>for<sp/>the<sp/>profiler<sp/>to<sp/>collect<sp/>latencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(ns_timer_init(ms-&gt;tickTimer),<sp/></highlight><highlight class="stringliteral">&quot;Timer<sp/>init<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>tflite::MicroProfiler<sp/>micro_profiler;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" kindref="member">profiler</ref><sp/>=<sp/>&amp;micro_profiler;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#ifdef<sp/>NS_MODEL_ANALYSIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_TFDebugLogInit(ms-&gt;tickTimer,<sp/>ms-&gt;mac_estimates);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_TFDebugLogInit(ms-&gt;tickTimer,<sp/>NULL);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>NS_MLDEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_TFDebugLogInit(NULL,<sp/>NULL);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::InitializeTarget();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Map<sp/>the<sp/>model<sp/>into<sp/>a<sp/>usable<sp/>data<sp/>structure.<sp/>This<sp/>doesn&apos;t<sp/>involve<sp/>any</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>copying<sp/>or<sp/>parsing,<sp/>it&apos;s<sp/>a<sp/>very<sp/>lightweight<sp/>operation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref><sp/>=<sp/>tflite::GetModel(ms-&gt;model_array);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ms-&gt;<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref>-&gt;version()<sp/>!=<sp/>TFLITE_SCHEMA_VERSION)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TF_LITE_REPORT_ERROR(ms-&gt;<ref refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" kindref="member">error_reporter</ref>,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>provided<sp/>is<sp/>schema<sp/>version<sp/>%d<sp/>not<sp/>equal<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;to<sp/>supported<sp/>version<sp/>%d.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref>-&gt;version(),<sp/>TFLITE_SCHEMA_VERSION);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_FAILURE;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>static<sp/>tflite::AllOpsResolver<sp/>resolver;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>tflite::MicroMutableOpResolver&lt;6&gt;<sp/>resolver;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>ResourceVariable<sp/>stuff<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::MicroResourceVariables<sp/>*resource_variables;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>tflite::MicroAllocator<sp/>*var_allocator;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ms-&gt;<ref refid="structns__model__state__t_1a22cd8e3e316f37185a4741b20d89f949" kindref="member">rv_count</ref><sp/>!=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>var_allocator<sp/>=<sp/>tflite::MicroAllocator::Create(ms-&gt;<ref refid="structns__model__state__t_1a49204feb4d5d711b83070782e2aa4ef2" kindref="member">rv_arena</ref>,<sp/>ms-&gt;<ref refid="structns__model__state__t_1a2d50dcf6d821aed78305ed5658276456" kindref="member">rv_arena_size</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resource_variables<sp/>=<sp/>tflite::MicroResourceVariables::Create(var_allocator,<sp/>ms-&gt;<ref refid="structns__model__state__t_1a22cd8e3e316f37185a4741b20d89f949" kindref="member">rv_count</ref>);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resource_variables<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>an<sp/>interpreter<sp/>to<sp/>run<sp/>the<sp/>model<sp/>with.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#ifdef<sp/>NS_TF_VERSION_fecdd5d</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>tflite::MicroInterpreter<sp/>static_interpreter(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref>,<sp/>resolver,<sp/>ms-&gt;<ref refid="structns__model__state__t_1a8e32f9c624f9a774367c4d81d499742c" kindref="member">arena</ref>,<sp/>ms-&gt;<ref refid="structns__model__state__t_1ad20c8f882ed7f569eb34f0875c01402f" kindref="member">arena_size</ref>,<sp/>resource_variables,<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" kindref="member">profiler</ref>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>tflite::MicroInterpreter<sp/>static_interpreter(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref>,<sp/>resolver,<sp/>ms-&gt;<ref refid="structns__model__state__t_1a8e32f9c624f9a774367c4d81d499742c" kindref="member">arena</ref>,<sp/>ms-&gt;<ref refid="structns__model__state__t_1ad20c8f882ed7f569eb34f0875c01402f" kindref="member">arena_size</ref>,<sp/>ms-&gt;<ref refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" kindref="member">error_reporter</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" kindref="member">profiler</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref><sp/>=<sp/>&amp;static_interpreter;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>memory<sp/>from<sp/>the<sp/>tensor_arena<sp/>for<sp/>the<sp/>model&apos;s<sp/>tensors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>TfLiteStatus<sp/>allocate_status<sp/>=<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;AllocateTensors();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(allocate_status<sp/>!=<sp/>kTfLiteOk)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TF_LITE_REPORT_ERROR(ms-&gt;<ref refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" kindref="member">error_reporter</ref>,<sp/></highlight><highlight class="stringliteral">&quot;AllocateTensors()<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;computed_arena_size<sp/>=<sp/>0xDEADBEEF;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_FAILURE;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;computed_arena_size<sp/>=<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;arena_used_bytes();<sp/></highlight><highlight class="comment">//<sp/>prep<sp/>to<sp/>send<sp/>back<sp/>to<sp/>PC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Obtain<sp/>pointers<sp/>to<sp/>the<sp/>model&apos;s<sp/>input<sp/>and<sp/>output<sp/>tensors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;=<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa395cf721482b764128b06230e7821c1" kindref="member">numInputTensors</ref>;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1ae073d82bf5951726662bed7f535027c0" kindref="member">model_input</ref>[t]<sp/>=<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;input(t);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;=<sp/>ms-&gt;<ref refid="structns__model__state__t_1ade303e1f7e0659d0eb2e65a40930bf90" kindref="member">numOutputTensors</ref>;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1ac2d3d2c8cee748a4ed4b8e55703d2230" kindref="member">model_output</ref>[t]<sp/>=<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;output(t);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ms-&gt;state<sp/>=<sp/>READY;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">uint32_t</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">ns_tf_get_num_input_tensors(<ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref><sp/>*ms)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;inputs_size();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">uint32_t</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">ns_tf_get_num_output_tensors(<ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref><sp/>*ms)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;inputs_size();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">TfLiteTensor<sp/>*</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">ns_tf_get_input_tensor(<ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref><sp/>*ms,<sp/>uint32_t<sp/>index)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;input(index);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">TfLiteTensor<sp/>*</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">ns_tf_get_output_tensor(<ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref><sp/>*ms,<sp/>uint32_t<sp/>index)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ms-&gt;<ref refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kindref="member">interpreter</ref>-&gt;output(index);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-model/src/ns_model.cc"/>
+  </compounddef>
+</doxygen>

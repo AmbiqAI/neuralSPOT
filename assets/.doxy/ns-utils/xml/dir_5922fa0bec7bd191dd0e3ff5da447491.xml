@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_5922fa0bec7bd191dd0e3ff5da447491" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-utils/src</compoundname>
+    <innerfile refid="ns__energy__monitor_8c">ns_energy_monitor.c</innerfile>
+    <innerfile refid="ns__malloc_8c">ns_malloc.c</innerfile>
+    <innerfile refid="ns__perf__profile_8c">ns_perf_profile.c</innerfile>
+    <innerfile refid="ns__power__profile_8c">ns_power_profile.c</innerfile>
+    <innerfile refid="ns__timer_8c">ns_timer.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/src/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.4" xml:lang="en-US">
+  <compound refid="struct_a___b_l_o_c_k___l_i_n_k" kind="struct"><name>A_BLOCK_LINK</name>
+    <member refid="struct_a___b_l_o_c_k___l_i_n_k_1a005de4303d4b4e61065e77d97c9774fe" kind="variable"><name>pxNextFreeBlock</name></member>
+    <member refid="struct_a___b_l_o_c_k___l_i_n_k_1ad5dcf5df03d8be6186c567be9e2c657b" kind="variable"><name>xBlockSize</name></member>
+  </compound>
+  <compound refid="structns__core__api__t" kind="struct"><name>ns_core_api_t</name>
+    <member refid="structns__core__api__t_1a65ae0ed6eed75459004245514cf4c865" kind="variable"><name>apiId</name></member>
+    <member refid="structns__core__api__t_1a26f84c8aab6c75d3111b62bf7f18d3f5" kind="variable"><name>version</name></member>
+  </compound>
+  <compound refid="structns__core__config__t" kind="struct"><name>ns_core_config_t</name>
+    <member refid="structns__core__config__t_1a6c9666c382d6f31b85919e6bd6bb8c9d" kind="variable"><name>api</name></member>
+  </compound>
+  <compound refid="structns__desired__state__t" kind="struct"><name>ns_desired_state_t</name>
+    <member refid="structns__desired__state__t_1a7259474b31bfc7c75c3df8a8ae4b20b9" kind="variable"><name>api</name></member>
+    <member refid="structns__desired__state__t_1ab5458634881692d0b1dffd9755837c46" kind="variable"><name>initialized</name></member>
+    <member refid="structns__desired__state__t_1a171b7b378ac3825d95b5eb3f6a4f53a6" kind="variable"><name>itmPrintWantsToBeEnabled</name></member>
+    <member refid="structns__desired__state__t_1a18783da67d1c10aea7645667046da7bd" kind="variable"><name>itmPrintCurrentlyEnabled</name></member>
+    <member refid="structns__desired__state__t_1aa20d66b8381841c9b7a3af7a6be63311" kind="variable"><name>tempcoWantsToBeEnabled</name></member>
+    <member refid="structns__desired__state__t_1ac8196ac69f7c56f7d4f01d3db103eb74" kind="variable"><name>tempcoCurrentlyEnabled</name></member>
+    <member refid="structns__desired__state__t_1a376d1e394375d117db1a9f0393ab7035" kind="variable"><name>cryptoWantsToBeEnabled</name></member>
+    <member refid="structns__desired__state__t_1a9f40bd33a959b4bbf32ec089f1750d5e" kind="variable"><name>cryptoCurrentlyEnabled</name></member>
+    <member refid="structns__desired__state__t_1ab84c5615f19cf010ae203b746d18bea9" kind="variable"><name>uartPrintWantsToBeEnabled</name></member>
+    <member refid="structns__desired__state__t_1af81f511ec4a43a8f011a7157a7e76849" kind="variable"><name>uartPrintCurrentlyEnabled</name></member>
+  </compound>
+  <compound refid="structns__semver__t" kind="struct"><name>ns_semver_t</name>
+    <member refid="structns__semver__t_1a7e921839cedfd2a3df6c6d170f6f5066" kind="variable"><name>major</name></member>
+    <member refid="structns__semver__t_1ad03568bd87b0e3f0c5ad1131adab9631" kind="variable"><name>minor</name></member>
+    <member refid="structns__semver__t_1a7ce8695c869a64c7496df76f826ea358" kind="variable"><name>revision</name></member>
+  </compound>
+  <compound refid="ns__core_8h" kind="file"><name>ns_core.h</name>
+    <member refid="group__ns-core_1ga8c2a44114a550d271f6e5839f2af5f02" kind="define"><name>NS_CORE_V0_0_1</name></member>
+    <member refid="group__ns-core_1gaa2327912c1321989290106da90cff5f6" kind="define"><name>NS_CORE_V1_0_0</name></member>
+    <member refid="group__ns-core_1gad54b4e99f2399e8fc772d72d01612f30" kind="define"><name>NS_CORE_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="group__ns-core_1ga2681a23c85b97777012ce59408b1b1fa" kind="define"><name>NS_CORE_CURRENT_VERSION</name></member>
+    <member refid="group__ns-core_1ga32fd94ac7a2275c34ee229ac643bca72" kind="define"><name>NS_STATUS_SUCCESS</name></member>
+    <member refid="group__ns-core_1ga9dd34740a4792c2ce722f622216bccdf" kind="define"><name>NS_STATUS_FAILURE</name></member>
+    <member refid="group__ns-core_1ga527c73b642d137df5c0b4146a6e230cb" kind="define"><name>NS_STATUS_INVALID_HANDLE</name></member>
+    <member refid="group__ns-core_1ga1847f6ffb2d65d050af96621a10b1b85" kind="define"><name>NS_STATUS_INVALID_VERSION</name></member>
+    <member refid="group__ns-core_1gaf58df2fa495e68b3b1f867187a3b1e42" kind="define"><name>NS_STATUS_INVALID_CONFIG</name></member>
+    <member refid="group__ns-core_1gaa10242b317b74281840af8830eae5363" kind="define"><name>NS_STATUS_INIT_FAILED</name></member>
+    <member refid="group__ns-core_1gabe2b245d06ed5cb857493f4850ad6511" kind="define"><name>NS_TRY</name></member>
+    <member refid="group__ns-core_1ga00cd38760f5a7c25b6a87282e05845f4" kind="variable"><name>ns_core_V0_0_1</name></member>
+    <member refid="group__ns-core_1gacdd5daecaf46b2743aee54997eda5309" kind="variable"><name>ns_core_V1_0_0</name></member>
+    <member refid="group__ns-core_1ga59a40e1db45bb276e003c17fea17e12a" kind="variable"><name>ns_core_oldest_supported_version</name></member>
+    <member refid="group__ns-core_1ga72e4de2e8dc55845215696f11ea7739f" kind="variable"><name>ns_core_current_version</name></member>
+    <member refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kind="variable"><name>g_ns_state</name></member>
+    <member refid="group__ns-core_1ga883cf5fc3d54cb4295b9197f72fa2b49" kind="function"><name>ns_core_initialized</name></member>
+    <member refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kind="function"><name>ns_core_init</name></member>
+    <member refid="group__ns-core_1ga07adab44cf8388346e17c1e68e130739" kind="function"><name>ns_core_check_api</name></member>
+    <member refid="group__ns-core_1ga1c951a408f6460c49e0ed03bbba05666" kind="function"><name>ns_core_fail_loop</name></member>
+  </compound>
+  <compound refid="system__apollo4p_8c" kind="file"><name>system_apollo4p.c</name>
+    <member refid="system__apollo4p_8c_1abbd628d8a30e6695b3715ae72a693e56" kind="define"><name>__HSI</name></member>
+    <member refid="system__apollo4p_8c_1a8687edecd98881631a879bd10528c7da" kind="define"><name>__XTAL</name></member>
+    <member refid="system__apollo4p_8c_1ab759225f52a45a9f898ec8c4a5dfecc8" kind="define"><name>__SYS_OSC_CLK</name></member>
+    <member refid="system__apollo4p_8c_1a16323f44d2b5b11ef3972f71339cbd39" kind="define"><name>__SYSTEM_CLOCK</name></member>
+    <member refid="system__apollo4p_8c_1aa3cd3e43291e81e795d642b79b6088e6" kind="variable"><name>SystemCoreClock</name></member>
+    <member refid="system__apollo4p_8c_1ae0c36a9591fe6e9c45ecb21a794f0f0f" kind="function"><name>SystemCoreClockUpdate</name></member>
+    <member refid="system__apollo4p_8c_1a93f514700ccf00d08dbdcff7f1224eb2" kind="function"><name>SystemInit</name></member>
+  </compound>
+  <compound refid="startup__gcc_8c" kind="file"><name>startup_gcc.c</name>
+    <member refid="startup__gcc_8c_1a1b45302695680930829cac31d65e41e1" kind="define"><name>HEAP_SIZE</name></member>
+    <member refid="startup__gcc_8c_1abba93927cdaa2d32967cfc724f47cf8f" kind="variable"><name>_etext</name></member>
+    <member refid="startup__gcc_8c_1a61687bc10bffbfec9c6fd33bddff3094" kind="variable"><name>_sdata</name></member>
+    <member refid="startup__gcc_8c_1a1fc4a71c31f5b048d3b1b7b2d10684d1" kind="variable"><name>_edata</name></member>
+    <member refid="startup__gcc_8c_1adcc3ae1cacdf95ad88f01dd26f589175" kind="variable"><name>_sbss</name></member>
+    <member refid="startup__gcc_8c_1a580f44faf8ff886796f2114d0de12c77" kind="variable"><name>_ebss</name></member>
+    <member refid="startup__gcc_8c_1ae7ee340978f5c25f52f0cad1457c6616" kind="function"><name>Reset_Handler</name></member>
+    <member refid="startup__gcc_8c_1a97e974a58346d9a6ead69a98efa26c2a" kind="function"><name>__attribute__</name></member>
+    <member refid="startup__gcc_8c_1a6ad7a5e3ee69cb6db6a6b9111ba898bc" kind="function"><name>NMI_Handler</name></member>
+    <member refid="startup__gcc_8c_1a2bffc10d5bd4106753b7c30e86903bea" kind="function"><name>HardFault_Handler</name></member>
+    <member refid="startup__gcc_8c_1a9aebe830f9886ab6ba73cd31c4c46e42" kind="function"><name>am_default_isr</name></member>
+  </compound>
+  <compound refid="heap__4_8c" kind="file"><name>heap_4.c</name>
+    <member refid="heap__4_8c_1ab622d8c674f2a417a666a7ed89109e79" kind="define"><name>MPU_WRAPPERS_INCLUDED_FROM_API_FILE</name></member>
+    <member refid="heap__4_8c_1a9f213227674effff0122a75d94d87938" kind="define"><name>configTOTAL_HEAP_SIZE</name></member>
+    <member refid="heap__4_8c_1ab71bae5a95671265c828339d44c44b25" kind="define"><name>heapMINIMUM_BLOCK_SIZE</name></member>
+    <member refid="heap__4_8c_1adcef0c4245ebe20ca2b08a574c1caac9" kind="define"><name>heapBITS_PER_BYTE</name></member>
+    <member refid="heap__4_8c_1a5867d4b64d89c6ab51e4783687f8960a" kind="typedef"><name>BlockLink_t</name></member>
+    <member refid="heap__4_8c_1a286aa29b13471f0d9f5a7ce688682694" kind="variable"><name>ucHeap</name></member>
+    <member refid="heap__4_8c_1aff7bec0da6b44e3634d215b40eb1db76" kind="variable"><name>xHeapStructSize</name></member>
+    <member refid="heap__4_8c_1a02f2ab4cbfe2167dc3bbdaf9b6c629c9" kind="variable"><name>xStart</name></member>
+    <member refid="heap__4_8c_1a9e133e4e5cd5400005b1378227cbdf7e" kind="variable"><name>pxEnd</name></member>
+    <member refid="heap__4_8c_1a338244e3e604d3b290a3ef1903e97e4b" kind="variable"><name>xFreeBytesRemaining</name></member>
+    <member refid="heap__4_8c_1ae88e8dc4d81326f752232a0a39eb119f" kind="variable"><name>xMinimumEverFreeBytesRemaining</name></member>
+    <member refid="heap__4_8c_1ad7d272a4def963ce2d0185bb02fc7da4" kind="variable"><name>xBlockAllocatedBit</name></member>
+    <member refid="heap__4_8c_1a1a70fdf86d8a603f45e9b93c14e0d24a" kind="function"><name>prvInsertBlockIntoFreeList</name></member>
+    <member refid="heap__4_8c_1a3e55181f788f17d9a3e7d226a5206e4f" kind="function"><name>prvHeapInit</name></member>
+    <member refid="heap__4_8c_1a385f9a3d60e520d0ee0223ee51d010c7" kind="function"><name>prvPortMalloc</name></member>
+    <member refid="heap__4_8c_1ac56bcb7515f081a5b3df83935499fa4a" kind="function"><name>pvPortMalloc</name></member>
+    <member refid="heap__4_8c_1ae2c3222f99c17be723245a621b1915d6" kind="function"><name>pvTasklessPortMalloc</name></member>
+    <member refid="heap__4_8c_1aa11d5a15b4385161c97f222ea275b7f5" kind="function"><name>prvPortFree</name></member>
+    <member refid="heap__4_8c_1a1e7cea2fd1bc894ea3b5f5e8179d259b" kind="function"><name>vPortFree</name></member>
+    <member refid="heap__4_8c_1a24f102af613c5cc4dba7ae20763157d2" kind="function"><name>vTasklessPortFree</name></member>
+    <member refid="heap__4_8c_1a0c28a12b313bc248be0cb7a37ed81bb7" kind="function"><name>xPortGetFreeHeapSize</name></member>
+    <member refid="heap__4_8c_1ab222e4545b8ff12b62fd000fea6b34eb" kind="function"><name>xPortGetMinimumEverFreeHeapSize</name></member>
+    <member refid="heap__4_8c_1a8bf103ce32ce8473574e9920af8b4eec" kind="function"><name>vPortInitialiseBlocks</name></member>
+  </compound>
+  <compound refid="ns__core_8c" kind="file"><name>ns_core.c</name>
+    <member refid="ns__core_8c_1a8184d3799e7026ff9f387a0c426fcb33" kind="define"><name>NS_CORE_API_ID</name></member>
+    <member refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kind="variable"><name>g_ns_state</name></member>
+    <member refid="group__ns-core_1ga00cd38760f5a7c25b6a87282e05845f4" kind="variable"><name>ns_core_V0_0_1</name></member>
+    <member refid="group__ns-core_1gacdd5daecaf46b2743aee54997eda5309" kind="variable"><name>ns_core_V1_0_0</name></member>
+    <member refid="group__ns-core_1ga59a40e1db45bb276e003c17fea17e12a" kind="variable"><name>ns_core_oldest_supported_version</name></member>
+    <member refid="group__ns-core_1ga72e4de2e8dc55845215696f11ea7739f" kind="variable"><name>ns_core_current_version</name></member>
+    <member refid="ns__core_8c_1a0b6c119cdc389a48e6f458ffd20cfe7e" kind="function"><name>semver_compare</name></member>
+    <member refid="group__ns-core_1ga07adab44cf8388346e17c1e68e130739" kind="function"><name>ns_core_check_api</name></member>
+    <member refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kind="function"><name>ns_core_init</name></member>
+    <member refid="group__ns-core_1ga1c951a408f6460c49e0ed03bbba05666" kind="function"><name>ns_core_fail_loop</name></member>
+  </compound>
+  <compound refid="group__ns-core" kind="group"><name>ns-core</name>
+    <member refid="group__ns-core_1ga00cd38760f5a7c25b6a87282e05845f4" kind="variable"><name>ns_core_V0_0_1</name></member>
+    <member refid="group__ns-core_1gacdd5daecaf46b2743aee54997eda5309" kind="variable"><name>ns_core_V1_0_0</name></member>
+    <member refid="group__ns-core_1ga59a40e1db45bb276e003c17fea17e12a" kind="variable"><name>ns_core_oldest_supported_version</name></member>
+    <member refid="group__ns-core_1ga72e4de2e8dc55845215696f11ea7739f" kind="variable"><name>ns_core_current_version</name></member>
+    <member refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kind="variable"><name>g_ns_state</name></member>
+    <member refid="group__ns-core_1ga883cf5fc3d54cb4295b9197f72fa2b49" kind="function"><name>ns_core_initialized</name></member>
+    <member refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kind="function"><name>ns_core_init</name></member>
+    <member refid="group__ns-core_1ga07adab44cf8388346e17c1e68e130739" kind="function"><name>ns_core_check_api</name></member>
+    <member refid="group__ns-core_1ga1c951a408f6460c49e0ed03bbba05666" kind="function"><name>ns_core_fail_loop</name></member>
+    <member refid="group__ns-core_1ga8c2a44114a550d271f6e5839f2af5f02" kind="define"><name>NS_CORE_V0_0_1</name></member>
+    <member refid="group__ns-core_1gaa2327912c1321989290106da90cff5f6" kind="define"><name>NS_CORE_V1_0_0</name></member>
+    <member refid="group__ns-core_1gad54b4e99f2399e8fc772d72d01612f30" kind="define"><name>NS_CORE_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="group__ns-core_1ga2681a23c85b97777012ce59408b1b1fa" kind="define"><name>NS_CORE_CURRENT_VERSION</name></member>
+    <member refid="group__ns-core_1ga32fd94ac7a2275c34ee229ac643bca72" kind="define"><name>NS_STATUS_SUCCESS</name></member>
+    <member refid="group__ns-core_1ga9dd34740a4792c2ce722f622216bccdf" kind="define"><name>NS_STATUS_FAILURE</name></member>
+    <member refid="group__ns-core_1ga527c73b642d137df5c0b4146a6e230cb" kind="define"><name>NS_STATUS_INVALID_HANDLE</name></member>
+    <member refid="group__ns-core_1ga1847f6ffb2d65d050af96621a10b1b85" kind="define"><name>NS_STATUS_INVALID_VERSION</name></member>
+    <member refid="group__ns-core_1gaf58df2fa495e68b3b1f867187a3b1e42" kind="define"><name>NS_STATUS_INVALID_CONFIG</name></member>
+    <member refid="group__ns-core_1gaa10242b317b74281840af8830eae5363" kind="define"><name>NS_STATUS_INIT_FAILED</name></member>
+    <member refid="group__ns-core_1gabe2b245d06ed5cb857493f4850ad6511" kind="define"><name>NS_TRY</name></member>
+  </compound>
+  <compound refid="dir_2202e181cb244b86d6f52412849515e1" kind="dir"><name>neuralSPOT/neuralspot/ns-core/src/armclang</name>
+  </compound>
+  <compound refid="dir_6702b0dfa5333b2e7eed5a6e62d6eda7" kind="dir"><name>neuralSPOT/neuralspot/ns-core/src/gcc</name>
+  </compound>
+  <compound refid="dir_da37538f420cb91275568ee8c81f5653" kind="dir"><name>neuralSPOT/neuralspot/ns-core/includes-api</name>
+  </compound>
+  <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
+  </compound>
+  <compound refid="dir_b737d82f35ec218ac5a7ef4105db9c0e" kind="dir"><name>neuralSPOT/neuralspot</name>
+  </compound>
+  <compound refid="dir_7a01d249276e526cbac17daf32597066" kind="dir"><name>neuralSPOT/neuralspot/ns-core</name>
+  </compound>
+  <compound refid="dir_2b540daedd13b1486e7bf344eba1e313" kind="dir"><name>neuralSPOT/neuralspot/ns-core/src</name>
+  </compound>
+</doxygenindex>

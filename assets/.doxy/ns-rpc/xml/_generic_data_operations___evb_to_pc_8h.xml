@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="_generic_data_operations___evb_to_pc_8h" kind="file" language="C++">
+    <compoundname>GenericDataOperations_EvbToPc.h</compoundname>
+    <includes local="yes">erpc_version.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includedby refid="_generic_data_operations___evb_to_pc__server_8h" local="yes">neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc_server.h</includedby>
+    <includedby refid="ns__rpc__generic__data_8h" local="yes">neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h</includedby>
+    <includedby refid="ns__rpc__generic__data_8c" local="yes">neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h</label>
+        <link refid="_generic_data_operations___evb_to_pc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>erpc_version.h</label>
+      </node>
+      <node id="3">
+        <label>stdbool.h</label>
+      </node>
+      <node id="4">
+        <label>stddef.h</label>
+      </node>
+      <node id="5">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h</label>
+        <link refid="_generic_data_operations___evb_to_pc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc_server.h</label>
+        <link refid="_generic_data_operations___evb_to_pc__server_8h_source"/>
+      </node>
+      <node id="3">
+        <label>neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h</label>
+        <link refid="ns__rpc__generic__data_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structbinary__t" prot="public">binary_t</innerclass>
+    <innerclass refid="structdata_block" prot="public">dataBlock</innerclass>
+      <sectiondef kind="user-defined">
+      <header>evb_to_pc</header>
+      <memberdef kind="function" id="_generic_data_operations___evb_to_pc_8h_1a65ba0c959531d74ad5de964e37b36bfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>status</type>
+        <definition>status ns_rpc_data_sendBlockToPC</definition>
+        <argsstring>(const dataBlock *block)</argsstring>
+        <name>ns_rpc_data_sendBlockToPC</name>
+        <param>
+          <type>const <ref refid="structdata_block" kindref="compound">dataBlock</ref> *</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="85" column="1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" declline="85" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="_generic_data_operations___evb_to_pc_8h_1a89136d354ed3b521e9f6e4fdc529a66d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>status</type>
+        <definition>status ns_rpc_data_fetchBlockFromPC</definition>
+        <argsstring>(dataBlock *block)</argsstring>
+        <name>ns_rpc_data_fetchBlockFromPC</name>
+        <param>
+          <type><ref refid="structdata_block" kindref="compound">dataBlock</ref> *</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="88" column="1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" declline="88" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="_generic_data_operations___evb_to_pc_8h_1ae3495c1992e542e1343652f18ab61554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>status</type>
+        <definition>status ns_rpc_data_computeOnPC</definition>
+        <argsstring>(const dataBlock *in_block, dataBlock *result_block)</argsstring>
+        <name>ns_rpc_data_computeOnPC</name>
+        <param>
+          <type>const <ref refid="structdata_block" kindref="compound">dataBlock</ref> *</type>
+          <declname>in_block</declname>
+        </param>
+        <param>
+          <type><ref refid="structdata_block" kindref="compound">dataBlock</ref> *</type>
+          <declname>result_block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="91" column="1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" declline="91" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="_generic_data_operations___evb_to_pc_8h_1a3443ac0aa073458f0863c00a20f4e04b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>status</type>
+        <definition>status ns_rpc_data_remotePrintOnPC</definition>
+        <argsstring>(const char *msg)</argsstring>
+        <name>ns_rpc_data_remotePrintOnPC</name>
+        <param>
+          <type>const char *</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="94" column="1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" declline="94" declcolumn="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_generic_data_operations___evb_to_pc_8h_1a6bc9b9ce5f4a946b513ee23a31a4b231" prot="public" static="no">
+        <name>ERPC_TYPE_DEFINITIONS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="20" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959" prot="public" static="no" strong="no">
+        <type></type>
+        <name>status</name>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959a21beb31982d22628265f5fa53825500c" prot="public">
+          <name>ns_rpc_data_success</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959ae6343ac7a77a5512fe6dc1e0cbd0ad08" prot="public">
+          <name>ns_rpc_data_failure</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959a0b0fd1b5a9a13c7913c9eb94d2543721" prot="public">
+          <name>ns_rpc_data_blockTooLarge</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959a21beb31982d22628265f5fa53825500c" prot="public">
+          <name>ns_rpc_data_success</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959ae6343ac7a77a5512fe6dc1e0cbd0ad08" prot="public">
+          <name>ns_rpc_data_failure</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a015eb90e0de9f16e87bd149d4b9ce959a0b0fd1b5a9a13c7913c9eb94d2543721" prot="public">
+          <name>ns_rpc_data_blockTooLarge</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="23" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705" prot="public" static="no" strong="no">
+        <type></type>
+        <name>dataType</name>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705aac91988fd48b75557c0df15b76600a0c" prot="public">
+          <name>uint8_e</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705ad6646ae644e5013e37e3870c2383cb3a" prot="public">
+          <name>uint16_e</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a589550a1eba9164f552abd9b6e1cfb0a" prot="public">
+          <name>uint32_e</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a8fbab5dbd2861c5e9b764cd528b5e61e" prot="public">
+          <name>int8_e</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a6804e9b461116131d118265348d0a168" prot="public">
+          <name>int16_e</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a91d29a4cd3ba367812d651bc1192a923" prot="public">
+          <name>int32_e</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a09134a410c4bc07678c881550e3913b8" prot="public">
+          <name>float32_e</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705ac0fab75909e9e4abe4a94270cdcace0b" prot="public">
+          <name>float64_e</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705aac91988fd48b75557c0df15b76600a0c" prot="public">
+          <name>uint8_e</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705ad6646ae644e5013e37e3870c2383cb3a" prot="public">
+          <name>uint16_e</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a589550a1eba9164f552abd9b6e1cfb0a" prot="public">
+          <name>uint32_e</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a8fbab5dbd2861c5e9b764cd528b5e61e" prot="public">
+          <name>int8_e</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a6804e9b461116131d118265348d0a168" prot="public">
+          <name>int16_e</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a91d29a4cd3ba367812d651bc1192a923" prot="public">
+          <name>int32_e</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705a09134a410c4bc07678c881550e3913b8" prot="public">
+          <name>float32_e</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a617ddb88ebf58e2f0add63ae88a9f705ac0fab75909e9e4abe4a94270cdcace0b" prot="public">
+          <name>float64_e</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="29" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="29" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>command</name>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da10695a06e287c7380ca3e7b96a2b2f19" prot="public">
+          <name>generic_cmd</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>The sender doesn&apos;t have an opinion about what to do with data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da184e468a9f5a25d4b98c9ec0ce5be644" prot="public">
+          <name>visualize_cmd</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Block intended for visualization. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da71eca7843dfaff4f67c448d2fed7bc64" prot="public">
+          <name>infer_cmd</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Compute inference for block. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231dab2c443b77e7b18849edd74178299d291" prot="public">
+          <name>extract_cmd</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Compute feature from block. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da53dccddbcaff4a176d4e75663fbed0ec" prot="public">
+          <name>write_cmd</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Block intended for writing to a file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231daea7c12cb3031ad9e88104ce9859ce1c5" prot="public">
+          <name>read</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Fetch block from a file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da10695a06e287c7380ca3e7b96a2b2f19" prot="public">
+          <name>generic_cmd</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>The sender doesn&apos;t have an opinion about what to do with data. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da184e468a9f5a25d4b98c9ec0ce5be644" prot="public">
+          <name>visualize_cmd</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Block intended for visualization. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da71eca7843dfaff4f67c448d2fed7bc64" prot="public">
+          <name>infer_cmd</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Compute inference for block. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231dab2c443b77e7b18849edd74178299d291" prot="public">
+          <name>extract_cmd</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Compute feature from block. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231da53dccddbcaff4a176d4e75663fbed0ec" prot="public">
+          <name>write_cmd</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Block intended for writing to a file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a9e0992eae3950adccaf4847fbff4231daea7c12cb3031ad9e88104ce9859ce1c5" prot="public">
+          <name>read</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Fetch block from a file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="40" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="_generic_data_operations___evb_to_pc_8h_1a600e75b7e17093d0cc06fbaaaf8cff58" prot="public" static="no" strong="no">
+        <type></type>
+        <name>_evb_to_pc_ids</name>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a600e75b7e17093d0cc06fbaaaf8cff58a12a74805df09f6b5b930d2d809ea3c0c" prot="public">
+          <name>kevb_to_pc_service_id</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a600e75b7e17093d0cc06fbaaaf8cff58a209d05fe0d99db473f4ebccd38ba55fa" prot="public">
+          <name>kevb_to_pc_ns_rpc_data_sendBlockToPC_id</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a600e75b7e17093d0cc06fbaaaf8cff58aab0b5b4aec93512b0786a5d34a5f8c16" prot="public">
+          <name>kevb_to_pc_ns_rpc_data_fetchBlockFromPC_id</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a600e75b7e17093d0cc06fbaaaf8cff58ad142107cceb67a974d1742ccf4b3b042" prot="public">
+          <name>kevb_to_pc_ns_rpc_data_computeOnPC_id</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="_generic_data_operations___evb_to_pc_8h_1a600e75b7e17093d0cc06fbaaaf8cff58a4cefef600a58e13f28dc2d3e6545d73a" prot="public">
+          <name>kevb_to_pc_ns_rpc_data_remotePrintOnPC_id</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>evb_to_pc identifiers </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="70" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="70" bodyend="76"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="_generic_data_operations___evb_to_pc_8h_1a74d4066bb72f6e92dc7f00776137e5c8" prot="public" static="no">
+        <type>enum status</type>
+        <definition>typedef enum status status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="27" column="8"/>
+      </memberdef>
+      <memberdef kind="typedef" id="_generic_data_operations___evb_to_pc_8h_1a59a6978c321d8a89f9df3ec49a4560d5" prot="public" static="no">
+        <type>enum dataType</type>
+        <definition>typedef enum dataType dataType</definition>
+        <argsstring></argsstring>
+        <name>dataType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="38" column="10"/>
+      </memberdef>
+      <memberdef kind="typedef" id="_generic_data_operations___evb_to_pc_8h_1a63d4cd43ac5a160901aa70db1e6746a0" prot="public" static="no">
+        <type>enum command</type>
+        <definition>typedef enum command command</definition>
+        <argsstring></argsstring>
+        <name>command</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="47" column="9"/>
+      </memberdef>
+      <memberdef kind="typedef" id="_generic_data_operations___evb_to_pc_8h_1a8da7f0b7cbcb995fbcd37c427c9fb7a6" prot="public" static="no">
+        <type>struct <ref refid="structbinary__t" kindref="compound">binary_t</ref></type>
+        <definition>typedef struct binary_t binary_t</definition>
+        <argsstring></argsstring>
+        <name>binary_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="50" column="23" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="_generic_data_operations___evb_to_pc_8h_1a7ae93ab52fb50863d67503e3dbc1ee3d" prot="public" static="no">
+        <type>struct <ref refid="structdata_block" kindref="compound">dataBlock</ref></type>
+        <definition>typedef struct dataBlock dataBlock</definition>
+        <argsstring></argsstring>
+        <name>dataBlock</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" line="51" column="24" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Generated<sp/>by<sp/>erpcgen<sp/>1.9.1<sp/>on<sp/>Fri<sp/>Sep<sp/><sp/>9<sp/>09:53:34<sp/>2022.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>AUTOGENERATED<sp/>-<sp/>DO<sp/>NOT<sp/>EDIT</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(_GenericDataOperations_EvbToPc_h_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>_GenericDataOperations_EvbToPc_h_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;erpc_version.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>10901<sp/>!=<sp/>ERPC_VERSION_NUMBER</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#error<sp/>&quot;The<sp/>generated<sp/>shim<sp/>code<sp/>version<sp/>is<sp/>different<sp/>to<sp/>the<sp/>rest<sp/>of<sp/>eRPC<sp/>code.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>!defined(ERPC_TYPE_DEFINITIONS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>ERPC_TYPE_DEFINITIONS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enumerators<sp/>data<sp/>types<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>status<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_success<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_failure<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_blockTooLarge<sp/>=<sp/>2</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}<sp/>status;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>dataType<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_e<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_e<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_e<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>int8_e<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>int16_e<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_e<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>float32_e<sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>float64_e<sp/>=<sp/>7</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}<sp/>dataType;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>command<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>generic_cmd<sp/>=<sp/>0,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>visualize_cmd<sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>infer_cmd<sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>extract_cmd<sp/>=<sp/>3,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>write_cmd<sp/>=<sp/>4,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>read<sp/>=<sp/>5<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/>command;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Aliases<sp/>data<sp/>types<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structbinary__t" kindref="compound">binary_t</ref><sp/><ref refid="structbinary__t" kindref="compound">binary_t</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Structures/unions<sp/>data<sp/>types<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structbinary__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structbinary__t" kindref="compound">binary_t</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*data;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>dataLength;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structdata_block" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structdata_block_1a68ab7a4343e0854b94b550c6869902c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structdata_block_1a68ab7a4343e0854b94b550c6869902c4" kindref="member">length</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structdata_block_1aa77da14a8c2da666b5bcdae485f57ebd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>dataType<sp/><ref refid="structdata_block_1aa77da14a8c2da666b5bcdae485f57ebd" kindref="member">dType</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structdata_block_1ad7308917b0550c28c8d43cc71cc86ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<ref refid="structdata_block_1ad7308917b0550c28c8d43cc71cc86ccd" kindref="member">description</ref>;<sp/></highlight></codeline>
+<codeline lineno="63" refid="structdata_block_1a491bd171fe140bf9c036554b137bc5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>command<sp/><ref refid="structdata_block_1a491bd171fe140bf9c036554b137bc5af" kindref="member">cmd</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structbinary__t" kindref="compound">binary_t</ref><sp/><ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif<sp/></highlight><highlight class="comment">//<sp/>ERPC_TYPE_DEFINITIONS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>_evb_to_pc_ids<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>kevb_to_pc_service_id<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>kevb_to_pc_ns_rpc_data_sendBlockToPC_id<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>kevb_to_pc_ns_rpc_data_fetchBlockFromPC_id<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>kevb_to_pc_ns_rpc_data_computeOnPC_id<sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>kevb_to_pc_ns_rpc_data_remotePrintOnPC_id<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>defined(__cplusplus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"></codeline>
+<codeline lineno="84"><highlight class="normal">status</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">ns_rpc_data_sendBlockToPC(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">status</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">ns_rpc_data_fetchBlockFromPC(<ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">status</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">ns_rpc_data_computeOnPC(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*in_block,<sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*result_block);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">status</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">ns_rpc_data_remotePrintOnPC(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*msg);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>defined(__cplusplus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>_GenericDataOperations_EvbToPc_h_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_EvbToPc.h"/>
+  </compounddef>
+</doxygen>

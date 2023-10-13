@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_cf9eff0d6bf97258df730d615fa0f132" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-peripherals/src</compoundname>
+    <innerfile refid="ns__button_8c">ns_button.c</innerfile>
+    <innerfile refid="ns__power_8c">ns_power.c</innerfile>
+    <innerfile refid="ns__tempco_8c">ns_tempco.c</innerfile>
+    <innerfile refid="ns__tempco_8h">ns_tempco.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/"/>
+  </compounddef>
+</doxygen>

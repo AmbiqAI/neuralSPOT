@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="group__ns-cache-profile" kind="group">
+    <compoundname>ns-cache-profile</compoundname>
+    <title>Ns-cache-profile</title>
+    <innerclass refid="structns__cache__dump__t" prot="public">ns_cache_dump_t</innerclass>
+    <innerclass refid="structns__cache__config__t" prot="public">ns_cache_config_t</innerclass>
+    <innerclass refid="structns__perf__counters__t" prot="public">ns_perf_counters_t</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-cache-profile_1gaebd986f35cd2960e270eb67d7eabbf0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_cache_profiler_init</definition>
+        <argsstring>(ns_cache_config_t *cfg)</argsstring>
+        <name>ns_cache_profiler_init</name>
+        <param>
+          <type><ref refid="structns__cache__config__t" kindref="compound">ns_cache_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the cache profiler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint8_t</para>
+</simplesect>
+Initialize the cache profiler.</para>
+<para>Enables cache performance counters (uses slightly more power)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint8_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="56" column="16" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="23" bodyend="34" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="56" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga3d71e40ad288f91c8bf9c319d7a028f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_capture_cache_stats</definition>
+        <argsstring>(ns_cache_dump_t *dump)</argsstring>
+        <name>ns_capture_cache_stats</name>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>dump</declname>
+        </param>
+        <briefdescription>
+<para>Capture the current value of the cache performance counters in the provided struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dump</parametername>
+</parameternamelist>
+<parameterdescription>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Capture the current value of the cache performance counters in the provided struct.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dump</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="64" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="42" bodyend="51" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="64" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga260f0984f5bbf10aa8c5591dc36b9e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_print_cache_stats</definition>
+        <argsstring>(ns_cache_dump_t *dump)</argsstring>
+        <name>ns_print_cache_stats</name>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>dump</declname>
+        </param>
+        <briefdescription>
+<para>Print the cache performance counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dump</parametername>
+</parameternamelist>
+<parameterdescription>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Print the cache performance counters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dump</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="71" bodyend="80" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="71" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1gac76ffef4069b3a01dba19e7af22ba75b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_print_cache_stats_delta</definition>
+        <argsstring>(ns_cache_dump_t *start, ns_cache_dump_t *end)</argsstring>
+        <name>ns_print_cache_stats_delta</name>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Print the delta between two cache performance counter snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Print the delta between two cache performance counter snapshots.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="80" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="89" bodyend="104" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="80" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga8de598c1400870868659453e3d08c08f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_delta_cache</definition>
+        <argsstring>(ns_cache_dump_t *s, ns_cache_dump_t *e, ns_cache_dump_t *d)</argsstring>
+        <name>ns_delta_cache</name>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__cache__dump__t" kindref="compound">ns_cache_dump_t</ref> *</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>Capture the delta between two cache performance counter snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>start snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>end snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>struct where delta will be stored </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="90" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="54" bodyend="63" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="90" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga7012775f3ad475e8d977b60766182a8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_reset_perf_counters</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_reset_perf_counters</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Reset the HW performance counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the HW performance counters. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="105" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="111" bodyend="118" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="105" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga289ac76609da3ca33b9ce20d1be05218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_init_perf_profiler</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_init_perf_profiler</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Configure the HW performance capture unit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure the HW performance capture unit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="111" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="125" bodyend="128" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="111" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1gab4d63f1d9add998303ee63c64c47a48b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_start_perf_profiler</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_start_perf_profiler</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Start the HW performance capture unit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start the HW performance capture unit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="117" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="135" bodyend="142" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="117" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga6ee9e1f3c1bec6055335583693339952" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_stop_perf_profiler</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_stop_perf_profiler</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Stop the HW performance capture unit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop the HW performance capture unit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="123" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="149" bodyend="151" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="123" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1gac4431d0efc47f8b2c1fcf20f05c0f430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_capture_perf_profiler</definition>
+        <argsstring>(ns_perf_counters_t *c)</argsstring>
+        <name>ns_capture_perf_profiler</name>
+        <param>
+          <type><ref refid="structns__perf__counters__t" kindref="compound">ns_perf_counters_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Capture the current value of the HW performance counters in the provided struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Capture the current value of the HW performance counters in the provided struct.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="131" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="159" bodyend="166" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="131" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1ga2e7ab288293bccc9914ee9e3e0235877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_delta_perf</definition>
+        <argsstring>(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_counters_t *d)</argsstring>
+        <name>ns_delta_perf</name>
+        <param>
+          <type><ref refid="structns__perf__counters__t" kindref="compound">ns_perf_counters_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__perf__counters__t" kindref="compound">ns_perf_counters_t</ref> *</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__perf__counters__t" kindref="compound">ns_perf_counters_t</ref> *</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the delta between two HW performance snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>starting snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ending snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Calculated delta </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="140" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="175" bodyend="182" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="140" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-cache-profile_1gae1a66a1314758decfabc97b53c679d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_print_perf_profile</definition>
+        <argsstring>(ns_perf_counters_t *c)</argsstring>
+        <name>ns_print_perf_profile</name>
+        <param>
+          <type><ref refid="structns__perf__counters__t" kindref="compound">ns_perf_counters_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Print a HW performance counter snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Print a HW performance counter snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="147" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="190" bodyend="203" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="147" declcolumn="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

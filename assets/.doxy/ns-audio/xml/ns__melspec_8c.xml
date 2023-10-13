@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__melspec_8c" kind="file" language="C++">
+    <compoundname>ns_melspec.c</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">float.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes refid="ns__audio__melspec_8h" local="yes">ns_audio_melspec.h</includes>
+    <includes local="no">string.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>ns_audio_features_common.h</label>
+        <link refid="ns__audio__features__common_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>ns_audio_melspec.h</label>
+        <link refid="ns__audio__melspec_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c</label>
+        <link refid="ns__melspec_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="8">
+        <label>arm_math.h</label>
+      </node>
+      <node id="5">
+        <label>float.h</label>
+      </node>
+      <node id="6">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="10">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__melspec_8c_1a827054ee943f4dd3edc3f6505bafca6c" prot="public" static="no" mutable="no">
+        <type>arm_cfft_instance_f32</type>
+        <definition>arm_cfft_instance_f32 g_melspecRfft</definition>
+        <argsstring></argsstring>
+        <name>g_melspecRfft</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" line="64" column="23" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__melspec_8c_1a73bad025e11c5d4fc59051fc8976af52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_melspec_init</definition>
+        <argsstring>(ns_melspec_cfg_t *cfg)</argsstring>
+        <name>ns_melspec_init</name>
+        <param>
+          <type><ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>initialize data structures used for mel spectrogram related functions </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" line="70" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" bodystart="70" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__melspec_8c_1a70cbfab6cfcb54f02dfd63c5c6d8e9f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_melspec_audio_to_stft</definition>
+        <argsstring>(ns_melspec_cfg_t *cfg, const int16_t *audio_in, float32_t *stft_out)</argsstring>
+        <name>ns_melspec_audio_to_stft</name>
+        <param>
+          <type><ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const int16_t *</type>
+          <declname>audio_in</declname>
+        </param>
+        <param>
+          <type>float32_t *</type>
+          <declname>stft_out</declname>
+        </param>
+        <briefdescription>
+<para>convert the audio samples into a short-time fourier transform </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Result is complex valued (containing magnitude and phase info in alternating 32-bit values, so stft_out should be 2*MELSPEC_FRAME_LEN </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" line="94" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" bodystart="94" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__melspec_8c_1aed327ad928886a008cc8f924257767dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_melspec_stft_to_audio</definition>
+        <argsstring>(ns_melspec_cfg_t *cfg, float32_t *stft_in, int16_t *audio_out)</argsstring>
+        <name>ns_melspec_stft_to_audio</name>
+        <param>
+          <type><ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>float32_t *</type>
+          <declname>stft_in</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>audio_out</declname>
+        </param>
+        <briefdescription>
+<para>Inverts short-time fourier transform into a reconstructed audio sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>We assume the stft input is complex valued (containing magnitude and phase info in alternating 32-bit values).</para>
+<para>Note that this operation currently modifies the input buffer! </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" line="117" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__melspec_8c_1a09f0f20fa66b0e22c8ef28bed3a2939e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_melspec_stft_to_compressed_melspec</definition>
+        <argsstring>(ns_melspec_cfg_t *cfg, const float32_t *stft_in, float32_t *melspec_out)</argsstring>
+        <name>ns_melspec_stft_to_compressed_melspec</name>
+        <param>
+          <type><ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const float32_t *</type>
+          <declname>stft_in</declname>
+        </param>
+        <param>
+          <type>float32_t *</type>
+          <declname>melspec_out</declname>
+        </param>
+        <briefdescription>
+<para>Converts complex valued short-time fourier transform into real-valued, power compressed mel scaled space. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" line="133" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" bodystart="133" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__melspec_8c_1aa347329b64d90c9d76abffc23dc04170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_melspec_melspec_to_stft</definition>
+        <argsstring>(ns_melspec_cfg_t *cfg, const float32_t *melspec_in, float32_t *stft_out)</argsstring>
+        <name>ns_melspec_melspec_to_stft</name>
+        <param>
+          <type><ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const float32_t *</type>
+          <declname>melspec_in</declname>
+        </param>
+        <param>
+          <type>float32_t *</type>
+          <declname>stft_out</declname>
+        </param>
+        <briefdescription>
+<para>Inverts a mel spectrogram back into linear short-time fourier transform. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" line="151" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c" bodystart="151" bodyend="168"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Set of mel-scaled spectrogram related utilities. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Scott Leishman </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-10-10</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2022,<sp/>Ambiq<sp/>Micro,<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright<sp/>notice,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>the<sp/>copyright<sp/>holder<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Third<sp/>party<sp/>software<sp/>included<sp/>in<sp/>this<sp/>distribution<sp/>is<sp/>subject<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>additional<sp/>license<sp/>terms<sp/>as<sp/>defined<sp/>in<sp/>the<sp/>/docs/licenses<sp/>directory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS<sp/>&quot;AS<sp/>IS&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO,<sp/>THE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT<sp/>HOLDER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;float.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_audio_melspec.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Globals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>float32_t<sp/>g_melspecBuffer[2<sp/>*<sp/>MELSPEC_FRAME_LEN];<sp/>//<sp/>interleaved<sp/>real<sp/>+<sp/>imaginary<sp/>parts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>int32_t<sp/>g_melspecFbankFirst[MELSPEC_NUM_FBANK_BINS];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>int32_t<sp/>g_melspecFbankLast[MELSPEC_NUM_FBANK_BINS];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>float<sp/>g_melspecMelFBank[MELSPEC_NUM_FBANK_BINS][50];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">arm_cfft_instance_f32<sp/>g_melspecRfft;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="ns__melspec_8c_1a73bad025e11c5d4fc59051fc8976af52" kindref="member">ns_melspec_init</ref>(<ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>arm_status<sp/>status<sp/>=<sp/>arm_cfft_init_f32(&amp;g_melspecRfft,<sp/>cfg-&gt;frame_len);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(status<sp/>!=<sp/>ARM_MATH_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_printf(</highlight><highlight class="stringliteral">&quot;problem<sp/>initializing<sp/>melspec:<sp/>status<sp/>enum<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>status);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;melspecBuffer<sp/>=<sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*)(cfg-&gt;arena);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;fbc.arena_fbanks<sp/>=<sp/>(uint8_t<sp/>*)(cfg-&gt;melspecBuffer)<sp/>+<sp/>2<sp/>*<sp/>cfg-&gt;frame_len<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(float);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;fbc.sample_frequency<sp/>=<sp/>cfg-&gt;sample_frequency;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;fbc.num_fbank_bins<sp/>=<sp/>cfg-&gt;num_fbank_bins;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;fbc.low_freq<sp/>=<sp/>cfg-&gt;low_freq;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;fbc.high_freq<sp/>=<sp/>cfg-&gt;high_freq;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;fbc.frame_len_pow2<sp/>=<sp/>cfg-&gt;frame_len_pow2;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_fbanks_init(&amp;(cfg-&gt;fbc));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="ns__melspec_8c_1a70cbfab6cfcb54f02dfd63c5c6d8e9f0" kindref="member">ns_melspec_audio_to_stft</ref>(<ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int16_t<sp/>*audio_in,<sp/>float32_t<sp/>*stft_out)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>int16_t<sp/>i;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>copy<sp/>the<sp/>integer<sp/>audio<sp/>buffer<sp/>into<sp/>complex<sp/>valued<sp/>stft<sp/>input<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cfg-&gt;frame_len;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stft_out[2<sp/>*<sp/>i]<sp/>=<sp/>(float32_t)audio_in[i];<sp/></highlight><highlight class="comment">//<sp/>real<sp/>part</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stft_out[2<sp/>*<sp/>i<sp/>+<sp/>1]<sp/>=<sp/>(float32_t)0.0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>imaginary<sp/>part</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>compute<sp/>short-time<sp/>fourier<sp/>transform<sp/>in-place.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>arm_cfft_f32(&amp;g_melspecRfft,<sp/>stft_out,<sp/>0,<sp/>0);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="ns__melspec_8c_1aed327ad928886a008cc8f924257767dd" kindref="member">ns_melspec_stft_to_audio</ref>(<ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref><sp/>*cfg,<sp/>float32_t<sp/>*stft_in,<sp/>int16_t<sp/>*audio_out)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>int16_t<sp/>i;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>compute<sp/>the<sp/>inverse<sp/>stft<sp/>in-place<sp/>(destroys<sp/>original<sp/>input!!)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>arm_cfft_f32(&amp;g_melspecRfft,<sp/>stft_in,<sp/>1,<sp/>0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cfg-&gt;frame_len;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>check<sp/>correctness<sp/>of<sp/>this<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audio_out[i]<sp/>=<sp/>(int16_t)stft_in[2<sp/>*<sp/>i];</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="ns__melspec_8c_1a09f0f20fa66b0e22c8ef28bed3a2939e" kindref="member">ns_melspec_stft_to_compressed_melspec</ref>(<ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>float32_t<sp/>*stft_in,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float32_t<sp/>*melspec_out)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>int16_t<sp/>i,<sp/>j,<sp/>k;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cfg-&gt;num_fbank_bins;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>curr_val<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(j<sp/>=<sp/>cfg-&gt;fbc.mfccFbankFirst[i];<sp/>j<sp/>&lt;<sp/>cfg-&gt;fbc.mfccFbankLast[i];<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>curr_val<sp/>+=<sp/>stft_in[2<sp/>*<sp/>j]<sp/>*<sp/>(*(cfg-&gt;fbc.melFBank))[i][k++];</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>melspec_out[i]<sp/>=<sp/>(float)pow(curr_val,<sp/>cfg-&gt;compression_exponent);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="ns__melspec_8c_1aa347329b64d90c9d76abffc23dc04170" kindref="member">ns_melspec_melspec_to_stft</ref>(<ref refid="structns__melspec__cfg__t" kindref="compound">ns_melspec_cfg_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>float32_t<sp/>*melspec_in,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>float32_t<sp/>*stft_out)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>int16_t<sp/>i,<sp/>j,<sp/>k;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>check<sp/>correctness<sp/>of<sp/>this<sp/>calculation<sp/>with<sp/>python<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>assumed<sp/>melspec_in<sp/>shape:<sp/>[num_frames,<sp/>num_mel_bins]<sp/><sp/>(num_frames<sp/>likely<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_melspecMelFBank<sp/>shape:<sp/>[num_mel_bins,<sp/>num_spec_bins[first_nonzero,last_nonzero]]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stft_out<sp/>shape:<sp/>[num_frames,<sp/>num_spec_bins]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stft_out<sp/>&lt;-<sp/>MatMul(melspec_in,<sp/>g_melspecMelFBank)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cfg-&gt;num_fbank_bins;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>curr_val<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(j<sp/>=<sp/>cfg-&gt;fbc.mfccFbankFirst[i];<sp/>j<sp/>&lt;<sp/>cfg-&gt;fbc.mfccFbankLast[i];<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>curr_val<sp/>+=<sp/>(*(cfg-&gt;fbc.melFBank))[i][k++]<sp/>*<sp/>stft_out[j<sp/>*<sp/>2];</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stft_out[i]<sp/>=<sp/>curr_val;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-audio/src/ns_melspec.c"/>
+  </compounddef>
+</doxygen>

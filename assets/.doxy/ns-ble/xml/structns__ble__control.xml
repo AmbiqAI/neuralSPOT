@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__ble__control" kind="struct" language="C++" prot="public">
+    <compoundname>ns_ble_control</compoundname>
+    <includes refid="ns__ble_8h" local="no">ns_ble.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__ble__control_1a3efca81284568dc8a2d6707dfa7addf8" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_ble_control::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_ble_control::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="185" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a1b826fcb2a96d1f8f60465872fed459c" prot="public" static="no" mutable="no">
+        <type>wsfHandlerId_t</type>
+        <definition>wsfHandlerId_t ns_ble_control::handlerId</definition>
+        <argsstring></argsstring>
+        <name>handlerId</name>
+        <qualifiedname>ns_ble_control::handlerId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="189" column="20" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1aa26a3297d5c89cada2b9a3c75c4b525c" prot="public" static="no" mutable="no">
+        <type>bool_t</type>
+        <definition>bool_t ns_ble_control::scanning</definition>
+        <argsstring></argsstring>
+        <name>scanning</name>
+        <qualifiedname>ns_ble_control::scanning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WSF hander ID </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="190" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a891aa69f7d48e7acc9ae347f22ad2cdf" prot="public" static="no" mutable="no">
+        <type>bool_t</type>
+        <definition>bool_t ns_ble_control::autoConnect</definition>
+        <argsstring></argsstring>
+        <name>autoConnect</name>
+        <qualifiedname>ns_ble_control::autoConnect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TRUE if scanning </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="191" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a01b27f9d7ff93da671bb5a9c685077f7" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_ble_control::discState</definition>
+        <argsstring></argsstring>
+        <name>discState</name>
+        <qualifiedname>ns_ble_control::discState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TRUE if auto-connecting </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="192" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a9b3fe058356bedc5c54953c9c3c0227a" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_ble_control::hdlListLen</definition>
+        <argsstring></argsstring>
+        <name>hdlListLen</name>
+        <qualifiedname>ns_ble_control::hdlListLen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Service discovery state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="193" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a89abcd771010dec69957bedbfa7b5195" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ns_ble_control::nextHandleId</definition>
+        <argsstring></argsstring>
+        <name>nextHandleId</name>
+        <qualifiedname>ns_ble_control::nextHandleId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cached handle list length </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="194" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a0cdf2e4d996a1d3f539a9cc0304ed089" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_ble_control::secureConnections</definition>
+        <argsstring></argsstring>
+        <name>secureConnections</name>
+        <qualifiedname>ns_ble_control::secureConnections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Next handle ID to allocate </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="197" column="10" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a3793318218e428182b4463f4a2edbd50" prot="public" static="no" mutable="no">
+        <type>appAdvCfg_t *</type>
+        <definition>appAdvCfg_t* ns_ble_control::advCfg</definition>
+        <argsstring></argsstring>
+        <name>advCfg</name>
+        <qualifiedname>ns_ble_control::advCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>TRUE to use secure connections </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="200" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a6e42b357154af4fb47620d936d94eace" prot="public" static="no" mutable="no">
+        <type>appSlaveCfg_t *</type>
+        <definition>appSlaveCfg_t* ns_ble_control::slaveCfg</definition>
+        <argsstring></argsstring>
+        <name>slaveCfg</name>
+        <qualifiedname>ns_ble_control::slaveCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Advertising configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="201" column="19" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1aca2a22dfa7c24011327976409458ab11" prot="public" static="no" mutable="no">
+        <type>appSecCfg_t *</type>
+        <definition>appSecCfg_t* ns_ble_control::secCfg</definition>
+        <argsstring></argsstring>
+        <name>secCfg</name>
+        <qualifiedname>ns_ble_control::secCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Master configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="202" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a28ea3d957796294d7a04f699222ea2fa" prot="public" static="no" mutable="no">
+        <type>appUpdateCfg_t *</type>
+        <definition>appUpdateCfg_t* ns_ble_control::updateCfg</definition>
+        <argsstring></argsstring>
+        <name>updateCfg</name>
+        <qualifiedname>ns_ble_control::updateCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Security configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="203" column="20" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a4e706e13a5d1463bd187da4e74e3d5e0" prot="public" static="no" mutable="no">
+        <type>smpCfg_t *</type>
+        <definition>smpCfg_t* ns_ble_control::smpCfg</definition>
+        <argsstring></argsstring>
+        <name>smpCfg</name>
+        <qualifiedname>ns_ble_control::smpCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Connection update configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="204" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a3e36c94294828d8e467c39f1e83c8744" prot="public" static="no" mutable="no">
+        <type>hciConnSpec_t *</type>
+        <definition>hciConnSpec_t* ns_ble_control::connCfg</definition>
+        <argsstring></argsstring>
+        <name>connCfg</name>
+        <qualifiedname>ns_ble_control::connCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SMP configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="205" column="19" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1af8dafaa70b3ec8708b5cf32f38dd8f9c" prot="public" static="no" mutable="no">
+        <type>appDiscCfg_t *</type>
+        <definition>appDiscCfg_t* ns_ble_control::appDiscCfg</definition>
+        <argsstring></argsstring>
+        <name>appDiscCfg</name>
+        <qualifiedname>ns_ble_control::appDiscCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Connection parameters </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="206" column="18" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a9feba4a35f7263e44f4a6a8521e11e9a" prot="public" static="no" mutable="no">
+        <type>appCfg_t *</type>
+        <definition>appCfg_t* ns_ble_control::appCfg</definition>
+        <argsstring></argsstring>
+        <name>appCfg</name>
+        <qualifiedname>ns_ble_control::appCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Discovery configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="207" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1af374d1dd7542955c36f2bbe7d4bb8c58" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-ble_1ga920541c95f3d9d465830557ea27158b7" kindref="member">ns_ble_service_control_t</ref> *</type>
+        <definition>ns_ble_service_control_t* ns_ble_control::service_config</definition>
+        <argsstring></argsstring>
+        <name>service_config</name>
+        <qualifiedname>ns_ble_control::service_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Application configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="210" column="30" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1ae9f98a88f8d642da8c376c3e3d7e9cf2" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref> *</type>
+        <definition>ns_ble_service_t* ns_ble_control::services[NS_BLE_MAX_SERVICES]</definition>
+        <argsstring>[NS_BLE_MAX_SERVICES]</argsstring>
+        <name>services</name>
+        <qualifiedname>ns_ble_control::services</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Service configuration </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="213" column="22" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__ble__control_1a9a395d459b3242b56a6d7cd08bc8523e" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ns_ble_control::numServices</definition>
+        <argsstring></argsstring>
+        <name>numServices</name>
+        <qualifiedname>ns_ble_control::numServices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Array of services </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="214" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>BLE Control block. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="8">
+        <label>ns_ble_characteristic</label>
+        <link refid="structns__ble__characteristic"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>uuid128</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>notifyHandlerCb</edgelabel>
+          <edgelabel>readHandlerCb</edgelabel>
+          <edgelabel>writeHandlerCb</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ns_ble_connection_t</label>
+        <link refid="structns__ble__connection__t"/>
+      </node>
+      <node id="1">
+        <label>ns_ble_control</label>
+        <link refid="structns__ble__control"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>service_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>services</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ns_ble_msg_t</label>
+        <link refid="unionns__ble__msg__t"/>
+      </node>
+      <node id="7">
+        <label>ns_ble_pool_config_t</label>
+        <link refid="structns__ble__pool__config__t"/>
+      </node>
+      <node id="5">
+        <label>ns_ble_service</label>
+        <link refid="structns__ble__service"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>uuid128</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>poolConfig</edgelabel>
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>control</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>characteristics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_ble_service_control</label>
+        <link refid="structns__ble__service__control"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>connection</edgelabel>
+        </childnode>
+        <childnode refid="1" relation="usage">
+          <edgelabel>service_init_cb</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>procMsg_cb</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>ns_ble_uuid128_t</label>
+        <link refid="structns__ble__uuid128__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="184" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="184" bodyend="215"/>
+    <listofallmembers>
+      <member refid="structns__ble__control_1a3793318218e428182b4463f4a2edbd50" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>advCfg</name></member>
+      <member refid="structns__ble__control_1a3efca81284568dc8a2d6707dfa7addf8" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>api</name></member>
+      <member refid="structns__ble__control_1a9feba4a35f7263e44f4a6a8521e11e9a" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>appCfg</name></member>
+      <member refid="structns__ble__control_1af8dafaa70b3ec8708b5cf32f38dd8f9c" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>appDiscCfg</name></member>
+      <member refid="structns__ble__control_1a891aa69f7d48e7acc9ae347f22ad2cdf" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>autoConnect</name></member>
+      <member refid="structns__ble__control_1a3e36c94294828d8e467c39f1e83c8744" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>connCfg</name></member>
+      <member refid="structns__ble__control_1a01b27f9d7ff93da671bb5a9c685077f7" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>discState</name></member>
+      <member refid="structns__ble__control_1a1b826fcb2a96d1f8f60465872fed459c" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>handlerId</name></member>
+      <member refid="structns__ble__control_1a9b3fe058356bedc5c54953c9c3c0227a" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>hdlListLen</name></member>
+      <member refid="structns__ble__control_1a89abcd771010dec69957bedbfa7b5195" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>nextHandleId</name></member>
+      <member refid="structns__ble__control_1a9a395d459b3242b56a6d7cd08bc8523e" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>numServices</name></member>
+      <member refid="structns__ble__control_1aa26a3297d5c89cada2b9a3c75c4b525c" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>scanning</name></member>
+      <member refid="structns__ble__control_1aca2a22dfa7c24011327976409458ab11" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>secCfg</name></member>
+      <member refid="structns__ble__control_1a0cdf2e4d996a1d3f539a9cc0304ed089" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>secureConnections</name></member>
+      <member refid="structns__ble__control_1af374d1dd7542955c36f2bbe7d4bb8c58" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>service_config</name></member>
+      <member refid="structns__ble__control_1ae9f98a88f8d642da8c376c3e3d7e9cf2" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>services</name></member>
+      <member refid="structns__ble__control_1a6e42b357154af4fb47620d936d94eace" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>slaveCfg</name></member>
+      <member refid="structns__ble__control_1a4e706e13a5d1463bd187da4e74e3d5e0" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>smpCfg</name></member>
+      <member refid="structns__ble__control_1a28ea3d957796294d7a04f699222ea2fa" prot="public" virt="non-virtual"><scope>ns_ble_control</scope><name>updateCfg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

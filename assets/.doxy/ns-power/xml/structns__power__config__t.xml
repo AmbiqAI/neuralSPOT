@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__power__config__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_power_config_t</compoundname>
+    <includes refid="ns__peripherals__power_8h" local="no">ns_peripherals_power.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_power_config_t::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_power_config_t::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="84" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-power_1gabd0847bd4ffca2198c2099c2b9888348" kindref="member">ns_power_mode_e</ref></type>
+        <definition>ns_power_mode_e ns_power_config_t::eAIPowerMode</definition>
+        <argsstring></argsstring>
+        <name>eAIPowerMode</name>
+        <qualifiedname>ns_power_config_t::eAIPowerMode</qualifiedname>
+        <briefdescription>
+<para>CPU power mode (controls clock speed, etc) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="85" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1ae3532732154ca0ed9cd239789fc76901" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedAudAdc</definition>
+        <argsstring></argsstring>
+        <name>bNeedAudAdc</name>
+        <qualifiedname>ns_power_config_t::bNeedAudAdc</qualifiedname>
+        <briefdescription>
+<para>Prevents AUDADC from being powered off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="86" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedSharedSRAM</definition>
+        <argsstring></argsstring>
+        <name>bNeedSharedSRAM</name>
+        <qualifiedname>ns_power_config_t::bNeedSharedSRAM</qualifiedname>
+        <briefdescription>
+<para>Prevents SSRAM from being powered off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="87" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a4a3a41cf06308b5e67c0a5ed5f97cc7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedCrypto</definition>
+        <argsstring></argsstring>
+        <name>bNeedCrypto</name>
+        <qualifiedname>ns_power_config_t::bNeedCrypto</qualifiedname>
+        <briefdescription>
+<para>Prevents Crypto from being powered off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="88" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a7ece590a2c4fedf77e8cdf70767882bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedBluetooth</definition>
+        <argsstring></argsstring>
+        <name>bNeedBluetooth</name>
+        <qualifiedname>ns_power_config_t::bNeedBluetooth</qualifiedname>
+        <briefdescription>
+<para>Prevents BLE from being powered off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="89" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedUSB</definition>
+        <argsstring></argsstring>
+        <name>bNeedUSB</name>
+        <qualifiedname>ns_power_config_t::bNeedUSB</qualifiedname>
+        <briefdescription>
+<para>Prevents USB from being powered off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="90" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a859bc288f4f3c4d65e28285c803cb95f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedIOM</definition>
+        <argsstring></argsstring>
+        <name>bNeedIOM</name>
+        <qualifiedname>ns_power_config_t::bNeedIOM</qualifiedname>
+        <briefdescription>
+<para>Prevents IOMx from being powered off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="91" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a0f96c87a4aa01b3ae12b2a19eb7701df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedAlternativeUART</definition>
+        <argsstring></argsstring>
+        <name>bNeedAlternativeUART</name>
+        <qualifiedname>ns_power_config_t::bNeedAlternativeUART</qualifiedname>
+        <briefdescription>
+<para>for EEMBC Power Control Module and similar </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="92" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::b128kTCM</definition>
+        <argsstring></argsstring>
+        <name>b128kTCM</name>
+        <qualifiedname>ns_power_config_t::b128kTCM</qualifiedname>
+        <briefdescription>
+<para>Only enable 128k when true, 384k otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="93" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bEnableTempCo</definition>
+        <argsstring></argsstring>
+        <name>bEnableTempCo</name>
+        <qualifiedname>ns_power_config_t::bEnableTempCo</qualifiedname>
+        <briefdescription>
+<para>Enable Temperature Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="94" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedITM</definition>
+        <argsstring></argsstring>
+        <name>bNeedITM</name>
+        <qualifiedname>ns_power_config_t::bNeedITM</qualifiedname>
+        <briefdescription>
+<para>Enable Temperature Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="95" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Power Mode Definitino. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="83" column="1" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="83" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>api</name></member>
+      <member refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>b128kTCM</name></member>
+      <member refid="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bEnableTempCo</name></member>
+      <member refid="structns__power__config__t_1a0f96c87a4aa01b3ae12b2a19eb7701df" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedAlternativeUART</name></member>
+      <member refid="structns__power__config__t_1ae3532732154ca0ed9cd239789fc76901" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedAudAdc</name></member>
+      <member refid="structns__power__config__t_1a7ece590a2c4fedf77e8cdf70767882bf" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedBluetooth</name></member>
+      <member refid="structns__power__config__t_1a4a3a41cf06308b5e67c0a5ed5f97cc7e" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedCrypto</name></member>
+      <member refid="structns__power__config__t_1a859bc288f4f3c4d65e28285c803cb95f" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedIOM</name></member>
+      <member refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedITM</name></member>
+      <member refid="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedSharedSRAM</name></member>
+      <member refid="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedUSB</name></member>
+      <member refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>eAIPowerMode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

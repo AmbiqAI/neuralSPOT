@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__desired__state__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_desired_state_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__desired__state__t_1a7259474b31bfc7c75c3df8a8ae4b20b9" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref> const  *</type>
+        <definition>ns_core_api_t const* ns_desired_state_t::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_desired_state_t::api</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="73" column="25" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1ab5458634881692d0b1dffd9755837c46" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::initialized</definition>
+        <argsstring></argsstring>
+        <name>initialized</name>
+        <qualifiedname>ns_desired_state_t::initialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="74" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1a171b7b378ac3825d95b5eb3f6a4f53a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::itmPrintWantsToBeEnabled</definition>
+        <argsstring></argsstring>
+        <name>itmPrintWantsToBeEnabled</name>
+        <qualifiedname>ns_desired_state_t::itmPrintWantsToBeEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="75" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1a18783da67d1c10aea7645667046da7bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::itmPrintCurrentlyEnabled</definition>
+        <argsstring></argsstring>
+        <name>itmPrintCurrentlyEnabled</name>
+        <qualifiedname>ns_desired_state_t::itmPrintCurrentlyEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="76" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1aa20d66b8381841c9b7a3af7a6be63311" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::tempcoWantsToBeEnabled</definition>
+        <argsstring></argsstring>
+        <name>tempcoWantsToBeEnabled</name>
+        <qualifiedname>ns_desired_state_t::tempcoWantsToBeEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="77" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1ac8196ac69f7c56f7d4f01d3db103eb74" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::tempcoCurrentlyEnabled</definition>
+        <argsstring></argsstring>
+        <name>tempcoCurrentlyEnabled</name>
+        <qualifiedname>ns_desired_state_t::tempcoCurrentlyEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="78" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1a376d1e394375d117db1a9f0393ab7035" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::cryptoWantsToBeEnabled</definition>
+        <argsstring></argsstring>
+        <name>cryptoWantsToBeEnabled</name>
+        <qualifiedname>ns_desired_state_t::cryptoWantsToBeEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="79" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1a9f40bd33a959b4bbf32ec089f1750d5e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::cryptoCurrentlyEnabled</definition>
+        <argsstring></argsstring>
+        <name>cryptoCurrentlyEnabled</name>
+        <qualifiedname>ns_desired_state_t::cryptoCurrentlyEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="80" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1ab84c5615f19cf010ae203b746d18bea9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::uartPrintWantsToBeEnabled</definition>
+        <argsstring></argsstring>
+        <name>uartPrintWantsToBeEnabled</name>
+        <qualifiedname>ns_desired_state_t::uartPrintWantsToBeEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="81" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1af81f511ec4a43a8f011a7157a7e76849" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::uartPrintCurrentlyEnabled</definition>
+        <argsstring></argsstring>
+        <name>uartPrintCurrentlyEnabled</name>
+        <qualifiedname>ns_desired_state_t::uartPrintCurrentlyEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="82" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>ns_core_api_t</label>
+        <link refid="structns__core__api__t"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ns_desired_state_t</label>
+        <link refid="structns__desired__state__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>api</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ns_semver_t</label>
+        <link refid="structns__semver__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="72" column="1" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="72" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structns__desired__state__t_1a7259474b31bfc7c75c3df8a8ae4b20b9" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>api</name></member>
+      <member refid="structns__desired__state__t_1a9f40bd33a959b4bbf32ec089f1750d5e" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>cryptoCurrentlyEnabled</name></member>
+      <member refid="structns__desired__state__t_1a376d1e394375d117db1a9f0393ab7035" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>cryptoWantsToBeEnabled</name></member>
+      <member refid="structns__desired__state__t_1ab5458634881692d0b1dffd9755837c46" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>initialized</name></member>
+      <member refid="structns__desired__state__t_1a18783da67d1c10aea7645667046da7bd" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>itmPrintCurrentlyEnabled</name></member>
+      <member refid="structns__desired__state__t_1a171b7b378ac3825d95b5eb3f6a4f53a6" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>itmPrintWantsToBeEnabled</name></member>
+      <member refid="structns__desired__state__t_1ac8196ac69f7c56f7d4f01d3db103eb74" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>tempcoCurrentlyEnabled</name></member>
+      <member refid="structns__desired__state__t_1aa20d66b8381841c9b7a3af7a6be63311" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>tempcoWantsToBeEnabled</name></member>
+      <member refid="structns__desired__state__t_1af81f511ec4a43a8f011a7157a7e76849" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>uartPrintCurrentlyEnabled</name></member>
+      <member refid="structns__desired__state__t_1ab84c5615f19cf010ae203b746d18bea9" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>uartPrintWantsToBeEnabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

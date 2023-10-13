@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__tempco_8h" kind="file" language="C++">
+    <compoundname>ns_tempco.h</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includedby refid="ns__power_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c</includedby>
+    <includedby refid="ns__tempco_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h</label>
+        <link refid="ns__tempco_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="5">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c</label>
+        <link refid="ns__tempco_8c"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h</label>
+        <link refid="ns__tempco_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__tempco_8h_1a8ce814d36457bea71230919c0c0e0cf9" prot="public" static="no">
+        <name>TEMPCO_ADC_TEMPERATURE_SLOT</name>
+        <initializer>5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="37" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__tempco_8h_1a5e3ebbc77dd3e9d68637efb1c3a207f6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_ns_tempco_ui32TempcoIsrRet</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempco_ui32TempcoIsrRet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="33" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="24" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="33" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8h_1a1e2463aa9f344f5ade772454992d8cf2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_ns_tempco_ui32TempcoADCslot</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempco_ui32TempcoADCslot</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="34" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="25" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="34" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8h_1a871e62b8b755f25f43d9725da5c5859e" prot="public" static="no" mutable="no">
+        <type>am_hal_adc_sample_t</type>
+        <definition>am_hal_adc_sample_t g_ns_tempco_sSamples[AM_HAL_TEMPCO_NUMSAMPLES]</definition>
+        <argsstring>[AM_HAL_TEMPCO_NUMSAMPLES]</argsstring>
+        <name>g_ns_tempco_sSamples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="35" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="26" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="35" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8h_1abe55c917fd1f79f20cfc9d0b006637c6" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* g_ns_tempco_ADCHandle</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempco_ADCHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="36" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="27" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="36" declcolumn="13"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__tempco_8h_1a443a4f5174c1ed55f6e489b354384c3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_tempco_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_tempco_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="39" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="50" bodyend="101" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="39" declcolumn="17"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Temperature Compensation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>your name (<ulink url="mailto:you@domain.com">you@domain.com</ulink>) </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-11-03</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(NS_AMBIQSUITE_VERSION_R4_1_0)<sp/>||<sp/>defined(AM_PART_APOLLO4L)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TEMPCO<sp/>not<sp/>supported<sp/>in<sp/>this<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>NS_TEMPCO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>NS_TEMPCO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Globals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>g_ns_tempco_ui32TempcoIsrRet;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>g_ns_tempco_ui32TempcoADCslot;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>am_hal_adc_sample_t<sp/>g_ns_tempco_sSamples[AM_HAL_TEMPCO_NUMSAMPLES];</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*g_ns_tempco_ADCHandle;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>TEMPCO_ADC_TEMPERATURE_SLOT<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>ns_tempco_init(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="group__ns-model" kind="group">
+    <compoundname>ns-model</compoundname>
+    <title>Ns-model</title>
+    <innerclass refid="structns__model__state__t" prot="public">ns_model_state_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-model_1gae97a396a8f9a5659c4ca4c49c85f0b2a" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_model_states_e</name>
+        <enumvalue id="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa6564f2f3e15be06b670547bbcaaf0798" prot="public">
+          <name>READY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2d0ab2296896fcb80babf4dadfd039a5" prot="public">
+          <name>NOT_READY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2fd6f336d08340583bd620a7f5694c90" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="38" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-model_1ga50b88f68884a4cf569728373e3cb3d4e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_model_runtime_e</name>
+        <enumvalue id="group__ns-model_1gga50b88f68884a4cf569728373e3cb3d4ea857b412fc355bdfa2f55f3dc81fc950b" prot="public">
+          <name>TFLM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="39" column="1" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_model_init</definition>
+        <argsstring>(ns_model_state_t *ms)</argsstring>
+        <name>ns_model_init</name>
+        <param>
+          <type><ref refid="structns__model__state__t" kindref="compound">ns_model_state_t</ref> *</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model state and configuration struct </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int status</para>
+</simplesect>
+Initialize the model.</para>
+<para>This code is fairly common across most TF-based models. The major differences relate to input and output tensor handling. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="82" column="12" bodyfile="neuralSPOT/neuralspot/ns-model/src/ns_model.cc" bodystart="41" bodyend="123" declfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" declline="82" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-model_1gaf308c397a3628cd18e404d027d7df7ee" prot="public" static="no">
+        <name>NS_MAX_INPUT_TENSORS</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="41" column="13" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-model_1ga4b733a69104ac8999af57dba1a089ea1" prot="public" static="no">
+        <name>NS_MAX_OUTPUT_TENSORS</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" line="42" column="13" bodyfile="neuralSPOT/neuralspot/ns-model/includes-api/ns_model.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

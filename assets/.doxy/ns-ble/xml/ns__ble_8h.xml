@@ -1,0 +1,1239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__ble_8h" kind="file" language="C++">
+    <compoundname>ns_ble.h</compoundname>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes local="yes">ns_malloc.h</includes>
+    <includes local="yes">wsf_types.h</includes>
+    <includes local="yes">wsf_buf.h</includes>
+    <includes local="yes">wsf_msg.h</includes>
+    <includes local="yes">wsf_trace.h</includes>
+    <includes local="yes">app_api.h</includes>
+    <includes local="yes">app_db.h</includes>
+    <includes local="yes">app_hw.h</includes>
+    <includes local="yes">app_ui.h</includes>
+    <includes local="yes">att_api.h</includes>
+    <includes local="yes">att_handler.h</includes>
+    <includes local="yes">bstream.h</includes>
+    <includes local="yes">dm_api.h</includes>
+    <includes local="yes">dm_handler.h</includes>
+    <includes local="yes">gatt_api.h</includes>
+    <includes local="yes">hci_api.h</includes>
+    <includes local="yes">l2c_api.h</includes>
+    <includes local="yes">l2c_handler.h</includes>
+    <includes local="yes">smp_api.h</includes>
+    <includes local="yes">smp_handler.h</includes>
+    <includes local="yes">svc_ch.h</includes>
+    <includes local="yes">svc_core.h</includes>
+    <includes local="yes">svc_dis.h</includes>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">string.h</includes>
+    <includes local="yes">hci_core.h</includes>
+    <includes local="yes">hci_drv_apollo.h</includes>
+    <includes local="yes">hci_drv_cooper.h</includes>
+    <includes local="yes">hci_handler.h</includes>
+    <includedby refid="ns__ble_8c" local="yes">neuralSPOT/neuralspot/ns-ble/src/ns_ble.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h</label>
+        <link refid="ns__ble_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>app_api.h</label>
+      </node>
+      <node id="9">
+        <label>app_db.h</label>
+      </node>
+      <node id="10">
+        <label>app_hw.h</label>
+      </node>
+      <node id="11">
+        <label>app_ui.h</label>
+      </node>
+      <node id="12">
+        <label>att_api.h</label>
+      </node>
+      <node id="13">
+        <label>att_handler.h</label>
+      </node>
+      <node id="14">
+        <label>bstream.h</label>
+      </node>
+      <node id="15">
+        <label>dm_api.h</label>
+      </node>
+      <node id="16">
+        <label>dm_handler.h</label>
+      </node>
+      <node id="17">
+        <label>gatt_api.h</label>
+      </node>
+      <node id="18">
+        <label>hci_api.h</label>
+      </node>
+      <node id="28">
+        <label>hci_core.h</label>
+      </node>
+      <node id="29">
+        <label>hci_drv_apollo.h</label>
+      </node>
+      <node id="30">
+        <label>hci_drv_cooper.h</label>
+      </node>
+      <node id="31">
+        <label>hci_handler.h</label>
+      </node>
+      <node id="19">
+        <label>l2c_api.h</label>
+      </node>
+      <node id="20">
+        <label>l2c_handler.h</label>
+      </node>
+      <node id="2">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="3">
+        <label>ns_malloc.h</label>
+      </node>
+      <node id="21">
+        <label>smp_api.h</label>
+      </node>
+      <node id="22">
+        <label>smp_handler.h</label>
+      </node>
+      <node id="26">
+        <label>stdbool.h</label>
+      </node>
+      <node id="27">
+        <label>string.h</label>
+      </node>
+      <node id="23">
+        <label>svc_ch.h</label>
+      </node>
+      <node id="24">
+        <label>svc_core.h</label>
+      </node>
+      <node id="25">
+        <label>svc_dis.h</label>
+      </node>
+      <node id="5">
+        <label>wsf_buf.h</label>
+      </node>
+      <node id="6">
+        <label>wsf_msg.h</label>
+      </node>
+      <node id="7">
+        <label>wsf_trace.h</label>
+      </node>
+      <node id="4">
+        <label>wsf_types.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h</label>
+        <link refid="ns__ble_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-ble/src/ns_ble.c</label>
+        <link refid="ns__ble_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="unionns__ble__msg__t" prot="public">ns_ble_msg_t</innerclass>
+    <innerclass refid="structns__ble__connection__t" prot="public">ns_ble_connection_t</innerclass>
+    <innerclass refid="structns__ble__service__control" prot="public">ns_ble_service_control</innerclass>
+    <innerclass refid="structns__ble__control" prot="public">ns_ble_control</innerclass>
+    <innerclass refid="structns__ble__uuid128__t" prot="public">ns_ble_uuid128_t</innerclass>
+    <innerclass refid="structns__ble__pool__config__t" prot="public">ns_ble_pool_config_t</innerclass>
+    <innerclass refid="structns__ble__service" prot="public">ns_ble_service</innerclass>
+    <innerclass refid="structns__ble__characteristic" prot="public">ns_ble_characteristic</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-ble_1ga6ee69a7a5a48ce93cc3c8c326eb563d9" prot="public" static="no">
+        <name>NS_BLE_V0_0_1</name>
+        <initializer>        { .major = 0, .minor = 0, .revision = 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="58" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga8d3190efebb5d2079f761fa2f207a2ad" prot="public" static="no">
+        <name>NS_BLE_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_BLE_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="61" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1gafbbbbfa480e630dde4434619632402bf" prot="public" static="no">
+        <name>NS_BLE_CURRENT_VERSION</name>
+        <initializer>NS_BLE_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="62" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1gaebad2eb29e74b6ef383d516eeab42a83" prot="public" static="no">
+        <name>NS_BLE_API_ID</name>
+        <initializer>0xCA0008</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="63" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1gafbc976780cbeb3343e7c0b94d28dbc3d" prot="public" static="no">
+        <name>NS_BLE_CHAR_DECL</name>
+        <param><defname>_char</defname></param>
+        <initializer>        {                                                                                          \
+            .pUuid = attChUuid, .pValue = (uint8_t *)_char##Ch, .pLen = (uint16_t *)&amp;_char##ChLen, \
+            .maxLen = sizeof(_char##Ch), .settings = 0, .permissions = ATTS_PERMIT_READ,           \
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga01c8ed5a9f2bed6f986718fa6f3df1a8" prot="public" static="no">
+        <name>NS_BLE_CHAR_VAL</name>
+        <param><defname>_prop</defname></param>
+        <param><defname>_settings</defname></param>
+        <param><defname>_permissions</defname></param>
+        <initializer>        {                                                                                          \
+            .pUuid = _prop##ChUuid, .pValue = (uint8_t *)_prop##ChData,                            \
+            .pLen = (uint16_t *)&amp;_prop##ChDataLen, .maxLen = sizeof(_prop##ChData),                \
+            .settings = _settings, .permissions = _permissions,                                    \
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="76" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga5fd8c9260eb21ef9033c3790621b6f2f" prot="public" static="no">
+        <name>NS_BLE_CCC_DECL</name>
+        <param><defname>_prop</defname></param>
+        <initializer>        {                                                                                          \
+            .pUuid = attCliChCfgUuid, .pValue = (uint8_t *)_prop##ChCcc,                           \
+            .pLen = (uint16_t *)&amp;_prop##ChCccLen, .maxLen = sizeof(_prop##ChCcc),                  \
+            .settings = ATTS_SET_CCC, .permissions = (ATTS_PERMIT_READ | ATTS_PERMIT_WRITE),       \
+        }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="83" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga7a134507be37cb20b2a2258c9c6b36fb" prot="public" static="no">
+        <name>NS_BLE_ATT_UUID_PREAMBLE</name>
+        <initializer>0x00, 0x00, 0xb1, 0x19</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Base UUID: 00002760-08C2-11E1-9073-0E8AC72EXXXX</para>
+<para>Base UUID: 00002760-08C2-11E1-9073-0E8AC72EXXXX </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="96" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga3c5f6d5e6c61f8932a99e6fa2352c3e1" prot="public" static="no">
+        <name>NS_BLE_ATT_UUID_POSTAMBLE</name>
+        <initializer>0x14, 0x12, 0x8a, 0x76, 0x04, 0xd1, 0x6c, 0x4f, 0x7e, 0x53</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="97" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1gada3da08d6da9d2bddc9ad139e6574eff" prot="public" static="no">
+        <name>NS_BLE_ATT_UUID_BUILD</name>
+        <param><defname>part</defname></param>
+        <initializer>        NS_BLE_ATT_UUID_POSTAMBLE, UINT16_TO_BYTES(part), <ref refid="group__ns-ble_1ga7a134507be37cb20b2a2258c9c6b36fb" kindref="member">NS_BLE_ATT_UUID_PREAMBLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="98" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga8557b03a9f2f4bee4e13872fc694a394" prot="public" static="no">
+        <name>NS_BLE_CONN_MAX</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="102" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-ble_1ga12fa0fec46e353302b55c9249936d4ec" prot="public" static="no">
+        <name>NS_BLE_MAX_SERVICES</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="105" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-ble_1ga06fc87d81c62e9abb8790b6e5713c55b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>@0</name>
+        <enumvalue id="group__ns-ble_1gga06fc87d81c62e9abb8790b6e5713c55ba5f04a9de7135650ae8ef130ea3187471" prot="public">
+          <name>NS_BLE_READ</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-ble_1gga06fc87d81c62e9abb8790b6e5713c55baa8db26d2b01d3238dbe4992d99b70b04" prot="public">
+          <name>NS_BLE_WRITE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-ble_1gga06fc87d81c62e9abb8790b6e5713c55ba80d71f487e2d163273ed64241bcaf7e5" prot="public">
+          <name>NS_BLE_NOTIFY</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-ble_1gga06fc87d81c62e9abb8790b6e5713c55baaf126f792073238ed40a27d7f33f95d0" prot="public">
+          <name>NS_BLE_PROP_MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="333" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="333" bodyend="338"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__ns-ble_1ga2d09c83fc3db80f9628164d63f9275dd" prot="public" static="no">
+        <type>struct <ref refid="structns__ble__control" kindref="compound">ns_ble_control</ref></type>
+        <definition>typedef struct ns_ble_control ns_ble_control_t</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_control_t</name>
+        <briefdescription>
+<para>BLE Control block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="108" column="29" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1ga920541c95f3d9d465830557ea27158b7" prot="public" static="no">
+        <type>struct <ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control</ref></type>
+        <definition>typedef struct ns_ble_service_control ns_ble_service_control_t</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_service_control_t</name>
+        <briefdescription>
+<para>BLE Service control block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="109" column="37" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" prot="public" static="no">
+        <type>struct <ref refid="structns__ble__service" kindref="compound">ns_ble_service</ref></type>
+        <definition>typedef struct ns_ble_service ns_ble_service_t</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_service_t</name>
+        <briefdescription>
+<para>BLE Service Configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="110" column="29" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1gad34f274f3cf9476769c250ffaf89150d" prot="public" static="no">
+        <type>struct <ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref></type>
+        <definition>typedef struct ns_ble_characteristic ns_ble_characteristic_t</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_characteristic_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="111" column="36" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1ga46d52e18a77e6eded405955ee3ef5a68" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_ble_service_specific_handler_cb) (wsfEventMask_t event, wsfMsgHdr_t *pMsg)</definition>
+        <argsstring>)(wsfEventMask_t event, wsfMsgHdr_t *pMsg)</argsstring>
+        <name>ns_ble_service_specific_handler_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="120" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1ga8e61171342196cbf569b6e6b42397403" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_ble_service_specific_handler_init_cb) (wsfHandlerId_t handlerId)</definition>
+        <argsstring>)(wsfHandlerId_t handlerId)</argsstring>
+        <name>ns_ble_service_specific_handler_init_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="121" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1gaefe1f38709c259fbe203fa40a836b53a" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_ble_service_specific_init_cb) (wsfHandlerId_t handlerId, struct ns_ble_control *generic_cfg, struct ns_ble_service_control *specific_cfg)</definition>
+        <argsstring>)(wsfHandlerId_t handlerId, struct ns_ble_control *generic_cfg, struct ns_ble_service_control *specific_cfg)</argsstring>
+        <name>ns_ble_service_specific_init_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="122" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1gad3a14275639f009add39e512a9cb6a3d" prot="public" static="no">
+        <type>bool(*</type>
+        <definition>typedef bool(* ns_ble_service_specific_procMsg_cb) (ns_ble_msg_t *pMsg)</definition>
+        <argsstring>)(ns_ble_msg_t *pMsg)</argsstring>
+        <name>ns_ble_service_specific_procMsg_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="125" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1ga68f89ffab27e5e7bcb3b15f92b2bb382" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* ns_ble_characteristic_read_handler_t) (ns_ble_service_t *, ns_ble_characteristic_t *, void *)</definition>
+        <argsstring>)(ns_ble_service_t *, ns_ble_characteristic_t *, void *)</argsstring>
+        <name>ns_ble_characteristic_read_handler_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="286" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1gaae566db6bbcf37613820963c7caa78df" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* ns_ble_characteristic_write_handler_t) (ns_ble_service_t *, ns_ble_characteristic_t *, void *)</definition>
+        <argsstring>)(ns_ble_service_t *, ns_ble_characteristic_t *, void *)</argsstring>
+        <name>ns_ble_characteristic_write_handler_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="288" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-ble_1ga12d9bcdcbbdec77d9304269a2f47d97e" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* ns_ble_characteristic_notify_handler_t) (ns_ble_service_t *, ns_ble_characteristic_t *)</definition>
+        <argsstring>)(ns_ble_service_t *, ns_ble_characteristic_t *)</argsstring>
+        <name>ns_ble_characteristic_notify_handler_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="290" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-ble_1ga04b5b9c9cffcfe8faf0aaf3b3044af61" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_ble_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_V0_0_1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="65" column="28" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="13" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="65" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-ble_1ga9f474d2961e77b929735c2ea9c001d81" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_ble_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="66" column="28" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="66" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-ble_1ga1ab7f44e8e07a6432ab8d76c04414562" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_ble_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_ble_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="67" column="28" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="67" declcolumn="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-ble_1ga394d3804a93c2f0e3e658f9260d82300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_pre_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_ble_pre_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Call this function from the setup_task, prior to creating the RadioTask All this does is set up NVIC priorities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="344" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="552" bodyend="556" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="344" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_ble_create_service</definition>
+        <argsstring>(ns_ble_service_t *s)</argsstring>
+        <name>ns_ble_create_service</name>
+        <param>
+          <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Create a BLE service based on the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to a service configuration struct. Relevant fields are:<itemizedlist>
+<listitem><para>uuid128: a 128-bit UUID for the service</para>
+</listitem><listitem><para>name: a string name for the service, up to 31 characters</para>
+</listitem><listitem><para>nameLen: the length of the name string</para>
+</listitem><listitem><para>baseHandle: the first handle ID of the service. This is used by BLE to identify attributes of the service</para>
+</listitem><listitem><para>numAttributes: keeps track of the number of attributes in the service. Initialize to 0.</para>
+</listitem><listitem><para>poolConfig: a pointer to a WSF pool configuration struct. </para>
+</listitem></itemizedlist>
+</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="359" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="732" bodyend="843" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="359" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_ble_create_characteristic</definition>
+        <argsstring>(ns_ble_characteristic_t *c, char const *uuidString, void *applicationValue, uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb, ns_ble_characteristic_write_handler_t writeHandlerCb, ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs, uint16_t *attributeCount)</argsstring>
+        <name>ns_ble_create_characteristic</name>
+        <param>
+          <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>char const *</type>
+          <declname>uuidString</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>applicationValue</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>valueLength</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>properties</declname>
+        </param>
+        <param>
+          <type>ns_ble_characteristic_read_handler_t</type>
+          <declname>readHandlerCb</declname>
+        </param>
+        <param>
+          <type>ns_ble_characteristic_write_handler_t</type>
+          <declname>writeHandlerCb</declname>
+        </param>
+        <param>
+          <type>ns_ble_characteristic_notify_handler_t</type>
+          <declname>notifyHandlerCb</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>periodMs</declname>
+        </param>
+        <param>
+          <type>uint16_t *</type>
+          <declname>attributeCount</declname>
+        </param>
+        <briefdescription>
+<para>Define a characteristic for subsequent addition to a service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- config struct, populated by this function </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>uuidString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a 16-byte UUID string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>applicationValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to the application&apos;s value store </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valueLength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- the length of the value store, in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>properties</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a bitmask of properties for the characteristic, from the enum above </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>readHandlerCb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a callback function for read requests if the characteristic is readable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>writeHandlerCb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a callback function for write requests if the characteristic is writable </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>notifyHandlerCb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a callback function for notify requests if the characteristic is &quot;subscribe-able&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>periodMs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- the period of the notify timer, in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attributeCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to the service&apos;s attribute count. This is incremented by the function. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="378" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="846" bodyend="933" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="378" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_ble_add_characteristic</definition>
+        <argsstring>(ns_ble_service_t *s, ns_ble_characteristic_t *c)</argsstring>
+        <name>ns_ble_add_characteristic</name>
+        <param>
+          <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Add a characteristic to a service. This function should be called after all characteristics have been defined using ns_ble_create_characteristic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to the service to which the characteristic should be added </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to the characteristic to be added</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="394" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="935" bodyend="976" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="394" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_ble_char2uuid</definition>
+        <argsstring>(const char uuidString[16], ns_ble_uuid128_t *uuid128)</argsstring>
+        <name>ns_ble_char2uuid</name>
+        <param>
+          <type>const char</type>
+          <declname>uuidString</declname>
+          <array>[16]</array>
+        </param>
+        <param>
+          <type><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref> *</type>
+          <declname>uuid128</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to convert a 16-byte UUID string to a 128-bit UUID byte array. UUID string must be exactly 16 characters long and only contain hex characters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>uuidString</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a 16-byte UUID string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>uuid128</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to a 128-bit UUID byte array (uuid128.array) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="404" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="658" bodyend="688" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="404" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_ble_start_service</definition>
+        <argsstring>(ns_ble_service_t *s)</argsstring>
+        <name>ns_ble_start_service</name>
+        <param>
+          <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Invoked by RadioTask to start the service. This function should be called after all characteristics have been added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- a pointer to the service to be started </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="413" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="978" bodyend="996" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="413" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Generic BLE Wrapper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ambiq Team </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2023-06-08</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2023 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_BLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_malloc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;wsf_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;wsf_buf.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;wsf_msg.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;wsf_trace.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;app_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;app_db.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;app_hw.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;app_ui.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;att_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;att_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;bstream.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;dm_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;dm_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;gatt_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;hci_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;l2c_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;l2c_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;smp_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;smp_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;svc_ch.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;svc_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;svc_dis.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;att_api.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;hci_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;hci_drv_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;hci_drv_cooper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;hci_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>***<sp/>Versions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_V0_0_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="59"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>0,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>1<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_OLDEST_SUPPORTED_VERSION<sp/>NS_BLE_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_CURRENT_VERSION<sp/>NS_BLE_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_API_ID<sp/>0xCA0008</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_ble_V0_0_1;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_ble_oldest_supported_version;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_ble_current_version;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>***<sp/>Helper<sp/>Macros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_CHAR_DECL(_char)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="71"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="72"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pUuid<sp/>=<sp/>attChUuid,<sp/>.pValue<sp/>=<sp/>(uint8_t<sp/>*)_char##Ch,<sp/>.pLen<sp/>=<sp/>(uint16_t<sp/>*)&amp;_char##ChLen,<sp/>\</highlight></codeline>
+<codeline lineno="73"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.maxLen<sp/>=<sp/>sizeof(_char##Ch),<sp/>.settings<sp/>=<sp/>0,<sp/>.permissions<sp/>=<sp/>ATTS_PERMIT_READ,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="74"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_CHAR_VAL(_prop,<sp/>_settings,<sp/>_permissions)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="77"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="78"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pUuid<sp/>=<sp/>_prop##ChUuid,<sp/>.pValue<sp/>=<sp/>(uint8_t<sp/>*)_prop##ChData,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="79"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pLen<sp/>=<sp/>(uint16_t<sp/>*)&amp;_prop##ChDataLen,<sp/>.maxLen<sp/>=<sp/>sizeof(_prop##ChData),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="80"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.settings<sp/>=<sp/>_settings,<sp/>.permissions<sp/>=<sp/>_permissions,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="81"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_CCC_DECL(_prop)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="84"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="85"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pUuid<sp/>=<sp/>attCliChCfgUuid,<sp/>.pValue<sp/>=<sp/>(uint8_t<sp/>*)_prop##ChCcc,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="86"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.pLen<sp/>=<sp/>(uint16_t<sp/>*)&amp;_prop##ChCccLen,<sp/>.maxLen<sp/>=<sp/>sizeof(_prop##ChCcc),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="87"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.settings<sp/>=<sp/>ATTS_SET_CCC,<sp/>.permissions<sp/>=<sp/>(ATTS_PERMIT_READ<sp/>|<sp/>ATTS_PERMIT_WRITE),<sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="88"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#define<sp/>NS_BLE_ATT_UUID_BASE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>0x2E,<sp/>0xC7,<sp/>0x8A,<sp/>0x0E,<sp/>0x73,<sp/>0x90,<sp/>0xE1,<sp/>0x11,<sp/>0xC2,<sp/>0x08,<sp/>0x60,<sp/>0x27,<sp/>0x00,<sp/>0x00</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#define<sp/>NS_BLE_ATT_UUID_BUILD(part)<sp/>UINT16_TO_BYTES(part),<sp/>NS_BLE_ATT_UUID_BASE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="group__ns-ble_1ga7a134507be37cb20b2a2258c9c6b36fb" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_ATT_UUID_PREAMBLE<sp/>0x00,<sp/>0x00,<sp/>0xb1,<sp/>0x19</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_ATT_UUID_POSTAMBLE<sp/>0x14,<sp/>0x12,<sp/>0x8a,<sp/>0x76,<sp/>0x04,<sp/>0xd1,<sp/>0x6c,<sp/>0x4f,<sp/>0x7e,<sp/>0x53</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_ATT_UUID_BUILD(part)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="99"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NS_BLE_ATT_UUID_POSTAMBLE,<sp/>UINT16_TO_BYTES(part),<sp/>NS_BLE_ATT_UUID_PREAMBLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>NS_BLE_CONN_MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_CONN_MAX<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_BLE_MAX_SERVICES<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>***<sp/>Typedefs<sp/>Prototypes<sp/>(for<sp/>callbacks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="group__ns-ble_1ga2d09c83fc3db80f9628164d63f9275dd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__control" kindref="compound">ns_ble_control</ref><sp/><ref refid="structns__ble__control" kindref="compound">ns_ble_control_t</ref>;</highlight></codeline>
+<codeline lineno="109" refid="group__ns-ble_1ga920541c95f3d9d465830557ea27158b7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control</ref><sp/><ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control_t</ref>;</highlight></codeline>
+<codeline lineno="110" refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__service" kindref="compound">ns_ble_service</ref><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="unionns__ble__msg__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfMsgHdr_t<sp/>hdr;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>dmEvt_t<sp/>dm;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>attsCccEvt_t<sp/>ccc;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>attEvt_t<sp/>att;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}<sp/><ref refid="unionns__ble__msg__t" kindref="compound">ns_ble_msg_t</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*ns_ble_service_specific_handler_cb)(wsfEventMask_t<sp/>event,<sp/>wsfMsgHdr_t<sp/>*pMsg);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*ns_ble_service_specific_handler_init_cb)(wsfHandlerId_t<sp/>handlerId);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*ns_ble_service_specific_init_cb)(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfHandlerId_t<sp/>handlerId,<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__control" kindref="compound">ns_ble_control</ref><sp/>*generic_cfg,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control</ref><sp/>*specific_cfg);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>bool<sp/>(*ns_ble_service_specific_procMsg_cb)(<ref refid="unionns__ble__msg__t" kindref="compound">ns_ble_msg_t</ref><sp/>*pMsg);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structns__ble__connection__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>appDbHdl_t<sp/>dbHdl;<sp/></highlight></codeline>
+<codeline lineno="134" refid="structns__ble__connection__t_1a6dd52fd42c68b46fd819c0f57278e9cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__connection__t_1a6dd52fd42c68b46fd819c0f57278e9cb" kindref="member">addrType</ref>;<sp/></highlight></codeline>
+<codeline lineno="135" refid="structns__ble__connection__t_1a0a0dba38b8f13d8236a149c6e14c057c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>bdAddr_t<sp/><ref refid="structns__ble__connection__t_1a0a0dba38b8f13d8236a149c6e14c057c" kindref="member">addr</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structns__ble__connection__t_1ad210a40e7d3cb128b3b1a5bfa11a22e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>bool_t<sp/><ref refid="structns__ble__connection__t_1ad210a40e7d3cb128b3b1a5bfa11a22e9" kindref="member">doConnect</ref>;<sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}<sp/><ref refid="structns__ble__connection__t" kindref="compound">ns_ble_connection_t</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structns__ble__service__control" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfHandlerId_t<sp/>handlerId;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="structns__ble__service__control_1ab79bd70f3f80597c965b6aa18cf98974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>bool_t<sp/><ref refid="structns__ble__service__control_1ab79bd70f3f80597c965b6aa18cf98974" kindref="member">scanning</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146" refid="structns__ble__service__control_1ac9ae7e0c4ade03c806799e7bba58959b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>bool_t<sp/><ref refid="structns__ble__service__control_1ac9ae7e0c4ade03c806799e7bba58959b" kindref="member">autoConnect</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147" refid="structns__ble__service__control_1ac87659b7dec09dc57d045701a7369b4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__service__control_1ac87659b7dec09dc57d045701a7369b4d" kindref="member">discState</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="structns__ble__service__control_1ac54a160b086d54fdc6d309526974f8f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__service__control_1ac54a160b086d54fdc6d309526974f8f9" kindref="member">hdlListLen</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="structns__ble__service__control_1ac50e12ddec4972f0a42ada439e018b41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__connection__t" kindref="compound">ns_ble_connection_t</ref><sp/>*<ref refid="structns__ble__service__control_1ac50e12ddec4972f0a42ada439e018b41" kindref="member">connection</ref>;<sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Service<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WSF<sp/>Service<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structns__ble__service__control_1a24264e78dcc841e66cf4c9c968332646" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>attsGroup_t<sp/>*<ref refid="structns__ble__service__control_1a24264e78dcc841e66cf4c9c968332646" kindref="member">group</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structns__ble__service__control_1ad5ebc885a71f2947df034719584ee1e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>*<ref refid="structns__ble__service__control_1ad5ebc885a71f2947df034719584ee1e4" kindref="member">list</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="structns__ble__service__control_1aa74ef224dc817f25e9f03c5eac4b95a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>attsCccSet_t<sp/>*<ref refid="structns__ble__service__control_1aa74ef224dc817f25e9f03c5eac4b95a5" kindref="member">cccSet</ref>;<sp/></highlight></codeline>
+<codeline lineno="156" refid="structns__ble__service__control_1ae99d0a984b032d72b29bf98cf4773c90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__ble__service__control_1ae99d0a984b032d72b29bf98cf4773c90" kindref="member">cccCount</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Advertising<sp/>Data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structns__ble__service__control_1a337cc1200910717772442c01cd18e0df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__ble__service__control_1a337cc1200910717772442c01cd18e0df" kindref="member">advData</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="structns__ble__service__control_1a93a556ecde4ac7126d72947bd94a31be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__service__control_1a93a556ecde4ac7126d72947bd94a31be" kindref="member">advDataLen</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structns__ble__service__control_1a0669d7cba536e72a7dd52c356190c827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__ble__service__control_1a0669d7cba536e72a7dd52c356190c827" kindref="member">scanData</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="structns__ble__service__control_1ab9e133e32ee4e3ce5d77efa715bfedc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__service__control_1ab9e133e32ee4e3ce5d77efa715bfedc8" kindref="member">scanDataLen</ref>;<sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Service<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>attsReadCback_t<sp/>read_cb;<sp/>/*!<sp/>Read<sp/>callback<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structns__ble__service__control_1a2b898960898c8f3e5e8142dab3113885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_service_specific_handler_cb<sp/><ref refid="structns__ble__service__control_1a2b898960898c8f3e5e8142dab3113885" kindref="member">handler_cb</ref>;<sp/></highlight></codeline>
+<codeline lineno="168" refid="structns__ble__service__control_1a549a60f1913f66e99e5939f92c2b534d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_service_specific_handler_init_cb<sp/><ref refid="structns__ble__service__control_1a549a60f1913f66e99e5939f92c2b534d" kindref="member">handler_init_cb</ref>;<sp/></highlight></codeline>
+<codeline lineno="169" refid="structns__ble__service__control_1a6dbb4dd9cd0defb1faceac0065bd848c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_service_specific_init_cb<sp/><ref refid="structns__ble__service__control_1a6dbb4dd9cd0defb1faceac0065bd848c" kindref="member">service_init_cb</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170" refid="structns__ble__service__control_1ac9a672b0658da8442bb6de78c86e8670" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_service_specific_procMsg_cb<sp/><ref refid="structns__ble__service__control_1ac9a672b0658da8442bb6de78c86e8670" kindref="member">procMsg_cb</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WSF<sp/>Buffers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structns__ble__service__control_1a6524f3a415b1e41c586f68c0323834e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__service__control_1a6524f3a415b1e41c586f68c0323834e9" kindref="member">wsfBufCount</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="structns__ble__service__control_1a01255fb6f4d008ac2af9db43a378f3db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>*<ref refid="structns__ble__service__control_1a01255fb6f4d008ac2af9db43a378f3db" kindref="member">bufferPool</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="structns__ble__service__control_1a6959efb114de194508cccf7e83933df5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__ble__service__control_1a6959efb114de194508cccf7e83933df5" kindref="member">bufferPoolSize</ref>;<sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfBufPoolDesc_t</highlight></codeline>
+<codeline lineno="177" refid="structns__ble__service__control_1a45e1acdd8306ebceba60160692bac43e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<ref refid="structns__ble__service__control_1a45e1acdd8306ebceba60160692bac43e" kindref="member">bufferDescriptors</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="structns__ble__service__control_1a4c36538f7bf17f1a431212afa0c9db45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__ble__service__control_1a4c36538f7bf17f1a431212afa0c9db45" kindref="member">bufferDescriptorsSize</ref>;<sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/><ref refid="group__ns-ble_1ga920541c95f3d9d465830557ea27158b7" kindref="member">ns_ble_service_control_t</ref>;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="structns__ble__control" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__control" kindref="compound">ns_ble_control</ref><sp/>{</highlight></codeline>
+<codeline lineno="185" refid="structns__ble__control_1a3efca81284568dc8a2d6707dfa7addf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*<ref refid="structns__ble__control_1a3efca81284568dc8a2d6707dfa7addf8" kindref="member">api</ref>;<sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint16_t<sp/>hdlList[APP_DB_HDL_LIST_LEN];<sp/>/*!<sp/>Cached<sp/>handle<sp/>list<sp/>*/<sp/>(needed?)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfHandlerId_t<sp/>handlerId;<sp/></highlight></codeline>
+<codeline lineno="190" refid="structns__ble__control_1aa26a3297d5c89cada2b9a3c75c4b525c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>bool_t<sp/><ref refid="structns__ble__control_1aa26a3297d5c89cada2b9a3c75c4b525c" kindref="member">scanning</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="structns__ble__control_1a891aa69f7d48e7acc9ae347f22ad2cdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>bool_t<sp/><ref refid="structns__ble__control_1a891aa69f7d48e7acc9ae347f22ad2cdf" kindref="member">autoConnect</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="structns__ble__control_1a01b27f9d7ff93da671bb5a9c685077f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__control_1a01b27f9d7ff93da671bb5a9c685077f7" kindref="member">discState</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="structns__ble__control_1a9b3fe058356bedc5c54953c9c3c0227a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__control_1a9b3fe058356bedc5c54953c9c3c0227a" kindref="member">hdlListLen</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="structns__ble__control_1a89abcd771010dec69957bedbfa7b5195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__control_1a89abcd771010dec69957bedbfa7b5195" kindref="member">nextHandleId</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structns__ble__control_1a0cdf2e4d996a1d3f539a9cc0304ed089" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structns__ble__control_1a0cdf2e4d996a1d3f539a9cc0304ed089" kindref="member">secureConnections</ref>;<sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WSF<sp/>Config<sp/>Structs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="structns__ble__control_1a3793318218e428182b4463f4a2edbd50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>appAdvCfg_t<sp/>*<ref refid="structns__ble__control_1a3793318218e428182b4463f4a2edbd50" kindref="member">advCfg</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201" refid="structns__ble__control_1a6e42b357154af4fb47620d936d94eace" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>appSlaveCfg_t<sp/>*<ref refid="structns__ble__control_1a6e42b357154af4fb47620d936d94eace" kindref="member">slaveCfg</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202" refid="structns__ble__control_1aca2a22dfa7c24011327976409458ab11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>appSecCfg_t<sp/>*<ref refid="structns__ble__control_1aca2a22dfa7c24011327976409458ab11" kindref="member">secCfg</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203" refid="structns__ble__control_1a28ea3d957796294d7a04f699222ea2fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>appUpdateCfg_t<sp/>*<ref refid="structns__ble__control_1a28ea3d957796294d7a04f699222ea2fa" kindref="member">updateCfg</ref>;<sp/></highlight></codeline>
+<codeline lineno="204" refid="structns__ble__control_1a4e706e13a5d1463bd187da4e74e3d5e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>smpCfg_t<sp/>*<ref refid="structns__ble__control_1a4e706e13a5d1463bd187da4e74e3d5e0" kindref="member">smpCfg</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205" refid="structns__ble__control_1a3e36c94294828d8e467c39f1e83c8744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>hciConnSpec_t<sp/>*<ref refid="structns__ble__control_1a3e36c94294828d8e467c39f1e83c8744" kindref="member">connCfg</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206" refid="structns__ble__control_1af8dafaa70b3ec8708b5cf32f38dd8f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>appDiscCfg_t<sp/>*<ref refid="structns__ble__control_1af8dafaa70b3ec8708b5cf32f38dd8f9c" kindref="member">appDiscCfg</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="207" refid="structns__ble__control_1a9feba4a35f7263e44f4a6a8521e11e9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>appCfg_t<sp/>*<ref refid="structns__ble__control_1a9feba4a35f7263e44f4a6a8521e11e9a" kindref="member">appCfg</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Service<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structns__ble__control_1af374d1dd7542955c36f2bbe7d4bb8c58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control_t</ref><sp/>*<ref refid="structns__ble__control_1af374d1dd7542955c36f2bbe7d4bb8c58" kindref="member">service_config</ref>;<sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>API<sp/>------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="structns__ble__control_1ae9f98a88f8d642da8c376c3e3d7e9cf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*<ref refid="structns__ble__control_1ae9f98a88f8d642da8c376c3e3d7e9cf2" kindref="member">services</ref>[NS_BLE_MAX_SERVICES];<sp/></highlight></codeline>
+<codeline lineno="214" refid="structns__ble__control_1a9a395d459b3242b56a6d7cd08bc8523e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__control_1a9a395d459b3242b56a6d7cd08bc8523e" kindref="member">numServices</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}<sp/><ref refid="group__ns-ble_1ga2d09c83fc3db80f9628164d63f9275dd" kindref="member">ns_ble_control_t</ref>;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NS<sp/>BLE<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="structns__ble__uuid128__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>array[16];</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}<sp/><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="structns__ble__pool__config__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>*pool;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>poolSize;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfBufPoolDesc_t<sp/>*desc;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>descNum;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/><ref refid="structns__ble__pool__config__t" kindref="compound">ns_ble_pool_config_t</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="structns__ble__service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__service" kindref="compound">ns_ble_service</ref><sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref><sp/>uuid128;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247" refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>[31];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248" refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249" refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250" refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251" refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252" refid="structns__ble__service_1a511050a682d655a2b86970c986b0e725" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__pool__config__t" kindref="compound">ns_ble_pool_config_t</ref><sp/>*<ref refid="structns__ble__service_1a511050a682d655a2b86970c986b0e725" kindref="member">poolConfig</ref>;<sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internals<sp/>-<sp/>the<sp/>following<sp/>is<sp/>initialized<sp/>internally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="structns__ble__service_1ad15f8c0f544713a70876c3013bef6d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__service_1ad15f8c0f544713a70876c3013bef6d9b" kindref="member">handleId</ref>;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service__control" kindref="compound">ns_ble_service_control_t</ref><sp/>*control;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>**characteristics;<sp/></highlight><highlight class="comment">//<sp/>array<sp/>of<sp/>characteristics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>nextCharacteristicIndex;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>attsCccSet_t<sp/>*cccSet;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>nextCccIndex;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>nextCccIndicationHandle;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>attsGroup_t<sp/>group;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>attribute<sp/>group<sp/>for<sp/>Cordio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>*attributes;<sp/></highlight><highlight class="comment">//<sp/>array<sp/>of<sp/>attributes<sp/>for<sp/>Cordio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>nextHandleId;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>maxHandle;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>nextAttributeIndex;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Advertising<sp/>Data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*advData;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>advDataLen;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*scanData;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>scanDataLen;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attributes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>primaryAttributeLen;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>primaryAttribute;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>versionAttribute;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>nameAttribute;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cordio<sp/>Callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>attsReadCback_t<sp/>readCback;<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Read<sp/>callback<sp/>function<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>attsWriteCback_t<sp/>writeCback;<sp/></highlight><highlight class="comment">/*<sp/>Write<sp/>callback<sp/>function<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref>;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*ns_ble_characteristic_read_handler_t)(</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*,<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*ns_ble_characteristic_write_handler_t)(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*,<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*ns_ble_characteristic_notify_handler_t)(</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*,<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Characteristic<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294" refid="structns__ble__characteristic" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref><sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref><sp/>uuid128;<sp/></highlight><highlight class="comment">//<sp/>Characteristic<sp/>UUID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*applicationValue;<sp/></highlight><highlight class="comment">//<sp/>pointer<sp/>to<sp/>application&apos;s<sp/>value<sp/>store</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>valueLen;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_read_handler_t<sp/>readHandlerCb;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_write_handler_t<sp/>writeHandlerCb;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_notify_handler_t<sp/>notifyHandlerCb;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attributes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>declarationProperties[19];</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>declarationLen;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>declaration;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>declarationHandle;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*pValue;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>value;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>valueHandle;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CCC<sp/>(only<sp/>populated<sp/>for<sp/>notify<sp/>characteristics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>cccArray[2];</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>cccLen;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>attsAttr_t<sp/>ccc;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>cccHandle;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>cccIndex;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>cccIndicationHandle;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>wsfTimer_t<sp/>indicationTimer;<sp/></highlight></codeline>
+<codeline lineno="326" refid="structns__ble__characteristic_1a1d8a976e4686c354bb6cd7285a922732" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__ble__characteristic_1a1d8a976e4686c354bb6cd7285a922732" kindref="member">indicationPeriod</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="structns__ble__characteristic_1aa8bc4c994b6c71a25c9b481ae5d266f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structns__ble__characteristic_1aa8bc4c994b6c71a25c9b481ae5d266f7" kindref="member">handleId</ref>;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref>;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_BLE_READ<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_BLE_WRITE<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_BLE_NOTIFY<sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_BLE_PROP_MAX,</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga394d3804a93c2f0e3e658f9260d82300" kindref="member">ns_ble_pre_init</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*uuidString,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*applicationValue,</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>valueLength,<sp/>uint16_t<sp/>properties,<sp/>ns_ble_characteristic_read_handler_t<sp/>readHandlerCb,</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_write_handler_t<sp/>writeHandlerCb,</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_notify_handler_t<sp/>notifyHandlerCb,<sp/>uint16_t<sp/>periodMs,</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>*attributeCount);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s,<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uuidString[16],<sp/><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref><sp/>*uuid128);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kindref="member">ns_ble_start_service</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_BLE</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h"/>
+  </compounddef>
+</doxygen>

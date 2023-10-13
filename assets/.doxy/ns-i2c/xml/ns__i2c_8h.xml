@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__i2c_8h" kind="file" language="C++">
+    <compoundname>ns_i2c.h</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includedby refid="ns__i2c__register__driver_8h" local="yes">neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c_register_driver.h</includedby>
+    <includedby refid="ns__max86150__driver_8h" local="yes">neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h</includedby>
+    <includedby refid="ns__mpu6050__i2c__driver_8h" local="yes">neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h</includedby>
+    <includedby refid="ns__i2c_8c" local="yes">neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c</includedby>
+    <includedby refid="ns__i2c__register__driver_8c" local="yes">neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h</label>
+        <link refid="ns__i2c_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h</label>
+        <link refid="ns__i2c_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c_register_driver.h</label>
+        <link refid="ns__i2c__register__driver_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h</label>
+        <link refid="ns__max86150__driver_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h</label>
+        <link refid="ns__mpu6050__i2c__driver_8h"/>
+      </node>
+      <node id="7">
+        <label>neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c</label>
+        <link refid="ns__i2c_8c"/>
+      </node>
+      <node id="3">
+        <label>neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c</label>
+        <link refid="ns__i2c__register__driver_8c"/>
+      </node>
+      <node id="5">
+        <label>neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c</label>
+        <link refid="ns__max86150__driver_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structns__i2c__config__t" prot="public">ns_i2c_config_t</innerclass>
+    <innerclass refid="structns__i2c__msg__t" prot="public">ns_i2c_msg_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-i2c_1gacc321db0eae847326238cc889c97bda8" prot="public" static="no">
+        <name>NS_I2C_V0_0_1</name>
+        <initializer>        { .major = 0, .minor = 0, .revision = 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="25" column="13" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-i2c_1ga7ce29395e1ce633bb5451fce87e2aded" prot="public" static="no">
+        <name>NS_I2C_V1_0_0</name>
+        <initializer>        { .major = 1, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="27" column="13" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-i2c_1ga256e64af2f540711dbbf7dfbdc89c7dc" prot="public" static="no">
+        <name>NS_I2C_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_I2C_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="30" column="13" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-i2c_1gaf986c0eba32ba9810836e5a1884a1e6e" prot="public" static="no">
+        <name>NS_I2C_CURRENT_VERSION</name>
+        <initializer>NS_I2C_V1_0_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="31" column="13" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-i2c_1gaba1e9ff347327f96bc97bcf1e3250795" prot="public" static="no">
+        <name>NS_I2C_API_ID</name>
+        <initializer>0xCA0004</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="32" column="13" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-i2c_1gaee3ec38ff762080795eee602a7ed33fc" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_i2c_status_e</name>
+        <enumvalue id="group__ns-i2c_1ggaee3ec38ff762080795eee602a7ed33fca3d48caef0a84f4e688f802248204b873" prot="public">
+          <name>NS_I2C_STATUS_SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-i2c_1ggaee3ec38ff762080795eee602a7ed33fca8d25b898ecf4c30887bdeeb9c793b3e4" prot="public">
+          <name>NS_I2C_STATUS_ERROR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="39" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-i2c_1ga61d04f43fb4b9380d18e0d45b36a601f" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_i2c_xfer_flag_e</name>
+        <enumvalue id="group__ns-i2c_1gga61d04f43fb4b9380d18e0d45b36a601fa811f3f027ca12fe2dcea05ecddd207d0" prot="public">
+          <name>NS_I2C_XFER_WR</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-i2c_1gga61d04f43fb4b9380d18e0d45b36a601fa1c71f4e6ed7d7bf69fd10b25eb25d6b6" prot="public">
+          <name>NS_I2C_XFER_RD</name>
+          <initializer>= (1u &lt;&lt; 0)</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="55" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-i2c_1ga33f2e94badf28606cf9400124a3d3b17" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_i2c_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_i2c_V0_0_1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="34" column="28" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="18" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="34" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-i2c_1ga729a5e2f7e5baa81a87a8cab7a780ca4" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_i2c_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_i2c_V1_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="35" column="28" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="19" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="35" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-i2c_1gac22b7bd535e474d696aa860117f6dece" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_i2c_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_i2c_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="36" column="28" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="20" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="36" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-i2c_1gaa772fbf579700bd97bb3cb44e9d3dc90" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_i2c_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_i2c_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="37" column="28" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="22" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="37" declcolumn="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-i2c_1gaabcf91f33f95dec449ea8d5f1a9adef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_i2c_interface_init</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t speed)</argsstring>
+        <name>ns_i2c_interface_init</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>speed</declname>
+        </param>
+        <briefdescription>
+<para>Initialize I2C on one of the IOM (IO managers) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C speed in Hz </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="71" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="31" bodyend="59" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="71" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-i2c_1ga822cc31eb17394f82c159e6df0c0d67b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_i2c_read</definition>
+        <argsstring>(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr)</argsstring>
+        <name>ns_i2c_read</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+<para>Perform low-level I2C read using IOM transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to store read bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C device address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="80" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="69" bodyend="86" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="80" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-i2c_1ga5757f76f1bb7b4bc298f6dfb21ef15c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_i2c_write</definition>
+        <argsstring>(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr)</argsstring>
+        <name>ns_i2c_write</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>addr</declname>
+        </param>
+        <briefdescription>
+<para>Perform low-level I2C write using IOM transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer of bytes to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C device address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="89" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="96" bodyend="113" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="89" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-i2c_1ga1d8814cf1501280bd5eff6d0772c00a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_i2c_write_read</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite, void *readBuf, size_t numRead)</argsstring>
+        <name>ns_i2c_write_read</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>writeBuf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numWrite</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>readBuf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numRead</declname>
+        </param>
+        <briefdescription>
+<para>Perform low-level I2C write followed by immediate read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>writeBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numWrite</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to write </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>readBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numRead</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>addr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C device address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="100" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="125" bodyend="129" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="100" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-i2c_1ga44c2009f6720856edc6b5bc2f7aac4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_i2c_transfer</definition>
+        <argsstring>(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs)</argsstring>
+        <name>ns_i2c_transfer</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__i2c__msg__t" kindref="compound">ns_i2c_msg_t</ref> *</type>
+          <declname>msgs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numMsgs</declname>
+        </param>
+        <briefdescription>
+<para>Perform sequence of low-level I2C transfers (similar to Linux) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>msgs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C messages to transfer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numMsgs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of I2C messsages </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="110" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="138" bodyend="152" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="110" declcolumn="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Generic I2C driver. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Adam Page </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-08-26</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>NS_I2C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_I2C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_I2C_V0_0_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="26"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>0,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>1<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_I2C_V1_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="28"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>1,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_I2C_OLDEST_SUPPORTED_VERSION<sp/>NS_I2C_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_I2C_CURRENT_VERSION<sp/>NS_I2C_V1_0_0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_I2C_API_ID<sp/>0xCA0004</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_i2c_V0_0_1;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_i2c_V1_0_0;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_i2c_oldest_supported_version;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_i2c_current_version;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>NS_I2C_STATUS_SUCCESS<sp/>=<sp/>0,<sp/>NS_I2C_STATUS_ERROR<sp/>=<sp/>1<sp/>}<sp/>ns_i2c_status_e;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structns__i2c__config__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46" refid="structns__i2c__config__t_1af9e40141faf3981a9a6bf547125c7904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*<ref refid="structns__i2c__config__t_1af9e40141faf3981a9a6bf547125c7904" kindref="member">api</ref>;<sp/></highlight></codeline>
+<codeline lineno="47" refid="structns__i2c__config__t_1a5f0329cb52c3983d5c6257b23b0f88a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int8_t<sp/><ref refid="structns__i2c__config__t_1a5f0329cb52c3983d5c6257b23b0f88a9" kindref="member">iom</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*iomHandle;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AmbiqSuite<sp/>IOM<sp/>handle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_config_t<sp/>sIomCfg;<sp/></highlight><highlight class="comment">//<sp/><sp/>AmbiqSuite<sp/>IOM<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I2C<sp/>Transfer<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>NS_I2C_XFER_WR<sp/>=<sp/>0,<sp/>NS_I2C_XFER_RD<sp/>=<sp/>(1u<sp/>&lt;&lt;<sp/>0)<sp/>}<sp/>ns_i2c_xfer_flag_e;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>I2C<sp/>Transfer<sp/>Message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structns__i2c__msg__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>addr;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>flags;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>len;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*buf;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}<sp/><ref refid="structns__i2c__msg__t" kindref="compound">ns_i2c_msg_t</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1gaabcf91f33f95dec449ea8d5f1a9adef6" kindref="member">ns_i2c_interface_init</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>speed);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1ga822cc31eb17394f82c159e6df0c0d67b" kindref="member">ns_i2c_read</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>size,<sp/>uint16_t<sp/>addr);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1ga5757f76f1bb7b4bc298f6dfb21ef15c9" kindref="member">ns_i2c_write</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>size,<sp/>uint16_t<sp/>addr);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1ga1d8814cf1501280bd5eff6d0772c00a4" kindref="member">ns_i2c_write_read</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint16_t<sp/>addr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*writeBuf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numWrite,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*readBuf,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numRead);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1ga44c2009f6720856edc6b5bc2f7aac4c0" kindref="member">ns_i2c_transfer</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/><ref refid="structns__i2c__msg__t" kindref="compound">ns_i2c_msg_t</ref><sp/>*msgs,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numMsgs);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_IO_I2C</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h"/>
+  </compounddef>
+</doxygen>

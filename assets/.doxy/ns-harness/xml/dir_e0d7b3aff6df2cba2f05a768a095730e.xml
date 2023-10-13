@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_e0d7b3aff6df2cba2f05a768a095730e" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-harness</compoundname>
+    <innerdir refid="dir_5a7ca3359baeaf8be53d9a3d1e900244">neuralSPOT/neuralspot/ns-harness/includes-api</innerdir>
+    <innerdir refid="dir_8df671c8e5b7eec7f2ec532421bc80bd">neuralSPOT/neuralspot/ns-harness/src</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-harness/"/>
+  </compounddef>
+</doxygen>

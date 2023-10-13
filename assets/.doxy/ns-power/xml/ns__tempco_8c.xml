@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__tempco_8c" kind="file" language="C++">
+    <compoundname>ns_tempco.c</compoundname>
+    <includes refid="ns__tempco_8h" local="yes">ns_tempco.h</includes>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes local="yes">ns_timer.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c</label>
+        <link refid="ns__tempco_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_tempco.h</label>
+        <link refid="ns__tempco_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="7">
+        <label>ns_core.h</label>
+      </node>
+      <node id="8">
+        <label>ns_timer.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__tempco_8c_1a5e3ebbc77dd3e9d68637efb1c3a207f6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_ns_tempco_ui32TempcoIsrRet</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempco_ui32TempcoIsrRet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="24" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8c_1a1e2463aa9f344f5ade772454992d8cf2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t g_ns_tempco_ui32TempcoADCslot</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempco_ui32TempcoADCslot</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="25" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8c_1a871e62b8b755f25f43d9725da5c5859e" prot="public" static="no" mutable="no">
+        <type>am_hal_adc_sample_t</type>
+        <definition>am_hal_adc_sample_t g_ns_tempco_sSamples[AM_HAL_TEMPCO_NUMSAMPLES]</definition>
+        <argsstring>[AM_HAL_TEMPCO_NUMSAMPLES]</argsstring>
+        <name>g_ns_tempco_sSamples</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="26" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8c_1abe55c917fd1f79f20cfc9d0b006637c6" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* g_ns_tempco_ADCHandle</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempco_ADCHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="27" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__tempco_8c_1a7b1f44417ea4180c19363f00c721b048" prot="public" static="no" mutable="no">
+        <type>ns_timer_config_t</type>
+        <definition>ns_timer_config_t g_ns_tempcoTimer</definition>
+        <argsstring></argsstring>
+        <name>g_ns_tempcoTimer</name>
+        <initializer>= {
+    .api = &amp;ns_timer_V1_0_0,
+    .timer = NS_TIMER_TEMPCO,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 10 * 1024, 
+    .callback = ns_tempco_callback}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="34" column="19" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__tempco_8c_1afd17c7beaaa2de4e9efe91910baea3c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t adc_temperature_samples_get</definition>
+        <argsstring>(uint32_t ui32NumSamples, am_hal_adc_sample_t sSamples[])</argsstring>
+        <name>adc_temperature_samples_get</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>ui32NumSamples</declname>
+        </param>
+        <param>
+          <type>am_hal_adc_sample_t</type>
+          <declname>sSamples</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="147" column="1" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="147" bodyend="173" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" declline="30" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__tempco_8c_1a2044acb087f712ee16646510be61e58d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void adc_trigger_wait</definition>
+        <argsstring>(void)</argsstring>
+        <name>adc_trigger_wait</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="132" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="132" bodyend="141" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" declline="31" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__tempco_8c_1a74ca6e2ec16670ad0dedf3ef1887e313" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ns_tempco_callback</definition>
+        <argsstring>(ns_timer_config_t *c)</argsstring>
+        <name>ns_tempco_callback</name>
+        <param>
+          <type>ns_timer_config_t *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="104" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="104" bodyend="127" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" declline="32" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__tempco_8c_1a443a4f5174c1ed55f6e489b354384c3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_tempco_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_tempco_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" line="50" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="50" bodyend="101"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Temperature Compensation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Carlos Morales </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-11-03</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(NS_AMBIQSUITE_VERSION_R4_1_0)<sp/>||<sp/>defined(AM_PART_APOLLO4L)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TEMPCO<sp/>not<sp/>supported<sp/>in<sp/>this<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;<ref refid="ns__tempco_8h" kindref="compound">ns_tempco.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_timer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">uint32_t<sp/>g_ns_tempco_ui32TempcoIsrRet;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">uint32_t<sp/>g_ns_tempco_ui32TempcoADCslot;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">am_hal_adc_sample_t<sp/>g_ns_tempco_sSamples[AM_HAL_TEMPCO_NUMSAMPLES];</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*g_ns_tempco_ADCHandle;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">adc_temperature_samples_get(uint32_t<sp/>ui32NumSamples,<sp/>am_hal_adc_sample_t<sp/>sSamples[]);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>adc_trigger_wait(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_tempco_callback(ns_timer_config_t<sp/>*c);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">ns_timer_config_t<sp/>g_ns_tempcoTimer<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_timer_V1_0_0,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>.timer<sp/>=<sp/>NS_TIMER_TEMPCO,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>.enableInterrupt<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>.periodInMicroseconds<sp/>=<sp/>10<sp/>*<sp/>1024,<sp/></highlight><highlight class="comment">//<sp/>10<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>.callback<sp/>=<sp/>ns_tempco_callback};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ADC<sp/>and<sp/>TempCo<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>use<sp/>in<sp/>TempCo,<sp/>the<sp/>ADC<sp/>must<sp/>be<sp/>initialized,<sp/>powered,<sp/>configured.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Following<sp/>the<sp/>call<sp/>to<sp/>am_hal_pwrctrl_tempco_init(),<sp/>then<sp/>it<sp/>must<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>enabled<sp/>via<sp/>a<sp/>call<sp/>to<sp/>am_hal_adc_enable().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">uint32_t<sp/>ns_tempco_init(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32Retval;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_adc_config_t<sp/>sADC_Cfg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eClock<sp/>=<sp/>AM_HAL_ADC_CLKSEL_HFRC_24MHZ,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Select<sp/>the<sp/>ADC<sp/>Clock<sp/>source</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.ePolarity<sp/>=<sp/>AM_HAL_ADC_TRIGPOL_RISING,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Polarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eTrigger<sp/>=<sp/>AM_HAL_ADC_TRIGSEL_SOFTWARE,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ADC<sp/>trigger<sp/>source</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eClockMode<sp/>=<sp/>AM_HAL_ADC_CLKMODE_LOW_POWER,<sp/></highlight><highlight class="comment">//<sp/>Clock<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.ePowerMode<sp/>=<sp/>AM_HAL_ADC_LPMODE1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Power<sp/>mode<sp/>for<sp/>idle<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eRepeat<sp/>=<sp/>AM_HAL_ADC_SINGLE_SCAN,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eRepeatTrigger<sp/>=<sp/>AM_HAL_ADC_RPTTRIGSEL_TMR};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>the<sp/>slot<sp/>to<sp/>use<sp/>for<sp/>temperature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>g_ns_tempco_ui32TempcoADCslot<sp/>=<sp/>TEMPCO_ADC_TEMPERATURE_SLOT;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>ADC<sp/>and<sp/>get<sp/>the<sp/>handle.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_adc_initialize(0,<sp/>&amp;g_ns_tempco_ADCHandle)<sp/>!=<sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_printf(</highlight><highlight class="stringliteral">&quot;tempco_init()<sp/>Error<sp/>-<sp/>reservation<sp/>of<sp/>the<sp/>ADC<sp/>instance<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Power<sp/>on<sp/>the<sp/>ADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_adc_power_control(g_ns_tempco_ADCHandle,<sp/>AM_HAL_SYSCTRL_WAKE,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>!=</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_printf(</highlight><highlight class="stringliteral">&quot;tempco_init()<sp/>Error<sp/>-<sp/>ADC<sp/>power<sp/>on<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>2;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>ADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_adc_configure(g_ns_tempco_ADCHandle,<sp/>(am_hal_adc_config_t<sp/>*)&amp;sADC_Cfg)<sp/>!=</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_printf(</highlight><highlight class="stringliteral">&quot;tempco_init()<sp/>Error<sp/>-<sp/>configuring<sp/>ADC<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>3;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>and<sp/>init<sp/>the<sp/>timer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_timer_init(&amp;g_ns_tempcoTimer);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>TempCo<sp/>low<sp/>power</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32Retval<sp/>=<sp/>am_hal_pwrctrl_tempco_init(g_ns_tempco_ADCHandle,<sp/>g_ns_tempco_ui32TempcoADCslot);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32Retval<sp/>!=<sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_printf(</highlight><highlight class="stringliteral">&quot;ERROR<sp/>am_hal_pwrctrl_tempco_init()<sp/>returned<sp/>%d.\n&quot;</highlight><highlight class="normal">,<sp/>ui32Retval);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>4;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>the<sp/>ADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_adc_enable(g_ns_tempco_ADCHandle);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>g_ns_state.tempcoCurrentlyEnabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>g_ns_state.tempcoWantsToBeEnabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>timer<sp/>ISR<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_tempco_callback(ns_timer_config_t<sp/>*c)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Power<sp/>up,<sp/>configure,<sp/>and<sp/>enable<sp/>the<sp/>ADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_adc_power_control(g_ns_tempco_ADCHandle,<sp/>AM_HAL_SYSCTRL_WAKE,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>the<sp/>ADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_adc_enable(g_ns_tempco_ADCHandle);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>the<sp/>TempCo<sp/>ISR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>temperature<sp/>samples<sp/>to<sp/>send<sp/>to<sp/>the<sp/>ISR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>adc_temperature_samples_get(AM_HAL_TEMPCO_NUMSAMPLES,<sp/>g_ns_tempco_sSamples);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>g_ns_tempco_ui32TempcoIsrRet<sp/>=</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_pwrctrl_tempco_sample_handler(AM_HAL_TEMPCO_NUMSAMPLES,<sp/>g_ns_tempco_sSamples);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g_ns_tempco_ui32TempcoIsrRet<sp/>!=<sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>of<sp/>the<sp/>primary<sp/>reasons<sp/>the<sp/>handler<sp/>might<sp/>return<sp/>non-success<sp/>would</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>be<sp/>if<sp/>the<sp/>device<sp/>is<sp/>not<sp/>enabled<sp/>for<sp/>TempCo.<sp/>A<sp/>fail<sp/>condition<sp/>should<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>handled<sp/>appropriately<sp/>here.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>and<sp/>power<sp/>down<sp/>the<sp/>ADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_adc_power_control(g_ns_tempco_ADCHandle,<sp/>AM_HAL_SYSCTRL_DEEPSLEEP,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>to<sp/>trigger<sp/>the<sp/>ADC<sp/>and<sp/>wait<sp/>for<sp/>a<sp/>value<sp/>in<sp/>the<sp/>FIFO.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>adc_trigger_wait(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>and<sp/>wait<sp/>for<sp/>something<sp/>to<sp/>show<sp/>up<sp/>in<sp/>the<sp/>FIFO.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32Cnt0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32Cnt0<sp/>=<sp/>_FLD2VAL(ADC_FIFO_COUNT,<sp/>ADC-&gt;FIFO);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(_FLD2VAL(ADC_FIFO_COUNT,<sp/>ADC-&gt;FIFO)<sp/>==<sp/>ui32Cnt0)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_adc_sw_trigger(g_ns_tempco_ADCHandle);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_delay_us(1);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>adc_trigger_wait()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Get<sp/>samples<sp/>from<sp/>temperature<sp/>sensor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">adc_temperature_samples_get(uint32_t<sp/>ui32NumSamples,<sp/>am_hal_adc_sample_t<sp/>sSamples[])<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ux,<sp/>ui32OneSample;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32OneSample<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>sSamples[0].ui32Sample<sp/>=<sp/>sSamples[1].ui32Sample<sp/>=<sp/>sSamples[2].ui32Sample<sp/>=</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sSamples[3].ui32Sample<sp/>=<sp/>sSamples[4].ui32Sample<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ux<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(ux<sp/>&lt;<sp/>ui32NumSamples)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adc_trigger_wait();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalidate<sp/>DAXI<sp/>to<sp/>make<sp/>sure<sp/>CPU<sp/>sees<sp/>the<sp/>new<sp/>data<sp/>when<sp/>loaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_daxi_control(AM_HAL_DAXI_CONTROL_INVALIDATE,<sp/>NULL);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_adc_samples_read(g_ns_tempco_ADCHandle,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>NULL,<sp/>&amp;ui32OneSample,<sp/>&amp;sSamples[ux]);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sSamples[ux].ui32Slot<sp/>==<sp/>g_ns_tempco_ui32TempcoADCslot)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>a<sp/>temperature<sp/>sample.<sp/>Get<sp/>the<sp/>next<sp/>sample.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ux++;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>sample<sp/>is<sp/>something<sp/>other<sp/>than<sp/>a<sp/>temperature<sp/>sample.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>It<sp/>should<sp/>be<sp/>handled<sp/>appropriately.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>AM_HAL_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>adc_temperature_samples_get()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c"/>
+  </compounddef>
+</doxygen>

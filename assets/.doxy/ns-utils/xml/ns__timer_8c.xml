@@ -1,0 +1,447 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__timer_8c" kind="file" language="C++">
+    <compoundname>ns_timer.c</compoundname>
+    <includes refid="ns__timer_8h" local="yes">ns_timer.h</includes>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_timer.h</label>
+        <link refid="ns__timer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-utils/src/ns_timer.c</label>
+        <link refid="ns__timer_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-timer_1gabd6d143a52895f2d1d03dafe4398bce4" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_V0_0_1</name>
+        <initializer>= {.apiId = NS_TIMER_API_ID, .version = NS_TIMER_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="18" column="21" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-timer_1ga32e9e18ab8b6a8548906ff51be681b29" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_V1_0_0</name>
+        <initializer>= {.apiId = NS_TIMER_API_ID, .version = NS_TIMER_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="20" column="21" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-timer_1ga93689eef9661b59db4b442f9983dfda7" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_oldest_supported_version</name>
+        <initializer>= {.apiId = NS_TIMER_API_ID,
+                                                         .version = NS_TIMER_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="22" column="21" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-timer_1gab43f66097bc24e408d6ced413ea734c0" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_timer_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_timer_current_version</name>
+        <initializer>= {.apiId = NS_TIMER_API_ID,
+                                                .version = NS_TIMER_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="25" column="21" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__timer_8c_1a908f17a703e458493dcfedb6eb7e31d2" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+        <definition>ns_timer_config_t* ns_timer_config[NS_TIMER_TEMPCO+1]</definition>
+        <argsstring>[NS_TIMER_TEMPCO+1]</argsstring>
+        <name>ns_timer_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="28" column="19" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__timer_8c_1a96eb5798dc9e24f474b3311be68af81f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void am_timer01_isr</definition>
+        <argsstring>(void)</argsstring>
+        <name>am_timer01_isr</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="31" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="31" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__timer_8c_1a8eededfa1da60f72e658cfec646504da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void am_timer02_isr</definition>
+        <argsstring>(void)</argsstring>
+        <name>am_timer02_isr</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="43" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__timer_8c_1acf50452cd5c57c795290bf1e3c277f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void am_timer03_isr</definition>
+        <argsstring>(void)</argsstring>
+        <name>am_timer03_isr</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="55" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__timer_8c_1a0c6cdc197dcb605e1fad2f479fc47177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ns_core_initialized</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_core_initialized</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="67" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-timer_1ga0fc939c8a81836c911cea74a1c0b3ad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_timer_init</definition>
+        <argsstring>(ns_timer_config_t *cfg)</argsstring>
+        <name>ns_timer_init</name>
+        <param>
+          <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize one of 3 timers supported by NeuralSPOT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>NS_TIMER_COUNTER Intended use is reading timerticks NS_TIMER_INTERRUPT Calls a callback periodically NS_TIMER_USB Used by ns_usb to periodically service USB NS_TIMER_TEMPCO Used by ns_tempco to periodically collect temps</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="72" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="72" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_us_ticker_read</definition>
+        <argsstring>(ns_timer_config_t *cfg)</argsstring>
+        <name>ns_us_ticker_read</name>
+        <param>
+          <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Read current value of timer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t timer if success, 0xDEADBEEF if bad handle </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="141" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="141" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_timer_clear</definition>
+        <argsstring>(ns_timer_config_t *cfg)</argsstring>
+        <name>ns_timer_clear</name>
+        <param>
+          <type><ref refid="group__ns-timer_1ga984d6838242919650f525f5210550a5e" kindref="member">ns_timer_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Clear timer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" line="151" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="151" bodyend="159"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Simple timer facility. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Carlos Morales </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-10-11</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__timer_8h" kindref="compound">ns_timer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_timer_V0_0_1<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_TIMER_API_ID,<sp/>.version<sp/>=<sp/>NS_TIMER_V0_0_1};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_timer_V1_0_0<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_TIMER_API_ID,<sp/>.version<sp/>=<sp/>NS_TIMER_V1_0_0};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_timer_oldest_supported_version<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_TIMER_API_ID,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.version<sp/>=<sp/>NS_TIMER_V0_0_1};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_timer_current_version<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_TIMER_API_ID,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.version<sp/>=<sp/>NS_TIMER_V1_0_0};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="structns__timer__config" kindref="compound">ns_timer_config_t</ref><sp/>*<ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[<ref refid="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea6d4cd93370d10028473486e7c5644b48" kindref="member">NS_TIMER_TEMPCO</ref><sp/>+<sp/>1];</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">am_timer01_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-timer_1ga23c4e7e5ef06a4ec8992b4ef2e29a7fe" kindref="member">ns_timers_e</ref><sp/>timerNum<sp/>=<sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[1]-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>the<sp/>timer<sp/>Interrupt<sp/>(write<sp/>to<sp/>clear).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(timerNum,<sp/>AM_HAL_TIMER_COMPARE1));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_clear(timerNum);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[1]-&gt;<ref refid="structns__timer__config_1a790ddda62f30e2be50c04d40a4b819fa" kindref="member">callback</ref>(<ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[1]);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">am_timer02_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-timer_1ga23c4e7e5ef06a4ec8992b4ef2e29a7fe" kindref="member">ns_timers_e</ref><sp/>timerNum<sp/>=<sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[2]-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>the<sp/>timer<sp/>Interrupt<sp/>(write<sp/>to<sp/>clear).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(timerNum,<sp/>AM_HAL_TIMER_COMPARE1));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_clear(timerNum);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[2]-&gt;<ref refid="structns__timer__config_1a790ddda62f30e2be50c04d40a4b819fa" kindref="member">callback</ref>(<ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[2]);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">am_timer03_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-timer_1ga23c4e7e5ef06a4ec8992b4ef2e29a7fe" kindref="member">ns_timers_e</ref><sp/>timerNum<sp/>=<sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[3]-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>the<sp/>timer<sp/>Interrupt<sp/>(write<sp/>to<sp/>clear).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(timerNum,<sp/>AM_HAL_TIMER_COMPARE1));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_clear(timerNum);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[2]-&gt;<ref refid="structns__timer__config_1a790ddda62f30e2be50c04d40a4b819fa" kindref="member">callback</ref>(<ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[3]);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">ns_core_initialized(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g_ns_state.initialized;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">uint32_t</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="group__ns-timer_1ga0fc939c8a81836c911cea74a1c0b3ad5" kindref="member">ns_timer_init</ref>(<ref refid="structns__timer__config" kindref="compound">ns_timer_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_config_t<sp/>TimerConfig;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32Status<sp/>=<sp/>AM_HAL_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(cfg-&gt;<ref refid="structns__timer__config_1a73f5270f7c6c070ad94d72127bdaf418" kindref="member">api</ref>,<sp/>&amp;ns_timer_oldest_supported_version,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;ns_timer_current_version))<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref><sp/>&gt;<sp/><ref refid="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea6d4cd93370d10028473486e7c5644b48" kindref="member">NS_TIMER_TEMPCO</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_CONFIG;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cfg-&gt;<ref refid="structns__timer__config_1ac0d210b076485fbdf1ca7a0f177d27e1" kindref="member">enableInterrupt</ref>)<sp/>&amp;&amp;<sp/>(cfg-&gt;<ref refid="structns__timer__config_1a790ddda62f30e2be50c04d40a4b819fa" kindref="member">callback</ref><sp/>==<sp/>NULL))<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_CONFIG;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__timer__config" kindref="compound">ns_timer_config</ref>[cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>]<sp/>=<sp/>cfg;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>the<sp/>timer<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>default<sp/>timer<sp/>configuration<sp/>is<sp/>HFRC_DIV16,<sp/>EDGE,<sp/>compares=0,<sp/>no<sp/>trig.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_default_config_set(&amp;TimerConfig);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>modify<sp/>the<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref><sp/>==<sp/><ref refid="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea6d4cd93370d10028473486e7c5644b48" kindref="member">NS_TIMER_TEMPCO</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TimerConfig.eInputClock<sp/>=<sp/>AM_HAL_TIMER_CLOCK_HFRC_DIV16;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cfg-&gt;<ref refid="structns__timer__config_1ac0d210b076485fbdf1ca7a0f177d27e1" kindref="member">enableInterrupt</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TimerConfig.eFunction<sp/>=<sp/>AM_HAL_TIMER_FN_UPCOUNT;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TimerConfig.ui32Compare1<sp/>=<sp/>cfg-&gt;<ref refid="structns__timer__config_1a6bd38e927ea9f02a11917a36f87fae58" kindref="member">periodInMicroseconds</ref><sp/>/<sp/>6;<sp/></highlight><highlight class="comment">//<sp/>6<sp/>ticks<sp/>per<sp/>uS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32Status<sp/>=<sp/>am_hal_timer_config(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>,<sp/>&amp;TimerConfig);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32Status<sp/>!=<sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>configure<sp/>TIMER%d,<sp/>return<sp/>value=%d\r\n&quot;</highlight><highlight class="normal">,<sp/>cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>,<sp/>ui32Status);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>and<sp/>clear<sp/>the<sp/>timer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_clear(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cfg-&gt;<ref refid="structns__timer__config_1ac0d210b076485fbdf1ca7a0f177d27e1" kindref="member">enableInterrupt</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>,<sp/>AM_HAL_TIMER_COMPARE1));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_timer_interrupt_enable(AM_HAL_TIMER_MASK(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>,<sp/>AM_HAL_TIMER_COMPARE1));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>the<sp/>timer<sp/>interrupt<sp/>in<sp/>the<sp/>NVIC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref><sp/>==<sp/><ref refid="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea66d9701f71167bde23e1bf5e3ad3ef85" kindref="member">NS_TIMER_INTERRUPT</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(TIMER1_IRQn);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NVIC_SetPriority(TIMER1_IRQn,<sp/>AM_IRQ_PRIORITY_DEFAULT);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref><sp/>==<sp/><ref refid="group__ns-timer_1gga23c4e7e5ef06a4ec8992b4ef2e29a7fea60f189febe3fcfbb6d6880b5fd9b29aa" kindref="member">NS_TIMER_USB</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NVIC_SetPriority(TIMER2_IRQn,<sp/>AM_IRQ_PRIORITY_DEFAULT);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(TIMER2_IRQn);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">uint32_t</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" kindref="member">ns_us_ticker_read</ref>(<ref refid="structns__timer__config" kindref="compound">ns_timer_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0xDEADBEEF;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>am_hal_timer_read(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>)<sp/>/<sp/>6;<sp/></highlight><highlight class="comment">//<sp/>6<sp/>ticks<sp/>per<sp/>uS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">uint32_t</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" kindref="member">ns_timer_clear</ref>(<ref refid="structns__timer__config" kindref="compound">ns_timer_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_timer_clear(cfg-&gt;<ref refid="structns__timer__config_1a116e5bfd735eeb5d4bc4de484cb580d1" kindref="member">timer</ref>);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c"/>
+  </compounddef>
+</doxygen>

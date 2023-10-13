@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__profiler__sidecar__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_profiler_sidecar_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a98b4f9bed8544888b95062ded7e5bbe0" prot="public" static="no" mutable="no">
+        <type>ns_cache_dump_t</type>
+        <definition>ns_cache_dump_t ns_profiler_sidecar_t::cache_start[NS_PROFILER_MAX_EVENTS]</definition>
+        <argsstring>[NS_PROFILER_MAX_EVENTS]</argsstring>
+        <name>cache_start</name>
+        <qualifiedname>ns_profiler_sidecar_t::cache_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="30" column="21" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a75fe1b7bc6c897ae74127cee58bea76a" prot="public" static="no" mutable="no">
+        <type>ns_cache_dump_t</type>
+        <definition>ns_cache_dump_t ns_profiler_sidecar_t::cache_end[NS_PROFILER_MAX_EVENTS]</definition>
+        <argsstring>[NS_PROFILER_MAX_EVENTS]</argsstring>
+        <name>cache_end</name>
+        <qualifiedname>ns_profiler_sidecar_t::cache_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="31" column="21" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1abab5a77b78800c43a8fa2f074e67f92b" prot="public" static="no" mutable="no">
+        <type>ns_perf_counters_t</type>
+        <definition>ns_perf_counters_t ns_profiler_sidecar_t::perf_start[NS_PROFILER_MAX_EVENTS]</definition>
+        <argsstring>[NS_PROFILER_MAX_EVENTS]</argsstring>
+        <name>perf_start</name>
+        <qualifiedname>ns_profiler_sidecar_t::perf_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="32" column="24" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a1e7c5eb0442790056375e03d4a7864ef" prot="public" static="no" mutable="no">
+        <type>ns_perf_counters_t</type>
+        <definition>ns_perf_counters_t ns_profiler_sidecar_t::perf_end[NS_PROFILER_MAX_EVENTS]</definition>
+        <argsstring>[NS_PROFILER_MAX_EVENTS]</argsstring>
+        <name>perf_end</name>
+        <qualifiedname>ns_profiler_sidecar_t::perf_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="33" column="24" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1abc3f72eed5b6f4e296a5d62226634ed0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_profiler_sidecar_t::has_estimated_macs</definition>
+        <argsstring></argsstring>
+        <name>has_estimated_macs</name>
+        <qualifiedname>ns_profiler_sidecar_t::has_estimated_macs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="34" column="10" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a9ec244fd0ab1ff965cd2de8b8ef7f98e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ns_profiler_sidecar_t::number_of_layers</definition>
+        <argsstring></argsstring>
+        <name>number_of_layers</name>
+        <qualifiedname>ns_profiler_sidecar_t::number_of_layers</qualifiedname>
+        <briefdescription>
+<para>Number of layers for which we have mac estimates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="35" column="9" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a853d6bded35bab02946432a669157a76" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_profiler_sidecar_t::mac_count_map</definition>
+        <argsstring></argsstring>
+        <name>mac_count_map</name>
+        <qualifiedname>ns_profiler_sidecar_t::mac_count_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="36" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a2ca380c4c442131c25897509e2effc17" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_profiler_sidecar_t::estimated_mac_count[NS_PROFILER_MAX_EVENTS]</definition>
+        <argsstring>[NS_PROFILER_MAX_EVENTS]</argsstring>
+        <name>estimated_mac_count</name>
+        <qualifiedname>ns_profiler_sidecar_t::estimated_mac_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="37" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__profiler__sidecar__t_1a67d418a935faf0c316ec380e6e92ff0c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_profiler_sidecar_t::captured_event_num</definition>
+        <argsstring></argsstring>
+        <name>captured_event_num</name>
+        <qualifiedname>ns_profiler_sidecar_t::captured_event_num</qualifiedname>
+        <briefdescription>
+<para>How many events have been captured so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="38" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="29" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="29" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structns__profiler__sidecar__t_1a75fe1b7bc6c897ae74127cee58bea76a" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>cache_end</name></member>
+      <member refid="structns__profiler__sidecar__t_1a98b4f9bed8544888b95062ded7e5bbe0" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>cache_start</name></member>
+      <member refid="structns__profiler__sidecar__t_1a67d418a935faf0c316ec380e6e92ff0c" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>captured_event_num</name></member>
+      <member refid="structns__profiler__sidecar__t_1a2ca380c4c442131c25897509e2effc17" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>estimated_mac_count</name></member>
+      <member refid="structns__profiler__sidecar__t_1abc3f72eed5b6f4e296a5d62226634ed0" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>has_estimated_macs</name></member>
+      <member refid="structns__profiler__sidecar__t_1a853d6bded35bab02946432a669157a76" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>mac_count_map</name></member>
+      <member refid="structns__profiler__sidecar__t_1a9ec244fd0ab1ff965cd2de8b8ef7f98e" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>number_of_layers</name></member>
+      <member refid="structns__profiler__sidecar__t_1a1e7c5eb0442790056375e03d4a7864ef" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>perf_end</name></member>
+      <member refid="structns__profiler__sidecar__t_1abab5a77b78800c43a8fa2f074e67f92b" prot="public" virt="non-virtual"><scope>ns_profiler_sidecar_t</scope><name>perf_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

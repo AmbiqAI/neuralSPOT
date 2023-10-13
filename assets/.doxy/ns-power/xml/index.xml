@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.4" xml:lang="en-US">
+  <compound refid="structns__button__config__t" kind="struct"><name>ns_button_config_t</name>
+    <member refid="structns__button__config__t_1a8dd124084c2a05678e378d70f161b706" kind="variable"><name>api</name></member>
+    <member refid="structns__button__config__t_1a971f97071ed2a664a94f1f13b3dae7e7" kind="variable"><name>button_0_enable</name></member>
+    <member refid="structns__button__config__t_1a3723269e9d11d448036593349028020c" kind="variable"><name>button_1_enable</name></member>
+    <member refid="structns__button__config__t_1a075ccbfc50f91955c60abd927af1de3e" kind="variable"><name>joulescope_trigger_enable</name></member>
+    <member refid="structns__button__config__t_1adb2afe9454b65062bf1b9d30083d5d0d" kind="variable"><name>button_0_flag</name></member>
+    <member refid="structns__button__config__t_1ae2e4edb2c8e0f7b6e305271dae73249f" kind="variable"><name>button_1_flag</name></member>
+    <member refid="structns__button__config__t_1a2f8aead06af35facdae3de104daa5210" kind="variable"><name>joulescope_trigger_flag</name></member>
+  </compound>
+  <compound refid="structns__power__config__t" kind="struct"><name>ns_power_config_t</name>
+    <member refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" kind="variable"><name>api</name></member>
+    <member refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kind="variable"><name>eAIPowerMode</name></member>
+    <member refid="structns__power__config__t_1ae3532732154ca0ed9cd239789fc76901" kind="variable"><name>bNeedAudAdc</name></member>
+    <member refid="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" kind="variable"><name>bNeedSharedSRAM</name></member>
+    <member refid="structns__power__config__t_1a4a3a41cf06308b5e67c0a5ed5f97cc7e" kind="variable"><name>bNeedCrypto</name></member>
+    <member refid="structns__power__config__t_1a7ece590a2c4fedf77e8cdf70767882bf" kind="variable"><name>bNeedBluetooth</name></member>
+    <member refid="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" kind="variable"><name>bNeedUSB</name></member>
+    <member refid="structns__power__config__t_1a859bc288f4f3c4d65e28285c803cb95f" kind="variable"><name>bNeedIOM</name></member>
+    <member refid="structns__power__config__t_1a0f96c87a4aa01b3ae12b2a19eb7701df" kind="variable"><name>bNeedAlternativeUART</name></member>
+    <member refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" kind="variable"><name>b128kTCM</name></member>
+    <member refid="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" kind="variable"><name>bEnableTempCo</name></member>
+    <member refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" kind="variable"><name>bNeedITM</name></member>
+  </compound>
+  <compound refid="ns__peripherals__button_8h" kind="file"><name>ns_peripherals_button.h</name>
+    <member refid="ns__peripherals__button_8h_1a8946e011a7407c37702af42c3c518acd" kind="define"><name>NS_BUTTON_V0_0_1</name></member>
+    <member refid="ns__peripherals__button_8h_1a83e0cb071a30bc880230c71625a3b3fd" kind="define"><name>NS_BUTTON_V1_0_0</name></member>
+    <member refid="ns__peripherals__button_8h_1ad4f0c3ed2b43ee2b1dbe4bda949348fb" kind="define"><name>NS_BUTTON_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="ns__peripherals__button_8h_1ace6f1de03249cf14c9075ed64e36a81a" kind="define"><name>NS_BUTTON_CURRENT_VERSION</name></member>
+    <member refid="ns__peripherals__button_8h_1afecc42f1d4b2f6a95a441d560adb1ffe" kind="define"><name>NS_BUTTON_API_ID</name></member>
+    <member refid="ns__peripherals__button_8h_1a9d9d690be966d93a730a9c7b9d6aa4ec" kind="variable"><name>ns_button_V0_0_1</name></member>
+    <member refid="ns__peripherals__button_8h_1aad3d053176636dc0250c6ea000d81872" kind="variable"><name>ns_button_V1_0_0</name></member>
+    <member refid="ns__peripherals__button_8h_1a53190412c1ec136831b265ba1d92c93c" kind="variable"><name>ns_button_oldest_supported_version</name></member>
+    <member refid="ns__peripherals__button_8h_1aad00032ae5c9956dfc1a6795c6fc8fc8" kind="variable"><name>ns_button_current_version</name></member>
+    <member refid="ns__peripherals__button_8h_1a9ecff5266c26289f6e28fc99f9bf6245" kind="function"><name>ns_peripheral_button_init</name></member>
+  </compound>
+  <compound refid="ns__peripherals__power_8h" kind="file"><name>ns_peripherals_power.h</name>
+    <member refid="group__ns-power_1ga6893b1c8a67e77dd91e5845e92af495d" kind="define"><name>NS_POWER_V0_0_1</name></member>
+    <member refid="group__ns-power_1gac10dc28a6540a495978a77ffb260e314" kind="define"><name>NS_POWER_V1_0_0</name></member>
+    <member refid="group__ns-power_1gac4821756a41050d7e464457fd6b43f44" kind="define"><name>NS_POWER_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="group__ns-power_1gaf9578a4e472d8d6d81af205f9f31a007" kind="define"><name>NS_POWER_CURRENT_VERSION</name></member>
+    <member refid="group__ns-power_1ga94a6c1ddfab179a04e73602e3d62f54b" kind="define"><name>NS_POWER_API_ID</name></member>
+    <member refid="group__ns-power_1gabd0847bd4ffca2198c2099c2b9888348" kind="enum"><name>ns_power_mode_e</name></member>
+    <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186" kind="enumvalue"><name>NS_MINIMUM_PERF</name></member>
+    <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a41478b7baf8d5dba7b87214644dd9e96" kind="enumvalue"><name>NS_MEDIUM_PERF</name></member>
+    <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kind="enumvalue"><name>NS_MAXIMUM_PERF</name></member>
+    <member refid="group__ns-power_1gacc59e094579b9a62714927f7c5671981" kind="variable"><name>ns_power_V0_0_1</name></member>
+    <member refid="group__ns-power_1gaba3e2ea00eb6f88fecc9d27225d2b540" kind="variable"><name>ns_power_V1_0_0</name></member>
+    <member refid="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" kind="variable"><name>ns_power_oldest_supported_version</name></member>
+    <member refid="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" kind="variable"><name>ns_power_current_version</name></member>
+    <member refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kind="variable"><name>ns_development_default</name></member>
+    <member refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kind="variable"><name>ns_good_default</name></member>
+    <member refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kind="variable"><name>ns_mlperf_mode1</name></member>
+    <member refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kind="variable"><name>ns_mlperf_mode2</name></member>
+    <member refid="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" kind="variable"><name>ns_mlperf_mode3</name></member>
+    <member refid="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" kind="variable"><name>ns_audio_default</name></member>
+    <member refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kind="function"><name>ns_power_config</name></member>
+    <member refid="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" kind="function"><name>ns_deep_sleep</name></member>
+    <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
+  </compound>
+  <compound refid="ns__button_8c" kind="file"><name>ns_button.c</name>
+    <member refid="ns__button_8c_1a9d9d690be966d93a730a9c7b9d6aa4ec" kind="variable"><name>ns_button_V0_0_1</name></member>
+    <member refid="ns__button_8c_1aad3d053176636dc0250c6ea000d81872" kind="variable"><name>ns_button_V1_0_0</name></member>
+    <member refid="ns__button_8c_1a53190412c1ec136831b265ba1d92c93c" kind="variable"><name>ns_button_oldest_supported_version</name></member>
+    <member refid="ns__button_8c_1aad00032ae5c9956dfc1a6795c6fc8fc8" kind="variable"><name>ns_button_current_version</name></member>
+    <member refid="ns__button_8c_1ad673d2019dad9880e59dbe25183a1ea7" kind="variable"><name>g_ns_peripheral_button0</name></member>
+    <member refid="ns__button_8c_1ad25dc92825bcbd9b2a9b0bf618887753" kind="variable"><name>g_ns_peripheral_button1</name></member>
+    <member refid="ns__button_8c_1afd657682cccd271c74e6093ef8ca610f" kind="variable"><name>g_ns_peripheral_joulescope_trigger</name></member>
+    <member refid="ns__button_8c_1ab4b1dc828c04d79f060b611b1984b311" kind="function"><name>am_gpio0_001f_isr</name></member>
+    <member refid="ns__button_8c_1a234ac5cc96261765b30db936cbad216f" kind="function"><name>ns_button_0_handler</name></member>
+    <member refid="ns__button_8c_1ad11880a33d5a071aeee682ae8b674d50" kind="function"><name>ns_button_1_handler</name></member>
+    <member refid="ns__button_8c_1afb035c82b22bb386d37e8e76f606a61e" kind="function"><name>ns_joulescope_trigger_handler</name></member>
+    <member refid="ns__button_8c_1a47ca0f4f5f0ff466cd113e4ca1900594" kind="function"><name>ns_peripheral_button_init</name></member>
+  </compound>
+  <compound refid="ns__power_8c" kind="file"><name>ns_power.c</name>
+    <member refid="group__ns-power_1gacc59e094579b9a62714927f7c5671981" kind="variable"><name>ns_power_V0_0_1</name></member>
+    <member refid="group__ns-power_1gaba3e2ea00eb6f88fecc9d27225d2b540" kind="variable"><name>ns_power_V1_0_0</name></member>
+    <member refid="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" kind="variable"><name>ns_power_oldest_supported_version</name></member>
+    <member refid="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" kind="variable"><name>ns_power_current_version</name></member>
+    <member refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kind="variable"><name>ns_development_default</name></member>
+    <member refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kind="variable"><name>ns_good_default</name></member>
+    <member refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kind="variable"><name>ns_mlperf_mode1</name></member>
+    <member refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kind="variable"><name>ns_mlperf_mode2</name></member>
+    <member refid="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" kind="variable"><name>ns_mlperf_mode3</name></member>
+    <member refid="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" kind="variable"><name>ns_audio_default</name></member>
+    <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
+    <member refid="ns__power_8c_1a558411c9a30ac7019443eabc344c8135" kind="function"><name>ns_power_down_peripherals</name></member>
+    <member refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kind="function"><name>ns_power_config</name></member>
+    <member refid="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" kind="function"><name>ns_deep_sleep</name></member>
+  </compound>
+  <compound refid="ns__tempco_8c" kind="file"><name>ns_tempco.c</name>
+    <member refid="ns__tempco_8c_1a5e3ebbc77dd3e9d68637efb1c3a207f6" kind="variable"><name>g_ns_tempco_ui32TempcoIsrRet</name></member>
+    <member refid="ns__tempco_8c_1a1e2463aa9f344f5ade772454992d8cf2" kind="variable"><name>g_ns_tempco_ui32TempcoADCslot</name></member>
+    <member refid="ns__tempco_8c_1a871e62b8b755f25f43d9725da5c5859e" kind="variable"><name>g_ns_tempco_sSamples</name></member>
+    <member refid="ns__tempco_8c_1abe55c917fd1f79f20cfc9d0b006637c6" kind="variable"><name>g_ns_tempco_ADCHandle</name></member>
+    <member refid="ns__tempco_8c_1a7b1f44417ea4180c19363f00c721b048" kind="variable"><name>g_ns_tempcoTimer</name></member>
+    <member refid="ns__tempco_8c_1afd17c7beaaa2de4e9efe91910baea3c8" kind="function"><name>adc_temperature_samples_get</name></member>
+    <member refid="ns__tempco_8c_1a2044acb087f712ee16646510be61e58d" kind="function"><name>adc_trigger_wait</name></member>
+    <member refid="ns__tempco_8c_1a74ca6e2ec16670ad0dedf3ef1887e313" kind="function"><name>ns_tempco_callback</name></member>
+    <member refid="ns__tempco_8c_1a443a4f5174c1ed55f6e489b354384c3e" kind="function"><name>ns_tempco_init</name></member>
+  </compound>
+  <compound refid="ns__tempco_8h" kind="file"><name>ns_tempco.h</name>
+    <member refid="ns__tempco_8h_1a8ce814d36457bea71230919c0c0e0cf9" kind="define"><name>TEMPCO_ADC_TEMPERATURE_SLOT</name></member>
+    <member refid="ns__tempco_8h_1a5e3ebbc77dd3e9d68637efb1c3a207f6" kind="variable"><name>g_ns_tempco_ui32TempcoIsrRet</name></member>
+    <member refid="ns__tempco_8h_1a1e2463aa9f344f5ade772454992d8cf2" kind="variable"><name>g_ns_tempco_ui32TempcoADCslot</name></member>
+    <member refid="ns__tempco_8h_1a871e62b8b755f25f43d9725da5c5859e" kind="variable"><name>g_ns_tempco_sSamples</name></member>
+    <member refid="ns__tempco_8h_1abe55c917fd1f79f20cfc9d0b006637c6" kind="variable"><name>g_ns_tempco_ADCHandle</name></member>
+    <member refid="ns__tempco_8h_1a443a4f5174c1ed55f6e489b354384c3e" kind="function"><name>ns_tempco_init</name></member>
+  </compound>
+  <compound refid="group__ns-power" kind="group"><name>ns-power</name>
+    <member refid="group__ns-power_1gabd0847bd4ffca2198c2099c2b9888348" kind="enum"><name>ns_power_mode_e</name></member>
+    <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186" kind="enumvalue"><name>NS_MINIMUM_PERF</name></member>
+    <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a41478b7baf8d5dba7b87214644dd9e96" kind="enumvalue"><name>NS_MEDIUM_PERF</name></member>
+    <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kind="enumvalue"><name>NS_MAXIMUM_PERF</name></member>
+    <member refid="group__ns-power_1gacc59e094579b9a62714927f7c5671981" kind="variable"><name>ns_power_V0_0_1</name></member>
+    <member refid="group__ns-power_1gaba3e2ea00eb6f88fecc9d27225d2b540" kind="variable"><name>ns_power_V1_0_0</name></member>
+    <member refid="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" kind="variable"><name>ns_power_oldest_supported_version</name></member>
+    <member refid="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" kind="variable"><name>ns_power_current_version</name></member>
+    <member refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kind="variable"><name>ns_development_default</name></member>
+    <member refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kind="variable"><name>ns_good_default</name></member>
+    <member refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kind="variable"><name>ns_mlperf_mode1</name></member>
+    <member refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kind="variable"><name>ns_mlperf_mode2</name></member>
+    <member refid="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" kind="variable"><name>ns_mlperf_mode3</name></member>
+    <member refid="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" kind="variable"><name>ns_audio_default</name></member>
+    <member refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kind="function"><name>ns_power_config</name></member>
+    <member refid="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" kind="function"><name>ns_deep_sleep</name></member>
+    <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
+    <member refid="group__ns-power_1ga6893b1c8a67e77dd91e5845e92af495d" kind="define"><name>NS_POWER_V0_0_1</name></member>
+    <member refid="group__ns-power_1gac10dc28a6540a495978a77ffb260e314" kind="define"><name>NS_POWER_V1_0_0</name></member>
+    <member refid="group__ns-power_1gac4821756a41050d7e464457fd6b43f44" kind="define"><name>NS_POWER_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="group__ns-power_1gaf9578a4e472d8d6d81af205f9f31a007" kind="define"><name>NS_POWER_CURRENT_VERSION</name></member>
+    <member refid="group__ns-power_1ga94a6c1ddfab179a04e73602e3d62f54b" kind="define"><name>NS_POWER_API_ID</name></member>
+  </compound>
+  <compound refid="dir_fe04d02a8bfca0247bd216a75646089c" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/includes-api</name>
+  </compound>
+  <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
+  </compound>
+  <compound refid="dir_b737d82f35ec218ac5a7ef4105db9c0e" kind="dir"><name>neuralSPOT/neuralspot</name>
+  </compound>
+  <compound refid="dir_62cbd78784261bb0d09981988628a167" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals</name>
+  </compound>
+  <compound refid="dir_cf9eff0d6bf97258df730d615fa0f132" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/src</name>
+  </compound>
+</doxygenindex>

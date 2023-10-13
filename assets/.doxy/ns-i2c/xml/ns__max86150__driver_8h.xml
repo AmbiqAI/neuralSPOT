@@ -1,0 +1,1748 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__max86150__driver_8h" kind="file" language="C++">
+    <compoundname>ns_max86150_driver.h</compoundname>
+    <includes refid="ns__i2c_8h" local="yes">ns_i2c.h</includes>
+    <includes local="no">stddef.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includedby refid="ns__max86150__driver_8c" local="yes">neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_i2c.h</label>
+        <link refid="ns__i2c_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h</label>
+        <link refid="ns__max86150__driver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+      <node id="7">
+        <label>stddef.h</label>
+      </node>
+      <node id="8">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h</label>
+        <link refid="ns__max86150__driver_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c</label>
+        <link refid="ns__max86150__driver_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structmax86150__context__t" prot="public">max86150_context_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-_m_a_x86150_1gac058fa24435d214e382846693690a5db" prot="public" static="no" strong="no">
+        <type></type>
+        <name>max86150_slot_type</name>
+        <enumvalue id="group__ns-_m_a_x86150_1ggac058fa24435d214e382846693690a5dbac740ea9437ca3bd677b2528a244d3439" prot="public">
+          <name>Max86150SlotOff</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_a_x86150_1ggac058fa24435d214e382846693690a5dba425baf1c479942239029f13458eae257" prot="public">
+          <name>Max86150SlotPpgLed1</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_a_x86150_1ggac058fa24435d214e382846693690a5dbab58e85928b0a846a29d7538f2e4abfbc" prot="public">
+          <name>Max86150SlotPpgLed2</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_a_x86150_1ggac058fa24435d214e382846693690a5dba01ce4ec208b138c522e0fc93b45b9a9e" prot="public">
+          <name>Max86150SlotPilotLed1</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_a_x86150_1ggac058fa24435d214e382846693690a5dba259ce9e8c072c0e621bf154631e318e1" prot="public">
+          <name>Max86150SlotPilotLed2</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_a_x86150_1ggac058fa24435d214e382846693690a5dba61b6b23fbdf2ae1453a6d39b006a19a3" prot="public">
+          <name>Max86150SlotEcg</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="25" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" bodystart="25" bodyend="32"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__ns-_m_a_x86150_1ga8fd4cb3f733e0376864aedbd871c2a8f" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* pfnI2cWriteRead) (uint16_t addr, const void *write_buf, size_t num_write, void *read_buf, size_t num_read)</definition>
+        <argsstring>)(uint16_t addr, const void *write_buf, size_t num_write, void *read_buf, size_t num_read)</argsstring>
+        <name>pfnI2cWriteRead</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="36" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-_m_a_x86150_1ga3199eafa484b41dc0f8c5d6eb6289931" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* pfnI2cRead) (const void *buf, uint32_t num_bytes, uint16_t addr)</definition>
+        <argsstring>)(const void *buf, uint32_t num_bytes, uint16_t addr)</argsstring>
+        <name>pfnI2cRead</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="38" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-_m_a_x86150_1gad8598a2b1b867c19798c5a5e9910d489" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* pfnI2cWrite) (const void *buf, uint32_t num_bytes, uint16_t addr)</definition>
+        <argsstring>)(const void *buf, uint32_t num_bytes, uint16_t addr)</argsstring>
+        <name>pfnI2cWrite</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="39" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-_m_a_x86150_1gaa94b8d714640dac78645fa8f41aa85e2" prot="public" static="yes" mutable="no">
+        <type>const uint8_t</type>
+        <definition>const uint8_t MAX86150_FIFO_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX86150_FIFO_DEPTH</name>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="34" column="22" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab1a91adff59c1722f733b14293869e50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_register</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t reg, uint8_t mask)</argsstring>
+        <name>max86150_get_register</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>mask</declname>
+        </param>
+        <briefdescription>
+<para>Read register field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Register value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="48" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="53" bodyend="63" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="48" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga34a60f97dc1bac40d8ebba99564b73e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int max86150_set_register</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t reg, uint8_t value, uint8_t mask)</argsstring>
+        <name>max86150_set_register</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>mask</declname>
+        </param>
+        <briefdescription>
+<para>Set register field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>0 if successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="49" column="5" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="69" bodyend="79" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="49" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab50d87b24a544268239520892201630d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_int1</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_get_int1</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Get interrupt 1 register A_FULL[7] PPG_RDY[6] ALC_OVF[5] PROX_INT[4] PWR_RDY[0]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>register value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="52" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="89" bodyend="91" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="52" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga46053e0d0d065c08c1b5cc7ebd1e13bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_int2</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_get_int2</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Get interrupt 2 register VDD_OOR[7] ECG_RDY[2]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>register value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="53" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="100" bodyend="102" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="53" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga4193e8da9800ca7083cc9bf0b8bd65e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_alm_full_int_flag</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_alm_full_int_flag</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO almost full interrupt enable flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="55" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="110" bodyend="112" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="55" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga7a3795275732a650a90b5a8c0c8f5224" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_data_rdy_int_flag</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_data_rdy_int_flag</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="56" column="6" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="56" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga6530bc5a7cf9568ac75d106447708b30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_alc_ovf_int_flag</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_alc_ovf_int_flag</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set ambient light cancellation (ALC) overflow interrupt enable flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="57" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="130" bodyend="132" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="57" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga5347ca9cb92162b492705f52b826fb8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_prox_int_flag</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_prox_int_flag</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set proximity interrupt enable flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="58" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="140" bodyend="142" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="58" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gae6af95b4c0afdd222f2ba096ee55160e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_vdd_oor_int_flag</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_vdd_oor_int_flag</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set VDD Out-of-Range indicator interrupt flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="59" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="150" bodyend="152" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="59" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga2ccf99e3c931465a2d5f30bb29a2b361" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ecg_rdy_int_flag</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_ecg_rdy_int_flag</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set new ECG FIFO data ready interrupt enable flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="60" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="160" bodyend="162" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="60" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaa1402fca805ddc4195afb32504d0faa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_fifo_wr_pointer</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_get_fifo_wr_pointer</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Get FIFO write pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>write pointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="62" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="172" bodyend="174" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="62" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga8db0aa282095c6e1b8495226f05feb2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_fifo_wr_pointer</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_fifo_wr_pointer</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO write pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Write pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="63" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="183" bodyend="185" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="63" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gad033828138211896cb97d60f7d816d61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_fifo_slot</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t slot, max86150_slot_type type)</argsstring>
+        <name>max86150_set_fifo_slot</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>slot</declname>
+        </param>
+        <param>
+          <type>max86150_slot_type</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Configure FIFO for given slot (element) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element 0-based index corresponding to FD1, FD2, FD3, FD4 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data source to feed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="64" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="195" bodyend="200" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="64" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga6bccd8793ef70e11ae4bfda43d006cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_fifo_slots</definition>
+        <argsstring>(const max86150_context_t *ctx, max86150_slot_type *slots)</argsstring>
+        <name>max86150_set_fifo_slots</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>max86150_slot_type *</type>
+          <declname>slots</declname>
+        </param>
+        <briefdescription>
+<para>Configure all FIFO slots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element (FD1) data source </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element (FD2) data source </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element (FD3) data source </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>slot3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element (FD4) data source </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="65" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="212" bodyend="216" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="65" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga2a8c22d32a7f1f56e3039361ab74dac3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_disable_slots</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_disable_slots</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Disables all FIFO slots data sources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="66" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="224" bodyend="227" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="66" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga9bc0cfb20a2998abcff9333de52d1e12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t max86150_read_fifo_samples</definition>
+        <argsstring>(const max86150_context_t *ctx, uint32_t *buffer, max86150_slot_type *slots, uint8_t numSlots)</argsstring>
+        <name>max86150_read_fifo_samples</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>max86150_slot_type *</type>
+          <declname>slots</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>numSlots</declname>
+        </param>
+        <briefdescription>
+<para>Reads all data available in FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to store FIFO data. Should be at least 32*3*elementsPerSample (max 384 bytes) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>elementsPerSample</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements per sample. Depends on values written to FD1-FD4 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of samples read </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="67" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="239" bodyend="285" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="67" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab6f08901cb6fff77ada4df23029f3dd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_fifo_overflow_counter</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_get_fifo_overflow_counter</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Get FIFO overflow counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>FIFO overflow counter </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="69" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="293" bodyend="295" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="69" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gac9cace7476e888763cbfd3f8a1dca40d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_set_fifo_overflow_counter</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_fifo_overflow_counter</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO overflow counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>FIFO overflow counter </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="70" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="303" bodyend="305" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="70" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga6376bdde9fe6f1cdf0b2872021f8e213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_fifo_rd_pointer</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_get_fifo_rd_pointer</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Get FIFO write pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>FIFO write pointer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="71" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="313" bodyend="315" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="71" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga7f06649ae4f7f7040b70dac1a2ad0bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_fifo_rd_pointer</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_fifo_rd_pointer</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO read pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="72" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="322" bodyend="324" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="72" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gada84237db5259ed2be1c093414327c64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_almost_full_int_options</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t options)</argsstring>
+        <name>max86150_set_almost_full_int_options</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO almost full interrupt options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1-bit: 0: A_FULL interrupt does not get cleared by FIFO_DATA register read. It gets cleared by status register read. 1: A_FULL interrupt gets cleared by FIFO_DATA register read or status register read. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="74" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="336" bodyend="338" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="74" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gae13b873ad0f632a815c226a47992ed00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_almost_full_flag_options</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t options)</argsstring>
+        <name>max86150_set_almost_full_flag_options</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO almost full flag options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1-bit: 0: Assert on a_full condition, clear by status reg read, and re-assert on subsequent samples 1: Assert on a_full condition, clear by status reg read, and not re-assert on subsequent samples </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="75" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="349" bodyend="351" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="75" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab5a080b34fa7cb2a3d3f65379e6d3e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_almost_full_rollover</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_almost_full_rollover</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set whether FIFO rolls over when full. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1-bit: 0: No rollover - FIFO stop on full 1: Rollover - FIFO auto rolls over on full </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="76" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="362" bodyend="364" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="76" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga9c9468d2790dfb24f6f5625903e15c6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_almost_full_threshold</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t space)</argsstring>
+        <name>max86150_set_almost_full_threshold</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>space</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO almost full value (i.e. how many samples till interrupt is triggered) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>space</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remaining FIFO space before intr trigger </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="77" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="373" bodyend="375" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="77" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaebbdb978209008bafdea1aaa99b8ef9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_fifo_enable</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t enable)</argsstring>
+        <name>max86150_set_fifo_enable</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Set FIFO enable state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable/disable FIFO. Clears on enable </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="78" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="385" bodyend="387" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="78" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga2a8729ec072a3d6748bd2c65e2400687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_powerup</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_powerup</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Takes chip out ofpower-save mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="80" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="405" bodyend="407" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="80" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga7be83bfd2157743dd2f0ae03eb6f78a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_shutdown</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_shutdown</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Put chip into power-save mode. Registers retain their values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="81" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="395" bodyend="397" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="81" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga98a4934cc9ca4c688ad7c77afd20d731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_reset</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_reset</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>This performs full power-on-reset. All registers are reset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="82" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="415" bodyend="417" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="82" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaf128a7c76a78c0c9cbf822617078e061" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ppg_adc_range</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t range)</argsstring>
+        <name>max86150_set_ppg_adc_range</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Set PPG ADC range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>2-bit | Full scale = 2**(14+value) nA, LSB = 7.8125 * (2 ** value) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="84" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="439" bodyend="441" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="84" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaf90ff603e2f6efe83aa50d18a9a9130e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ppg_sample_rate</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_ppg_sample_rate</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set PPG sample rate and pulse rate. NOTE: If rate cant be acheived, then highest available will be selected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>4-bit | Samples/sec: [10, 20, 50, 84, 100, 200, 400, 800, 1000, 1600, 3200, 10, 20, 50, 84, 100] Pulses/sec: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="85" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="453" bodyend="455" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="85" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga338b602b6d5ebf30f35a709aee5edf0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ppg_pulse_width</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_ppg_pulse_width</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set PPG pulse width. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>2-bit | 0: 50 1: 100 2: 200 3: 400 (us) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="86" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="464" bodyend="466" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="86" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab100777602f119100a30afc9f1014007" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ppg_sample_average</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_ppg_sample_average</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set PPG sample averaging. Will average and decimate adjacent samples. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>avg = min(2**value, 32) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="87" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="475" bodyend="477" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="87" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaa8523355f3e84e1ba8729fde651e50d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_proximity_threshold</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_proximity_threshold</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Sets the IR ADC count that triggers the beginning of the PPG mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="88" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="485" bodyend="487" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="88" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga458fceb2df9586bce26d19d5cde756b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_led_pulse_amplitude</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t led, uint8_t value)</argsstring>
+        <name>max86150_set_led_pulse_amplitude</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>led</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>led</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0: LED1 (IR), 1: LED2 (RED), 2: LEDP (proximity) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>7-bit | Pulse amplitude = 0.2*value*(LEDn_RANGE+1) (mA) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="89" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="499" bodyend="515" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="89" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaacbe3cf511dda05102c5cb136213032b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_led_current_range</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t led, uint8_t value)</argsstring>
+        <name>max86150_set_led_current_range</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>led</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set LED current range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>led</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0: LED1 (IR), 1: LED2 (RED) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>2-bit | 0: 50, 1: 100 (mA) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="90" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="525" bodyend="529" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="90" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab65df25679d5034f2b77c0ecd866692b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ecg_sample_rate</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_ecg_sample_rate</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>3-bit Sample Rate Table (Hz) VALUE FS FBW_70 FBW_90 0 1600 420 232 1 800 210 116 2 400 105 58 3 200 52 29 4 3200 840 464 5 1600 420 232 6 800 210 116 7 400 105 58 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="91" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="549" bodyend="551" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="91" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga436d0bc06f60f02eed0ae962ad30e0e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ecg_pga_gain</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_ecg_pga_gain</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set ECG PGA gain. Gain = 2**value (V/V) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>2-bit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="92" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="560" bodyend="562" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="92" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gaeac07217ae53a62a9ec687276ec59af6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_set_ecg_ia_gain</definition>
+        <argsstring>(const max86150_context_t *ctx, uint8_t value)</argsstring>
+        <name>max86150_set_ecg_ia_gain</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set ECG instrument amplifier gain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gain table: 0: 5, 1: 9.5, 2: 20, 3: 50 (V/V) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="93" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="572" bodyend="574" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="93" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1ga2f67fb5776aa1b2609436dcbd71603c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t max86150_get_part_id</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_get_part_id</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Get part ID. Should be 0x1E for this part. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>return </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="94" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="426" bodyend="428" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="94" declcolumn="9"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_a_x86150_1gab60942df2202f4c5faefcc4f3844becb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void max86150_clear_fifo</definition>
+        <argsstring>(const max86150_context_t *ctx)</argsstring>
+        <name>max86150_clear_fifo</name>
+        <param>
+          <type>const <ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Clear FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" line="96" column="6" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_max86150_driver.c" bodystart="582" bodyend="586" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h" declline="96" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Register driver for MAX86150 ECG/PPG IC. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Adam Page (<ulink url="mailto:adam.page@ambiq.com">adam.page@ambiq.com</ulink>) </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-11-02</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_MAX86150_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MAX86150_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;<ref refid="ns__i2c_8h" kindref="compound">ns_i2c.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;stddef.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>Max86150SlotOff<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>Max86150SlotPpgLed1<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>Max86150SlotPpgLed2<sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>Max86150SlotPilotLed1<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>Max86150SlotPilotLed2<sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>Max86150SlotEcg<sp/>=<sp/>9</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}<sp/>max86150_slot_type;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>MAX86150_FIFO_DEPTH<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*pfnI2cWriteRead)(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>addr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*write_buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_write,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*read_buf,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_read);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*pfnI2cRead)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>num_bytes,<sp/>uint16_t<sp/>addr);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*pfnI2cWrite)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>num_bytes,<sp/>uint16_t<sp/>addr);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structmax86150__context__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>addr;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>pfnI2cWriteRead<sp/>i2c_write_read;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>pfnI2cRead<sp/>i2c_read;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>pfnI2cWrite<sp/>i2c_write;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}<sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1gab1a91adff59c1722f733b14293869e50" kindref="member">max86150_get_register</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>reg,<sp/>uint8_t<sp/>mask);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga34a60f97dc1bac40d8ebba99564b73e4" kindref="member">max86150_set_register</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>reg,<sp/>uint8_t<sp/>value,<sp/>uint8_t<sp/>mask);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Interrupts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1gab50d87b24a544268239520892201630d" kindref="member">max86150_get_int1</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1ga46053e0d0d065c08c1b5cc7ebd1e13bd" kindref="member">max86150_get_int2</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga4193e8da9800ca7083cc9bf0b8bd65e7" kindref="member">max86150_set_alm_full_int_flag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>max86150_set_data_rdy_int_flag(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga6530bc5a7cf9568ac75d106447708b30" kindref="member">max86150_set_alc_ovf_int_flag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga5347ca9cb92162b492705f52b826fb8a" kindref="member">max86150_set_prox_int_flag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gae6af95b4c0afdd222f2ba096ee55160e" kindref="member">max86150_set_vdd_oor_int_flag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga2ccf99e3c931465a2d5f30bb29a2b361" kindref="member">max86150_set_ecg_rdy_int_flag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1gaa1402fca805ddc4195afb32504d0faa3" kindref="member">max86150_get_fifo_wr_pointer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga8db0aa282095c6e1b8495226f05feb2a" kindref="member">max86150_set_fifo_wr_pointer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gad033828138211896cb97d60f7d816d61" kindref="member">max86150_set_fifo_slot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>slot,<sp/>max86150_slot_type<sp/>type);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga6bccd8793ef70e11ae4bfda43d006cef" kindref="member">max86150_set_fifo_slots</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>max86150_slot_type<sp/>*slots);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga2a8c22d32a7f1f56e3039361ab74dac3" kindref="member">max86150_disable_slots</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-_m_a_x86150_1ga9bc0cfb20a2998abcff9333de52d1e12" kindref="member">max86150_read_fifo_samples</ref>(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint32_t<sp/>*buffer,<sp/>max86150_slot_type<sp/>*slots,<sp/>uint8_t<sp/>numSlots);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1gab6f08901cb6fff77ada4df23029f3dd7" kindref="member">max86150_get_fifo_overflow_counter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1gac9cace7476e888763cbfd3f8a1dca40d" kindref="member">max86150_set_fifo_overflow_counter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1ga6376bdde9fe6f1cdf0b2872021f8e213" kindref="member">max86150_get_fifo_rd_pointer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga7f06649ae4f7f7040b70dac1a2ad0bff" kindref="member">max86150_set_fifo_rd_pointer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gada84237db5259ed2be1c093414327c64" kindref="member">max86150_set_almost_full_int_options</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>options);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gae13b873ad0f632a815c226a47992ed00" kindref="member">max86150_set_almost_full_flag_options</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>options);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gab5a080b34fa7cb2a3d3f65379e6d3e48" kindref="member">max86150_set_almost_full_rollover</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga9c9468d2790dfb24f6f5625903e15c6c" kindref="member">max86150_set_almost_full_threshold</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>space);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gaebbdb978209008bafdea1aaa99b8ef9a" kindref="member">max86150_set_fifo_enable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>enable);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga2a8729ec072a3d6748bd2c65e2400687" kindref="member">max86150_powerup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga7be83bfd2157743dd2f0ae03eb6f78a9" kindref="member">max86150_shutdown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga98a4934cc9ca4c688ad7c77afd20d731" kindref="member">max86150_reset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gaf128a7c76a78c0c9cbf822617078e061" kindref="member">max86150_set_ppg_adc_range</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>range);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gaf90ff603e2f6efe83aa50d18a9a9130e" kindref="member">max86150_set_ppg_sample_rate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga338b602b6d5ebf30f35a709aee5edf0e" kindref="member">max86150_set_ppg_pulse_width</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gab100777602f119100a30afc9f1014007" kindref="member">max86150_set_ppg_sample_average</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gaa8523355f3e84e1ba8729fde651e50d1" kindref="member">max86150_set_proximity_threshold</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga458fceb2df9586bce26d19d5cde756b4" kindref="member">max86150_set_led_pulse_amplitude</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>led,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gaacbe3cf511dda05102c5cb136213032b" kindref="member">max86150_set_led_current_range</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>led,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gab65df25679d5034f2b77c0ecd866692b" kindref="member">max86150_set_ecg_sample_rate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1ga436d0bc06f60f02eed0ae962ad30e0e3" kindref="member">max86150_set_ecg_pga_gain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gaeac07217ae53a62a9ec687276ec59af6" kindref="member">max86150_set_ecg_ia_gain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx,<sp/>uint8_t<sp/>value);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-_m_a_x86150_1ga2f67fb5776aa1b2609436dcbd71603c7" kindref="member">max86150_get_part_id</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-_m_a_x86150_1gab60942df2202f4c5faefcc4f3844becb" kindref="member">max86150_clear_fifo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structmax86150__context__t" kindref="compound">max86150_context_t</ref><sp/>*ctx);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_MAX86150_H</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_max86150_driver.h"/>
+  </compounddef>
+</doxygen>

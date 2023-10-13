@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__rpc__config__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_rpc_config_t</compoundname>
+    <includes refid="ns__rpc__generic__data_8h" local="no">ns_rpc_generic_data.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_rpc_config_t::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_rpc_config_t::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="54" column="25" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" prot="public" static="no" mutable="no">
+        <type>rpcGenericDataMode_e</type>
+        <definition>rpcGenericDataMode_e ns_rpc_config_t::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>ns_rpc_config_t::mode</qualifiedname>
+        <briefdescription>
+<para>Client or Server mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="55" column="26" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* ns_rpc_config_t::rx_buf</definition>
+        <argsstring></argsstring>
+        <name>rx_buf</name>
+        <qualifiedname>ns_rpc_config_t::rx_buf</qualifiedname>
+        <briefdescription>
+<para>Pointer to allocated buffer which USB CDC will use for rx transfers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="56" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_rpc_config_t::rx_bufLength</definition>
+        <argsstring></argsstring>
+        <name>rx_bufLength</name>
+        <qualifiedname>ns_rpc_config_t::rx_bufLength</qualifiedname>
+        <briefdescription>
+<para>Length of rx buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="57" column="14" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* ns_rpc_config_t::tx_buf</definition>
+        <argsstring></argsstring>
+        <name>tx_buf</name>
+        <qualifiedname>ns_rpc_config_t::tx_buf</qualifiedname>
+        <briefdescription>
+<para>Pointer to allocated buffer which USB CDC will use for tx transfers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="58" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_rpc_config_t::tx_bufLength</definition>
+        <argsstring></argsstring>
+        <name>tx_bufLength</name>
+        <qualifiedname>ns_rpc_config_t::tx_bufLength</qualifiedname>
+        <briefdescription>
+<para>Length of tx buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="59" column="14" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" prot="public" static="no" mutable="no">
+        <type>usb_handle_t</type>
+        <definition>usb_handle_t ns_rpc_config_t::usbHandle</definition>
+        <argsstring></argsstring>
+        <name>usbHandle</name>
+        <qualifiedname>ns_rpc_config_t::usbHandle</qualifiedname>
+        <briefdescription>
+<para>USB handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="60" column="18" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" prot="public" static="no" mutable="no">
+        <type>ns_rpc_data_sendBlockToEVB_cb</type>
+        <definition>ns_rpc_data_sendBlockToEVB_cb ns_rpc_config_t::sendBlockToEVB_cb</definition>
+        <argsstring></argsstring>
+        <name>sendBlockToEVB_cb</name>
+        <qualifiedname>ns_rpc_config_t::sendBlockToEVB_cb</qualifiedname>
+        <briefdescription>
+<para>Callback for sendBlockToEVB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="61" column="35" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" prot="public" static="no" mutable="no">
+        <type>ns_rpc_data_fetchBlockFromEVB_cb</type>
+        <definition>ns_rpc_data_fetchBlockFromEVB_cb ns_rpc_config_t::fetchBlockFromEVB_cb</definition>
+        <argsstring></argsstring>
+        <name>fetchBlockFromEVB_cb</name>
+        <qualifiedname>ns_rpc_config_t::fetchBlockFromEVB_cb</qualifiedname>
+        <briefdescription>
+<para>Callback for fetchBlockFromEVB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="62" column="38" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" prot="public" static="no" mutable="no">
+        <type>ns_rpc_data_computeOnEVB_cb</type>
+        <definition>ns_rpc_data_computeOnEVB_cb ns_rpc_config_t::computeOnEVB_cb</definition>
+        <argsstring></argsstring>
+        <name>computeOnEVB_cb</name>
+        <qualifiedname>ns_rpc_config_t::computeOnEVB_cb</qualifiedname>
+        <briefdescription>
+<para>Callback for computeOnEVB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="63" column="33" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>RPC Configuration Struct. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>binary_t</label>
+        <link refid="structbinary__t"/>
+      </node>
+      <node id="2">
+        <label>dataBlock</label>
+        <link refid="structdata_block"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>buffer</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ns_rpc_config_t</label>
+        <link refid="structns__rpc__config__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>computeOnEVB_cb</edgelabel>
+          <edgelabel>fetchBlockFromEVB_cb</edgelabel>
+          <edgelabel>sendBlockToEVB_cb</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="53" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="53" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>api</name></member>
+      <member refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>computeOnEVB_cb</name></member>
+      <member refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>fetchBlockFromEVB_cb</name></member>
+      <member refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>mode</name></member>
+      <member refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>rx_buf</name></member>
+      <member refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>rx_bufLength</name></member>
+      <member refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>sendBlockToEVB_cb</name></member>
+      <member refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>tx_buf</name></member>
+      <member refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>tx_bufLength</name></member>
+      <member refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>usbHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -4,19 +4,19 @@ docs_dir: ./neuralSPOT
 site_description: Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
 repo_name: AmbiqAI/neuralSPOT
 repo_url: https://github.com/AmbiqAI/neuralSPOT
-# copyright: Copyright &copy; 2023 Ambiq
 
 exclude_docs: |
   extern/*
   projects/*
 
 nav:
-  - neuralSPOT: README.md
-  - "AI at Ambiq": docs/ai_at_ambiq.md
-  - Ambiq Model Zoo: docs/Ambiq_ModelZoo.md
+  - Home: docs/index.md
+  - AI at Ambiq: docs/ai_at_ambiq.md
+  - Ambiq Model Zoo: docs/Ambiq-ModelZoo.md
   - Getting Started:
     - Introduction: docs/Introduction-to-neuralSPOT.md
     - Tutorial: docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md
+    - Build Guide: docs/makefile-details.md
     - Features: docs/features.md
   - Developers:
     - Developing with NeuralSPOT: docs/Developing_with_NeuralSPOT.md
@@ -47,27 +47,61 @@ nav:
     - Power: neuralspot/ns-peripherals/README.md
     - Performance Utilities: neuralspot/ns-utils/README.md
   - Code Documentation:
-    - Audio: ns-audio/modules.md
-    - test1: ns-audio/annotated.md
-    - test2: ns-audio/files.md
-    - test3: ns-audio/namespaces.md
-    - test4: ns-audio/classes.md
-    - test5: ns-audio/hierarchy.md
-    - test6: ns-audio/pages.md
-    - test7: ns-audio/class_members.md
-    - test8: ns-audio/class_member_functions.md
-    - test9: ns-audio/class_member_variables.md
-    - testa: ns-audio/class_member_typedefs.md
-    - testb: ns-audio/class_member_enums.md
-    - testc: ns-audio/namespace_members.md
-    - testd: ns-audio/namespace_member_functions.md
-    - teste: ns-audio/namespace_member_variables.md
-    - testf: ns-audio/namespace_member_typedefs.md
-    - testg: ns-audio/namespace_member_enums.md
-    - testh: ns-audio/functions.md
-    - testi: ns-audio/macros.md
-    - testj: ns-audio/variables.md
-    - testk: ns-audio/links.md
+    - Audio:
+      - Files: ns-audio/files.md
+      - Modules: ns-audio/modules.md
+      - Functions: ns-audio/functions.md
+      - Structs: ns-audio/annotated.md
+      - Variables: ns-audio/variables.md
+    - Bluetooth:
+      - Files: ns-ble/files.md
+      - Modules: ns-ble/modules.md
+      - Functions: ns-ble/functions.md
+      - Structs: ns-ble/annotated.md
+      - Variables: ns-ble/variables.md
+    - Remote Procedure Call:
+      - Files: ns-rpc/files.md
+      - Modules: ns-rpc/modules.md
+      - Functions: ns-rpc/functions.md
+      - Structs: ns-rpc/annotated.md
+      - Variables: ns-rpc/variables.md
+    - i2c:
+      - Files: ns-i2c/files.md
+      - Modules: ns-i2c/modules.md
+      - Functions: ns-i2c/functions.md
+      - Structs: ns-i2c/annotated.md
+      - Variables: ns-i2c/variables.md
+    - Utilities:
+      - Files: ns-utils/files.md
+      - Modules: ns-utils/modules.md
+      - Functions: ns-utils/functions.md
+      - Structs: ns-utils/annotated.md
+      - Variables: ns-utils/variables.md
+    - Power and power:
+      - Files: ns-power/files.md
+      - Modules: ns-power/modules.md
+      - Functions: ns-power/functions.md
+      - Structs: ns-power/annotated.md
+      - Variables: ns-power/variables.md
+    - Core:
+      - Files: ns-core/files.md
+      - Modules: ns-core/modules.md
+      - Functions: ns-core/functions.md
+      - Structs: ns-core/annotated.md
+      - Variables: ns-core/variables.md
+    - AmbiqSuite Harness:
+      - Files: ns-harness/files.md
+      - Modules: ns-harness/modules.md
+      - Functions: ns-harness/functions.md
+      - Structs: ns-harness/annotated.md
+      - Variables: ns-harness/variables.md
+    - Model Wrapper:
+      - Files: ns-model/files.md
+      - Modules: ns-model/modules.md
+      - Functions: ns-model/functions.md
+      - Structs: ns-model/annotated.md
+      - Variables: ns-model/variables.md
+
 
 markdown_extensions:
   - pymdownx.superfences:
@@ -83,22 +117,77 @@ markdown_extensions:
 plugins:
   - glightbox
   - mkdoxy:
+      full-doc: True
       projects:
         ns-audio:
           src-dirs: neuralSPOT/neuralspot/ns-audio
           full-doc: True
-          debug: True
           doxy-cfg:
-            FILE_PATTERNS: "*.h"
+            FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
-      save-api: .test
-      full-doc: True
-      debug: True
+            EXTRACT_ALL: No
+        ns-ble:
+          src-dirs: neuralSPOT/neuralspot/ns-ble
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-i2c:
+          src-dirs: neuralSPOT/neuralspot/ns-i2c
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-power:
+          src-dirs: neuralSPOT/neuralspot/ns-peripherals
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-core:
+          src-dirs: neuralSPOT/neuralspot/ns-core
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-rpc:
+          src-dirs: neuralSPOT/neuralspot/ns-rpc
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-utils:
+          src-dirs: neuralSPOT/neuralspot/ns-utils
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-harness:
+          src-dirs: neuralSPOT/neuralspot/ns-harness
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-model:
+          src-dirs: neuralSPOT/neuralspot/ns-model
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+
 
 theme:
   name: material
-  # favicon: assets/favicon.png
-  # logo: assets/logo-white.png
+  favicon: docs/images/favicon.png
+  logo: docs/images/favicon.png
   icon:
       repo: fontawesome/brands/github-alt
   font:

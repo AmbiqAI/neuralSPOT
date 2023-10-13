@@ -7,7 +7,7 @@
  *
  * @copyright Copyright (c) 2023
  *
- * /addtogroup ns-ble
+ * \addtogroup ns-ble
  * @{
  *
  */

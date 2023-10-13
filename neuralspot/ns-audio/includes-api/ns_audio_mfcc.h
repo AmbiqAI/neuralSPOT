@@ -12,7 +12,6 @@
  *
  *  \addtogroup ns-MFCC
  *  @{
- *  @ingroup ns-audio
  */
 
 /*

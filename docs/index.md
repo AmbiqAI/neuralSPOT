@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/AmbiqAI/neuralSPOT"><img src="./docs/images/banner.png" alt="neuralSPT"></a>
+  <a href="https://github.com/AmbiqAI/neuralSPOT"><img src="images/banner.png" alt="neuralSPOT"></a>
 </p>
 
 ---
@@ -14,7 +14,7 @@ NeuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo f
 
 NeuralSPOT is designed to help embedded AI developers in 3 important ways:
 
-1. **Initial development and fine-tuning of their AI model**: neuralSPOT offers tools to rapidly [characterize the performance and size](./docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md) of a TFLite model on Ambiq processors.
+1. **Initial development and fine-tuning of their AI model**: neuralSPOT offers tools to rapidly [characterize the performance and size](From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md) of a TFLite model on Ambiq processors.
 2. **Rapid AI feature prototyping**: neuralSPOT's library of easy to use drivers, feature extractors, helper functions, and communication mechanisms accelerate the development of stand-alone AI feature applications to test the model in real-world situations with real-world data and latencies.
 3. **AI model library export**: once an AI model has been developed and refined via prototyping, neuralSPOT allows one-click deployment of a static library implementing the AI model, suitable to linking into larger embedded applications.
 
@@ -22,8 +22,7 @@ NeuralSPOT is designed to help embedded AI developers in 3 important ways:
 NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
 
 <p align="center">
-
-<img src="./docs/images/image-20220811095223908.png" alt="image-20220811095223908" style="zoom:75%;" align=center />
+<img src="images/image-20220811095223908.png" alt="image-20220811095223908" style="width:75%;" align=center />
 </p>
 
 
@@ -55,7 +54,7 @@ make deploy # flashes the default example to EVB
 make view # connects to the Jlink SWO interface to show printf output from EVB
 ```
 
-The `make` systems is highly configurable and flexible - see our [makefile options document](docs/makefile-details.md) for more details.
+The `make` systems is highly configurable and flexible - see our [makefile options document](makefile-details.md) for more details.
 
 See our [Windows application note](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Application-Note-neuralSPOT-and-Windows.md) for Windows-specific considerations.
 
@@ -90,9 +89,8 @@ Autodeploy is highly configurable and also **capable of automatically measuring 
 NeuralSPOT consists of the neuralspot libraries, required external components, tools, and examples.
 
 <p align="center">
-<img src="./docs/images/image-20230727151002947.png" alt="image-20230727151002947" style="zoom:50%;" />
+<img src="images/image-20230727151002947.png" alt="layer diagram" style="width:75%;" />
 </p>
-
 The directory structure reflects the code structure:
 
 ```

@@ -145,8 +145,6 @@ ns_audio_config_t audio_config = {
 };
 ```
 
-
-
 We need to define two callbacks - one for ns-audio to handle incoming audio samples, and the other for EdgeImpulse to give it access to those samples. Both are very straight-forward:
 
 ```c
@@ -202,14 +200,11 @@ res = run_classifier_continuous(&signal, &result, false);
 
 y = updateFilter(&yesFilter, result.classification[3].value);
 n = updateFilter(&noFilter, result.classification[0].value);
-if (y>0.6) ns_lp_printf("Y");       // Strong Yes
+if (y>0.6) ns_lp_printf("Y");         // Strong Yes
   else if (y>0.4) ns_lp_printf("y");  // Probably Yes
-if (n>0.6) ns_lp_printf("N");       // Strong No
+if (n>0.6) ns_lp_printf("N");         // Strong No
   else if (n>0.4) ns_lp_printf("n");  // Probably No
 ```
 
-
-
 # Just the Beginning
-
-The beauty integrating development platforms such as neuralSPOT and EdgeImpulse is that once the initial integration is down, developing, deploying, and updating models becomes much easier - instead of struggling with integration details, the AI developer is freed to focus on the core challenges of AI - collecting and refining data and improving model accuracy.
+The beauty integrating development platforms such as neuralSPOT and EdgeImpulse is that once the initial integration is down, developing, deploying, and updating models becomes much easier because instead of struggling with integration details, the AI developer is freed to focus on the core challenges of AI: collecting and refining data and improving model accuracy.

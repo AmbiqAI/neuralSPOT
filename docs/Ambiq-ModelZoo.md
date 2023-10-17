@@ -17,14 +17,14 @@ Each model's repository includes:
 
 Built on top of neuralSPOT, our models take advantage of the Apollo4 family's amazing power efficiency to accomplish common, practical endpoint AI tasks such as speech processing and health monitoring. 
 
-| Model    | Description                                                  | Sensor                             | Pre-trained? | Real-Time? |
-| -------- | ------------------------------------------------------------ | ---------------------------------- | ------------ | ---------- |
-| NNSP     | Neural Network Speech Processing - 3-in-1 model including voice activity detection, keyword spotting, and speech-to-intent | Analog or digital microphone       | no           | Yes        |
-| NNSE     | Neural Network Speech Enhancer - removes background noise from speech. | Analog or digital microphone       | Yes          | Yes        |
-| NNID     | Neural Network Speaker Identification - identifies a speaker based on their speech pattern. | Analog or digital microphone       | Yes          | Yes        |
-| ESC      | Environmental Sound Classification - identifies sounds such as crying babies, barking dogs, and gunshots. | Analog or digital microphone       | Yes          | Yes        |
-| HeartKit | Analyzes ECG data to classify beats, identify ECG segments, and detect irregular heartbeats. | ECG over I2C                       | Yes          | Yes        |
-| HAR      | Human Activity Recognition - detects activities such as running, walking, sitting, and climbing stairs. | Accelerometer + Gyroscope over I2C | Yes          | Yes        |
+| Model                                                        | Description                                                  | Sensor                             | Pre-trained? | Real-Time? |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------- | ------------ | ---------- |
+| [NNSP](https://github.com/AmbiqAI/nnsp)                      | Neural Network Speech Processing - 3-in-1 model including voice activity detection, keyword spotting, and speech-to-intent | Analog or digital microphone       | no           | Yes        |
+| [NNSE](https://github.com/AmbiqAI/nnse)                      | Neural Network Speech Enhancer - removes background noise from speech. | Analog or digital microphone       | Yes          | Yes        |
+| [NNID](https://github.com/AmbiqAI/nnid)                      | Neural Network Speaker Identification - identifies a speaker based on their speech pattern. | Analog or digital microphone       | Yes          | Yes        |
+| [ESC](https://github.com/AmbiqAI/esc)                        | Environmental Sound Classification - identifies sounds such as crying babies, barking dogs, and gunshots. | Analog or digital microphone       | Yes          | Yes        |
+| [HeartKit](https://github.com/AmbiqAI/ecg-arrhythmia)        | Analyzes ECG data to classify beats, identify ECG segments, and detect irregular heartbeats. | ECG over I2C                       | Yes          | Yes        |
+| [HAR](https://github.com/AmbiqAI/Human-Activity-Recognition) | Human Activity Recognition - detects activities such as running, walking, sitting, and climbing stairs. | Accelerometer + Gyroscope over I2C | Yes          | Yes        |
 
 
 

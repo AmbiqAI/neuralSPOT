@@ -22,24 +22,24 @@ NeuralSPOT is designed to help embedded AI developers in 3 important ways:
 NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
 
 <p align="center">
-<img src="images/image-20220811095223908.png" alt="image-20220811095223908" style="width:75%;" align=center />
+<img src="images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center />
 </p>
 
 
 ## Requirements
 
-> *NOTE* for detailed compatibility notes, see the [features document](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md).
+> **NOTE** for detailed compatibility notes, see the [features document](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md).
 
 * **Hardware**
-  * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of Apollo4 Plus, Apollo4 Blue Plus, Apollo4 Lite, or Apollo4 Blue Lite
-  * Energy Measurement (optional): [Joulescope](https://www.joulescope.com) JS110 or JS220 (only needed for automated model energy measurements)
+    * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of Apollo4 Plus, Apollo4 Blue Plus, Apollo4 Lite, or Apollo4 Blue Lite
+    * Energy Measurement (optional): [Joulescope](https://www.joulescope.com) JS110 or JS220 (only needed for automated model energy measurements)
 * **Software**
-  * [Segger J-Link 7.88+](https://www.segger.com/downloads/jlink/)
-  * Compilers: at least one of...
-    * [Arm GNU Toolchain 10.3+](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
-    * [Armclang](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
-  * [GNU Make](https://www.gnu.org/software/make/)
-  * [Python 3.11+](https://www.python.org)
+    * [Segger J-Link 7.88+](https://www.segger.com/downloads/jlink/)
+    * Compilers: at least one of...
+        * [Arm GNU Toolchain 10.3+](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
+        * [Armclang](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
+    * [GNU Make](https://www.gnu.org/software/make/)
+    * [Python 3.11+](https://www.python.org)
 
 ## Building and Deploying NeuralSPOT
 
@@ -64,7 +64,7 @@ NeuralSPOT includes tools to automatically analyze, build, characterize, and pac
 
 Two caveats:
 
-* Autodeploy for EVBs without a second USB require special attention - see the Apollo4 Lite section of this document.
+* Autodeploy for EVBs without a second USB port requires special attention - see the Apollo4 Lite section of this document.
 * RPC uses one of the PC's serial ports - these are named differently depending on the OS. The following example defaults to Linux/Mac, see this document for finding the serial port and add `--tty <your port>` to use that instead.
 
 ```bash
@@ -95,7 +95,7 @@ The directory structure reflects the code structure:
 
 ```
 /neuralspot - contains all code for NeuralSPOT libraries
-	/neuralspot # Sensor, communications, and helper libraries
+	/neuralspot # neuralSPOT's libraries
 	/extern     # External dependencies, including TF and AmbiqSuite
 	/examples   # Example applications, each of which can be compiled to a deployable binary
 	/projects   # Examples of how to integrate external projects such as EdgeImpulse models

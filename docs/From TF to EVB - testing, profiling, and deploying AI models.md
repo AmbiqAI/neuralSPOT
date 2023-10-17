@@ -1,8 +1,9 @@
 # From TF to EVB - testing, profiling, and deploying AI models
 
-Developing AI models is hard. Deploying them on embedded devices is also hard. Developing AI features for embedded devices requires doing both of these hard things over and over again until everything is working and optimized. Fortunately, Ambiq's neuralSPOT Autodeploy tool is here to help.
+#### Autodeploy automates the creation, deployment, validation, and profiling of TFlite models on Ambiq EVBs
 
-Autodeploy is an Ambiq-specific tool which automates the creation, deployment, validation, and profiling of TFlite models on embedded platforms.
+Developing AI models is hard. Deploying them on embedded devices is also hard. Developing AI features for embedded devices requires doing both of these hard things over and over again until everything is working and optimized. By automating the model conversion, deployment, and characterization process, Ambiq's neuralSPOT Autodeploy tool can help accelerate this cycle.
+
 
 ## The Old Way of Doing Things
 
@@ -18,7 +19,6 @@ Each of of these steps is mostly manual, complex, and fraught with the potential
 Fortunately, all the information needed to automate the middle 2 steps is tucked in Tensorflow's representation of the model - all that is needed is a convenient way to extract it, and an automation flow that takes advantage of that info.
 
 # Ambiq's AutoDeploy is Here to Help
-
 AutoDeploy is a tool that speeds up the AI/Embedded iteration cycle by automating most of the tedious bits - given a TFLite file, the tool will convert it to code that can run on an Ambiq EVB, then run a series of tests to characterize its embedded behavior. It then generates a minimal static library suitable implementing the model for easy integration into applications.
 
 ![image-20231009142411775](./images/autodeploy-flow.png)
@@ -27,19 +27,18 @@ AutoDeploy is a tool that speeds up the AI/Embedded iteration cycle by automatin
 
 AutoDeploy was designed to address many common pain points:
 
-- Code Generation Pain
-  - Automatically figures out the right Tensor Arena, Resource Variable Arena, and Profile Data sizes
-  - Produces a minimal TFLite for Microcontroller instance by determining which Ops are actually needed and only including those
-- Model Behavior Mismatches
-  - AutoDeploy runs the same model inputs on the PC and EVB, and compares the results, leading to early discovery and easier debugging of behavior differences. Configuration of the model, input/output tensors, and statistics gathering are driven by AutoDeploy using RPC.
-- Model Performance Profiling
-  - AutoDeploy extends the TFLite for Microcontrollers Profiling to produce detailed reports including per-layer latency, MAC count, and cache and CPU performance statistics.
-- Model Power Usage Profiling
-  - If a Joulescope is available, AutoDeploy can use it to automatically measure the model inference power consumption.
+* Code Generation Pain
+  * Automatically figures out the right Tensor Arena, Resource Variable Arena, and Profile Data sizes
+  * Produces a minimal TFLite for Microcontroller instance by determining which Ops are actually needed and only including those
+* Model Behavior Mismatches
+  * AutoDeploy runs the same model inputs on the PC and EVB, and compares the results, leading to early discovery and easier debugging of behavior differences. Configuration of the model, input/output tensors, and statistics gathering are driven by AutoDeploy using RPC.
+* Model Performance Profiling
+  * AutoDeploy extends the TFLite for Microcontrollers Profiling to produce detailed reports including per-layer latency, MAC count, and cache and CPU performance statistics.
+* Model Power Usage Profiling
+  * If a Joulescope is available, AutoDeploy can use it to automatically measure the model inference power consumption.
 
 
 # Using AutoDeploy
-
 Using AutoDeploy is easy - just give it a TFLite model, connect an EVB, and let it go to work:
 
 ```bash
@@ -90,6 +89,7 @@ The `mymodel.csv` file contains a CSV representation of per-layer profiling stat
 
 This information is collected from a number of sources based on both static analysis on the PC and dynamic profiling on the EVB:
 Dynamically collected statistics are:
+
 1. The Tag and uSeconds come from TFLM's micro-profiler and is collected by TFLM during the first inference only
 1. The cycles, cpi, exc, sleep, lsu, and fold come from Arm's ETM profiling registers and are measured during the first inference only
 1. The daccess, dtaglookup, dhitslook, dhitsline, iaccess, itagelookup, ihitslookup, and ihitsline come from Ambiq cache profiling module and are measured during the first inference only
@@ -98,6 +98,7 @@ Estimated MACs are based on a static analysis of the TFLite file and are calcula
 
 ## Measuring Power
 AutoDeploy can use a [Joulescope](https://www.joulescope.com) to measure power. It does so by:
+
 1. Creating and deploying a power measurement binary to the EVB
 2. Triggering a number of inference operations by using the Joulescope's GP0out bin (which is monitored by the EVB)
 3. Waiting for certain patterns on the Joulescope's GPIn pins to know when the inference code is running
@@ -134,8 +135,8 @@ Charcterization Report for har:
 [Profile] Total Model Layers:                17
 [Profile] MACs per second:                   9751065.620
 [Profile] Cycles per MAC:                    19.690
-[Power]   Max Perf Inference Time (ms):      20.249
-[Power]   Max Perf Inference Energy (uJ):    189.257
+[Power]   Max Perf Inference Time (ms):      10.249
+[Power]   Max Perf Inference Energy (uJ):    159.257
 [Power]   Max Perf Inference Avg Power (mW): 9.346
 [Power]   Min Perf Inference Time (ms):      20.110
 [Power]   Min Perf Inference Energy (uJ):    190.665
@@ -155,12 +156,14 @@ Apollo4 Lite doesn't have a USB port, which is needed by AutoDeploy to fine-tune
 
 ### Requirements
 To measure power and generate model libraries for Apollo4 Lite, you'll need:
+
 1. An Apollo4P or Apollo4P Blue EVB
 2. An Apollo4 Lite
 3. A Joulescope (to measure power)
 
 ### Procedure
 The overall procedure is:
+
 1. Run characterization on Apollo4 Plus or Blue Plus EVB, which generates the required metadata
 2. Switch the EVB to Apollo4 Lite
 3. Run just the library generation and/or power measurement steps on Apollo4 Lite

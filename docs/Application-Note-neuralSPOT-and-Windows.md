@@ -9,7 +9,7 @@ The neuralSPOT development environment is based on GCC and Python - compiling an
 
 However, neuralSPOT was developed on Linux and Mac, so there are some toolchain and requirement differences for Windows. This document describes the 'bare minimum' installation and compilation process for neuralSPOT, including eRPC and RPC-based neuralSPOT tools.
 
-> *NOTE* NeuralSPOT has experimental support for Arm's proprietary compiler, armclang. To use armclang, see TODO.
+> **NOTE** NeuralSPOT has experimental support for Arm's proprietary compiler, armclang. Armclang requires an Arm license to run, and has only been tested on Windows.
 
 # Compiling neuralSPOT
 

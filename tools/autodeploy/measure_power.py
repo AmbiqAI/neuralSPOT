@@ -94,16 +94,16 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     d = d.replace("../", "")
 
     # Windows sucks
-    if os.name == 'posix':
-        ws_null = '/dev/null'
-        ws_j = '-j'
-        ws_and = '&&'
-        ws_p = '-p'
+    if os.name == "posix":
+        ws_null = "/dev/null"
+        ws_j = "-j"
+        ws_and = "&&"
+        ws_p = "-p"
     else:
-        ws_null = 'NUL'
-        ws_j = ''
-        ws_and = '&&'
-        ws_p = ''
+        ws_null = "NUL"
+        ws_j = ""
+        ws_and = "&&"
+        ws_p = ""
 
     # Generate library and example binary
     if params.verbosity > 3:
@@ -213,7 +213,7 @@ def measurePower():
                 gpi = device.extio_status()["gpi_value"]["value"]
                 if state == "start":
                     if gpi == 3:
-                        device.parameter_set("gpo0", "0")  # send trigger to EVB
+                        device.parameter_set("gpo0", "0")  # clear trigger to EVB
                         state = "getting_ready"
                         log.info("Waiting for trigger to be acknowledged")
                 elif state == "getting_ready":

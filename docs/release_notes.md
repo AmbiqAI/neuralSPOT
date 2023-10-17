@@ -10,6 +10,7 @@
 | hello_world_hardfault | 0.0.1   |          | Hello World example EdgeImpulse project causes HardFault due to misaligned memory access |
 | TFLM Profiler         | 1.0.2   | n/a      | TFLM profiling not supported for TFLM version 2.3.1          |
 | ns-ble_support        | 0.0.1   | n/a      | BLE is only supported for AmbiqSuite 4.3.0 and beyond.       |
+| armclang-support      | 1.x.x   | n/a      | Large RPC transactions occasionally hang.                    |
 
 
 

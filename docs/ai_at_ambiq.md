@@ -1,6 +1,6 @@
 # AI and Ambiq
 
-Ambiq specializes in ultra-low-power SoC's designed to make intelligent battery-powered endpoint solutions a reality. These days, just about every endpoint device incorporates AI features, including anomaly detection, speech-driven user interfaces, audio event detection and classification, and health monitoring.
+[Ambiq](https://ambiq.com) specializes [in ultra-low-power SoCs](https://ambiq.com/apollo4-plus/) designed to make intelligent battery-powered endpoint solutions a reality. These days, just about every endpoint device incorporates AI features, including fitness activity recognition, speech-driven user interfaces, audio event detection, health monitoring, and more.
 
 Ambiq's [ultra low power, high-performance](https://github.com/AmbiqAI/MLPerfTiny/blob/main/docs/benchmark_results.md) platforms are ideal for implementing this class of AI features, and we at Ambiq are dedicated to making implementation as easy as possible by offering developer-centric toolkits, software libraries, and reference models to accelerate AI feature development.
 
@@ -8,11 +8,13 @@ Ambiq's [ultra low power, high-performance](https://github.com/AmbiqAI/MLPerfTin
 
 neuralSPOT is an AI developer-focused SDK in the true sense of the word: it includes everything you need to get your AI model onto Ambiq’s platform. You’ll find libraries for talking to sensors, managing SoC peripherals, and controlling power and memory configurations, along with tools for easily debugging your model from your laptop or PC, and examples that tie it all together.
 
-<img src="images/image-20220811095223908.png" alt="image-20220811095223908" style="zoom:50%;" />
+<p align="center">
+<img src="images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center />
+</p>
 
 ## Ambiq ModelZoo
 
-Ambiq's ModelZoo is a collection of AI reference models built on neuralSPOT to help your team bootstrap AI model development and deployment on Apollo4 Plus. It includes open source models for speech interfaces, speech enhancement, and ECG analysis, with everything you need to reproduce our results and train your own models.
+Ambiq's ModelZoo is a collection of AI reference models built on neuralSPOT to help your team bootstrap AI model development and deployment on Apollo4 Plus. It includes open source models for speech interfaces, speech enhancement, and health and fitness analysis, with everything you need to reproduce our results and train your own models.
 
 | Model                                                        | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -33,5 +35,5 @@ We've benchmarked our Apollo4 Plus platform with outstanding results. Our [MLPer
 
 ## Accelerate Your AI Development With Ambiq's AI Tools
 
-Whether you are creating a model from scratch, porting a model to Ambiq's platform, or optimizing your crown-jewels, Ambiq has tools to ease your journey.
+Whether you are creating a model from scratch, porting a model to Ambiq's platform, or optimizing your crown jewels, Ambiq has tools to ease your journey.
 

@@ -2,6 +2,8 @@
 
 NeuralSPOT documentation is spread throughout the repository - generally, every component has its own documentation, which can be overwhelming. We've created the following high level documents as a starting point for understanding neuralSPOT's overall structure and intended usage.
 
+The best way to read this documentation is here: [https://ambiqai.github.io/neuralSPOT](https://ambiqai.github.io/neuralSPOT)
+
 | Document                                                     | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [AI at Ambiq](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/ai_at_ambiq.md) | A high level introduction to Ambiq's model zoo and neuralSPOT |

@@ -77,15 +77,15 @@ Notes:
 
 Readers will note that the `[Power]` values are all zeros - this is because power characterization requires a [https://www.joulescope.com](https://www.joulescope.com) and is disabled by default. For more information on how to measure power using Autodeploy, see see [the application note](../docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md).
 
-Autodeploy is capable of showing more information via the `verbosity` command line option. For example, so a detailed per-layer performance analysis, use `--verbosity=1`, though this same information is always saved as a CSV.
-
+Autodeploy is capable of showing more information via the `verbosity` command line option. For example, for a detailed per-layer performance analysis, use `--verbosity=1`, though this same information is always saved as a CSV.
 
 
 ![image-20230331154338838](../docs/images/image-20230331154338838.png)
 
 ### Autodeploy Command Line Options
 
-```python -m ns_autodeploy --help
+```bash
+python -m ns_autodeploy --help
 optional arguments:
   --seed SEED           Random Seed (default: 42)
   --no-create-binary    Create a neuralSPOT Validation EVB image based on TFlite file (default: True)

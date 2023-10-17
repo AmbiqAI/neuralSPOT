@@ -138,17 +138,17 @@ class adResults:
         print(
             f"[Profile] Per-Layer Statistics file:         {self.model_name}_stats.csv"
         )
-        print(
-            f"[Profile] Max Perf Inference Time (ms):      {(self.profileTotalInferenceTime/1000):0.3f}"
-        )
+        # print(
+        #     f"[Profile] Max Perf Inference Time (ms):      {(self.profileTotalInferenceTime/1000):0.3f}"
+        # )
         print(
             f"[Profile] Total Estimated MACs:              {self.profileTotalEstimatedMacs}"
         )
         print(f"[Profile] Total CPU Cycles:                  {self.profileTotalCycles}")
         print(f"[Profile] Total Model Layers:                {self.profileTotalLayers}")
-        print(
-            f"[Profile] MACs per second:                   {((self.profileTotalEstimatedMacs*1000000)/self.profileTotalInferenceTime):0.3f}"
-        )
+        # print(
+        #     f"[Profile] MACs per second:                   {((self.profileTotalEstimatedMacs*1000000)/self.profileTotalInferenceTime):0.3f}"
+        # )
         print(
             f"[Profile] Cycles per MAC:                    {(self.profileTotalCycles/self.profileTotalEstimatedMacs):0.3f}"
         )

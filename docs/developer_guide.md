@@ -14,15 +14,22 @@ NeuralSPOT's platform-specific linker scripts and startup code are located in [n
 
 ##### How do the makefiles work?
 
-This is documented in the [main makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile).
+This is documented within the [main makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile). 
 
-## Adding Components to NeuralSPOT
+##### Where are compilation artifacts store?
+
+By default, compilation artifacts are placed in `build\...` and mirror the location of the source of the artifact (for example, the binaries for the HAR example are placed at `build/examples/har`).
+
+---
+
+## Adding and Updating Components to NeuralSPOT
 
 This section describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:
 
 1. NeuralSPOT Libraries
 2. NeuralSPOT Examples
 4. External Components
+1. Documentation
 5. RPC Interfaces
 
 ### Adding NeuralSPOT Library Components
@@ -41,7 +48,7 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 		src/         # All c/cc/cpp/s/h/hpp files in here will be compiled to a static library
 		include_api/ # H/HPP files defining APIs for library - files in here will be added to -I compiler path
 		module.mk	 # Simple makefile (see boilerplate below)
-		ns-<componentName>.md # Local documentation
+		README.md # Local documentation
 		build/       # temporary working directory for storing static libs, object files and other compile artifacts
 ```
 
@@ -60,7 +67,7 @@ local_bin := $(subdirectory)/$(BINDIR)
 bindirs   += $(local_bin)
 $(eval $(call make-library, $(local_bin)/ns-<componentName>.a, $(local_src))) # only change needed
 ```
-The only thing that normally differs between library's `module.mk` is the `<componentName>`
+The only thing that normally differs between library's `module.mk` is the `<componentName>`, but this file can be used for more elaborate purposes (for example, ns-core's [module.mk](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-core/module.mk) conditionally includes source files based on the `TOOLCHAIN`` setting).
 
 #### Library API Versioning
 Many of the libraries have APIs - those that do are 'versioned', meaning that they have a related semantic version number. When a library's init() function is called, part of the configuration includes a desired version number. The initialization function checks that the desired version is supported, and fails if it isn't.
@@ -84,6 +91,7 @@ extern const ns_core_api_t ns_usb_V1_0_0;
 extern const ns_core_api_t ns_usb_oldest_supported_version;
 extern const ns_core_api_t ns_usb_current_version;
 ```
+
 
 ##### In the library implementation
 ```c
@@ -113,15 +121,14 @@ main()
     }
 #endif
 ```
-When a version is no longer supported, remove the definition for it. This will cause any examples using non-supported version to fail compilation.
 
 ### Adding NeuralSPOT Examples
 
 NeuralSPOT Examples are pared-down examples showcasing NeuralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.
 
-For every Example, NeuralSPOT will compile all the binary artifacts needed to load the application onto an EVB, such as main.axf, main.bin, and so on. These artifacts are stored in the example's temporary build directory. 
+For every Example, NeuralSPOT will compile all the binary artifacts needed to load the application onto an EVB (specifically, AXF and BIN images). These artifacts are stored in the example's temporary build directory (e.g. `build\examples\har`).
 
->  **Note** The name of the artifact is derived from the example's `module.mk` not the directory it resides in.
+>  **Note** The name of the artifacts are derived from the example's `module.mk`,  not the directory it resides in.
 
 #### Example Component Structure
 Every neuralspot library has a similar structure - some of this is dictated by neuralspot's makefile architecture, and some is by convention. The typical structure is as follows:
@@ -131,14 +138,14 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 	<exampleName>/
 		src/             # All c/cc/cpp/s/h/hpp files in here will be compiled to a flashable file
 		module.mk        # Simple makefile (see boilerplate below)
-		<exampleName>.md # Local documentation
+		README.md        # Local documentation
 ```
 
 #### Example Component Module definition
 Each component includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
 
 ```make
-local_app_name := <exampleArtifactName>   # Must match name of src file containing main, e.g. "rpc" if main is in "rpc.cc"
+local_app_name := <exampleArtifactName>   # Must match name of src file containing main, e.g. "rpc_server" if main is in "rpc_server.cc"
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.cpp)
@@ -152,14 +159,12 @@ examples  += $(local_bin)/$(local_app_name).bin
 mains     += $(local_bin)/$(local_app_name).o
 ```
 
-Except for first line, this is all boilerplate.
-
 ### Adding External Components
-External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, and Embedded RPC.
+External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, CMSIS, and Embedded RPC.
 
 The structure of an external component included in NeuralSPOT depends on the component - for example, `extern/AmbiqSuite` doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.
 
-NeuralSPOT will support multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in `make/neuralspot_config.mk`.
+NeuralSPOT supports multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in `make/neuralspot_config.mk`.
 
 #### External Component Structure
 
@@ -173,7 +178,8 @@ Generally, the structure of an external component within NeuralSPOT is:
 			module.mk
 ```
 
-Because external components don't have a well-defined structure, the module.mk is less boilerplate than that of other types of components. The critical parts of a typical module.mk are:
+Because external components don't all have the same structure, the module.mk is less boilerplate than that of other types of components. The critical parts of a typical module.mk are:
+
 1. Defining the local source files that need compilation
 2. Add required header files to `includes_api`
 3. Adding any pre-built static libraries to `lib_prebuilt`
@@ -230,6 +236,22 @@ LINKER_FILE := $(subdirectory)/src/linker_script.ld
 STARTUP_FILE := ./startup_$(COMPILERNAME).c
 
 $(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))
+```
+
+### Adding and Updating Documentation
+NeuralSPOT's documentation in automatically generated from the repository using Mkdocs. Because of where our markdown docs are located, we had to locate the mkdocs definition file outside of the repository (mkdocs expects all markdown to reside in a subdirectory which is not where mkdown.yml lives, and does not support `..\` relative paths). This means we cannot use the Github deployment
+command (`mkdocs gh-deploy`), and have to do so manually:
+
+```bash
+cd ..
+cp neuralSPOT/mkdocs.yml .
+mkdocs build
+cd neuralSPOT
+git checkout gh-pages
+cp -R ../site .
+git add .
+git commit -m "update docs"
+git push origin gh-pages
 ```
 
 ### Adding RPC Interfaces

@@ -30,7 +30,8 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | NESTCOMP | root path to a single component to be updated for `make nestcomponent` | extern/AmbiqSuite |
 | NESTEGG | name of neuralspot example used to create nest | basic_tf_stub |
 | AS_VERSION | Ambiqsuite Version | R4.4.1 |
-| TF_VERSION | Tensflow Lite for Microcontrollers Version | fecdd5d |
+| TF_VERSION | Tensflow Lite for Microcontrollers Version | d5f819d_Aug_10_2023 |
+| TOOLCHAIN | Compiler toolchain, set to 'arm' to select armclang | arm-none-eabi (GCC) |
 | TARGET | Defines what target will be loaded by `make deploy` | basic_tf_stub |
 | MLDEBUG | Setting to '1' turns on TF debug prints and use debug TFLM | 0 |
 | MLPROFILE | Setting to '1' enables TFLM profiling and logs (*NOTE* not supported for TF_VERSION R2.3.1) | 0 |

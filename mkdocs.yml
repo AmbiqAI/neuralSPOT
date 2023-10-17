@@ -4,6 +4,7 @@ docs_dir: ./neuralSPOT
 site_description: Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
 repo_name: AmbiqAI/neuralSPOT
 repo_url: https://github.com/AmbiqAI/neuralSPOT
+use_directory_urls: False
 
 exclude_docs: |
   extern/*
@@ -104,15 +105,15 @@ nav:
 
 
 markdown_extensions:
+  - md_in_html
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format ''
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.snippets:
       check_paths: true
   - attr_list
-  - md_in_html
 
 plugins:
   - glightbox

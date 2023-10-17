@@ -1,5 +1,4 @@
 # NeuralSPOT Nests
-## Introducing Nests
 NeuralSPOT can export entire applications to be linked into larger projects via NeuralSPOT Nests. A Nest includes every library your application used from NeuralSPOT in the form ready-to-compile headers and static libraries. Nests are most useful when porting a demonstration to a non-EVB platform. To only export the bare minimum needed to run a Tensorflow Lite for Microcontroller model, it is better to use [neuralSPOT Autodeploy tools](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md).
 
 The Nest is a fully contained instantiation of your AI application, ready to be compiled and linked into your larger project. It accomodates three major types of workflow:
@@ -40,12 +39,11 @@ As briefly alluded to below, neuralSPOT's build system can be used to create a a
 | `make NESTDIR=<directory> NESTCOMP=<nestcomponent> nestcomponent` | Will only copy the specified component, including all header and static library files. |
 
 ### Behind the Scenes
-
-While convenient, making a Nest is not that sophisticated. It is helpful to understand what actually happens behind the scenes when creating and managing nests.
+It is helpful to understand what actually happens behind the scenes when creating and managing nests.
 
 Both the `nest` and `nestall` make targets do the following:
 
-1. Create needed directories at NESTDIR - see [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/README.md#nest-directory-contents) for the directory structure
+1. Create needed directories at NESTDIR
 2. Copy all of neuralSPOT's static libraries, including external and neuralspot libraries
 3. Copies the example code specified by TARGET (if the target is `nestall`)
    1. If there are files in NESTDIR/src already (for example, if you are upgrading an existing Nest), `nestall` will copy those files into /src/preserved.

@@ -74,7 +74,7 @@ class Params(BaseModel):
     dataset: str = Field("dataset.pkl", description="Name of dataset")
     random_data: bool = Field(True, description="Use random data")
     runs: int = Field(
-        100, description="Number of inferences to run for characterization"
+        10, description="Number of inferences to run for characterization"
     )
     runs_power: int = Field(
         100, description="Number of inferences to run for power measurement"

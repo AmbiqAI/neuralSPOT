@@ -22,7 +22,7 @@ NeuralSPOT is designed to help embedded AI developers in 3 important ways:
 NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
 
 <p align="center">
-<img src="images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center />
+<img src="./docs/images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center />
 </p>
 
 

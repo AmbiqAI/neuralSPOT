@@ -1,0 +1,222 @@
+site_name: NeuralSPOT
+site_dir: ./site
+docs_dir: ./neuralSPOT
+site_description: Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
+repo_name: AmbiqAI/neuralSPOT
+repo_url: https://github.com/AmbiqAI/neuralSPOT
+use_directory_urls: False
+
+exclude_docs: |
+  extern/*
+  projects/*
+
+nav:
+  - Home: docs/index.md
+  - AI at Ambiq: docs/ai_at_ambiq.md
+  - Ambiq Model Zoo: docs/Ambiq-ModelZoo.md
+  - Getting Started:
+    - Introduction: docs/Introduction-to-neuralSPOT.md
+    - Tutorial: docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md
+    - Build Guide: docs/makefile-details.md
+    - Features: docs/features.md
+  - Developers:
+    - Developing with NeuralSPOT: docs/Developing_with_NeuralSPOT.md
+    - Developing for NeuralSPOT: docs/developer_guide.md
+    - Nests: docs/NeuralSPOT_Nests.md
+  - Tools:
+    - Automatic Testing, profiling, and deploying: "docs/From TF to EVB - testing, profiling, and deploying AI models.md"
+    - Tools Overview: tools/README.md
+  - Application Notes:
+    - neuralSPOT on Windows: docs/Application-Note-neuralSPOT-and-Windows.md
+    - Optimizing Using NeuralSPOT: docs/optimizing_using_neuralspot.md
+    - Release Notes: docs/release_notes.md
+    - Developer Notes: docs/developer_notes.md
+    - Edge Impulse Support: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
+  - Examples:
+    - Keyword Spotting: examples/basic_tf_stub/README.md
+    - Human Activity Recognition: examples/har/README.md
+    - RPC Client: examples/rpc_client/README.md
+    - RPC Server: examples/rpc_server/README.md
+    - WebBLE: examples/web_ble/README.md
+    - Data Collection: examples/mpu_data_collection/README.md
+  - Libraries:
+    - Audio: neuralspot/ns-audio/README.md
+    - Bluetooth: neuralspot/ns-ble/README.md
+    - i2c: neuralspot/ns-i2c/README.md
+    - RPC: neuralspot/ns-rpc/README.md
+    # - USB: neuralspot/ns-usb/README.md
+    - Power: neuralspot/ns-peripherals/README.md
+    - Performance Utilities: neuralspot/ns-utils/README.md
+  - Code Documentation:
+    - Audio:
+      - Files: ns-audio/files.md
+      - Modules: ns-audio/modules.md
+      - Functions: ns-audio/functions.md
+      - Structs: ns-audio/annotated.md
+      - Variables: ns-audio/variables.md
+    - Bluetooth:
+      - Files: ns-ble/files.md
+      - Modules: ns-ble/modules.md
+      - Functions: ns-ble/functions.md
+      - Structs: ns-ble/annotated.md
+      - Variables: ns-ble/variables.md
+    - Remote Procedure Call:
+      - Files: ns-rpc/files.md
+      - Modules: ns-rpc/modules.md
+      - Functions: ns-rpc/functions.md
+      - Structs: ns-rpc/annotated.md
+      - Variables: ns-rpc/variables.md
+    - i2c:
+      - Files: ns-i2c/files.md
+      - Modules: ns-i2c/modules.md
+      - Functions: ns-i2c/functions.md
+      - Structs: ns-i2c/annotated.md
+      - Variables: ns-i2c/variables.md
+    - Utilities:
+      - Files: ns-utils/files.md
+      - Modules: ns-utils/modules.md
+      - Functions: ns-utils/functions.md
+      - Structs: ns-utils/annotated.md
+      - Variables: ns-utils/variables.md
+    - Power and power:
+      - Files: ns-power/files.md
+      - Modules: ns-power/modules.md
+      - Functions: ns-power/functions.md
+      - Structs: ns-power/annotated.md
+      - Variables: ns-power/variables.md
+    - Core:
+      - Files: ns-core/files.md
+      - Modules: ns-core/modules.md
+      - Functions: ns-core/functions.md
+      - Structs: ns-core/annotated.md
+      - Variables: ns-core/variables.md
+    - AmbiqSuite Harness:
+      - Files: ns-harness/files.md
+      - Modules: ns-harness/modules.md
+      - Functions: ns-harness/functions.md
+      - Structs: ns-harness/annotated.md
+      - Variables: ns-harness/variables.md
+    - Model Wrapper:
+      - Files: ns-model/files.md
+      - Modules: ns-model/modules.md
+      - Functions: ns-model/functions.md
+      - Structs: ns-model/annotated.md
+      - Variables: ns-model/variables.md
+
+
+markdown_extensions:
+  - md_in_html
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets:
+      check_paths: true
+  - attr_list
+
+plugins:
+  - glightbox
+  - mkdoxy:
+      full-doc: True
+      projects:
+        ns-audio:
+          src-dirs: neuralSPOT/neuralspot/ns-audio
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-ble:
+          src-dirs: neuralSPOT/neuralspot/ns-ble
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-i2c:
+          src-dirs: neuralSPOT/neuralspot/ns-i2c
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-power:
+          src-dirs: neuralSPOT/neuralspot/ns-peripherals
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-core:
+          src-dirs: neuralSPOT/neuralspot/ns-core
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-rpc:
+          src-dirs: neuralSPOT/neuralspot/ns-rpc
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-utils:
+          src-dirs: neuralSPOT/neuralspot/ns-utils
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-harness:
+          src-dirs: neuralSPOT/neuralspot/ns-harness
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-model:
+          src-dirs: neuralSPOT/neuralspot/ns-model
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+
+
+theme:
+  name: material
+  favicon: docs/images/favicon.png
+  logo: docs/images/favicon.png
+  icon:
+      repo: fontawesome/brands/github-alt
+  font:
+    text: Roboto
+    code: Roboto Mono
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-auto
+        name: Use system theme
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to light theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to dark theme
+  features:
+    - content.tabs.link
+
+copyright: |
+  &copy; 2023 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>

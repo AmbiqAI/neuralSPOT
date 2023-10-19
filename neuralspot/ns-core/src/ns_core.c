@@ -19,21 +19,20 @@ const ns_core_api_t ns_core_V0_0_1 = {.apiId = NS_CORE_API_ID, .version = NS_COR
 
 const ns_core_api_t ns_core_V1_0_0 = {.apiId = NS_CORE_API_ID, .version = NS_CORE_V1_0_0};
 
-const ns_core_api_t ns_core_oldest_supported_version = {.apiId = NS_CORE_API_ID,
-                                                        .version = NS_CORE_V0_0_1};
+const ns_core_api_t ns_core_oldest_supported_version = {
+    .apiId = NS_CORE_API_ID, .version = NS_CORE_V0_0_1};
 
 const ns_core_api_t ns_core_current_version = {.apiId = NS_CORE_API_ID, .version = NS_CORE_V1_0_0};
 //***
 
 /**
- * @brief Compare semantic versions
+ * Compare semantic versions
  *
- * @param c - 'current' version
- * @param n - 'target' version
- * @return int - 0 if equal, -1 is c is less than n, 1 if c is more than n
+ * param c - 'current' version
+ * param n - 'target' version
+ * return int - 0 if equal, -1 is c is less than n, 1 if c is more than n
  */
-static int
-semver_compare(const ns_semver_t *c, const ns_semver_t *n) {
+static int semver_compare(const ns_semver_t *c, const ns_semver_t *n) {
     uint64_t cMajor = (uint64_t)c->major;
     uint64_t cMinor = (uint64_t)c->minor;
     uint64_t nMajor = (uint64_t)n->major;
@@ -50,16 +49,15 @@ semver_compare(const ns_semver_t *c, const ns_semver_t *n) {
 }
 
 /**
- * @brief Checks API and semantic version of desired API vs. allowed APIs
+ * brief Checks API and semantic version of desired API vs. allowed APIs
  *
- * @param submitted
- * @param oldest
- * @param newest
- * @return uint32_t
+ * param submitted
+ * param oldest
+ * param newest
+ * return uint32_t
  */
-extern uint32_t
-ns_core_check_api(const ns_core_api_t *submitted, const ns_core_api_t *oldest,
-                  const ns_core_api_t *newest) {
+extern uint32_t ns_core_check_api(
+    const ns_core_api_t *submitted, const ns_core_api_t *oldest, const ns_core_api_t *newest) {
 
     if (submitted->apiId != newest->apiId) {
         return NS_STATUS_INVALID_VERSION;
@@ -80,14 +78,7 @@ ns_core_check_api(const ns_core_api_t *submitted, const ns_core_api_t *oldest,
     return NS_STATUS_SUCCESS;
 }
 
-/**
- * @brief Initializes internal NS state
- *
- * @param cfg - currently just ns_core API id and version
- * @return uint32_t
- */
-uint32_t
-ns_core_init(ns_core_config_t *cfg) {
+uint32_t ns_core_init(ns_core_config_t *cfg) {
 #ifndef NS_DISABLE_API_VALIDATION
     //
     // Check the handle.
@@ -114,8 +105,7 @@ ns_core_init(ns_core_config_t *cfg) {
     return NS_STATUS_SUCCESS;
 }
 
-void
-ns_core_fail_loop() {
+void ns_core_fail_loop() {
     while (1)
         ;
 }

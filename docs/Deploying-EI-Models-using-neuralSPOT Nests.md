@@ -16,7 +16,7 @@ C --> D[Deploy on EVB]
 
 ```
 
-> *TL;DR* If you want to skip to the solution, see our [EdgeImpulse examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse) directory.
+> **TL;DR** If you want to skip to the solution, see our [EdgeImpulse examples](https://github.com/AmbiqAI/edgeimpulse-examples) Github repository.
 
 In this article, we'll focus on the third step: integrating to Nests.
 
@@ -26,10 +26,10 @@ EdgeImpulse C++ models follow a similar approach to Nests - they're basically a 
 
 Generally speaking, there are four things we need to do to get an EdgeImpulse C++ model integrated into a Nest:
 
-- Implement EdgeImpulse's porting hooks
-- Compiling: adding EdgeImpulse and resolving conflicting SW components
-- Connect the model to Apollo4 data sources (i.e. sensors)
-- Implement the application loop
+1. Implement EdgeImpulse's porting hooks
+1. Compiling: adding EdgeImpulse and resolving conflicting SW components
+1. Connect the model to Apollo4 data sources (i.e. sensors)
+1. Implement the application loop
 
 ### Porting Hooks
 
@@ -47,23 +47,23 @@ void *ei_calloc(size_t nitems, size_t size);
 void ei_free(void *ptr);
 ```
 
-Fortunately, neuralSPOT has implementations for all of these, so the porting effort is a simple matter - the code is [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src/ambiq).
+Fortunately, neuralSPOT has implementations for all of these, so the porting effort is a simple matter - the implemented ported code is [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src/ambiq) (and mirrored in the [examples repo](https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/src))
 
-> *NOTE* Embedded applications are often allergic to dynamic memory allocation because they may introduce non-deterministic delays that conflict with real-time behavior. NeuralSPOT's core functionality avoids dynamic memory allocation, but it does provide an implementation based on FreeRTOS's heap4 implementation, which is a good compromise between functionality and real-time behavior.
+> **NOTE** Embedded applications are often allergic to dynamic memory allocation because they may introduce non-deterministic delays that conflict with real-time behavior. NeuralSPOT's core functionality avoids dynamic memory allocation, but it does provide an implementation based on FreeRTOS's heap4 implementation, which is a good compromise between functionality and real-time behavior.
 
 ### Compiling and Resolving Conflicts
 
-Compiling an EdgeImpulse-based application is a matter of adding the downloaded C++ code to the Nest and modifying the default Nest makefile to include the new code and eliminate conflicts
+Compiling an EdgeImpulse-based application is a matter of adding the downloaded C++ code to the Nest and modifying the default Nest makefile to include the new code and eliminate conflicts.
 
-The Nest includes a Makefile that compiles the default Nest application (basic_tf_stub) and links in the entirety of neuralSPOT (don't worry, only used components make it into the final binary).
+The Nest includes a Makefile that compiles the default Nest application (basic_tf_stub) and links in the entirety of neuralSPOT (don't worry, only used components make it into the final binary). This Makefile needs to be modified to include EdgeImpulse's code.
 
-> *NOTE* We structured the EdgeImpulse example directories included in neuralSPOT such many example models share Makefiles and ported code, but we kept each downloaded C++ model exactly as downloaded from EdgeImpulse.
+> **NOTE** We structured the EdgeImpulse example directories included in neuralSPOT such many example models share Makefiles and ported code, but we kept each downloaded C++ model exactly as downloaded from EdgeImpulse.
 
 #### Modifying the Makefile
 
-The Nest makefile is pretty straightforward - the key to understanding how to modify it is that it is designed to compile every source file added to the `sources` variable. The are 3 sets of directories we add in our final, modified [Makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/Makefile):
+The Nest makefile is pretty straightforward - the key to understanding how to modify it is that it is designed to compile every source file added to the `sources` Makefile variable. The are 3 sets of directories we add in our final, modified [Makefile](https://github.com/AmbiqAI/edgeimpulse-examples/blob/main/Makefile):
 
-- The application directory (containing the main() loop) (for [example](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/ei_yes_no))
+- The application directory (containing the source code and implementing the main() loop) (for [example](https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/yes_no))
 - The Ambiq-EdgeImpulse [ported code directory](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src)
 - And all the directories in the downloaded EdgeImpulse model and SDK (lots)
 
@@ -71,7 +71,7 @@ The Nest makefile is pretty straightforward - the key to understanding how to mo
 
 Both EdgeImpulse and neuralSPOT include CMSIS and Tensorflow libraries. If you try compiling and linking EdgeImpulse as a Nest application without modification, you'll get "redefined" complaints from the linker. The best approach here is to whittle down neuralSPOT to include only the libraries you need.
 
-The easiest way to do this is by modifying the Nest's `autogen.mk` file (which may cause confusion, so it might be a good idea to rename it after modifying it). Our modified and renamed file is [`ns_for_ei.mk`](https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/make/ns_for_ei.mk).
+The easiest way to do this is by modifying the Nest's `autogen.mk` file (which may cause confusion, so it might be a good idea to rename it after modifying it). Our modified and renamed file is [`ns_for_ei.mk`](https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/make).
 
 An unmodified Nest `autogen.mk` file specifies the include path for the compilation step, and list of libraries to be linked in by the linker. 
 
@@ -96,7 +96,9 @@ extern/erpc/R1.9.1/includes-api
 We also remove the conflicting static libraries:
 
 <pre>
-libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio.a libs/ns-usb.a libs/ns-utils.a libs/ns-rpc.a libs/ns-i2c.a libs/ambiqsuite.a libs/segger_rtt.a libs/erpc.a libs/libam_hal.a libs/libam_bsp.a <b>libs/libCMSISDSP.a libs/libcmsis-nn.a libs/libtensorflow-microlite-o2.a</b>
+libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio.a libs/ns-usb.a libs/ns-utils.a
+libs/ns-rpc.a libs/ns-i2c.a libs/ambiqsuite.a libs/segger_rtt.a libs/erpc.a libs/
+libam_hal.a libs/libam_bsp.a <b>libs/libCMSISDSP.a libs/libcmsis-nn.a libs/libtensorflow-microlite-o2.a</b>
 </pre>
 
 ### Connecting to Apollo4 Data Sources
@@ -109,7 +111,7 @@ Endpoint AI typically operates on data collected by sensors, so we have to conne
 
 Fortunately, both neuralSPOT and EdgeImpulse have put a lot of design effort into making this easy.
 
-> *TL;DR* If you want to jump straight to the solution, see [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/ei_yes_no/src/main.cc) for an audio example, and [here](https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/ei_anomaly_detection/src/main.cc) for an accelerometer example.
+> **TL;DR** If you want to jump straight to the solution, see [here](https://github.com/AmbiqAI/edgeimpulse-examples/blob/main/yes_no/src/main.cc) for an audio example, and [here](https://github.com/AmbiqAI/edgeimpulse-examples/blob/main/anomaly_detection/src/main.cc) for an accelerometer example.
 
 We'll use an audio-based AI model to walk through how to do this.
 
@@ -129,23 +131,33 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected);
 // Audio IPC and config
 int16_t static g_in16AudioDataBuffer[2][EI_CLASSIFIER_SLICE_SIZE]; // 1s
 uint8_t static g_bufsel = 0; // for pingponging
+uint32_t static audadcSampleBuffer[EI_CLASSIFIER_SLICE_SIZE * 2 + 3];
+am_hal_audadc_sample_t static workingBuffer[EI_CLASSIFIER_SLICE_SIZE * NUM_CHANNELS]; // working buffer used
+                                                                              // by AUDADC
 bool volatile static g_audioRecording = false;
 bool volatile static g_audioReady = false;
 
 ns_audio_config_t audio_config = {
+    .api = &ns_audio_V2_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&g_in16AudioDataBuffer,
+#ifdef USE_PDM_MICROPHONE
+    .eAudioSource = NS_AUDIO_SOURCE_PDM,
+#else
     .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+#endif
+    .sampleBuffer = audadcSampleBuffer,
+#if !defined(USE_PDM_MICROPHONE)
+    .workingBuffer = workingBuffer,
+#endif
     .numChannels = NUM_CHANNELS,
     .numSamples = EI_CLASSIFIER_SLICE_SIZE,
     .sampleRate = SAMPLE_RATE,
     .audioSystemHandle = NULL, // filled in by audio_init()
-    .bufferHandle = NULL
+    .bufferHandle = NULL,
 };
 ```
-
-
 
 We need to define two callbacks - one for ns-audio to handle incoming audio samples, and the other for EdgeImpulse to give it access to those samples. Both are very straight-forward:
 
@@ -158,17 +170,8 @@ static int get_signal_data(size_t offset, size_t length, float *out_ptr) {
 
 // ns-audio callback
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-    uint32_t *pui32_buffer =
-        (uint32_t *)am_hal_audadc_dma_get_buffer(config->audioSystemHandle);
-
     if (g_audioRecording) {
-        for (int i = 0; i < config->numSamples; i++) {
-            g_in16AudioDataBuffer[g_bufsel][i] = (int16_t)(pui32_buffer[i] & 0x0000FFF0);
-            if (i == 4) {
-                // Workaround for AUDADC sample glitch, here while it is root caused
-                g_in16AudioDataBuffer[g_bufsel][3] = (g_in16AudioDataBuffer[g_bufsel][2]+g_in16AudioDataBuffer[g_bufsel][4])/2; 
-            }            
-        }
+        ns_audio_getPCM_v2(config, &(g_in16AudioDataBuffer[g_bufsel][0]));
         g_audioReady = true;
         g_bufsel ^=1; // pingpong
     }
@@ -202,14 +205,11 @@ res = run_classifier_continuous(&signal, &result, false);
 
 y = updateFilter(&yesFilter, result.classification[3].value);
 n = updateFilter(&noFilter, result.classification[0].value);
-if (y>0.6) ns_lp_printf("Y");       // Strong Yes
+if (y>0.6) ns_lp_printf("Y");         // Strong Yes
   else if (y>0.4) ns_lp_printf("y");  // Probably Yes
-if (n>0.6) ns_lp_printf("N");       // Strong No
+if (n>0.6) ns_lp_printf("N");         // Strong No
   else if (n>0.4) ns_lp_printf("n");  // Probably No
 ```
 
-
-
 # Just the Beginning
-
-The beauty integrating development platforms such as neuralSPOT and EdgeImpulse is that once the initial integration is down, developing, deploying, and updating models becomes much easier - instead of struggling with integration details, the AI developer is freed to focus on the core challenges of AI - collecting and refining data and improving model accuracy.
+The beauty integrating development platforms such as neuralSPOT and EdgeImpulse is that once the initial integration is down, developing, deploying, and updating models becomes much easier because instead of struggling with integration details, the AI developer is freed to focus on the core challenges of AI: collecting and refining data and improving model accuracy.

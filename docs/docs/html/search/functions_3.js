@@ -1,6 +1,0 @@
-var searchData=
-[
-  ['debuglog_0',['DebugLog',['../debug__log_8cc.html#a3bdde0f3f36e4e4e2e8faf8f789a7f7f',1,'DebugLog(const char *s):&#160;debug_log.cc'],['../ns__debug__log_8cc.html#a3bdde0f3f36e4e4e2e8faf8f789a7f7f',1,'DebugLog(const char *s):&#160;ns_debug_log.cc']]],
-  ['destroy_5fevb_5fto_5fpc_5fservice_1',['destroy_evb_to_pc_service',['../_generic_data_operations___evb_to_pc__server_8cpp.html#abe2648858e375b4815c2bcd08c474507',1,'destroy_evb_to_pc_service(erpc_service_t service):&#160;GenericDataOperations_EvbToPc_server.cpp'],['../_generic_data_operations___evb_to_pc__server_8h.html#abe2648858e375b4815c2bcd08c474507',1,'destroy_evb_to_pc_service(erpc_service_t service):&#160;GenericDataOperations_EvbToPc_server.cpp']]],
-  ['destroy_5fpc_5fto_5fevb_5fservice_2',['destroy_pc_to_evb_service',['../_generic_data_operations___pc_to_evb__server_8cpp.html#ad61e7087963142b7c07b1400493b15c4',1,'destroy_pc_to_evb_service(erpc_service_t service):&#160;GenericDataOperations_PcToEvb_server.cpp'],['../_generic_data_operations___pc_to_evb__server_8h.html#ad61e7087963142b7c07b1400493b15c4',1,'destroy_pc_to_evb_service(erpc_service_t service):&#160;GenericDataOperations_PcToEvb_server.cpp']]]
-];

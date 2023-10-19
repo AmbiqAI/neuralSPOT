@@ -10,7 +10,9 @@ This directory contains assorted scripts designed to work with neuralSPOT.
 ## AutoDeploy Theory of Operations
 The ns_autodeploy script is a all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs.
 
-![image-20230331153515132](../docs/images/image-20230727120409828.png)
+
+
+![image-20230331153515132](../docs/images/autodeploy-flow.png)
 
 *NOTE*: For a detailed description of how AutoDeploy can be used to characterize a TFLite model on Apollo EVBs, see [the application note](../docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md).
 
@@ -24,25 +26,73 @@ Briefly, the script will:
 1. Compare the resulting output tensors and summarize the differences, and report the performance (and store it in a CSV)
 1. If a joulescope is present and power profiling is enable, run 96Mhz and 192Mhz inferences to measure power, energy, and time per inference.
 1. Create a static library (with headers) containing the model, TFLM, and a minimal wrapper to ease integration into applications.
+1. Create a simple AmbiqSuite example suitable for copying into AmbiqSuites example directory.
 
 Example usage:
 ```bash
-$> cd neuralSOT/tools
-$> python -m ns_autodeploy --tflite-filename=../trained_models/model.tflite --random-data --create-binary --profile-enable --runs 100 --profile-warmup 3
+$> cd neuralSPOT/tools
+$> python -m ns_autodeploy --model-name mymodel --tflite-filename mymodel.tflite
 ```
 
 This will produce output similar to:
+
+```bash
+*** Stage [1/4]: Create and fine-tune EVB model characterization image
+Compiling and deploying Baseline image: arena size = 120k, RPC buffer size = 4096, Resource Variables count = 0
+Compiling and deploying Tuned image:    arena size = 99k, RPC buffer size = 4096, Resource Variables count = 0
+
+*** Stage [2/4]: Characterize model performance on EVB
+Calling invoke on EVB 3 times.
+100%|███████████████| 3/3 [00:03<00:00,  1.05s/it]
+
+*** Stage [3/4]: Generate minimal static library
+Generating minimal library at ../projects/autodeploy/vww/vww
+
+*** Stage [4/4]: Generate AmbiqSuite Example
+Generating AmbiqSuite example at ../projects/autodeploy/vww/vww_ambiqsuite
+AmbiqSuite example generated successfully at ../projects/autodeploy/vww/vww_ambiqsuite
+
+Characterization Report for vww:
+[Profile] Per-Layer Statistics file:         vww_stats.csv
+[Profile] Max Perf Inference Time (ms):      930.264
+[Profile] Total Estimated MACs:              7489664
+[Profile] Total CPU Cycles:                  178609526
+[Profile] Total Model Layers:                31
+[Profile] MACs per second:                   8051116.672
+[Profile] Cycles per MAC:                    23.847
+[Power]   Max Perf Inference Time (ms):      0.000
+[Power]   Max Perf Inference Energy (uJ):    0.000
+[Power]   Max Perf Inference Avg Power (mW): 0.000
+[Power]   Min Perf Inference Time (ms):      0.000
+[Power]   Min Perf Inference Energy (uJ):    0.000
+[Power]   Min Perf Inference Avg Power (mW): 0.000
+
+Notes:
+        - Statistics marked with [Profile] are collected from the first inference, whereas [Power] statistics
+          are collected from the average of the 100 inferences. This will lead to slight
+          differences due to cache warmup, etc.
+        - CPU cycles are captured via Arm ETM traces
+        - MACs are estimated based on the number of operations in the model, not via instrumented code
+```
+
+Readers will note that the `[Power]` values are all zeros - this is because power characterization requires a [https://www.joulescope.com](https://www.joulescope.com) and is disabled by default. For more information on how to measure power using Autodeploy, see see [the application note](../docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md).
+
+Autodeploy is capable of showing more information via the `verbosity` command line option. For example, for a detailed per-layer performance analysis, use `--verbosity=1`, though this same information is always saved as a CSV.
+
 
 ![image-20230331154338838](../docs/images/image-20230331154338838.png)
 
 ### Autodeploy Command Line Options
 
-```python -m ns_autodeploy --help
+```bash
+python -m ns_autodeploy --help
 optional arguments:
   --seed SEED           Random Seed (default: 42)
   --no-create-binary    Create a neuralSPOT Validation EVB image based on TFlite file (default: True)
   --no-create-profile   Profile the performance of the model on the EVB (default: True)
   --no-create-library   Create minimal static library based on TFlite file (default: True)
+  --no-create-ambiqsuite-example
+                        Create AmbiqSuite example based on TFlite file (default: True)
   --measure-power       Measure power consumption of the model on the EVB using Joulescope (default: False)
   --tflite-filename TFLITE_FILENAME
                         Name of tflite model to be analyzed (default: model.tflite)

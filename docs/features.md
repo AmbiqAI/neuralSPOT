@@ -7,7 +7,7 @@ _Contents_
 - [Examples and Projects](#examples-and-projects)
 - [Library Features](#libraries)
 
-# Supported Hardware and Software
+## Supported Hardware and Software
 
 Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuite, and will stay within 3 months of TFLM's latest releases.
 
@@ -15,10 +15,11 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 | External Component                   | Versions         | Notes                                                        |
 | ------------------------------------ | ---------------- | ------------------------------------------------------------ |
 | AmbiqSuite                           | 4.1.0, 4.2.0, 4.3.0, 4.4.1 | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
-| Tensorflow Lite for Microcontrollers | 2.3.1, c046d6e, fecdd5d |                                                              |
+| Tensorflow Lite for Microcontrollers | 2.3.1, c046d6e, fecdd5d, d5f819d (latest) |                                                              |
 | Embedded RPC                         | 1.9.1 Ambiq Fork | Please use this [fork](https://github.com/AmbiqAI/erpc).     |
 | SEGGER RTT                           | 7.70a            |                                                              |
 | CMSIS-NN | 5.9.0 | |
+| CMSIS-DSP | 1.15.0 | |
 
 ### Hardware
 
@@ -28,30 +29,31 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 | Apollo4B_evb          | Ambiq4 Plus EVB                         | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
 | Apollo4P_blue_kbr_evb | Ambiq4 Plus EVB                         |                                                   |
 | Apollo4P_blue_kxr_evb | Ambiq4 Plus EVB                         |                                                   |
-| Apollo4L  | Ambiq Apollo4 Lite EVB                         |                                                   |
+| Apollo4 Lite | Ambiq Apollo4 Lite EVB                        |                                                   |
+| Apollo4 Blue Lite | Ambiq Apollo4 Lite EVB | |
 | MPU6050               | Invensense 6D accelerometer       | i2c support                                                  |
 | MAX86150              | Invensense ECG single-lead sensor | i2c support                                     |
 
 ### Compatibility
 
-| Feature                      | Apollo4B    | Apollo4 Plus      | Apollo4 Blue Plus | Apollo4 Lite      |
-| ---------------------------- | ----------- | ----------------- | ----------------- | ----------------- |
-| USB                          | No          | Yes               | Yes               |                   |
-| BLE                          | No          |                   | AmbiqSuite 4.3.0+ |                   |
-| Analog Audio                 | Yes         | Yes               | Yes               |                   |
-| Digital Audio                | No          | AmbiqSuite 4.3.0+ | AmbiqSuite 4.3.0+ | AmbiqSuite 4.4.1+ |
-| TF Micro Profiler            | TF 0c46d6e+ | TF 0c46d6e+       | TF 0c46d6e+       | TF 0c46d6e+       |
-| AutoDeploy Profiling         | No          | Yes               | Yes               | No                |
-| AutoDeploy Power Measurement | Yes         | Yes               | Yes               | AmbiqSuite 4.4.1+ |
-| AutoDeploy Library Export    | Yes         | Yes               | Yes               | AmbiqSuite 4.4.1+ |
+| Feature                      | Apollo4B    | Apollo4 Plus      | Apollo4 Blue Plus | Apollo4 Lite      | Apollo4 Blue Lite |
+| ---------------------------- | ----------- | ----------------- | ----------------- | ----------------- | ----------------- |
+| USB                          | No          | Yes               | Yes               |                   |                   |
+| BLE                          | No          |                   | AmbiqSuite 4.3.0+ |                   | Yes               |
+| Analog Audio                 | Yes         | Yes               | Yes               |                   |                   |
+| Digital Audio                | No          | AmbiqSuite 4.3.0+ | AmbiqSuite 4.3.0+ | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ |
+| TF Micro Profiler            | TF 0c46d6e+ | TF 0c46d6e+       | TF 0c46d6e+       | TF 0c46d6e+       | TF 0c46d6e+       |
+| AutoDeploy Profiling         | No          | Yes               | Yes               | No                | No                |
+| AutoDeploy Power Measurement | Yes         | Yes               | Yes               | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ |
+| AutoDeploy Library Export    | Yes         | Yes               | Yes               | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ |
 
 
 
-# Examples and Projects
+## Examples and Projects
 
 NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples)_ and _[projects](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects)_. Examples are built entirely on NeuralSPOT's libraries and components, and are meant to showcase NeuralSPOT's features. Projects, on the other hand, are meant as demonstrations of how to integrate externally generated AI components  (from EdgeImpulse, for example) that are built on top of modified NeuralSPOT "[nests](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Developing_with_NeuralSPOT.md)".
 
-## Examples
+### Examples
 
 | Example                                                      | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -64,8 +66,7 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 | [web_ble](../examples/web_ble)               | Web BLE (bluetooth low energy) example application. This example turns the EVB into a bluetooth peripheral (in BLE terms, a 'server') communicating with a WebBLE dashboard running on the laptop browser. |
 
 
-
-## Projects
+### Projects
 
 | Project                                                      | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |

@@ -185,12 +185,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     return NS_STATUS_SUCCESS;
 }
 
-//*****************************************************************************
-//
 // PDM Interrupt Service Routine (ISR)
-//
-//*****************************************************************************
-
 void am_pdm_isr_common(uint8_t pdmNumber) {
     uint32_t ui32Status;
 

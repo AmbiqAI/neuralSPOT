@@ -1,155 +1,107 @@
-# NeuralSPOT
-NeuralSPOT is Ambiq's AI SDK. It is open-source, real-time, and OS-agnostic. NeuralSPOT is designed to help AI feature developers in 3 important ways:
+<p align="center">
+  <a href="https://github.com/AmbiqAI/neuralSPOT"><img src="./docs/images/banner.png" alt="neuralSPT"></a>
+</p>
 
-1. **Initial development and fine-tuning of the AI model**: neuralSPOT has tools to rapidly [characterize the performance and size](./docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md) of a TFLite model on Ambiq processors.
+---
+
+> *Code*: [https://github.com/AmbiqAI/neuralSPOT]([https://github.com/AmbiqAI/neuralSPOT])
+>
+> *Documentation*: [https://ambiqai.github.io/neuralSPOT](https://ambiqai.github.io/neuralSPOT)
+
+---
+
+NeuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo family of ultra-low-power SoCs. It is open-source, real-time, and OS-agnostic. It was designed with Tensorflow Lite for Microcontrollers in mind, but works with any AI runtime.
+
+NeuralSPOT is designed to help embedded AI developers in 3 important ways:
+
+1. **Initial development and fine-tuning of their AI model**: neuralSPOT offers tools to rapidly [characterize the performance and size](./docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md) of a TFLite model on Ambiq processors.
 2. **Rapid AI feature prototyping**: neuralSPOT's library of easy to use drivers, feature extractors, helper functions, and communication mechanisms accelerate the development of stand-alone AI feature applications to test the model in real-world situations with real-world data and latencies.
 3. **AI model library export**: once an AI model has been developed and refined via prototyping, neuralSPOT allows one-click deployment of a static library implementing the AI model, suitable to linking into larger embedded applications.
 
-![image-20230727151931018](./docs/images/image-20230727151931018.png)
+
+NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
+
+<p align="center">
+<img src="images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center />
+</p>
 
 
-NeuralSPOT wraps an AI-centric API around the AmbiqSuite SDK to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
+## Requirements
 
-![image-20220811095223908](./docs/images/image-20220811095223908.png)
+> **NOTE** for detailed compatibility notes, see the [features document](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md).
 
-NeuralSPOT's documentation is spread throughout the repository - generally, every component has its own documentation, which can be overwhelming. Please visit [`doc/`](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs) for high level documents useful as a starting point for understanding neuralSPOT's overall structure and intended usage.
+* **Hardware**
+    * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of Apollo4 Plus, Apollo4 Blue Plus, Apollo4 Lite, or Apollo4 Blue Lite
+    * Energy Measurement (optional): [Joulescope](https://www.joulescope.com) JS110 or JS220 (only needed for automated model energy measurements)
+* **Software**
+    * [Segger J-Link 7.88+](https://www.segger.com/downloads/jlink/)
+    * Compilers: at least one of...
+        * [Arm GNU Toolchain 10.3+](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
+        * [Armclang](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
+    * [GNU Make](https://www.gnu.org/software/make/)
+    * [Python 3.11+](https://www.python.org)
 
-# Building and Deploying NeuralSPOT
+## Building and Deploying NeuralSPOT
 
-NeuralSPOT make system is can be used in two ways:
-1. **As the 'base of operations' for your AI development**. Intended for stand-alone EVB development, you can add new binary (axf) targets to the /examples directory.
-2. **As a seed for adding NeuralSPOT to a larger project**. In this mode of operations, you would use NeuralSPOT to create a stub project (a "nest", described below) with everything needed to start running AI on EVBs.
+NeuralSPOT makes it easy to build and deploy your first AI model on Ambiq's EVBs. Before deploying, connect an Ambiq EVB (the following example defaults to Apollo4 Plus).
 
-## Build Options
-All `make` invocations for NS must be done from the base directory ("nest" makes are different, and defined below). The primary targets are:
+```bash
+git clone git@github.com:AmbiqAI/neuralSPOT.git
+cd neuralSPOT
+make clean
+make -j # makes everything
+make deploy # flashes the default example to EVB
+make view # connects to the Jlink SWO interface to show printf output from EVB
+```
 
-| Target               | Description                                                  |
-| -------------------- | ------------------------------------------------------------ |
-| `make`               | builds everything, including libraries and every target in examples directory |
-| `make clean`         | deletes every build directory and artifact                   |
-| `make libraries`     | builds the neuralspot and external component libraries       |
-| `make nestall`       | creates a minimal '[nest](#The_Nest)' with a basic main.cc stub file |
-| `make nest`          | creates a minimal '[nest](#The_Nest)' *without* a basic main.cc stub file and without overwriting makefiles |
-| `make nestcomponent` | updates a single component in the nest                       |
-| `make deploy`        | Uses jlink to deploy an application to a connected EVB       |
-| `make view`          | Starts a SWO terminal interface                              |
+The `make` systems is highly configurable and flexible - see our [makefile options document](docs/makefile-details.md) for more details.
 
-Besides targets, NeuralSPOT has a standard set of compile-time switches to help you configure the build exactly the way you need. These are set via the normal make conpiption, e.g. `make BOARD=apollo4b`.
+See our [Windows application note](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Application-Note-neuralSPOT-and-Windows.md) for Windows-specific considerations.
 
-| Parameter | Description | Default |
-| --------- | ----------- | ------- |
-| BOARD | Defines the target SoC (currently apollo4b, apollo4p, or apollo4l) | apollo4p |
-| EVB | Defines the EVB type (evb, blue_evb, blue_kxr_evb, or blue_kbr_evb) | evb |
-| BINDIR | Name of directories where binaries and build artifacts are stored. | build |
-| EXAMPLE | Name of example to be built. By default, all examples will be built. |All|
-| NESTDIR | Relative path and directory name where nest will be created | nest |
-| NESTCOMP | root path to a single component to be updated for `make nestcomponent` | extern/AmbiqSuite |
-| NESTEGG | name of neuralspot example used to create nest | basic_tf_stub |
-| AS_VERSION | Ambiqsuite Version | R4.4.1 |
-| TF_VERSION | Tensflow Lite for Microcontrollers Version | fecdd5d |
-| TARGET | Defines what target will be loaded by `make deploy` | basic_tf_stub |
-| MLDEBUG | Setting to '1' turns on TF debug prints and use debug TFLM | 0 |
-| MLPROFILE | Setting to '1' enables TFLM profiling and logs (*NOTE* not supported for TF_VERSION R2.3.1) | 0 |
+## Automatic Model Characterization and Packaging
 
-> **Note**  Defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo). To make changes to this file without tracking them in git, you can do the following:
-> `$> git update-index --assume-unchanged make/local_overrides.mk`
+NeuralSPOT includes tools to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).
 
-# NeuralSPOT Structure and Directories
+Two caveats:
 
-NeuralSPOT consists of the neuralspot library, required external components, tools, and examples.
+* Autodeploy for EVBs without a second USB port requires special attention - see the Apollo4 Lite section of this document.
+* RPC uses one of the PC's serial ports - these are named differently depending on the OS. The following example defaults to Linux/Mac, see this document for finding the serial port and add `--tty <your port>` to use that instead.
 
+```bash
+cd .../neuralSPOT # neuralSPOT's root directory
+python setup.py install
+cd tools
+python -m ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel # add --tty COMx for Windows
+```
+
+This one invocation will:
+
+1. **Analyze the specified TFLite model** file to determine needed ops, input and output tensors, etc.
+1. Convert the TFlite into a C file, wrap it in a baseline neuralSPOT application, and flash it to an EVB
+1. Perform an initial characterization over USB using RPC and use the results to **fine-tune the application's memory allocation**, then flash the fine-tuned version.
+1. Run invoke() both locally and on the EVB, feeding the same data to both, **comparing the results and profiling the performance of the invoke() on the EVB**
+1. **Create a static library** (with headers) containing the model, TFLM, and a minimal wrapper to ease integration into applications.
+1. Create a simple AmbiqSuite example suitable for copying into AmbiqSuites example directory.
+
+Autodeploy is highly configurable and also **capable of automatically measuring the power** used by inference (if a joulescope is available) - see the [reference guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/tools/README.md) and [application note](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.md) for more details.
+
+## NeuralSPOT Structure and Directories
+NeuralSPOT consists of the neuralspot libraries, required external components, tools, and examples.
+
+<p align="center">
 <img src="./docs/images/image-20230727151002947.png" alt="image-20230727151002947" style="zoom:50%;" />
+</p>
 
-The directory structure reflects the code structure
+The directory structure reflects the code structure:
 
-```/neuralspot - contains all code for NeuralSPOT libraries
-/neuralspot # Sensor, communications, and helper libraries
-/extern     # External dependencies, including TF and AmbiqSuite
-/examples   # Example applications, each of which can be compiled to a deployable binary
-/projects   # Examples of how to integrate external projects such as EdgeImpulse models
-/make       # Makefile helpers, including neuralspot-config.mk and local_overrides.mk
-/tools	    # AutoDeploy and RPC python-based tools
-/tests.     # Simple compatibility tests
-/docs       # introductory documents, guides, and release notes
 ```
-
-# NeuralSPOT Theory of Operations
-
-NeuralSPOT is a SDK for AI development on Ambiq products via an AI-friendly API. It offers a set of libraries for accessing hardware, pre-configured instances of external dependencies such as AmbiqSuite and Tensorflow Lite for Microcontrollers, and a handful of examples which compile into deployable binaries.
-
-<img src="./docs/images/ns-layers.png" alt="layers" style="zoom:50%;" />
-
-## NeuralSPOT Libraries and Features
-
-NeuralSPOT is continuously growing, and offers the following libraries today - for a full list of features, see our [Feature Guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/feature-guide.md).
-
-1. `ns-audio`: [Library for sampling audio](neuralspot/ns-audio/ns-audio.md) from Ambiq's audio interfaces and sending them to an AI application via several IPC methods. This library also contains audio-centric common AI feature helpers such as configurable Mel-spectogram computation.
-2. `ns-peripherals`: API for controlling Ambiq's power modes, performance modes, and helpers for commonly used I/O devices such as EVB buttons.
-3. `ns-usb` and `ns-rpc`: libraries for talking to PC applications via remote procedure calls to ease cross-platform development.
-4. `ns-ble`: an easy-to-use BLE wrapper for creating simple BLE-based demos such as WebBLE dashboards.
-5. `ns-harness`: a simple harness for abstracting common AmbiqSuite code, meant to be replaced when NeuralSPOT is not being used by AmbiqSuite.
-6. `ns-ipc`: Common mechanisms for presenting collected sensor data to AI applications
-7. ... and many more
-
-## The Nest
-
-The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files, along with a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](docs/Developing_with_NeuralSPOT.md).
-
-### Building Nest
-
-Before building a nest, you must first build NeuralSPOT for your desired target. By default, the nest will be created in NeuralSPOT's root directory - set NESTDIR to change where it is built.
-
-```bash
-$> cd neuralSpot
-$> make		       # this builds the artifacts needed to build the nest
-$> make nestall  # this creates the nest, use BINDIR=<your directory> to change where
-$> cd nest
-$> make          # this builds the Nest basic_tf_stub.
-```
-
-### Nest Directory Contents
-```bash
-Makefile
-autogen.mk # Automatically generated by 'make nest'
-make/      # helper scripts and make includes
-includes/  # *.h files in preserved original directory structure
-libs/      # needed *.a files for both 3rd party and neuralspot libraries
-src/
-	<nestegg sources>
-srcpreserved/
-	<previous contents of src - see 'upgrade' section below>
-```
-
-### Choosing which NeuralSPOT example to base Nest on
-By default, the example/basic_tf_stub is used to create the Nest (meaning the files in example/basic_tf_stub/src are copied into the nest). To base the nest on another example, used the NESTEGG parameter:
-
-```bash
-$> make NESTEGG=mpu_data_collection nestall # use example/mpu_data_collection as bases for new nest
-```
-
-### Updgrading a Nest
-When you create a nest, all source files (include_apis, example source code, libraries, etc.) are copied
-to NESTDIR. If you are working within a previously created nest, creating a new one with the same NESTDIR
-destination will overwrite these files. This is necessary for certain files (libraries, include_apis) that
-are required for NeuralSPOT's functionality, but not critical for the example code.
-
-There are 3 ways to create or update a nest:
-1. `make nestall`: copies all nest components including example source code and makefiles
-2. `make nest`: copies everything except example source code and makefiles (it does create a suggested makefile)
-3. `make NESTCOMP=desired_component nestcomponent`: copies over only includes and libraries associated with the specified component.
-
-To ease upgrading existing nests, `make nest` and `make nestall` will create a `$(NESTDIR)/srcpreserved` directory and copy the existing contents of `$(NESTDIR)/src` to it.
-
-With this in mind, the nest 'full' upgrade workflow goes something like this:
-1. Before upgrading, preserve any non-src work in the $(NESTDIR) (and consider contributing these changes back to NeuralSPOT, of course):
-	1. Any changes to files in includes/
-	2. Any changes in pack/
-2. Upgrade the nest by running `make nest` with the same NESTDIR you are already using
-3. Compare `$(NESTDIR)/src/preserved` to new files in `$(NESTDIR)/src`, and copy in or merge as needed
-
-If only one component (extern/.. or neuralspot/..) needs to be updated, `make nestcomponent` can be used instead.
-
-For example:
-```bash
-$> make NESTCOMP=neuralspot/ns-rpc nestcomponent # only updates ns-rpc header files and static libs
+/neuralspot - contains all code for NeuralSPOT libraries
+	/neuralspot # Sensor, communications, and helper libraries
+	/extern     # External dependencies, including TF and AmbiqSuite
+	/examples   # Example applications, each of which can be compiled to a deployable binary
+	/projects   # Examples of how to integrate external projects such as EdgeImpulse models
+	/make       # Makefile helpers, including neuralspot-config.mk and local_overrides.mk
+	/tools	    # AutoDeploy and RPC python-based tools
+	/tests      # Simple compatibility tests
+	/docs       # introductory documents, guides, and release notes
 ```

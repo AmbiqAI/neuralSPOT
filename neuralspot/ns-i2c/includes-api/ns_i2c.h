@@ -1,5 +1,5 @@
 #ifndef NS_I2C
-#define NS_I2C
+    #define NS_I2C
 
 /**
  * @file ns_i2c.h
@@ -9,27 +9,27 @@
  * @date 2022-08-26
  *
  * @copyright Copyright (c) 2022
- *  \addtogroup NeuralSPOT-i2c
+ *  \addtogroup ns-i2c
  *  @{
  */
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 extern "C" {
-#endif
+    #endif
 
-#include "am_bsp.h"
-#include "am_mcu_apollo.h"
-#include "am_util.h"
-#include "ns_core.h"
+    #include "am_bsp.h"
+    #include "am_mcu_apollo.h"
+    #include "am_util.h"
+    #include "ns_core.h"
 
-#define NS_I2C_V0_0_1                                                                              \
-    { .major = 0, .minor = 0, .revision = 1 }
-#define NS_I2C_V1_0_0                                                                              \
-    { .major = 1, .minor = 0, .revision = 0 }
+    #define NS_I2C_V0_0_1                                                                          \
+        { .major = 0, .minor = 0, .revision = 1 }
+    #define NS_I2C_V1_0_0                                                                          \
+        { .major = 1, .minor = 0, .revision = 0 }
 
-#define NS_I2C_OLDEST_SUPPORTED_VERSION NS_I2C_V0_0_1
-#define NS_I2C_CURRENT_VERSION NS_I2C_V1_0_0
-#define NS_I2C_API_ID 0xCA0004
+    #define NS_I2C_OLDEST_SUPPORTED_VERSION NS_I2C_V0_0_1
+    #define NS_I2C_CURRENT_VERSION NS_I2C_V1_0_0
+    #define NS_I2C_API_ID 0xCA0004
 
 extern const ns_core_api_t ns_i2c_V0_0_1;
 extern const ns_core_api_t ns_i2c_V1_0_0;
@@ -38,10 +38,14 @@ extern const ns_core_api_t ns_i2c_current_version;
 
 typedef enum { NS_I2C_STATUS_SUCCESS = 0, NS_I2C_STATUS_ERROR = 1 } ns_i2c_status_e;
 
-// I2C Driver Configration
+/**
+ * @brief i2c configuration
+ *
+ */
 typedef struct {
     const ns_core_api_t *api; ///< API prefix
-    int8_t iom;               // Apollo4 IOM port
+    int8_t iom;               ///< Apollo4 IOM port
+
     // Internal state
     void *iomHandle;             // AmbiqSuite IOM handle
     am_hal_iom_config_t sIomCfg; //  AmbiqSuite IOM config
@@ -64,8 +68,7 @@ typedef struct {
  * @param speed I2C speed in Hz
  * @return uint32_t status
  */
-uint32_t
-ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed);
+uint32_t ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed);
 
 /**
  * @brief Perform low-level I2C read using IOM transfer
@@ -74,8 +77,7 @@ ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed);
  * @param size Number of bytes to read
  * @param addr I2C device address
  */
-uint32_t
-ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr);
+uint32_t ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr);
 
 /**
  * @brief Perform low-level I2C write using IOM transfer
@@ -84,8 +86,7 @@ ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr)
  * @param size Number of bytes to write
  * @param addr I2C device address
  */
-uint32_t
-ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr);
+uint32_t ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr);
 
 /**
  * @brief Perform low-level I2C write followed by immediate read
@@ -96,9 +97,9 @@ ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr
  * @param numRead Number of bytes to read
  * @param addr I2C device address
  */
-uint32_t
-ns_i2c_write_read(ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite,
-                  void *readBuf, size_t numRead);
+uint32_t ns_i2c_write_read(
+    ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite, void *readBuf,
+    size_t numRead);
 
 /**
  * @brief Perform sequence of low-level I2C transfers (similar to Linux)
@@ -106,11 +107,11 @@ ns_i2c_write_read(ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, siz
  * @param msgs I2C messages to transfer
  * @param numMsgs Number of I2C messsages
  */
-uint32_t
-ns_i2c_transfer(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs);
+uint32_t ns_i2c_transfer(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs);
 
-#ifdef __cplusplus
+    #ifdef __cplusplus
 }
-#endif
+    #endif
 
 #endif // NS_IO_I2C
+/** @}*/

@@ -47,8 +47,8 @@ const ns_core_api_t ns_mfcc_V0_0_1 = {.apiId = NS_MFCC_API_ID, .version = NS_MFC
 
 const ns_core_api_t ns_mfcc_V1_0_0 = {.apiId = NS_MFCC_API_ID, .version = NS_MFCC_V1_0_0};
 
-const ns_core_api_t ns_mfcc_oldest_supported_version = {.apiId = NS_MFCC_API_ID,
-                                                        .version = NS_MFCC_V0_0_1};
+const ns_core_api_t ns_mfcc_oldest_supported_version = {
+    .apiId = NS_MFCC_API_ID, .version = NS_MFCC_V0_0_1};
 
 const ns_core_api_t ns_mfcc_current_version = {.apiId = NS_MFCC_API_ID, .version = NS_MFCC_V1_0_0};
 
@@ -60,9 +60,7 @@ const ns_core_api_t ns_mfcc_current_version = {.apiId = NS_MFCC_API_ID, .version
 
 // WARNING this is some hacky, finicky pointer math. Sizes and order have to match
 // Fiddle with this at your own peril
-
-static void
-ns_mfcc_map_arena(ns_mfcc_cfg_t *cfg) {
+static void ns_mfcc_map_arena(ns_mfcc_cfg_t *cfg) {
     cfg->mfccFrame = (float *)cfg->arena;
     cfg->mfccDCTMatrix = (float *)(cfg->mfccFrame + cfg->frame_len_pow2 * sizeof(float));
     cfg->mfccBuffer =
@@ -83,8 +81,7 @@ float g_audioSumInt;
 
 arm_rfft_fast_instance_f32 g_mfccRfft;
 
-static void
-create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t coefficient_count) {
+static void create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t coefficient_count) {
     int32_t k, n;
     float normalizer;
     arm_sqrt_f32(2.0 / (float)input_length, &normalizer);
@@ -96,8 +93,7 @@ create_dct_matrix(ns_mfcc_cfg_t *cfg, int32_t input_length, int32_t coefficient_
     }
 }
 
-uint32_t
-ns_mfcc_init(ns_mfcc_cfg_t *c) {
+uint32_t ns_mfcc_init(ns_mfcc_cfg_t *c) {
     int i;
 #ifndef NS_DISABLE_API_VALIDATION
     if (c == NULL) {
@@ -129,8 +125,7 @@ ns_mfcc_init(ns_mfcc_cfg_t *c) {
     return NS_STATUS_SUCCESS;
 }
 
-uint32_t
-ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) {
+uint32_t ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) {
 
     int32_t i, j, bin;
 
@@ -139,8 +134,9 @@ ns_mfcc_compute(ns_mfcc_cfg_t *cfg, const int16_t *audio_data, float *mfcc_out) 
         cfg->mfccFrame[i] = ((float)audio_data[i] / (1 << 15)) * cfg->mfccWindowFunction[i];
     }
     // Fill up remaining with zeros
-    memset(&(cfg->mfccFrame[cfg->frame_len]), 0,
-           sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
+    memset(
+        &(cfg->mfccFrame[cfg->frame_len]), 0,
+        sizeof(float) * (cfg->frame_len_pow2 - cfg->frame_len));
 
     // Compute FFT
     arm_rfft_fast_f32(&g_mfccRfft, cfg->mfccFrame, cfg->mfccBuffer, 0);

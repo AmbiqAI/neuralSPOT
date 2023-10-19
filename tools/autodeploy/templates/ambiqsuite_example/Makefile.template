@@ -1,0 +1,154 @@
+rootdir := ..
+build := bin
+BINDIR := $(build)
+TOOLCHAIN := NS_AD_TOOLCHAIN
+app_name := NS_AD_NAME
+
+deploy_target := $(build)/$(app_name)_example.bin
+
+include $(rootdir)/make/helpers.mk
+include $(rootdir)/make/neuralspot_config.mk
+include $(rootdir)/make/local_overrides.mk
+include $(rootdir)/make/neuralspot_toolchain.mk
+include $(rootdir)/make/jlink.mk
+
+includes_api := .
+pp_defines   := $(DEFINES)
+
+includes_api += $(rootdir)/neuralspot/ns-model/includes-api
+includes_api += lib
+
+include $(rootdir)/src/tensorflow_headers/module.mk
+
+# AmbiqSuite Headers and Util sources
+as_base = ../../../../../..
+includes_api += $(as_base)/boards/$(BOARD)_$(EVB)/bsp
+includes_api += $(as_base)/CMSIS/ARM/Include
+includes_api += $(as_base)/CMSIS/AmbiqMicro/Include
+includes_api += $(as_base)/devices
+includes_api += $(as_base)/mcu/$(BOARDROOT)
+includes_api += $(as_base)/mcu/$(BOARDROOT)/hal/mcu
+includes_api += $(as_base)/utils
+
+# Third-Party (FreeRTOS)
+includes_api += $(as_base)/third_party/FreeRTOSv10.5.1/Source/include
+includes_api += $(as_base)/third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo4
+
+# Third-Party (TinyUSB)
+includes_api += $(as_base)/third_party/tinyusb/src
+includes_api += $(as_base)/third_party/tinyusb/source/src
+includes_api += $(as_base)/third_party/tinyusb/source/src/common
+includes_api += $(as_base)/third_party/tinyusb/source/src/osal
+includes_api += $(as_base)/third_party/tinyusb/source/src/class/cdc
+includes_api += $(as_base)/third_party/tinyusb/source/src/device
+
+# AmbiqSuite Libraries
+ifeq ($(TOOLCHAIN),arm)
+lib_prebuilt += $(as_base)/mcu/$(PART)/hal/mcu/keil6/bin/libam_hal.lib
+lib_prebuilt += $(as_base)/boards/$(PART)_$(EVB)/bsp/keil6/bin/libam_bsp.lib
+else
+lib_prebuilt += $(as_base)/mcu/apollo4p/hal/mcu/gcc/bin/libam_hal.a
+lib_prebuilt += $(as_base)/boards/$(PART)_$(EVB)/bsp/gcc/bin/libam_bsp.a
+endif
+
+VPATH = $(rootdir)/src
+VPATH += $(as_base)/utils
+
+
+ifeq ($(TOOLCHAIN),arm)
+objects := $(build)/startup_armclang.o
+else
+objects := $(build)/startup_gcc.o
+endif
+
+objects += $(build)/$(app_name)_model.o
+objects += $(build)/$(app_name)_example.o
+objects += $(build)/am_resources.o
+objects += $(build)/am_util_delay.o
+objects += $(build)/am_util_id.o
+objects += $(build)/am_util_stdio.o
+objects += $(build)/am_util_string.o
+# $(info objects: $(objects))
+
+CFLAGS     += $(addprefix -D,$(pp_defines))
+CFLAGS     += $(addprefix -I ,$(includes_api))
+
+all: $(build) $(build)/$(app_name)_example.bin $(build)/$(app_name)_example.axf
+
+$(build):
+	$(Q) $(MKD) -p $@
+
+$(build)/%.o: %.c
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
+
+$(build)/%.o: %.cc
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
+
+$(build)/%.o: %.s
+	@echo " Assembling $(COMPILERNAME) $<"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
+
+%.axf: $(objects) $(libraries)
+	@echo " Linking $(COMPILERNAME) $@"
+	@mkdir -p $(@D)
+ifeq ($(TOOLCHAIN),arm)
+	$(Q) $(LD) $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
+else
+	$(Q) $(CC) -Wl,-T,linker_script.ld -o $@ $(objects) $(LFLAGS)
+endif
+
+ifeq ($(TOOLCHAIN),arm)
+%.bin: %.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $@ $<
+	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
+	# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+	# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
+else
+%.bin: %.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $< $@
+	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
+	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+	$(Q) $(SIZE) @$*.sizeinput $< > $*.size
+endif
+
+$(JLINK_CF):
+	@echo " Creating JLink command sequence input file... $(deploy_target)"
+	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "Reset" >> $@
+	$(Q) echo "LoadFile $(deploy_target), $(JLINK_PF_ADDR)" >> $@
+	$(Q) echo "Exit" >> $@
+
+$(JLINK_RESET_CF):
+	@echo " Creating JLink command reset file... $(deploy_target)"
+	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "R1" >> $@
+	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "R0" >> $@
+	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "Exit" >> $@
+
+.PHONY: deploy
+deploy: $(JLINK_CF)
+	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."
+	- $(Q) $(JLINK) $(JLINK_CMD)
+	# $(Q) $(RM) $(JLINK_CF)
+
+.PHONY: view
+view:
+	@echo " Printing SWO output (ensure JLink USB connected and powered on)..."
+	$(Q) $(JLINK_SWO) $(JLINK_SWO_CMD)
+
+.PHONY: clean
+clean:
+	$(Q) $(RM) -rf $(build)
+
+.SECONDARY: $(objects)

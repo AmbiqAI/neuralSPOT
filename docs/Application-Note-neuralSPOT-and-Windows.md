@@ -7,7 +7,9 @@ The neuralSPOT development environment is based on GCC and Python - compiling an
 3. Python 3.10+ with pip support
 4. SEGGER Jlink
 
-This document describes the 'bare minimum' installation and compilation process for neuralSPOT, including eRPC and RPC-based neuralSPOT tools.
+However, neuralSPOT was developed on Linux and Mac, so there are some toolchain and requirement differences for Windows. This document describes the 'bare minimum' installation and compilation process for neuralSPOT, including eRPC and RPC-based neuralSPOT tools.
+
+> **NOTE** NeuralSPOT has experimental support for Arm's proprietary compiler, armclang. Armclang requires an Arm license to run, and has only been tested on Windows.
 
 # Compiling neuralSPOT
 
@@ -96,7 +98,7 @@ $> python setup.py install
 
 ### Running neuralSPOT RPC
 
-An EVB running RPC-enabled code will show up as a USB TTY device. On Windows this will be one of the COMx: ports. One way to list those ports is:
+An EVB running RPC-enabled code will show up as a USB TTY device. On Windows this will be one of the COMx: ports. The easiest way to identify which COM port to use is to look at the device manager GUI while resetting the EVB (after you have flashed an RPC-capable image) - after the reset, two COM ports will show up, one for Jlink's USB and the other for the RPC TTY port. You can also see these ports from the command line via the following command:
 
 ```bash
 wmic path Win32_SerialPort

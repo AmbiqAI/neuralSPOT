@@ -82,9 +82,9 @@ CFLAGS+= -MMD -MP
 CCFLAGS+= -fno-use-cxa-atexit 
 
 # LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
-LFLAGS+=  --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
+LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
 LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
-LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb
+LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=vTaskSwitchContext --lto
 LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 

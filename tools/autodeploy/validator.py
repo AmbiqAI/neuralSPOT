@@ -29,6 +29,9 @@ import GenericDataOperations_PcToEvb
 modelConfigPreambleSize = 6  # number of uint32_t words
 modelStatPreambleSize = 4  # number of uint32_t words
 
+# Max RPC Block Length is roughly 3000 bytes, per testing
+maxRpcBlockLength = 3000
+
 
 class ModelStructureDetails:
     def __init__(self, tflite_filename):
@@ -300,12 +303,13 @@ def validateModel(params, client, interpreter, md, mc):
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
         if md.inputTensors[0].bytes > (
-            params.max_rpc_buf_size - 1000
+            maxRpcBlockLength
+            # params.max_rpc_buf_size - 1000
         ):  # TODO: calculate the 600
             log.info(
-                f"Input tensor exceeds RPC buffer size, chunking from {md.inputTensors[0].bytes} to {(params.max_rpc_buf_size - 1000)}"
+                f"Input tensor exceeds RPC buffer size, chunking from {md.inputTensors[0].bytes} to {maxRpcBlockLength}"
             )
-            sendLongInputTensor(client, input_data, (params.max_rpc_buf_size - 1000))
+            sendLongInputTensor(client, input_data, (maxRpcBlockLength))
             inputTensor = GenericDataOperations_PcToEvb.common.dataBlock(
                 description="Empty Tensor",
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,

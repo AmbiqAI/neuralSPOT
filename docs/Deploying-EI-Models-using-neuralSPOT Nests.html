@@ -2635,18 +2635,18 @@ B --&gt; C[Integrate to Nest]
 C --&gt; D[Deploy on EVB]
 </code></pre>
 <blockquote>
-<p><em>TL;DR</em> If you want to skip to the solution, see our <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse">EdgeImpulse examples</a> directory.</p>
+<p><strong>TL;DR</strong> If you want to skip to the solution, see our <a href="https://github.com/AmbiqAI/edgeimpulse-examples">EdgeImpulse examples</a> Github repository.</p>
 </blockquote>
 <p>In this article, we'll focus on the third step: integrating to Nests.</p>
 <p>EdgeImpulse C++ models follow a similar approach to Nests - they're basically a code blob with everything you need to get a model running. All the user needs to do is figure out how to compile them for their target environment. Because of this, they include some components that Nests also include, such as CMSIS and Tensorflow libraries.</p>
 <h2 id="integration-flow">Integration Flow</h2>
 <p>Generally speaking, there are four things we need to do to get an EdgeImpulse C++ model integrated into a Nest:</p>
-<ul>
+<ol>
 <li>Implement EdgeImpulse's porting hooks</li>
 <li>Compiling: adding EdgeImpulse and resolving conflicting SW components</li>
 <li>Connect the model to Apollo4 data sources (i.e. sensors)</li>
 <li>Implement the application loop</li>
-</ul>
+</ol>
 <h3 id="porting-hooks">Porting Hooks</h3>
 <p>This is a very common task for embedded development. Unlike most target platforms, embedded software developers can't rely on standard implementations of common software features such as printing, allocating memory, and timers. This is typically addressed by having a 'port me' section of code. </p>
 <p>EdgeImpulse's generic model requires that we implement the following functions:</p>
@@ -2658,26 +2658,26 @@ C --&gt; D[Deploy on EVB]
 <span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">ei_calloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">nitems</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">ei_free</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ptr</span><span class="p">);</span>
 </code></pre></div>
-<p>Fortunately, neuralSPOT has implementations for all of these, so the porting effort is a simple matter - the code is <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src/ambiq">here</a>.</p>
+<p>Fortunately, neuralSPOT has implementations for all of these, so the porting effort is a simple matter - the implemented ported code is <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src/ambiq">here</a> (and mirrored in the <a href="https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/src">examples repo</a>)</p>
 <blockquote>
-<p><em>NOTE</em> Embedded applications are often allergic to dynamic memory allocation because they may introduce non-deterministic delays that conflict with real-time behavior. NeuralSPOT's core functionality avoids dynamic memory allocation, but it does provide an implementation based on FreeRTOS's heap4 implementation, which is a good compromise between functionality and real-time behavior.</p>
+<p><strong>NOTE</strong> Embedded applications are often allergic to dynamic memory allocation because they may introduce non-deterministic delays that conflict with real-time behavior. NeuralSPOT's core functionality avoids dynamic memory allocation, but it does provide an implementation based on FreeRTOS's heap4 implementation, which is a good compromise between functionality and real-time behavior.</p>
 </blockquote>
 <h3 id="compiling-and-resolving-conflicts">Compiling and Resolving Conflicts</h3>
-<p>Compiling an EdgeImpulse-based application is a matter of adding the downloaded C++ code to the Nest and modifying the default Nest makefile to include the new code and eliminate conflicts</p>
-<p>The Nest includes a Makefile that compiles the default Nest application (basic_tf_stub) and links in the entirety of neuralSPOT (don't worry, only used components make it into the final binary).</p>
+<p>Compiling an EdgeImpulse-based application is a matter of adding the downloaded C++ code to the Nest and modifying the default Nest makefile to include the new code and eliminate conflicts.</p>
+<p>The Nest includes a Makefile that compiles the default Nest application (basic_tf_stub) and links in the entirety of neuralSPOT (don't worry, only used components make it into the final binary). This Makefile needs to be modified to include EdgeImpulse's code.</p>
 <blockquote>
-<p><em>NOTE</em> We structured the EdgeImpulse example directories included in neuralSPOT such many example models share Makefiles and ported code, but we kept each downloaded C++ model exactly as downloaded from EdgeImpulse.</p>
+<p><strong>NOTE</strong> We structured the EdgeImpulse example directories included in neuralSPOT such many example models share Makefiles and ported code, but we kept each downloaded C++ model exactly as downloaded from EdgeImpulse.</p>
 </blockquote>
 <h4 id="modifying-the-makefile">Modifying the Makefile</h4>
-<p>The Nest makefile is pretty straightforward - the key to understanding how to modify it is that it is designed to compile every source file added to the <code>sources</code> variable. The are 3 sets of directories we add in our final, modified <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/Makefile">Makefile</a>:</p>
+<p>The Nest makefile is pretty straightforward - the key to understanding how to modify it is that it is designed to compile every source file added to the <code>sources</code> Makefile variable. The are 3 sets of directories we add in our final, modified <a href="https://github.com/AmbiqAI/edgeimpulse-examples/blob/main/Makefile">Makefile</a>:</p>
 <ul>
-<li>The application directory (containing the main() loop) (for <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/ei_yes_no">example</a>)</li>
+<li>The application directory (containing the source code and implementing the main() loop) (for <a href="https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/yes_no">example</a>)</li>
 <li>The Ambiq-EdgeImpulse <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src">ported code directory</a></li>
 <li>And all the directories in the downloaded EdgeImpulse model and SDK (lots)</li>
 </ul>
 <h4 id="resolving-conflicts">Resolving Conflicts</h4>
 <p>Both EdgeImpulse and neuralSPOT include CMSIS and Tensorflow libraries. If you try compiling and linking EdgeImpulse as a Nest application without modification, you'll get "redefined" complaints from the linker. The best approach here is to whittle down neuralSPOT to include only the libraries you need.</p>
-<p>The easiest way to do this is by modifying the Nest's <code>autogen.mk</code> file (which may cause confusion, so it might be a good idea to rename it after modifying it). Our modified and renamed file is <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/make/ns_for_ei.mk"><code>ns_for_ei.mk</code></a>.</p>
+<p>The easiest way to do this is by modifying the Nest's <code>autogen.mk</code> file (which may cause confusion, so it might be a good idea to rename it after modifying it). Our modified and renamed file is <a href="https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/make"><code>ns_for_ei.mk</code></a>.</p>
 <p>An unmodified Nest <code>autogen.mk</code> file specifies the include path for the compilation step, and list of libraries to be linked in by the linker. </p>
 <p>To resolve conflicts, we removed the includes for CMSIS and Tensorflow, bolded below.</p>
 <pre>
@@ -2698,7 +2698,9 @@ extern/erpc/R1.9.1/includes-api
 
 <p>We also remove the conflicting static libraries:</p>
 <pre>
-libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio.a libs/ns-usb.a libs/ns-utils.a libs/ns-rpc.a libs/ns-i2c.a libs/ambiqsuite.a libs/segger_rtt.a libs/erpc.a libs/libam_hal.a libs/libam_bsp.a <b>libs/libCMSISDSP.a libs/libcmsis-nn.a libs/libtensorflow-microlite-o2.a</b>
+libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio.a libs/ns-usb.a libs/ns-utils.a
+libs/ns-rpc.a libs/ns-i2c.a libs/ambiqsuite.a libs/segger_rtt.a libs/erpc.a libs/
+libam_hal.a libs/libam_bsp.a <b>libs/libCMSISDSP.a libs/libcmsis-nn.a libs/libtensorflow-microlite-o2.a</b>
 </pre>
 
 <h3 id="connecting-to-apollo4-data-sources">Connecting to Apollo4 Data Sources</h3>
@@ -2710,7 +2712,7 @@ libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio
 </ul>
 <p>Fortunately, both neuralSPOT and EdgeImpulse have put a lot of design effort into making this easy.</p>
 <blockquote>
-<p><em>TL;DR</em> If you want to jump straight to the solution, see <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/ei_yes_no/src/main.cc">here</a> for an audio example, and <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/projects/edgeimpulse/ei_anomaly_detection/src/main.cc">here</a> for an accelerometer example.</p>
+<p><strong>TL;DR</strong> If you want to jump straight to the solution, see <a href="https://github.com/AmbiqAI/edgeimpulse-examples/blob/main/yes_no/src/main.cc">here</a> for an audio example, and <a href="https://github.com/AmbiqAI/edgeimpulse-examples/blob/main/anomaly_detection/src/main.cc">here</a> for an accelerometer example.</p>
 </blockquote>
 <p>We'll use an audio-based AI model to walk through how to do this.</p>
 <p>To collect audio, we use neuralSPOT ns-audio library. For this specific model, we configure ns-audio to use callbacks, one channel, 16kHz sampling, and 8 slices per window (for continuous inference):</p>
@@ -2727,19 +2729,31 @@ libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio
 <span class="c1">// Audio IPC and config</span>
 <span class="kt">int16_t</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">g_in16AudioDataBuffer</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">EI_CLASSIFIER_SLICE_SIZE</span><span class="p">];</span><span class="w"> </span><span class="c1">// 1s</span>
 <span class="kt">uint8_t</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">g_bufsel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// for pingponging</span>
+<span class="kt">uint32_t</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">audadcSampleBuffer</span><span class="p">[</span><span class="n">EI_CLASSIFIER_SLICE_SIZE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">];</span>
+<span class="n">am_hal_audadc_sample_t</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">workingBuffer</span><span class="p">[</span><span class="n">EI_CLASSIFIER_SLICE_SIZE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">NUM_CHANNELS</span><span class="p">];</span><span class="w"> </span><span class="c1">// working buffer used</span>
+<span class="w">                                                                              </span><span class="c1">// by AUDADC</span>
 <span class="kt">bool</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">g_audioRecording</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 <span class="kt">bool</span><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">g_audioReady</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
 
 <span class="n">ns_audio_config_t</span><span class="w"> </span><span class="n">audio_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ns_audio_V2_0_0</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">eAudioApiMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_AUDIO_API_CALLBACK</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">callback</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">audio_frame_callback</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">audioBuffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">g_in16AudioDataBuffer</span><span class="p">,</span>
+<span class="cp">#ifdef USE_PDM_MICROPHONE</span>
+<span class="w">    </span><span class="p">.</span><span class="n">eAudioSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_AUDIO_SOURCE_PDM</span><span class="p">,</span>
+<span class="cp">#else</span>
 <span class="w">    </span><span class="p">.</span><span class="n">eAudioSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_AUDIO_SOURCE_AUDADC</span><span class="p">,</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="p">.</span><span class="n">sampleBuffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">audadcSampleBuffer</span><span class="p">,</span>
+<span class="cp">#if !defined(USE_PDM_MICROPHONE)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">workingBuffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">workingBuffer</span><span class="p">,</span>
+<span class="cp">#endif</span>
 <span class="w">    </span><span class="p">.</span><span class="n">numChannels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NUM_CHANNELS</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">numSamples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EI_CLASSIFIER_SLICE_SIZE</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">sampleRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SAMPLE_RATE</span><span class="p">,</span>
 <span class="w">    </span><span class="p">.</span><span class="n">audioSystemHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="c1">// filled in by audio_init()</span>
-<span class="w">    </span><span class="p">.</span><span class="n">bufferHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span>
+<span class="w">    </span><span class="p">.</span><span class="n">bufferHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
 <span class="p">};</span>
 </code></pre></div>
 <p>We need to define two callbacks - one for ns-audio to handle incoming audio samples, and the other for EdgeImpulse to give it access to those samples. Both are very straight-forward:</p>
@@ -2751,17 +2765,8 @@ libraries += libs/ns-harness.a libs/ns-peripherals.a libs/ns-ipc.a libs/ns-audio
 
 <span class="c1">// ns-audio callback</span>
 <span class="kt">void</span><span class="w"> </span><span class="nf">audio_frame_callback</span><span class="p">(</span><span class="n">ns_audio_config_t</span><span class="w"> </span><span class="o">*</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">bytesCollected</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pui32_buffer</span><span class="w"> </span><span class="o">=</span>
-<span class="w">        </span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">am_hal_audadc_dma_get_buffer</span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">audioSystemHandle</span><span class="p">);</span>
-
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">g_audioRecording</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">numSamples</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">g_in16AudioDataBuffer</span><span class="p">[</span><span class="n">g_bufsel</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int16_t</span><span class="p">)(</span><span class="n">pui32_buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x0000FFF0</span><span class="p">);</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="c1">// Workaround for AUDADC sample glitch, here while it is root caused</span>
-<span class="w">                </span><span class="n">g_in16AudioDataBuffer</span><span class="p">[</span><span class="n">g_bufsel</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">g_in16AudioDataBuffer</span><span class="p">[</span><span class="n">g_bufsel</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">g_in16AudioDataBuffer</span><span class="p">[</span><span class="n">g_bufsel</span><span class="p">][</span><span class="mi">4</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"> </span>
-<span class="w">            </span><span class="p">}</span><span class="w">            </span>
-<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">ns_audio_getPCM_v2</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="p">(</span><span class="n">g_in16AudioDataBuffer</span><span class="p">[</span><span class="n">g_bufsel</span><span class="p">][</span><span class="mi">0</span><span class="p">]));</span>
 <span class="w">        </span><span class="n">g_audioReady</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 <span class="w">        </span><span class="n">g_bufsel</span><span class="w"> </span><span class="o">^=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// pingpong</span>
 <span class="w">    </span><span class="p">}</span>

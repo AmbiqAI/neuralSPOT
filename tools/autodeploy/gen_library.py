@@ -46,7 +46,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
         os.makedirs(f"{d}/{n}", exist_ok=True)
         os.makedirs(f"{d}/{n}/src", exist_ok=True)
         os.makedirs(f"{d}/{n}/src/tensorflow_headers", exist_ok=True)
-        os.makedirs(f"{d}/{n}/lib", exist_ok=True)
+        # os.makedirs(f"{d}/{n}/lib", exist_ok=True)
         os.makedirs(f"{d}/{n}/gcc", exist_ok=True)
         os.makedirs(f"{d}/{n}/armclang", exist_ok=True)
         os.makedirs(f"{d}/{n}/keil6", exist_ok=True)
@@ -109,8 +109,14 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
         )
         shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
         shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
-        shutil.copy("autodeploy/templates/ambiqsuite_example/src/am_resources.c", f"{d}/{n}/src/")
-        shutil.copy("autodeploy/templates/ambiqsuite_example/src/am_hal_usbregs-override.h", f"{d}/{n}/src/")
+        shutil.copy(
+            "autodeploy/templates/ambiqsuite_example/src/am_resources.c",
+            f"{d}/{n}/src/",
+        )
+        shutil.copy(
+            "autodeploy/templates/ambiqsuite_example/src/am_hal_usbregs-override.h",
+            f"{d}/{n}/src/",
+        )
 
         shutil.copytree(
             "autodeploy/templates/ambiqsuite_example/src/tensorflow_headers",

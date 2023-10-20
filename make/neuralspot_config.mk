@@ -84,7 +84,7 @@ DEFINES+= AM_DEBUG_PRINTF
 
 ##### Common AI Precompiler Directives #####
 # 1 = load TF library with debug info, turn on TF debug statements
-MLDEBUG := 0
+MLDEBUG ?= 0
 
 # 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0

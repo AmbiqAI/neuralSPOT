@@ -49,6 +49,7 @@ modules      += extern/AmbiqSuite/$(AS_VERSION)
 modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
+modules 	 += extern/codecs/opus-precomp
 
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
@@ -77,6 +78,7 @@ else
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
 			modules      += examples/mpu_data_collection
+			modules      += examples/audio_codec
 		endif
 
 	else

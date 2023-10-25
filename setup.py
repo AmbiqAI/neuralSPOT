@@ -39,7 +39,7 @@ setup(
         "numpy>=1.21.6",
         "soundfile>=0.10.3",
         "pyserial",
-        "pyjoulescope",
+        "joulescope",
         "pydantic_argparse",
         "tensorflow",
         "tabulate",

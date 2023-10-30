@@ -135,7 +135,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     // Configure the necessary pins.
     am_hal_gpio_pincfg_t sGpioConfig;
 
-#ifdef AM_PART_APOLLO4L
+#ifndef NS_PDM1TO3_PRESENT
     // There is only PDM0
     sGpioConfig = g_AM_BSP_GPIO_PDM0_CLK;
     sGpioConfig.GP.cfg_b.eDriveStrength = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P5X;

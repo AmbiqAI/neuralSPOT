@@ -52,7 +52,9 @@ NESTSOURCEDIR := examples/$(NESTEGG)/src
 ifneq ($(BRD),apollo4l)
 DEFINES+= AM_HAL_TEMPCO_LP
 DEFINES+= NS_AUDADC_PRESENT
+ifneq ($(EVB),blue_kxr_evb)
 DEFINES+= NS_PDM1TO3_PRESENT
+endif
 DEFINES+= NS_USB1_PRESENT
 USB_PRESENT := 1
 else
@@ -60,8 +62,8 @@ USB_PRESENT := 0
 endif
 
 # application stack and heap size
-STACK_SIZE_IN_32B_WORDS := 4096
-NS_MALLOC_HEAP_SIZE_IN_K := 16
+STACK_SIZE_IN_32B_WORDS ?= 4096
+NS_MALLOC_HEAP_SIZE_IN_K ?= 16
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4

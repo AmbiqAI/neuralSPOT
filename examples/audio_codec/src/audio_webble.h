@@ -35,15 +35,18 @@ static ns_ble_pool_config_t webbleWsfBuffers = {
     .desc = webbleBufferDescriptors,
     .descNum = WEBBLE_WSF_BUFFER_POOLS};
 
-#define webbleUuid(uuid) "19b10000" uuid "537e4f6cd104768a1214"
+// WSF/Cordio is built on top of FreeRTOS. We need to create a task
+
+#define webbleUuid(uuid) "19690000" uuid "1234abcd5678aabb1011"
 
 // BLE Structs, populated by webble_service_init()
-ns_ble_service_t webbleService;          // Webble Service
-ns_ble_characteristic_t webbleOpusAudio; // Opus-encoded Audio Characteristic
+ns_ble_service_t webbleService;              // Webble Service
+ns_ble_characteristic_t webbleOpusAudio;     // Opus-encoded Audio Characteristic
+ns_ble_characteristic_t audioFrameAvailable; // Doorbell`
 
 int webbleNotifyHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c) {
-    // ns_lp_printf("webbleNotifyHandler\n");
-    webbleUpdateSensorValues();
+    ns_lp_printf("webbleNotifyHandler\n");
+    // webbleUpdateSensorValues();
     return NS_STATUS_SUCCESS;
 }
 
@@ -60,6 +63,27 @@ int audioWebbleServiceInit(void) {
     webbleService.numAttributes = 0;
 
     ns_ble_create_characteristic(
-        &webbleAccel, webbleUuid("5001"), accel, sizeof(encodedDataBuffer),
-        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 200,
+        &webbleOpusAudio, webbleUuid("5001"), encodedDataBuffer, sizeof(encodedDataBuffer),
+        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler,
+        65000, // was 200, use '0' to make it async
         &(webbleService.numAttributes));
+
+    // Create the service
+    webbleService.numCharacteristics = 1; // needed to allocate memory for characteristics
+    ns_ble_create_service(&webbleService);
+    ns_ble_add_characteristic(&webbleService, &webbleOpusAudio);
+    ns_ble_start_service(&webbleService); // Initialize BLE, create structs, start service
+    return NS_STATUS_SUCCESS;
+}
+
+void RadioTask(void *pvParameters) {
+    NS_TRY(audioWebbleServiceInit(), "ideal_main failed.\n");
+    while (1) {
+        wsfOsDispatcher();
+    }
+}
+
+// void audioBLEInit(void) {
+//     xTaskCreate(setup_task, "Setup", 512, 0, 3, &my_xSetupTask);
+//     vTaskStartScheduler();
+// }

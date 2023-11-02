@@ -28,15 +28,23 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
         if (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
             block.description == "Audio16k_OPUS"
         ):
-            # Data is a 16 bit Mono PCM sample
-            print(len(block.buffer))
+            # Data is an Opus-encoded sample
+            print(f"Length {len(block.buffer)}")
             data = struct.unpack("<" + "c" * (len(block.buffer)), block.buffer)
+            for i in range(len(data)):
+                print(f"{data[i].hex()} ", end="")
+            # print (''.join("%d " % x for x in data))
+
             data = np.array(data)
-            print(data)
+            # vhex = np.vectorize(hex)
+            # np.set_printoptions(formatter={'numpystr':hex})
+            # print(vhex(data))
+            # print(data)
+            # print (''.join("\\x%02x" % x for x in data))
 
             # data contains Opus frame
             decoded_pcm = opus_decoder.decode(data)
-
+            print()
             print(len(decoded_pcm))
             wave_write.writeframes(decoded_pcm)
 

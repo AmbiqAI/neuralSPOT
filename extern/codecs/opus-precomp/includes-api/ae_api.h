@@ -49,7 +49,24 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/**
+ * @brief AmbiqSuite's Opus Encoder API Init Function
+ * 
+ * @param option - set to '0' please
+ * @return int 
+ */
 int audio_enc_init(int option);
+
+/**
+ * @brief AmbiqSuite's Opus Encoder API Encode Function
+ * Opus encoding is hardcoded to SWB, 48khz, mono, 20ms frames
+ * 
+ * @param p_pcm_buffer - data to be encoded
+ * @param n_pcm_samples - size of data to be encoded
+ * @param p_encoded_buffer - pointer to Opus-encoded data
+ * @return int 
+ */
 int audio_enc_encode_frame(short *p_pcm_buffer, int n_pcm_samples, unsigned char *p_encoded_buffer);
 #ifdef __cplusplus
 }

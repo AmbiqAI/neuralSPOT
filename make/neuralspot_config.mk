@@ -63,7 +63,7 @@ endif
 
 # application stack and heap size
 STACK_SIZE_IN_32B_WORDS ?= 4096
-NS_MALLOC_HEAP_SIZE_IN_K ?= 16
+NS_MALLOC_HEAP_SIZE_IN_K ?= 24
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4

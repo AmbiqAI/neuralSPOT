@@ -1,16 +1,18 @@
 /**
- * @file rpc_client.cc
+ * @file audio_codec.cc
  * @author Carlos Morales
  * @brief Generic Data Operations RPC Example
  * @version 0.1
  * @date 2022-08-26
  *
- * This example showcases the NS Generic Data RPC interface, which
- * is useful for sending data back and forth across the EVB's second
- * USB interface via remote procedure calls.
+ * This example 2 functions:
+ *  1. Encoded audio using an Opus encoder
+ *  2. Sending audio using either BLE or RPC
  *
- * Both remote procedure call directions (EVB to PC and PC to EVB) are
- * demonstrated, using audio as an example data source.
+ * The audio-over-BLE is for demo purposes only. It simply creates
+ * a BLE service with a single characteristic, and sends the encoded
+ * audio data to the PC - no audio protocols are involved.
+ *
  *
  * @copyright Copyright (c) 2022
  *
@@ -18,7 +20,13 @@
 #include <cstdlib>
 #include <cstring>
 
+// Uncomment the following like to enable RPC mode
+// and disable BLE mode.
 // #define AC_RPC_MODE
+
+// By default, this example uses PDM microphone data.
+// Uncomment the following line to use AUDADC data instead.
+// #define USE_AUDADC
 
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
@@ -39,8 +47,8 @@
 #define NUM_FRAMES 100
 #define SAMPLES_IN_FRAME 320
 #define SAMPLE_RATE 16000
-alignas(16) unsigned char static encodedDataBuffer[80]; // TODO check this length
-
+alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
+                                                        // to 80 bytes
 #ifndef AC_RPC_MODE
     #include "audio_webble.h" // include this after declarations above
 #endif
@@ -48,25 +56,20 @@ alignas(16) unsigned char static encodedDataBuffer[80]; // TODO check this lengt
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
 
-#if NUM_CHANNELS == 1
 alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
-#else
-int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
-#endif
 
 alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
-// am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
-//                                                                                 // used by AUDADC
+#ifdef USE_AUDADC
+am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+                                                                                // used by AUDADC
+#endif
 
-#ifdef AM_HAL_TEMPCO_LP
+#if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 #endif
 
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     if (g_audioRecording) {
-        // if (g_audioReady) {
-        //     ns_lp_printf("Overflow!\n");
-        // }
         ns_audio_getPCM_v2(config, audioDataBuffer);
         g_audioReady = true;
     }
@@ -77,28 +80,33 @@ ns_audio_config_t audioConfig = {
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&audioDataBuffer,
+#ifdef USE_AUDADC
+    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+#else
     .eAudioSource = NS_AUDIO_SOURCE_PDM,
-    // .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+#endif
     .sampleBuffer = dmaBuffer,
+#if USE_AUDADC
+    .workingBuffer = workingBuffer,
+#else
     .workingBuffer = NULL,
+#endif
     .numChannels = NUM_CHANNELS,
     .numSamples = SAMPLES_IN_FRAME,
     .sampleRate = SAMPLE_RATE,
     .audioSystemHandle = NULL, // filled in by init
     .bufferHandle = NULL,      // only for ringbuffer mode
-#ifdef AM_HAL_TEMPCO_LP
+#if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
     .sOffsetCalib = &sOffsetCalib,
 #endif
 };
 // -- Audio Stuff Ends ----------------------
 
 #ifdef AC_RPC_MODE
-    // RPC Stuff
     #define MY_USB_RX_BUFSIZE 2048
     #define MY_USB_TX_BUFSIZE 2048
 static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
 static uint8_t my_cdc_tx_ff_buf[MY_USB_TX_BUFSIZE];
-// End RPC Stuff
 #else
 TaskHandle_t audio_task_handle;
 TaskHandle_t my_xSetupTask;
@@ -107,25 +115,27 @@ TaskHandle_t radio_task_handle;
 
 typedef void *spl_opus_encoder_h;
 
-alignas(16) int16_t static sinWave[SAMPLES_IN_FRAME]; // for debugging
+// Use this to generate a sinwave for debugging instead
+// of using the microphone
+alignas(16) int16_t static sinWave[SAMPLES_IN_FRAME];
 
 #ifndef AC_RPC_MODE
 void audioTask(void *pvParameters) {
     int ui32EncoderReturn = 80;
-    // uint32_t totalenc = 80;
     while (1) {
         if (g_audioReady) {
             ui32EncoderReturn =
-                // audio_enc_encode_frame(sinWave, SAMPLES_IN_FRAME, encodedDataBuffer);
                 audio_enc_encode_frame(audioDataBuffer, SAMPLES_IN_FRAME, encodedDataBuffer);
             if (ui32EncoderReturn >= 0) {
+                // This causes a notify to be sent over BLE, all subscribers
+                // will get his block
                 ns_ble_send_value(&webbleOpusAudio, NULL);
-                // ns_lp_printf(".");
             } else
                 ns_lp_printf("Error encoding %d\n", ui32EncoderReturn);
             g_audioReady = false;
         }
-        vTaskDelay(pdMS_TO_TICKS(1));
+        vTaskDelay(pdMS_TO_TICKS(1)); // this could be probably be slower, but we want to keep the
+                                      // audio latency low
     }
 }
 
@@ -143,6 +153,7 @@ void setup_task(void *pvParameters) {
         ;
 }
 
+// Note that we turn off USB power when we are in BLE mode
 const ns_power_config_t ns_power_ble = {
     .api = &ns_power_V1_0_0,
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -170,9 +181,11 @@ int main(void) {
     // am_bsp_low_power_init();
     NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
+
+    // Initialize the Opus encoder
     audio_enc_init(0);
 
-    // Generate a 400hz sin wave
+    // Generate a 400hz sin wave (for debugging)
     for (int i = 0; i < SAMPLES_IN_FRAME; i++) {
         sinWave[i] = (int16_t)(sin(2 * 3.14159 * 400 * i / SAMPLE_RATE) * 32767);
     }
@@ -182,6 +195,8 @@ int main(void) {
     g_audioRecording = true;
 
 #ifndef AC_RPC_MODE
+    // BLE is FreeRTOS-driven, everything happens in the tasks set up by setup_task()
+    // Audio notifications will start immediately, no waiting for button presses
     xTaskCreate(setup_task, "Setup", 512, 0, 3, &my_xSetupTask);
     vTaskStartScheduler();
     while (1) {
@@ -203,11 +218,11 @@ int main(void) {
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
-    binary_t binaryBlock = {// .data = (uint8_t *)audioDataBuffer, // point this to audio buffer
-                            .data = (uint8_t *)encodedDataBuffer, // point this to audio buffer
-                            .dataLength = sizeof(audioDataBuffer)};
+    binary_t binaryBlock = {
+        .data = (uint8_t *)encodedDataBuffer, // point this to audio buffer
+        .dataLength = sizeof(audioDataBuffer)};
 
-    char msg_store[30] = "Audio16k_OPUS";
+    char msg_store[30] = "Audio16k_OPUS"; // python script can look for this
 
     // Block sent to PC
     dataBlock outBlock = {
@@ -267,7 +282,8 @@ int main(void) {
                     stat = ns_rpc_data_sendBlockToPC(&outBlock);
 
                     if (stat == ns_rpc_data_success) {
-                        ns_lp_printf(". %d .", ui32EncoderReturn);
+                        ns_lp_printf(".", ui32EncoderReturn);
+                        // ns_lp_printf(". %d .", ui32EncoderReturn);
                         // ns_lp_printf("raw 0x%x%x%x\n", audioDataBuffer[0], audioDataBuffer[1],
                         // audioDataBuffer[2]); ns_lp_printf("enc 0x%x%x%x\n", encodedDataBuffer[0],
                         // encodedDataBuffer[1], encodedDataBuffer[2]);
@@ -277,8 +293,6 @@ int main(void) {
             }
             ns_lp_printf(
                 "%d bytes, total %d, frames %d\n", ui32EncoderReturn, totalenc, NUM_FRAMES);
-            // ns_rpc_data_remotePrintOnPC(
-            //     "EVB Says this: 3s Sample Sent. Press button for next sample\n");
 
             g_audioRecording = false;
             g_intButtonPressed = 0;

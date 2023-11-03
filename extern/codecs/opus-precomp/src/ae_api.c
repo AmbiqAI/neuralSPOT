@@ -86,7 +86,7 @@ void* alloca(int size)
   void* p = (void*)opus_ram_ptr;
   int size1 = ((size>>2)<<2) + 4;
   int t = (int)p;
-  if(t&3==0)
+  if((t&3)==0)
     t = size1 ;
   if(size1&3)
   {

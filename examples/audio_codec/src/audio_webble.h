@@ -1,5 +1,5 @@
 /**
- * @file audio_webble.cc
+ * @file audio_webble.h
  * @author Ambiq
  * @brief Stream encoded audio to Web BLE dashboard
  * @version 0.1
@@ -35,8 +35,7 @@ static ns_ble_pool_config_t webbleWsfBuffers = {
     .desc = webbleBufferDescriptors,
     .descNum = WEBBLE_WSF_BUFFER_POOLS};
 
-// WSF/Cordio is built on top of FreeRTOS. We need to create a task
-
+// An arbitrary base UUID
 #define webbleUuid(uuid) "19690000" uuid "1234abcd5678aabb1011"
 
 // BLE Structs, populated by webble_service_init()
@@ -46,7 +45,6 @@ ns_ble_characteristic_t audioFrameAvailable; // Doorbell`
 
 int webbleNotifyHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c) {
     ns_lp_printf("webbleNotifyHandler\n");
-    // webbleUpdateSensorValues();
     return NS_STATUS_SUCCESS;
 }
 
@@ -62,6 +60,7 @@ int audioWebbleServiceInit(void) {
     webbleService.poolConfig = &webbleWsfBuffers;
     webbleService.numAttributes = 0;
 
+    // We create a single characteristic which is basically a chunk of Opus-encoded audio
     ns_ble_create_characteristic(
         &webbleOpusAudio, webbleUuid("5001"), encodedDataBuffer, sizeof(encodedDataBuffer),
         NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler,
@@ -82,8 +81,3 @@ void RadioTask(void *pvParameters) {
         wsfOsDispatcher();
     }
 }
-
-// void audioBLEInit(void) {
-//     xTaskCreate(setup_task, "Setup", 512, 0, 3, &my_xSetupTask);
-//     vTaskStartScheduler();
-// }

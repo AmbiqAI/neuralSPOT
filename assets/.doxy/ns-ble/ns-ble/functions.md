@@ -16,6 +16,7 @@
 * **ns\_ble\_create\_characteristic** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_create\_service** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_pre\_init** ([**ns\_ble.h**](ns__ble_8h.md))
+* **ns\_ble\_send\_value** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_start\_service** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_generic\_AttCback** ([**ns\_ble.c**](ns__ble_8c.md))
 * **ns\_ble\_generic\_CccCback** ([**ns\_ble.c**](ns__ble_8c.md))
@@ -36,7 +37,6 @@
 * **ns\_ble\_new\_handler\_init** ([**ns\_ble.c**](ns__ble_8c.md))
 * **ns\_ble\_new\_proc\_msg** ([**ns\_ble.c**](ns__ble_8c.md))
 * **ns\_ble\_process\_ccc\_state** ([**ns\_ble.c**](ns__ble_8c.md))
-* **ns\_ble\_send\_value** ([**ns\_ble.c**](ns__ble_8c.md))
 
 
 

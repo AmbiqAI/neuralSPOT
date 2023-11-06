@@ -634,9 +634,9 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" line="566" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="566" bodyend="566"/>
       </memberdef>
-      <memberdef kind="function" id="ns__ble_8c_1a0f3c2c71f078c3bf5cd0414740932f85" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>static void ns_ble_send_value</definition>
+        <definition>void ns_ble_send_value</definition>
         <argsstring>(ns_ble_characteristic_t *c, attEvt_t *pMsg)</argsstring>
         <name>ns_ble_send_value</name>
         <param>
@@ -653,7 +653,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" line="568" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="568" bodyend="577"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" line="568" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="568" bodyend="577"/>
       </memberdef>
       <memberdef kind="function" id="ns__ble_8c_1a8e0b353194d64461b837d1e9090497de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1623,7 +1623,7 @@
 <codeline lineno="565"><highlight class="normal"></highlight></codeline>
 <codeline lineno="566"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_generic_new_handle_cnf(attEvt_t<sp/>*pMsg){};</highlight></codeline>
 <codeline lineno="567"><highlight class="normal"></highlight></codeline>
-<codeline lineno="568"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_send_value(<ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c,<sp/>attEvt_t<sp/>*pMsg)<sp/>{</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_send_value(<ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c,<sp/>attEvt_t<sp/>*pMsg)<sp/>{</highlight></codeline>
 <codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/>dmConnId_t<sp/>connId<sp/>=<sp/>1;</highlight></codeline>
 <codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;ns_ble_send_value&quot;);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AttsCccEnabled(connId,<sp/>c-&gt;indicationTimer.msg.status))<sp/>{</highlight></codeline>

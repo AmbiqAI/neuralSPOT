@@ -49,6 +49,7 @@ modules      += extern/AmbiqSuite/$(AS_VERSION)
 modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
+modules 	 += extern/codecs/opus-precomp
 
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
@@ -71,14 +72,18 @@ else
 
 		ifeq ($(BLE_SUPPORTED),1)
 			modules      += examples/web_ble
+			modules      += examples/audio_codec
 		endif
 
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
 			modules      += examples/mpu_data_collection
+			ifneq ($(BLE_SUPPORTED),1)
+# Don't include it twice
+				modules  += examples/audio_codec
+			endif
 		endif
-
 	else
 		modules 	 += examples/$(EXAMPLE)
 	endif
@@ -204,7 +209,6 @@ $(BINDIR)/%.o: %.s
 	@mkdir -p $(@D)
 ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
-# $(Q) $(LD) $< $(objects) $(lib_prebuilt) $(LFLAGS) --list=$*.map -o $@
 else
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
 endif

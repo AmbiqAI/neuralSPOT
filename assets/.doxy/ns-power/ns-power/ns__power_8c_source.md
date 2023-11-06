@@ -184,7 +184,7 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
     MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
 #endif
-
+// return; ok
 #ifdef AM_DEVICES_BLECTRLR_RESET_PIN
     if (pCfg->bNeedBluetooth == false) {
         //
@@ -196,6 +196,7 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
         am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
     }
 #endif // AM_DEVICES_BLECTRLR_RESET_PIN
+       // return; ok
 
     //
     // Disable all peripherals
@@ -243,7 +244,7 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDPB);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM0);
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_I2S0);
-
+// return;
 #ifndef AM_PART_APOLLO4L
     if (pCfg->bNeedAudAdc == false) {
         am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);
@@ -254,11 +255,18 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
         // Power down Crypto.
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
     }
-
-    // XTAL powerdown
-    am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
+    // return;
+    if (pCfg->bNeedBluetooth == false) {
+        // TODO: setting this pwrctl mode kills FreeRTOS tasks
+        // vTaskScheduler works after a power cycle, but not after resets.
+        // Since the only neuralSPOT examples needing freertos involve bluetooth,
+        // use that flag for now.
+        // XTAL powerdown
+        am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
+    }
 }
 
+// Main function for power configuration
 uint32_t ns_power_config(const ns_power_config_t *pCfg) {
     uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
 

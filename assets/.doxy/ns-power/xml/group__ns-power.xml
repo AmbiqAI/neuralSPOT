@@ -212,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="111" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="257" bodyend="353" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="111" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="111" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="265" bodyend="361" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="111" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="118" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="360" bodyend="387" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="118" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="118" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="368" bodyend="395" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="118" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-power_1ga5e478ff8045369408f29963f631e2677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>

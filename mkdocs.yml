@@ -102,7 +102,8 @@ nav:
       - Functions: ns-model/functions.md
       - Structs: ns-model/annotated.md
       - Variables: ns-model/variables.md
-
+  - Blog:
+      - docs/blog/index.md
 
 markdown_extensions:
   - md_in_html
@@ -116,6 +117,8 @@ markdown_extensions:
   - attr_list
 
 plugins:
+  - blog:
+      blog_dir: docs/blog
   - glightbox
   - mkdoxy:
       full-doc: True

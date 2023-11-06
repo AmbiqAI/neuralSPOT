@@ -526,7 +526,7 @@ void ns_ble_new_handler_init(wsfHandlerId_t handlerId) {
 
 static void ns_ble_generic_new_handle_cnf(attEvt_t *pMsg){};
 
-static void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
+void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
     dmConnId_t connId = 1;
     // ns_lp_printf("ns_ble_send_value");
     if (AttsCccEnabled(connId, c->indicationTimer.msg.status)) {

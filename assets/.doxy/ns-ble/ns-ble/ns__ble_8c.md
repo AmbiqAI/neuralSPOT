@@ -130,6 +130,7 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
 |  void | [**ns\_ble\_new\_handler\_init**](#function-ns_ble_new_handler_init) (wsfHandlerId\_t handlerId) <br> |
 |  bool | [**ns\_ble\_new\_proc\_msg**](#function-ns_ble_new_proc_msg) ([**ns\_ble\_msg\_t**](unionns__ble__msg__t.md) \* pMsg) <br> |
 |  void | [**ns\_ble\_pre\_init**](#function-ns_ble_pre_init) (void) <br>_Call this function from the setup\_task, prior to creating the RadioTask All this does is set up NVIC priorities._  |
+|  void | [**ns\_ble\_send\_value**](#function-ns_ble_send_value) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, attEvt\_t \* pMsg) <br> |
 |  int | [**ns\_ble\_start\_service**](#function-ns_ble_start_service) ([**ns\_ble\_service\_t**](ns__ble_8h.md#typedef-ns_ble_service_t) \* s) <br>_Invoked by RadioTask to start the service. This function should be called after all characteristics have been added._  |
 
 
@@ -147,7 +148,6 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
 |  void | [**ns\_ble\_generic\_procMsg**](#function-ns_ble_generic_procmsg) ([**ns\_ble\_msg\_t**](unionns__ble__msg__t.md) \* pMsg) <br> |
 |  bool | [**ns\_ble\_handle\_indication\_timer\_expired**](#function-ns_ble_handle_indication_timer_expired) ([**ns\_ble\_msg\_t**](unionns__ble__msg__t.md) \* pMsg) <br> |
 |  void | [**ns\_ble\_process\_ccc\_state**](#function-ns_ble_process_ccc_state) (attsCccEvt\_t \* pMsg) <br> |
-|  void | [**ns\_ble\_send\_value**](#function-ns_ble_send_value) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, attEvt\_t \* pMsg) <br> |
 
 
 
@@ -681,6 +681,20 @@ void ns_ble_pre_init (
 
 
 
+### function ns\_ble\_send\_value 
+
+```C++
+void ns_ble_send_value (
+    ns_ble_characteristic_t * c,
+    attEvt_t * pMsg
+) 
+```
+
+
+
+
+
+
 ### function ns\_ble\_start\_service 
 
 _Invoked by RadioTask to start the service. This function should be called after all characteristics have been added._ 
@@ -837,20 +851,6 @@ static bool ns_ble_handle_indication_timer_expired (
 ```C++
 static void ns_ble_process_ccc_state (
     attsCccEvt_t * pMsg
-) 
-```
-
-
-
-
-
-
-### function ns\_ble\_send\_value 
-
-```C++
-static void ns_ble_send_value (
-    ns_ble_characteristic_t * c,
-    attEvt_t * pMsg
 ) 
 ```
 

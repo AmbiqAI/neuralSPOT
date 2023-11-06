@@ -156,6 +156,7 @@
     <member refid="group__ns-ble_1ga1ab7f44e8e07a6432ab8d76c04414562" kind="variable"><name>ns_ble_current_version</name></member>
     <member refid="group__ns-ble_1ga394d3804a93c2f0e3e658f9260d82300" kind="function"><name>ns_ble_pre_init</name></member>
     <member refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kind="function"><name>ns_ble_create_service</name></member>
+    <member refid="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" kind="function"><name>ns_ble_send_value</name></member>
     <member refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kind="function"><name>ns_ble_create_characteristic</name></member>
     <member refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kind="function"><name>ns_ble_add_characteristic</name></member>
     <member refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kind="function"><name>ns_ble_char2uuid</name></member>
@@ -191,7 +192,7 @@
     <member refid="ns__ble_8c_1a978f8ba3c4d9c49fac214674b413c75d" kind="function"><name>ns_ble_new_handler</name></member>
     <member refid="ns__ble_8c_1aa5124ada629f3734bcbdc14f85cff743" kind="function"><name>ns_ble_new_handler_init</name></member>
     <member refid="ns__ble_8c_1a3281c26c5a4462de7df340ad0454b58e" kind="function"><name>ns_ble_generic_new_handle_cnf</name></member>
-    <member refid="ns__ble_8c_1a0f3c2c71f078c3bf5cd0414740932f85" kind="function"><name>ns_ble_send_value</name></member>
+    <member refid="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" kind="function"><name>ns_ble_send_value</name></member>
     <member refid="ns__ble_8c_1a8e0b353194d64461b837d1e9090497de" kind="function"><name>ns_ble_handle_indication_timer_expired</name></member>
     <member refid="ns__ble_8c_1a11aa9a8d1104d73a60259e20cccbee47" kind="function"><name>ns_ble_process_ccc_state</name></member>
     <member refid="ns__ble_8c_1aae8f64bdb3c9fc9b8ce4051d5933f73c" kind="function"><name>ns_ble_new_proc_msg</name></member>
@@ -226,6 +227,7 @@
     <member refid="group__ns-ble_1ga1ab7f44e8e07a6432ab8d76c04414562" kind="variable"><name>ns_ble_current_version</name></member>
     <member refid="group__ns-ble_1ga394d3804a93c2f0e3e658f9260d82300" kind="function"><name>ns_ble_pre_init</name></member>
     <member refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kind="function"><name>ns_ble_create_service</name></member>
+    <member refid="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" kind="function"><name>ns_ble_send_value</name></member>
     <member refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kind="function"><name>ns_ble_create_characteristic</name></member>
     <member refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kind="function"><name>ns_ble_add_characteristic</name></member>
     <member refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kind="function"><name>ns_ble_char2uuid</name></member>

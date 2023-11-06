@@ -359,7 +359,7 @@
 <codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>necessary<sp/>pins.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_pincfg_t<sp/>sGpioConfig;</highlight></codeline>
 <codeline lineno="137"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_PDM1TO3_PRESENT</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>There<sp/>is<sp/>only<sp/>PDM0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>sGpioConfig<sp/>=<sp/>g_AM_BSP_GPIO_PDM0_CLK;</highlight></codeline>
 <codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>sGpioConfig.GP.cfg_b.eDriveStrength<sp/>=<sp/>AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P5X;</highlight></codeline>

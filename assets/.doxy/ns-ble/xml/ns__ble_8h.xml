@@ -651,6 +651,27 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="359" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="732" bodyend="843" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="359" declcolumn="12"/>
       </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_send_value</definition>
+        <argsstring>(ns_ble_characteristic_t *c, attEvt_t *pMsg)</argsstring>
+        <name>ns_ble_send_value</name>
+        <param>
+          <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>attEvt_t *</type>
+          <declname>pMsg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="361" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="568" bodyend="577" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="361" declcolumn="13"/>
+      </memberdef>
       <memberdef kind="function" id="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int ns_ble_create_characteristic</definition>
@@ -787,7 +808,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="378" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="846" bodyend="933" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="378" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="380" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="846" bodyend="933" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="380" declcolumn="12"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -829,7 +850,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="394" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="935" bodyend="976" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="394" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="396" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="935" bodyend="976" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="396" declcolumn="12"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -872,7 +893,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="404" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="658" bodyend="688" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="404" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="406" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="658" bodyend="688" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="406" declcolumn="12"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -902,7 +923,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="413" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="978" bodyend="996" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="413" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="415" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="978" bodyend="996" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="415" declcolumn="12"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1216,23 +1237,25 @@
 <codeline lineno="345"><highlight class="normal"></highlight></codeline>
 <codeline lineno="359"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s);</highlight></codeline>
 <codeline lineno="360"><highlight class="normal"></highlight></codeline>
-<codeline lineno="378"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
-<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*uuidString,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*applicationValue,</highlight></codeline>
-<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>valueLength,<sp/>uint16_t<sp/>properties,<sp/>ns_ble_characteristic_read_handler_t<sp/>readHandlerCb,</highlight></codeline>
-<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_write_handler_t<sp/>writeHandlerCb,</highlight></codeline>
-<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_notify_handler_t<sp/>notifyHandlerCb,<sp/>uint16_t<sp/>periodMs,</highlight></codeline>
-<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>*attributeCount);</highlight></codeline>
-<codeline lineno="384"><highlight class="normal"></highlight></codeline>
-<codeline lineno="394"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s,<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c);</highlight></codeline>
-<codeline lineno="395"><highlight class="normal"></highlight></codeline>
-<codeline lineno="404"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uuidString[16],<sp/><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref><sp/>*uuid128);</highlight></codeline>
-<codeline lineno="405"><highlight class="normal"></highlight></codeline>
-<codeline lineno="413"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kindref="member">ns_ble_start_service</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s);</highlight></codeline>
-<codeline lineno="414"><highlight class="normal"></highlight></codeline>
-<codeline lineno="415"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="417"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="418"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_BLE</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_send_value(<ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c,<sp/>attEvt_t<sp/>*pMsg);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*uuidString,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*applicationValue,</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>valueLength,<sp/>uint16_t<sp/>properties,<sp/>ns_ble_characteristic_read_handler_t<sp/>readHandlerCb,</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_write_handler_t<sp/>writeHandlerCb,</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ble_characteristic_notify_handler_t<sp/>notifyHandlerCb,<sp/>uint16_t<sp/>periodMs,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>*attributeCount);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s,<sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>*c);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>uuidString[16],<sp/><ref refid="structns__ble__uuid128__t" kindref="compound">ns_ble_uuid128_t</ref><sp/>*uuid128);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kindref="member">ns_ble_start_service</ref>(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s);</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_BLE</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h"/>
   </compounddef>

@@ -91,6 +91,7 @@
 |  int | [**ns\_ble\_create\_characteristic**](#function-ns_ble_create_characteristic) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, char const \* uuidString, void \* applicationValue, uint16\_t valueLength, uint16\_t properties, ns\_ble\_characteristic\_read\_handler\_t readHandlerCb, ns\_ble\_characteristic\_write\_handler\_t writeHandlerCb, ns\_ble\_characteristic\_notify\_handler\_t notifyHandlerCb, uint16\_t periodMs, uint16\_t \* attributeCount) <br>_Define a characteristic for subsequent addition to a service._  |
 |  int | [**ns\_ble\_create\_service**](#function-ns_ble_create_service) ([**ns\_ble\_service\_t**](ns__ble_8h.md#typedef-ns_ble_service_t) \* s) <br>_Create a BLE service based on the given configuration._  |
 |  void | [**ns\_ble\_pre\_init**](#function-ns_ble_pre_init) (void) <br>_Call this function from the setup\_task, prior to creating the RadioTask All this does is set up NVIC priorities._  |
+|  void | [**ns\_ble\_send\_value**](#function-ns_ble_send_value) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, attEvt\_t \* pMsg) <br> |
 |  int | [**ns\_ble\_start\_service**](#function-ns_ble_start_service) ([**ns\_ble\_service\_t**](ns__ble_8h.md#typedef-ns_ble_service_t) \* s) <br>_Invoked by RadioTask to start the service. This function should be called after all characteristics have been added._  |
 
 
@@ -489,6 +490,20 @@ int
 ```C++
 void ns_ble_pre_init (
     void
+) 
+```
+
+
+
+
+
+
+### function ns\_ble\_send\_value 
+
+```C++
+void ns_ble_send_value (
+    ns_ble_characteristic_t * c,
+    attEvt_t * pMsg
 ) 
 ```
 

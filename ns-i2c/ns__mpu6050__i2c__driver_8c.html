@@ -2,111 +2,111 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-
+    
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-
+      
         <meta name="description" content="Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs">
-
-
-
-
-
-
+      
+      
+      
+      
+      
+      
       <link rel="icon" href="../docs/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.5">
-
-
-
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
+    
+    
+      
         <title>File ns_mpu6050_i2c_driver.c - NeuralSPOT</title>
-
-
-
-      <link rel="stylesheet" href="../assets/stylesheets/main.6a10b989.min.css">
-
-
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
+      
+        
         <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
 
 
-
-
-
-
-
-
-
-
-
-
+    
+    
+      
+    
+    
+      
+        
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-
-
-
+      
+    
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-
-
-
-
-
+    
+    
+    
    <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
         .gslide-image img { background: white; }
-
+        
             .gscrollbar-fixer { padding-right: 15px; }
             .gdesc-inner { font-size: 0.75rem; }
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
             </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
-
-
-
-
-
-
-
-
-
+  
+  
+    
+    
+      
+    
+    
+    
+    
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
-
-
-
+  
+    
+    
       <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
-
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-
-
+      
+        
         <a href="#file-ns_mpu6050_i2c_driverc" class="md-skip">
           Skip to content
         </a>
-
+      
     </div>
     <div data-md-component="announce">
-
+      
     </div>
+    
+    
+      
 
-
-
-
-
+  
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="NeuralSPOT" class="md-header__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
-
+      
   <img src="../docs/images/favicon.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-
+      
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
@@ -118,57 +118,57 @@
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
-
+            
               File ns_mpu6050_i2c_driver.c
-
+            
           </span>
         </div>
       </div>
     </div>
-
-
+    
+      
         <form class="md-header__option" data-md-component="palette">
-
-
-
-
+  
+    
+    
+    
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Use system theme"  type="radio" name="__palette" id="__palette_1">
-
+    
       <label class="md-header__button md-icon" title="Use system theme" for="__palette_3" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
       </label>
-
-
-
-
-
+    
+  
+    
+    
+    
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light theme"  type="radio" name="__palette" id="__palette_2">
-
+    
       <label class="md-header__button md-icon" title="Switch to light theme" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
       </label>
-
-
-
-
-
+    
+  
+    
+    
+    
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark theme"  type="radio" name="__palette" id="__palette_3">
-
+    
       <label class="md-header__button md-icon" title="Switch to dark theme" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
       </label>
-
-
+    
+  
 </form>
-
-
-
-
-
+      
+    
+    
+    
+    
       <div class="md-header__source">
         <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
-
+    
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
   </div>
   <div class="md-source__repository">
@@ -176,44 +176,44 @@
   </div>
 </a>
       </div>
-
+    
   </nav>
-
+  
 </header>
-
+    
     <div class="md-container" data-md-component="container">
-
-
-
-
-
-
+      
+      
+        
+          
+        
+      
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
-
-
-
+          
+            
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="NeuralSPOT" class="md-nav__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
-
+      
   <img src="../docs/images/favicon.png" alt="logo">
 
     </a>
     NeuralSPOT
   </label>
-
+  
     <div class="md-nav__source">
       <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
-
+    
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
   </div>
   <div class="md-source__repository">
@@ -221,4154 +221,4405 @@
   </div>
 </a>
     </div>
-
+  
   <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Home
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/ai_at_ambiq.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     AI at Ambiq
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Ambiq-ModelZoo.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Ambiq Model Zoo
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Getting Started
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Introduction-to-neuralSPOT.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Introduction
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Tutorial
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/makefile-details.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Build Guide
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/features.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Features
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Developers
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Developers
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Developing_with_NeuralSPOT.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Developing with NeuralSPOT
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/developer_guide.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Developing for NeuralSPOT
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/NeuralSPOT_Nests.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Nests
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Tools
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Tools
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Automatic Testing, profiling, and deploying
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../tools/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Tools Overview
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Application Notes
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Application Notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Application-Note-neuralSPOT-and-Windows.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     neuralSPOT on Windows
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/optimizing_using_neuralspot.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Optimizing Using NeuralSPOT
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/release_notes.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Release Notes
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/developer_notes.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Developer Notes
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Deploying-EI-Models-using-neuralSPOT%20Nests.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Edge Impulse Support
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Examples
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Examples
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/basic_tf_stub/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Keyword Spotting
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/har/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Human Activity Recognition
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/rpc_client/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     RPC Client
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/rpc_server/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     RPC Server
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/web_ble/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     WebBLE
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/mpu_data_collection/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Data Collection
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Libraries
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             Libraries
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-audio/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Audio
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-ble/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Bluetooth
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-i2c/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     i2c
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-rpc/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     RPC
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-peripherals/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Power
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-utils/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Performance Utilities
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Code Documentation
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             Code Documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Audio
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_1">
             <span class="md-nav__icon md-icon"></span>
             Audio
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-audio/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-audio/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-audio/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-audio/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-audio/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Bluetooth
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2">
             <span class="md-nav__icon md-icon"></span>
             Bluetooth
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Remote Procedure Call
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_3">
             <span class="md-nav__icon md-icon"></span>
             Remote Procedure Call
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_4" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_4" id="__nav_10_4_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     i2c
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_4">
             <span class="md-nav__icon md-icon"></span>
             i2c
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_5" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_5" id="__nav_10_5_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Utilities
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_5">
             <span class="md-nav__icon md-icon"></span>
             Utilities
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_6" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_6" id="__nav_10_6_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Power and power
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_6">
             <span class="md-nav__icon md-icon"></span>
             Power and power
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_7" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_7" id="__nav_10_7_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Core
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_7">
             <span class="md-nav__icon md-icon"></span>
             Core
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_8" id="__nav_10_8_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     AmbiqSuite Harness
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_8">
             <span class="md-nav__icon md-icon"></span>
             AmbiqSuite Harness
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_9" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_9" id="__nav_10_9_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Model Wrapper
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_9">
             <span class="md-nav__icon md-icon"></span>
             Model Wrapper
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
 
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Archive
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/archive/2023.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Categories
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/examples.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/new-features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    New Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/integration.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/general.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+            
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#public-functions" class="md-nav__link">
     Public Functions
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#public-static-functions" class="md-nav__link">
     Public Static Functions
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#macros" class="md-nav__link">
     Macros
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#public-functions-documentation" class="md-nav__link">
     Public Functions Documentation
   </a>
-
+  
     <nav class="md-nav" aria-label="Public Functions Documentation">
       <ul class="md-nav__list">
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_accel_fsr_value" class="md-nav__link">
-    function mpu605095accel95fsr95value
+    function mpu6050_accel_fsr_value
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_accel_resolution" class="md-nav__link">
-    function mpu605095accel95resolution
+    function mpu6050_accel_resolution
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_accel_to_gravity" class="md-nav__link">
-    function mpu605095accel95to95gravity
+    function mpu6050_accel_to_gravity
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_calibrate" class="md-nav__link">
-    function mpu605095calibrate
+    function mpu6050_calibrate
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_calibration" class="md-nav__link">
-    function mpu605095calibration
+    function mpu6050_calibration
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_configure_fifo" class="md-nav__link">
-    function mpu605095configure95fifo
+    function mpu6050_configure_fifo
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_configure_interrupt" class="md-nav__link">
-    function mpu605095configure95interrupt
+    function mpu6050_configure_interrupt
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_device_reset" class="md-nav__link">
-    function mpu605095device95reset
+    function mpu6050_device_reset
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_fifo_pop" class="md-nav__link">
-    function mpu605095fifo95pop
+    function mpu6050_fifo_pop
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_accel_offset" class="md-nav__link">
-    function mpu605095get95accel95offset
+    function mpu6050_get_accel_offset
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_accel_values" class="md-nav__link">
-    function mpu605095get95accel95values
+    function mpu6050_get_accel_values
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_fifo_count" class="md-nav__link">
-    function mpu605095get95fifo95count
+    function mpu6050_get_fifo_count
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_gyro_offset" class="md-nav__link">
-    function mpu605095get95gyro95offset
+    function mpu6050_get_gyro_offset
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_gyro_values" class="md-nav__link">
-    function mpu605095get95gyro95values
+    function mpu6050_get_gyro_values
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_interrupt_status" class="md-nav__link">
-    function mpu605095get95interrupt95status
+    function mpu6050_get_interrupt_status
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_get_temperature" class="md-nav__link">
-    function mpu605095get95temperature
+    function mpu6050_get_temperature
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_gyro_fsr_value" class="md-nav__link">
-    function mpu605095gyro95fsr95value
+    function mpu6050_gyro_fsr_value
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_gyro_resolution" class="md-nav__link">
-    function mpu605095gyro95resolution
+    function mpu6050_gyro_resolution
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_gyro_to_deg_per_sec" class="md-nav__link">
-    function mpu605095gyro95to95deg95per95sec
+    function mpu6050_gyro_to_deg_per_sec
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_init" class="md-nav__link">
-    function mpu605095init
+    function mpu6050_init
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_mean_sensors" class="md-nav__link">
-    function mpu605095mean95sensors
+    function mpu6050_mean_sensors
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_read_sensors" class="md-nav__link">
-    function mpu605095read95sensors
+    function mpu6050_read_sensors
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_reset_fifo" class="md-nav__link">
-    function mpu605095reset95fifo
+    function mpu6050_reset_fifo
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_reset_signal_conds" class="md-nav__link">
-    function mpu605095reset95signal95conds
+    function mpu6050_reset_signal_conds
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_reset_signal_paths" class="md-nav__link">
-    function mpu605095reset95signal95paths
+    function mpu6050_reset_signal_paths
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_accel_full_scale" class="md-nav__link">
-    function mpu605095set95accel95full95scale
+    function mpu6050_set_accel_full_scale
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_accel_offset" class="md-nav__link">
-    function mpu605095set95accel95offset
+    function mpu6050_set_accel_offset
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_clock_source" class="md-nav__link">
-    function mpu605095set95clock95source
+    function mpu6050_set_clock_source
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_fifo_enable" class="md-nav__link">
-    function mpu605095set95fifo95enable
+    function mpu6050_set_fifo_enable
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_gyro_full_scale" class="md-nav__link">
-    function mpu605095set95gyro95full95scale
+    function mpu6050_set_gyro_full_scale
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_gyro_offset" class="md-nav__link">
-    function mpu605095set95gyro95offset
+    function mpu6050_set_gyro_offset
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_interrupt_enable" class="md-nav__link">
-    function mpu605095set95interrupt95enable
+    function mpu6050_set_interrupt_enable
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_lowpass_filter" class="md-nav__link">
-    function mpu605095set95lowpass95filter
+    function mpu6050_set_lowpass_filter
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_lowpower_accel_mode" class="md-nav__link">
-    function mpu605095set95lowpower95accel95mode
+    function mpu6050_set_lowpower_accel_mode
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_sample_rate" class="md-nav__link">
-    function mpu605095set95sample95rate
+    function mpu6050_set_sample_rate
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_sample_rate_divider" class="md-nav__link">
-    function mpu605095set95sample95rate95divider
+    function mpu6050_set_sample_rate_divider
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_sleep" class="md-nav__link">
-    function mpu605095set95sleep
+    function mpu6050_set_sleep
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_set_temperature_disable" class="md-nav__link">
-    function mpu605095set95temperature95disable
+    function mpu6050_set_temperature_disable
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_temperature_to_celsius" class="md-nav__link">
-    function mpu605095temperature95to95celsius
+    function mpu6050_temperature_to_celsius
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-mpu6050_test_connection" class="md-nav__link">
-    function mpu605095test95connection
+    function mpu6050_test_connection
   </a>
-
+  
 </li>
-
+        
       </ul>
     </nav>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#public-static-functions-documentation" class="md-nav__link">
     Public Static Functions Documentation
   </a>
-
+  
     <nav class="md-nav" aria-label="Public Static Functions Documentation">
       <ul class="md-nav__list">
-
+        
           <li class="md-nav__item">
   <a href="#function-get_high_bits" class="md-nav__link">
-    function get95high95bits
+    function get_high_bits
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-get_low_bits" class="md-nav__link">
-    function get95low95bits
+    function get_low_bits
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#function-read_word_register" class="md-nav__link">
-    function read95word95register
+    function read_word_register
   </a>
-
+  
 </li>
-
+        
       </ul>
     </nav>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#macro-definition-documentation" class="md-nav__link">
     Macro Definition Documentation
   </a>
-
+  
     <nav class="md-nav" aria-label="Macro Definition Documentation">
       <ul class="md-nav__list">
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_config" class="md-nav__link">
-    define ACCEL95CONFIG
+    define ACCEL_CONFIG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_xout_h" class="md-nav__link">
-    define ACCEL95XOUT95H
+    define ACCEL_XOUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_xout_l" class="md-nav__link">
-    define ACCEL95XOUT95L
+    define ACCEL_XOUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_yout_h" class="md-nav__link">
-    define ACCEL95YOUT95H
+    define ACCEL_YOUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_yout_l" class="md-nav__link">
-    define ACCEL95YOUT95L
+    define ACCEL_YOUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_zout_h" class="md-nav__link">
-    define ACCEL95ZOUT95H
+    define ACCEL_ZOUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-accel_zout_l" class="md-nav__link">
-    define ACCEL95ZOUT95L
+    define ACCEL_ZOUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_fs_sel_bit" class="md-nav__link">
-    define ACONFIG95FS95SEL95BIT
+    define ACONFIG_FS_SEL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_fs_sel_length" class="md-nav__link">
-    define ACONFIG95FS95SEL95LENGTH
+    define ACONFIG_FS_SEL_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_hpf_bit" class="md-nav__link">
-    define ACONFIG95HPF95BIT
+    define ACONFIG_HPF_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_hpf_length" class="md-nav__link">
-    define ACONFIG95HPF95LENGTH
+    define ACONFIG_HPF_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_xa_st_bit" class="md-nav__link">
-    define ACONFIG95XA95ST95BIT
+    define ACONFIG_XA_ST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_ya_st_bit" class="md-nav__link">
-    define ACONFIG95YA95ST95BIT
+    define ACONFIG_YA_ST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-aconfig_za_st_bit" class="md-nav__link">
-    define ACONFIG95ZA95ST95BIT
+    define ACONFIG_ZA_ST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-banksel_cfg_user_bank_bit" class="md-nav__link">
-    define BANKSEL95CFG95USER95BANK95BIT
+    define BANKSEL_CFG_USER_BANK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-banksel_mem_sel_bit" class="md-nav__link">
-    define BANKSEL95MEM95SEL95BIT
+    define BANKSEL_MEM_SEL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-banksel_mem_sel_length" class="md-nav__link">
-    define BANKSEL95MEM95SEL95LENGTH
+    define BANKSEL_MEM_SEL_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-banksel_prftch_en_bit" class="md-nav__link">
-    define BANKSEL95PRFTCH95EN95BIT
+    define BANKSEL_PRFTCH_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-bank_sel" class="md-nav__link">
-    define BANK95SEL
+    define BANK_SEL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-config" class="md-nav__link">
     define CONFIG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-config_dlpf_cfg_bit" class="md-nav__link">
-    define CONFIG95DLPF95CFG95BIT
+    define CONFIG_DLPF_CFG_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-config_dlpf_cfg_length" class="md-nav__link">
-    define CONFIG95DLPF95CFG95LENGTH
+    define CONFIG_DLPF_CFG_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-config_ext_sync_set_bit" class="md-nav__link">
-    define CONFIG95EXT95SYNC95SET95BIT
+    define CONFIG_EXT_SYNC_SET_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-config_ext_sync_set_length" class="md-nav__link">
-    define CONFIG95EXT95SYNC95SET95LENGTH
+    define CONFIG_EXT_SYNC_SET_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-config_fifo_mode_bit" class="md-nav__link">
-    define CONFIG95FIFO95MODE95BIT
+    define CONFIG_FIFO_MODE_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status" class="md-nav__link">
-    define DMP95INT95STATUS
+    define DMP_INT_STATUS
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status_0" class="md-nav__link">
-    define DMP95INT95STATUS950
+    define DMP_INT_STATUS_0
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status_1" class="md-nav__link">
-    define DMP95INT95STATUS951
+    define DMP_INT_STATUS_1
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status_2" class="md-nav__link">
-    define DMP95INT95STATUS952
+    define DMP_INT_STATUS_2
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status_3" class="md-nav__link">
-    define DMP95INT95STATUS953
+    define DMP_INT_STATUS_3
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status_4" class="md-nav__link">
-    define DMP95INT95STATUS954
+    define DMP_INT_STATUS_4
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-dmp_int_status_5" class="md-nav__link">
-    define DMP95INT95STATUS955
+    define DMP_INT_STATUS_5
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_00" class="md-nav__link">
-    define EXT95SENS95DATA9500
+    define EXT_SENS_DATA_00
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_01" class="md-nav__link">
-    define EXT95SENS95DATA9501
+    define EXT_SENS_DATA_01
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_02" class="md-nav__link">
-    define EXT95SENS95DATA9502
+    define EXT_SENS_DATA_02
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_03" class="md-nav__link">
-    define EXT95SENS95DATA9503
+    define EXT_SENS_DATA_03
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_04" class="md-nav__link">
-    define EXT95SENS95DATA9504
+    define EXT_SENS_DATA_04
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_05" class="md-nav__link">
-    define EXT95SENS95DATA9505
+    define EXT_SENS_DATA_05
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_06" class="md-nav__link">
-    define EXT95SENS95DATA9506
+    define EXT_SENS_DATA_06
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_07" class="md-nav__link">
-    define EXT95SENS95DATA9507
+    define EXT_SENS_DATA_07
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_08" class="md-nav__link">
-    define EXT95SENS95DATA9508
+    define EXT_SENS_DATA_08
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_09" class="md-nav__link">
-    define EXT95SENS95DATA9509
+    define EXT_SENS_DATA_09
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_10" class="md-nav__link">
-    define EXT95SENS95DATA9510
+    define EXT_SENS_DATA_10
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_11" class="md-nav__link">
-    define EXT95SENS95DATA9511
+    define EXT_SENS_DATA_11
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_12" class="md-nav__link">
-    define EXT95SENS95DATA9512
+    define EXT_SENS_DATA_12
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_13" class="md-nav__link">
-    define EXT95SENS95DATA9513
+    define EXT_SENS_DATA_13
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_14" class="md-nav__link">
-    define EXT95SENS95DATA9514
+    define EXT_SENS_DATA_14
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_15" class="md-nav__link">
-    define EXT95SENS95DATA9515
+    define EXT_SENS_DATA_15
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_17" class="md-nav__link">
-    define EXT95SENS95DATA9517
+    define EXT_SENS_DATA_17
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_18" class="md-nav__link">
-    define EXT95SENS95DATA9518
+    define EXT_SENS_DATA_18
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_19" class="md-nav__link">
-    define EXT95SENS95DATA9519
+    define EXT_SENS_DATA_19
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_20" class="md-nav__link">
-    define EXT95SENS95DATA9520
+    define EXT_SENS_DATA_20
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_21" class="md-nav__link">
-    define EXT95SENS95DATA9521
+    define EXT_SENS_DATA_21
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_22" class="md-nav__link">
-    define EXT95SENS95DATA9522
+    define EXT_SENS_DATA_22
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ext_sens_data_23" class="md-nav__link">
-    define EXT95SENS95DATA9523
+    define EXT_SENS_DATA_23
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ff_dur" class="md-nav__link">
-    define FF95DUR
+    define FF_DUR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-ff_thr" class="md-nav__link">
-    define FF95THR
+    define FF_THR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_accel_en_bit" class="md-nav__link">
-    define FIFO95ACCEL95EN95BIT
+    define FIFO_ACCEL_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_count_h" class="md-nav__link">
-    define FIFO95COUNT95H
+    define FIFO_COUNT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_count_l" class="md-nav__link">
-    define FIFO95COUNT95L
+    define FIFO_COUNT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_en" class="md-nav__link">
-    define FIFO95EN
+    define FIFO_EN
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_r_w" class="md-nav__link">
-    define FIFO95R95W
+    define FIFO_R_W
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_slv_0_en_bit" class="md-nav__link">
-    define FIFO95SLV95095EN95BIT
+    define FIFO_SLV_0_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_slv_1_en_bit" class="md-nav__link">
-    define FIFO95SLV95195EN95BIT
+    define FIFO_SLV_1_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_slv_2_en_bit" class="md-nav__link">
-    define FIFO95SLV95295EN95BIT
+    define FIFO_SLV_2_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_temp_en_bit" class="md-nav__link">
-    define FIFO95TEMP95EN95BIT
+    define FIFO_TEMP_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_xgyro_en_bit" class="md-nav__link">
-    define FIFO95XGYRO95EN95BIT
+    define FIFO_XGYRO_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_ygyro_en_bit" class="md-nav__link">
-    define FIFO95YGYRO95EN95BIT
+    define FIFO_YGYRO_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-fifo_zgyro_en_bit" class="md-nav__link">
-    define FIFO95ZGYRO95EN95BIT
+    define FIFO_ZGYRO_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_fchoice_b" class="md-nav__link">
-    define GCONFIG95FCHOICE95B
+    define GCONFIG_FCHOICE_B
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_fchoice_b_length" class="md-nav__link">
-    define GCONFIG95FCHOICE95B95LENGTH
+    define GCONFIG_FCHOICE_B_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_fs_sel_bit" class="md-nav__link">
-    define GCONFIG95FS95SEL95BIT
+    define GCONFIG_FS_SEL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_fs_sel_length" class="md-nav__link">
-    define GCONFIG95FS95SEL95LENGTH
+    define GCONFIG_FS_SEL_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_xg_st_bit" class="md-nav__link">
-    define GCONFIG95XG95ST95BIT
+    define GCONFIG_XG_ST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_yg_st_bit" class="md-nav__link">
-    define GCONFIG95YG95ST95BIT
+    define GCONFIG_YG_ST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gconfig_zg_st_bit" class="md-nav__link">
-    define GCONFIG95ZG95ST95BIT
+    define GCONFIG_ZG_ST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_config" class="md-nav__link">
-    define GYRO95CONFIG
+    define GYRO_CONFIG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_xout_h" class="md-nav__link">
-    define GYRO95XOUT95H
+    define GYRO_XOUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_xout_l" class="md-nav__link">
-    define GYRO95XOUT95L
+    define GYRO_XOUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_yout_h" class="md-nav__link">
-    define GYRO95YOUT95H
+    define GYRO_YOUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_yout_l" class="md-nav__link">
-    define GYRO95YOUT95L
+    define GYRO_YOUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_zout_h" class="md-nav__link">
-    define GYRO95ZOUT95H
+    define GYRO_ZOUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-gyro_zout_l" class="md-nav__link">
-    define GYRO95ZOUT95L
+    define GYRO_ZOUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_ctrl_clock_bit" class="md-nav__link">
-    define I2CMST95CTRL95CLOCK95BIT
+    define I2CMST_CTRL_CLOCK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_ctrl_clock_length" class="md-nav__link">
-    define I2CMST95CTRL95CLOCK95LENGTH
+    define I2CMST_CTRL_CLOCK_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_ctrl_mult_en_bit" class="md-nav__link">
-    define I2CMST95CTRL95MULT95EN95BIT
+    define I2CMST_CTRL_MULT_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_ctrl_p_nsr_bit" class="md-nav__link">
-    define I2CMST95CTRL95P95NSR95BIT
+    define I2CMST_CTRL_P_NSR_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_ctrl_slv_3_fifo_en_bit" class="md-nav__link">
-    define I2CMST95CTRL95SLV95395FIFO95EN95BIT
+    define I2CMST_CTRL_SLV_3_FIFO_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_ctrl_wait_for_es_bit" class="md-nav__link">
-    define I2CMST95CTRL95WAIT95FOR95ES95BIT
+    define I2CMST_CTRL_WAIT_FOR_ES_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_dly_es_shadow_bit" class="md-nav__link">
-    define I2CMST95DLY95ES95SHADOW95BIT
+    define I2CMST_DLY_ES_SHADOW_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_dly_slv0_en_bit" class="md-nav__link">
-    define I2CMST95DLY95SLV095EN95BIT
+    define I2CMST_DLY_SLV0_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_dly_slv1_en_bit" class="md-nav__link">
-    define I2CMST95DLY95SLV195EN95BIT
+    define I2CMST_DLY_SLV1_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_dly_slv2_en_bit" class="md-nav__link">
-    define I2CMST95DLY95SLV295EN95BIT
+    define I2CMST_DLY_SLV2_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_dly_slv3_en_bit" class="md-nav__link">
-    define I2CMST95DLY95SLV395EN95BIT
+    define I2CMST_DLY_SLV3_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_dly_slv4_en_bit" class="md-nav__link">
-    define I2CMST95DLY95SLV495EN95BIT
+    define I2CMST_DLY_SLV4_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_lost_arb_bit" class="md-nav__link">
-    define I2CMST95STAT95LOST95ARB95BIT
+    define I2CMST_STAT_LOST_ARB_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_pass_through_bit" class="md-nav__link">
-    define I2CMST95STAT95PASS95THROUGH95BIT
+    define I2CMST_STAT_PASS_THROUGH_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_slv0_nack_bit" class="md-nav__link">
-    define I2CMST95STAT95SLV095NACK95BIT
+    define I2CMST_STAT_SLV0_NACK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_slv1_nack_bit" class="md-nav__link">
-    define I2CMST95STAT95SLV195NACK95BIT
+    define I2CMST_STAT_SLV1_NACK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_slv2_nack_bit" class="md-nav__link">
-    define I2CMST95STAT95SLV295NACK95BIT
+    define I2CMST_STAT_SLV2_NACK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_slv3_nack_bit" class="md-nav__link">
-    define I2CMST95STAT95SLV395NACK95BIT
+    define I2CMST_STAT_SLV3_NACK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_slv4_done_bit" class="md-nav__link">
-    define I2CMST95STAT95SLV495DONE95BIT
+    define I2CMST_STAT_SLV4_DONE_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2cmst_stat_slv4_nack_bit" class="md-nav__link">
-    define I2CMST95STAT95SLV495NACK95BIT
+    define I2CMST_STAT_SLV4_NACK_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_mst_ctrl" class="md-nav__link">
-    define I2C95MST95CTRL
+    define I2C_MST_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_mst_delay_crtl" class="md-nav__link">
-    define I2C95MST95DELAY95CRTL
+    define I2C_MST_DELAY_CRTL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_mst_status" class="md-nav__link">
-    define I2C95MST95STATUS
+    define I2C_MST_STATUS
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv0_addr" class="md-nav__link">
-    define I2C95SLV095ADDR
+    define I2C_SLV0_ADDR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv0_ctrl" class="md-nav__link">
-    define I2C95SLV095CTRL
+    define I2C_SLV0_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv0_do" class="md-nav__link">
-    define I2C95SLV095DO
+    define I2C_SLV0_DO
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv0_reg" class="md-nav__link">
-    define I2C95SLV095REG
+    define I2C_SLV0_REG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv1_addr" class="md-nav__link">
-    define I2C95SLV195ADDR
+    define I2C_SLV1_ADDR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv1_ctrl" class="md-nav__link">
-    define I2C95SLV195CTRL
+    define I2C_SLV1_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv1_do" class="md-nav__link">
-    define I2C95SLV195DO
+    define I2C_SLV1_DO
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv1_reg" class="md-nav__link">
-    define I2C95SLV195REG
+    define I2C_SLV1_REG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv2_addr" class="md-nav__link">
-    define I2C95SLV295ADDR
+    define I2C_SLV2_ADDR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv2_ctrl" class="md-nav__link">
-    define I2C95SLV295CTRL
+    define I2C_SLV2_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv2_do" class="md-nav__link">
-    define I2C95SLV295DO
+    define I2C_SLV2_DO
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv2_reg" class="md-nav__link">
-    define I2C95SLV295REG
+    define I2C_SLV2_REG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv3_addr" class="md-nav__link">
-    define I2C95SLV395ADDR
+    define I2C_SLV3_ADDR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv3_ctrl" class="md-nav__link">
-    define I2C95SLV395CTRL
+    define I2C_SLV3_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv3_do" class="md-nav__link">
-    define I2C95SLV395DO
+    define I2C_SLV3_DO
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv3_reg" class="md-nav__link">
-    define I2C95SLV395REG
+    define I2C_SLV3_REG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_addr" class="md-nav__link">
-    define I2C95SLV495ADDR
+    define I2C_SLV4_ADDR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_ctrl" class="md-nav__link">
-    define I2C95SLV495CTRL
+    define I2C_SLV4_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_di" class="md-nav__link">
-    define I2C95SLV495DI
+    define I2C_SLV4_DI
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_do" class="md-nav__link">
-    define I2C95SLV495DO
+    define I2C_SLV4_DO
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_done_int_bit" class="md-nav__link">
-    define I2C95SLV495DONE95INT95BIT
+    define I2C_SLV4_DONE_INT_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_en_bit" class="md-nav__link">
-    define I2C95SLV495EN95BIT
+    define I2C_SLV4_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_mst_delay_bit" class="md-nav__link">
-    define I2C95SLV495MST95DELAY95BIT
+    define I2C_SLV4_MST_DELAY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_mst_delay_length" class="md-nav__link">
-    define I2C95SLV495MST95DELAY95LENGTH
+    define I2C_SLV4_MST_DELAY_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_reg" class="md-nav__link">
-    define I2C95SLV495REG
+    define I2C_SLV4_REG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv4_reg_dis_bit" class="md-nav__link">
-    define I2C95SLV495REG95DIS95BIT
+    define I2C_SLV4_REG_DIS_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_byte_sw_bit" class="md-nav__link">
-    define I2C95SLV95BYTE95SW95BIT
+    define I2C_SLV_BYTE_SW_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_en_bit" class="md-nav__link">
-    define I2C95SLV95EN95BIT
+    define I2C_SLV_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_grp_bit" class="md-nav__link">
-    define I2C95SLV95GRP95BIT
+    define I2C_SLV_GRP_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_id_bit" class="md-nav__link">
-    define I2C95SLV95ID95BIT
+    define I2C_SLV_ID_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_id_length" class="md-nav__link">
-    define I2C95SLV95ID95LENGTH
+    define I2C_SLV_ID_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_len_bit" class="md-nav__link">
-    define I2C95SLV95LEN95BIT
+    define I2C_SLV_LEN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_len_length" class="md-nav__link">
-    define I2C95SLV95LEN95LENGTH
+    define I2C_SLV_LEN_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_reg_dis_bit" class="md-nav__link">
-    define I2C95SLV95REG95DIS95BIT
+    define I2C_SLV_REG_DIS_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-i2c_slv_rnw_bit" class="md-nav__link">
-    define I2C95SLV95RNW95BIT
+    define I2C_SLV_RNW_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_anyrd_2clear_bit" class="md-nav__link">
-    define INT95CFG95ANYRD952CLEAR95BIT
+    define INT_CFG_ANYRD_2CLEAR_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_clockout_en_bit" class="md-nav__link">
-    define INT95CFG95CLOCKOUT95EN95BIT
+    define INT_CFG_CLOCKOUT_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_fsync_int_mode_en_bit" class="md-nav__link">
-    define INT95CFG95FSYNC95INT95MODE95EN95BIT
+    define INT_CFG_FSYNC_INT_MODE_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_fsync_level_bit" class="md-nav__link">
-    define INT95CFG95FSYNC95LEVEL95BIT
+    define INT_CFG_FSYNC_LEVEL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_i2c_bypass_en_bit" class="md-nav__link">
-    define INT95CFG95I2C95BYPASS95EN95BIT
+    define INT_CFG_I2C_BYPASS_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_latch_en_bit" class="md-nav__link">
-    define INT95CFG95LATCH95EN95BIT
+    define INT_CFG_LATCH_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_level_bit" class="md-nav__link">
-    define INT95CFG95LEVEL95BIT
+    define INT_CFG_LEVEL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_cfg_open_bit" class="md-nav__link">
-    define INT95CFG95OPEN95BIT
+    define INT_CFG_OPEN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable" class="md-nav__link">
-    define INT95ENABLE
+    define INT_ENABLE
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_dmp_rdy_bit" class="md-nav__link">
-    define INT95ENABLE95DMP95RDY95BIT
+    define INT_ENABLE_DMP_RDY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_fifo_oflow_bit" class="md-nav__link">
-    define INT95ENABLE95FIFO95OFLOW95BIT
+    define INT_ENABLE_FIFO_OFLOW_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_freefall_bit" class="md-nav__link">
-    define INT95ENABLE95FREEFALL95BIT
+    define INT_ENABLE_FREEFALL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_i2c_mst_fsync_bit" class="md-nav__link">
-    define INT95ENABLE95I2C95MST95FSYNC95BIT
+    define INT_ENABLE_I2C_MST_FSYNC_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_motion_bit" class="md-nav__link">
-    define INT95ENABLE95MOTION95BIT
+    define INT_ENABLE_MOTION_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_pll_rdy_bit" class="md-nav__link">
-    define INT95ENABLE95PLL95RDY95BIT
+    define INT_ENABLE_PLL_RDY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_raw_data_rdy_bit" class="md-nav__link">
-    define INT95ENABLE95RAW95DATA95RDY95BIT
+    define INT_ENABLE_RAW_DATA_RDY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_enable_zeromot_bit" class="md-nav__link">
-    define INT95ENABLE95ZEROMOT95BIT
+    define INT_ENABLE_ZEROMOT_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_pin_config" class="md-nav__link">
-    define INT95PIN95CONFIG
+    define INT_PIN_CONFIG
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status" class="md-nav__link">
-    define INT95STATUS
+    define INT_STATUS
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_dmp_rdy_bit" class="md-nav__link">
-    define INT95STATUS95DMP95RDY95BIT
+    define INT_STATUS_DMP_RDY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_fifo_oflow_bit" class="md-nav__link">
-    define INT95STATUS95FIFO95OFLOW95BIT
+    define INT_STATUS_FIFO_OFLOW_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_freefall_bit" class="md-nav__link">
-    define INT95STATUS95FREEFALL95BIT
+    define INT_STATUS_FREEFALL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_i2c_mst_bit" class="md-nav__link">
-    define INT95STATUS95I2C95MST95BIT
+    define INT_STATUS_I2C_MST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_motion_bit" class="md-nav__link">
-    define INT95STATUS95MOTION95BIT
+    define INT_STATUS_MOTION_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_pll_rdy_bit" class="md-nav__link">
-    define INT95STATUS95PLL95RDY95BIT
+    define INT_STATUS_PLL_RDY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_raw_data_rdy_bit" class="md-nav__link">
-    define INT95STATUS95RAW95DATA95RDY95BIT
+    define INT_STATUS_RAW_DATA_RDY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-int_status_zeromot_bit" class="md-nav__link">
-    define INT95STATUS95ZEROMOT95BIT
+    define INT_STATUS_ZEROMOT_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mem_r_w" class="md-nav__link">
-    define MEM95R95W
+    define MEM_R_W
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mem_start_addr" class="md-nav__link">
-    define MEM95START95ADDR
+    define MEM_START_ADDR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-motion_dur" class="md-nav__link">
-    define MOTION95DUR
+    define MOTION_DUR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-motion_thr" class="md-nav__link">
-    define MOTION95THR
+    define MOTION_THR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mpu6050_ra_xa_offs_h" class="md-nav__link">
-    define MPU605095RA95XA95OFFS95H
+    define MPU6050_RA_XA_OFFS_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mpu6050_ra_xa_offs_l" class="md-nav__link">
-    define MPU605095RA95XA95OFFS95L
+    define MPU6050_RA_XA_OFFS_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mpu6050_ra_ya_offs_h" class="md-nav__link">
-    define MPU605095RA95YA95OFFS95H
+    define MPU6050_RA_YA_OFFS_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mpu6050_ra_ya_offs_l" class="md-nav__link">
-    define MPU605095RA95YA95OFFS95L
+    define MPU6050_RA_YA_OFFS_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mpu6050_ra_za_offs_h" class="md-nav__link">
-    define MPU605095RA95ZA95OFFS95H
+    define MPU6050_RA_ZA_OFFS_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-mpu6050_ra_za_offs_l" class="md-nav__link">
-    define MPU605095RA95ZA95OFFS95L
+    define MPU6050_RA_ZA_OFFS_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-prgm_start_h" class="md-nav__link">
-    define PRGM95START95H
+    define PRGM_START_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-prgm_start_l" class="md-nav__link">
-    define PRGM95START95L
+    define PRGM_START_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_clksel_bit" class="md-nav__link">
-    define PWR195CLKSEL95BIT
+    define PWR1_CLKSEL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_clksel_length" class="md-nav__link">
-    define PWR195CLKSEL95LENGTH
+    define PWR1_CLKSEL_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_cycle_bit" class="md-nav__link">
-    define PWR195CYCLE95BIT
+    define PWR1_CYCLE_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_device_reset_bit" class="md-nav__link">
-    define PWR195DEVICE95RESET95BIT
+    define PWR1_DEVICE_RESET_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_gyro_standby_bit" class="md-nav__link">
-    define PWR195GYRO95STANDBY95BIT
+    define PWR1_GYRO_STANDBY_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_sleep_bit" class="md-nav__link">
-    define PWR195SLEEP95BIT
+    define PWR1_SLEEP_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr1_temp_dis_bit" class="md-nav__link">
-    define PWR195TEMP95DIS95BIT
+    define PWR1_TEMP_DIS_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_lp_wake_ctrl_bit" class="md-nav__link">
-    define PWR295LP95WAKE95CTRL95BIT
+    define PWR2_LP_WAKE_CTRL_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_lp_wake_ctrl_length" class="md-nav__link">
-    define PWR295LP95WAKE95CTRL95LENGTH
+    define PWR2_LP_WAKE_CTRL_LENGTH
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_xa_bit" class="md-nav__link">
-    define PWR295STBY95XA95BIT
+    define PWR2_STBY_XA_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_xg_bit" class="md-nav__link">
-    define PWR295STBY95XG95BIT
+    define PWR2_STBY_XG_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_xyza_bits" class="md-nav__link">
-    define PWR295STBY95XYZA95BITS
+    define PWR2_STBY_XYZA_BITS
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_xyzg_bits" class="md-nav__link">
-    define PWR295STBY95XYZG95BITS
+    define PWR2_STBY_XYZG_BITS
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_ya_bit" class="md-nav__link">
-    define PWR295STBY95YA95BIT
+    define PWR2_STBY_YA_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_yg_bit" class="md-nav__link">
-    define PWR295STBY95YG95BIT
+    define PWR2_STBY_YG_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_za_bit" class="md-nav__link">
-    define PWR295STBY95ZA95BIT
+    define PWR2_STBY_ZA_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr2_stby_zg_bit" class="md-nav__link">
-    define PWR295STBY95ZG95BIT
+    define PWR2_STBY_ZG_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr_mgmt1" class="md-nav__link">
-    define PWR95MGMT1
+    define PWR_MGMT1
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-pwr_mgmt2" class="md-nav__link">
-    define PWR95MGMT2
+    define PWR_MGMT2
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-signal_path_reset" class="md-nav__link">
-    define SIGNAL95PATH95RESET
+    define SIGNAL_PATH_RESET
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-smplrt_div" class="md-nav__link">
-    define SMPLRT95DIV
+    define SMPLRT_DIV
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-spath_accel_rst_bit" class="md-nav__link">
-    define SPATH95ACCEL95RST95BIT
+    define SPATH_ACCEL_RST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-spath_gyro_rst_bit" class="md-nav__link">
-    define SPATH95GYRO95RST95BIT
+    define SPATH_GYRO_RST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-spath_temp_rst_bit" class="md-nav__link">
-    define SPATH95TEMP95RST95BIT
+    define SPATH_TEMP_RST_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-temp_out_h" class="md-nav__link">
-    define TEMP95OUT95H
+    define TEMP_OUT_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-temp_out_l" class="md-nav__link">
-    define TEMP95OUT95L
+    define TEMP_OUT_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_dmp_en_bit" class="md-nav__link">
-    define USERCTRL95DMP95EN95BIT
+    define USERCTRL_DMP_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_dmp_reset_bit" class="md-nav__link">
-    define USERCTRL95DMP95RESET95BIT
+    define USERCTRL_DMP_RESET_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_fifo_en_bit" class="md-nav__link">
-    define USERCTRL95FIFO95EN95BIT
+    define USERCTRL_FIFO_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_fifo_reset_bit" class="md-nav__link">
-    define USERCTRL95FIFO95RESET95BIT
+    define USERCTRL_FIFO_RESET_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_i2c_if_dis_bit" class="md-nav__link">
-    define USERCTRL95I2C95IF95DIS95BIT
+    define USERCTRL_I2C_IF_DIS_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_i2c_mst_en_bit" class="md-nav__link">
-    define USERCTRL95I2C95MST95EN95BIT
+    define USERCTRL_I2C_MST_EN_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_i2c_mst_reset_bit" class="md-nav__link">
-    define USERCTRL95I2C95MST95RESET95BIT
+    define USERCTRL_I2C_MST_RESET_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-userctrl_sig_cond_reset_bit" class="md-nav__link">
-    define USERCTRL95SIG95COND95RESET95BIT
+    define USERCTRL_SIG_COND_RESET_BIT
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-user_ctrl" class="md-nav__link">
-    define USER95CTRL
+    define USER_CTRL
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-who_am_i" class="md-nav__link">
-    define WHO95AM95I
+    define WHO_AM_I
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-xg_offset_h" class="md-nav__link">
-    define XG95OFFSET95H
+    define XG_OFFSET_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-xg_offset_l" class="md-nav__link">
-    define XG95OFFSET95L
+    define XG_OFFSET_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-yg_offset_h" class="md-nav__link">
-    define YG95OFFSET95H
+    define YG_OFFSET_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-yg_offset_l" class="md-nav__link">
-    define YG95OFFSET95L
+    define YG_OFFSET_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-zg_offset_h" class="md-nav__link">
-    define ZG95OFFSET95H
+    define ZG_OFFSET_H
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-zg_offset_l" class="md-nav__link">
-    define ZG95OFFSET95L
+    define ZG_OFFSET_L
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-zrmotion_dur" class="md-nav__link">
-    define ZRMOTION95DUR
+    define ZRMOTION_DUR
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#define-zrmotion_thr" class="md-nav__link">
-    define ZRMOTION95THR
+    define ZRMOTION_THR
   </a>
-
+  
 </li>
-
+        
       </ul>
     </nav>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+          
+          
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
+                
+                  
 
-
-
-
-
+  
+  
 
 
 <h1 id="file-ns_mpu6050_i2c_driverc">File ns_mpu6050_i2c_driver.c</h1>
@@ -5486,7 +5737,7 @@
 </table>
 <h2 id="public-functions-documentation">Public Functions Documentation</h2>
 <h3 id="function-mpu6050_accel_fsr_value">function mpu6050_accel_fsr_value</h3>
-<p><em>Acceleration scale in units of G.</em>
+<p><em>Acceleration scale in units of G.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_accel_fsr_value</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">mpu6050_accel_fs_t</span><span class="w"> </span><span class="n">range</span>
 <span class="p">)</span><span class="w"> </span>
@@ -5498,7 +5749,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t Scale in G </p>
 <h3 id="function-mpu6050_accel_resolution">function mpu6050_accel_resolution</h3>
-<p><em>Acceleration scale LSB resolution.</em>
+<p><em>Acceleration scale LSB resolution.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="n">mpu6050_accel_resolution</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">mpu6050_accel_fs_t</span><span class="w"> </span><span class="n">range</span>
 <span class="p">)</span><span class="w"> </span>
@@ -5510,7 +5761,7 @@
 <p><strong>Returns:</strong></p>
 <p>float Resolution (G) </p>
 <h3 id="function-mpu6050_accel_to_gravity">function mpu6050_accel_to_gravity</h3>
-<p><em>Convert acceleration value to G.</em>
+<p><em>Convert acceleration value to G.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="n">mpu6050_accel_to_gravity</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">val</span><span class="p">,</span>
 <span class="w">    </span><span class="n">mpu6050_accel_fs_t</span><span class="w"> </span><span class="n">range</span>
@@ -5524,7 +5775,7 @@
 <p><strong>Returns:</strong></p>
 <p>Acceleration (G) </p>
 <h3 id="function-mpu6050_calibrate">function mpu6050_calibrate</h3>
-<p><em>Calibrate device offsets. Device must be still on a flat surface.</em>
+<p><em>Calibrate device offsets. Device must be still on a flat surface.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_calibrate</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -5546,7 +5797,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_calibration">function mpu6050_calibration</h3>
-<p><em>Calibrate device offsets. Device must be still on a flat surface.</em>
+<p><em>Calibrate device offsets. Device must be still on a flat surface.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_calibration</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -5560,7 +5811,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_configure_fifo">function mpu6050_configure_fifo</h3>
-<p><em>Configure FIFO.</em>
+<p><em>Configure FIFO.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_configure_fifo</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5576,7 +5827,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_configure_interrupt">function mpu6050_configure_interrupt</h3>
-<p><em>Configure interrupts.</em>
+<p><em>Configure interrupts.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_configure_interrupt</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5592,7 +5843,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_device_reset">function mpu6050_device_reset</h3>
-<p><em>Hard reset device.</em>
+<p><em>Hard reset device.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_device_reset</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -5606,7 +5857,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_fifo_pop">function mpu6050_fifo_pop</h3>
-<p><em>Pop next value from FIFO.</em>
+<p><em>Pop next value from FIFO.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_fifo_pop</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5630,7 +5881,7 @@
 <span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <h3 id="function-mpu6050_get_accel_values">function mpu6050_get_accel_values</h3>
-<p><em>Get current acceleration values.</em>
+<p><em>Get current acceleration values.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_get_accel_values</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5650,7 +5901,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_get_fifo_count">function mpu6050_get_fifo_count</h3>
-<p><em>Get FIFO count.</em>
+<p><em>Get FIFO count.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_get_fifo_count</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5674,7 +5925,7 @@
 <span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <h3 id="function-mpu6050_get_gyro_values">function mpu6050_get_gyro_values</h3>
-<p><em>Get current gyro values.</em>
+<p><em>Get current gyro values.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_get_gyro_values</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5694,7 +5945,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_get_interrupt_status">function mpu6050_get_interrupt_status</h3>
-<p><em>Get interrupt status register.</em>
+<p><em>Get interrupt status register.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_get_interrupt_status</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5710,7 +5961,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t </p>
 <h3 id="function-mpu6050_get_temperature">function mpu6050_get_temperature</h3>
-<p><em>Get current temperature value.</em>
+<p><em>Get current temperature value.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_get_temperature</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5726,7 +5977,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_gyro_fsr_value">function mpu6050_gyro_fsr_value</h3>
-<p><em>Gyroscope scale in units dps.</em>
+<p><em>Gyroscope scale in units dps.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_gyro_fsr_value</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">mpu6050_gyro_fs_t</span><span class="w"> </span><span class="n">range</span>
 <span class="p">)</span><span class="w"> </span>
@@ -5738,7 +5989,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t Scale (°/s) </p>
 <h3 id="function-mpu6050_gyro_resolution">function mpu6050_gyro_resolution</h3>
-<p><em>Gyroscope scale LSB resolution.</em>
+<p><em>Gyroscope scale LSB resolution.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="n">mpu6050_gyro_resolution</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">mpu6050_gyro_fs_t</span><span class="w"> </span><span class="n">range</span>
 <span class="p">)</span><span class="w"> </span>
@@ -5750,7 +6001,7 @@
 <p><strong>Returns:</strong></p>
 <p>float Resolution (°/s) </p>
 <h3 id="function-mpu6050_gyro_to_deg_per_sec">function mpu6050_gyro_to_deg_per_sec</h3>
-<p><em>Convert gyroscope value to degrees/second.</em>
+<p><em>Convert gyroscope value to degrees/second.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="n">mpu6050_gyro_to_deg_per_sec</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">,</span>
 <span class="w">    </span><span class="n">mpu6050_gyro_fs_t</span><span class="w"> </span><span class="n">range</span>
@@ -5771,7 +6022,7 @@
 <span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 <h3 id="function-mpu6050_mean_sensors">function mpu6050_mean_sensors</h3>
-<p><em>Get average sensor values.</em>
+<p><em>Get average sensor values.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_mean_sensors</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5797,7 +6048,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_read_sensors">function mpu6050_read_sensors</h3>
-<p><em>Reads MPU sensor values (3-axis accel, 1 temp, 3-axis gyro)</em>
+<p><em>Reads MPU sensor values (3-axis accel, 1 temp, 3-axis gyro)</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_read_sensors</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5813,7 +6064,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_reset_fifo">function mpu6050_reset_fifo</h3>
-<p><em>Reset FIFO.</em>
+<p><em>Reset FIFO.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_reset_fifo</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -5827,7 +6078,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t </p>
 <h3 id="function-mpu6050_reset_signal_conds">function mpu6050_reset_signal_conds</h3>
-<p><em>Reset signal conditions.</em>
+<p><em>Reset signal conditions.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_reset_signal_conds</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -5841,7 +6092,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_reset_signal_paths">function mpu6050_reset_signal_paths</h3>
-<p><em>Reset signal paths.</em>
+<p><em>Reset signal paths.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_reset_signal_paths</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -5855,7 +6106,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_accel_full_scale">function mpu6050_set_accel_full_scale</h3>
-<p><em>Set accel full scale range.</em>
+<p><em>Set accel full scale range.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_accel_full_scale</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5871,7 +6122,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t </p>
 <h3 id="function-mpu6050_set_accel_offset">function mpu6050_set_accel_offset</h3>
-<p><em>Set acceleration offset for axis.</em>
+<p><em>Set acceleration offset for axis.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_accel_offset</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5889,7 +6140,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_clock_source">function mpu6050_set_clock_source</h3>
-<p><em>Set clock source.</em>
+<p><em>Set clock source.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_clock_source</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5905,7 +6156,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_fifo_enable">function mpu6050_set_fifo_enable</h3>
-<p><em>Enable FIFO.</em>
+<p><em>Enable FIFO.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_fifo_enable</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5921,7 +6172,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_gyro_full_scale">function mpu6050_set_gyro_full_scale</h3>
-<p><em>Set gyro full scale range.</em>
+<p><em>Set gyro full scale range.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_gyro_full_scale</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5937,7 +6188,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_gyro_offset">function mpu6050_set_gyro_offset</h3>
-<p><em>Set gyroscope offset for axis.</em>
+<p><em>Set gyroscope offset for axis.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_gyro_offset</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5955,7 +6206,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_interrupt_enable">function mpu6050_set_interrupt_enable</h3>
-<p><em>Enable/disable interrupts.</em>
+<p><em>Enable/disable interrupts.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_interrupt_enable</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5973,7 +6224,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_lowpass_filter">function mpu6050_set_lowpass_filter</h3>
-<p><em>Set digital lowpass filter.</em>
+<p><em>Set digital lowpass filter.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_lowpass_filter</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -5989,7 +6240,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_lowpower_accel_mode">function mpu6050_set_lowpower_accel_mode</h3>
-<p><em>Put device into low-power acceleration-only mode.</em>
+<p><em>Put device into low-power acceleration-only mode.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_lowpower_accel_mode</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -6005,7 +6256,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_sample_rate">function mpu6050_set_sample_rate</h3>
-<p><em>Set target sample rate.</em>
+<p><em>Set target sample rate.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_sample_rate</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -6021,7 +6272,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_sample_rate_divider">function mpu6050_set_sample_rate_divider</h3>
-<p><em>Set sample rate divider.</em>
+<p><em>Set sample rate divider.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_sample_rate_divider</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -6037,7 +6288,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_sleep">function mpu6050_set_sleep</h3>
-<p><em>Enable/disable sleep mode.</em>
+<p><em>Enable/disable sleep mode.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_sleep</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -6053,7 +6304,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_set_temperature_disable">function mpu6050_set_temperature_disable</h3>
-<p><em>Disable temperature readings.</em>
+<p><em>Disable temperature readings.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_set_temperature_disable</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span><span class="p">,</span>
@@ -6069,7 +6320,7 @@
 <p><strong>Returns:</strong></p>
 <p>uint32_t status </p>
 <h3 id="function-mpu6050_temperature_to_celsius">function mpu6050_temperature_to_celsius</h3>
-<p><em>Convert temperature value to Celsius.</em>
+<p><em>Convert temperature value to Celsius.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">float</span><span class="w"> </span><span class="n">mpu6050_temperature_to_celsius</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">val</span>
 <span class="p">)</span><span class="w"> </span>
@@ -6081,7 +6332,7 @@
 <p><strong>Returns:</strong></p>
 <p>float Temperature (°C) </p>
 <h3 id="function-mpu6050_test_connection">function mpu6050_test_connection</h3>
-<p><em>Verify device by reading WHO_AM_I register.</em>
+<p><em>Verify device by reading WHO_AM_I register.</em> 
 <div class="highlight"><pre><span></span><code><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mpu6050_test_connection</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="n">ns_i2c_config_t</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cfg</span><span class="p">,</span>
 <span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">devAddr</span>
@@ -6793,51 +7044,51 @@
 
 
 
-
+                
               </article>
             </div>
-
-
+          
+          
   <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 
         </div>
-
+        
       </main>
-
+      
         <footer class="md-footer">
-
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-
+  
     <div class="md-copyright__highlight">
       &copy; 2023 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>
 
     </div>
-
-
+  
+  
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
-
+  
 </div>
-
+      
     </div>
   </div>
 </footer>
-
+      
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-
-
+    
+    
     <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-
-
-      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
-
-
+    
+    
+      <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      
+    
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

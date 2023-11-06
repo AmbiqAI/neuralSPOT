@@ -55,8 +55,8 @@ CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exception
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99
-CFLAGS+= -g -O3
-# CFLAGS+= -g -O0
+# CFLAGS+= -g -O3
+CFLAGS+= -g -O0
 CFLAGS+=
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
@@ -73,18 +73,18 @@ CONLY_FLAGS+= -xc -std=c99
 CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI) -c
 CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
 CFLAGS+= -gdwarf-4 -Ofast
-CFLAGS+= -ffunction-sections -Wno-packed -Wno-missing-variable-declarations 
+CFLAGS+= -ffunction-sections -Wno-packed -Wno-missing-variable-declarations
 CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-typedef-redefinition
 CFLAGS+= -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros
 CFLAGS+= -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management
 CFLAGS+= -Wno-parentheses-equality -Wno-reserved-identifier
 CFLAGS+= -MMD -MP
-CCFLAGS+= -fno-use-cxa-atexit 
+CCFLAGS+= -fno-use-cxa-atexit
 
 # LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
-LFLAGS+=  --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
+LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
 LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
-LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb
+LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=vTaskSwitchContext --lto
 LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 
@@ -93,7 +93,7 @@ ODFLAGS = -cedrst
 ARFLAGS= -r -s -c
 ASMFLAGS+= --target=arm-arm-none-eabi -mthumb -mcpu=$(CPU) -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto
 
-# --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto 
+# --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -masm=auto
 ASMFLAGS+= -Wa,armasm,--diag_suppress=A1950W -c
 ASMFLAGS+= -gdwarf-4
 # -IC:/Users/xbox/AppData/Local/Arm/Packs/AmbiqMicro/Apollo_DFP/1.3.2/Device/Include
@@ -153,6 +153,11 @@ endif
 ifeq ($(ENERGY_MODE),1)
 DEFINES+= ENERGYMODE
 endif
+
+# Opus defines
+DEFINES += USE_ALLOCA
+DEFINES += OPUS_BUILD
+
 
 DEFINES+= STACK_SIZE=$(STACK_SIZE_IN_32B_WORDS)
 DEFINES+= NS_MALLOC_HEAP_SIZE_IN_K=$(NS_MALLOC_HEAP_SIZE_IN_K)

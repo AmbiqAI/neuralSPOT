@@ -300,6 +300,27 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="359" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="732" bodyend="843" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="359" declcolumn="12"/>
       </memberdef>
+      <memberdef kind="function" id="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_send_value</definition>
+        <argsstring>(ns_ble_characteristic_t *c, attEvt_t *pMsg)</argsstring>
+        <name>ns_ble_send_value</name>
+        <param>
+          <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>attEvt_t *</type>
+          <declname>pMsg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="361" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="568" bodyend="577" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="361" declcolumn="13"/>
+      </memberdef>
       <memberdef kind="function" id="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int ns_ble_create_characteristic</definition>
@@ -436,7 +457,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="378" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="846" bodyend="933" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="378" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="380" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="846" bodyend="933" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="380" declcolumn="12"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -478,7 +499,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="394" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="935" bodyend="976" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="394" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="396" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="935" bodyend="976" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="396" declcolumn="12"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -521,7 +542,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="404" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="658" bodyend="688" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="404" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="406" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="658" bodyend="688" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="406" declcolumn="12"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -551,7 +572,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="413" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="978" bodyend="996" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="413" declcolumn="12"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="415" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/src/ns_ble.c" bodystart="978" bodyend="996" declfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" declline="415" declcolumn="12"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="define">

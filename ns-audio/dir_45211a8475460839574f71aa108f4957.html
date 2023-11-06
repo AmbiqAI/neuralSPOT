@@ -2,111 +2,111 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-
+    
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-
+      
         <meta name="description" content="Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs">
-
-
-
-
-
-
+      
+      
+      
+      
+      
+      
       <link rel="icon" href="../docs/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.5">
-
-
-
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
+    
+    
+      
         <title>Dir neuralSPOT/neuralspot/ns-audio - NeuralSPOT</title>
-
-
-
-      <link rel="stylesheet" href="../assets/stylesheets/main.6a10b989.min.css">
-
-
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
+      
+        
         <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+      
+      
 
 
-
-
-
-
-
-
-
-
-
-
+    
+    
+      
+    
+    
+      
+        
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-
-
-
+      
+    
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-
-
-
-
-
+    
+    
+    
    <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
         html.glightbox-open { overflow: initial; height: 100%; }
         .gslide-title { margin-top: 0px; user-select: text; }
         .gslide-desc { color: #666; user-select: text; }
         .gslide-image img { background: white; }
-
+        
             .gscrollbar-fixer { padding-right: 15px; }
             .gdesc-inner { font-size: 0.75rem; }
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
             </style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
-
-
-
-
-
-
-
-
-
+  
+  
+    
+    
+      
+    
+    
+    
+    
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
-
-
-
+  
+    
+    
       <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
-
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-
-
+      
+        
         <a href="#dir-neuralspotneuralspotns-audio" class="md-skip">
           Skip to content
         </a>
-
+      
     </div>
     <div data-md-component="announce">
-
+      
     </div>
+    
+    
+      
 
-
-
-
-
+  
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="NeuralSPOT" class="md-header__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
-
+      
   <img src="../docs/images/favicon.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-
+      
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
@@ -118,57 +118,57 @@
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
-
+            
               Dir neuralSPOT/neuralspot/ns-audio
-
+            
           </span>
         </div>
       </div>
     </div>
-
-
+    
+      
         <form class="md-header__option" data-md-component="palette">
-
-
-
-
+  
+    
+    
+    
     <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Use system theme"  type="radio" name="__palette" id="__palette_1">
-
+    
       <label class="md-header__button md-icon" title="Use system theme" for="__palette_3" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
       </label>
-
-
-
-
-
+    
+  
+    
+    
+    
     <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light theme"  type="radio" name="__palette" id="__palette_2">
-
+    
       <label class="md-header__button md-icon" title="Switch to light theme" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
       </label>
-
-
-
-
-
+    
+  
+    
+    
+    
     <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark theme"  type="radio" name="__palette" id="__palette_3">
-
+    
       <label class="md-header__button md-icon" title="Switch to dark theme" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
       </label>
-
-
+    
+  
 </form>
-
-
-
-
-
+      
+    
+    
+    
+    
       <div class="md-header__source">
         <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
-
+    
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
   </div>
   <div class="md-source__repository">
@@ -176,44 +176,44 @@
   </div>
 </a>
       </div>
-
+    
   </nav>
-
+  
 </header>
-
+    
     <div class="md-container" data-md-component="container">
-
-
-
-
-
-
+      
+      
+        
+          
+        
+      
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
-
-
-
+          
+            
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="NeuralSPOT" class="md-nav__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
-
+      
   <img src="../docs/images/favicon.png" alt="logo">
 
     </a>
     NeuralSPOT
   </label>
-
+  
     <div class="md-nav__source">
       <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
-
+    
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
   </div>
   <div class="md-source__repository">
@@ -221,2232 +221,2483 @@
   </div>
 </a>
     </div>
-
+  
   <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Home
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/ai_at_ambiq.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     AI at Ambiq
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Ambiq-ModelZoo.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Ambiq Model Zoo
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Getting Started
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Introduction-to-neuralSPOT.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Introduction
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Tutorial
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/makefile-details.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Build Guide
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/features.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Features
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Developers
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Developers
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Developing_with_NeuralSPOT.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Developing with NeuralSPOT
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/developer_guide.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Developing for NeuralSPOT
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/NeuralSPOT_Nests.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Nests
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Tools
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Tools
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Automatic Testing, profiling, and deploying
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../tools/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Tools Overview
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Application Notes
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Application Notes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Application-Note-neuralSPOT-and-Windows.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     neuralSPOT on Windows
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/optimizing_using_neuralspot.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Optimizing Using NeuralSPOT
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/release_notes.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Release Notes
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/developer_notes.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Developer Notes
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../docs/Deploying-EI-Models-using-neuralSPOT%20Nests.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Edge Impulse Support
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Examples
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Examples
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/basic_tf_stub/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Keyword Spotting
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/har/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Human Activity Recognition
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/rpc_client/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     RPC Client
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/rpc_server/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     RPC Server
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/web_ble/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     WebBLE
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../examples/mpu_data_collection/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Data Collection
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Libraries
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             Libraries
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-audio/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Audio
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-ble/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Bluetooth
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-i2c/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     i2c
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-rpc/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     RPC
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-peripherals/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Power
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../neuralspot/ns-utils/index.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Performance Utilities
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Code Documentation
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             Code Documentation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Audio
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_1">
             <span class="md-nav__icon md-icon"></span>
             Audio
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Bluetooth
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_2">
             <span class="md-nav__icon md-icon"></span>
             Bluetooth
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-ble/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Remote Procedure Call
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_3">
             <span class="md-nav__icon md-icon"></span>
             Remote Procedure Call
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-rpc/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_4" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_4" id="__nav_10_4_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     i2c
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_4">
             <span class="md-nav__icon md-icon"></span>
             i2c
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-i2c/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-i2c/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-i2c/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-i2c/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-i2c/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_5" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_5" id="__nav_10_5_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Utilities
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_5">
             <span class="md-nav__icon md-icon"></span>
             Utilities
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-utils/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_6" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_6" id="__nav_10_6_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Power and power
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_6">
             <span class="md-nav__icon md-icon"></span>
             Power and power
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-power/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_7" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_7" id="__nav_10_7_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Core
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_7">
             <span class="md-nav__icon md-icon"></span>
             Core
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-core/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_8" id="__nav_10_8_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     AmbiqSuite Harness
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_8">
             <span class="md-nav__icon md-icon"></span>
             AmbiqSuite Harness
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-harness/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
-
-
-
-
+      
+        
+        
+        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_9" >
-
-
+        
+          
           <label class="md-nav__link" for="__nav_10_9" id="__nav_10_9_label" tabindex="0">
-
-
+            
+  
   <span class="md-ellipsis">
     Model Wrapper
   </span>
-
+  
 
             <span class="md-nav__icon md-icon"></span>
           </label>
-
+        
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_9">
             <span class="md-nav__icon md-icon"></span>
             Model Wrapper
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/files.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Files
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/modules.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Modules
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/functions.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Functions
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/annotated.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Structs
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
     <li class="md-nav__item">
       <a href="../ns-model/variables.html" class="md-nav__link">
-
-
+        
+  
   <span class="md-ellipsis">
     Variables
   </span>
-
+  
 
       </a>
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
-
-
-
+              
+            
           </ul>
         </nav>
-
+      
     </li>
+  
 
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
 
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Archive
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/archive/2023.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2023
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Categories
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/examples.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/new-features.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    New Features
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/integration.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docs/blog/category/general.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+            
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#directories" class="md-nav__link">
     Directories
   </a>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+          
+          
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
+                
+                  
 
-
-
-
-
+  
+  
 
 
 <h1 id="dir-neuralspotneuralspotns-audio">Dir neuralSPOT/neuralspot/ns-audio</h1>
@@ -2477,51 +2728,51 @@
 
 
 
-
+                
               </article>
             </div>
-
-
+          
+          
   <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 
         </div>
-
+        
       </main>
-
+      
         <footer class="md-footer">
-
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-
+  
     <div class="md-copyright__highlight">
       &copy; 2023 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>
 
     </div>
-
-
+  
+  
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
-
+  
 </div>
-
+      
     </div>
   </div>
 </footer>
-
+      
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-
-
+    
+    
     <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-
-
-      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
-
-
+    
+    
+      <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      
+    
   <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

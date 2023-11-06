@@ -358,6 +358,8 @@ extern void ns_ble_pre_init(void);
  */
 extern int ns_ble_create_service(ns_ble_service_t *s);
 
+extern void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg);
+
 /**
  * @brief Define a characteristic for subsequent addition to a service.
  *

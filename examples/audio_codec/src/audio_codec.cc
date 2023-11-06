@@ -24,6 +24,12 @@
 // and disable BLE mode.
 // #define AC_RPC_MODE
 
+// If compiling for a platform that doesn't have BLE use RPC
+// otherwise, default to BLE.
+#if !defined(NS_BLE_SUPPORTED)
+    #define AC_RPC_MODE
+#endif
+
 // By default, this example uses PDM microphone data.
 // Uncomment the following line to use AUDADC data instead.
 // #define USE_AUDADC
@@ -35,11 +41,13 @@
 #include "ns_peripherals_power.h"
 #ifdef AC_RPC_MODE
     #include "ns_rpc_generic_data.h"
+#else
+    #include "ns_ble.h"
+    #include "FreeRTOS.h"
+    #include "task.h"
 #endif
 #include "ae_api.h"
-#include "ns_ble.h"
-#include "FreeRTOS.h"
-#include "task.h"
+
 #include "arm_math.h"
 
 // -- Audio Stuff - needed for demo, not RPC ----------------------

@@ -4,7 +4,6 @@ TOOLCHAIN ?= arm-none-eabi
 ifeq ($(TOOLCHAIN),arm-none-eabi)
 COMPILERNAME := gcc
 else ifeq ($(TOOLCHAIN),arm)
-# TOOLCHAIN ?= arm
 COMPILERNAME := clang
 endif
 
@@ -50,15 +49,25 @@ NESTSOURCEDIR := examples/$(NESTEGG)/src
 
 ##### AmbiqSuite Config and HW Feature Control Flags #####
 ifneq ($(BRD),apollo4l)
-DEFINES+= AM_HAL_TEMPCO_LP
-DEFINES+= NS_AUDADC_PRESENT
-ifneq ($(EVB),blue_kxr_evb)
-DEFINES+= NS_PDM1TO3_PRESENT
-endif
-DEFINES+= NS_USB1_PRESENT
-USB_PRESENT := 1
+	DEFINES+= AM_HAL_TEMPCO_LP
+	DEFINES+= NS_AUDADC_PRESENT
+	ifneq ($(EVB),blue_kxr_evb)
+		DEFINES+= NS_PDM1TO3_PRESENT
+	endif
+	DEFINES+= NS_USB1_PRESENT
+	USB_PRESENT := 1
 else
-USB_PRESENT := 0
+	USB_PRESENT := 0
+endif
+
+ifeq ($(EVB),blue_evb)
+	BLE_PRESENT := 1
+else ifeq ($(EVB),blue_kbr_evb)
+	BLE_PRESENT := 1
+else ifeq ($(EVB),blue_kxr_evb)
+	BLE_PRESENT := 1
+else
+	BLE_PRESENT := 0
 endif
 
 # application stack and heap size
@@ -72,12 +81,20 @@ DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
 ##### BLE Defines
 ## BLE is only supported by neuralSPOT for AmbiqSuite R4.3.0 and later
 ifeq ($(AS_VERSION),R4.3.0)
-BLE_SUPPORTED := 1
+	BLE_SUPPORTED := $(BLE_PRESENT)
+	ifeq ($(BLE_SUPPORTED),1)
+		DEFINES+= NS_BLE_SUPPORTED
+	endif
 else ifeq ($(AS_VERSION),R4.4.1)
-BLE_SUPPORTED := 1
+	BLE_SUPPORTED := $(BLE_PRESENT)
+	ifeq ($(BLE_SUPPORTED),1)
+		DEFINES+= NS_BLE_SUPPORTED
+	endif
 else
-BLE_SUPPORTED := 0
+	BLE_SUPPORTED := 0
 endif
+$(info BLE_SUPPORTED = $(BLE_SUPPORTED))
+$(info BLE_PRESENT = $(BLE_PRESENT))
 
 DEFINES+= SEC_ECC_CFG=SEC_ECC_CFG_HCI
 # DEFINES+= WSF_TRACE_ENABLED

@@ -73,16 +73,17 @@ else
 		ifeq ($(BLE_SUPPORTED),1)
 			modules      += examples/web_ble
 			modules      += examples/audio_codec
-
 		endif
 
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
 			modules      += examples/mpu_data_collection
-			# modules      += examples/audio_codec
+			ifneq ($(BLE_SUPPORTED),1)
+# Don't include it twice
+				modules  += examples/audio_codec
+			endif
 		endif
-
 	else
 		modules 	 += examples/$(EXAMPLE)
 	endif

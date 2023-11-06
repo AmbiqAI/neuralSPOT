@@ -2,9 +2,10 @@
 This directory contains assorted scripts designed to work with neuralSPOT.
 
 1. **generic_data.py**: example RPC script
-2. **ns_autodeploy.py**: Convert TFlite to binary, fine tune, and characterize.
-3. **ns_mac_estimator.py**: Analyzes a TFLite file and estimates macs per layer
-4. **schema_py_generated.py**: Cloned from TLFM repo, used by ns_mac_estimator.py
+2. **opus_recieve.py**: receives Opus-encoded audio over RPC and writes it to a WAV file.
+3. **ns_autodeploy.py**: Convert TFlite to binary, fine tune, and characterize.
+4. **ns_mac_estimator.py**: Analyzes a TFLite file and estimates macs per layer
+5. **schema_py_generated.py**: Cloned from TLFM repo, used by ns_mac_estimator.py
 
 
 ## AutoDeploy Theory of Operations

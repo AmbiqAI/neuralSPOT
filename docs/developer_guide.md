@@ -248,10 +248,20 @@ cp neuralSPOT/mkdocs.yml .
 mkdocs build
 cd neuralSPOT
 git checkout gh-pages
-cp -R ../site .
+rm -rf *
+cp -R ../site/* .
 git add .
 git commit -m "update docs"
 git push origin gh-pages
+```
+
+Before all this, you have to install the mkdoc tools used by the documenation system. We don't include these in our setup.py because most neuralSPOT users don't need them.
+
+```bash
+ pip install mkdocs
+ pip install mkdocs-material
+ pip install mkdoxy
+ pip install mkdocs-glightbox
 ```
 
 ### Adding RPC Interfaces

@@ -56,7 +56,7 @@ char opus_mem_ram1[OPUS_MEM_RAM1_SIZE];
  int    opus_ram_ptr;
  int    opus_ram_ptr_save = 0;   
  int    opus_ram_count = 0;   
- int    opus_ram_count_save = 0;   
+ int    opus_ram_count_save = 0;
 
 int spl_stack_init(int option)
 {

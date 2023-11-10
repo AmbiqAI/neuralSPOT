@@ -605,6 +605,7 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
             // IRQ pin.
             //
             am_util_delay_us(pBle->ui32CSDuration);
+            am_util_delay_us(pBle->ui32CSDuration);
             // For the applications which do not enable IRQ interrupt, we need to do continuous try here
             if ( bWaitReady )
             {
@@ -619,8 +620,10 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
                 // If the CS PIN is pulled high and then pulled low too quickly, Cooper may not be able to detect it.
                 am_util_delay_us(pBle->ui32CSDuration);
 #endif
+                am_util_delay_us(pBle->ui32CSDuration);
 
                 am_hal_gpio_pinconfig(AM_DEVICES_COOPER_SPI_CS, g_AM_DEVICES_COOPER_SPI_CS);
+                am_util_delay_us(1700);
                 am_util_delay_us(1700);
                 //
                 // One count is about 2ms, if Cooper is not available to receive HCI packets

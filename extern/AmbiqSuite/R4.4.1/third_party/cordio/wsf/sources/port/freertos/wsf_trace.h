@@ -21,7 +21,7 @@
 /*************************************************************************************************/
 #ifndef WSF_TRACE_H
 #define WSF_TRACE_H
-
+#include "ns_ambiqsuite_harness.h"
 /**************************************************************************************************
   Data Types
 **************************************************************************************************/
@@ -74,7 +74,8 @@ uint8_t WsfTokenIOWrite(uint8_t *pBuf, uint8_t len);
 #define WSF_TRACE2(subsys, stat, msg, var1, var2)       WsfTrace(msg, var1, var2)
 #define WSF_TRACE3(subsys, stat, msg, var1, var2, var3) WsfTrace(msg, var1, var2, var3)
 
-#define PACKET_TRACE(type, len, buf)                    WsfPacketTrace(type, len, buf)
+// #define PACKET_TRACE(type, len, buf)                    WsfPacketTrace(type, len, buf)
+#define PACKET_TRACE(type, len, buf)
 
 #elif WSF_TOKEN_ENABLED == TRUE
 
@@ -125,18 +126,18 @@ uint8_t WsfTokenIOWrite(uint8_t *pBuf, uint8_t len);
 #define WSF_TRACE_MSG3(msg, var1, var2, var3)
 
 #ifdef HCI_TRACE_ENABLED
-#define HCI_TRACE_INFO0(msg)                        WSF_TRACE0("HCI", "INFO", msg)
-#define HCI_TRACE_INFO1(msg, var1)                  WSF_TRACE1("HCI", "INFO", msg, var1)
-#define HCI_TRACE_INFO2(msg, var1, var2)            WSF_TRACE2("HCI", "INFO", msg, var1, var2)
-#define HCI_TRACE_INFO3(msg, var1, var2, var3)      WSF_TRACE3("HCI", "INFO", msg, var1, var2, var3)
-#define HCI_TRACE_WARN0(msg)                        WSF_TRACE0("HCI", "WARN", msg)
-#define HCI_TRACE_WARN1(msg, var1)                  WSF_TRACE1("HCI", "WARN", msg, var1)
-#define HCI_TRACE_WARN2(msg, var1, var2)            WSF_TRACE2("HCI", "WARN", msg, var1, var2)
-#define HCI_TRACE_WARN3(msg, var1, var2, var3)      WSF_TRACE3("HCI", "WARN", msg, var1, var2, var3)
-#define HCI_TRACE_ERR0(msg)                         WSF_TRACE0("HCI", "ERR",  msg)
-#define HCI_TRACE_ERR1(msg, var1)                   WSF_TRACE1("HCI", "ERR",  msg, var1)
-#define HCI_TRACE_ERR2(msg, var1, var2)             WSF_TRACE2("HCI", "ERR",  msg, var1, var2)
-#define HCI_TRACE_ERR3(msg, var1, var2, var3)       WSF_TRACE3("HCI", "ERR",  msg, var1, var2, var3)
+#define HCI_TRACE_INFO0(msg)                        
+#define HCI_TRACE_INFO1(msg, var1)                  
+#define HCI_TRACE_INFO2(msg, var1, var2)            
+#define HCI_TRACE_INFO3(msg, var1, var2, var3)      
+#define HCI_TRACE_WARN0(msg)                        
+#define HCI_TRACE_WARN1(msg, var1)                  
+#define HCI_TRACE_WARN2(msg, var1, var2)            
+#define HCI_TRACE_WARN3(msg, var1, var2, var3)      
+#define HCI_TRACE_ERR0(msg)                         ns_lp_printf(msg)
+#define HCI_TRACE_ERR1(msg, var1)                   ns_lp_printf(msg, var1)
+#define HCI_TRACE_ERR2(msg, var1, var2)             ns_lp_printf(msg, var1, var2)
+#define HCI_TRACE_ERR3(msg, var1, var2, var3)       ns_lp_printf(msg, var1, var2, var3)
 
 #define HCI_PDUMP_CMD(len, pBuf)                    PACKET_TRACE(0x1, len, pBuf)
 #define HCI_PDUMP_EVT(len, pBuf)                    PACKET_TRACE(0x4, len, pBuf)

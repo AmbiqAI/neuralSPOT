@@ -34,6 +34,7 @@
 #include <stdbool.h>
 #include "hci_drv_apollo.h"
 #include "dm_api.h"
+#include "ns_ambiqsuite_harness.h"
 
 #include "am_mcu_apollo.h"
 
@@ -107,12 +108,13 @@ bool_t hciCmdSend(uint8_t *pData)
 {
   uint8_t         *p;
   wsfHandlerId_t  handlerId;
-
   /* queue command if present */
   if (pData != NULL)
   {
     /* queue data - message handler ID 'handerId' not used */
     WsfMsgEnq(&hciCmdCb.cmdQueue, 0, pData);
+    // ns_lp_printf("hciCmdSend null pdata\n");
+
   }
 
   /* service the HCI command queue; first check if controller can accept any commands */
@@ -129,14 +131,15 @@ bool_t hciCmdSend(uint8_t *pData)
 
       /* start command timeout */
       WsfTimerStartSec(&hciCmdCb.cmdTimer, HCI_CMD_TIMEOUT);
-
+      // ns_lp_printf("hciCmdSend: sending opcode 0x%x\n", hciCmdCb.cmdOpcode);
+      ns_delay_us(100);
       /* send command to transport */
       if (hciTrSendCmd(p) == TRUE)
       {
 
         /* remove from the queue*/
         WsfMsgDeq(&hciCmdCb.cmdQueue, &handlerId);
-
+        // ns_lp_printf("hciCmdSend: sent opcode 0x%x\n", hciCmdCb.cmdOpcode);
         /* decrement controller command packet count */
         hciCmdCb.numCmdPkts--;
 
@@ -188,6 +191,7 @@ void hciCmdTimeout(wsfMsgHdr_t *pMsg)
   // layer and SPI transport layer again.
 
   HciDrvRadioShutdown();
+  ns_lp_printf("hciCmdTimeout\n");
   HciDrvRadioBoot(0);
   DmDevReset();
 }
@@ -1773,7 +1777,7 @@ void HciLeSetHostFeatureCmd(uint8_t bitNum, bool_t bitVal)
 {
   uint8_t *pBuf;
   uint8_t *p;
-
+  // ns_lp_printf("HciLeSetHostFeatureCmd\r\n");
   if ((pBuf = hciCmdAlloc(HCI_OPCODE_LE_SET_HOST_FEATURE, HCI_LEN_LE_SET_HOST_FEATURE)) != NULL)
   {
     p = pBuf + HCI_CMD_HDR_LEN;

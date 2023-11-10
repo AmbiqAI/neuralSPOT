@@ -34,6 +34,7 @@ modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-i2c
+modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
 	modules      += neuralspot/ns-usb
@@ -50,6 +51,7 @@ modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules 	 += extern/codecs/opus-precomp
+# modules 	 += extern/codecs/opus1.4
 
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
@@ -69,6 +71,7 @@ else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
 		modules      += examples/har
+		modules	     += examples/nnse
 
 		ifeq ($(BLE_SUPPORTED),1)
 			modules      += examples/web_ble

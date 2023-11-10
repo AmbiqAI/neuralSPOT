@@ -27,9 +27,17 @@ subdirectory = $(patsubst %/module.mk,%,                        \
 define make-library
 libraries += $1
 sources   += $2
-
 $1: $(call source-to-object,$2)
 	@echo " Building $(AR) $$@ to make library $$@"
+	@mkdir -p $$(@D)
+	$(Q) $(AR) $(ARFLAGS) $$@ $$^
+endef
+
+define make-override-library
+override_libraries += $1
+sources   += $2
+$1: $(call source-to-object,$2)
+	@echo " Building $(AR) $$@ to make override library $$@"
 	@mkdir -p $$(@D)
 	$(Q) $(AR) $(ARFLAGS) $$@ $$^
 endef

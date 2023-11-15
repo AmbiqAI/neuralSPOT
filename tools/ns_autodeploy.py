@@ -52,7 +52,7 @@ class Params(BaseModel):
     #     description="Root directory for ns_autodeploy to place generated files",
     # )
     max_arena_size: int = Field(
-        120, description="Maximum KB to be allocated for TF arena"
+        115, description="Maximum KB to be allocated for TF arena"
     )
     arena_size_scratch_buffer_padding: int = Field(
         0,

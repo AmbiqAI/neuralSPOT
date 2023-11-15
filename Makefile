@@ -111,8 +111,9 @@ pp_defines   := $(DEFINES)
 bindirs      := $(BINDIR)
 
 obs = $(call source-to-object,$(sources))
-dependencies = $(subst .o,.d,$(obs))
+# dependencies = $(subst .o,.d,$(obs))
 objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
+
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
@@ -149,9 +150,9 @@ endif
 # lint: $(LINTSOURCES)
 # 	$(LINT) $< -- $(LINTINCLUDES)
 
-ifneq "$(MAKECMDGOALS)" "clean"
-  include $(dependencies)
-endif
+# ifneq "$(MAKECMDGOALS)" "clean"
+#  include $(dependencies)
+# endif
 
 # Compute stuff for nest creation
 nest_files = $(call rwildcard,extern/tensorflow/$(TF_VERSION)/.,*.h)
@@ -205,14 +206,14 @@ $(BINDIR)/%.o: %.s
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
 
-%.axf: src/%.o $(libraries) $(override_libraries)
+%.axf: src/%.o $(objects) $(libraries) $(override_libraries)
 	@echo " Linking $(COMPILERNAME) $@"
 	@mkdir -p $(@D)
 ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
 else
 # $(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(LFLAGS)
+	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(objects) $(LFLAGS)
 endif
 
 ifeq ($(TOOLCHAIN),arm)
@@ -222,8 +223,8 @@ ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(CP) $(CPFLAGS) $@ $<
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
-	# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-	# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
+# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 else
 %.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."
@@ -231,21 +232,11 @@ else
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-	$(Q) $(SIZE) @$*.sizeinput $< > $*.size
+# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 endif
 # $(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
 
-
-.PHONY: docs
-docs: export DOXYGEN_OUTPUT_DIRECTORY = docs/docs
-docs: export
-docs:
-	@echo " Making Documents"
-	@echo "INCLUDES = $(doc_sources)"
-	@echo "EXCLUDE_PATTERNS = */AmbiqSuite/* */tensorflow/* */$(BINDIR)/* */$(NESTDIR)/*"
-#	@echo "H_INCLUDES = $(all_includes)"
-	$(Q) $(DOX) docs/doxygen/Doxyfile
 
 .PHONY: nest
 nest: all

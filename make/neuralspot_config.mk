@@ -28,6 +28,8 @@ FPU    = fpv4-sp-d16
 #FABI     = softfp
 FABI     = hard
 
+
+
 ##### Extern Library Defaults #####
 ifndef AS_VERSION
 AS_VERSION := R4.4.1

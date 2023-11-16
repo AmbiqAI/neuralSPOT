@@ -23,7 +23,7 @@ limitations under the License.
     #include <cstring>
 
     #include "tensorflow/lite/kernels/internal/compatibility.h"
-    #if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
+#ifdef NS_TFSTRUCTURE_RECENT
         #include "tensorflow/lite/micro/micro_log.h"
     #else
         #include "tensorflow/lite/micro/micro_error_reporter.h"

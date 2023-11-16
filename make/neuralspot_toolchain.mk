@@ -59,6 +59,9 @@ CFLAGS+= -g -O3
 # CFLAGS+= -g -O0
 CFLAGS+=
 
+LINKER_FILE := ./neuralspot/ns-core/src/gcc/linker_script.ld
+
+
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -fno-exceptions
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map

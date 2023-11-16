@@ -172,7 +172,8 @@ def runClient(transport):
     while True:
         print("Send/Recieve Test Starting")
         for t in range(20000):
-            outblock_size = random.randint(3050, 3100)
+            outblock_size = random.randint(50, 3100)
+            # outblock_size = random.randint(10, 100)
             # for outblock_size in range (3000,3100):
             # for outblock_size in range (3,4):
             # Create an array of sequential bytes and send it to the EVB

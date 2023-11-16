@@ -35,7 +35,7 @@ ifndef AS_VERSION
 AS_VERSION := R4.4.1
 endif
 ifndef TF_VERSION
-TF_VERSION := d5f819d_Aug_10_2023
+TF_VERSION := 0264234_Nov_15_2023
 endif
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
@@ -104,6 +104,17 @@ DEFINES+= AM_DEBUG_PRINTF
 ##### Common AI Precompiler Directives #####
 # 1 = load TF library with debug info, turn on TF debug statements
 MLDEBUG ?= 0
+
+ifeq ($(TF_VERSION),d5f819d_Aug_10_2023)
+	DEFINES+= NS_TFSTRUCTURE_RECENT
+endif
+ifeq ($(TF_VERSION),0264234_Nov_15_2023)
+	DEFINES+= NS_TFSTRUCTURE_RECENT
+endif
+ifeq ($(TF_VERSION),fecdd5d)
+	DEFINES+= NS_TFSTRUCTURE_RECENT
+endif
+
 
 # 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0

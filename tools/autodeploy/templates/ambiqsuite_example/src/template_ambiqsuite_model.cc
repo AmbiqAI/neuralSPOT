@@ -94,7 +94,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     }
 
     // Build an interpreter to run the model with.
-#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
+#ifdef NS_TFSTRUCTURE_RECENT
     static tflite::MicroInterpreter static_interpreter(
         ms->model, resolver, ms->arena, ms->arena_size, resource_variables, ms->profiler);
 #else

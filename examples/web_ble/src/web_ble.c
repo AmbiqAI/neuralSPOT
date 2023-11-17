@@ -191,43 +191,43 @@ int webble_service_init(void) {
 
     ns_ble_create_characteristic(
         &webbleTemperature, webbleUuid("2001"), &temperature, sizeof(temperature), NS_BLE_READ,
-        &webbleReadHandler, NULL, NULL, 0, &(webbleService.numAttributes));
+        &webbleReadHandler, NULL, NULL, 0, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleHumidity, webbleUuid("3001"), &humidity, sizeof(humidity), NS_BLE_READ,
-        &webbleReadHandler, NULL, NULL, 0, &(webbleService.numAttributes));
+        &webbleReadHandler, NULL, NULL, 0, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webblePressure, webbleUuid("4001"), &pressure, sizeof(pressure), NS_BLE_READ,
-        &webbleReadHandler, NULL, NULL, 0, &(webbleService.numAttributes));
+        &webbleReadHandler, NULL, NULL, 0, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleAccel, webbleUuid("5001"), accel, sizeof(accel), NS_BLE_READ | NS_BLE_NOTIFY, NULL,
-        NULL, &webbleNotifyHandler, 200, &(webbleService.numAttributes));
+        NULL, &webbleNotifyHandler, 200, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleGyro, webbleUuid("6001"), gyro, sizeof(gyro), NS_BLE_READ | NS_BLE_NOTIFY, NULL,
-        NULL, &webbleNotifyHandler, 200, &(webbleService.numAttributes));
+        NULL, &webbleNotifyHandler, 200, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleQuat, webbleUuid("7001"), quat, sizeof(quat), NS_BLE_READ | NS_BLE_NOTIFY, NULL,
-        NULL, &webbleNotifyHandler, 200, &(webbleService.numAttributes));
+        NULL, &webbleNotifyHandler, 200, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleRgb, webbleUuid("8001"), rgb, sizeof(rgb), NS_BLE_READ | NS_BLE_WRITE,
-        &webbleReadHandler, &webbleWriteHandler, NULL, 0, &(webbleService.numAttributes));
+        &webbleReadHandler, &webbleWriteHandler, NULL, 0, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleBsec, webbleUuid("9001"), &bsec, sizeof(bsec), NS_BLE_READ, &webbleReadHandler, NULL,
-        NULL, 0, &(webbleService.numAttributes));
+        NULL, 0, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleCo2, webbleUuid("9002"), &co2, sizeof(co2), NS_BLE_READ, &webbleReadHandler, NULL,
-        NULL, 0, &(webbleService.numAttributes));
+        NULL, 0, false, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
         &webbleGas, webbleUuid("9003"), &gas, sizeof(gas), NS_BLE_READ, &webbleReadHandler, NULL,
-        NULL, 0, &(webbleService.numAttributes));
+        NULL, 0, false, &(webbleService.numAttributes));
 
     // Create the service
     webbleService.numCharacteristics = 10; // needed to allocate memory for characteristics

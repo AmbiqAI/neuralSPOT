@@ -20,14 +20,14 @@
 // development needed.
 #define WEBBLE_WSF_BUFFER_POOLS 4
 #define WEBBLE_WSF_BUFFER_SIZE                                                                     \
-    (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 280 * 14) / sizeof(uint32_t)
+    (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 512 * 16) / sizeof(uint32_t)
 
 static uint32_t webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE];
 static wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS] = {
     {16, 8}, // 16 bytes, 8 buffers
     {32, 4},
     {64, 6},
-    {512, 14}};
+    {512, 16}};
 
 static ns_ble_pool_config_t webbleWsfBuffers = {
     .pool = webbleWSFBufferPool,
@@ -44,7 +44,7 @@ ns_ble_characteristic_t webbleOpusAudio;     // Opus-encoded Audio Characteristi
 ns_ble_characteristic_t audioFrameAvailable; // Doorbell`
 
 int webbleNotifyHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c) {
-    ns_lp_printf("webbleNotifyHandler\n");
+    ns_lp_printf("NNSE webbleNotifyHandler\n"); // really just a nop
     return NS_STATUS_SUCCESS;
 }
 
@@ -63,8 +63,7 @@ int audioWebbleServiceInit(void) {
     // We create a single characteristic which is basically a chunk of Opus-encoded audio
     ns_ble_create_characteristic(
         &webbleOpusAudio, webbleUuid("5001"), encodedDataBuffer, sizeof(encodedDataBuffer),
-        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler,
-        65000, // was 200, use '0' to make it async
+        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
         &(webbleService.numAttributes));
 
     // Create the service
@@ -79,6 +78,5 @@ void RadioTask(void *pvParameters) {
     NS_TRY(audioWebbleServiceInit(), "ideal_main failed.\n");
     while (1) {
         wsfOsDispatcher();
-        // vTaskDelay(pdMS_TO_TICKS(1));
     }
 }

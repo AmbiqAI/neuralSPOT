@@ -322,8 +322,9 @@ typedef struct ns_ble_characteristic {
     uint16_t cccHandle;
     uint16_t cccIndex;
     uint16_t cccIndicationHandle;
-    wsfTimer_t indicationTimer; /*! \brief periodic measurement timer */
-    uint32_t indicationPeriod;  /*! \brief periodic measurement period in ms */
+    wsfTimer_t indicationTimer;       /*! \brief periodic measurement timer */
+    uint32_t indicationPeriod;        /*! \brief periodic measurement period in ms */
+    uint8_t indicationIsAsynchronous; /*! \brief TRUE if indication is asynchronous */
 
     // Internals
     uint16_t handleId;
@@ -381,7 +382,7 @@ extern int ns_ble_create_characteristic(
     ns_ble_characteristic_t *c, char const *uuidString, void *applicationValue,
     uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb,
     ns_ble_characteristic_write_handler_t writeHandlerCb,
-    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs,
+    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs, uint8_t async,
     uint16_t *attributeCount);
 
 /**

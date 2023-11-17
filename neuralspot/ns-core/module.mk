@@ -15,6 +15,10 @@ local_src += $(wildcard $(subdirectory)/src/gcc/*.cpp)
 local_src += $(wildcard $(subdirectory)/src/gcc/*.s)
 endif
 
-sources   += $(local_src)
+# sources   += $(local_src)
 
 includes_api += $(subdirectory)/includes-api
+
+local_bin := $(BINDIR)/$(subdirectory)
+bindirs   += $(local_bin)
+$(eval $(call make-library, $(local_bin)/ns-core.a, $(local_src)))

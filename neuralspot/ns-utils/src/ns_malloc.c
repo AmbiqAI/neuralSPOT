@@ -26,7 +26,7 @@ void *ns_malloc(size_t size) {
         ptr = pvTasklessPortMalloc(size);
     } // else NULL if there was an error
     total_allocated += size;
-    ns_lp_printf("ns_malloc(%d) total %d returning 0x%x\n", size, total_allocated, ptr);
+    // ns_lp_printf("ns_malloc(%d) total %d returning 0x%x\n", size, total_allocated, ptr);
     return ptr;
 }
 
@@ -35,5 +35,5 @@ void ns_free(void *ptr) {
     if (ptr) {
         vTasklessPortFree(ptr);
     }
-    ns_lp_printf("ns_free(0x%x)\n", ptr);
+    // ns_lp_printf("ns_free(0x%x)\n", ptr);
 }

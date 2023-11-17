@@ -59,10 +59,13 @@ CFLAGS+= -g -O3 -ffast-math
 # CFLAGS+= -g -O0
 CFLAGS+=
 
+LINKER_FILE := ./neuralspot/ns-core/src/gcc/linker_script.ld
+
+
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -fno-exceptions
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
-LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
+LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
 LFLAGS+=
 
 CPFLAGS = -Obinary

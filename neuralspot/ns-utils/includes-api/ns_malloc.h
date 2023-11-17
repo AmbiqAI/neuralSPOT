@@ -31,7 +31,7 @@ extern "C" {
     #include "portmacro.h"
     #include "rtos.h"
 
-extern uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K * 1024];
+// extern alignas(4) uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K * 1024];
 
 extern uint8_t ns_malloc_init();
 extern void *ns_malloc(size_t size);

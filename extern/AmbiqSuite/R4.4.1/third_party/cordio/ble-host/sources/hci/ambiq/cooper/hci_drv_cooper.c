@@ -65,6 +65,7 @@
 
 #include "hci_drv_cooper.h"
 #include "hci_dbg_trc.h"
+#include "ns_ambiqsuite_harness.h"
 
 #include <string.h>
 
@@ -283,11 +284,16 @@ static void HciDrvIntService(void *pArg)
     //
     // Send an event to get processed in the HCI handler.
     //
+    // ns_lp_printf("HciDrvIntService\n");
+    // ns_delay_us(300);
     WsfSetEvent(g_HciDrvHandleID, BLE_TRANSFER_NEEDED_EVENT);
 }
 
 static void ClkReqIntService(void *pArg)
 {
+    // ns_lp_printf("ClkReqIntService\n");
+        ns_delay_us(100);
+
     if (am_devices_cooper_clkreq_read(g_IomDevHdl))
     {
         // Power up the 32MHz Crystal
@@ -474,7 +480,8 @@ void
 HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
 {
     uint32_t ui32ErrorStatus = 0;
-
+    // ns_lp_printf("HciDrvHandler ID %d event 0x%x\n", g_HciDrvHandleID, event);
+    ns_delay_us(300);
 #if ENABLE_BLE_HEARTBEAT
     //
     // If this handler was called in response to a heartbeat event, then it's
@@ -488,6 +495,7 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
     {
         if (pMsg->event == BLE_HEARTBEAT_EVENT)
         {
+            ns_lp_printf("HciDrvHandler BLE_HEARTBEAT_EVENT\n");
             HciReadLocalVerInfoCmd();
             BLE_HEARTBEAT_START();
 
@@ -506,6 +514,7 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
     {
         if (pMsg->event == BLE_WAKEUP_EVENT)
         {
+            ns_lp_printf("HciDrvHandler BLE_WAKEUP_EVENT\n");
             BLE_WAKEUP_TIMER_STOP();
 
             WsfSetEvent(g_HciDrvHandleID, BLE_TRANSFER_NEEDED_EVENT);
@@ -523,6 +532,7 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
         if ( pBle->bWakingUp )
         {
             BLE_WAKEUP_TIMER_STOP();
+            // ns_lp_printf("HciDrvHandler bWakingUp\n");
             pBle->bWakingUp = false;
             /* Send any pending HCI command */
             hciCmdSend(NULL);
@@ -532,12 +542,14 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
         }
         else // read
         {
+            // ns_lp_printf("HciDrvHandler read\n");
             //
             // Check to see if we read any bytes over the HCI interface that we haven't
             // already sent to the BLE stack.
             //
             if (g_ui32NumBytes > g_consumed_bytes)
             {
+                ns_lp_printf("HciDrvHandler g_ui32NumBytes > g_consumed_bytes\n");
                 //
                 // If we have any bytes saved, we should send them to the BLE stack
                 // now.
@@ -554,6 +566,7 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
                 if (g_ui32NumBytes && (g_consumed_bytes != g_ui32NumBytes))
                 {
                     WsfSetEvent(g_HciDrvHandleID, BLE_TRANSFER_NEEDED_EVENT);
+                    ns_lp_printf("HciDrvHandler BLE_TRANSFER_NEEDED_EVENT\n");
                     return;
                 }
                 else
@@ -565,12 +578,14 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
 
             // Reset
             g_ui32NumBytes = 0;
+            // ns_lp_printf("HciDrvHandler g_ui32NumBytes = 0\n");
+            ns_delay_us(300);
             ui32ErrorStatus = am_devices_cooper_blocking_read(g_IomDevHdl, g_pui32ReadBuffer, &g_ui32NumBytes);
             BLE_HEARTBEAT_RESTART();
 
             if (g_ui32NumBytes > AM_DEVICES_COOPER_MAX_RX_PACKET)
             {
-                CRITICAL_PRINT("\nERROR: Trying to receive an HCI packet larger than the hci driver buffer size (needs %d bytes of space).\n",
+                ns_lp_printf("\nERROR: Trying to receive an HCI packet larger than the hci driver buffer size (needs %d bytes of space).\n",
                             g_ui32NumBytes);
                 ERROR_CHECK_VOID(HCI_DRV_RX_PACKET_TOO_LARGE);
             }
@@ -584,7 +599,7 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
                 // so there shouldn't be any physical reason for the read to
                 // fail.
                 //
-                CRITICAL_PRINT("\nHCI READ failed with status %d. Try recording with a logic analyzer to catch the error.\n",
+                ns_lp_printf("\nHCI READ failed with status %d. Try recording with a logic analyzer to catch the error.\n",
                             ui32ErrorStatus);
                 ERROR_RECOVER(ui32ErrorStatus);
             }
@@ -623,9 +638,12 @@ HciDrvHandler(wsfEventMask_t event, wsfMsgHdr_t *pMsg)
                     // Make sure g_ui32NumBytes is not zero.
                     if (g_ui32NumBytes && (g_consumed_bytes != g_ui32NumBytes))
                     {
-
+                        ns_lp_printf("\nERROR: The BLE stack didn't accept all of the bytes we sent it.\n");
                         // need to come back again
                         WsfSetEvent(g_HciDrvHandleID, BLE_TRANSFER_NEEDED_EVENT);
+                    }
+                    else {
+                        // ns_lp_printf("HciDrvHandler g_consumed_bytes = g_ui32NumBytes\n"); 
                     }
                 }
             }

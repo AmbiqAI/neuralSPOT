@@ -186,12 +186,13 @@ void hciCmdInit(void)
 void hciCmdTimeout(wsfMsgHdr_t *pMsg)
 {
   HCI_TRACE_INFO1("hciCmdTimeout, opcode=0x%x", hciCmdCb.cmdOpcode);
+  // ns_lp_printf("hciCmdTimeout, opcode=0x%x", hciCmdCb.cmdOpcode);
   // When it times out, pretty much we have to
   // reset/reboot controller and initialize HCI
   // layer and SPI transport layer again.
 
   HciDrvRadioShutdown();
-  ns_lp_printf("hciCmdTimeout\n");
+  // ns_lp_printf("hciCmdTimeout\n");
   HciDrvRadioBoot(0);
   DmDevReset();
 }

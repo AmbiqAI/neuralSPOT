@@ -12,4 +12,5 @@ endif
 
 local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)
-sources   += $(local_src)
+# sources   += $(local_src)
+$(eval $(call make-library, $(local_bin)/codecs.a, $(local_src)))

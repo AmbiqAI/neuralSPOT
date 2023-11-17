@@ -128,8 +128,8 @@ status example_computeOnEVB(const dataBlock *in, dataBlock *res) {
 #define MY_TX_BUFSIZE 4096
 // #define MY_RX_BUFSIZE 5120
 // #define MY_TX_BUFSIZE 5120
-uint8_t my_cdc_rx_ff_buf[MY_RX_BUFSIZE];
-uint8_t my_cdc_tx_ff_buf[MY_TX_BUFSIZE];
+alignas(4) uint8_t my_cdc_rx_ff_buf[MY_RX_BUFSIZE];
+alignas(4) uint8_t my_cdc_tx_ff_buf[MY_TX_BUFSIZE];
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};

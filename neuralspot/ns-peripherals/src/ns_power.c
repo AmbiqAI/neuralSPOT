@@ -314,19 +314,7 @@ uint32_t ns_power_config(const ns_power_config_t *pCfg) {
         am_hal_daxi_config(&DaxiConfigLongAging);
     }
 
-    // The following line cause BLE to stop working - TODO
-    // if (pCfg->bNeedBluetooth == false) {
     am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-    // } else {
-    //     const am_hal_cachectrl_config_t am_hal_cachectrl_benchmark =
-    //     {
-    //         .bLRU                       = 0,
-    //         .eDescript                  = AM_HAL_CACHECTRL_DESCR_1WAY_128B_512E,
-    //         .eMode                      = AM_HAL_CACHECTRL_CONFIG_MODE_INSTR,
-    //     };
-    //     am_hal_cachectrl_config(&am_hal_cachectrl_benchmark);
-    // }
-
     am_hal_cachectrl_enable();
 
     // configure peripherals

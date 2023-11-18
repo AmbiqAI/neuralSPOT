@@ -34,6 +34,7 @@ modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-i2c
+modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
 	modules      += neuralspot/ns-usb
@@ -50,6 +51,7 @@ modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules 	 += extern/codecs/opus-precomp
+# modules 	 += extern/codecs/opus1.4
 
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
@@ -73,6 +75,7 @@ else
 		ifeq ($(BLE_SUPPORTED),1)
 			modules      += examples/web_ble
 			modules      += examples/audio_codec
+			modules	     += examples/nnse
 		endif
 
 		ifeq ($(USB_PRESENT),1)
@@ -111,7 +114,7 @@ pp_defines   := $(DEFINES)
 bindirs      := $(BINDIR)
 
 obs = $(call source-to-object,$(sources))
-# dependencies = $(subst .o,.d,$(obs))
+dependencies = $(subst .o,.d,$(obs))
 objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
 
 
@@ -150,9 +153,9 @@ endif
 # lint: $(LINTSOURCES)
 # 	$(LINT) $< -- $(LINTINCLUDES)
 
-# ifneq "$(MAKECMDGOALS)" "clean"
-#  include $(dependencies)
-# endif
+ifneq "$(MAKECMDGOALS)" "clean"
+ include $(dependencies)
+endif
 
 # Compute stuff for nest creation
 nest_files = $(call rwildcard,extern/tensorflow/$(TF_VERSION)/.,*.h)

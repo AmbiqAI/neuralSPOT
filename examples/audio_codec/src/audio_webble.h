@@ -63,8 +63,7 @@ int audioWebbleServiceInit(void) {
     // We create a single characteristic which is basically a chunk of Opus-encoded audio
     ns_ble_create_characteristic(
         &webbleOpusAudio, webbleUuid("5001"), encodedDataBuffer, sizeof(encodedDataBuffer),
-        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler,
-        65000, // was 200, use '0' to make it async
+        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
         &(webbleService.numAttributes));
 
     // Create the service

@@ -74,7 +74,8 @@ uint8_t WsfTokenIOWrite(uint8_t *pBuf, uint8_t len);
 #define WSF_TRACE2(subsys, stat, msg, var1, var2)       WsfTrace(msg, var1, var2)
 #define WSF_TRACE3(subsys, stat, msg, var1, var2, var3) WsfTrace(msg, var1, var2, var3)
 
-#define PACKET_TRACE(type, len, buf)                    WsfPacketTrace(type, len, buf)
+// #define PACKET_TRACE(type, len, buf)                    WsfPacketTrace(type, len, buf)
+#define PACKET_TRACE(type, len, buf)                    
 
 #elif WSF_TOKEN_ENABLED == TRUE
 
@@ -99,10 +100,10 @@ uint8_t WsfTokenIOWrite(uint8_t *pBuf, uint8_t len);
 
 #endif
 
-#define WSF_TRACE_INFO0(msg)
-#define WSF_TRACE_INFO1(msg, var1)
-#define WSF_TRACE_INFO2(msg, var1, var2)
-#define WSF_TRACE_INFO3(msg, var1, var2, var3)
+#define WSF_TRACE_INFO0(msg)                        WSF_TRACE0("WSF", "INFO", msg)
+#define WSF_TRACE_INFO1(msg, var1)                  WSF_TRACE1("WSF", "INFO", msg, var1)
+#define WSF_TRACE_INFO2(msg, var1, var2)            WSF_TRACE2("WSF", "INFO", msg, var1, var2)
+#define WSF_TRACE_INFO3(msg, var1, var2, var3)      WSF_TRACE3("WSF", "INFO", msg, var1, var2, var3)
 #define WSF_TRACE_WARN0(msg)                        WSF_TRACE0("WSF", "WARN", msg)
 #define WSF_TRACE_WARN1(msg, var1)                  WSF_TRACE1("WSF", "WARN", msg, var1)
 #define WSF_TRACE_WARN2(msg, var1, var2)            WSF_TRACE2("WSF", "WARN", msg, var1, var2)

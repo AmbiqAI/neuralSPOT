@@ -132,6 +132,7 @@ void hciCoreRecv(uint8_t msgType, uint8_t *pCoreRecvMsg)
   WsfMsgEnq(&hciCb.rxQueue, (wsfHandlerId_t) msgType, pCoreRecvMsg);
 
   /* set event */
+  // ns_lp_printf("hciCoreRecv: handlerID %d, set HCI_EVT_RX msgType %d\n", hciCb.handlerId, msgType);
   WsfSetEvent(hciCb.handlerId, HCI_EVT_RX);
 }
 

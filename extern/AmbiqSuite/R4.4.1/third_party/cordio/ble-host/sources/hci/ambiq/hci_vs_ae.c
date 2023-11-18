@@ -122,6 +122,7 @@ static void hciCoreReadPerAdvListSize(void)
 static void hciCoreExtResetSequence(uint8_t *pMsg, uint16_t opcode)
 {
   /* decode opcode */
+  // ns_lp_printf("hciCoreExtResetSequence opcode 0x%x\n", opcode);
   switch (opcode)
   {
     case HCI_OPCODE_LE_WRITE_DEF_DATA_LEN:

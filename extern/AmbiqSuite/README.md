@@ -11,6 +11,12 @@ In summary, the process is (details below):
 6. Copy modified CDC and Malloc headers
 7. Patch that one pesky int^uint that causes all the warnings
 
+### BLE/Cordio Notes
+In 4.4.1, we added a number of delays to get BLE to work more consistently when in HP mode with caches enabled. These are not
+in the baseline AmbiqSuite code. To port a new version, this implies:
+1. The cordio code needs to be compiled 
+2. Look for 'ns_delay_us' (we used this instead of the AmbiqSuite delay function to make it easy to search for) and add those to the new AS cordio code.
+
 ```bash
 # Get rid of some unneeded components
 rm Makefile
@@ -66,4 +72,4 @@ cp extern/AmbiqSuite/R4.1.0/third_party/FreeRTOSv10.1.1/Source/include/portable.
 
 # Patch the pesky compile warning (usually in this file)
 diff extern/AmbiqSuite/R4.2.0/mcu/apollo4p/hal/mcu/am_hal_card.h extern/AmbiqSuite/R4.3.0/mcu/apollo4p/hal/mcu/am_hal_card.h
-
+``````

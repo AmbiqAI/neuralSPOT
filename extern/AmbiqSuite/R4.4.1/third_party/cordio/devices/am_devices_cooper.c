@@ -593,6 +593,7 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
         if (am_hal_iom_blocking_transfer(pBle->pBleHandle, &sIOMTransfer))
         {
             ui32ErrorStatus = AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE;
+            ns_lp_printf("am_devices_cooper_blocking_write: AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE\n");
             break;
         }
         // Cooper is not ready now
@@ -604,6 +605,7 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
             // and it takes about 2ms for Cooper to be ready to accept packet by asserting
             // IRQ pin.
             //
+            am_util_delay_us(pBle->ui32CSDuration);
             am_util_delay_us(pBle->ui32CSDuration);
             // For the applications which do not enable IRQ interrupt, we need to do continuous try here
             if ( bWaitReady )
@@ -619,8 +621,10 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
                 // If the CS PIN is pulled high and then pulled low too quickly, Cooper may not be able to detect it.
                 am_util_delay_us(pBle->ui32CSDuration);
 #endif
+                am_util_delay_us(pBle->ui32CSDuration);
 
                 am_hal_gpio_pinconfig(AM_DEVICES_COOPER_SPI_CS, g_AM_DEVICES_COOPER_SPI_CS);
+                am_util_delay_us(1700);
                 am_util_delay_us(1700);
                 //
                 // One count is about 2ms, if Cooper is not available to receive HCI packets
@@ -630,6 +634,7 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
                 if (ui32WaitReadyCount == AM_DEVICES_COOPER_RETRY_TIMES)
                 {
                     ui32WaitReadyCount = 0;
+                    ns_lp_printf("am_devices_cooper_blocking_write: AM_DEVICES_COOPER_RETRY_TIMES\n");
                     ui32ErrorStatus = AM_DEVICES_COOPER_STATUS_TIMEOUT;
                     break;
                 }
@@ -679,6 +684,7 @@ am_devices_cooper_blocking_write(void* pHandle, uint8_t ui8Type, uint32_t* pui32
             // The layer above this one doesn't understand IOM errors, so we
             // will intercept and rename it here.
             //
+            ns_lp_printf("am_devices_cooper_blocking_write: !AM_DEVICES_COOPER_STATUS_SUCCESS\n");
             ui32ErrorStatus = AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE;
             break;
         }
@@ -744,6 +750,7 @@ am_devices_cooper_blocking_read(void* pHandle, uint32_t* pui32Data,
         if (am_hal_iom_blocking_transfer(pBle->pBleHandle, &sIOMTransfer))
         {
             ui32ErrorStatus = AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE;
+            ns_lp_printf("am_devices_cooper_blocking_read: AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE\n");
             break;
         }
         if ((sLengthBytes.bytes[0] == 0) && (sLengthBytes.bytes[1] == 0))
@@ -771,6 +778,7 @@ am_devices_cooper_blocking_read(void* pHandle, uint32_t* pui32Data,
         {
             ui32ErrorStatus = AM_DEVICES_COOPER_STATUS_WRONG_DATA_LENGTH;
             *pui32BytesReceived = 0;
+            ns_lp_printf("am_devices_cooper_blocking_read: AM_DEVICES_COOPER_STATUS_WRONG_DATA_LENGTH\n");
             break;
         }
         //
@@ -788,6 +796,7 @@ am_devices_cooper_blocking_read(void* pHandle, uint32_t* pui32Data,
         {
             ui32ErrorStatus = AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE;
             *pui32BytesReceived = 0;
+            ns_lp_printf("am_devices_cooper_blocking_read: AM_DEVICES_COOPER_STATUS_PACKET_INCOMPLETE2\n");
             break;
         }
     }

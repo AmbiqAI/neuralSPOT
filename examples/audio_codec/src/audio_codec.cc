@@ -68,8 +68,8 @@ alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM au
 
 alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2]; // DMA target
 #ifdef USE_AUDADC
-am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
-                                                                                // used by AUDADC
+am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+                                                                              // used by AUDADC
 #endif
 
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)

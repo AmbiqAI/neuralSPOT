@@ -34,6 +34,7 @@
 #include "hci_main.h"
 #include "l2c_defs.h"
 #include "am_mcu_apollo.h"
+#include "ns_ambiqsuite_harness.h"
 
 /**************************************************************************************************
   Macros
@@ -456,7 +457,7 @@ bool_t hciCoreTxAclStart(hciCoreConn_t *pConn, uint16_t len, uint8_t *pData)
 
   hciLen = HciGetBufSize();
 
-  HCI_TRACE_INFO1("hciCoreTxAclStart len=%u", len);
+  // HCI_TRACE_INFO1("hciCoreTxAclStart len=%u", len);
 
   /* if acl len > controller acl buf len */
   if (len > hciLen)
@@ -997,7 +998,8 @@ void HciSendAclData(uint8_t *pData)
     /* queue data - message handler ID 'handerId' not used */
     WsfMsgEnq(&hciCoreCb.aclQueue, 0, pData);
 
-    HCI_TRACE_WARN1("enq acl pkt %x", pData);
+    // HCI_TRACE_WARN1("enq acl pkt %x", pData);
+    ns_delay_us(500);
 
     /* if queue not empty and buffers available */
     if ((WsfQueueCount(&hciCoreCb.aclQueue) == 1) && hciCoreCb.availBufs > 0)

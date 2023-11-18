@@ -73,8 +73,12 @@ else
 endif
 
 # application stack and heap size
+ifndef STACK_SIZE_IN_32B_WORDS
 STACK_SIZE_IN_32B_WORDS ?= 4096
-NS_MALLOC_HEAP_SIZE_IN_K ?= 24
+endif
+ifndef NS_MALLOC_HEAP_SIZE_IN_K
+NS_MALLOC_HEAP_SIZE_IN_K ?= 32
+endif
 
 ##### TinyUSB Default Config #####
 DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
@@ -122,3 +126,7 @@ TFLM_VALIDATOR := 0
 TFLM_VALIDATOR_MAX_EVENTS := 40
 # AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
 # ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
+
+DEFINES+= OPUS_ARM_INLINE_ASM
+# DEFINES+= ARM_MATH_CM4
+DEFINES+= OPUS_ARM_ASM

@@ -1,14 +1,21 @@
 # NeuralSPOT Tools
 This directory contains assorted scripts designed to work with neuralSPOT.
 
-1. **generic_data.py**: example RPC script
-2. **opus_recieve.py**: receives Opus-encoded audio over RPC and writes it to a WAV file.
-3. **ns_autodeploy.py**: Convert TFlite to binary, fine tune, and characterize.
-4. **ns_mac_estimator.py**: Analyzes a TFLite file and estimates macs per layer
-5. **schema_py_generated.py**: Cloned from TLFM repo, used by ns_mac_estimator.py
+| Script                   | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| ns_autodeploy.py         | All-in-one TFLite deployment tool: analyses, converts, deploys, and characterizes TFLite models on Apollo platforms. See [below](#ns_autodeploy-theory-of-operations) for details. |
+| generic_data.py          | RPC example script demonstrating both client and server modes, used in conjunction with [rpc_client](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_client) and [rpc_server](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server) examples. |
+| opus_recieve.py          | Audio Code example script, used in conjuction with the [audio_codec](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/audio_codec) example. |
+| rpc_test.py              | Stress test for RPC, used in conjunction with the [rpc_test](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_test) example. |
+| plotter.py & measurer.py | Collect and plot Joulescope metrics captured while running AI workloads. See below for usage notes. |
+| ns_mac_estimator.py      | Analyzes a TFLite file and estimates macs per layer.         |
+| schema_py_generated.py   | Cloned from TLFM repo, used by ns_mac_estimator.py.          |
+| ns_utils.py              | A collection of helper functions used by other tools in this directory. |
 
+The following section goes over the use of some of these tools.
 
-## AutoDeploy Theory of Operations
+## NS_AutoDeploy Theory of Operations
+
 The ns_autodeploy script is a all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs.
 
 
@@ -136,3 +143,39 @@ There is a known TFLM bug wherein the arena size estimator fails to account for 
 Model Configuration Failed
 ```
 When this occurs, padding for scratch buffers must be manually added via the `--arena_size_scratch_buffer_padding` option. The value, in kilobytes, must be chosen via experimentation (in other words, pick a number and go up or down from there).
+
+
+
+# Joulescope Plotting Tools
+
+These scripts provide a simple way to show a models latency and energy consumption over repeated runs, typically for demonstration purposes. It requires one or more Joulescopes, of course. There are two scripts - measurer.py and plotter.py - that must be run concurrently.
+
+This script expects AI measurement firmware to be flashed on the device. The easiest way to do this is to run the ns_autodeploy script with the `--measure-power` option enabled as described above.
+
+First, start plotter.py in one shell. Note the URL printed - this is a local web server that will dynamically show the plot.
+
+```bash
+$> cd tools
+$> python plotter.py
+
+Starting process
+Dash is running on http://127.0.0.1:8050/
+
+ * Serving Flask app 'plotter'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8050
+```
+
+Then, start measurer.py in another window:
+
+```bash
+$> cd tools
+$> python measurer.py
+```
+
+The measurer script will:
+
+1. Search for connected Joulescopes
+2. For each scope, it will use the Joulescope's GPO0 to start the test on the EVB, then monitor GPI0 and GPI1 to monitor the state of the AI workload.
+3. Collect latency and energy metrics from the joulescope and send it over ZeroMQ pubsub socket to the plotter.py script you started above.

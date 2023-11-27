@@ -43,9 +43,9 @@ def create_zmq_socket(zmq_port="5556", topicfilter="data"):
 graphData = {
     "SampleNumber": [],
     "Latency": [],
-    "Latency AP5": [],
+    "Latency APx": [],
     "Joules": [],
-    "Joules AP5": [],
+    "Joules APx": [],
 }
 SampleNumber = 0
 
@@ -64,16 +64,16 @@ def update_graph_live(n):
         print(d)
         graphData["SampleNumber"].pop(0)
         graphData["Latency"].pop(0)
-        graphData["Latency AP5"].pop(0)
+        graphData["Latency APx"].pop(0)
         graphData["Joules"].pop(0)
-        graphData["Joules AP5"].pop(0)
+        graphData["Joules APx"].pop(0)
         graphData["SampleNumber"].append(SampleNumber)
         SampleNumber += 1
         graphData["Latency"].append(d["time"])
-        graphData["Latency AP5"].append(d["time"] / 6)
+        graphData["Latency APx"].append(d["time"] / 6)
 
         graphData["Joules"].append(d["energy"])
-        graphData["Joules AP5"].append(d["energy"] / 5)
+        graphData["Joules APx"].append(d["energy"] / 5)
     except:
         # print("Queue empty")
         pass
@@ -97,8 +97,8 @@ def update_graph_live(n):
     fig.append_trace(
         {
             "x": graphData["SampleNumber"],
-            "y": graphData["Latency AP5"],
-            "name": "AP5 Latency",
+            "y": graphData["Latency APx"],
+            "name": "APx Latency",
             "mode": "lines+markers",
             "type": "scatter",
         },
@@ -122,9 +122,9 @@ def update_graph_live(n):
     fig.append_trace(
         {
             "x": graphData["SampleNumber"],
-            "y": graphData["Joules AP5"],
+            "y": graphData["Joules APx"],
             "text": graphData["Joules"],
-            "name": "AP5 Joules per Inference",
+            "name": "APx Joules per Inference",
             "mode": "lines+markers",
             "type": "scatter",
         },
@@ -152,9 +152,9 @@ if __name__ == "__main__":
     for i in range(20):
         graphData["SampleNumber"].append(i)
         graphData["Latency"].append(0)
-        graphData["Latency AP5"].append(0)
+        graphData["Latency APx"].append(0)
         graphData["Joules"].append(0)
-        graphData["Joules AP5"].append(0)
+        graphData["Joules APx"].append(0)
     SampleNumber = 20
     queue = multiprocessing.Queue()
     p = multiprocessing.Process(target=dataClient, args=(queue,))

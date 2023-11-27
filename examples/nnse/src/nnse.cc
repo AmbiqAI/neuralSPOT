@@ -28,6 +28,8 @@ alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output l
 
 #define NUM_CHANNELS 1
 
+// #define USE_AUDADC // Uncomment this to use the AUDADC instead of the PDM
+
 /// Button Peripheral Config
 int volatile g_intButtonPressed = 0;
 ns_button_config_t button_config_nnsp = {

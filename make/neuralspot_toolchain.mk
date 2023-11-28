@@ -7,7 +7,6 @@ endif
 
 .PRECIOUS: %.o
 
-
 #### Required Executables ####
 ifeq ($(TOOLCHAIN),arm-none-eabi)
 CC = $(TOOLCHAIN)-gcc$(EXEEXT)

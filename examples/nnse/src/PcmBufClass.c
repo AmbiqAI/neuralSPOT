@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 #include "ns_ambiqsuite_harness.h"
 #include "PcmBufClass.h"
 #include "minmax.h"
@@ -58,7 +59,7 @@ void PcmBufClass_getData(
     Output:
             pcm_out: pcm from pcm buffer
     */
-    int i;
+    // int i;
     int16_t *pt_src, *pt_dst;
     int16_t start;
     int16_t num_fw;

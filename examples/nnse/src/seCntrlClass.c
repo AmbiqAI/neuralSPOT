@@ -62,7 +62,7 @@ void seCntrlClass_exec(seCntrlClass *pt_inst, int16_t *data_fr, int16_t *se_outp
     */
     // static int16_t pcmbuf_chunk[SAMPLES_FRM_NNCNTRL_CLASS];
     NNSPClass *pt_nnsp = (NNSPClass *)pt_inst->pt_nnsp;
-    int16_t detected = 0;
+    // int16_t detected = 0;
 
     // PcmBufClass_setData(&PCMBUF_INST, data_fr); // put data to voice buffer
     // PcmBufClass_getData(
@@ -71,7 +71,8 @@ void seCntrlClass_exec(seCntrlClass *pt_inst, int16_t *data_fr, int16_t *se_outp
     //         1,
     //         pcmbuf_chunk); // fetch input data to NN from voice bufffer
 
-    detected = NNSPClass_exec(pt_nnsp, data_fr);
+    // detected = NNSPClass_exec(pt_nnsp, data_fr);
+    NNSPClass_exec(pt_nnsp, data_fr);
     memcpy(se_output, pt_nnsp->pt_se_out, SAMPLES_FRM_NNCNTRL_CLASS * sizeof(int16_t));
     // for (int i = 0; i < SAMPLES_FRM_NNCNTRL_CLASS; i++)
     //     se_output[i] = pt_nnsp->pt_se_out[i];

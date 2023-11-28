@@ -55,6 +55,7 @@
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_devices_cooper.h"
+#include "ns_ambiqsuite_harness.h"
 
 //*****************************************************************************
 //

@@ -49,13 +49,13 @@ includes_api += $(subdirectory)/devices
 # local_bin := $(BINDIR)/$(subdirectory)
 # bindirs   += $(local_bin)
 # Comment out the local_src, local_bin, bindirs, and make-library lines to create new cordio.a
-lib_prebuilt += $(subdirectory)/lib/$(BOARD)/$(EVB)/gcc/cordio.a
+lib_prebuilt += $(subdirectory)/lib/$(BOARD)/$(EVB)/$(COMPILERNAME)/cordio.a
 
 
-ifeq ($(TOOLCHAIN),arm)
-lib_prebuilt += $(subdirectory)/lib/cordio_armclang.a
-else
-lib_prebuilt += $(subdirectory)/lib/cordio_gcc.a
-endif
+# ifeq ($(TOOLCHAIN),arm)
+# lib_prebuilt += $(subdirectory)/lib/cordio_armclang.a
+# else
+# lib_prebuilt += $(subdirectory)/lib/cordio_gcc.a
+# endif
 
 # $(eval $(call make-library, $(local_bin)/cordio.a, $(local_src)))

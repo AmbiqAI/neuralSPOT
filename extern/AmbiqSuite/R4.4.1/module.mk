@@ -1,3 +1,14 @@
+# # This is so stupid - make sure this happens first
+# # Armclang linker removes stuff agressively, make sure some of it stays.
+# local_src := $(wildcard $(subdirectory)/src/overrides/*.c)
+# local_src += $(wildcard $(subdirectory)/src/overrides/*.cc)
+# local_src += $(wildcard $(subdirectory)/src/overrides/*.s)
+
+# local_bin := $(BINDIR)/$(subdirectory)
+# # bindirs   += $(local_bin)
+# $(eval $(call make-override-library, $(local_bin)/ambiqsuite_overrides.a, $(local_src)))
+
+# The real stuff
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/$(PART)/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)

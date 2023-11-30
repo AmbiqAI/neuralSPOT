@@ -16,6 +16,10 @@
 #include "task.h"
 #include "arm_math.h"
 
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 1024] __attribute__((aligned(4)));
+#endif
+
 // WSF buffer pools are a bit of black magic. More
 // development needed.
 #define WEBBLE_WSF_BUFFER_POOLS 4

@@ -62,6 +62,8 @@ extern "C" {
     #define NS_BLE_CURRENT_VERSION NS_BLE_V0_0_1
     #define NS_BLE_API_ID 0xCA0008
 
+    #define NS_BLE_DEFAULT_MALLOC_K 8
+
 extern const ns_core_api_t ns_ble_V0_0_1;
 extern const ns_core_api_t ns_ble_oldest_supported_version;
 extern const ns_core_api_t ns_ble_current_version;

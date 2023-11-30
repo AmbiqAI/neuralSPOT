@@ -22,8 +22,8 @@ alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output l
                                                         // to 80 bytes
 #include "audio_webble.h"
 
-#ifdef DEF_GUI_ENABLE
-    #include "ns_rpc_generic_data.h"
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 4 * 1024] __attribute__((aligned(4)));
 #endif
 
 #define NUM_CHANNELS 1

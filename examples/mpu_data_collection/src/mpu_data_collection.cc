@@ -28,6 +28,11 @@ ns_i2c_config_t i2cConfig = {.api = &ns_i2c_V1_0_0, .iom = 1};
 uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
 
 // RPC Stuff
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+// RPC uses malloc internally, so we need to declare it here
+uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
+#endif
+
 #define MY_USB_RX_BUFSIZE 2048
 #define MY_USB_TX_BUFSIZE 2048
 static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];

@@ -47,10 +47,18 @@
     #include "task.h"
 #endif
 #include "ae_api.h"
-
 #include "arm_math.h"
 
-// -- Audio Stuff - needed for demo, not RPC ----------------------
+// RPC, and BLE use Malloc, so we need to allocate a heap here
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+    #ifdef AC_RPC_MODE
+uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
+    #else
+uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 3 * 1024] __attribute__((aligned(4)));
+    #endif
+#endif
+
+// -- Audio Stuff ----------------------
 #define NUM_CHANNELS 1
 #define NUM_FRAMES 100
 #define SAMPLES_IN_FRAME 320
@@ -110,6 +118,7 @@ ns_audio_config_t audioConfig = {
 };
 // -- Audio Stuff Ends ----------------------
 
+// RPC Stuff
 #ifdef AC_RPC_MODE
     #define MY_USB_RX_BUFSIZE 2048
     #define MY_USB_TX_BUFSIZE 2048

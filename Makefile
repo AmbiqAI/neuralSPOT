@@ -134,7 +134,7 @@ include $(addsuffix /module.mk,$(modules))
 # $(info --$(sources))
 # $(info --$(LINTSOURCES))
 
-all: $(bindirs) $(libraries) $(examples)
+all: $(bindirs) $(libraries) $(examples) $(BINDIR)/board.svd
 
 .SECONDARY:
 .PHONY: libraries
@@ -187,7 +187,7 @@ deploy_target = $(filter %$(TARGET).bin, $(examples))
 
 $(bindirs):
 	$(Q) $(MKD) -p $@
-	
+
 $(BINDIR)/board.svd:
 	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 

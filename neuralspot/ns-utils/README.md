@@ -145,11 +145,14 @@ main() {
 
 Dynamic memory is usually avoided in RTOS environments, and neuralSPOT manages to do so except for RPC (which isn't intended to be used in production). However, there are many cases in which malloc/free are needed (e.g. edgeimpulse integration). The ns_malloc helper function is an instantiation of FreeRTOS's heap_4 implementation, which provides a reasonable compromise between heap management and real-time behavior for infrequent malloc invocations.
 
-`ns_malloc()` allocates from a statically defined heap. The size of the heap is fixed at compile time, and is defined in `make/neuralspot_config.mk` via the `NS_MALLOC_HEAP_SIZE_IN_K` variable. The default value of 16KB is sufficient for neuralSPOT examples, but nests can finetune this value to whatever they need.
+`ns_malloc()` allocates from a statically defined heap. The heap must be allocated by each application at compile time. NeuralSPOT components that use malloc such as ns-ble and ns-rpc have default heap sizes that can serve as starting points for what the size should be, but the needs of each application will vary.
 
 Malloc and Free work as usual:
 
 ```c
+// Some compilers need this to be word aligned
+uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K*1024]  __attribute__ ((aligned (4)));
+
 void *memPtr = ns_malloc(requested_size);
 
 // do stuff with memPtr

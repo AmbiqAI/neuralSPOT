@@ -26,6 +26,10 @@
 #include "ns_rpc_generic_data.h"
 #include "ns_usb.h"
 
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024] __attribute__((aligned(4)));
+#endif
+
 // TFLM Config and arena
 ns_model_state_t tflm;
 

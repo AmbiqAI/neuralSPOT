@@ -76,6 +76,18 @@ endif
 ifndef STACK_SIZE_IN_32B_WORDS
 STACK_SIZE_IN_32B_WORDS ?= 4096
 endif
+
+# If LEGACY MALLOC is 1, a heap of NS_MALLOC_HEAP_SIZE_IN_K
+# will be allocated for all NS examples. If LEGACY MALLOC is 0,
+# the heap must be allocated by the example, but can differ
+# per each example
+
+ifeq ($(LEGACY_MALLOC),1)
+	DEFINES+= configAPPLICATION_ALLOCATED_HEAP=0
+else
+	DEFINES+= configAPPLICATION_ALLOCATED_HEAP=1
+endif
+
 ifndef NS_MALLOC_HEAP_SIZE_IN_K
 NS_MALLOC_HEAP_SIZE_IN_K ?= 32
 endif
@@ -118,7 +130,6 @@ endif
 ifeq ($(TF_VERSION),fecdd5d)
 	DEFINES+= NS_TFSTRUCTURE_RECENT
 endif
-
 
 # 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0

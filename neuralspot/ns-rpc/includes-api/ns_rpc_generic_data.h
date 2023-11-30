@@ -33,6 +33,7 @@ extern "C" {
     #define NS_RPC_GDO_CURRENT_VERSION NS_RPC_GDO_V1_0_0
     #define NS_RPC_GDO_API_ID 0xCA0100
 
+    #define NS_RPC_MALLOC_SIZE_IN_K 8
 extern const ns_core_api_t ns_rpc_gdo_V0_0_1;
 extern const ns_core_api_t ns_rpc_gdo_V1_0_0;
 extern const ns_core_api_t ns_rpc_gdo_oldest_supported_version;

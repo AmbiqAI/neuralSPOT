@@ -79,6 +79,11 @@ ns_audio_config_t audioConfig = {
 // -- Audio Stuff Ends ----------------------
 
 // RPC Stuff
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+// RPC uses malloc internally, so we need to declare it here
+uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
+#endif
+
 #define MY_USB_RX_BUFSIZE 2048
 #define MY_USB_TX_BUFSIZE 2048
 static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];

@@ -117,7 +117,6 @@ obs = $(call source-to-object,$(sources))
 dependencies = $(subst .o,.d,$(obs))
 objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
 
-
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
 
@@ -188,6 +187,9 @@ deploy_target = $(filter %$(TARGET).bin, $(examples))
 
 $(bindirs):
 	$(Q) $(MKD) -p $@
+	
+$(BINDIR)/board.svd:
+	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 
 $(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
@@ -213,7 +215,7 @@ $(BINDIR)/%.o: %.s
 	@echo " Linking $(COMPILERNAME) $@"
 	@mkdir -p $(@D)
 ifeq ($(TOOLCHAIN),arm)
-	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
+	$(Q) $(LD) $< $(ARMLINKER_IS_NO_BUENO) $(objects) $(override_libraries) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
 else
 # $(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(objects) $(LFLAGS)
@@ -224,7 +226,6 @@ ifeq ($(TOOLCHAIN),arm)
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $@ $<
-	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
 # $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
 # $(Q) $(SIZE) @$*.sizeinput $< > $*.size
@@ -233,7 +234,7 @@ else
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
-	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
+# $(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 # $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
 # $(Q) $(SIZE) @$*.sizeinput $< > $*.size

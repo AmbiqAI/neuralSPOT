@@ -40,11 +40,11 @@ neuralSPOT only needs the static libraries and minimal code tree.
 ```bash
 cd neuralSPOT/extern/tensorflow/new_version_dir
 mkdir lib
-cp .../tflite_micro/gen/cortex_m_generic_cortex-m4+fp_debug/lib/libtensorflow-microlite-debug.a lib
-cp .../tflite_micro/gen/cortex_m_generic_cortex-m4+fp_release/lib/libtensorflow-microlite.a lib
-cp .../tflite_micro/gen/cortex_m_generic_cortex-m4+fp_release_with_logs/lib/libtensorflow-microlite-withlogs.a lib
+cp .../tflite_micro/gen/cortex_m_generic_cortex-m4+fp_debug/lib/libtensorflow-microlite-debug.a lib/libtensorflow-microlite-cm4-gcc-debug.a
+cp .../tflite_micro/gen/cortex_m_generic_cortex-m4+fp_release/lib/libtensorflow-microlite.a lib/libtensorflow-microlite-cm4-gcc-release.a
+cp .../tflite_micro/gen/cortex_m_generic_cortex-m4+fp_release_with_logs/lib/libtensorflow-microlite-withlogs.a lib/libtensorflow-microlite-cm4-gcc-release-with-logs.a
 cp -R .../tflite_micro/treedir . # treedir is from the 'minimal code tree' step above
-cp ../fecdd5d/module.mk . # use an existing module.mk as a starting point
+cp ../0264234_Nov_15_2023/module.mk . # use an existing module.mk as a starting point
 ```
 
 ## Update neuralSPOT makefiles to point to new version
@@ -54,4 +54,68 @@ There are two steps here:
 
 ## Resolve code changes
 TFLM occasionally breaks API and/or code structure compatibility. neuralSPOT `#defines` a macro to help delineate these changes to maintain backwards compatiblity (`NS_TF_VERSION_<new version>`).
+NeuralSPOT's makefiles also define `NS_TFSTRUCTURE_RECENT` to identify releases after the micro_reporter refactor (which changed directory structures and got rid of the 'all ops resolver'). Add the new version to where neuralspot_config.mk sets this define.
 
+# Compiling TFLM with Armclang on Windows WSL
+TFLM doesn't support compiling on Windows. Firstly, its scripts use Linux commands, so the 'make' has to be run in WSL. Make sure you clone the directory in WSL too, otherwise you'll get a bunch of ^M characters all over the place and nothing will run. WSL has a bunch of quirks that need to be worked around as well (binary names and CLI limits)
+
+1. Make within WSL, not other shells
+2. Clone in WSL, not other shells
+3. Binary names are munged. You'll have to change them in the makefile (alias doesn't work for some reason)
+4. We need a few flags to make the resulting libs compatible with neuralSPOT (specifically AmbiqSuite)
+5. Windows (even WSL) doesn't support CLI commands over 5000 characters (because we're stuck in 1994, apparently), so you'll have to modify another makefile to break apart the archive step.
+
+## Makefile Changes
+First, cortex_m_generic_makefile.inc:
+
+```
+ diff  tensorflow/lite/micro/tools/make/targets/cortex_m_generic_makefile.inc ../../tflm-nov-10/tflite-micro/tensorflow/lite/micro/tools/make/targets
+/cortex_m_generic_makefile.inc
+121,124c121,124
+<   CXX_TOOL  := armclang.exe
+<   CC_TOOL   := armclang.exe
+<   AR_TOOL   := armar.exe
+<   LD        := armlink.exe
+---
+>   CXX_TOOL  := armclang
+>   CC_TOOL   := armclang
+>   AR_TOOL   := armar
+>   LD        := armlink
+128,130d127
+<     -fshort-enums \
+<     -gdwarf-4 \
+<     -fshort-wchar \
+```
+
+Also
+```
+diff --git a/tensorflow/lite/micro/tools/make/Makefile b/tensorflow/lite/micro/tools/make/Makefile
+index 08eb057e..816de78d 100644
+--- a/tensorflow/lite/micro/tools/make/Makefile
++++ b/tensorflow/lite/micro/tools/make/Makefile
+@@ -835,8 +835,13 @@ microlite: $(MICROLITE_LIB_PATH)
+ # Gathers together all the objects we've compiled into a single '.a' archive.
+ $(MICROLITE_LIB_PATH): $(MICROLITE_LIB_OBJS) $(MICROLITE_KERNEL_OBJS) $(MICROLITE_THIRD_PARTY_OBJS) $(MICROLITE_THIRD_PARTY_KERNEL_OBJS) $(MICROLITE_CUSTOM_OP_OBJS)
+        @mkdir -p $(dir $@)
+-       $(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_LIB_OBJS) \
+-       $(MICROLITE_KERNEL_OBJS) $(MICROLITE_THIRD_PARTY_OBJS) $(MICROLITE_THIRD_PARTY_KERNEL_OBJS) $(MICROLITE_CUSTOM_OP_OBJS)
++# Windows Sucks, specifically the 5000 character limit on command line arguments
++       $(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_LIB_OBJS)
++       $(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_KERNEL_OBJS)
++       $(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_THIRD_PARTY_OBJS)
++       $(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_THIRD_PARTY_KERNEL_OBJS)
++       $(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_CUSTOM_OP_OBJS)
++#      $(MICROLITE_KERNEL_OBJS) $(MICROLITE_THIRD_PARTY_OBJS) $(MICROLITE_THIRD_PARTY_KERNEL_OBJS) $(MICROLITE_CUSTOM_OP_OBJS)
+
+ $(BINDIR)%_test : $(CORE_OBJDIR)%_test.o $(MICROLITE_LIB_PATH)
+        @mkdir -p $(dir $@)
+```
+
+Commands
+Finally, the command to make is a bit different:
+
+```
+ make -f ./tensorflow/lite/micro/tools/make/Makefile TOOLCHAIN=armclang TARGET=cortex_m_generic TARGET_ARCH=cortex-m4+fp OPTIMIZED_KERNEL_DIR=cmsis_nn  BUILD_TYPE=release microlite
+```
+
+> *NOTE*: setting -Omax causes all kinds of trouble. Don't do it.

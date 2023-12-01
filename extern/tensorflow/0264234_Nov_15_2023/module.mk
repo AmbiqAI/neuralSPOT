@@ -20,9 +20,9 @@ else
 		lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-debug.a
 	else
 		ifeq ($(MLPROFILE),1)
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-release-with-logs.a
+			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc13-release-with-logs.a
 		else
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-release.a
+			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc13-release.a
 		endif
 	endif
 endif

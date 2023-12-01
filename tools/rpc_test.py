@@ -171,9 +171,12 @@ def runClient(transport):
 
     while True:
         print("Send/Recieve Test Starting")
-        for t in range(20000):
-            outblock_size = random.randint(50, 3100)
+        for t in range(4):
+            # outblock_size = random.randint(50, 3100)
             # outblock_size = random.randint(10, 100)
+            input_fn()
+
+            outblock_size = 40 + t
             # for outblock_size in range (3000,3100):
             # for outblock_size in range (3,4):
             # Create an array of sequential bytes and send it to the EVB
@@ -182,14 +185,15 @@ def runClient(transport):
                 test_array.append(i % 256)
 
             outBlock = GenericDataOperations_PcToEvb.common.dataBlock(
-                description="Message to EVB",
+                # description="Message to EVB",
+                description="Message to E",
                 dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
                 cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
                 buffer=bytearray(test_array),
                 length=outblock_size,
             )
 
-            # print(f"Send/Rcv {outblock_size}")
+            print(f"Send/Rcv {outblock_size}")
             for i in range(1):
                 stat = client.ns_rpc_data_computeOnEVB(outBlock, retBlock)
                 if stat != 0:

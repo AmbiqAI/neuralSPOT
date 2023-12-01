@@ -28,7 +28,7 @@
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 // RPC uses malloc internally, so we need to declare it here
-uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
+alignas(4) uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024]; // __attribute__((aligned(4)));
 #endif
 
 // GenericDataOperations implements 3 function calls that service
@@ -89,7 +89,7 @@ status example_fetchBlockFromEVB(dataBlock *block) {
 status example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     uint32_t i;
 
-    // ns_lp_printf("LOCAL Received call to computeOnEVB\n");
+    ns_lp_printf("LOCAL! Received call to computeOnEVB\n");
 
     // Compute res block based on in block
     // ns_lp_printf("Incoming Data Block:\n");
@@ -123,8 +123,8 @@ status example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     res->buffer = binaryBlock;
     // ns_lp_printf(".");
 
-    // ns_lp_printf("Resulting Data Block To Be Sent:\n");
-    // ns_rpc_genericDataOperations_printDatablock(res);
+    ns_lp_printf("Resulting Data Block To Be Sent:\n");
+    ns_rpc_genericDataOperations_printDatablock(res);
 
     return ns_rpc_data_success;
 }
@@ -169,7 +169,7 @@ int main(void) {
         .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
         .computeOnEVB_cb = example_computeOnEVB};
 
-    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
+    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed!\n");
 
     ns_lp_printf("Ready to receive RPC Calls\n");
 
@@ -179,6 +179,6 @@ int main(void) {
 
     while (1) {
         ns_rpc_genericDataOperations_pollServer(&rpcConfig);
-        ns_deep_sleep();
+        // ns_deep_sleep();
     }
 }

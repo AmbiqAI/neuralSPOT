@@ -140,23 +140,23 @@ Every neuralspot library has a similar structure - some of this is dictated by n
 		module.mk        # Simple makefile (see boilerplate below)
 		README.md        # Local documentation
 ```
+> *NOTE* Each example can access all of neuralSPOT's libraries and external components, but the code in the example's `src` directory is only visible to the example itself.
 
 #### Example Component Module definition
-Each component includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
+Each example includes a local `module.mk`. These are fairly similar in structure, and tend to follow this pattern:
 
 ```make
-local_app_name := <exampleArtifactName>   # Must match name of src file containing main, e.g. "rpc_server" if main is in "rpc_server.cc"
+local_app_name := basic_tf_stub
 local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/src/*.cpp)
 local_src += $(wildcard $(subdirectory)/src/*.s)
-local_bin := $(subdirectory)/$(BINDIR)
+local_bin := $(BINDIR)/$(subdirectory)
 
 bindirs   += $(local_bin)
-sources   += $(local_src)
 examples  += $(local_bin)/$(local_app_name).axf
 examples  += $(local_bin)/$(local_app_name).bin
-mains     += $(local_bin)/$(local_app_name).o
+$(eval $(call make-axf, $(local_bin)/$(local_app_name), $(local_src)))
 ```
 
 ### Adding External Components

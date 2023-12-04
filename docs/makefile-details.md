@@ -35,6 +35,8 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | TARGET | Defines what target will be loaded by `make deploy` | basic_tf_stub |
 | MLDEBUG | Setting to '1' turns on TF debug prints and use debug TFLM | 0 |
 | MLPROFILE | Setting to '1' enables TFLM profiling and logs (*NOTE* not supported for TF_VERSION R2.3.1) | 0 |
+| TOOLCHAIN | Chooses compiler. Set to `arm` to select armclang | arm-none-eabi |
+| GCC13_EXPERIMENTAL | Must be set to `1` to compile with GCC 13.x | undefined |
 
 > **Note**  Defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo). To make changes to this file without tracking them in git, you can do the following:
 > `$> git update-index --assume-unchanged make/local_overrides.mk`

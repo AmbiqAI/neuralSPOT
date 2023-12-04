@@ -46,3 +46,6 @@ Select APIs will be version checked: when calling Init() for that API, a version
 ### 10-9-2023 - CM
 #### Armclang
 NeuralSPOT now features experimental support for Arm's proprietary Armclang compilation toolchain. All examples have been tested and shown to work, but some larger RPC transactions are failing (mostly impacting large-tensor autodeploy operations). Performance improves for some TFLM models, but degrades for others.
+
+### GCC 13.x
+NeuralSPOT now features experimental support for GCC 13. To use this feature, install GCC 13 and add `GCC13_EXPERIMENTAL=1` the make command.

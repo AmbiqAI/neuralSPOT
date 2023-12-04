@@ -16,13 +16,16 @@ ifeq ($(TOOLCHAIN),arm)
 		endif
 	endif
 else
+	ifeq ($(GCC13_EXPERIMENTAL),1)
+		GCC_VERSION :=13
+	endif
 	ifeq ($(MLDEBUG),1)
-		lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-debug.a
+		lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc$(GCC_VERSION)-debug.a
 	else
 		ifeq ($(MLPROFILE),1)
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-release-with-logs.a
+			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc$(GCC_VERSION)-release-with-logs.a
 		else
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc-release.a
+			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-cm4-gcc$(GCC_VERSION)-release.a
 		endif
 	endif
 endif

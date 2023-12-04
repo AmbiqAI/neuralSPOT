@@ -30,8 +30,13 @@ ifeq ($(TOOLCHAIN),arm)
 lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.lib
 lib_prebuilt += $(subdirectory)/lib/$(PART)/$(EVB)/libam_bsp.lib
 else
+ifeq ($(GCC13_EXPERIMENTAL),1)
+lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal-gcc13.a
+lib_prebuilt += $(subdirectory)/lib/$(PART)/$(EVB)/libam_bsp-gcc13.a
+else
 lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.a
 lib_prebuilt += $(subdirectory)/lib/$(PART)/$(EVB)/libam_bsp.a
+endif
 endif
 # lib_prebuilt += $(subdirectory)/lib/libarm_cortexM4lf_math.a
 

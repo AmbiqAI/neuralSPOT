@@ -42,14 +42,26 @@ $1: $(call source-to-object,$2)
 	$(Q) $(AR) $(ARFLAGS) $$@ $$^
 endef
 
-# $(call make-axf, axf-name, source-file-list, main-file)
-# define make-axf
-# local_objs := $(call source-to-object,$1)
-# $2.axf: $(local_objs) $(libraries)
-# 	@echo " Linking $(COMPILERNAME) $@"
-# 	@mkdir -p $(@D)
-# 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $(LFLAGS)
-# endef
+define make-example-library
+example_libraries += $1
+# sources   += $2
+$1: $(call source-to-object,$2)
+	@echo " Building $(AR) $$@ to make example library $$@"
+	@mkdir -p $$(@D)
+	$(Q) $(AR) $(ARFLAGS) $$@ $$^
+endef
+
+# $(call make-axf, axf-name, source-file-list)
+define make-axf
+$1.axf: $(call source-to-object,$2) $(libraries) $(libraries) $(override_libraries)
+	@echo " Helper Linking $(COMPILERNAME) $$@"
+	@mkdir -p $$(@D)
+ifeq ($(TOOLCHAIN),arm)
+	$(Q) $(LD) $(ARMLINKER_IS_NO_BUENO) $$^ $(override_libraries) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $$@
+else
+	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $$^ $(LFLAGS)
+endif
+endef
 
 FILTER_OUT = $(foreach v,$(2),$(if $(findstring $(1),$(v)),,$(v)))
 FILTER_IN = $(foreach v,$(2),$(if $(findstring $(1),$(v)),$(v)))

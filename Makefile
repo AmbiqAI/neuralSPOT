@@ -134,7 +134,7 @@ include $(addsuffix /module.mk,$(modules))
 # $(info --$(sources))
 # $(info --$(LINTSOURCES))
 
-all: $(bindirs) $(libraries) $(examples) $(BINDIR)/board.svd
+all: $(bindirs) $(libraries) $(examples) $(override_libraries) $(exampexample_librariesle) $(BINDIR)/board.svd
 
 .SECONDARY:
 .PHONY: libraries
@@ -211,15 +211,16 @@ $(BINDIR)/%.o: %.s
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
 
-%.axf: src/%.o $(objects) $(libraries) $(override_libraries)
-	@echo " Linking $(COMPILERNAME) $@"
-	@mkdir -p $(@D)
-ifeq ($(TOOLCHAIN),arm)
-	$(Q) $(LD) $< $(ARMLINKER_IS_NO_BUENO) $(objects) $(override_libraries) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
-else
-# $(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(objects) $(LFLAGS)
-endif
+# Moved AXF target to helper.mk
+# %.axf: src/%.o $(objects) $(libraries) $(override_libraries)
+# 	@echo " Linking $(COMPILERNAME) $@"
+# 	@mkdir -p $(@D)
+# ifeq ($(TOOLCHAIN),arm)
+# 	$(Q) $(LD) $< $(ARMLINKER_IS_NO_BUENO) $(objects) $(override_libraries) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
+# else
+# # $(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
+# 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $< $(objects) $(LFLAGS)
+# endif
 
 ifeq ($(TOOLCHAIN),arm)
 %.bin: %.axf
@@ -227,8 +228,6 @@ ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $@ $<
 	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
-# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 else
 %.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."

@@ -87,7 +87,7 @@ void spec2pspec_arm(
         tmp_t = (int64_t)*pt_spec++;
         acc = tmp_t * tmp_t;
         tmp_t = (int64_t)*pt_spec++;
-        acc += tmp_t * tmp_t;
+        acc += tmp_t * tmp_t; // TODO: check if this is correct
         pspec[i] = (int32_t)MIN(MAX(acc >> rshift, INT32_MIN), INT32_MAX);
     }
 }

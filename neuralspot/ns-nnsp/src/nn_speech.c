@@ -41,8 +41,9 @@ NNID_CLASS state_nnid = {
     .is_get_corr = 0,
     .thresh_get_corr = 179,
     .thresh_trigger = 0.8,
-    .corr = 0,
+    .corr = {0, 0, 0, 0, 0}, // TODO
 };
+
 int32_t glob_nn_output[512];
 int NNSPClass_init(
     NNSPClass *pt_inst, void *pt_net, void *pt_feat, char nn_id, const int32_t *pt_mean,
@@ -162,7 +163,8 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
         case nnid_id:
             if (pt_nnid->is_get_corr)
                 nnidClass_get_cos(
-                    glob_nn_output, pt_nnid->pt_embd, pt_nnid->dim_embd, &pt_nnid->corr);
+                    glob_nn_output, pt_nnid->pt_embd, pt_nnid->dim_embd, pt_nnid->total_enroll_ppls,
+                    pt_nnid->corr);
             break;
 
         case se_id:
@@ -217,7 +219,7 @@ void se_post_proc(NNSPClass *pt_inst, int16_t *pt_nn_est, int16_t *pt_se_out) {
         spec[2 * i + 1] = 0;
     }
 
-    for (int i = start_bin; i < start_bin + dim_out; i++) {
+    for (int i = start_bin; i < start_bin + dim_out; i++) { // TODO: check
         tmp = (int64_t)pt_nn_est[i] * (int64_t)spec[2 * i];
         tmp >>= 15;
         spec[2 * i] = (int32_t)tmp;

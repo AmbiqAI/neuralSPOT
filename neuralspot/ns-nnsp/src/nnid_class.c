@@ -13,33 +13,41 @@ int32_t embd[] = {-30250, -8811, -16640, 16746,  15859,  -58364, -9399,  10272, 
                   -3423,  6051,  -37274, 34973};
 #endif
 
-void nnidClass_get_cos(int32_t *pt_nn_est, int32_t *pt_embd, int16_t len, float *corr) {
-    int i;
-    float acc = 0;
+void nnidClass_get_cos(
+    int32_t *pt_nn_est, int32_t *pt_embds, int16_t len_embd, int16_t ppls, float *corr) {
+    int i, p;
+    float acc;
     float norm1, norm2;
     float tmp;
+    int32_t *pt_embd = pt_embds;
 #if DEBUG_NNID
     pt_nn_est = embd;
 #endif
-    for (i = 0; i < len; i++)
-        acc += (3.0518e-05 * (float)pt_nn_est[i]) * (3.0518e-05 * (float)pt_embd[i]);
+    for (p = 0; p < ppls; p++) {
+        acc = 0;
+        for (i = 0; i < len_embd; i++)
+            acc += (3.0518e-05 * (float)pt_nn_est[i]) * (3.0518e-05 * (float)pt_embd[i]);
 
-    norm1 = 0;
-    for (i = 0; i < len; i++) {
-        tmp = 3.0518e-05 * (float)pt_nn_est[i];
-        norm1 += tmp * tmp;
-    }
+        norm1 = 0;
+        for (i = 0; i < len_embd; i++) {
+            tmp = 3.0518e-05 * (float)pt_nn_est[i];
+            norm1 += tmp * tmp;
+        }
 
-    norm2 = 0;
-    for (i = 0; i < len; i++) {
-        tmp = 3.0518e-05 * (float)pt_embd[i];
-        norm2 += tmp * tmp;
+        norm2 = 0;
+        for (i = 0; i < len_embd; i++) {
+            tmp = 3.0518e-05 * (float)pt_embd[i];
+            norm2 += tmp * tmp;
+        }
+        acc /= sqrtf((float)(norm1 * norm2));
+        corr[p] = acc;
+        pt_embd += len_embd;
     }
-    acc /= sqrtf((float)(norm1 * norm2));
-    *corr = acc;
 }
 
 void nnidClass_reset_states(NNID_CLASS *pt_nnid) {
     pt_nnid->is_get_corr = 0;
-    pt_nnid->corr = 0;
+    pt_nnid->total_enroll_ppls = 0;
+    for (int i = 0; i < 5; i++)
+        pt_nnid->corr[i] = 0;
 }

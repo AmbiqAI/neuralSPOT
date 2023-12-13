@@ -36,15 +36,15 @@ static ns_ble_pool_config_t webbleWsfBuffers = {
     .descNum = WEBBLE_WSF_BUFFER_POOLS};
 
 // An arbitrary base UUID
-#define webbleUuid(uuid) "19690000" uuid "1234abcd5678aabb1011"
+#define webbleUuid(uuid) "19690001" uuid "1234abcd5678aabb1011"
 
 // BLE Structs, populated by webble_service_init()
 ns_ble_service_t webbleService;          // Webble Service
 ns_ble_characteristic_t webbleOpusAudio; // Opus-encoded Audio Characteristic
-// ns_ble_characteristic_t audioFrameAvailable; // Doorbell`
-ns_ble_characteristic_t bleSELatency;   // How long SE takes to run, per 10ms frame
-ns_ble_characteristic_t bleOpusLatency; // How long Opus takes to run, per 10ms frame
-ns_ble_characteristic_t bleSEEnabled;   // State of SE enablement
+// ns_ble_characteristic_t bleIdLatency;           // How long NNID takes to run, per 10ms frame
+// ns_ble_characteristic_t bleOpusLatency;         // How long Opus takes to run, per 10ms frame
+ns_ble_characteristic_t webbleVad;     // State of VAD
+ns_ble_characteristic_t webbleMessage; // State of VAD
 
 // Values
 // extern unsigned char encodedDataBuffer[80];
@@ -53,12 +53,12 @@ ns_ble_characteristic_t bleSEEnabled;   // State of SE enablement
 // extern bool enableSE;
 
 int webbleNotifyHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c) {
-    ns_lp_printf("NNSE webbleNotifyHandler\n"); // really just a nop
+    // ns_lp_printf(" webbleNotifyHandler\n"); // really just a nop
     return NS_STATUS_SUCCESS;
 }
 
 int webbleReadHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *dest) {
-    ns_lp_printf("webbleReadHandler\n");
+    // ns_lp_printf("webbleReadHandler\n");
     memcpy(dest, c->applicationValue, c->valueLen);
     return NS_STATUS_SUCCESS;
 }
@@ -81,27 +81,31 @@ int audioWebbleServiceInit(void) {
         NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
         &(webbleService.numAttributes));
 
-    ns_ble_create_characteristic(
-        &bleSELatency, webbleUuid("5002"), &seLatency, sizeof(seLatency),
-        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
-        &(webbleService.numAttributes));
+    // ns_ble_create_characteristic(
+    //     &bleIdLatency, webbleUuid("5002"), &idLatency, sizeof(seLatency),
+    //     NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
+    //     &(webbleService.numAttributes));
+
+    // ns_ble_create_characteristic(
+    //     &bleOpusLatency, webbleUuid("5003"), &opusLatency, sizeof(opusLatency),
+    //     NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
+    //     &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
-        &bleOpusLatency, webbleUuid("5003"), &opusLatency, sizeof(opusLatency),
-        NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL, &webbleNotifyHandler, 65000, true,
-        &(webbleService.numAttributes));
+        &webbleVad, webbleUuid("5004"), &vad, sizeof(vad), NS_BLE_READ | NS_BLE_NOTIFY, NULL, NULL,
+        &webbleNotifyHandler, 65000, true, &(webbleService.numAttributes));
 
     ns_ble_create_characteristic(
-        &bleSEEnabled, webbleUuid("5004"), &enableSE, sizeof(enableSE), NS_BLE_READ | NS_BLE_NOTIFY,
+        &webbleMessage, webbleUuid("5005"), &msgBuf, sizeof(msgBuf), NS_BLE_READ | NS_BLE_NOTIFY,
         NULL, NULL, &webbleNotifyHandler, 65000, true, &(webbleService.numAttributes));
 
     // Create the service
-    webbleService.numCharacteristics = 4; // needed to allocate memory for characteristics
+    webbleService.numCharacteristics = 3; // needed to allocate memory for characteristics
     ns_ble_create_service(&webbleService);
     ns_ble_add_characteristic(&webbleService, &webbleOpusAudio);
-    ns_ble_add_characteristic(&webbleService, &bleSELatency);
-    ns_ble_add_characteristic(&webbleService, &bleOpusLatency);
-    ns_ble_add_characteristic(&webbleService, &bleSEEnabled);
+    ns_ble_add_characteristic(&webbleService, &webbleVad);
+    ns_ble_add_characteristic(&webbleService, &webbleMessage);
+    // ns_ble_add_characteristic(&webbleService, &bleSEEnabled);
     ns_ble_start_service(&webbleService); // Initialize BLE, create structs, start service
     return NS_STATUS_SUCCESS;
 }

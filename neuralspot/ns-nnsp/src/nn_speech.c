@@ -28,7 +28,7 @@
 int16_t glob_se_out[160];
 IIR_CLASS inst_dcrm;
 int16_t input_tmp[160];
-int32_t embd_nnid[64] = {
+int32_t embd_nnid[64 * 5] = {
     -1628, -1539, -4392, -560,  408,   -7558, 1119,  5851,  -1103, 8611,  -416,  5804,  -4506,
     -2787, -1700, 4906,  2866,  1750,  -235,  -5588, 1712,  6512,  -5315, 1418,  -3975, -4423,
     -2045, 9122,  -3814, 7408,  984,   -330,  1010,  -1376, -2152, 409,   -2607, -7301, -1874,
@@ -126,17 +126,21 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
     int16_t *tmp;
 #endif
     int16_t *pt_inputs;
-    for (int i = 0; i < 160; i++) {
-        rawPCM[i] = (rawPCM[i] * (int16_t)pt_inst->pt_params->pre_gain_q1) >> 1;
-    }
-    if (pt_inst->pt_params->is_dcrm) {
-        IIR_CLASS_exec(pt_inst->pt_dcrm, input_tmp, rawPCM, 160);
-        pt_inputs = input_tmp;
-    } else {
-        pt_inputs = rawPCM;
-    }
+    if (pt_inst->nn_id == se_id) {
+        for (int i = 0; i < 160; i++) {
+            rawPCM[i] = (rawPCM[i] * (int16_t)pt_inst->pt_params->pre_gain_q1) >> 1;
+        }
+        if (pt_inst->pt_params->is_dcrm) {
+            IIR_CLASS_exec(pt_inst->pt_dcrm, input_tmp, rawPCM, 160);
+            pt_inputs = input_tmp;
+        } else {
+            pt_inputs = rawPCM;
+        }
 
-    FeatureClass_execute(pt_feat, pt_inputs);
+        FeatureClass_execute(pt_feat, pt_inputs);
+    } else {
+        FeatureClass_execute(pt_feat, rawPCM);
+    }
 
     if (pt_inst->slides == 1) {
 #ifdef ENERGYMODE

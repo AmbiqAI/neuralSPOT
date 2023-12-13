@@ -76,6 +76,7 @@ else
 			modules      += examples/web_ble
 			modules      += examples/audio_codec
 			modules	     += examples/nnse
+			modules	     += examples/nnid
 		endif
 
 		ifeq ($(USB_PRESENT),1)
@@ -240,6 +241,12 @@ else
 endif
 # $(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
 
+# %.size: %.axf
+# 	@echo " Generating size information for $(COMPILERNAME) $@..."
+# 	$(Q) $(MKD) -p $(@D)
+# 	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+
+# 	$(Q) $(SIZE) $< > $@
 
 .PHONY: nest
 nest: all

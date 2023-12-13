@@ -14,9 +14,9 @@ NNSPClass nnst_vad, nnst_nnid;
 PcmBufClass pcmBuf_inst;
 int16_t glob_th_prob = 0x7fff >> 1;
 int16_t glob_count_trigger = 1;
-// Model Stuff
+
 ns_timer_config_t tickTimer = {
-    .prefix = {0},
+    .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
     .enableInterrupt = false,
 };
@@ -104,10 +104,11 @@ void norm_then_ave(int32_t *outputs, int32_t *inputs, int num_sents, int len_vec
     }
 }
 
+extern char vad; // For BLE display
 int16_t nnidCntrlClass_exec(nnidCntrlClass *pt_inst, int16_t *rawPCM, float *pt_corr) {
     int16_t detected;
     NNID_CLASS *pt_nnid;
-    int16_t is_get_corr = 0;
+    // int16_t is_get_corr = 0;
     int16_t is_detected = 0;
     static int32_t embds_enroll[4 * 64];
     pt_nnid = (NNID_CLASS *)nnst_nnid.pt_state_nnid;
@@ -116,11 +117,12 @@ int16_t nnidCntrlClass_exec(nnidCntrlClass *pt_inst, int16_t *rawPCM, float *pt_
 
     PcmBufClass_setData(&pcmBuf_inst, rawPCM);
     detected = NNSPClass_exec(&nnst_vad, rawPCM);
+    vad = detected;
     pt_inst->count_vad_trigger = (detected) ? pt_inst->count_vad_trigger + 1 : 0;
 
     if (pt_inst->count_vad_trigger == pt_nnid->thresh_get_corr) {
 
-        is_get_corr = 1;
+        // is_get_corr = 1;
         for (int f = 0; f < pt_nnid->thresh_get_corr; f++) {
             PcmBufClass_getData(
                 &pcmBuf_inst,                 // inputs
@@ -128,7 +130,7 @@ int16_t nnidCntrlClass_exec(nnidCntrlClass *pt_inst, int16_t *rawPCM, float *pt_
                 1,                            // frames to read
                 rawPCM);                      // outputs
             if (pt_inst->enroll_state == test_phase) {
-                if (f == pt_nnid->thresh_get_corr - 1) {
+                if (f == pt_nnid->thresh_get_corr - 1) { // last frame
                     pt_nnid->total_enroll_ppls = pt_inst->total_enroll_ppls;
                     pt_nnid->is_get_corr = 1;
                 } else
@@ -151,9 +153,10 @@ int16_t nnidCntrlClass_exec(nnidCntrlClass *pt_inst, int16_t *rawPCM, float *pt_
             }
             for (int i = 0; i < pt_inst->total_enroll_ppls; i++)
                 pt_nnid->corr[i] = -0.5;
-            is_detected = -(0x7fff >> 1);
+            is_detected = 0;
         } else {
-            is_detected = 0x7fff >> 1;
+            // is_detected = 0x7fff >> 1;
+            is_detected = 1;
             for (int i = 0; i < pt_inst->total_enroll_ppls; i++)
                 pt_corr[i] = pt_nnid->corr[i];
         }

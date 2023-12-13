@@ -20,7 +20,7 @@ ns_ble_control_t g_ns_ble_control;
 /*! configurable parameters for advertising */
 static appAdvCfg_t ns_ble_default_AdvCfg = {
     {60000, 0, 0}, /*! Advertising durations in ms */
-    {800, 800, 0}  /*! Advertising intervals in 0.625 ms units */
+    {96, 96, 0}    /*! Advertising intervals in 0.625 ms units */
 };
 
 /*! configurable parameters for slave */
@@ -78,9 +78,25 @@ static const uint8_t ns_ble_generic_data_disc[] = {
     DM_ADV_TYPE_16_UUID, /*! AD type */
     UINT16_TO_BYTES(ATT_UUID_DEVICE_INFO_SERVICE),
 
-    17,                                              /*! length */
-    DM_ADV_TYPE_128_UUID,                            /*! AD type */
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // placeholder for 128-bit UUID
+    17,                   /*! length */
+    DM_ADV_TYPE_128_UUID, /*! AD type */
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+};
 
 /*! scan data, discoverable mode */
 static const uint8_t ns_ble_generic_scan_data_disc[] = {
@@ -527,6 +543,7 @@ void ns_ble_generic_init(
     // Add generic groups
     SvcCoreAddGroup();
     SvcDisAddGroup();
+    HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_20P0_dBm);
 
     // if (useDefault) {
     //     *control = &g_ns_ble_control;
@@ -578,7 +595,9 @@ void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
         if (ret != ATT_SUCCESS) {
             ns_lp_printf("... failed to send\n");
         }
+        ns_interrupt_master_disable(); // critical region
         AttsHandleValueNtf(connId, c->valueHandle, c->valueLen, c->applicationValue);
+        ns_interrupt_master_enable();
     } else {
         // ns_lp_printf("... not sent\n");
     }
@@ -989,7 +1008,12 @@ int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c) {
 
 int ns_ble_start_service(ns_ble_service_t *s) {
     // *** Finish creating Service structures, then kick it off
-
+    if (s->nextCharacteristicIndex != s->numCharacteristics) {
+        ns_lp_printf(
+            "ns_ble_start_service: numCharacteristics mismatch, specified %d, added %d\n",
+            s->numCharacteristics, s->nextCharacteristicIndex);
+        return NS_STATUS_FAILURE;
+    }
     // Populate Group
     s->group.pNext = NULL;
     s->group.pAttr = s->attributes;

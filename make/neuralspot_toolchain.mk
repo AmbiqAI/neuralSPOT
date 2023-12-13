@@ -29,7 +29,6 @@ AR = armar$(EXEEXT)
 endif
 
 
-
 LINT = clang-tidy$(EXEEXT)
 RM = $(shell which rm 2>/dev/null)
 MKD = "mkdir"
@@ -59,7 +58,7 @@ CFLAGS+= -g -O2 -ffast-math
 else
 CFLAGS+= -g -O3 -ffast-math
 endif
-CFLAGS+=
+# CFLAGS+= -g -O3 -ffast-math
 
 LINKER_FILE := ./neuralspot/ns-core/src/gcc/linker_script.ld
 

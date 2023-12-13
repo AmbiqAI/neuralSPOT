@@ -20,6 +20,10 @@
 
 alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
                                                         // to 80 bytes
+bool enableSE = false; // Flip between SE and Raw audio when button 0 is pressed
+uint32_t seLatency = 0;
+uint32_t opusLatency = 0;
+
 #include "audio_webble.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
@@ -125,8 +129,8 @@ TaskHandle_t encode_task_handle; // Encodes audio and sends it over BLE
 TaskHandle_t my_xSetupTask;      // Starts the other tasks and suspends itself
 
 // Timer and structs for performance profiling
-ns_perf_counters_t start, end, delta;
-int8_t do_it_once = 1;
+// ns_perf_counters_t start, end, delta;
+// int8_t do_it_once = 1;
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
@@ -134,22 +138,41 @@ ns_timer_config_t basic_tickTimer = {
 };
 
 // Audio Task
-bool enableSE = false; // Flip between SE and Raw audio when button 0 is pressed
+uint32_t seStart, seEnd;
+uint32_t opusStart, opusEnd;
+uint32_t seLatencyCapturePeriod = 10;  // measure every 100 frames (1s)
+uint32_t opusLatencyCapturePeriod = 5; // measure every 100 frames (1s)
+uint32_t currentSESample = 0;
+uint32_t currentOpusSample = 0;
+
 void audioTask(void *pvParameters) {
     while (1) {
         if (g_intButtonPressed) {
             // Flip modes between SE and Raw audio
             enableSE = !enableSE;
+            ns_ble_send_value(&bleSEEnabled, NULL);
             g_intButtonPressed = 0;
         }
         if (g_audioReady) { // Every time audio frame is available (160 samples, 10ms)
 
             NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed. ");
+            if (currentSESample == seLatencyCapturePeriod) {
+                seStart = ns_us_ticker_read(&basic_tickTimer);
+            }
 
             // SE Model is stateful, so you have to call it with every frame
             // even if you don't want SE's output (otherwise it'll sound wierd for a bit at
             // the beginning)
             seCntrlClass_exec(&cntrl_inst, g_in16AudioDataBuffer, xmitBuffer + xmitWritePtr);
+
+            if (currentSESample == seLatencyCapturePeriod) {
+                seEnd = ns_us_ticker_read(&basic_tickTimer);
+                seLatency = seEnd - seStart;
+                ns_ble_send_value(&bleSELatency, NULL);
+                currentSESample = 0;
+            } else {
+                currentSESample++;
+            }
 
             if (!enableSE) {
                 // Overwrite the SE output with the original audio
@@ -177,8 +200,21 @@ void encodeAndXferTask(void *pvParameters) {
     while (1) {
         if (xmitAvailable >= 320) {
             NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed. ");
+            if (currentOpusSample == opusLatencyCapturePeriod) {
+                opusStart = ns_us_ticker_read(&basic_tickTimer);
+            }
+
             ret = audio_enc_encode_frame(xmitBuffer + xmitReadPtr, 320, encodedDataBuffer);
             NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
+
+            if (currentOpusSample == opusLatencyCapturePeriod) {
+                opusEnd = ns_us_ticker_read(&basic_tickTimer);
+                opusLatency = opusEnd - opusStart;
+                ns_ble_send_value(&bleOpusLatency, NULL);
+                currentOpusSample = 0;
+            } else {
+                currentOpusSample++;
+            }
 
             if (ret >= 0) {
                 ns_ble_send_value(&webbleOpusAudio, NULL); // Send the encoded audio over BLE
@@ -212,7 +248,7 @@ int main(void) {
     // Only turn HP while doing codec and AI
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
-    ns_itm_printf_enable();
+    // ns_itm_printf_enable();
 
     ns_audio_init(&audio_config);
     ns_peripheral_button_init(&button_config_nnsp);

@@ -234,12 +234,10 @@ else
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
-# $(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 # $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
 # $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 endif
-# $(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
 
 # %.size: %.axf
 # 	@echo " Generating size information for $(COMPILERNAME) $@..."

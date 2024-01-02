@@ -51,184 +51,99 @@
 // Forward declaration of interrupt handlers.
 //
 //*****************************************************************************
-extern void
-Reset_Handler(void) __attribute((naked));
-extern void
-NMI_Handler(void) __attribute((weak));
-extern void
-HardFault_Handler(void) __attribute((weak));
-extern void
-MemManage_Handler(void) __attribute((weak, alias("HardFault_Handler")));
-extern void
-BusFault_Handler(void) __attribute((weak, alias("HardFault_Handler")));
-extern void
-UsageFault_Handler(void) __attribute((weak, alias("HardFault_Handler")));
-extern void
-SVC_Handler(void) __attribute((weak, alias("am_default_isr")));
-extern void
-DebugMon_Handler(void) __attribute((weak, alias("am_default_isr")));
-extern void
-PendSV_Handler(void) __attribute((weak, alias("am_default_isr")));
-extern void
-SysTick_Handler(void) __attribute((weak, alias("am_default_isr")));
+extern void Reset_Handler(void) __attribute((naked));
+extern void NMI_Handler(void) __attribute((weak));
+extern void HardFault_Handler(void) __attribute((weak));
+extern void MemManage_Handler(void) __attribute((weak, alias("HardFault_Handler")));
+extern void BusFault_Handler(void) __attribute((weak, alias("HardFault_Handler")));
+extern void UsageFault_Handler(void) __attribute((weak, alias("HardFault_Handler")));
+extern void SVC_Handler(void) __attribute((weak, alias("am_default_isr")));
+extern void DebugMon_Handler(void) __attribute((weak, alias("am_default_isr")));
+extern void PendSV_Handler(void) __attribute((weak, alias("am_default_isr")));
+extern void SysTick_Handler(void) __attribute((weak, alias("am_default_isr")));
 
-extern void
-am_brownout_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_watchdog_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_rtc_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_vcomp_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_ioslave_ios_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_ioslave_acc_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster0_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster1_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster2_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster3_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster4_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster5_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster6_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_iomaster7_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_ctimer_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_uart_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_uart1_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_uart2_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_uart3_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_adc_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_mspi0_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_mspi1_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_mspi2_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_clkgen_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_cryptosec_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_sdio_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_usb_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpu_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_disp_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_dsi_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr0_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr1_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr2_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr3_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr4_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr5_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr6_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimer_cmpr7_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_stimerof_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_audadc0_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_dspi2s0_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_dspi2s1_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_dspi2s2_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_dspi2s3_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_pdm0_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_pdm1_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_pdm2_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_pdm3_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio0_001f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio0_203f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio0_405f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio0_607f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio1_001f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio1_203f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio1_405f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_gpio1_607f_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer00_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer01_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer02_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer03_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer04_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer05_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer06_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer07_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer08_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer09_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer10_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer11_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer12_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer13_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer14_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_timer15_isr(void) __attribute((weak, alias("am_default_isr")));
-extern void
-am_cachecpu_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_brownout_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_watchdog_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_rtc_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_vcomp_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_ioslave_ios_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_ioslave_acc_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster0_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster1_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster2_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster3_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster4_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster5_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster6_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_iomaster7_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_ctimer_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_uart_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_uart1_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_uart2_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_uart3_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_adc_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_mspi0_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_mspi1_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_mspi2_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_clkgen_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_cryptosec_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_sdio_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_usb_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpu_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_disp_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_dsi_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr0_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr1_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr2_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr3_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr4_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr5_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr6_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimer_cmpr7_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_stimerof_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_audadc0_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_dspi2s0_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_dspi2s1_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_dspi2s2_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_dspi2s3_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_pdm0_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_pdm1_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_pdm2_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_pdm3_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio0_001f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio0_203f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio0_405f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio0_607f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio1_001f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio1_203f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio1_405f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_gpio1_607f_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer00_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer01_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer02_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer03_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer04_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer05_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer06_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer07_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer08_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer09_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer10_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer11_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer12_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer13_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer14_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_timer15_isr(void) __attribute((weak, alias("am_default_isr")));
+extern void am_cachecpu_isr(void) __attribute((weak, alias("am_default_isr")));
 
-extern void
-am_default_isr(void) __attribute((weak));
+extern void am_default_isr(void) __attribute((weak));
 
 //*****************************************************************************
 //
 // The entry point for the application.
 //
 //*****************************************************************************
-extern int
-main(void);
+extern int main(void);
 
 //*****************************************************************************
 //
@@ -413,8 +328,7 @@ extern uint32_t _ebss;
 //
 //*****************************************************************************
 #if defined(__GNUC_STDC_INLINE__)
-void
-Reset_Handler(void) {
+void Reset_Handler(void) {
     //
     // Set the vector table pointer.
     //
@@ -481,8 +395,7 @@ Reset_Handler(void) {
 // by a debugger.
 //
 //*****************************************************************************
-void
-NMI_Handler(void) {
+void NMI_Handler(void) {
     //
     // Go into an infinite loop.
     //
@@ -497,8 +410,7 @@ NMI_Handler(void) {
 // for examination by a debugger.
 //
 //*****************************************************************************
-void
-HardFault_Handler(void) {
+void HardFault_Handler(void) {
     //
     // Go into an infinite loop.
     //
@@ -513,8 +425,7 @@ HardFault_Handler(void) {
 // for examination by a debugger.
 //
 //*****************************************************************************
-void
-am_default_isr(void) {
+void am_default_isr(void) {
     //
     // Go into an infinite loop.
     //

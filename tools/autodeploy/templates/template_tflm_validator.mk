@@ -8,7 +8,8 @@ local_bin := $(BINDIR)/$(subdirectory)
 # includes_api += $(subdirectory)/ns_model_includes
 
 bindirs   += $(local_bin)
-sources   += $(local_src)
+# sources   += $(local_src)
 examples  += $(local_bin)/$(local_app_name).axf
 examples  += $(local_bin)/$(local_app_name).bin
-mains     += $(local_bin)/src/$(local_app_name).o
+# mains     += $(local_bin)/src/$(local_app_name).o
+$(eval $(call make-axf, $(local_bin)/$(local_app_name), $(local_src)))

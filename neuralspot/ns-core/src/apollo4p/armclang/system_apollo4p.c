@@ -57,17 +57,17 @@
 //
 // Clocks
 //
-#define __HSI             (6000000UL)
-#define __XTAL            (32768UL)         // Crystal Oscillator frequency
-#define __SYS_OSC_CLK     (96000000)        // Main oscillator frequency
-#define __SYSTEM_CLOCK    (1 * __SYS_OSC_CLK)
+#define __HSI (6000000UL)
+#define __XTAL (32768UL)         // Crystal Oscillator frequency
+#define __SYS_OSC_CLK (96000000) // Main oscillator frequency
+#define __SYSTEM_CLOCK (1 * __SYS_OSC_CLK)
 
 //
 // Initialize SystemCoreClock with the system core clock frequency value
 // achieved after system intitialization.
 // This means system core clock frequency after call to SystemInit()
 //
-uint32_t SystemCoreClock = __SYSTEM_CLOCK;  // System Clock Frequency (Core Clock)
+uint32_t SystemCoreClock = __SYSTEM_CLOCK; // System Clock Frequency (Core Clock)
 
 //*****************************************************************************
 //
@@ -78,9 +78,7 @@ uint32_t SystemCoreClock = __SYSTEM_CLOCK;  // System Clock Frequency (Core Cloc
 //! @return None.
 //
 //*****************************************************************************
-void
-SystemCoreClockUpdate(void)
-{
+void SystemCoreClockUpdate(void) {
     //
     // Calculate the system frequency based upon the current register settings.
     // This function can be used to retrieve the system core clock frequeny
@@ -98,9 +96,7 @@ SystemCoreClockUpdate(void)
 //! @return None.
 //
 //*****************************************************************************
-void
-SystemInit(void)
-{
+void SystemInit(void) {
     //
     // Initialize the system
     // Do not use global variables because this function is called before
@@ -108,4 +104,3 @@ SystemInit(void)
     //
     SystemCoreClock = __SYSTEM_CLOCK;
 }
-

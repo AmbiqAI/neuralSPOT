@@ -5,6 +5,8 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
 COMPILERNAME := gcc
 else ifeq ($(TOOLCHAIN),arm)
 COMPILERNAME := clang
+else ifeq ($(TOOLCHAIN),llvm)
+COMPILERNAME := clang
 endif
 
 BINDIR := build

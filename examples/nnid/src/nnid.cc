@@ -20,6 +20,10 @@ alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output l
 alignas(16) char msgBuf[120];
 char vad = 0;
 
+// Buttons
+int idBtn = 0;
+int enrollBtn = 0;
+uint8_t numUtterances = 0;
 #include "nnid_webble.h"
 
 // #define ENERGY_MEASUREMENT
@@ -29,10 +33,6 @@ char vad = 0;
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 4 * 1024] __attribute__((aligned(4)));
 #endif
-
-// Buttons
-int volatile idBtn = 0;
-int volatile enrollBtn = 0;
 
 ns_button_config_t button_config_nnsp = {
     .api = &ns_button_V1_0_0,
@@ -174,7 +174,8 @@ void audioTask(void *pvParameters) {
             if (enrollBtn) {
                 enrollBtn = 0;
                 bleMessage(
-                    "Enrolling Speaker %d: speak naturally for 3s", idCurrentlyEnrollingSpeaker);
+                    "Enrolling Speaker %d: speak naturally for 3s",
+                    idCurrentlyEnrollingSpeaker + 1);
                 if (numEnrolledSpeakers < MAX_ENROLLEES) {
                     g_audioRecording = true;
                     state = WAIT_FOR_ENROLL_AUDIO;
@@ -212,22 +213,26 @@ void audioTask(void *pvParameters) {
                     // If acc_num_enroll has changed, we have a new utterance
                     numUtterancesInCurrentEnrollment = cntrl_inst.acc_num_enroll;
                     // g_audioRecording = false; // stop recording
+                    numUtterances = numUtterancesInCurrentEnrollment;
+                    ns_ble_send_value(&webbleNumUtterances, NULL); // Send over BLE
 
                     // If we have 4 utterances, that speaker is considered enrolled
                     // Bump idCurrentlyEnrollingSpeaker to the next speaker
                     if (numUtterancesInCurrentEnrollment == 4) {
-                        bleMessage("Speaker %d enrolled", idCurrentlyEnrollingSpeaker);
+                        bleMessage("Speaker %d enrolled", idCurrentlyEnrollingSpeaker + 1);
                         numEnrolledSpeakers++;
                         cntrl_inst.total_enroll_ppls = numEnrolledSpeakers;
                         idCurrentlyEnrollingSpeaker++;
                         numUtterancesInCurrentEnrollment = 0;
                         cntrl_inst.acc_num_enroll = 0;
+                        state = WAIT_FOR_BTN;
                     } else {
                         bleMessage(
                             "Utterance %d/4 for speaker %d Captured. Press Button 1 for next.",
-                            numUtterancesInCurrentEnrollment, idCurrentlyEnrollingSpeaker);
+                            numUtterancesInCurrentEnrollment, idCurrentlyEnrollingSpeaker + 1);
+                        state = WAIT_FOR_ENROLL_AUDIO;
                     }
-                    state = WAIT_FOR_BTN;
+                    // state = WAIT_FOR_BTN;
                 } else {
                     // ns_lp_printf("-");
                 }
@@ -258,7 +263,7 @@ void audioTask(void *pvParameters) {
 
                     if (highest > 0.7) {
                         bleMessage(
-                            "Speaker %d identified with %.2f\% confidence", highestId,
+                            "Speaker %d identified with %.2f\% confidence", highestId + 1,
                             highest * 100);
                     } else {
                         bleMessage("Speaker not identified, best match: %.2f\%", highest * 100);
@@ -279,7 +284,7 @@ void audioTask(void *pvParameters) {
 
 void setup_task(void *pvParameters) {
     ns_lp_printf("Setting up BLE FreeRTOS Tasks\n");
-    ns_ble_pre_init(); // Set NVIC priorities
+    ns_ble_pre_init(); // Set NVIC  priorities
     xTaskCreate(RadioTask, "RadioTask", 512, 0, 3, &radio_task_handle);
     xTaskCreate(audioTask, "AudioTask", 2048, 0, 3, &audio_task_handle);
     vTaskSuspend(NULL);

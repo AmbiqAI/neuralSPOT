@@ -98,14 +98,20 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
         createFromTemplate(
             "autodeploy/templates/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
         )
-        shutil.copy("../neuralspot/ns-core/src/gcc/startup_gcc.c", f"{d}/{n}/src/")
-        shutil.copy("../neuralspot/ns-core/src/gcc/linker_script.ld", f"{d}/{n}/gcc/")
-
         shutil.copy(
-            "../neuralspot/ns-core/src/armclang/startup_armclang.s", f"{d}/{n}/src/"
+            "../neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/"
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/armclang/linker_script.sct", f"{d}/{n}/armclang/"
+            "../neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/gcc/"
+        )
+
+        shutil.copy(
+            "../neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
+            f"{d}/{n}/src/",
+        )
+        shutil.copy(
+            "../neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
+            f"{d}/{n}/armclang/",
         )
         shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
         shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
@@ -144,9 +150,11 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
         createFromTemplate(
             "autodeploy/templates/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
         )
-        shutil.copy("../neuralspot/ns-core/src/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/")
         shutil.copy(
-            "../neuralspot/ns-core/src/armclang/startup_armclang.s",
+            "../neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/"
+        )
+        shutil.copy(
+            "../neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
             f"{d}/{n}/src/armclang/",
         )
 

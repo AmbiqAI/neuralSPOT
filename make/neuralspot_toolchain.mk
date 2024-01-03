@@ -60,8 +60,7 @@ CFLAGS+= -g -O3 -ffast-math
 endif
 # CFLAGS+= -g -O3 -ffast-math
 
-LINKER_FILE := ./neuralspot/ns-core/src/gcc/linker_script.ld
-
+LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script.ld
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -fno-exceptions
@@ -72,8 +71,9 @@ LFLAGS+=
 CPFLAGS = -Obinary
 ODFLAGS = -S
 ARFLAGS = rsc
-else ifeq ($(TOOLCHAIN),arm)
 
+
+else ifeq ($(TOOLCHAIN),arm)
 # Armlink keeps removing stuff from static libs, so have to add some objs to the linker command line
 ARMLINKER_IS_NO_BUENO := $(BINDIR)/extern/AmbiqSuite/R4.4.1/src/am_resources.o
 ifeq ($(USB_PRESENT),1)
@@ -111,9 +111,9 @@ ASMFLAGS+= -Wa,armasm,--diag_suppress=A1950W -c
 ASMFLAGS+= -gdwarf-4
 # -IC:/Users/xbox/AppData/Local/Arm/Packs/AmbiqMicro/Apollo_DFP/1.3.2/Device/Include
 ASMFLAGS+= -Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"APOLLO4p_2048 SETA 1"
-
 endif
 
+# Defines
 ifeq ($(TOOLCHAIN),arm)
 DEFINES+= keil6
 DEFINES+= _RTE_

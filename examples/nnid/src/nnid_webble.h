@@ -43,17 +43,12 @@ ns_ble_service_t webbleService;          // Webble Service
 ns_ble_characteristic_t webbleOpusAudio; // Opus-encoded Audio Characteristic
 // ns_ble_characteristic_t bleIdLatency;           // How long NNID takes to run, per 10ms frame
 // ns_ble_characteristic_t bleOpusLatency;         // How long Opus takes to run, per 10ms frame
-ns_ble_characteristic_t webbleVad;           // State of VAD
-ns_ble_characteristic_t webbleMessage;       // Message to dashboard
-ns_ble_characteristic_t dashEnrollButton;    // Indicates a dashboard button was pressed
-ns_ble_characteristic_t dashIdButton;        // Indicates a dashboard button was pressed
-ns_ble_characteristic_t webbleNumUtterances; // Indicates a dashboard button was pressed
-
-// Values
-// extern unsigned char encodedDataBuffer[80];
-// extern uint32_t seLatency;
-// extern uint32_t opusLatency;
-// extern bool enableSE;
+ns_ble_characteristic_t webbleVad;        // State of VAD
+ns_ble_characteristic_t webbleMessage;    // Message to dashboard
+ns_ble_characteristic_t dashEnrollButton; // Indicates the web dashboard Enroll button was pressed
+ns_ble_characteristic_t dashIdButton;     // Indicates the web dashboard Identify button was pressed
+ns_ble_characteristic_t webbleNumUtterances; // Read by the dashboard to track the number of
+                                             // utterances recognized
 
 int webbleNotifyHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c) {
     // ns_lp_printf(" webbleNotifyHandler\n"); // really just a nop
@@ -131,7 +126,6 @@ int audioWebbleServiceInit(void) {
     ns_ble_add_characteristic(&webbleService, &dashEnrollButton);
     ns_ble_add_characteristic(&webbleService, &dashIdButton);
     ns_ble_add_characteristic(&webbleService, &webbleNumUtterances);
-    // ns_ble_add_characteristic(&webbleService, &bleSEEnabled);
     ns_ble_start_service(&webbleService); // Initialize BLE, create structs, start service
     return NS_STATUS_SUCCESS;
 }

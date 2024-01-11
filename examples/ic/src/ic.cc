@@ -106,10 +106,16 @@ int main(void) {
     while (1) {
         example_status = model.interpreter->Invoke();
         invokes++;
+        ns_lp_printf(".");
         newTime = ns_us_ticker_read(&basic_tickTimer);
         if (newTime - oldTime > 1000000) {
             ips = (float)invokes / ((float)(newTime - oldTime) / 1000000.0f);
-            ns_lp_printf("Image Classification FPS: %0.2f\n", ips);
+            ns_lp_printf("\nImage Classification FPS: %0.2f\n", ips);
+            invokes = 0;
+            oldTime = newTime;
+        }
+
+        if (invokes > 10) {
             invokes = 0;
             oldTime = newTime;
         }

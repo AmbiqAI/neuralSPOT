@@ -52,10 +52,12 @@
 // RPC, and BLE use Malloc, so we need to allocate a heap here
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
     #ifdef AC_RPC_MODE
-uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
+        #define AC_HEAP_SIZE (NS_RPC_MALLOC_SIZE_IN_K * 1024)
     #else
-uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 3 * 1024] __attribute__((aligned(4)));
+        #define AC_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 3 * 1024)
     #endif
+size_t ucHeapSize = AC_HEAP_SIZE;
+uint8_t ucHeap[AC_HEAP_SIZE] __attribute__((aligned(4)));
 #endif
 
 // -- Audio Stuff ----------------------

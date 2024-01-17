@@ -8,7 +8,6 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 
 **/
 
-// #define RPC_ENABLED
 // #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
@@ -38,7 +37,7 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
     #include "ns_usb.h"
 #endif
 
-typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, INFERING } myState_e;
+typedef enum { WAITING_TO_RECORD, INFERING } myState_e;
 
 // HAR is trained to detect activity over a 10s window of 6 axis (accel+gyro) data, sampled at 20Hz
 #define MPU_FRAME_SIZE 200
@@ -164,25 +163,13 @@ int main(void) {
     NS_TRY(mpu6050_init(&i2cConfig, &mpu_config, mpuAddr), "MPU6050 Init Failed.\n");
     NS_TRY(mpu6050_calibrate(&i2cConfig, mpuAddr), "MPU6050 Calibration Failed.\n");
 
-#ifdef RPC_ENABLED
-    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
-    ns_lp_printf("Start the PC-side server, then press Button 0 to get started\n");
-#else
     ns_lp_printf("Calibration successful. Press Button 0 to start classifying...\n");
     state = WAITING_TO_RECORD;
     buttonPressed = false;
-#endif
 
     // Event loop
     while (1) {
         switch (state) {
-        case WAITING_TO_START_RPC_SERVER:
-            if (buttonPressed) {
-                state = WAITING_TO_RECORD;
-                ns_lp_printf("Press Button 0 to start recording...\n");
-                buttonPressed = false;
-            }
-            break;
 
         case WAITING_TO_RECORD:
             if (buttonPressed) {

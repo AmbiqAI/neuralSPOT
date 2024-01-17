@@ -28,6 +28,7 @@
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 // RPC uses malloc internally, so we need to declare it here
+size_t ucHeapSize = NS_RPC_MALLOC_SIZE_IN_K * 1024;
 alignas(4) uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024]; // __attribute__((aligned(4)));
 #endif
 

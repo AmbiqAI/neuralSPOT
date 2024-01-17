@@ -30,6 +30,7 @@ uint32_t mpuAddr = MPU_I2CADDRESS_AD0_LOW;
 // RPC Stuff
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 // RPC uses malloc internally, so we need to declare it here
+size_t ucHeapSize = NS_RPC_MALLOC_SIZE_IN_K * 1024;
 uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
 #endif
 

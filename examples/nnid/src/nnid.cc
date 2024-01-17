@@ -31,7 +31,9 @@ uint8_t numUtterances = 0;
 
 // BLE uses malloc, so we need a heap
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 4 * 1024] __attribute__((aligned(4)));
+    #define NNID_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 4 * 1024)
+size_t ucHeapSize = NNID_HEAP_SIZE;
+uint8_t ucHeap[NNID_HEAP_SIZE] __attribute__((aligned(4)));
 #endif
 
 ns_button_config_t button_config_nnsp = {

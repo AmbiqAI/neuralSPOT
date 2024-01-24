@@ -1,0 +1,38 @@
+#******************************************************************************
+#
+# Memory configuration
+#
+# This is a configuration file to help you set up consistent linker settings
+# across multiple toolchains.
+#
+#******************************************************************************
+#
+# We need this app to run in RAM.  Thus the footprint should look as follows:
+# ROMEM: 10000000 - 10003FFF  (16KB)
+# RWMEM: 10004000 - 10005FFF  (8KB)
+# STACK: 10006FFF - 10006000  (4KB)
+#
+MemorySections:
+
+    # Default memory region for vector table, code,  and read-only data.
+    ROMEM:
+        start: 0x10000000
+        size:  16K
+
+    # Default memory region for fast-access data
+    TCM:
+        start: 0x10006000
+        size:  4K
+
+    # Default memory location for read-write, zero-init, and no-init data.
+    RWMEM:
+        start: 0x10004000
+        end:   0x10006000
+
+StackOptions:
+
+    # Number of bytes to use for the stack.
+    size: 4K
+
+    # Should the stack be placed in TCM? If false, the stack will be placed in RWMEM.
+    place_in_tcm: true

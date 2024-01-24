@@ -1,0 +1,2595 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="generator" content="AmbiqMicro" />
+    <title>Apollo3p SCARD</title>
+    <link href="../resources/tabs.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../resources/jquery.js"></script>
+    <script type="text/javascript" src="../resources/dynsections.js"></script>
+    <link href="search/search.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div id="titlearea">
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr style="height: 56px;">
+                        <td id="projectlogo">
+                            <img alt="Logo" src="../resources/am_logo.png" />
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <div id="projectname">Apollo3p  Register Documentation &#160;<span id="projectnumber">R3.1.1</span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end header part -->
+        <div id="navrow1" class="tabs">
+            <ul class="tablist">
+                <li class="current"><a href="../index.html"><span>Main&#160;Page</span></a>
+                </li>
+        </div>
+        </li>
+        </ul>
+    </div>
+    </div>
+    <!-- top -->
+    <!-- window showing the filter options -->
+    <div class="header">
+        <div class="headertitle">
+            <div class="title">SCARD - Serial ISO7816</div>
+        </div>
+    </div>
+    <!--header-->
+    <body>
+        <br>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> SCARD Register Index</h3>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000000:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#SR" target="_self">SR - ISO7816 interrupt status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000004:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#IER" target="_self">IER - ISO7816 interrupt enable</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000008:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#TCR" target="_self">TCR - ISO7816 transmit control</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000000C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#UCR" target="_self">UCR - ISO7816 user control</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000010:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DR" target="_self">DR - ISO7816 data</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000014:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#BPRL" target="_self">BPRL - ISO7816 baud rate low</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000018:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#BPRH" target="_self">BPRH - ISO7816 baud rate high</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000001C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#UCR1" target="_self">UCR1 - ISO7816 user control 1</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000020:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#SR1" target="_self">SR1 - ISO7816 interrupt status 1</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000024:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#IER1" target="_self">IER1 - ISO7816 interrupt enable 1</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000028:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#ECNTL" target="_self">ECNTL - ETU counter low</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000002C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#ECNTH" target="_self">ECNTH - ETU counter high</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000030:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#GTR" target="_self">GTR - ISO7816 guard time configuration</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000034:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#RETXCNT" target="_self">RETXCNT - ISO7816 resend count</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000038:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#RETXCNTRMI" target="_self">RETXCNTRMI - ISO7816 resent count inquiry</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000100:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLKCTRL" target="_self">CLKCTRL - Clock Control</a>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="SR" class="panel-title">SR - ISO7816 interrupt status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080000</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 interrupt status</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="25">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FHF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FT2REND
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PE
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OVR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FER
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">TBERBF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FNE
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:7</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>FHF</td>
+                            <td>RW</td>
+                            <td>FIFO Half Full.<br><br>
+                                 HALFFULL             = 0x1 - FIFO is half full.</td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>FT2REND</td>
+                            <td>RW</td>
+                            <td>TX to RX finished.<br><br>
+                                 CMPL                 = 0x1 - TX to RX completed.<br>
+                             NOTCMPL              = 0x0 - TX to RX not completed.</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>PE</td>
+                            <td>RW</td>
+                            <td>Parity Error.<br><br>
+                                 PEERR                = 0x1 - Parity error.<br>
+                             PENONE               = 0x0 - No parity error.</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>OVR</td>
+                            <td>RW</td>
+                            <td>RX FIFO overflow.<br><br>
+                                 RXOVR                = 0x1 - RX FIFO overflow.<br>
+                             RXOVRNONE            = 0x0 - RX FIFO no overflow.</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>FER</td>
+                            <td>RW</td>
+                            <td>Framing error.<br><br>
+                                 FRAMINGERR           = 0x1 - Framing error.<br>
+                             NOFRAMINGERR         = 0x0 - No framing error detected.</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>TBERBF</td>
+                            <td>RO</td>
+                            <td>FIFO empty (transmit) or full (receive).<br><br>
+                                 TXFIFOEMPTY          = 0x1 - Transmit: FIFO empty.<br>
+                             RXFIFOFULL           = 0x1 - Receive: FIFO full.<br>
+                             TXFIFONOTEMPTY       = 0x0 - Transmit: FIFO not empty.<br>
+                             RXFIFONOTFULL        = 0x0 - Receive: FIFO not full.</td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>FNE</td>
+                            <td>RO</td>
+                            <td>RX FIFO not empty.<br><br>
+                                 NOTEMPTY             = 0x1 - RX FIFO not empty.<br>
+                             EMPTY                = 0x0 - RX FIFO empty.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="IER" class="panel-title">IER - ISO7816 interrupt enable</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080004</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 interrupt enable</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="25">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FHFEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FT2RENDEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OVREN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FEREN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">TBERBFEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FNEEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:7</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>FHFEN</td>
+                            <td>RW</td>
+                            <td>FIFO Half Full interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>FT2RENDEN</td>
+                            <td>RW</td>
+                            <td>TX to RX finished interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>PEEN</td>
+                            <td>RW</td>
+                            <td>Parity Error interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>OVREN</td>
+                            <td>RW</td>
+                            <td>RX FIFOI overflow interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>FEREN</td>
+                            <td>RW</td>
+                            <td>Framing error interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>TBERBFEN</td>
+                            <td>RW</td>
+                            <td>FIFO empty (transmit) or full (receive) interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>FNEEN</td>
+                            <td>RW</td>
+                            <td>RX FIFO not empty interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="TCR" class="panel-title">TCR - ISO7816 transmit control</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080008</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 transmit control</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMAMD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FIP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">AUTOCONV
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PROT
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">TR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">LCT
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SS
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">CONV
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>DMAMD</td>
+                            <td>RW</td>
+                            <td>DMA direction.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>FIP</td>
+                            <td>RW</td>
+                            <td>Parity select.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>AUTOCONV</td>
+                            <td>RW</td>
+                            <td>Automatic conversion.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>PROT</td>
+                            <td>RW</td>
+                            <td>PROT control.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>TR</td>
+                            <td>RW</td>
+                            <td>Transmit/receive mode.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>LCT</td>
+                            <td>RW</td>
+                            <td>Fast TX to RX.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>SS</td>
+                            <td>RW</td>
+                            <td>Use first byte to configure conversion.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>CONV</td>
+                            <td>RW</td>
+                            <td>Conversion inversion control.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="UCR" class="panel-title">UCR - ISO7816 user control</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x4008000C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 user control</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="28">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RETXEN
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">RSTIN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RIU
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">CST
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:4</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>RETXEN</td>
+                            <td>RW</td>
+                            <td>Enable TX/RX time configuration.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>RSTIN</td>
+                            <td>RW</td>
+                            <td>Reset polarity.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>RIU</td>
+                            <td>WO</td>
+                            <td>ISO7816 reset. This bit is write-only.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>CST</td>
+                            <td>RW</td>
+                            <td>Clock control.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DR" class="panel-title">DR - ISO7816 data</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080010</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 data</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="8">DR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7:0</td>
+                            <td>DR</td>
+                            <td>RW</td>
+                            <td>Data register.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="BPRL" class="panel-title">BPRL - ISO7816 baud rate low</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080014</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 baud rate low</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="8">BPRL
+                                <br>0x74</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7:0</td>
+                            <td>BPRL</td>
+                            <td>RW</td>
+                            <td>Baud rate low<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="BPRH" class="panel-title">BPRH - ISO7816 baud rate high</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080018</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 baud rate high</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="28">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">BPRH
+                                <br>0x1</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:4</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3:0</td>
+                            <td>BPRH</td>
+                            <td>RW</td>
+                            <td>Baud rate high<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="UCR1" class="panel-title">UCR1 - ISO7816 user control 1</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x4008001C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 user control 1</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="26">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">ENLASTB
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">CLKIOV
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">T1PAREN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">STSP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:6</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>ENLASTB</td>
+                            <td>RW</td>
+                            <td>Enable last byte function.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>CLKIOV</td>
+                            <td>RW</td>
+                            <td>Output clock level.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>T1PAREN</td>
+                            <td>RW</td>
+                            <td>Parity check control.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>STSP</td>
+                            <td>WO</td>
+                            <td>ETU counter control. This bit is write-only.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>PR</td>
+                            <td>RW</td>
+                            <td>Query Card Detect.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="SR1" class="panel-title">SR1 - ISO7816 interrupt status 1</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080020</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 interrupt status 1</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="28">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IDLE
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">SYNCEND
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PRL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">ECNTOVER
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:4</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>IDLE</td>
+                            <td>RO</td>
+                            <td>ISO7816 idle.<br><br>
+                                 IDLE                 = 0x1 - ISO7816 idle.<br>
+                             ACTIVE               = 0x0 - ISO7816 active.</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>SYNCEND</td>
+                            <td>RW</td>
+                            <td>Write complete synchronization.<br><br>
+                                 CMPL                 = 0x1 - Synchronization complete.<br>
+                             INCMPL               = 0x0 - Incomplete.</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>PRL</td>
+                            <td>RW</td>
+                            <td>Card insert/remove.<br><br>
+                                 INSREM               = 0x1 - Card inserted/removed.</td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>ECNTOVER</td>
+                            <td>RW</td>
+                            <td>ETU counter overflow.<br><br>
+                                 OVR                  = 0x1 - ETU overflow.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="IER1" class="panel-title">IER1 - ISO7816 interrupt enable 1</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080024</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 interrupt enable 1</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="29">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SYNCENDEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PRLEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">ECNTOVEREN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:3</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>SYNCENDEN</td>
+                            <td>RW</td>
+                            <td>Write complete synchronization interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>PRLEN</td>
+                            <td>RW</td>
+                            <td>Card insert/remove interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>ECNTOVEREN</td>
+                            <td>RW</td>
+                            <td>ETU counter overflow interrupt enable.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="ECNTL" class="panel-title">ECNTL - ETU counter low</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080028</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ETU counter low</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="8">ECNTL
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7:0</td>
+                            <td>ECNTL</td>
+                            <td>RW</td>
+                            <td>ETU counter low register.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="ECNTH" class="panel-title">ECNTH - ETU counter high</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x4008002C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ETU counter high</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="8">ECNTH
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7:0</td>
+                            <td>ECNTH</td>
+                            <td>RW</td>
+                            <td>ETU counter high register.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="GTR" class="panel-title">GTR - ISO7816 guard time configuration</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080030</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 guard time configuration</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="8">GTR
+                                <br>0xff</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7:0</td>
+                            <td>GTR</td>
+                            <td>RW</td>
+                            <td>Guard time configuration register.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="RETXCNT" class="panel-title">RETXCNT - ISO7816 resend count</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080034</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 resend count</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="28">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">RETXCNT
+                                <br>0x4</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:4</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3:0</td>
+                            <td>RETXCNT</td>
+                            <td>RW</td>
+                            <td>Resend count register.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="RETXCNTRMI" class="panel-title">RETXCNTRMI - ISO7816 resent count inquiry</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080038</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>ISO7816 resent count inquiry</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="28">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">RETXCNTRMI
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:4</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3:0</td>
+                            <td>RETXCNTRMI</td>
+                            <td>RW</td>
+                            <td>Resent count inquiry register.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLKCTRL" class="panel-title">CLKCTRL - Clock Control</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40080100</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>SCARD external clock control</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="30">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">CLKEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:2</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>APBCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable the SCARD APB clock to run continuously.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>CLKEN</td>
+                            <td>RW</td>
+                            <td>Enable the serial source clock for SCARD.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+    </body>
+
+    <hr size="1">
+    <body>
+        <div id="footer" align="right">
+            <small>
+                AmbiqSuite Register Documentation&nbsp;
+                <a href="http://www.ambiqmicro.com">
+                <img class="footer" src="../resources/ambiqmicro_logo.png" alt="Ambiq Micro"/></a>&nbsp&nbsp Copyright &copy; 2023&nbsp&nbsp<br />
+                This documentation is licensed and distributed under the <a rel="license" href="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>.&nbsp&nbsp<br/>
+            </small>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,4 @@
+# ninja log v5
+1	529	7113975816175456	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/bsp/iar/bin/am_bsp.o	60c4c2fb87c3d5bf
+540	732	7113975818225465	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/bsp/iar/bin/am_bsp_pins.o	88581425346efa4b
+748	764	7113975818635472	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/bsp/iar/bin/libam_bsp.a	74c09f59c2c81f99

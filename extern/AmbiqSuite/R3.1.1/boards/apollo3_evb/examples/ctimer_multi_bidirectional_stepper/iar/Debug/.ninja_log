@@ -1,0 +1,8 @@
+# ninja log v5
+0	234	7113996509243752	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/ctimer_multi_bidirectional_stepper.o	1b7181a3fcd9a662
+255	311	7113996510043752	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/startup_iar.o	c47bc363bf8e0d41
+340	488	7113996511823752	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/am_util_stdio.o	d9b650f125ed649
+503	695	7113996513833757	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/am_util_delay.o	5bbd3e69b204467b
+710	905	7113996515953770	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/am_util_faultisr.o	3b653466b5f5ca32
+926	1015	7113996517093749	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/ctimer_multi_bidirectional_stepper.out	387064b96df7836e
+1034	1046	7113996517463752	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_multi_bidirectional_stepper/iar/bin/ctimer_multi_bidirectional_stepper.bin	76abb3e69b569c4c

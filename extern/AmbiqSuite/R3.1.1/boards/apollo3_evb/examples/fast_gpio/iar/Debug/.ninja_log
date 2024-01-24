@@ -1,0 +1,9 @@
+# ninja log v5
+0	448	7113997017659365	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/am_devices_led.o	c1fd4e82e62a1b37
+463	662	7113997019839374	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/am_util_delay.o	dd8d951249ddf1c8
+681	1530	7113997028559361	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/am_util_stdio.o	460e3578c4400e5d
+1550	1611	7113997029369373	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/startup_iar.o	bd36d7970e2ee1ef
+1624	1834	7113997031579376	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/am_util_faultisr.o	67de550725af0889
+1846	2204	7113997035269354	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/fast_gpio.o	89b4b4caca4ad64d
+2222	2306	7113997036349373	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/fast_gpio.out	30484901344370e1
+2320	2332	7113997036669375	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/fast_gpio/iar/bin/fast_gpio.bin	1e03c4a65a4ca53a

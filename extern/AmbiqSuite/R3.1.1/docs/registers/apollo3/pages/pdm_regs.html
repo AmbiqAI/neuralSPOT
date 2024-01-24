@@ -1,0 +1,2829 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="generator" content="AmbiqMicro" />
+    <title>Apollo3 PDM</title>
+    <link href="../resources/tabs.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../resources/jquery.js"></script>
+    <script type="text/javascript" src="../resources/dynsections.js"></script>
+    <link href="search/search.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div id="titlearea">
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr style="height: 56px;">
+                        <td id="projectlogo">
+                            <img alt="Logo" src="../resources/am_logo.png" />
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <div id="projectname">Apollo3  Register Documentation &#160;<span id="projectnumber">R3.1.1</span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end header part -->
+        <div id="navrow1" class="tabs">
+            <ul class="tablist">
+                <li class="current"><a href="../index.html"><span>Main&#160;Page</span></a>
+                </li>
+        </div>
+        </li>
+        </ul>
+    </div>
+    </div>
+    <!-- top -->
+    <!-- window showing the filter options -->
+    <div class="header">
+        <div class="headertitle">
+            <div class="title">PDM - PDM Audio</div>
+        </div>
+    </div>
+    <!--header-->
+    <body>
+        <br>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> PDM Register Index</h3>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000000:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#PCFG" target="_self">PCFG - PDM Configuration</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000004:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#VCFG" target="_self">VCFG - Voice Configuration</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000008:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#VOICESTAT" target="_self">VOICESTAT - Voice Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000000C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#FIFOREAD" target="_self">FIFOREAD - FIFO Read</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000010:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#FIFOFLUSH" target="_self">FIFOFLUSH - FIFO Flush</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000014:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#FIFOTHR" target="_self">FIFOTHR - FIFO Threshold</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000200:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#INTEN" target="_self">INTEN - IO Master Interrupts: Enable</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000204:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#INTSTAT" target="_self">INTSTAT - IO Master Interrupts: Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000208:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#INTCLR" target="_self">INTCLR - IO Master Interrupts: Clear</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000020C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#INTSET" target="_self">INTSET - IO Master Interrupts: Set</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000240:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DMATRIGEN" target="_self">DMATRIGEN - DMA Trigger Enable</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000244:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DMATRIGSTAT" target="_self">DMATRIGSTAT - DMA Trigger Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000280:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DMACFG" target="_self">DMACFG - DMA Configuration</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000288:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DMATOTCOUNT" target="_self">DMATOTCOUNT - DMA Total Transfer Count</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000028C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DMATARGADDR" target="_self">DMATARGADDR - DMA Target Address</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000290:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#DMASTAT" target="_self">DMASTAT - DMA Status</a>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="PCFG" class="panel-title">PCFG - PDM Configuration</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011000</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>PDM Configuration</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="1">LRSWAP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="5">PGARIGHT
+                                <br>0x0</td>
+
+                            <td align="center" colspan="5">PGALEFT
+                                <br>0x0</td>
+
+                            <td align="center" colspan="2">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="2">MCLKDIV
+                                <br>0x0</td>
+
+                            <td align="center" colspan="7">SINCRATE
+                                <br>0x30</td>
+
+                            <td align="center" colspan="1">ADCHPD
+                                <br>0x1</td>
+
+                            <td align="center" colspan="4">HPCUTOFF
+                                <br>0xb</td>
+
+                            <td align="center" colspan="3">CYCLES
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">SOFTMUTE
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PDMCOREEN
+                                <br>0x1</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31</td>
+                            <td>LRSWAP</td>
+                            <td>RW</td>
+                            <td>Left/right channel swap.<br><br>
+                                 EN                   = 0x1 - Swap left and right channels (FIFO Read RIGHT_LEFT).<br>
+                             NOSWAP               = 0x0 - No channel swapping (IFO Read LEFT_RIGHT).</td>
+                        </tr>
+
+                        <tr>
+                            <td>30:26</td>
+                            <td>PGARIGHT</td>
+                            <td>RW</td>
+                            <td>Right channel PGA gain.<br><br>
+                                 P405DB               = 0x1F - 40.5 db gain.<br>
+                             P390DB               = 0x1E - 39.0 db gain.<br>
+                             P375DB               = 0x1D - 37.5 db gain.<br>
+                             P360DB               = 0x1C - 36.0 db gain.<br>
+                             P345DB               = 0x1B - 34.5 db gain.<br>
+                             P330DB               = 0x1A - 33.0 db gain.<br>
+                             P315DB               = 0x19 - 31.5 db gain.<br>
+                             P300DB               = 0x18 - 30.0 db gain.<br>
+                             P285DB               = 0x17 - 28.5 db gain.<br>
+                             P270DB               = 0x16 - 27.0 db gain.<br>
+                             P255DB               = 0x15 - 25.5 db gain.<br>
+                             P240DB               = 0x14 - 24.0 db gain.<br>
+                             P225DB               = 0x13 - 22.5 db gain.<br>
+                             P210DB               = 0x12 - 21.0 db gain.<br>
+                             P195DB               = 0x11 - 19.5 db gain.<br>
+                             P180DB               = 0x10 - 18.0 db gain.<br>
+                             P165DB               = 0xF - 16.5 db gain.<br>
+                             P150DB               = 0xE - 15.0 db gain.<br>
+                             P135DB               = 0xD - 13.5 db gain.<br>
+                             P120DB               = 0xC - 12.0 db gain.<br>
+                             P105DB               = 0xB - 10.5 db gain.<br>
+                             P90DB                = 0xA - 9.0 db gain.<br>
+                             P75DB                = 0x9 - 7.5 db gain.<br>
+                             P60DB                = 0x8 - 6.0 db gain.<br>
+                             P45DB                = 0x7 - 4.5 db gain.<br>
+                             P30DB                = 0x6 - 3.0 db gain.<br>
+                             P15DB                = 0x5 - 1.5 db gain.<br>
+                             0DB                  = 0x4 - 0.0 db gain.<br>
+                             M15DB                = 0x3 - -1.5 db gain.<br>
+                             M300DB               = 0x2 - -3.0 db gain.<br>
+                             M45DB                = 0x1 - -4.5 db gain.<br>
+                             M60DB                = 0x0 - -6.0 db gain.</td>
+                        </tr>
+
+                        <tr>
+                            <td>25:21</td>
+                            <td>PGALEFT</td>
+                            <td>RW</td>
+                            <td>Left channel PGA gain.<br><br>
+                                 P405DB               = 0x1F - 40.5 db gain.<br>
+                             P390DB               = 0x1E - 39.0 db gain.<br>
+                             P375DB               = 0x1D - 37.5 db gain.<br>
+                             P360DB               = 0x1C - 36.0 db gain.<br>
+                             P345DB               = 0x1B - 34.5 db gain.<br>
+                             P330DB               = 0x1A - 33.0 db gain.<br>
+                             P315DB               = 0x19 - 31.5 db gain.<br>
+                             P300DB               = 0x18 - 30.0 db gain.<br>
+                             P285DB               = 0x17 - 28.5 db gain.<br>
+                             P270DB               = 0x16 - 27.0 db gain.<br>
+                             P255DB               = 0x15 - 25.5 db gain.<br>
+                             P240DB               = 0x14 - 24.0 db gain.<br>
+                             P225DB               = 0x13 - 22.5 db gain.<br>
+                             P210DB               = 0x12 - 21.0 db gain.<br>
+                             P195DB               = 0x11 - 19.5 db gain.<br>
+                             P180DB               = 0x10 - 18.0 db gain.<br>
+                             P165DB               = 0xF - 16.5 db gain.<br>
+                             P150DB               = 0xE - 15.0 db gain.<br>
+                             P135DB               = 0xD - 13.5 db gain.<br>
+                             P120DB               = 0xC - 12.0 db gain.<br>
+                             P105DB               = 0xB - 10.5 db gain.<br>
+                             P90DB                = 0xA - 9.0 db gain.<br>
+                             P75DB                = 0x9 - 7.5 db gain.<br>
+                             P60DB                = 0x8 - 6.0 db gain.<br>
+                             P45DB                = 0x7 - 4.5 db gain.<br>
+                             P30DB                = 0x6 - 3.0 db gain.<br>
+                             P15DB                = 0x5 - 1.5 db gain.<br>
+                             0DB                  = 0x4 - 0.0 db gain.<br>
+                             M15DB                = 0x3 - -1.5 db gain.<br>
+                             M300DB               = 0x2 - -3.0 db gain.<br>
+                             M45DB                = 0x1 - -4.5 db gain.<br>
+                             M60DB                = 0x0 - -6.0 db gain.</td>
+                        </tr>
+
+                        <tr>
+                            <td>20:19</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>18:17</td>
+                            <td>MCLKDIV</td>
+                            <td>RW</td>
+                            <td>PDM_CLK frequency divisor.<br><br>
+                                 MCKDIV4              = 0x3 - Divide input clock by 4<br>
+                             MCKDIV3              = 0x2 - Divide input clock by 3<br>
+                             MCKDIV2              = 0x1 - Divide input clock by 2<br>
+                             MCKDIV1              = 0x0 - Divide input clock by 1</td>
+                        </tr>
+
+                        <tr>
+                            <td>16:10</td>
+                            <td>SINCRATE</td>
+                            <td>RW</td>
+                            <td>SINC decimation rate.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>ADCHPD</td>
+                            <td>RW</td>
+                            <td>High pass filter control.<br><br>
+                                 EN                   = 0x0 - Enable high pass filter.<br>
+                             DIS                  = 0x1 - Disable high pass filter.</td>
+                        </tr>
+
+                        <tr>
+                            <td>8:5</td>
+                            <td>HPCUTOFF</td>
+                            <td>RW</td>
+                            <td>High pass filter coefficients.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4:2</td>
+                            <td>CYCLES</td>
+                            <td>RW</td>
+                            <td>Number of clocks during gain-setting changes.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>SOFTMUTE</td>
+                            <td>RW</td>
+                            <td>Soft mute control.<br><br>
+                                 EN                   = 0x1 - Enable Soft Mute.<br>
+                             DIS                  = 0x0 - Disable Soft Mute.</td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>PDMCOREEN</td>
+                            <td>RW</td>
+                            <td>Data Streaming Control.<br><br>
+                                 EN                   = 0x1 - Enable Data Streaming.<br>
+                             DIS                  = 0x0 - Disable Data Streaming.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="VCFG" class="panel-title">VCFG - Voice Configuration</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011004</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Voice Configuration</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="1">IOCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSTB
+                                <br>0x0</td>
+
+                            <td align="center" colspan="3">PDMCLKSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PDMCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="5">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">I2SEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">BCLKINV
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMICKDEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SELAP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="7">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PCMPACK
+                                <br>0x0</td>
+
+                            <td align="center" colspan="3">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="2">CHSET
+                                <br>0x1</td>
+
+                            <td align="center" colspan="3">RSVD
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31</td>
+                            <td>IOCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable the IO clock.<br><br>
+                                 DIS                  = 0x0 - Disable FIFO read.<br>
+                             EN                   = 0x1 - Enable FIFO read.</td>
+                        </tr>
+
+                        <tr>
+                            <td>30</td>
+                            <td>RSTB</td>
+                            <td>RW</td>
+                            <td>Reset the IP core.<br><br>
+                                 RESET                = 0x0 - Reset the core.<br>
+                             NORM                 = 0x1 - Enable the core.</td>
+                        </tr>
+
+                        <tr>
+                            <td>29:27</td>
+                            <td>PDMCLKSEL</td>
+                            <td>RW</td>
+                            <td>Select the PDM input clock.<br><br>
+                                 DISABLE              = 0x0 - Static value.<br>
+                             12MHz                = 0x1 - PDM clock is 12 MHz.<br>
+                             6MHz                 = 0x2 - PDM clock is 6 MHz.<br>
+                             3MHz                 = 0x3 - PDM clock is 3 MHz.<br>
+                             1_5MHz               = 0x4 - PDM clock is 1.5 MHz.<br>
+                             750KHz               = 0x5 - PDM clock is 750 KHz.<br>
+                             375KHz               = 0x6 - PDM clock is 375 KHz.<br>
+                             187KHz               = 0x7 - PDM clock is 187.5 KHz.</td>
+                        </tr>
+
+                        <tr>
+                            <td>26</td>
+                            <td>PDMCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable the serial clock.<br><br>
+                                 DIS                  = 0x0 - Disable serial clock.<br>
+                             EN                   = 0x1 - Enable serial clock.</td>
+                        </tr>
+
+                        <tr>
+                            <td>25:21</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>20</td>
+                            <td>I2SEN</td>
+                            <td>RW</td>
+                            <td>I2S interface enable.<br><br>
+                                 DIS                  = 0x0 - Disable I2S interface.<br>
+                             EN                   = 0x1 - Enable I2S interface.</td>
+                        </tr>
+
+                        <tr>
+                            <td>19</td>
+                            <td>BCLKINV</td>
+                            <td>RW</td>
+                            <td>I2S BCLK input inversion.<br><br>
+                                 INV                  = 0x0 - BCLK inverted.<br>
+                             NORM                 = 0x1 - BCLK not inverted.</td>
+                        </tr>
+
+                        <tr>
+                            <td>18</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>17</td>
+                            <td>DMICKDEL</td>
+                            <td>RW</td>
+                            <td>PDM clock sampling delay.<br><br>
+                                 0CYC                 = 0x0 - No delay.<br>
+                             1CYC                 = 0x1 - 1 cycle delay.</td>
+                        </tr>
+
+                        <tr>
+                            <td>16</td>
+                            <td>SELAP</td>
+                            <td>RW</td>
+                            <td>Select PDM input clock source.<br><br>
+                                 I2S                  = 0x1 - Clock source from I2S BCLK.<br>
+                             INTERNAL             = 0x0 - Clock source from internal clock generator.</td>
+                        </tr>
+
+                        <tr>
+                            <td>15:9</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>PCMPACK</td>
+                            <td>RW</td>
+                            <td>PCM data packing enable.<br><br>
+                                 DIS                  = 0x0 - Disable PCM packing.<br>
+                             EN                   = 0x1 - Enable PCM packing.</td>
+                        </tr>
+
+                        <tr>
+                            <td>7:5</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4:3</td>
+                            <td>CHSET</td>
+                            <td>RW</td>
+                            <td>Set PCM channels.<br><br>
+                                 DIS                  = 0x0 - Channel disabled.<br>
+                             LEFT                 = 0x1 - Mono left channel.<br>
+                             RIGHT                = 0x2 - Mono right channel.<br>
+                             STEREO               = 0x3 - Stereo channels.</td>
+                        </tr>
+
+                        <tr>
+                            <td>2:0</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="VOICESTAT" class="panel-title">VOICESTAT - Voice Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011008</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Voice Status</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="26">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="6">FIFOCNT
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:6</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5:0</td>
+                            <td>FIFOCNT</td>
+                            <td>RO</td>
+                            <td>Valid 32-bit entries currently in the FIFO.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="FIFOREAD" class="panel-title">FIFOREAD - FIFO Read</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x5001100C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>FIFO Read</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="32">FIFOREAD
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:0</td>
+                            <td>FIFOREAD</td>
+                            <td>RO</td>
+                            <td>FIFO read data.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="FIFOFLUSH" class="panel-title">FIFOFLUSH - FIFO Flush</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011010</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>FIFO Flush</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="31">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FIFOFLUSH
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:1</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>FIFOFLUSH</td>
+                            <td>WO</td>
+                            <td>FIFO FLUSH.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="FIFOTHR" class="panel-title">FIFOTHR - FIFO Threshold</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011014</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>FIFO Threshold</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="27">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="5">FIFOTHR
+                                <br>0x10</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:5</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>This bit field is reserved for future use.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4:0</td>
+                            <td>FIFOTHR</td>
+                            <td>RW</td>
+                            <td>FIFO Threshold value. When the FIFO count is equal to, or larger than this value (in words), a THR interrupt is generated (if enabled)<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="INTEN" class="panel-title">INTEN - IO Master Interrupts: Enable</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011200</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Set bits in this register to allow this module to generate the corresponding interrupt.</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="27">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DERR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DCMP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UNDFL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OVF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">THR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:5</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>DERR</td>
+                            <td>RW</td>
+                            <td>DMA Error received<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>DCMP</td>
+                            <td>RW</td>
+                            <td>DMA completed a transfer<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>UNDFL</td>
+                            <td>RW</td>
+                            <td>This is the FIFO underflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>OVF</td>
+                            <td>RW</td>
+                            <td>This is the FIFO overflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>THR</td>
+                            <td>RW</td>
+                            <td>This is the FIFO threshold interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="INTSTAT" class="panel-title">INTSTAT - IO Master Interrupts: Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011204</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Read bits from this register to discover the cause of a recent interrupt.</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="27">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DERR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DCMP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UNDFL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OVF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">THR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:5</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>DERR</td>
+                            <td>RW</td>
+                            <td>DMA Error received<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>DCMP</td>
+                            <td>RW</td>
+                            <td>DMA completed a transfer<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>UNDFL</td>
+                            <td>RW</td>
+                            <td>This is the FIFO underflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>OVF</td>
+                            <td>RW</td>
+                            <td>This is the FIFO overflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>THR</td>
+                            <td>RW</td>
+                            <td>This is the FIFO threshold interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="INTCLR" class="panel-title">INTCLR - IO Master Interrupts: Clear</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011208</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Write a 1 to a bit in this register to clear the interrupt status associated with that bit.</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="27">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DERR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DCMP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UNDFL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OVF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">THR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:5</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>DERR</td>
+                            <td>RW</td>
+                            <td>DMA Error received<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>DCMP</td>
+                            <td>RW</td>
+                            <td>DMA completed a transfer<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>UNDFL</td>
+                            <td>RW</td>
+                            <td>This is the FIFO underflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>OVF</td>
+                            <td>RW</td>
+                            <td>This is the FIFO overflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>THR</td>
+                            <td>RW</td>
+                            <td>This is the FIFO threshold interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="INTSET" class="panel-title">INTSET - IO Master Interrupts: Set</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x5001120C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Write a 1 to a bit in this register to instantly generate an interrupt from this module. (Generally used for testing purposes).</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="27">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DERR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DCMP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UNDFL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OVF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">THR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:5</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>DERR</td>
+                            <td>RW</td>
+                            <td>DMA Error received<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>DCMP</td>
+                            <td>RW</td>
+                            <td>DMA completed a transfer<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>UNDFL</td>
+                            <td>RW</td>
+                            <td>This is the FIFO underflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>OVF</td>
+                            <td>RW</td>
+                            <td>This is the FIFO overflow interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>THR</td>
+                            <td>RW</td>
+                            <td>This is the FIFO threshold interrupt.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DMATRIGEN" class="panel-title">DMATRIGEN - DMA Trigger Enable</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011240</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>DMA Trigger Enable</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="30">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DTHR90
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DTHR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:2</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>DTHR90</td>
+                            <td>RW</td>
+                            <td>Trigger DMA at FIFO 90 percent full. This signal is also used internally for AUTOHIP function<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>DTHR</td>
+                            <td>RW</td>
+                            <td>Trigger DMA upon when FIFO is filled to level indicated by the FIFO THRESHOLD,at granularity of 16 bytes only<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DMATRIGSTAT" class="panel-title">DMATRIGSTAT - DMA Trigger Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011244</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>DMA Trigger Status</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="30">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DTHR90STAT
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DTHRSTAT
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:2</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>DTHR90STAT</td>
+                            <td>RO</td>
+                            <td>Triggered DMA from FIFO reaching 90 percent full<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>DTHRSTAT</td>
+                            <td>RO</td>
+                            <td>Triggered DMA from FIFO reaching threshold<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DMACFG" class="panel-title">DMACFG - DMA Configuration</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011280</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>DMA Configuration</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="21">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DPWROFF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DAUTOHIP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMAPRI
+                                <br>0x0</td>
+
+                            <td align="center" colspan="5">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMADIR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMAEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:11</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>DPWROFF</td>
+                            <td>RW</td>
+                            <td>Power Off the ADC System upon DMACPL.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>DAUTOHIP</td>
+                            <td>RW</td>
+                            <td>Raise priority to high on FIFO full, and DMAPRI set to low<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>DMAPRI</td>
+                            <td>RW</td>
+                            <td>Sets the Priority of the DMA request<br><br>
+                                 LOW                  = 0x0 - Low Priority (service as best effort)<br>
+                             HIGH                 = 0x1 - High Priority (service immediately)</td>
+                        </tr>
+
+                        <tr>
+                            <td>7:3</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>DMADIR</td>
+                            <td>RO</td>
+                            <td>Direction<br><br>
+                                 P2M                  = 0x0 - Peripheral to Memory (SRAM) transaction. THe PDM module will only DMA to memory.<br>
+                             M2P                  = 0x1 - Memory to Peripheral transaction. Not available for PDM module</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>DMAEN</td>
+                            <td>RW</td>
+                            <td>DMA Enable<br><br>
+                                 DIS                  = 0x0 - Disable DMA Function<br>
+                             EN                   = 0x1 - Enable DMA Function</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DMATOTCOUNT" class="panel-title">DMATOTCOUNT - DMA Total Transfer Count</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011288</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>DMA Total Transfer Count</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="12">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="20">TOTCOUNT
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:20</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>19:0</td>
+                            <td>TOTCOUNT</td>
+                            <td>RW</td>
+                            <td>Total Transfer Count. The transfer count must be a multiple of the THR setting to avoid DMA overruns.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DMATARGADDR" class="panel-title">DMATARGADDR - DMA Target Address</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x5001128C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>DMA Target Address</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="12">UTARGADDR
+                                <br>0x100</td>
+
+                            <td align="center" colspan="20">LTARGADDR
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:20</td>
+                            <td>UTARGADDR</td>
+                            <td>RO</td>
+                            <td>SRAM Target<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>19:0</td>
+                            <td>LTARGADDR</td>
+                            <td>RW</td>
+                            <td>DMA Target Address. This register is not updated with the current address of the DMA, but will remain static with the original address during the DMA transfer.<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="DMASTAT" class="panel-title">DMASTAT - DMA Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x50011290</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>DMA Status</p>
+                <h3>Example Macro Usage:</h3>
+                <pre style="margin:10px" class="language-pascal"><span style='color:#3f7f59; '>//
+// Register access is all performed through the standard CMSIS structure-based
+// interface. This includes module-level structure definitions with members and
+// bitfields corresponding to the physical registers and bitfields within each
+// module. In addition, Ambiq has provided instance-level macros for modules
+// that have more than one physical instance and a generic AM_REGVAL() macro
+// for directly accessing memory by address.
+//
+// The following examples show how to use these structures and macros:
+
+// Setting the ADC configuration register...</span>
+AM_REGVAL(0x50010000) = 0x1234;              <span style='color:#3f7f59; '>// by address.</span>
+ADC-&gt;CFG = 0x1234;                           <span style='color:#3f7f59; '>// by structure pointer.</span>
+ADCn(0)-&gt;CFG = 0x1234;                       <span style='color:#3f7f59; '>// by structure pointer (with instance number).</span>
+
+<span style='color:#3f7f59; '>// Changing the ADC clock...</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = 0x2;                 <span style='color:#3f7f59; '>// by raw value.</span>
+ADCn(0)-&gt;CFG_b.CLKSEL = ADC_CFG_CLKSEL_HFRC; <span style='color:#3f7f59; '>// using an enumerated value.</span></pre>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="29">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMAERR
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMACPL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DMATIP
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:3</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>DMAERR</td>
+                            <td>RW</td>
+                            <td>DMA Error<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>DMACPL</td>
+                            <td>RW</td>
+                            <td>DMA Transfer Complete<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>DMATIP</td>
+                            <td>RW</td>
+                            <td>DMA Transfer In Progress<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+    </body>
+
+    <hr size="1">
+    <body>
+        <div id="footer" align="right">
+            <small>
+                AmbiqSuite Register Documentation&nbsp;
+                <a href="http://www.ambiqmicro.com">
+                <img class="footer" src="../resources/ambiqmicro_logo.png" alt="Ambiq Micro"/></a>&nbsp&nbsp Copyright &copy; 2023&nbsp&nbsp<br />
+                This documentation is licensed and distributed under the <a rel="license" href="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>.&nbsp&nbsp<br/>
+            </small>
+        </div>
+    </body>
+</html>
+

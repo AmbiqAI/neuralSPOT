@@ -1,0 +1,53 @@
+//*****************************************************************************
+//
+// linker_script.icf
+//
+// IAR linker Configuration File
+//
+//*****************************************************************************
+
+//
+// Define a memory section that covers the entire 4 GB addressable space of the
+// processor. (32-bit can address up to 4GB)
+//
+define memory mem with size = 4G;
+
+//
+// Define regions for the various types of internal memory.
+//
+define region ROMEM = mem:[from 0x0000C000 to 0x00200000];
+define region RWMEM = mem:[from 0x10001000 to 0x10002000];
+define region TCM = mem:[from 0x10000000 to 0x10000000];
+define region STACKMEM = mem:[from 0x10000000 to 0x10001000];
+
+//
+// Define blocks for logical groups of data.
+//
+define block HEAP with alignment = 0x8, size = 0x00000000 { };
+define block CSTACK with alignment = 0x8, size = 4096
+{
+    section .stack
+};
+
+define block ROSTART with fixed order
+{
+    readonly section .intvec,
+    readonly section .patch
+};
+
+//
+// Set section properties.
+//
+initialize by copy { readwrite };
+initialize by copy { section RWMEM };
+do not initialize { section .noinit };
+do not initialize { section .stack };
+
+//
+// Place code sections in memory regions.
+//
+place at start of ROMEM { block ROSTART };
+place in ROMEM { readonly };
+place at start of STACKMEM { block CSTACK};
+place in RWMEM { block HEAP, readwrite, section .noinit };
+place in TCM { section .tcm };

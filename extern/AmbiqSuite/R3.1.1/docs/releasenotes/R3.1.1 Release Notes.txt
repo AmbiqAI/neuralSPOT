@@ -1,0 +1,76 @@
+**********************************************************************************************
+
+This is SDK update targeting the Apollo3 family of MCUs include Apollo3, Apollo3 Blue and
+Apollo3 Blue Plus.  Released on 19Jul2023 (revision release_sdk_3_1_1-10cda4b5e0).
+
+**********************************************************************************************
+
+SDK supports all Apollo3 evaluation boards from Ambiq.
+- Apollo3 Blue EVB (see /boards/apollo3_evb)
+- Apollo3 Blue EVB + Cygnus Shield (see /boards/apollo3_evb_cygnus)
+- Apollo3 Blue Plus EVB (see /boards/apollo3p_evb)
+- Apollo3 Blue Plus EVB + Cygnus Shield (see /boards/apollo3p_evb_cygnus)
+
+SDK includes a number of predefined examples for each configuration.
+
+IDE/ToolChain Support:
+----------------------
+AmbiqSuite SDK supports GCC, IAR and Keil IDEs.
+This release has been tested with:
+- GCC 10.3.1 20210621 (release)
+- IAR ANSI C/C++ Compiler V9.20.2.320/W64 for ARM
+- Keil: ARMCC 5060750, ARM Compiler 5.06 update 6 (build 750) 
+- Keil: ARMCC 5.36 GCC Clang 13.0.0
+
+* All devices are natively supported in J-Link v6.80a or later.
+* Binaries and projects for Keil/ARMCC 5060750 will not be provided after calendar year 2023.
+
+Known Issues:
+-------------
+None
+
+Top Level Directory Structure:
+------------------------------
++-- ambiq_ble <BLE apps/profiles/services used on top of Cordio>
++-- boards
+¦   +-- apollo3p_evb <Ambiq Apollo3p BGA Evaluation Board>
+¦   ¦   +-- bsp <Board Specific code>
+¦   ¦   +-- examples <Reference Examples>
+¦   +-- apollo3p_evb_cygnus <Ambiq Apollo3p Evaluation Board with Display Shield>
+¦   ¦   +-- bsp <Board Specific code>
+¦   ¦   +-- examples <Reference Examples>
+¦   +-- apollo3_evb <Ambiq Apollo3 Evaluation Board>
+¦   ¦   +-- bsp <Board Specific code>
+¦   ¦   +-- examples <Reference Examples>
+¦   +-- apollo3_evb_cygnus <Ambiq Apollo3 Evaluation Board with Display Shield>
+¦   ¦   +-- bsp <Board Specific code>
+¦   ¦   +-- examples <Reference Examples>
++-- bootloader <utility functions for secondary bootloader or other applications>
++-- CMSIS <ARM CMSIS definitions and functions>
++-- devices <Device Drivers for selected peripherals using Apollo3/3p HAL>
++-- docs
+¦   +-- licenses
+¦   +-- registers <Register Documentation>
+¦   +-- releasenotes <Release Notes and Change History>
+¦   +-- user_guide <Doxygen Documentation>
++-- makedefs <Part of build infrastructure>
++-- mcu <HAL and Register definitions>
++-- pack <SVD files>
++-- third_party <third Party Code/Documents>
+¦   +-- cordio <BLE Stack from ARM>
+¦   +-- FreeRTOS9 <Reference FreeRTOS open source implementation>
+¦   +-- FreeRTOSv10.1.1 <Reference FreeRTOS open source implementation>
+¦   +-- mbedtls-2.4.2 <Reference mbed-tls open source implementation>
+¦   +-- prime_mpi <Reference Prime number parallel processing implementation>
+¦   +-- uecc <small and fast ECDH and ECDSA implementation>
++-- tools
+¦   +-- apollo3_amota <Tools to interact with Ambiq's BLE Reference Application for Image download and updates>
+¦   +-- apollo3_scripts <Provisioning and Image generation/update tools, along with SBL updates>
+¦   +-- ble_throughput_app
+¦   +-- bootloader_scripts
+¦   ¦   +-- generate_ota_descriptor.py
+¦   ¦   +-- uart_boot_host.py
+¦   +-- bsp_generator <Tools for Automated BSP generation>
+¦   +-- linker_config <Part of build infrastructure>
++-- utils <General Utilities>
++-- VERSION.txt

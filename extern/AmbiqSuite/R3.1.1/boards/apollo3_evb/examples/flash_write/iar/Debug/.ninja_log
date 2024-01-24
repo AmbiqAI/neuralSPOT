@@ -1,0 +1,8 @@
+# ninja log v5
+1	228	7113997194089413	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/am_util_delay.o	314232be02adf44c
+244	448	7113997196299402	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/am_util_faultisr.o	a85f93dc238ad71c
+465	691	7113997198729376	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/flash_write.o	6f5633560d9372ba
+708	767	7113997199539386	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/startup_iar.o	6f5eb9fcc801ab95
+782	984	7113997201619375	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/am_util_stdio.o	724bd34c30973790
+997	1156	7113997203269409	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/flash_write.out	da1f6beb016328c0
+1169	1191	7113997203829388	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/flash_write/iar/bin/flash_write.bin	f05adccf5260a49b

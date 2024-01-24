@@ -1,0 +1,9 @@
+# ninja log v5
+0	373	7114079144887876	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/am_devices_mspi_atxp032.o	c141a50d0b91e2e2
+387	601	7114079147157877	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/am_util_delay.o	bf3359411c20dc1
+624	782	7114079149017876	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/am_util_stdio.o	dd7429a3d4c1d59a
+806	868	7114079149877899	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/startup_iar.o	698ff4e9e8ded718
+892	1121	7114079152377872	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/am_util_faultisr.o	598870368010b804
+1135	1386	7114079155007875	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/mspi_octal_example.o	ab3b89b84b01b3ff
+1404	1532	7114079156507880	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/mspi_octal_example.out	b35e2788d21075b9
+1548	1561	7114079156907887	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb_cygnus/examples/mspi_octal_example/iar/bin/mspi_octal_example.bin	fc4f70671686fc4a

@@ -8,8 +8,11 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include "ns_perf_profile.h"
-#include "ns_ambiqsuite_harness.h"
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+// AP3TODO
+#else
+    #include "ns_perf_profile.h"
+    #include "ns_ambiqsuite_harness.h"
 
 /**
  * @brief Enables the Cache profile counters
@@ -19,8 +22,7 @@
  * @param cfg
  * @return uint8_t
  */
-uint8_t
-ns_cache_profiler_init(ns_cache_config_t *cfg) {
+uint8_t ns_cache_profiler_init(ns_cache_config_t *cfg) {
     uint8_t status = AM_HAL_STATUS_SUCCESS;
     char dummy = 0;
 
@@ -38,8 +40,7 @@ ns_cache_profiler_init(ns_cache_config_t *cfg) {
  *
  * @param dump
  */
-void
-ns_capture_cache_stats(ns_cache_dump_t *dump) {
+void ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->daccess = CPU->DMON0;
     dump->dtaglookup = CPU->DMON1;
     dump->dhitslookup = CPU->DMON2;
@@ -50,8 +51,7 @@ ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->ihitsline = CPU->IMON3;
 }
 
-void
-ns_delta_cache(ns_cache_dump_t *s, ns_cache_dump_t *e, ns_cache_dump_t *d) {
+void ns_delta_cache(ns_cache_dump_t *s, ns_cache_dump_t *e, ns_cache_dump_t *d) {
     d->daccess = e->daccess - s->daccess;
     d->dtaglookup = e->dtaglookup - s->dtaglookup;
     d->dhitslookup = e->dhitslookup - s->dhitslookup;
@@ -67,8 +67,7 @@ ns_delta_cache(ns_cache_dump_t *s, ns_cache_dump_t *e, ns_cache_dump_t *d) {
  *
  * @param dump
  */
-void
-ns_print_cache_stats(ns_cache_dump_t *dump) {
+void ns_print_cache_stats(ns_cache_dump_t *dump) {
     ns_lp_printf("****** Dcache Accesses :         %d\r\n", dump->daccess);
     ns_lp_printf("****** Dcache Tag Lookups :      %d\r\n", dump->dtaglookup);
     ns_lp_printf("****** Dcache hits for lookups : %d\r\n", dump->dhitslookup);
@@ -85,30 +84,28 @@ ns_print_cache_stats(ns_cache_dump_t *dump) {
  * @param start
  * @param end
  */
-void
-ns_print_cache_stats_delta(ns_cache_dump_t *start, ns_cache_dump_t *end) {
+void ns_print_cache_stats_delta(ns_cache_dump_t *start, ns_cache_dump_t *end) {
     ns_lp_printf("****** Delta Dcache Accesses :         %d\r\n", end->daccess - start->daccess);
-    ns_lp_printf("****** Delta Dcache Tag Lookups :      %d\r\n",
-                 end->dtaglookup - start->dtaglookup);
-    ns_lp_printf("****** Delta Dcache hits for lookups : %d\r\n",
-                 end->dhitslookup - start->dhitslookup);
-    ns_lp_printf("****** Delta Dcache hits for lines :   %d\r\n",
-                 end->dhitsline - start->dhitsline);
+    ns_lp_printf(
+        "****** Delta Dcache Tag Lookups :      %d\r\n", end->dtaglookup - start->dtaglookup);
+    ns_lp_printf(
+        "****** Delta Dcache hits for lookups : %d\r\n", end->dhitslookup - start->dhitslookup);
+    ns_lp_printf(
+        "****** Delta Dcache hits for lines :   %d\r\n", end->dhitsline - start->dhitsline);
     ns_lp_printf("****** Delta Icache Accesses :         %d\r\n", end->iaccess - start->iaccess);
-    ns_lp_printf("****** Delta Icache Tag Lookups :      %d\r\n",
-                 end->itaglookup - start->itaglookup);
-    ns_lp_printf("****** Delta Icache hits for lookups : %d\r\n",
-                 end->ihitslookup - start->ihitslookup);
-    ns_lp_printf("****** Delta Icache hits for lines :   %d\r\n",
-                 end->ihitsline - start->ihitsline);
+    ns_lp_printf(
+        "****** Delta Icache Tag Lookups :      %d\r\n", end->itaglookup - start->itaglookup);
+    ns_lp_printf(
+        "****** Delta Icache hits for lookups : %d\r\n", end->ihitslookup - start->ihitslookup);
+    ns_lp_printf(
+        "****** Delta Icache hits for lines :   %d\r\n", end->ihitsline - start->ihitsline);
 }
 
 /**
  * @brief Resets DWT counter register values
  *
  */
-void
-ns_reset_perf_counters(void) {
+void ns_reset_perf_counters(void) {
     DWT->CYCCNT = 0;
     DWT->CPICNT = 0;
     DWT->EXCCNT = 0;
@@ -121,8 +118,7 @@ ns_reset_perf_counters(void) {
  * @brief Initializes DWT counters, does not enable counters
  *
  */
-void
-ns_init_perf_profiler(void) {
+void ns_init_perf_profiler(void) {
     DWT->CTRL = 0;
     ns_reset_perf_counters();
 }
@@ -131,8 +127,7 @@ ns_init_perf_profiler(void) {
  * @brief Enables DWT counters
  *
  */
-void
-ns_start_perf_profiler(void) {
+void ns_start_perf_profiler(void) {
     am_hal_itm_enable();
     // DWT->CTRL = 1;
     DWT->CTRL = _VAL2FLD(DWT_CTRL_CYCCNTENA, 1) | _VAL2FLD(DWT_CTRL_CPIEVTENA, 1) |
@@ -145,18 +140,14 @@ ns_start_perf_profiler(void) {
  * @brief Disables DWT counters
  *
  */
-void
-ns_stop_perf_profiler(void) {
-    DWT->CTRL = 0;
-}
+void ns_stop_perf_profiler(void) { DWT->CTRL = 0; }
 
 /**
  * @brief Captures DWT counter values into 'c'
  *
  * @param c
  */
-void
-ns_capture_perf_profiler(ns_perf_counters_t *c) {
+void ns_capture_perf_profiler(ns_perf_counters_t *c) {
     c->cyccnt = DWT->CYCCNT;
     c->cpicnt = DWT->CPICNT;
     c->exccnt = DWT->EXCCNT;
@@ -165,14 +156,12 @@ ns_capture_perf_profiler(ns_perf_counters_t *c) {
     c->foldcnt = DWT->FOLDCNT;
 }
 
-static uint32_t
-ns_delta_byte_counter_wrap(uint32_t e, uint32_t s) {
+static uint32_t ns_delta_byte_counter_wrap(uint32_t e, uint32_t s) {
     uint32_t retval = (e < s) ? (e + 256 - s) : e - s;
     return retval;
 }
 
-void
-ns_delta_perf(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_counters_t *d) {
+void ns_delta_perf(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_counters_t *d) {
     d->cyccnt = e->cyccnt - s->cyccnt; // 32 bits, probably won't wrap
     d->cpicnt = ns_delta_byte_counter_wrap(e->cpicnt, s->cpicnt);
     d->exccnt = ns_delta_byte_counter_wrap(e->exccnt, s->exccnt);
@@ -186,8 +175,7 @@ ns_delta_perf(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_counters_t *
  *
  * @param c
  */
-void
-ns_print_perf_profile(ns_perf_counters_t *c) {
+void ns_print_perf_profile(ns_perf_counters_t *c) {
     uint32_t instruction_count;
 
     instruction_count = c->cyccnt - c->cpicnt - c->exccnt - c->sleepcnt - c->lsucnt + c->foldcnt;
@@ -201,3 +189,4 @@ ns_print_perf_profile(ns_perf_counters_t *c) {
     ns_lp_printf("Load/Store Wait Count: %d\n", c->lsucnt);
     ns_lp_printf("Folded (cycles saved by zero-cycle instructions) Count: %d\n", c->foldcnt);
 }
+#endif

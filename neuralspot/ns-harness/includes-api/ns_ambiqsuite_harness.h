@@ -19,6 +19,10 @@
 extern "C" {
     #endif
 
+    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+        #define am_hal_gpio_pincfg_output g_AM_HAL_GPIO_OUTPUT
+    #endif
+
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"

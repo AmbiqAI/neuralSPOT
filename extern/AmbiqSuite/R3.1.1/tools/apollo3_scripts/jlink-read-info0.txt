@@ -1,0 +1,84 @@
+// ****************************************************************************
+//
+// jlink-read-info0.txt
+//
+// J-Link Commander script for reading INFO0.
+//
+// To use with J-Link Commander from a Command Prompt.
+//  jlink -CommanderScript jlink-read-info0.txt
+//
+// ****************************************************************************
+
+// ****************************************************************************
+//
+//  Copyright (c) 2023, Ambiq Micro, Inc.
+//  All rights reserved.
+//
+//  Redistribution and use in source and binary forms, with or without
+//  modification, are permitted provided that the following conditions are met:
+//
+//  1. Redistributions of source code must retain the above copyright notice,
+//  this list of conditions and the following disclaimer.
+//
+//  2. Redistributions in binary form must reproduce the above copyright
+//  notice, this list of conditions and the following disclaimer in the
+//  documentation and/or other materials provided with the distribution.
+//
+//  3. Neither the name of the copyright holder nor the names of its
+//  contributors may be used to endorse or promote products derived from this
+//  software without specific prior written permission.
+//
+//  Third party software included in this distribution is subject to the
+//  additional license terms as defined in the /docs/licenses directory.
+//
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+//  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+//  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+//  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+//  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+//  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+//  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+//  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+//  POSSIBILITY OF SUCH DAMAGE.
+//
+//  This is part of revision release_sdk_3_1_1-10cda4b5e0 of the AmbiqSuite Development Package.
+//
+// ****************************************************************************
+
+//
+// Connect to device
+// NEED to specify -device AMA3B2KK-KBR (for Apollo3P) or -device AMA3B1KK-KBR/KCR (for Apollo3) from command line
+//
+si SWD
+speed 1000
+r
+sleep 10
+
+//
+// Set C runtime environment
+//
+wreg MSP, 0x10000100
+
+//
+// Unlock info0 access
+//
+w4 0x40030078 1             // unlock the info0 secured portion
+w4 0x40030080 DEADBEEF DEADBEEF DEADBEEF DEADBEEF   // write the unlock key
+													// this should be replaced with actual customer key!!!
+mem32 0x4003007C 1          // dump the lock status for check
+
+//
+// read back info0 for verify
+//
+verifybin info0.bin 0x50020000   // verify the info 0 content with the original source file
+savebin info0_dump.bin 0x50020000 0x2000    // read out the info 0 content for saving
+
+w4 0x40030080 FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF   // lock the secured portion
+
+//
+// reset and quit
+//
+r
+qc

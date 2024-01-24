@@ -1,0 +1,17 @@
+sbl3p_v2_2_a0a5 (OTA: 0xA3009400:0x53D5B051) - SBL v2 
+              enhancement for SRAM Reservation feature
+              with fix to GPIO macro to allow GPIO>63 to be used
+              Header Version 2
+sbl3p_v3p4_6_adcd (OTA: 0xA38099F0:F076BED0) - SBL v3p4
+              - BUG FIX: PROTLOCK was always getting set - restricting access to flash protection registers, even if INFO0 was configured to not set PLONEXIT
+              - BUG FIX: INFO0 OTA using SBL was broken
+              - BUG FIX: ResetStatus reported was not correct for first boot as part of SBL OTA
+              - BUG FIX: Fixed an issue when main image is to be protected using INFO0 SPROT attributes
+              - BUG FIX: Fixed a potential issue with Reset-Halt under some fail to boot scenarios
+              - Forcing Authentication for secureboot enabled device, regardless of SECPOL
+              - Updated Device Recovery mechanism (Bug Fix for protected INFO0, as well as enforcing strict check for CUSTID)
+              - Fixed some security vulnerabilities
+              - Added support for BLE FLM support in INFO0 CUST_TRIM
+              - Update to allow proceeding with normal boot in the case of GPIO override, when the host does not connect.
+              Header Version 6
+

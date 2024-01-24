@@ -1,0 +1,9 @@
+# ninja log v5
+0	252	7113999277484053	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/am_devices_mb85rc256v.o	a3cabec01ada6e85
+270	465	7113999279654063	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/am_util_delay.o	969fe265e8a3df3e
+481	541	7113999280414043	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/startup_iar.o	7715ccd6dbbc2b5a
+559	716	7113999282164024	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/am_util_stdio.o	1759bbb2c5c763e
+731	934	7113999284304038	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/am_util_faultisr.o	f542ec4a07c308e6
+948	1194	7113999286934027	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/iom_power_example.o	84c3d897c7def62a
+1210	1336	7113999288374044	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/iom_power_example.out	6ba8e74ca6e8e3cf
+1352	1365	7113999288754042	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb_cygnus/examples/iom_power_example/iar/bin/iom_power_example.bin	8b4d4a46e23bc525

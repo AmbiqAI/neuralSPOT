@@ -1,0 +1,8 @@
+# ninja log v5
+1	251	7113998620302930	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/am_util_faultisr.o	ff6b89982def7cbb
+269	469	7113998622522937	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/am_util_delay.o	ab36656a2512cb4
+490	666	7113998624492958	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/am_util_stdio.o	99cbe6227486f4ba
+680	742	7113998625272913	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/startup_iar.o	77262bfa39163cd6
+778	1066	7113998628452937	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/uart_boot_host.o	861f5958c5c7db4c
+1080	1189	7113998629752936	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/uart_boot_host.out	77ec6070ab4cf110
+1203	1221	7113998630112930	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/uart_boot_host/iar/bin/uart_boot_host.bin	13f417f6bc6b26f

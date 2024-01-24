@@ -1,4 +1,5 @@
 # Put your local overrides in here
+BOARD :=apollo3p
 # BOARD :=apollo4l
 # EVB    :=blue_kbr_evb
 # EVB    :=blue_evb
@@ -8,7 +9,7 @@
 # TF_VERSION := R2.3.1
 # TF_VERSION := 0264234_Nov_15_2023
 # TF_VERSION := d5f819d_Aug_10_2023
-# AS_VERSION := R4.3.0
+AS_VERSION := R3.1.1
 # TOOLCHAIN := arm
 # GCC13_EXPERIMENTAL := 1
 # DEFINES+= NS_AUDIO_DMA_BUFFER_SIZE=16000

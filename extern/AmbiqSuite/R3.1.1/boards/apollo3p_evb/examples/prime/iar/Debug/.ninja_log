@@ -1,0 +1,10 @@
+# ninja log v5
+0	318	7114077833377869	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/am_devices_led.o	db6ff74e30e8a65f
+331	552	7114077835727877	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/am_util_delay.o	3a9613b9ec51966
+568	634	7114077836587885	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/startup_iar.o	853148cf372f85f8
+649	879	7114077838977866	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/am_util_faultisr.o	ef1b81ebdfda77c9
+892	958	7114077839807896	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/prime_mpi.o	9e9ef2e1c244ca29
+971	1829	7114077848537861	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/am_util_stdio.o	728d757489e5ad94
+1848	2123	7114077851417863	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/prime.o	837834815a3893de
+2137	2226	7114077852537874	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/prime.out	6cac347a7a5b5d78
+2243	2255	7114077852897851	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3p_evb/examples/prime/iar/bin/prime.bin	3c685e17cccaf978

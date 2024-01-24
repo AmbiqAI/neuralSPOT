@@ -1,0 +1,8 @@
+# ninja log v5
+0	215	7113996577743496	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/am_util_faultisr.o	98cd918477e70979
+235	427	7113996579843493	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/am_util_delay.o	a9f816e81154af45
+452	508	7113996580703504	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/startup_iar.o	47b47f4308bdfbe6
+529	681	7113996582413519	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/am_util_stdio.o	62a0d4ff8c1f5dd8
+695	904	7113996584593509	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/ctimer_pwm_output.o	9c15440b9e648b50
+919	1007	7113996585703496	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/ctimer_pwm_output.out	59d694e5df44901c
+1027	1038	7113996586083508	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ctimer_pwm_output/iar/bin/ctimer_pwm_output.bin	27f42ecfb75d8347

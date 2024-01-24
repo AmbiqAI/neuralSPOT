@@ -1,0 +1,193 @@
+**********************************************************************************************
+ 
+Apollo3 / Apollo3 Blue update release on 19Jul2023 (revision release_sdk_3_1_1-10cda4b5e0).
+ 
+**********************************************************************************************
+----------------------------------------------------------------------------------------------
+Summary of Changes and Customer Impacts
+----------------------------------------------------------------------------------------------
+This is a combined release supporting minor updates to Apollo3 and Apollo3 Plus release 3.1.0.
+
+This release includes the following:
+*	Updates to the HAL to handle the burst mode workaround instead of requiring the application
+	to handle it at burst mode entry and exit. Includes updates to the binary_counter, 
+	burst_mode, and coremark examples.
+*	Added ble_freertos_throughput example back to the Apollo3 Blue Plus board.
+* 	Fixed a BLE issue that resulted in a failure to re-advertise after disconnection. 
+
+----------------------------------------------------------------------------------------------
+Software Known Issues, Updates, and Defect Fixes
+----------------------------------------------------------------------------------------------
+
+\third_party\cordio\ble-host\sources\hci\ambiq\hci_core.c
+*	Added CIS handle initialization to HciCoreInit and defaulted to 0. 
+
+\third_party\cordio\ble-profiles\sources\apps\fit\fit_main.c
+*       Updated fitSecCfg to intiate security upon connection.   
+
+**********************************************************************************************
+ 
+Apollo3 / Apollo3 Blue update release on 17Mar2023 (revision release_sdk_3_1_0-b25f4815d7).
+ 
+**********************************************************************************************
+----------------------------------------------------------------------------------------------
+Summary of Changes and Customer Impacts
+----------------------------------------------------------------------------------------------
+This is a combined release supporting updates to Apollo3 and Apollo3 Plus
+
+This release includes the following:
+*	Updated Doxygen comments throughout the code. User guide added to \docs\user_guide\
+*	Added support for ARM Compiler 6. Binaries and projects for older Keil/ARMCC 5060750 
+	will not be provided after calendar year 2023.
+* 	Cordio stack updated from r19.02 to r20.05. This update does not include the NVM service 
+  	updates, which will be part of a future release.
+*	Added Apollo3 Blue Plus power optimization patch code. Devices with and after date code
+	212801 already have the required patch applied. Disabled by default. 
+*	Added date and time input validation to RTC.
+*	Updated temperature algorithms in ADC.
+*	Fixed UART timeouts.
+*	Fixed issue with waking from deepsleep and immediately executing flash operations.
+*	Fixed possible race condition in IOM.
+*	Fixed DTM test issue at cold temperatures.
+*	Updated burst mode entry/exit sequence to prevent potential PSRAM code execution issue.
+
+----------------------------------------------------------------------------------------------
+Software Known Issues, Updates, and Defect Fixes
+----------------------------------------------------------------------------------------------
+
+\ambiq_ble\apps\adv_ext\adv_ext_main.c
+\ambiq_ble\apps\amdtps\amdtp_main.c
+\ambiq_ble\apps\amota\amota_main.c
+\ambiq_ble\apps\ancs\ancs_main.c
+\ambiq_ble\apps\beaconscanner\beaconscanner_main.c
+\ambiq_ble\apps\ibeacon\ibeacon_main.c
+\boards\apollo3_evb\examples\ble_freertos_throughput\src\throughput_main.c
+\boards\apollo3p_evb\examples\ble_freertos_throughput\src\throughput_main.c
+\third_party\cordio\ble-host\sources\stack\att\atts_main.h
+\third_party\cordio\ble-profiles\sources\apps\assettag\assettag_main.c
+\third_party\cordio\ble-profiles\sources\apps\fit\fit_main.c
+\third_party\cordio\ble-profiles\sources\apps\hidapp\hidapp_main.c
+\third_party\cordio\ble-profiles\sources\apps\tag\tag_main.c
+\third_party\cordio\ble-profiles\sources\apps\uribeacon\uribeacon_main.c
+\third_party\cordio\ble-profiles\sources\apps\watch\watch_main.c
+*	Optimized ECC key generation and ATT database hash calculation procedure after reset complete
+*	Update to use attps API to get ATT database hash calculation status
+
+\third_party\cordio\
+*	Ported Enhanced Attribute Protocol.
+*	Updated stack version number.
+*	Ported LE Isochronous Channels (LE Audio) feature.
+*	Updated SMP module.
+*	Added HCI constants and definitions from Bluetooth specification.
+*	Added max number of connected, broadcast isochronous streams and groups.
+*	Updated Packetcraft HCI company ID.
+*	Ported ble profiles, apps and services.
+
+\third_party\cordio\ble-profiles\sources\services\svc_core.c
+*	Enable device name characteristic in GAP service to fix the compatible issue with Windows BLE stack. 
+*	Customer may change the device name to their expected name.
+
+\third_party\cordio\ble-host\sources\stack\att\att_main.h
+\third_party\cordio\ble-host\sources\stack\att\attc_main.c
+\third_party\cordio\ble-host\sources\stack\att\attc_proc.c
+\third_party\cordio\ble-host\sources\stack\att\atts_main.c
+\third_party\cordio\ble-host\sources\stack\hci\hci_api.h
+\third_party\cordio\ble-host\sources\stack\hci\hci_defs.h
+\third_party\cordio\ble-host\sources\stack\hci\hci_evt.c
+\third_party\cordio\ble-host\sources\stack\hci\hci_tr.c
+\third_party\cordio\ble-host\sources\stack\i2c\i2c_coc.c
+\third_party\cordio\ble-host\sources\stack\i2c\i2c_main.*
+\third_party\cordio\ble-host\sources\stack\i2c\i2c_master.c
+*	Fix the input data length validity check in BLE host stack APIs to prevent the memory operation error.
+
+\ambiq_ble\profiles\amdtps\amdtps_main.c
+\third_party\cordio\ble-host\sources\hci\ambiq\hci_drv_apollo3.c
+*	Removed unnecessary NULL check in admtps_main.c
+*	Updated NULL check in hci_drv_apollo3.c
+
+\devices\am_devices_led.*
+*	Added support for Apollo4 Lite.
+*	Added support for open-drain drive.
+
+\devices\am_devices_mb85rc256v.c
+\devices\am_devices_mb85rs1mt.c
+\devices\am_devices_mspi_atxp032.c
+\devices\am_devices_mspi_rm69330.*
+*	Added support for Apollo4 Lite.
+
+\devices\am_devices_button.c
+\devices\am_devices_button.h
+*	Added new function am_devices_button_array_tick_pin_cfg.
+*	Added new function am_devices_button_array_pin_config.
+*	Added am_devices_button_pin_cfg_t struct.
+
+\mcu\apollo3p\hal\am_hal_pwrctrl.*
+\mcu\apollo3p\hal\am_hal_sysctrl.c
+\boards\apollo3p_evb\examples\deepsleep\src\deepsleep.c
+\boards\apollo3p_evb\examples\deepsleep_wake\src\deepsleep_wake.c
+\boards\apollo3p_evb\examples\freertos_lowpower\src\freertos_lowpower.c
+*	Updated clock source selection to LFRC.
+*	Updated retained DTCM from 32k to 8k.
+*	Added AM_HAL_SYSCTRL_DEEPSLEEP_WA optimization to achieve best deepsleep performance with. 
+	Apollo3 Plus. Note possible restrictions on temperature and voltage levels. Default OFF.
+*	Updated examples to take advantage of power optimizations if enabled.
+
+\mcu\apollo3p\hal\am_hal_burst.*
+\mcu\apollo3p\hal\am_hal_pwrctrl.*
+\mcu\apollo3p\hal\am_hal_sysctrl.c
+\boards\apollo3_evb\examples\binary_counter\src\binary_counter.c
+\boards\apollo3p_evb\examples\binary_counter\src\binary_counter.c
+\boards\apollo3_evb\examples\burst_mode\src\burst_mode.c
+\boards\apollo3p_evb\examples\burst_mode\src\burst_mode.c
+\boards\apollo3_evb\examples\coremark\src\core_portme.c
+\boards\apollo3p_evb\examples\coremark\src\core_portme.c
+*	Resolved an issue when using PSRAM in burst mode. This change applies LDO
+	when entering burst mode and works in conjunction with a burst mode sequence update.
+*	This workaround is enabled by default via the AM_HAL_BURST_LDO_WORKAROUND macro,
+	defined in am_hal_burst.h
+*	Requires Patch #5 from 'Apollo3 Blue Plus Patching', please visit and log-in to support.ambiq.com.
+*	Updated examples for burst mode entry/exit sequence. 
+*	Updated Coremark example to run in both regular and burst mode.
+
+\mcu\apollo3\hal\am_hal_adc.*
+\mcu\apollo3p\hal\am_hal_adc.*
+*	Improved the accuracy of the ADC temperature sensor algorithm by using a standard slope equation.
+
+\mcu\apollo3\hal\am_hal_ble.*
+\mcu\apollo3p\hal\am_hal_ble.*
+\boards\apollo3_evb\examples\uart_ble_bridge\src\uart_ble_bridge.c
+\boards\apollo3p_evb\examples\uart_ble_bridge\src\uart_ble_bridge.c
+*	Updated to fix CRC failures in am_hal_ble_patch_apply() when applying BLE patch.
+*	Fixes for various advertising issues.
+*	Updates to register initializations.
+*	Updated uart_ble_bridge example to use am_hal_ble_patch_preload.
+
+\mcu\apollo3\hal\am_hal_ble_patch_b0.c
+\mcu\apollo3p\hal\am_hal_ble_patch_b0.c
+*	Fixed BLE Carrier-Frequency-deviation issue during DTM testing at -20 Celsius.
+
+\mcu\apollo3\hal\am_hal_flash.c
+\mcu\apollo3p\hal\am_hal_flash.c
+*	A flash programming error can occur if certain flash algorithms are executed immediately after
+	waking from deep sleep. Updated the HAL flash functions to prevent the wakeup situation. 
+
+
+\mcu\apollo3\hal\am_hal_iom.c
+\mcu\apollo3p\hal\am_hal_iom.c
+*	Removed AM_HAL_IOM_REQ_SPI_FULLDUPLEX. IOM SPI full duplex operation is only supported by
+ 	am_hal_iom_spi_blocking_fullduplex().
+*	Updated maximum I2C transaction size to 512B.
+*	Fixed logic issue in am_hal_iom_spi_blocking_fullduplex function to handle possible race condition.
+
+\mcu\apollo3\hal\am_hal_rtc.*
+\mcu\apollo3p\hal\am_hal_rtc.*
+*	Resolved an issue with the RTC month index handling.
+
+
+\mcu\apollo3\hal\am_hal_sysctrl.*
+\mcu\apollo3p\hal\am_hal_sysctrl.*
+*	Simplified the bus flush macro by eliminating the dependence on a global variable.
+
+\mcu\apollo3\hal\am_hal_uart.c 
+\mcu\apollo3p\hal\am_hal_uart.c 
+*	Fixed UART timeout to properly timeout in ms rather than µs.

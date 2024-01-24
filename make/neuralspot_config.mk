@@ -52,9 +52,16 @@ NESTEGG := basic_tf_stub
 NESTSOURCEDIR := examples/$(NESTEGG)/src
 
 ##### AmbiqSuite Config and HW Feature Control Flags #####
+ifeq ($(PART),apollo3p)
+	DEFINES+= AM_PART_APOLLO3P
+	DEFINES+= PART_APOLLO3P
+endif
+
 ifneq ($(BRD),apollo4l)
 	DEFINES+= AM_HAL_TEMPCO_LP
-	DEFINES+= NS_AUDADC_PRESENT
+	ifneq ($(PART),apollo3)
+		DEFINES+= NS_AUDADC_PRESENT
+	endif
 	ifneq ($(EVB),blue_kxr_evb)
 		DEFINES+= NS_PDM1TO3_PRESENT
 	endif

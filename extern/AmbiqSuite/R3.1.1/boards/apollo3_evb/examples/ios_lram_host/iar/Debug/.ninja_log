@@ -1,0 +1,7 @@
+# ninja log v5
+0	196	7113997965737646	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ios_lram_host/iar/bin/am_util_stdio.o	93bf089575311005
+210	424	7113997968007655	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ios_lram_host/iar/bin/am_util_delay.o	13d50b2f457a4002
+441	778	7113997971522932	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ios_lram_host/iar/bin/ios_lram_host.o	a14e6ff6f956e859
+792	857	7113997972382942	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ios_lram_host/iar/bin/startup_iar.o	54956841e791291a
+879	983	7113997973632936	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ios_lram_host/iar/bin/ios_lram_host.out	1f0a49cc75a71a97
+999	1012	7113997974012937	C:/jenkins-agent/workspace/AmbiqSuite_release_3_3p/workspace/boards/apollo3_evb/examples/ios_lram_host/iar/bin/ios_lram_host.bin	abbd8d7887df8e33

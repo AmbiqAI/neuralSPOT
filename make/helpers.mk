@@ -24,13 +24,27 @@ subdirectory = $(patsubst %/module.mk,%,                        \
                    $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
 
 # $(call make-library, library-name, source-file-list)
+# Only add the library to the list of libraries to link in
+# if the subdirectory matches the evb name.
+# ifeq ($(PART)_$(EVB),$(lastword $(subst /, ,$(dir $1))))
+
+
+# ifeq ($(PART)_$(EVB),$(lastword $(subst /, ,$(dir $1))))
+# 	$(info $(PART)_$(EVB) ++ $1)
+# libraries += $1
+# endif
+# nest_libraries += $1
 define make-library
 libraries += $1
-# sources   += $2
 $1: $(call source-to-object,$2)
 	@echo " Building $(AR) $$@ to make library $$@"
 	@mkdir -p $$(@D)
 	$(Q) $(AR) $(ARFLAGS) $$@ $$^
+endef
+
+# Make one library for each target at targetname/libname.a
+define make-libraries
+$(foreach target,$(TARGETS),$(call make-library,$(2)/$(target)/$(1),$(3)))
 endef
 
 define make-override-library

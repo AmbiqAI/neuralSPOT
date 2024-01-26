@@ -1,13 +1,8 @@
 # Put your local overrides in here
-# BOARD :=apollo4l
-# EVB    :=blue_kbr_evb
-# EVB    :=blue_evb
+# PLATFORM := apollo4p_blue_kbr_evb
 # TARGET :=web_ble
-# DEFINES+= CFG_TUSB_DEBUG=2
 
-# TF_VERSION := R2.3.1
 # TF_VERSION := 0264234_Nov_15_2023
-# TF_VERSION := d5f819d_Aug_10_2023
 # AS_VERSION := R4.3.0
 # TOOLCHAIN := arm
 # GCC13_EXPERIMENTAL := 1
@@ -19,3 +14,4 @@
 # DEFINES += DEF_ACC32BIT_OPT
 # DEFINES+= WSF_TRACE_ENABLED
 # DEFINES+= HCI_TRACE_ENABLED
+# DEFINES+= CFG_TUSB_DEBUG=2

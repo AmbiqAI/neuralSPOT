@@ -9,11 +9,30 @@ else ifeq ($(TOOLCHAIN),llvm)
 COMPILERNAME := clang
 endif
 
-BINDIR := build
 NESTDIR := nest
 SHELL  :=/bin/bash
 
+ifndef PLATFORM
+PLATFORM := apollo4p_evb
+endif
+
 ##### Target Hardware Defaults #####
+# PLATFORM defines the MCU (aka BOARD) and the EVB (aka EVB)
+# in the form of BOARD_EVB, where board e.g. is apollo4p or apollo4l
+# and EVB is evb, blue_evb, blue_kbr_evb, or blue_kxr_evb, etc
+# Get the first word of the PLATFORM, which is the MCU
+BOARD := $(firstword $(subst _, ,$(PLATFORM)))
+
+# EVB is the rest of the PLATFORM, which is the EVB
+EVB := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
+
+# Replace spaces with underscores
+space := $(null) #
+EVB := $(subst $(space),_,$(EVB))
+
+# $(info BOARD: $(BOARD))
+# $(info EVB: $(EVB))
+
 ifndef BOARD
 BOARD  :=apollo4p
 endif
@@ -30,6 +49,8 @@ FPU    = fpv4-sp-d16
 #FABI     = softfp
 FABI     = hard
 
+BINDIRROOT := build
+BINDIR := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 
 
 ##### Extern Library Defaults #####
@@ -50,6 +71,7 @@ TARGET      := basic_tf_stub
 NESTCOMP    := extern/AmbiqSuite
 NESTEGG := basic_tf_stub
 NESTSOURCEDIR := examples/$(NESTEGG)/src
+TARGETS := apollo4p_evb apollo4p_blue_kbr_evb apollo4p_blue_kxr_evb apollo4l_evb apollo4l_blue_evb
 
 ##### AmbiqSuite Config and HW Feature Control Flags #####
 ifneq ($(BRD),apollo4l)

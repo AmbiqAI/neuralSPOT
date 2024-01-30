@@ -22,9 +22,8 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| BOARD | Defines the target SoC (currently apollo4b, apollo4p, or apollo4l) | apollo4p |
-| EVB | Defines the EVB type (evb, blue_evb, blue_kxr_evb, or blue_kbr_evb) | evb |
-| BINDIR | Name of directories where binaries and build artifacts are stored. | build |
+| PLATFORM | Defines the target EVB (currently apollo4p_evb, apollo4p_blue_kxr_evb, apollo4p_blue_kbr_evb, apollo4l_evb, or apollo4l_blue_evb | apollo4p_evb |
+| BINDIRROOT | Name of directories where binaries and build artifacts are stored. | build |
 | EXAMPLE | Name of example to be built. By default, all examples will be built. |All|
 | NESTDIR | Relative path and directory name where nest will be created | nest |
 | NESTCOMP | root path to a single component to be updated for `make nestcomponent` | extern/AmbiqSuite |
@@ -35,14 +34,13 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 | TARGET | Defines what target will be loaded by `make deploy` | basic_tf_stub |
 | MLDEBUG | Setting to '1' turns on TF debug prints and use debug TFLM | 0 |
 | MLPROFILE | Setting to '1' enables TFLM profiling and logs (*NOTE* not supported for TF_VERSION R2.3.1) | 0 |
-| TOOLCHAIN | Chooses compiler. Set to `arm` to select armclang | arm-none-eabi |
 | GCC13_EXPERIMENTAL | Must be set to `1` to compile with GCC 13.x | undefined |
 
 > **Note**  Defaults for these values are set in `./make/neuralspot_config.mk`. Ambiq EVBs are available in a number of flavors, each of which requiring slightly different config settings. For convenience, these settings can be placed in `./make/local_overrides.mk` (note that this file is ignored by git to prevent inadvertent overrides making it into the repo). To make changes to this file without tracking them in git, you can do the following:
 > `$> git update-index --assume-unchanged make/local_overrides.mk`
 
 ## NeuralSPOT Nests
-The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It is created for your specific target device and only includes needed header files, along with a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](docs/Developing_with_NeuralSPOT.md).
+The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It only includes static libraries, related header files, and a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](docs/Developing_with_NeuralSPOT.md).
 
 ### Building Nest
 Before building a nest, you must first build NeuralSPOT for your desired target. By default, the nest will be created in NeuralSPOT's root directory - set NESTDIR to change where it is built.
@@ -101,3 +99,16 @@ For example:
 ```bash
 $> make NESTCOMP=neuralspot/ns-rpc nestcomponent # only updates ns-rpc header files and static libs
 ```
+
+### Adding a target platform to an existing Nest
+When a Nest is created, it includes the files for a specific PLATFORM (e.g. apollo4p_evb). More platforms can be added to a nest by running the `make nest` with the PLATFORM variable set. Platforms can coexist within a single Nest, and the makefile for the Nest "understands" PLATFORM and will choose the files accordingly.
+```bash
+> cd neuralSPOT
+> make -j # Makes the initial libraries, defaults the platform to apollo4p_p
+> make nestall # creates the initial Nest
+> make PLATFORM=apollo4p_blue_kbr_evb # creates files for new platform
+> make nestall PLATFORM=apollo4p_blue_kbr_evb # Adds the new platform to the Nest
+> cd nest
+> make # builds for apollo4p_evb
+> make PLATFORM=apollo4p_blue_kbr_evb # builds for apollo4p_blue_kbr_evb
+``` 

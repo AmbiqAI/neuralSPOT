@@ -17,7 +17,9 @@
 #include "arm_math.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 1024] __attribute__((aligned(4)));
+    #define WEBBLE_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 1024)
+size_t ucHeapSize = WEBBLE_HEAP_SIZE;
+uint8_t ucHeap[WEBBLE_HEAP_SIZE] __attribute__((aligned(4)));
 #endif
 
 // WSF buffer pools are a bit of black magic. More

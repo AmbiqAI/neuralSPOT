@@ -45,7 +45,7 @@ task.h is included from an application file. */
 #include "task.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
-#define configTOTAL_HEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
+// #define configTOTAL_xHEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
 
 #if (configSUPPORT_DYNAMIC_ALLOCATION == 0)
     #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
@@ -61,8 +61,11 @@ task.h is included from an application file. */
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 /* The application writer has already defined the array used for the RTOS
 heap - probably so it can be placed in a special segment or address. */
-extern uint8_t ucHeap[configTOTAL_HEAP_SIZE];
+extern size_t const ucHeapSize;
+extern uint8_t ucHeap[];
 #else
+    #define configTOTAL_HEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
+size_t const ucHeapSize = configTOTAL_HEAP_SIZE;
 static uint8_t ucHeap[configTOTAL_HEAP_SIZE] __attribute__((aligned(4)));
 #endif /* configAPPLICATION_ALLOCATED_HEAP */
 
@@ -312,7 +315,7 @@ static void prvHeapInit(void) {
     BlockLink_t *pxFirstFreeBlock;
     uint8_t *pucAlignedHeap;
     size_t uxAddress;
-    size_t xTotalHeapSize = configTOTAL_HEAP_SIZE;
+    size_t xTotalHeapSize = ucHeapSize;
 
     /* Ensure the heap starts on a correctly aligned boundary. */
     uxAddress = (size_t)ucHeap;

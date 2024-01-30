@@ -27,7 +27,9 @@ uint32_t opusLatency = 0;
 #include "audio_webble.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-uint8_t ucHeap[NS_BLE_DEFAULT_MALLOC_K * 4 * 1024] __attribute__((aligned(4)));
+    #define NNSE_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 4 * 1024)
+size_t ucHeapSize = NNSE_HEAP_SIZE;
+uint8_t ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(4)));
 #endif
 
 #define NUM_CHANNELS 1

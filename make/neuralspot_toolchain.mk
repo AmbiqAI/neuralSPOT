@@ -58,7 +58,7 @@ CFLAGS+= -g -O2 -ffast-math
 else
 CFLAGS+= -g -O3 -ffast-math
 endif
-# CFLAGS+= -g -O3 -ffast-math
+# CFLAGS+= -g -O2 -ffast-math
 
 LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script.ld
 

@@ -88,14 +88,14 @@ int main(void) {
     ns_power_config(&ns_power_measure);
 
     // Only turn HP while doing codec and AI
-    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
+    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
-    ns_itm_printf_enable();
+    // ns_itm_printf_enable();
     ns_init_power_monitor_state();
     ns_set_power_monitor_state(NS_IDLE);
 
 
-    NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
+    // NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 
     // initialize neural nets controller
     seCntrlClass_init(&cntrl_inst);
@@ -122,7 +122,7 @@ int main(void) {
 
     // Run 1000 times
     ns_set_power_monitor_state(NS_INFERING);
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1000; i++) {
         seCntrlClass_exec(&cntrl_inst, sinWave, xmitBuffer);
     }
     ns_set_power_monitor_state(NS_IDLE);

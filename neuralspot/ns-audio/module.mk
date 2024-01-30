@@ -6,5 +6,3 @@ includes_api += $(subdirectory)/includes-api
 local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)
 $(eval $(call make-library, $(local_bin)/ns-audio.a, $(local_src)))
-# $(eval $(call make-libraries,ns-audio.a,$(local_bin),$(local_src)))
-

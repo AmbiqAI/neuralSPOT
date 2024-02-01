@@ -9,11 +9,39 @@ else ifeq ($(TOOLCHAIN),llvm)
 COMPILERNAME := clang
 endif
 
-BINDIR := build
 NESTDIR := nest
 SHELL  :=/bin/bash
 
+ifndef PLATFORM
+PLATFORM := apollo4p_evb
+endif
+
 ##### Target Hardware Defaults #####
+# PLATFORM defines the MCU (aka BOARD) and the EVB (aka EVB)
+# in the form of BOARD_EVB, where board e.g. is apollo4p or apollo4l
+# and EVB is evb, blue_evb, blue_kbr_evb, or blue_kxr_evb, etc
+# Get the first word of the PLATFORM, which is the MCU
+BOARD := $(firstword $(subst _, ,$(PLATFORM)))
+
+# EVB is the rest of the PLATFORM, which is the EVB
+EVB := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
+
+# Replace spaces with underscores
+space := $(null) #
+EVB := $(subst $(space),_,$(EVB))
+
+$(info BOARD: $(BOARD))
+$(info EVB: $(EVB))
+
+# Set the ARCH to apollo3, apollo4, or apollo5
+ifeq ($(findstring apollo3,$(BOARD)),apollo3)
+ARCH := apollo3
+else ifeq ($(findstring apollo4,$(BOARD)),apollo4)
+ARCH := apollo4
+else ifeq ($(findstring apollo5,$(BOARD)),apollo5)
+ARCH := apollo5
+endif
+
 ifndef BOARD
 BOARD  :=apollo4p
 endif
@@ -30,6 +58,8 @@ FPU    = fpv4-sp-d16
 #FABI     = softfp
 FABI     = hard
 
+BINDIRROOT := build
+BINDIR := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 
 
 ##### Extern Library Defaults #####
@@ -50,36 +80,83 @@ TARGET      := basic_tf_stub
 NESTCOMP    := extern/AmbiqSuite
 NESTEGG := basic_tf_stub
 NESTSOURCEDIR := examples/$(NESTEGG)/src
+TARGETS := apollo4p_evb apollo4p_blue_kbr_evb apollo4p_blue_kxr_evb apollo4l_evb apollo4l_blue_evb
 
 ##### AmbiqSuite Config and HW Feature Control Flags #####
-ifeq ($(PART),apollo3p)
-	DEFINES+= AM_PART_APOLLO3P
-	DEFINES+= PART_APOLLO3P
-endif
+# AM_HAL_TEMPCO_LP is only supported by Apollo4
+# NS_AUDADC_PRESENT is only supported by Apollo4p and Apollo5
+# USB_PRESENT is only supported by Apollo4p and Apollo5
+# NS_PDM1TO3_PRESENT is only supported by non-BLE Apollo4p
+# NS_BLE_SUPPORTED is support by EVBs with 'blue' in name
 
-ifneq ($(BRD),apollo4l)
-	DEFINES+= AM_HAL_TEMPCO_LP
-	ifneq ($(PART),apollo3)
-		DEFINES+= NS_AUDADC_PRESENT
-	endif
-	ifneq ($(EVB),blue_kxr_evb)
-		DEFINES+= NS_PDM1TO3_PRESENT
-	endif
-	DEFINES+= NS_USB1_PRESENT
-	USB_PRESENT := 1
-else
-	USB_PRESENT := 0
-endif
-
+# Set BLE_PRESENT
 ifeq ($(EVB),blue_evb)
 	BLE_PRESENT := 1
 else ifeq ($(EVB),blue_kbr_evb)
 	BLE_PRESENT := 1
 else ifeq ($(EVB),blue_kxr_evb)
 	BLE_PRESENT := 1
+else ifeq ($(ARCH),apollo3)
+	BLE_PRESENT := 1
 else
 	BLE_PRESENT := 0
 endif
+
+ifeq ($(BLE_PRESENT),1)
+	ifeq ($(AS_VERSION),R4.3.0)
+		DEFINES+= NS_BLE_SUPPORTED
+	else ifeq ($(AS_VERSION),R4.4.1)
+		DEFINES+= NS_BLE_SUPPORTED
+	else ifeq ($(AS_VERSION),R3.1.1)
+		DEFINES+= NS_BLE_SUPPORTED
+	endif
+endif
+
+# Set USB
+ifeq ($(PART),apollo4p)
+	USB_PRESENT := 1
+else ifeq ($(PART),apollo5)
+	USB_PRESENT := 1
+else
+	USB_PRESENT := 0
+endif
+
+ifeq ($(USB_PRESENT),1)
+	DEFINES+= NS_USB_PRESENT
+endif
+
+# Set NS_AUDADC_PRESENT and AM_HAL_TEMPCO_LP
+ifeq ($(PART),apollo4p)
+	DEFINES+= NS_AUDADC_PRESENT
+	DEFINES+= AM_HAL_TEMPCO_LP
+else ifeq ($(PART),apollo5)
+	DEFINES+= NS_AUDADC_PRESENT
+endif
+
+# Set NS_PDM1TO3_PRESENT
+ifeq ($(PART),apollo4p)
+	ifneq ($(EVB),evb)
+		DEFINES+= NS_PDM1TO3_PRESENT
+	endif
+endif
+
+
+
+# ifneq ($(BRD),apollo4l)
+# 	DEFINES+= AM_HAL_TEMPCO_LP
+# 	ifneq ($(ARCH),apollo3)
+# 		DEFINES+= NS_AUDADC_PRESENT
+# 	endif
+# 	ifneq ($(EVB),blue_kxr_evb)
+# 		DEFINES+= NS_PDM1TO3_PRESENT
+# 	endif
+# 	DEFINES+= NS_USB1_PRESENT
+# 	USB_PRESENT := 1
+# else
+# 	USB_PRESENT := 0
+# endif
+
+
 
 # application stack and heap size
 ifndef STACK_SIZE_IN_32B_WORDS

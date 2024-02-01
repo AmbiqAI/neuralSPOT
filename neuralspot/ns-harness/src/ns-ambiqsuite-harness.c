@@ -22,9 +22,7 @@
 #include "ns_ambiqsuite_harness.h"
 
 #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
-    // AP3TODO
-    #define ns_itm_printf_enable am_bsp_itm_printf_enable
-    #define ns_lp_printf am_util_stdio_printf
+// AP3TODO
 #else
 
 /**

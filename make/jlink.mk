@@ -1,3 +1,4 @@
+ifeq ($(ARCH),apollo4)
 # see: https://wiki.segger.com/Apollo4
 JLINK_DEVICE = AMAP42KK-KBR
 JLINK_IF_SPEED = 4000
@@ -7,6 +8,16 @@ JLINK_SWOFREQ = 1000000
 JLINK_CF = $(BINDIR)/flash_cmds.jlink
 JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
 JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
+else
+JLINK_DEVICE = AMA3B2KK-KCR
+JLINK_IF_SPEED = 4000
+JLINK_PF_ADDR = 0xc000
+JLINK_CPUFREQ = 48855000
+JLINK_SWOFREQ = 1000000
+JLINK_CF = $(BINDIR)/flash_cmds.jlink
+JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
+JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
+endif
 
 ifeq ($(OS),Windows_NT) # for windows
   JLINK = JLink

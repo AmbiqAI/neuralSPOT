@@ -15,6 +15,8 @@
 #include "am_util.h"
 #include "ns_core.h"
 
+extern ns_timer_config_t *ns_timer_config[NS_TIMER_TEMPCO + 1];
+
 void am_timer01_isr(void) {
     ns_timers_e timerNum = ns_timer_config[1]->timer;
     //

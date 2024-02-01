@@ -2,7 +2,13 @@ include make/helpers.mk
 include make/neuralspot_config.mk
 include make/neuralspot_toolchain.mk
 include make/jlink.mk
-include autogen.mk
+include autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+
+ifeq ($(TOOLCHAIN),arm)
+COMPDIR := armclang
+else ifeq ($(TOOLCHAIN),arm-none-eabi)
+COMPDIR := gcc
+endif
 
 # local_app_name := main <-- moved to autogen
 TARGET = $(local_app_name)
@@ -14,17 +20,15 @@ sources += $(wildcard src/ns-core/*.c)
 sources += $(wildcard src/ns-core/*.cc)
 sources += $(wildcard src/ns-core/*.cpp)
 sources += $(wildcard src/ns-core/*.s)
-ifeq ($(TOOLCHAIN),arm)
-	sources += $(wildcard src/ns-core/armclang/*.c)
-	sources += $(wildcard src/ns-core/armclang/*.cc)
-	sources += $(wildcard src/ns-core/armclang/*.cpp)
-	sources += $(wildcard src/ns-core/armclang/*.s)
-else
-	sources += $(wildcard src/ns-core/gcc/*.c)
-	sources += $(wildcard src/ns-core/gcc/*.cc)
-	sources += $(wildcard src/ns-core/gcc/*.cpp)
-	sources += $(wildcard src/ns-core/gcc/*.s)
-endif
+sources += $(wildcard src/ns-core/$(BOARD)/*.c)
+sources += $(wildcard src/ns-core/$(BOARD)/*.cc)
+sources += $(wildcard src/ns-core/$(BOARD)/*.cpp)
+sources += $(wildcard src/ns-core/$(BOARD)/*.s)
+sources += $(wildcard src/ns-core/$(BOARD)/$(COMPDIR)/*.c)
+sources += $(wildcard src/ns-core/$(BOARD)/$(COMPDIR)/*.cc)
+sources += $(wildcard src/ns-core/$(BOARD)/$(COMPDIR)/*.cpp)
+sources += $(wildcard src/ns-core/$(BOARD)/$(COMPDIR)/*.s)
+
 
 targets  := $(BINDIR)/$(local_app_name).axf
 targets  += $(BINDIR)/$(local_app_name).bin
@@ -34,7 +38,11 @@ dependencies = $(subst .o,.d,$(objects))
 
 CFLAGS     += $(addprefix -D,$(DEFINES))
 CFLAGS     += $(addprefix -I includes/,$(INCLUDES))
-LINKER_FILE := libs/linker_script.ld
+ifeq ($(TOOLCHAIN),arm)
+LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script.sct
+else ifeq ($(TOOLCHAIN),arm-none-eabi)
+LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script.ld
+endif
 
 all: $(BINDIR) $(objects) $(targets)
 

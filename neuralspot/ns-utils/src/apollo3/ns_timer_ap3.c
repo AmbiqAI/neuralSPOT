@@ -15,6 +15,32 @@
 #include "am_util.h"
 #include "ns_core.h"
 
+extern ns_timer_config_t *ns_timer_config[NS_TIMER_TEMPCO + 1];
+
+void timer0_handler(void) {
+    if (ns_timer_config[0]->enableInterrupt) {
+        ns_timer_config[0]->callback(ns_timer_config[0]);
+    }
+}
+
+void timer1_handler(void) {
+    if (ns_timer_config[1]->enableInterrupt) {
+        ns_timer_config[1]->callback(ns_timer_config[1]);
+    }
+}
+
+void timer2_handler(void) {
+    if (ns_timer_config[2]->enableInterrupt) {
+        ns_timer_config[2]->callback(ns_timer_config[2]);
+    }
+}
+
+void timer3_handler(void) {
+    if (ns_timer_config[3]->enableInterrupt) {
+        ns_timer_config[3]->callback(ns_timer_config[3]);
+    }
+}
+
 static am_hal_ctimer_config_t g_sTimer = {
     // Don't link timers.
     0,
@@ -38,29 +64,38 @@ void am_ctimer_isr(void) {
 }
 
 uint32_t ns_timer_platform_init(ns_timer_config_t *cfg) {
-
-    am_hal_ctimer_clear(cfg->timer, AM_HAL_CTIMER_TIMERA);
-
-    // AP3 has a single timer, so we have to enable interrupts whether
-    // the config calls for them or not. If interrupts are not asked for,
-    // point the callback to a dummy function.
-
-    am_hal_ctimer_config(cfg->timer, &g_sTimer);
     uint32_t ui32Period = cfg->periodInMicroseconds * AP3_CTIMER_FREQ_IN_MHZ;
-    am_hal_ctimer_period_set(cfg->timer, AM_HAL_CTIMER_TIMERA, ui32Period, (ui32Period >> 1));
-
     // Timer 0 int is 0x01 0000_0001
     // Timer 1 int is 0x04 0000_0100
     // Timer 2 int is 0x10 0001_0000
     // Timer 3 int is 0x40 0100_0000
     uint32_t ui32IntMask = (1 << cfg->timer * 2);
+
+    am_hal_ctimer_clear(cfg->timer, AM_HAL_CTIMER_TIMERA);
+    am_hal_ctimer_config(cfg->timer, &g_sTimer);
+    am_hal_ctimer_period_set(cfg->timer, AM_HAL_CTIMER_TIMERA, ui32Period, (ui32Period >> 1));
+
     am_hal_ctimer_int_clear(ui32IntMask);
     if (cfg->enableInterrupt) {
-        am_hal_ctimer_int_register(ui32IntMask, cfg->callback);
+        switch (cfg->timer) {
+        case 0:
+            am_hal_ctimer_int_register(ui32IntMask, timer0_handler);
+            break;
+        case 1:
+            am_hal_ctimer_int_register(ui32IntMask, timer1_handler);
+            break;
+        case 2:
+            am_hal_ctimer_int_register(ui32IntMask, timer2_handler);
+            break;
+        case 3:
+            am_hal_ctimer_int_register(ui32IntMask, timer3_handler);
+            break;
+        }
         am_hal_ctimer_int_enable(ui32IntMask);
+        NVIC_EnableIRQ(CTIMER_IRQn);
     }
-    NVIC_EnableIRQ(CTIMER_IRQn);
     am_hal_interrupt_master_enable();
+    return NS_STATUS_SUCCESS;
 }
 
 uint32_t ns_us_ticker_read(ns_timer_config_t *cfg) {

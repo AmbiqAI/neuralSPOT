@@ -28,6 +28,7 @@ const ns_core_api_t ns_timer_current_version = {
 ns_timer_config_t *ns_timer_config[NS_TIMER_TEMPCO + 1];
 
 extern bool ns_core_initialized(void) { return g_ns_state.initialized; }
+extern uint32_t ns_timer_platform_init(ns_timer_config_t *cfg);
 
 uint32_t ns_timer_init(ns_timer_config_t *cfg) {
     uint32_t ui32Status = AM_HAL_STATUS_SUCCESS;

@@ -4,20 +4,12 @@ local_src += $(wildcard $(subdirectory)/src/*.cpp)
 local_src += $(wildcard $(subdirectory)/src/*.s)
 includes_api += $(subdirectory)/includes-api
 
-# Diffferentiate between apollo3 and apollo4
-ifeq ($(BOARD),apollo3p)
-  local_src += $(wildcard $(subdirectory)/src/apollo3/*.c)
-  local_src += $(wildcard $(subdirectory)/src/apollo3/*.cc)
-  local_src += $(wildcard $(subdirectory)/src/apollo3/*.cpp)
-  local_src += $(wildcard $(subdirectory)/src/apollo3/*.s)
-  includes_api += $(subdirectory)/includes-api/apollo3
-else
-  local_src += $(wildcard $(subdirectory)/src/apollo4/*.c)
-  local_src += $(wildcard $(subdirectory)/src/apollo4/*.cc)
-  local_src += $(wildcard $(subdirectory)/src/apollo4/*.cpp)
-  local_src += $(wildcard $(subdirectory)/src/apollo4/*.s)
-  includes_api += $(subdirectory)/includes-api/apollo4
-endif
+# Diffferentiate between base architectures
+local_src += $(wildcard $(subdirectory)/src/$(ARCH)/*.c)
+local_src += $(wildcard $(subdirectory)/src/$(ARCH)/*.cc)
+local_src += $(wildcard $(subdirectory)/src/$(ARCH)/*.cpp)
+local_src += $(wildcard $(subdirectory)/src/$(ARCH)/*.s)
+includes_api += $(subdirectory)/includes-api/$(ARCH)
 
 local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)

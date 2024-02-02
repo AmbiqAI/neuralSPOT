@@ -28,6 +28,18 @@ SECTIONS
         _etext = .;
     } > ROMEM
 
+    .ARM.extab :
+    {
+        *(.ARM.extab* .gnu.linkonce.armextab.*)
+    } > ROMEM
+
+    __exidx_start = .;
+    .ARM.exidx :
+    {
+        *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+    } > ROMEM
+    __exidx_end = .;
+
     .data :
     {
         . = ALIGN(4);
@@ -61,6 +73,16 @@ SECTIONS
         *(.stack)
         *(.stack*)
         . = ALIGN(8);
+    } > STACKMEM
+
+    .heap : {
+        __heap_start__ = .;
+        end = __heap_start__;
+        _end = end;
+        __end = end;
+        KEEP(*(.heap))
+        __heap_end__ = .;
+        __HeapLimit = __heap_end__;
     } > STACKMEM
 
     .bss :

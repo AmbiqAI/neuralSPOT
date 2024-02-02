@@ -30,9 +30,6 @@ EVB := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
 space := $(null) #
 EVB := $(subst $(space),_,$(EVB))
 
-$(info BOARD: $(BOARD))
-$(info EVB: $(EVB))
-
 # Set the ARCH to apollo3, apollo4, or apollo5
 ifeq ($(findstring apollo3,$(BOARD)),apollo3)
 ARCH := apollo3
@@ -41,6 +38,10 @@ ARCH := apollo4
 else ifeq ($(findstring apollo5,$(BOARD)),apollo5)
 ARCH := apollo5
 endif
+
+$(info BOARD: $(BOARD))
+$(info EVB: $(EVB))
+$(info ARCH: $(ARCH))
 
 ifndef BOARD
 BOARD  :=apollo4p
@@ -101,6 +102,8 @@ else ifeq ($(ARCH),apollo3)
 else
 	BLE_PRESENT := 0
 endif
+
+$(info BLE_PRESENT: $(BLE_PRESENT))
 
 ifeq ($(BLE_PRESENT),1)
 	ifeq ($(AS_VERSION),R4.3.0)
@@ -194,6 +197,11 @@ else ifeq ($(AS_VERSION),R4.4.1)
 	ifeq ($(BLE_SUPPORTED),1)
 		DEFINES+= NS_BLE_SUPPORTED
 	endif
+# else ifeq ($(AS_VERSION),R3.1.1)
+# 	BLE_SUPPORTED := $(BLE_PRESENT)
+# 	ifeq ($(BLE_SUPPORTED),1)
+# 		DEFINES+= NS_BLE_SUPPORTED
+# 	endif
 else
 	BLE_SUPPORTED := 0
 endif

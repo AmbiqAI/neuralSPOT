@@ -113,6 +113,12 @@ extern int main(void);
 //*****************************************************************************
 __attribute__((section(".stack"))) static uint32_t g_pui32Stack[1024];
 
+#ifndef HEAP_SIZE
+    #define HEAP_SIZE 0
+#endif
+
+__attribute__((section(".heap"))) __attribute__((__used__)) static uint32_t g_pui32Heap[HEAP_SIZE];
+
 //*****************************************************************************
 //
 // The vector table.  Note that the proper constructs must be placed on this to

@@ -29,21 +29,21 @@ include make/jlink.mk
 # NeuralSPOT Library Modules
 modules      := neuralspot/ns-core
 modules      += neuralspot/ns-harness
-# modules      += neuralspot/ns-peripherals
-# modules      += neuralspot/ns-ipc
-# modules      += neuralspot/ns-audio
+modules      += neuralspot/ns-peripherals
+modules      += neuralspot/ns-ipc
+modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 # modules      += neuralspot/ns-i2c
-# modules      += neuralspot/ns-nnsp
+modules      += neuralspot/ns-nnsp
 
-# ifeq ($(USB_PRESENT),1)
-# 	modules      += neuralspot/ns-usb
-# 	modules      += neuralspot/ns-rpc
-# endif
+ifeq ($(USB_PRESENT),1)
+	modules      += neuralspot/ns-usb
+	modules      += neuralspot/ns-rpc
+endif
 
-# ifeq ($(BLE_SUPPORTED),1)
-# 	modules      += neuralspot/ns-ble
-# endif
+ifeq ($(BLE_SUPPORTED),1)
+# modules      += neuralspot/ns-ble
+endif
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)

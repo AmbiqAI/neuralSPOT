@@ -41,12 +41,14 @@ extern "C" {
 
     #define ns_printf ns_lp_printf
 
-    #define ns_delay_us am_hal_delay_us
-
     #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
         #define ns_itm_printf_enable am_bsp_itm_printf_enable
         #define ns_lp_printf am_util_stdio_printf
+        #define ns_delay_us am_util_delay_us
+
     #else
+        #define ns_delay_us am_hal_delay_us
+
 /**
  * @brief Enable ITM prints without needed Crypto to be enabled
  *

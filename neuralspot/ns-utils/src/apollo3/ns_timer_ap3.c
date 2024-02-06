@@ -43,7 +43,7 @@ void timer3_handler(void) {
 
 static am_hal_ctimer_config_t g_sTimer = {
     // Don't link timers.
-    0,
+    1,
 
     // Set up TimerA.
     (AM_HAL_CTIMER_FN_REPEAT | AM_HAL_CTIMER_INT_ENABLE | AM_HAL_CTIMER_HFRC_12MHZ),
@@ -64,6 +64,7 @@ void am_ctimer_isr(void) {
 }
 
 uint32_t ns_timer_platform_init(ns_timer_config_t *cfg) {
+
     uint32_t ui32Period = cfg->periodInMicroseconds * AP3_CTIMER_FREQ_IN_MHZ;
     // Timer 0 int is 0x01 0000_0001
     // Timer 1 int is 0x04 0000_0100
@@ -71,9 +72,11 @@ uint32_t ns_timer_platform_init(ns_timer_config_t *cfg) {
     // Timer 3 int is 0x40 0100_0000
     uint32_t ui32IntMask = (1 << cfg->timer * 2);
 
-    am_hal_ctimer_clear(cfg->timer, AM_HAL_CTIMER_TIMERA);
+    am_hal_ctimer_clear(cfg->timer, AM_HAL_CTIMER_BOTH);
     am_hal_ctimer_config(cfg->timer, &g_sTimer);
-    am_hal_ctimer_period_set(cfg->timer, AM_HAL_CTIMER_TIMERA, ui32Period, (ui32Period >> 1));
+    if (cfg->enableInterrupt) {
+        am_hal_ctimer_period_set(cfg->timer, AM_HAL_CTIMER_BOTH, ui32Period, (ui32Period >> 1));
+    }
 
     am_hal_ctimer_int_clear(ui32IntMask);
     if (cfg->enableInterrupt) {
@@ -94,6 +97,8 @@ uint32_t ns_timer_platform_init(ns_timer_config_t *cfg) {
         am_hal_ctimer_int_enable(ui32IntMask);
         NVIC_EnableIRQ(CTIMER_IRQn);
     }
+    am_hal_ctimer_start(cfg->timer, AM_HAL_CTIMER_BOTH);
+
     am_hal_interrupt_master_enable();
     return NS_STATUS_SUCCESS;
 }
@@ -104,7 +109,7 @@ uint32_t ns_us_ticker_read(ns_timer_config_t *cfg) {
         return 0xDEADBEEF;
     }
 #endif
-    return am_hal_ctimer_read(cfg->timer, AM_HAL_CTIMER_TIMERA) / AP3_CTIMER_FREQ_IN_MHZ;
+    return am_hal_ctimer_read(cfg->timer, AM_HAL_CTIMER_BOTH) / AP3_CTIMER_FREQ_IN_MHZ;
 }
 
 uint32_t ns_timer_clear(ns_timer_config_t *cfg) {
@@ -113,6 +118,6 @@ uint32_t ns_timer_clear(ns_timer_config_t *cfg) {
         return NS_STATUS_INVALID_HANDLE;
     }
 #endif
-    am_hal_ctimer_clear(cfg->timer, AM_HAL_CTIMER_TIMERA);
+    am_hal_ctimer_clear(cfg->timer, AM_HAL_CTIMER_BOTH);
     return NS_STATUS_SUCCESS;
 }

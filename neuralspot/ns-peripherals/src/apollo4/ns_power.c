@@ -50,100 +50,6 @@
 #include "ns_peripherals_power.h"
 #include "ns_tempco.h"
 
-const ns_core_api_t ns_power_V0_0_1 = {.apiId = NS_POWER_API_ID, .version = NS_POWER_V0_0_1};
-
-const ns_core_api_t ns_power_V1_0_0 = {.apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0};
-
-const ns_core_api_t ns_power_oldest_supported_version = {
-    .apiId = NS_POWER_API_ID, .version = NS_POWER_V0_0_1};
-
-const ns_core_api_t ns_power_current_version = {
-    .apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0};
-
-const ns_power_config_t ns_development_default = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .api = &ns_power_V1_0_0,
-    .bNeedAudAdc = true,
-    .bNeedSharedSRAM = true,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = true,
-    .bNeedUSB = true,
-    .bNeedIOM = true,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = true};
-
-const ns_power_config_t ns_good_default = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .api = &ns_power_V1_0_0,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = false,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = true};
-
-const ns_power_config_t ns_mlperf_mode1 = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .api = &ns_power_V1_0_0,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = false};
-
-const ns_power_config_t ns_mlperf_mode2 = {
-    .eAIPowerMode = NS_MINIMUM_PERF,
-    .api = &ns_power_V1_0_0,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = false};
-
-const ns_power_config_t ns_mlperf_mode3 = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .api = &ns_power_V1_0_0,
-    .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = true,
-    .b128kTCM = true,
-    .bEnableTempCo = false,
-    .bNeedITM = false};
-
-const ns_power_config_t ns_audio_default = {
-    .eAIPowerMode = NS_MAXIMUM_PERF,
-    .api = &ns_power_V1_0_0,
-    .bNeedAudAdc = true,
-    .bNeedSharedSRAM = false,
-    .bNeedCrypto = false,
-    .bNeedBluetooth = false,
-    .bNeedUSB = false,
-    .bNeedIOM = false,
-    .bNeedAlternativeUART = false,
-    .b128kTCM = false,
-    .bEnableTempCo = false,
-    .bNeedITM = false};
-
 uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))
@@ -262,7 +168,7 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
 }
 
 // Main function for power configuration
-uint32_t ns_power_config(const ns_power_config_t *pCfg) {
+uint32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
 
 #ifndef NS_DISABLE_API_VALIDATION
@@ -362,7 +268,7 @@ uint32_t ns_power_config(const ns_power_config_t *pCfg) {
  * systems as needed.
  *
  */
-void ns_deep_sleep(void) {
+void ns_platform_deep_sleep(void) {
 
     if (g_ns_state.uartPrintCurrentlyEnabled) {
         am_bsp_uart_printf_disable();

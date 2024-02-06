@@ -29,7 +29,7 @@
 
 #ifndef AM_PART_APOLLO4L
 
-    #include "ns_audadc.h"
+    #include "../ns_audadc.h"
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"

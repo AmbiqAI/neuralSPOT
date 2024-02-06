@@ -1,13 +1,15 @@
 # Put your local overrides in here
 
 PLATFORM := apollo3p_evb
-EXAMPLE := ap3
+AS_VERSION := R3.1.1
+#
+# PLATFORM := apollo4p_blue_kxr_evb
+# EXAMPLE := ap3
 
 # TARGET :=web_ble
 
 # TF_VERSION := 0264234_Nov_15_2023
 # TF_VERSION := d5f819d_Aug_10_2023
-AS_VERSION := R3.1.1
 
 # TOOLCHAIN := arm
 # GCC13_EXPERIMENTAL := 1

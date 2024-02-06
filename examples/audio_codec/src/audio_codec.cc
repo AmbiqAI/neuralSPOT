@@ -198,7 +198,7 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
 #endif
     // am_bsp_low_power_init();
-    NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
+    // NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
 
     // Initialize the Opus encoder

@@ -48,7 +48,7 @@ includes_api += $(subdirectory)/devices
 
 # local_bin := $(BINDIR)/$(subdirectory)
 # bindirs   += $(local_bin)
-# Comment out the local_src, local_bin, bindirs, and make-library lines to create new cordio.a
+# Uncomment out the local_src, local_bin, bindirs, and make-library lines to create new cordio.a
 lib_prebuilt += $(subdirectory)/lib/$(BOARD)/$(EVB)/$(COMPILERNAME)/cordio.a
 
 

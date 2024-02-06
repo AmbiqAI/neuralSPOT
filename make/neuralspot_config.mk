@@ -138,7 +138,7 @@ endif
 
 # Set NS_PDM1TO3_PRESENT
 ifeq ($(PART),apollo4p)
-	ifneq ($(EVB),evb)
+	ifeq ($(EVB),evb)
 		DEFINES+= NS_PDM1TO3_PRESENT
 	endif
 endif
@@ -197,11 +197,11 @@ else ifeq ($(AS_VERSION),R4.4.1)
 	ifeq ($(BLE_SUPPORTED),1)
 		DEFINES+= NS_BLE_SUPPORTED
 	endif
-# else ifeq ($(AS_VERSION),R3.1.1)
-# 	BLE_SUPPORTED := $(BLE_PRESENT)
-# 	ifeq ($(BLE_SUPPORTED),1)
-# 		DEFINES+= NS_BLE_SUPPORTED
-# 	endif
+else ifeq ($(AS_VERSION),R3.1.1)
+	BLE_SUPPORTED := $(BLE_PRESENT)
+	ifeq ($(BLE_SUPPORTED),1)
+		DEFINES+= NS_BLE_SUPPORTED
+	endif
 else
 	BLE_SUPPORTED := 0
 endif

@@ -33,7 +33,9 @@ modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
-# modules      += neuralspot/ns-i2c
+ifeq ($(ARCH),apollo4)
+modules      += neuralspot/ns-i2c
+endif
 modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
@@ -42,7 +44,7 @@ ifeq ($(USB_PRESENT),1)
 endif
 
 ifeq ($(BLE_SUPPORTED),1)
-# modules      += neuralspot/ns-ble
+modules      += neuralspot/ns-ble
 endif
 
 # External Component Modules
@@ -58,7 +60,7 @@ modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 
 ifeq ($(USB_PRESENT),1)
-# modules      += extern/erpc/$(ERPC_VERSION)
+modules      += extern/erpc/$(ERPC_VERSION)
 endif
 
 # Example (executable binary) Modules

@@ -9,7 +9,7 @@
  *
  */
 
-#include "ns_pdm.h"
+#include "../ns_pdm.h"
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"

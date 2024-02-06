@@ -44,8 +44,8 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         .eClkDivider = AM_HAL_PDM_MCLKDIV_1,
         .bHighPassEnable = 0, // 0 is enabled. (Reversed..)
         .ui32HighPassCutoff = 0xB,
-        .eLeftGain = AM_HAL_PDM_GAIN_0DB,
-        .eRightGain = AM_HAL_PDM_GAIN_0DB,
+        .eLeftGain = AM_HAL_PDM_GAIN_P105DB,
+        .eRightGain = AM_HAL_PDM_GAIN_P105DB,
         .bDataPacking = 1,
         .bInvertI2SBCLK = 0,
         .ePDMClkSource = AM_HAL_PDM_INTERNAL_CLK,
@@ -110,20 +110,20 @@ void am_pdm0_isr(void) {
     am_hal_pdm_interrupt_clear(pvPDMHandle, ui32Status);
 
     if (ui32Status & AM_HAL_PDM_INT_DCMP) {
-        // am_hal_pdm_interrupt_service(pvPDMHandle, ui32Status, &(g_ns_audio_config->sTransfer));
-
-        // uint32_t *ui32PDMDatabuffer = (uint32_t *)am_hal_pdm_dma_get_buffer(pvPDMHandle);
-
         memcpy(
             (uint8_t *)g_ns_audio_config->audioBuffer, (uint8_t *)g_ns_audio_config->sampleBuffer,
             g_ns_audio_config->numSamples * g_ns_audio_config->numChannels * 2);
-        // for (uint32_t i = 0; i < g_ns_audio_config->numSamples * g_ns_audio_config->numChannels;
-        //      i++) {
-        //     // temp1[2 * i] = (ui32PDMDatabuffer[i] & 0xFF00) >> 8U;
-        //     // temp1[2 * i + 1] = (ui32PDMDatabuffer[i] & 0xFF0000) >> 16U;
-        //     temp1[2 * i] = ui32PDMDatabuffer[i] & 0xFF;
-        //     temp1[2 * i + 1] = (ui32PDMDatabuffer[i] & 0xFF0000) >> 16U;
-        // }
+
+        uint16_t *temp1 = (uint16_t *)g_ns_audio_config->audioBuffer;
+        uint32_t *ui32PDMDatabuffer = (uint32_t *)g_ns_audio_config->sampleBuffer;
+        for (uint32_t i = 0; i < g_ns_audio_config->numSamples * g_ns_audio_config->numChannels;
+             i++) {
+
+            // Mono data is packed (2 16 bit samples in 32 bit word)
+            temp1[2 * i] = ui32PDMDatabuffer[i] & 0xFFFF;
+            temp1[2 * i + 1] = (ui32PDMDatabuffer[i] & 0xFFFF0000) >> 16U;
+        }
+
         g_ns_audio_config->callback(g_ns_audio_config, 0);
         PDMn(0)->DMATOTCOUNT = g_ns_audio_config->numSamples * g_ns_audio_config->numChannels *
                                2; // FIFO unit in bytes

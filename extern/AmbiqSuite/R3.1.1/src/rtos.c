@@ -66,27 +66,27 @@
 //*****************************************************************************
 TaskHandle_t xSetupTask;
 
-//*****************************************************************************
-//
-// Interrupt handler for the CTIMER module.
-//
-//*****************************************************************************
-void
-am_ctimer_isr(void)
-{
-    uint32_t ui32Status;
+// //*****************************************************************************
+// //
+// // Interrupt handler for the CTIMER module.
+// //
+// //*****************************************************************************
+// void
+// am_ctimer_isr(void)
+// {
+//     uint32_t ui32Status;
 
-    //
-    // Check the timer interrupt status.
-    //
-    ui32Status = am_hal_ctimer_int_status_get(false);
-    am_hal_ctimer_int_clear(ui32Status);
+//     //
+//     // Check the timer interrupt status.
+//     //
+//     ui32Status = am_hal_ctimer_int_status_get(false);
+//     am_hal_ctimer_int_clear(ui32Status);
 
-    //
-    // Run handlers for the various possible timer events.
-    //
-    am_hal_ctimer_int_service(ui32Status);
-}
+//     //
+//     // Run handlers for the various possible timer events.
+//     //
+//     am_hal_ctimer_int_service(ui32Status);
+// }
 
 //*****************************************************************************
 //

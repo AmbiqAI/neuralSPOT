@@ -51,7 +51,11 @@ extern "C" {
     #include "att_api.h"
     #include "hci_core.h"
     #include "hci_drv_apollo.h"
-    #include "hci_drv_cooper.h"
+    #ifdef AM_PART_APOLLO3P
+        #include "hci_drv_apollo3.h"
+    #else
+        #include "hci_drv_cooper.h"
+    #endif
     #include "hci_handler.h"
 
     // *** Versions

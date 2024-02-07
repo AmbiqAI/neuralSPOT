@@ -158,7 +158,7 @@ typedef struct ns_audio_cfg {
     ns_audio_source_e eAudioSource; ///< Choose audio source such as AUDADC
     uint32_t *sampleBuffer;         ///< Where samples are DMA'd to
 
-    #ifdef AM_PART_APOLLO4L
+    #ifndef NS_AUDADC_PRESENT
     void *workingBuffer; ///< Not used for Apollo4 Lite
     #else
     am_hal_audadc_sample_t *workingBuffer; ///< Working buffer used by AUDADC, otherwise NULL
@@ -180,7 +180,8 @@ typedef struct ns_audio_cfg {
     ns_ipc_ring_buffer_t *bufferHandle; ///< Filled by init
     float fLGAdB;
 
-    #if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L)
+    #if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L) ||                      \
+        defined(AM_PART_APOLLO3P)
     void *sOffsetCalib;
     #else
     am_hal_offset_cal_coeffs_array_t *sOffsetCalib;

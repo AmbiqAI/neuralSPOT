@@ -57,6 +57,7 @@ ifeq ($(GCC13_EXPERIMENTAL),1)
 CFLAGS+= -g -O2 -ffast-math
 else
 CFLAGS+= -g -O3 -ffast-math
+# CFLAGS+= -g -O0 -ffast-math
 endif
 # CFLAGS+= -g -O2 -ffast-math
 
@@ -132,7 +133,14 @@ endif
 ifeq ($(PART),apollo4l)
 DEFINES+= AM_PART_APOLLO4L
 endif
-
+ifeq ($(PART),apollo3p)
+	DEFINES+= AM_PART_APOLLO3P
+	DEFINES+= PART_APOLLO3P
+endif
+ifeq ($(PART),apollo3)
+	DEFINES+= AM_PART_APOLLO3
+	DEFINES+= PART_APOLLO3
+endif
 
 DEFINES+= AM_PACKAGE_BGA
 DEFINES+= __FPU_PRESENT

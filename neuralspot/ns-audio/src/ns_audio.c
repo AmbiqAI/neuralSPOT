@@ -21,7 +21,7 @@
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 
-#ifndef AM_PART_APOLLO4L
+#ifdef NS_AUDADC_PRESENT
     #include "ns_audadc.h"
 #endif
 
@@ -105,8 +105,8 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
     }
 
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
-#ifdef AM_PART_APOLLO4L
-        am_util_stdio_printf("Error - Trying to init non-existant AUDADC on Apollo4 Lite\n");
+#ifndef NS_AUDADC_PRESENT
+        am_util_stdio_printf("Error - Trying to init non-existent AUDADC\n");
         return NS_STATUS_INIT_FAILED;
 #else
         if (g_ns_audio_config->audadc_config == NULL) {
@@ -175,8 +175,8 @@ void ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
 }
 
 void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
-#ifdef AM_PART_APOLLO4L
-    // Apollo4 Lite only supports PDM, and there is nothing to do for PDM here
+#ifndef NS_AUDADC_PRESENT
+    // Platform only supports PDM, and there is nothing to do for PDM here
     return;
 #else
     uint32_t ui32PcmSampleCnt = config->numSamples * config->numChannels;

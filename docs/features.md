@@ -14,7 +14,7 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 ### Software
 | External Component                   | Versions         | Notes                                                        |
 | ------------------------------------ | ---------------- | ------------------------------------------------------------ |
-| AmbiqSuite                           | 4.1.0, 4.2.0, 4.3.0, 4.4.1 | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
+| AmbiqSuite                           | 4.1.0, 4.2.0, 4.3.0, 4.4.1, R3.3.1 | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
 | Tensorflow Lite for Microcontrollers | 2.3.1, c046d6e, fecdd5d, d5f819d (latest) |                                                              |
 | Embedded RPC                         | 1.9.1 Ambiq Fork | Please use this [fork](https://github.com/AmbiqAI/erpc).     |
 | SEGGER RTT                           | 7.70a            |                                                              |
@@ -25,33 +25,35 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 
 | Hardware Support      | Type                              | Notes                                                        |
 | --------------------- | --------------------------------- | ------------------------------------------------------------ |
-| Apollo4P_evb          | Ambiq4 Plus EVB                         |                                                              |
-| Apollo4B_evb          | Ambiq4 Plus EVB                         | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
-| Apollo4P_blue_kbr_evb | Ambiq4 Plus EVB                         |                                                   |
-| Apollo4P_blue_kxr_evb | Ambiq4 Plus EVB                         |                                                   |
+| Apollo4P_evb          | Ambiq Apollo4 Plus EVB             |                                                              |
+| Apollo4B_evb        | Ambiq Apollo4 Rev B EVB       | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
+| Apollo4P_blue_kbr_evb | Ambiq Apollo4P Blue KBR EVB  |                                                   |
+| Apollo4P_blue_kxr_evb | Ambiq Apollo4P Blue KXR EVB |                                                   |
 | Apollo4 Lite | Ambiq Apollo4 Lite EVB                        |                                                   |
 | Apollo4 Blue Lite | Ambiq Apollo4 Lite EVB | |
+| Apollo3P Blue | Ambiq  Apollo3P Blue EVB | |
 | MPU6050               | Invensense 6D accelerometer       | i2c support                                                  |
 | MAX86150              | Invensense ECG single-lead sensor | i2c support                                     |
 
 ### Compatibility
 
-| Feature                      | Apollo4B    | Apollo4 Plus      | Apollo4 Blue Plus | Apollo4 Lite      | Apollo4 Blue Lite |
-| ---------------------------- | ----------- | ----------------- | ----------------- | ----------------- | ----------------- |
-| USB                          | No          | Yes               | Yes               |                   |                   |
-| BLE                          | No          |                   | AmbiqSuite 4.3.0+ |                   | Yes               |
-| Analog Audio                 | Yes         | Yes               | Yes               |                   |                   |
-| Digital Audio                | No          | AmbiqSuite 4.3.0+ | AmbiqSuite 4.3.0+ | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ |
-| TF Micro Profiler            | TF 0c46d6e+ | TF 0c46d6e+       | TF 0c46d6e+       | TF 0c46d6e+       | TF 0c46d6e+       |
-| AutoDeploy Profiling         | No          | Yes               | Yes               | No                | No                |
-| AutoDeploy Power Measurement | Yes         | Yes               | Yes               | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ |
-| AutoDeploy Library Export    | Yes         | Yes               | Yes               | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ |
+| Feature                      | Apollo4B    | Apollo4 Plus      | Apollo4 Blue Plus (KBR/KXR) | Apollo4 Lite      | Apollo4 Blue Lite | Apollo3P Blue |
+| ---------------------------- | ----------- | ----------------- | --------------------------- | ----------------- | ----------------- | ------------- |
+| USB                          | No          | Yes               | Yes                         | n/a               | n/a               | n/a           |
+| BLE                          | n/a         | n/a               | AmbiqSuite 4.3.0+           | n/a               | Yes               | Yes           |
+| i2c Devices                  | Yes         | Yes               | Yes                         | Yes               | Yes               | Soon          |
+| Analog Audio                 | Yes         | Yes               | Yes                         | n/a               | n/a               | n/a           |
+| Digital Audio                | No          | AmbiqSuite 4.3.0+ | AmbiqSuite 4.3.0+           | AmbiqSuite 4.4.1+ | AmbiqSuite 4.4.1+ | Yes           |
+| TF Micro Profiler            | TF 0c46d6e+ | TF 0c46d6e+       | TF 0c46d6e+                 | TF 0c46d6e+       | TF 0c46d6e+       | Yes           |
+| AutoDeploy Profiling         | No          | Yes               | Yes                         | No                | No                | No            |
+| AutoDeploy Power Measurement | Yes         | Yes               | Yes                         | No                | No                | No            |
+| AutoDeploy Library Export    | Yes         | Yes               | Yes                         | Yes*              | Yes*              | Yes*          |
 
+> `*` Autodeploy automation relies on USB, so only platforms with USB1 can use automation. Libraries exported by the automation are platform-agnostic.
 
+## Examples
 
-## Examples and Projects
-
-NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples)_ and _[projects](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects)_. Examples are built entirely on NeuralSPOT's libraries and components, and are meant to showcase NeuralSPOT's features. Projects, on the other hand, are meant as demonstrations of how to integrate externally generated AI components  (from EdgeImpulse, for example) that are built on top of modified NeuralSPOT "[nests](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Developing_with_NeuralSPOT.md)".
+Examples are built entirely on NeuralSPOT's libraries and components, and are meant to showcase NeuralSPOT's features. 
 
 ### Examples
 
@@ -66,42 +68,31 @@ NeuralSPOT includes _[examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/
 | [web_ble](../examples/web_ble)               | Web BLE (bluetooth low energy) example application. This example turns the EVB into a bluetooth peripheral (in BLE terms, a 'server') communicating with a WebBLE dashboard running on the laptop browser. |
 
 
-### Projects
-
-| Project                                                      | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [ei_basic_example](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/ei_basic_example) | Shows how to integrate an [EdgeImpulse model](https://studio.edgeimpulse.com/public/145105/latest) [exported as generic C++](https://docs.edgeimpulse.com/docs/deployment/running-your-impulse-locally/deploy-your-model-as-a-c-library)  to NeuralSPOT |
-| [ei_anomaly_detection](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/ei_anomaly_detection) | Shows a practical [fan speed anomaly detector](https://studio.edgeimpulse.com/public/145382/latest) built in EdgeImpulse and using MPU6050 data collected using our [MPU data collector](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/mpu_data_collection). |
-| [ei_yes_no](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/ei_yes_no) | Shows a [continuous inference](https://docs.edgeimpulse.com/docs/tutorials/continuous-audio-sampling) [audio model detecting whether 'yes' or 'no'](https://studio.edgeimpulse.com/public/146769/latest) was spoken, built in EdgeImpulse and using NeuralSPOT's libraries including low power[AUDADC audio sampling.](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
-| [hello_ambiq](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/hello_ambiq_WIP_doesntwork) (WIP) | Shows a continuous inference audio [model detecting whether 'hello Ambiq' was spoken](https://studio.edgeimpulse.com/studio/149224/versions), built in EdgeImpulse using transfer learning and using NeuralSPOT's libraries including AUDADC audio sampling. |
-
-
 
 # Libraries
 
-| Library                | Location       | Description                                                  | Usage Guide                                                  |
-| ---------------------- | -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ns_audio               | ns-audio       | AUDADC (low power analog audio input) configuration and audio sampling. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
-| ns_audio_mfcc          | ns-audio       | Mel Spectrogram Feature Extraction                           | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
-| ns_malloc              | ns-utils       | malloc/free implementation                                   | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_timer               | ns-utils       | Reading Apollo4 clocks and setting periodic interrupts       | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_power_profile       | ns-utils       | Prints power-relevant register configuration for expert analysis | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_energy_monitor      | ns-utils       | Utility for marking regions of interest for external power monitors | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_cache_profile       | ns-utils       | Tools to capture and analyze cache utilization statistics    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_perf_profile        | ns-utils       | Tools to capture and analyze CPU perf utilization registers  | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
-| ns_peripherals_power   | ns-peripherals | Optimized, customizable Apollo4 power configuration for common AI applications. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
-| ns_peripherals_button  | ns-peripherals | Utility for reading EVB buttons via ISRs                     | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
-| ns_peripherals_led     | ns-peripherals | Utility for controlling EVB LEDs                             | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
-| ns_i2c_register_driver | ns-i2c         | Generic Apollo4 i2c driver                                   | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
-| ns_mpu6050_i2c_driver  | ns-i2c         | Minimal MPU6050 driver                                       | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
-| ns_max86150_i2c_driver | ns-i2c         | MAX86150 driver                                              | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
-| ns_rpc_generic_data    | ns-rpc         | A generic data RPC implementation offering both client and server modes for sending blocks of data, computing on a block a data and getting a result, and printing remote message. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) |
-| ns_ambiqsuite_harness  | ns-harness     | Wrappers for common AmbiqSuite operations such as printing, deep-sleep compatible printing, adding delays, etc. | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
-| ns_micro_profiler      | ns-harness     | Tools for per-layer performance profiling                    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
-| ns_debug_log           | ns-harness     | Implementation of printf for Tensorflow debug prints         | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
-| ns_usb                 | ns-usb         | TinyUSB CDC (TTY) driver for USB port 1.                     | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb) |
-| ns_ble                 | ns-ble         | Simple BLE library for creating BLE peripheral servers.      | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ble) |
-| ns_ipc_ring_buffer     | ns-ipc         | Ring buffer IPC mechanism for getting peripheral data into AI applications | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc) |
+| Library                | Location       | Description                                                  | AP3  | AP4  | Usage Guide                                                  |
+| ---------------------- | -------------- | ------------------------------------------------------------ | ---- | ---- | ------------------------------------------------------------ |
+| ns_audio               | ns-audio       | AUDADC (low power analog audio input) and PDM configuration and audio sampling. | PDM  | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
+| ns_audio_mfcc          | ns-audio       | Mel Spectrogram Feature Extraction                           | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
+| ns_malloc              | ns-utils       | malloc/free implementation                                   | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_timer               | ns-utils       | Reading clocks and setting periodic interrupts               | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_power_profile       | ns-utils       | Prints power-relevant register configuration for expert analysis | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_energy_monitor      | ns-utils       | Utility for marking regions of interest for external power monitors | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_cache_profile       | ns-utils       | Tools to capture and analyze cache utilization statistics    | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_perf_profile        | ns-utils       | Tools to capture and analyze CPU perf utilization registers  | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_peripherals_power   | ns-peripherals | Optimized, customizable Apollo4 power configuration for common AI applications. | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
+| ns_peripherals_button  | ns-peripherals | Utility for reading EVB buttons via ISRs                     | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
+| ns_i2c_register_driver | ns-i2c         | Generic Apollo4 i2c driver                                   |      | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
+| ns_mpu6050_i2c_driver  | ns-i2c         | Minimal MPU6050 driver                                       |      | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
+| ns_max86150_i2c_driver | ns-i2c         | MAX86150 driver                                              |      | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
+| ns_rpc_generic_data    | ns-rpc         | A generic data RPC implementation offering both client and server modes for sending blocks of data, computing on a block a data and getting a result, and printing remote message. | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) |
+| ns_ambiqsuite_harness  | ns-harness     | Wrappers for common AmbiqSuite operations such as printing, deep-sleep compatible printing, adding delays, etc. | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_micro_profiler      | ns-harness     | Tools for per-layer performance profiling                    | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_debug_log           | ns-harness     | Implementation of printf for Tensorflow debug prints         | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_usb                 | ns-usb         | TinyUSB CDC (TTY) driver for USB port 1.                     | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb) |
+| ns_ble                 | ns-ble         | Simple BLE library for creating BLE peripheral servers.      | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ble) |
+| ns_ipc_ring_buffer     | ns-ipc         | Ring buffer IPC mechanism for getting peripheral data into AI applications | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc) |
 
 # Tools
 

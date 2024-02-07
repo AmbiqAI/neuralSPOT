@@ -12,8 +12,7 @@ In summary, the process is (details below):
 7. Patch that one pesky int^uint that causes all the warnings
 
 ### BLE/Cordio Notes
-In 4.4.1, we added a number of delays to get BLE to work more consistently when in HP mode with caches enabled. These are not
-in the baseline AmbiqSuite code. To port a new version, this implies:
+In 4.4.1, we added a number of delays to get BLE to work more consistently when in HP mode with caches enabled. These are not in the baseline AmbiqSuite code. To port a new version, this implies:
 1. The cordio code needs to be compiled 
 2. Look for 'ns_delay_us' (we used this instead of the AmbiqSuite delay function to make it easy to search for) and add those to the new AS cordio code.
 

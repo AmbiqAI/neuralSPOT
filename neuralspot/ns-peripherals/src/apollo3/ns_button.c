@@ -51,10 +51,10 @@ void am_gpio_isr(void) {
 }
 
 uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
-    uint32_t ui32IntStatus;
-    uint32_t ui32BUTTON0GpioNum = AM_BSP_GPIO_BUTTON0;
-    uint32_t ui32BUTTON1GpioNum = AM_BSP_GPIO_BUTTON1;
-    uint32_t ui32JoulescopeTriggerGpioNum = 24;
+    // uint32_t ui32IntStatus;
+    // uint32_t ui32BUTTON0GpioNum = AM_BSP_GPIO_BUTTON0;
+    // uint32_t ui32BUTTON1GpioNum = AM_BSP_GPIO_BUTTON1;
+    // uint32_t ui32JoulescopeTriggerGpioNum = 24;
 
     // Configure the button pin.
     if (cfg->button_0_enable) {

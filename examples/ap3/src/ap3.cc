@@ -10,7 +10,7 @@
 #define SAMPLES_IN_FRAME 320
 #define SAMPLING_RATE 16000
 
-int16_t static audioBuf[SAMPLES_IN_FRAME];
+alignas(16) int16_t static audioBuf[SAMPLES_IN_FRAME * 2];
 alignas(16) uint32_t static sampleBuffer[SAMPLES_IN_FRAME * 2];
 uint32_t audioInterruptCount = 0;
 
@@ -56,8 +56,9 @@ int main(void) {
     ns_itm_printf_enable();
 
     ns_power_config(&ns_development_default);
-    am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-    am_hal_cachectrl_enable();
+    // am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
+    // am_hal_cachectrl_enable();
+    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
     ns_audio_init(&audio_config);
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");

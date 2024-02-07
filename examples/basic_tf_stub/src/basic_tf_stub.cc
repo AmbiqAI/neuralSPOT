@@ -127,9 +127,9 @@ int main(void) {
     NS_TRY(ns_mfcc_init(&mfcc_config), "MFCC config failed.\n");
     NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
 
-    // if (measure_first_inference) {
-    //     ns_init_perf_profiler(); // count inference cycles the first time it is invoked
-    // }
+    if (measure_first_inference) {
+        ns_init_perf_profiler(); // count inference cycles the first time it is invoked
+    }
     ns_interrupt_master_enable();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
@@ -208,20 +208,20 @@ int main(void) {
 
             ns_set_power_monitor_state(NS_INFERING);
 
-            // if (measure_first_inference) {
-            //     ns_start_perf_profiler();
-            // }
+            if (measure_first_inference) {
+                ns_start_perf_profiler();
+            }
             TfLiteStatus invoke_status = interpreter->Invoke();
 #ifdef NS_MLPROFILE
             profiler->LogCsv();
 #endif
 
-            // if (measure_first_inference) {
-            //     measure_first_inference = false;
-            //     ns_stop_perf_profiler();
-            //     ns_capture_perf_profiler(&pp);
-            //     ns_print_perf_profile(&pp);
-            // }
+            if (measure_first_inference) {
+                measure_first_inference = false;
+                ns_stop_perf_profiler();
+                ns_capture_perf_profiler(&pp);
+                ns_print_perf_profile(&pp);
+            }
             ns_set_power_monitor_state(NS_IDLE);
 
             if (invoke_status != kTfLiteOk) {

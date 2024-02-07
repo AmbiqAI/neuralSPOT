@@ -39,9 +39,9 @@ else ifeq ($(findstring apollo5,$(BOARD)),apollo5)
 ARCH := apollo5
 endif
 
-$(info BOARD: $(BOARD))
-$(info EVB: $(EVB))
-$(info ARCH: $(ARCH))
+# $(info BOARD: $(BOARD))
+# $(info EVB: $(EVB))
+# $(info ARCH: $(ARCH))
 
 ifndef BOARD
 BOARD  :=apollo4p
@@ -103,7 +103,7 @@ else
 	BLE_PRESENT := 0
 endif
 
-$(info BLE_PRESENT: $(BLE_PRESENT))
+# $(info BLE_PRESENT: $(BLE_PRESENT))
 
 ifeq ($(BLE_PRESENT),1)
 	ifeq ($(AS_VERSION),R4.3.0)
@@ -142,23 +142,6 @@ ifeq ($(PART),apollo4p)
 		DEFINES+= NS_PDM1TO3_PRESENT
 	endif
 endif
-
-
-
-# ifneq ($(BRD),apollo4l)
-# 	DEFINES+= AM_HAL_TEMPCO_LP
-# 	ifneq ($(ARCH),apollo3)
-# 		DEFINES+= NS_AUDADC_PRESENT
-# 	endif
-# 	ifneq ($(EVB),blue_kxr_evb)
-# 		DEFINES+= NS_PDM1TO3_PRESENT
-# 	endif
-# 	DEFINES+= NS_USB1_PRESENT
-# 	USB_PRESENT := 1
-# else
-# 	USB_PRESENT := 0
-# endif
-
 
 
 # application stack and heap size

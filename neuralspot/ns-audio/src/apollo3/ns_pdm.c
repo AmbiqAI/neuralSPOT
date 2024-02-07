@@ -125,9 +125,10 @@ void am_pdm0_isr(void) {
         }
 
         g_ns_audio_config->callback(g_ns_audio_config, 0);
+        AM_CRITICAL_BEGIN;
         PDMn(0)->DMATOTCOUNT = g_ns_audio_config->numSamples * g_ns_audio_config->numChannels *
                                2; // FIFO unit in bytes
-
+        AM_CRITICAL_END;
         // #if configUSE_AAD
         //         if(g_sVosSys.ui8WosSkipFrameFlag)
         //         {

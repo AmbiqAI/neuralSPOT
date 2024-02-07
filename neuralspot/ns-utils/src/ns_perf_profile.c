@@ -8,11 +8,11 @@
  * @copyright Copyright (c) 2022
  *
  */
-#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
-// AP3TODO
-#else
-    #include "ns_perf_profile.h"
-    #include "ns_ambiqsuite_harness.h"
+// #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+// // AP3TODO
+// #else
+#include "ns_perf_profile.h"
+#include "ns_ambiqsuite_harness.h"
 
 /**
  * @brief Enables the Cache profile counters
@@ -41,6 +41,17 @@ uint8_t ns_cache_profiler_init(ns_cache_config_t *cfg) {
  * @param dump
  */
 void ns_capture_cache_stats(ns_cache_dump_t *dump) {
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+    dump->daccess = CACHECTRL->DMON0;
+    dump->dtaglookup = CACHECTRL->DMON1;
+    dump->dhitslookup = CACHECTRL->DMON2;
+    dump->dhitsline = CACHECTRL->DMON3;
+    dump->iaccess = CACHECTRL->IMON0;
+    dump->itaglookup = CACHECTRL->IMON1;
+    dump->ihitslookup = CACHECTRL->IMON2;
+    dump->ihitsline = CACHECTRL->IMON3;
+#else
+
     dump->daccess = CPU->DMON0;
     dump->dtaglookup = CPU->DMON1;
     dump->dhitslookup = CPU->DMON2;
@@ -49,6 +60,7 @@ void ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->itaglookup = CPU->IMON1;
     dump->ihitslookup = CPU->IMON2;
     dump->ihitsline = CPU->IMON3;
+#endif
 }
 
 void ns_delta_cache(ns_cache_dump_t *s, ns_cache_dump_t *e, ns_cache_dump_t *d) {
@@ -106,6 +118,7 @@ void ns_print_cache_stats_delta(ns_cache_dump_t *start, ns_cache_dump_t *end) {
  *
  */
 void ns_reset_perf_counters(void) {
+
     DWT->CYCCNT = 0;
     DWT->CPICNT = 0;
     DWT->EXCCNT = 0;
@@ -189,4 +202,4 @@ void ns_print_perf_profile(ns_perf_counters_t *c) {
     ns_lp_printf("Load/Store Wait Count: %d\n", c->lsucnt);
     ns_lp_printf("Folded (cycles saved by zero-cycle instructions) Count: %d\n", c->foldcnt);
 }
-#endif
+// #endif

@@ -1,1 +1,0 @@
-from .generate_link_script import generate_files

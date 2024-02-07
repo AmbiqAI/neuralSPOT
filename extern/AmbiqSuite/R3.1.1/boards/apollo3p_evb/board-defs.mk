@@ -1,3 +1,0 @@
-FAMILY=apollo3p
-PACKAGE=AM_PACKAGE_BGA
-BOARD=apollo3p_evb

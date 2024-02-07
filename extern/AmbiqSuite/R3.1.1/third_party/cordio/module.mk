@@ -1,25 +1,25 @@
-local_src := $(wildcard $(subdirectory)/ble-host/sources/hci/ambiq/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/hci/ambiq/apollo3/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/sec/common/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/sec/uecc/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/att/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/cfg/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/dm/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/hci/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/l2c/*.c)
-local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/smp/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/apps/hidapp/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/apps/app/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/apps/app/common/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/hid/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/bas/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/gap/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/gatt/*.c)
-local_src += $(wildcard $(subdirectory)/ble-profiles/sources/services/*.c)
-local_src += $(wildcard $(subdirectory)/wsf/sources/util/*.c)
-local_src += $(wildcard $(subdirectory)/wsf/sources/port/freertos/*.c)
-local_src += $(wildcard $(subdirectory)/uecc/*.c)
-local_src += $(wildcard $(subdirectory)/devices/*.c)
+# local_src := $(wildcard $(subdirectory)/ble-host/sources/hci/ambiq/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/hci/ambiq/apollo3/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/sec/common/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/sec/uecc/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/att/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/cfg/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/dm/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/hci/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/l2c/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-host/sources/stack/smp/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/apps/hidapp/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/apps/app/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/apps/app/common/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/hid/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/bas/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/gap/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/profiles/gatt/*.c)
+# local_src += $(wildcard $(subdirectory)/ble-profiles/sources/services/*.c)
+# local_src += $(wildcard $(subdirectory)/wsf/sources/util/*.c)
+# local_src += $(wildcard $(subdirectory)/wsf/sources/port/freertos/*.c)
+# local_src += $(wildcard $(subdirectory)/uecc/*.c)
+# local_src += $(wildcard $(subdirectory)/devices/*.c)
 
 # Third-Party (Cordio)
 includes_api += $(subdirectory)/ble-profiles/include/app
@@ -46,16 +46,10 @@ includes_api += $(subdirectory)/ble-host/sources/sec/common/
 includes_api += $(subdirectory)/uecc
 includes_api += $(subdirectory)/devices
 
-local_bin := $(BINDIR)/$(subdirectory)
-bindirs   += $(local_bin)
+# local_bin := $(BINDIR)/$(subdirectory)
+# bindirs   += $(local_bin)
 # Uncomment out the local_src, local_bin, bindirs, and make-library lines to create new cordio.a
-# lib_prebuilt += $(subdirectory)/lib/$(BOARD)/$(EVB)/$(COMPILERNAME)/cordio.a
+lib_prebuilt += $(subdirectory)/lib/$(BOARD)/$(EVB)/$(COMPILERNAME)/cordio.a
 
 
-# ifeq ($(TOOLCHAIN),arm)
-# lib_prebuilt += $(subdirectory)/lib/cordio_armclang.a
-# else
-# lib_prebuilt += $(subdirectory)/lib/cordio_gcc.a
-# endif
-
-$(eval $(call make-library, $(local_bin)/cordio.a, $(local_src)))
+# $(eval $(call make-library, $(local_bin)/cordio.a, $(local_src)))

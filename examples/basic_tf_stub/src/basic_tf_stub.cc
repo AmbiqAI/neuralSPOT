@@ -11,7 +11,7 @@ The basic_tf_stub example is based on a speech to intent model.
 
 **/
 
-#define RINGBUFFER_MODE
+// #define RINGBUFFER_MODE
 #ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
 #endif
@@ -25,7 +25,8 @@ The basic_tf_stub example is based on a speech to intent model.
 // #define LOWEST_POWER_MODE
 
 // ARM perf requires ITM to be enabled, impacting power measurements.
-// For profiling measurements to wpork, example must be compiled using the MLPROFILE=1 make parameter
+// For profiling measurements to wpork, example must be compiled using the MLPROFILE=1 make
+// parameter
 #ifdef NS_MLPROFILE
     #define MEASURE_ARM_PERF true
 #else
@@ -46,7 +47,7 @@ The basic_tf_stub example is based on a speech to intent model.
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
-#include "ns_perf_profile.h"
+// #include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
 
 static int recording_win = NUM_FRAMES;
@@ -93,8 +94,8 @@ int main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed.\n");
-    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
 
 #ifdef LOWEST_POWER_MODE
     // No printing enabled at all - use this to measure power
@@ -252,6 +253,6 @@ int main(void) {
             state = WAITING_TO_RECORD;
             break;
         }
-        ns_deep_sleep();
+        // ns_deep_sleep();
     } // while(1)
 }

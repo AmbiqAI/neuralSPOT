@@ -17,6 +17,8 @@
 
 alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
                                                         // to 80 bytes
+alignas(16) int16_t static sinWave[320];
+
 alignas(16) char msgBuf[120];
 char vad = 0;
 
@@ -28,6 +30,8 @@ uint8_t numUtterances = 0;
 
 // #define ENERGY_MEASUREMENT
 #define NUM_CHANNELS 1
+#define SAMPLES_IN_FRAME 320
+#define SAMPLE_RATE 16000
 
 // BLE uses malloc, so we need a heap
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
@@ -57,9 +61,14 @@ am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; //
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 #endif
 
+uint16_t framesSampled = 0;
 void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
+
     if (g_audioRecording) {
         ns_audio_getPCM_v2(config, g_in16AudioDataBuffer);
+        if (g_audioReady) {
+            ns_lp_printf("audio_frame_callback: audioReady already set\n");
+        }
         g_audioReady = true;
     }
 }
@@ -129,7 +138,7 @@ uint8_t numEnrolledSpeakers = 0;
 uint8_t idCurrentlyEnrollingSpeaker = 0;
 uint8_t numUtterancesInCurrentEnrollment = 0;
 //#define bleMessage ns_lp_printf
-
+uint16_t framesSent = 0;
 void bleMessage(const char *fmt, ...) {
     va_list args;
     memset(msgBuf, 0, sizeof(msgBuf));
@@ -147,11 +156,18 @@ void encodeAndSendAudio(
     // return;
     if (enoughToSend) {
         memcpy(encoderInput + 160, g_in16AudioDataBuffer, sizeof(int16_t) * 160);
+        // memcpy(encoderInput + 160, sinWave, sizeof(int16_t) * 160);
         audio_enc_encode_frame(encoderInput, 320, encodedDataBuffer);
+        framesSent++;
         ns_ble_send_value(&webbleOpusAudio, NULL); // Send the encoded audio over BLE
+        if (framesSent == 500) {                   // 10 seconds
+            framesSent = 0;
+            ns_lp_printf("Sent 10 seconds of audio\n");
+        }
         enoughToSend = false;
     } else {
         memcpy(encoderInput, g_in16AudioDataBuffer, sizeof(int16_t) * 160);
+        // memcpy(encoderInput, sinWave, sizeof(int16_t) * 160);
         enoughToSend = true;
     }
 }
@@ -160,17 +176,24 @@ void audioTask(void *pvParameters) {
     state_t state = WAIT_FOR_BTN;
     int16_t detected = 0;
     ns_lp_printf("Starting audio task\n");
+    g_audioRecording = true;
+
     bleMessage("Press Button 1 to start enrollment, Button 0 to identify");
+    audio_enc_encode_frame(sinWave, 320, encodedDataBuffer);
+
     while (1) {
         switch (state) {
         case WAIT_FOR_BTN:
+            // audio_enc_encode_frame(sinWave, 320, encodedDataBuffer);
+            // ns_ble_send_value(&webbleOpusAudio, NULL); // Send the encoded audio over BLE
             if (g_audioReady) {
                 // This doesn't actually do anything except send audio
                 // to browser for visualization purposes - not used by the model
+
                 encodeAndSendAudio();
                 g_audioReady = false;
                 vad = 0;
-                ns_ble_send_value(&webbleVad, NULL); // send VAD detection state
+                // ns_ble_send_value(&webbleVad, NULL); // send VAD detection state
             }
 
             if (enrollBtn) {
@@ -205,7 +228,7 @@ void audioTask(void *pvParameters) {
             if (g_audioReady) {
                 // execution of each time frame data
                 // ns_lp_printf(".");
-                encodeAndSendAudio();
+                // encodeAndSendAudio();
                 cntrl_inst.enroll_state = enroll_phase;
                 cntrl_inst.id_enroll_ppl = idCurrentlyEnrollingSpeaker;
                 cntrl_inst.total_enroll_ppls = numEnrolledSpeakers;
@@ -299,7 +322,7 @@ int main(void) {
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
     ns_power_config(&ns_power_ble);
 
-    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
+    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
     ns_itm_printf_enable();
 
@@ -309,9 +332,13 @@ int main(void) {
     audio_enc_init(0);
     // NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 
+    // Generate a 400hz sin wave (for debugging)
+    for (int i = 0; i < 320; i++) {
+        sinWave[i] = (int16_t)(sin(2 * 3.14159 * 400 * i / SAMPLE_RATE) * 32767);
+    }
+
     // This is only for WebBLE visualization purposes. In reality, you only need
     // to capture during enrollment and identification phases.
-    g_audioRecording = true;
 
     // initialize neural net controllers
     nnidCntrlClass_init(&cntrl_inst);

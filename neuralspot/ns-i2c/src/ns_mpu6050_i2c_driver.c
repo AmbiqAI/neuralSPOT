@@ -270,15 +270,9 @@
 #define FIFO_R_W 0x74
 #define WHO_AM_I 0x75
 
-static int8_t
-get_high_bits(int16_t regReading) {
-    return (regReading & 0xFF00) >> 8;
-}
+static int8_t get_high_bits(int16_t regReading) { return (regReading & 0xFF00) >> 8; }
 
-static int8_t
-get_low_bits(int16_t regReading) {
-    return regReading & 0x00FF;
-}
+static int8_t get_low_bits(int16_t regReading) { return regReading & 0x00FF; }
 
 static uint32_t
 read_word_register(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t reg, uint16_t *value) {
@@ -298,8 +292,7 @@ read_word_register(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t reg, uint16_t
  * @param divider Sample rate divider
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_sample_rate_divider(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t divider) {
+uint32_t mpu6050_set_sample_rate_divider(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t divider) {
     return ns_i2c_write_reg(cfg, devAddr, SMPLRT_DIV, divider, 0xFF);
 }
 
@@ -311,8 +304,7 @@ mpu6050_set_sample_rate_divider(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t 
  * @param rate Target rate in Hz
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_sample_rate(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t rate) {
+uint32_t mpu6050_set_sample_rate(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t rate) {
     rate = rate < 4 ? 4 : rate > 1000 ? 1000 : rate;
     uint32_t internalSampleRate = 1000;
     uint8_t divider = internalSampleRate / rate - 1;
@@ -388,8 +380,7 @@ mpu6050_configure_fifo(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_fifo_conf
  * @param enable Enable FIFO flag
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_fifo_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t enable) {
+uint32_t mpu6050_set_fifo_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t enable) {
     return ns_i2c_write_reg(cfg, devAddr, USER_CTRL, enable << 6, 1 << 6);
 }
 
@@ -400,8 +391,7 @@ mpu6050_set_fifo_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t enable) 
  * @param devAddr Device I2C address
  * @return uint32_t
  */
-uint32_t
-mpu6050_reset_fifo(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_reset_fifo(ns_i2c_config_t *cfg, uint32_t devAddr) {
     return ns_i2c_write_reg(cfg, devAddr, USER_CTRL, 1 << 2, 1 << 2);
 }
 
@@ -413,8 +403,7 @@ mpu6050_reset_fifo(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @param count Pointer to store count
  * @return uint32_t status
  */
-uint32_t
-mpu6050_get_fifo_count(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t *count) {
+uint32_t mpu6050_get_fifo_count(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t *count) {
     if (read_word_register(cfg, devAddr, FIFO_COUNT_H, count)) {
         return MPU6050_STATUS_ERROR;
     }
@@ -429,8 +418,7 @@ mpu6050_get_fifo_count(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t *count) 
  * @param value Pointer to FIFO value
  * @return uint32_t status
  */
-uint32_t
-mpu6050_fifo_pop(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value) {
+uint32_t mpu6050_fifo_pop(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value) {
     if (read_word_register(cfg, devAddr, FIFO_COUNT_H, (uint16_t *)value)) {
         return MPU6050_STATUS_ERROR;
     }
@@ -445,9 +433,8 @@ mpu6050_fifo_pop(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value) {
  * @param intConfig Interrupt configuration
  * @return uint32_t status
  */
-uint32_t
-mpu6050_configure_interrupt(ns_i2c_config_t *cfg, uint32_t devAddr,
-                            mpu6050_int_config_t *intConfig) {
+uint32_t mpu6050_configure_interrupt(
+    ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_int_config_t *intConfig) {
     uint8_t val = 0;
     val |= (intConfig->intLevel << 7);
     val |= (intConfig->intOpen << 6);
@@ -467,9 +454,8 @@ mpu6050_configure_interrupt(ns_i2c_config_t *cfg, uint32_t devAddr,
  * @param dataReadyEnable Data ready triggers interrupt
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_interrupt_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t overflowEnable,
-                             uint8_t dataReadyEnable) {
+uint32_t mpu6050_set_interrupt_enable(
+    ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t overflowEnable, uint8_t dataReadyEnable) {
     uint8_t val = (overflowEnable << 4) | (dataReadyEnable << 0);
     return ns_i2c_write_reg(cfg, devAddr, INT_ENABLE, val, 0xFF);
 }
@@ -482,8 +468,7 @@ mpu6050_set_interrupt_enable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t ove
  * @param status Pointer to store status register
  * @return uint32_t
  */
-uint32_t
-mpu6050_get_interrupt_status(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *status) {
+uint32_t mpu6050_get_interrupt_status(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *status) {
     return ns_i2c_read_reg(cfg, devAddr, INT_STATUS, status, 0x19);
 }
 
@@ -494,8 +479,7 @@ mpu6050_get_interrupt_status(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *st
  * @param devAddr Device I2C address
  * @return uint32_t status
  */
-uint32_t
-mpu6050_reset_signal_paths(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_reset_signal_paths(ns_i2c_config_t *cfg, uint32_t devAddr) {
     return ns_i2c_write_reg(cfg, devAddr, SIGNAL_PATH_RESET, 0x07, 0x07);
 }
 
@@ -506,8 +490,7 @@ mpu6050_reset_signal_paths(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @param devAddr Device I2C address
  * @return uint32_t status
  */
-uint32_t
-mpu6050_reset_signal_conds(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_reset_signal_conds(ns_i2c_config_t *cfg, uint32_t devAddr) {
     return ns_i2c_write_reg(cfg, devAddr, USER_CTRL, 0x01, 0x01);
 }
 
@@ -521,9 +504,8 @@ mpu6050_reset_signal_conds(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @param z Pointer to store z axis
  * @return uint32_t status
  */
-uint32_t
-mpu6050_get_accel_values(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int16_t *y,
-                         int16_t *z) {
+uint32_t mpu6050_get_accel_values(
+    ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int16_t *y, int16_t *z) {
     uint8_t buffer[6];
     if (ns_i2c_read_sequential_regs(cfg, devAddr, ACCEL_XOUT_H, buffer, 6)) {
         return MPU6050_STATUS_ERROR;
@@ -544,9 +526,8 @@ mpu6050_get_accel_values(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int
  * @param z Pointer to store z axis
  * @return uint32_t status
  */
-uint32_t
-mpu6050_get_gyro_values(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int16_t *y,
-                        int16_t *z) {
+uint32_t mpu6050_get_gyro_values(
+    ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int16_t *y, int16_t *z) {
     uint8_t buffer[6];
     if (ns_i2c_read_sequential_regs(cfg, devAddr, GYRO_XOUT_H, buffer, 6)) {
         return MPU6050_STATUS_ERROR;
@@ -565,8 +546,7 @@ mpu6050_get_gyro_values(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int1
  * @param t Pointer to store Temperature
  * @return uint32_t status
  */
-uint32_t
-mpu6050_get_temperature(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *t) {
+uint32_t mpu6050_get_temperature(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *t) {
     if (read_word_register(cfg, devAddr, TEMP_OUT_H, (uint16_t *)t)) {
         return MPU6050_STATUS_ERROR;
     }
@@ -581,8 +561,7 @@ mpu6050_get_temperature(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *t) {
  * @param sleep Sleep flag
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_sleep(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t sleep) {
+uint32_t mpu6050_set_sleep(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t sleep) {
     return ns_i2c_write_reg(cfg, devAddr, PWR_MGMT1, sleep << 6, 1 << 6);
 }
 
@@ -594,8 +573,7 @@ mpu6050_set_sleep(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t sleep) {
  * @param disable Disable temperature flag
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_temperature_disable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t disable) {
+uint32_t mpu6050_set_temperature_disable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t disable) {
     return ns_i2c_write_reg(cfg, devAddr, PWR_MGMT1, disable << 3, 1 << 3);
 }
 
@@ -606,8 +584,7 @@ mpu6050_set_temperature_disable(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t 
  * @param devAddr Device I2C address
  * @return uint32_t status
  */
-uint32_t
-mpu6050_test_connection(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_test_connection(ns_i2c_config_t *cfg, uint32_t devAddr) {
     uint8_t regValue;
     if (ns_i2c_read_reg(cfg, devAddr, WHO_AM_I, &regValue, 0x7F)) {
         return MPU6050_STATUS_ERROR;
@@ -623,8 +600,7 @@ mpu6050_test_connection(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @param wakeFreq Wake-up frequency 0=1.25Hz, 1=5Hz 2=20Hz 3=40Hz
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_lowpower_accel_mode(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t wakeFreq) {
+uint32_t mpu6050_set_lowpower_accel_mode(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t wakeFreq) {
     return (
         // sleep=0,cycle=1,temp_dis=1
         ns_i2c_write_reg(cfg, devAddr, PWR_MGMT1, 0x28, 0x78) ||
@@ -639,14 +615,13 @@ mpu6050_set_lowpower_accel_mode(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t 
  * @param devAddr Device I2C address
  * @return uint32_t status
  */
-uint32_t
-mpu6050_device_reset(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_device_reset(ns_i2c_config_t *cfg, uint32_t devAddr) {
     uint8_t val = 0x80;
     ns_i2c_write_reg(cfg, devAddr, PWR_MGMT1, val, 0x80);
-    am_hal_delay_us(1000);
+    ns_delay_us(1000);
     // Wait for device to clear reset
     while (val) {
-        am_hal_delay_us(100);
+        ns_delay_us(100);
         ns_i2c_read_reg(cfg, devAddr, PWR_MGMT1, &val, 0x80);
     }
     return MPU6050_STATUS_SUCCESS;
@@ -660,8 +635,7 @@ mpu6050_device_reset(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @param sel Clock selection
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_clock_source(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_clock_src_t sel) {
+uint32_t mpu6050_set_clock_source(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_clock_src_t sel) {
     return ns_i2c_write_reg(cfg, devAddr, PWR_MGMT1, sel, 0x07);
 }
 
@@ -673,8 +647,7 @@ mpu6050_set_clock_source(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_clock_s
  * @param buffer 14-byte buffer to store values
  * @return uint32_t status
  */
-uint32_t
-mpu6050_read_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *buffer) {
+uint32_t mpu6050_read_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *buffer) {
     if (ns_i2c_read_sequential_regs(cfg, devAddr, ACCEL_XOUT_H, buffer, 14)) {
         return MPU6050_STATUS_ERROR;
     }
@@ -687,10 +660,7 @@ mpu6050_read_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *buffer) {
  * @param range Full scale range selection
  * @return uint32_t Scale in G
  */
-uint32_t
-mpu6050_accel_fsr_value(mpu6050_accel_fs_t range) {
-    return 2 << range;
-}
+uint32_t mpu6050_accel_fsr_value(mpu6050_accel_fs_t range) { return 2 << range; }
 
 /**
  * @brief Acceleration scale LSB resolution
@@ -698,8 +668,7 @@ mpu6050_accel_fsr_value(mpu6050_accel_fs_t range) {
  * @param range Full scale range selection
  * @return float Resolution (G)
  */
-float
-mpu6050_accel_resolution(mpu6050_accel_fs_t range) {
+float mpu6050_accel_resolution(mpu6050_accel_fs_t range) {
     return (float)mpu6050_accel_fsr_value(range) / (float)INT16_MAX;
 }
 
@@ -709,10 +678,7 @@ mpu6050_accel_resolution(mpu6050_accel_fs_t range) {
  * @param range Full scale range selection
  * @return uint32_t Scale (°/s)
  */
-uint32_t
-mpu6050_gyro_fsr_value(const mpu6050_gyro_fs_t range) {
-    return 250 << range;
-}
+uint32_t mpu6050_gyro_fsr_value(const mpu6050_gyro_fs_t range) { return 250 << range; }
 
 /**
  * @brief Gyroscope scale LSB resolution
@@ -720,8 +686,7 @@ mpu6050_gyro_fsr_value(const mpu6050_gyro_fs_t range) {
  * @param range Full scale range selection
  * @return float Resolution (°/s)
  */
-float
-mpu6050_gyro_resolution(const mpu6050_gyro_fs_t range) {
+float mpu6050_gyro_resolution(const mpu6050_gyro_fs_t range) {
     return (float)mpu6050_gyro_fsr_value(range) / (float)INT16_MAX;
 }
 
@@ -732,8 +697,7 @@ mpu6050_gyro_resolution(const mpu6050_gyro_fs_t range) {
  * @param range Full-scale range used
  * @return Acceleration (G)
  */
-float
-mpu6050_accel_to_gravity(int16_t val, mpu6050_accel_fs_t range) {
+float mpu6050_accel_to_gravity(int16_t val, mpu6050_accel_fs_t range) {
     return (float)val * mpu6050_accel_resolution(range);
 }
 
@@ -743,10 +707,7 @@ mpu6050_accel_to_gravity(int16_t val, mpu6050_accel_fs_t range) {
  * @param val Temperature register
  * @return float Temperature (°C)
  */
-float
-mpu6050_temperature_to_celsius(int16_t val) {
-    return val / 340.0 + 36.53;
-}
+float mpu6050_temperature_to_celsius(int16_t val) { return val / 340.0 + 36.53; }
 
 /**
  * @brief Convert gyroscope value to degrees/second
@@ -755,8 +716,7 @@ mpu6050_temperature_to_celsius(int16_t val) {
  * @param range Full-scale range used
  * @return float Gyroscope (°/s)
  */
-float
-mpu6050_gyro_to_deg_per_sec(int val, mpu6050_gyro_fs_t range) {
+float mpu6050_gyro_to_deg_per_sec(int val, mpu6050_gyro_fs_t range) {
     return (float)val * mpu6050_gyro_resolution(range);
 }
 
@@ -782,8 +742,9 @@ mpu6050_set_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, i
     // uint8_t msb14_7 = (offset & 0x7F80) >> 7;
     // uint8_t lsb6_0 = (offset & 0x7f);
 
-    return (ns_i2c_write_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_H + (axis * 2), msb14_7, 0xFF) ||
-            ns_i2c_write_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_L + (axis * 2), lsb6_0, 0xFF));
+    return (
+        ns_i2c_write_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_H + (axis * 2), msb14_7, 0xFF) ||
+        ns_i2c_write_reg(cfg, devAddr, MPU6050_RA_XA_OFFS_L + (axis * 2), lsb6_0, 0xFF));
 }
 
 /**
@@ -795,11 +756,11 @@ mpu6050_set_accel_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, i
  * @param offset Offset value
  * @return uint32_t status
  */
-uint32_t
-mpu6050_set_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, int offset) {
+uint32_t mpu6050_set_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, int offset) {
 
-    return (ns_i2c_write_reg(cfg, devAddr, (axis * 2) + XG_OFFSET_H, get_high_bits(offset), 0xFF) ||
-            ns_i2c_write_reg(cfg, devAddr, (axis * 2) + XG_OFFSET_L, get_low_bits(offset), 0xFF));
+    return (
+        ns_i2c_write_reg(cfg, devAddr, (axis * 2) + XG_OFFSET_H, get_high_bits(offset), 0xFF) ||
+        ns_i2c_write_reg(cfg, devAddr, (axis * 2) + XG_OFFSET_L, get_low_bits(offset), 0xFF));
 }
 
 /**
@@ -815,9 +776,9 @@ mpu6050_set_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, in
  * @param meanGZ Pointer to store mean Z gyro
  * @return uint32_t status
  */
-uint32_t
-mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *meanAY, int *meanAZ,
-                     int *meanGX, int *meanGY, int *meanGZ) {
+uint32_t mpu6050_mean_sensors(
+    ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *meanAY, int *meanAZ, int *meanGX,
+    int *meanGY, int *meanGZ) {
     uint16_t i;
     uint16_t numReadings = 200;
     int16_t aVal[3];
@@ -829,7 +790,7 @@ mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *m
     for (i = 0; i < 50; i++) {
         mpu6050_get_accel_values(cfg, devAddr, &aVal[0], &aVal[1], &aVal[2]);
         mpu6050_get_gyro_values(cfg, devAddr, &gVal[0], &gVal[1], &gVal[2]);
-        am_hal_delay_us(2);
+        ns_delay_us(2);
     }
 
     for (i = 0; i < numReadings; i++) {
@@ -841,7 +802,7 @@ mpu6050_mean_sensors(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *m
             aBuf[a] += aVal[a];
             gBuf[a] += gVal[a];
         }
-        am_hal_delay_us(2);
+        ns_delay_us(2);
     }
 
     *meanAX = aBuf[0] / numReadings;
@@ -883,8 +844,7 @@ mpu6050_get_gyro_offset(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, ui
  * @param devAddr Device I2C address
  * @return uint32_t status
  */
-uint32_t
-mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
     int accelDeadzone = 8, gyroDeadzone = 4;
     int accelStep = 10, gyroStep = 4;
     int aMean[3] = {0, 0, 0};
@@ -893,8 +853,8 @@ mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
     int gOffset[3] = {0, 0, 0};
     bool good = false;
 
-    if (mpu6050_mean_sensors(cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0], &gMean[1],
-                             &gMean[2])) {
+    if (mpu6050_mean_sensors(
+            cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0], &gMean[1], &gMean[2])) {
         return MPU6050_STATUS_ERROR;
     }
     for (int a = 0; a < 3; a++) {
@@ -910,12 +870,12 @@ mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
                 return MPU6050_STATUS_ERROR;
         }
 
-        am_hal_delay_us(1000);
-        if (mpu6050_mean_sensors(cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0],
-                                 &gMean[1], &gMean[2])) {
+        ns_delay_us(1000);
+        if (mpu6050_mean_sensors(
+                cfg, devAddr, &aMean[0], &aMean[1], &aMean[2], &gMean[0], &gMean[1], &gMean[2])) {
             return MPU6050_STATUS_ERROR;
         }
-        am_hal_delay_us(1000);
+        ns_delay_us(1000);
 
         // Adjust offsets to reduce Mean readings
         good = true;
@@ -948,17 +908,15 @@ mpu6050_calibrate(ns_i2c_config_t *cfg, uint32_t devAddr) {
  * @param devAddr Device I2C address
  * @return uint32_t status
  */
-uint32_t
-mpu6050_calibration(ns_i2c_config_t *cfg, uint32_t devAddr) {
+uint32_t mpu6050_calibration(ns_i2c_config_t *cfg, uint32_t devAddr) {
     if (mpu6050_calibrate(cfg, devAddr)) {
         return MPU6050_STATUS_ERROR;
     }
-    am_hal_delay_us(1000);
+    ns_delay_us(1000);
     return MPU6050_STATUS_SUCCESS;
 }
 
-uint32_t
-mpu6050_init(ns_i2c_config_t *cfg, mpu6050_config_t *c, uint32_t devAddr) {
+uint32_t mpu6050_init(ns_i2c_config_t *cfg, mpu6050_config_t *c, uint32_t devAddr) {
     if (mpu6050_device_reset(cfg, devAddr) ||
         mpu6050_set_clock_source(cfg, devAddr, c->clock_src) ||
         mpu6050_set_lowpass_filter(cfg, devAddr, c->dlpf_cfg) ||

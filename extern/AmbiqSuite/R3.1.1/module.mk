@@ -19,6 +19,7 @@ includes_api += $(subdirectory)/CMSIS/ARM/Include
 includes_api += $(subdirectory)/CMSIS/AmbiqMicro/Include
 includes_api += $(subdirectory)/devices
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)
+includes_api += $(subdirectory)/mcu/$(BOARDROOT)/hal
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)/hal/mcu
 includes_api += $(subdirectory)/utils
 

@@ -33,9 +33,9 @@ modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
-ifeq ($(ARCH),apollo4)
+# ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
-endif
+# endif
 modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
@@ -72,9 +72,9 @@ ifeq ($(AUTODEPLOY),1)
 else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
-		ifneq ($(ARCH),apollo3)
+		# ifneq ($(ARCH),apollo3)
 			modules      += examples/har
-		endif
+		# endif
 
 		ifeq ($(BLE_SUPPORTED),1)
 			modules      += examples/web_ble

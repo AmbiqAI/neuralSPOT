@@ -22,7 +22,7 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| PLATFORM | Defines the target EVB (currently apollo4p_evb, apollo4p_blue_kxr_evb, apollo4p_blue_kbr_evb, apollo4l_evb, or apollo4l_blue_evb | apollo4p_evb |
+| PLATFORM | Defines the target EVB (currently apollo4p_evb, apollo4p_blue_kxr_evb, apollo4p_blue_kbr_evb, apollo4l_evb, apollo4l_blue_evb, or apollo3p_evb) | apollo4p_evb |
 | BINDIRROOT | Name of directories where binaries and build artifacts are stored. | build |
 | EXAMPLE | Name of example to be built. By default, all examples will be built. |All|
 | NESTDIR | Relative path and directory name where nest will be created | nest |
@@ -111,4 +111,4 @@ When a Nest is created, it includes the files for a specific PLATFORM (e.g. apol
 > cd nest
 > make # builds for apollo4p_evb
 > make PLATFORM=apollo4p_blue_kbr_evb # builds for apollo4p_blue_kbr_evb
-``` 
+```

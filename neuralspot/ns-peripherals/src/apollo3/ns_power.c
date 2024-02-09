@@ -83,6 +83,20 @@ uint32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     NS_TRY(ns_set_performance_mode(pCfg->eAIPowerMode), "Set CPU Perf mode failed.");
     am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
     am_hal_cachectrl_enable();
+
+    // AI generally tends to be sequential and likes to have the SRAM prefetch enabled.
+    uint32_t ui32Control = AM_HAL_MCUCTRL_SRAM_PREFETCH_DATA;
+    am_hal_mcuctrl_control(AM_HAL_MCUCTRL_CONTROL_SRAM_PREFETCH, &ui32Control);
+
+    //
+    // Enable the cache for LPMMODE and aggressive settings.
+    // This must be done after am_hal_cachectrl_enable().
+    //
+    // if ( am_hal_cachectrl_control(AM_HAL_CACHECTRL_CONTROL_LPMMODE_AGGRESSIVE, 0) )
+    // {
+    //     am_util_stdio_printf("Failed to set cache into LPMMODE_AGGRESSIVE.\n");
+    //     while(1);
+    // }
     g_ns_state.cryptoWantsToBeEnabled = pCfg->bNeedCrypto;
     g_ns_state.cryptoCurrentlyEnabled = pCfg->bNeedCrypto;
     g_ns_state.itmPrintWantsToBeEnabled = pCfg->bNeedITM;

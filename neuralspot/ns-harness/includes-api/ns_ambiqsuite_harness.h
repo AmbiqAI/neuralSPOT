@@ -45,9 +45,13 @@ extern "C" {
         #define ns_itm_printf_enable am_bsp_itm_printf_enable
         #define ns_lp_printf am_util_stdio_printf
         #define ns_delay_us am_util_delay_us
+        // SRAM is default for AP3
+        #define NS_PUT_IN_TCM __attribute__((section(".tcm")))
 
     #else
         #define ns_delay_us am_hal_delay_us
+        // TCM is default for AP4
+        #define NS_PUT_IN_TCM
 
 /**
  * @brief Enable ITM prints without needed Crypto to be enabled

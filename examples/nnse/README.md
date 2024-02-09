@@ -1,5 +1,5 @@
 # Speech-Enhancing Bluetooth Microphone Demo
-This example shows how to use NNSE to create 'Speech Enhancing BLE Microphone'. NNSE is Ambiq's AI speech de-noiser, a real-time AI model that removes background noise (such as the noise from a hair-dryer) from human speech.
+This example shows how to use [Ambiq's NNSE](https://github.com/AmbiqAI/nnse) to create a 'Speech Enhancing BLE Microphone'. NNSE is Ambiq's AI speech de-noiser, a real-time AI model that removes background noise (such as the noise from a hair-dryer) from human speech.
 
 ```mermaid
 sequenceDiagram

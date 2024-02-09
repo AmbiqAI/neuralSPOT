@@ -311,7 +311,7 @@ void setup_task(void *pvParameters) {
     ns_lp_printf("Setting up BLE FreeRTOS Tasks\n");
     ns_ble_pre_init(); // Set NVIC  priorities
     xTaskCreate(RadioTask, "RadioTask", 512, 0, 3, &radio_task_handle);
-    xTaskCreate(audioTask, "AudioTask", 2048, 0, 3, &audio_task_handle);
+    xTaskCreate(audioTask, "AudioTask", 2048, 0, 1, &audio_task_handle);
     vTaskSuspend(NULL);
     while (1)
         ;

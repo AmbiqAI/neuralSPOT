@@ -10,6 +10,7 @@ The best way to read this documentation is here: [https://ambiqai.github.io/neur
 | [Introduction to NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Introduction-to-neuralSPOT.md) | A high level introduction to neuralSPOT                      |
 | [NeuralSPOT Feature Guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md) | A brief list of neuralSPOT's features and examples, with links to deeper documentation |
 | [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) | Latest neuralSPOT release notes and errata                   |
+| [Apollo3 Application Note](./Apollo3-app-note.md)            | Apollo3 considerations                                       |
 | [Developing AI *with* NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Developing_with_NeuralSPOT.md) | Overview of the various ways neuralSPOT can be used to develop and deploy AI models |
 | [Developing *for* NeuralSPOT](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/developer_guide.md) | Describes how neuralSPOT's components (libraries, examples, external components, and projects) are structured, and how to add to them |
 | [NeuralSPOT Nests](./docs/NeuralSPOT_Nests)                  | NeuralSPOT Nests are way of deploying entire neuralSPOT applications as components of other applications. |
@@ -18,7 +19,4 @@ The best way to read this documentation is here: [https://ambiqai.github.io/neur
 | [Deploying EdgeImpulse Models using neuralSPOT Nests](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Deploying-EI-Models-using-neuralSPOT%20Nests.md) | A walkthrough of how to use Nests to deploy complex external SW packages |
 | [Understanding neuralSPOT via the Basic Tensorflow Example](./Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md) | A walkthrough of neuralSPOT's core example                   |
 | [Building NeuralSPOT](makefile.md)                           | Comprehensive makefile guide                                 |
-
-
-# Code Documentation
 

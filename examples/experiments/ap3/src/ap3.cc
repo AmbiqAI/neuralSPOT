@@ -5,6 +5,7 @@
 #include "ae_api.h"
 #include "ns_timer.h"
 #include "arm_math.h"
+#include "am_hal_mcuctrl.h"
 
 #define NUM_CHANNELS 1
 #define SAMPLES_IN_FRAME 320
@@ -39,8 +40,9 @@ ns_audio_config_t audio_config = {
     .bufferHandle = NULL,      // only for ringbuffer mode
 };
 
-alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
-alignas(16) int16_t static sinWave[320];
+alignas(16) unsigned char static encodedDataBuffer[80] NS_PUT_IN_TCM; // Opus encoder output length
+                                                                      // is hardcoded
+alignas(16) int16_t static sinWave[320] NS_PUT_IN_TCM;
 
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
@@ -52,6 +54,7 @@ int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     ns_core_init(&ns_core_cfg);
     uint32_t opusBegin, opusEnd;
+    am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_SYSCLK_MAX, 0); // nada
 
     ns_itm_printf_enable();
 
@@ -60,7 +63,10 @@ int main(void) {
     // am_hal_cachectrl_enable();
     // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
-    ns_audio_init(&audio_config);
+    // am_hal_mcuctrl_control(AM_HAL_MCUCTRL_CONTROL_SRAM_PREFETCH);
+    am_hal_sysctrl_fpu_enable();              // nada
+    am_hal_sysctrl_fpu_stacking_enable(true); // nada
+    // ns_audio_init(&audio_config);
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
     audio_enc_init(0);
 

@@ -1,5 +1,5 @@
 # Speaker Identification Demo
-This example shows how to use NNID and NNVAD to create a speaker identification application.
+This example shows how to use Ambiq's [NNID and NNVAD](https://github.com/AmbiqAI/nnid) to create a speaker identification application.
 
 Speaker identification is the process of identifying speech as matching that of an enrolled speaker - for each captured speech snippet over about 2 seconds, NNID will calculate how closely it correlates with enrolled speakers and assign it a score between 0 and 1 - the closer to '1' the better the correlation. For purposes of the demo, we consider any score over .7 to be a positive correlation. To detect speech snippets (aka 'utterances') of sufficient length, a neural network VAD (voice activity detection) model is used alongside the NNID model
 
@@ -11,7 +11,7 @@ The web BLE client serves as the user interface. It offers buttons to enroll and
 
 ## Running the Demo
 
-The demo needs a BLE-enabled device (Apollo4 Plus KXR/KBR Blue, or Apollo4 Lite Blue), a microphone, and a PC or laptop running Chrome. It supports both PDM and AUDADC microphones, but is configured for PDM by default. To switch to AUDADC, uncomment this line in nnse/src/nnse.cc:
+The demo needs a BLE-enabled device (Apollo4 Plus KXR/KBR Blue, Apollo4 Lite Blue, or Apollo3P Blue), a microphone, and a PC or laptop running Chrome. It supports both PDM and AUDADC microphones, but is configured for PDM by default. To switch to AUDADC, uncomment this line in nnse/src/nnse.cc:
 
 ```c
 // #define USE_AUDADC // Uncomment this to use the AUDADC instead of the PDM

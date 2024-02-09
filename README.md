@@ -31,7 +31,7 @@ NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstr
 > **NOTE** for detailed compatibility notes, see the [features document](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md).
 
 * **Hardware**
-    * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of Apollo4 Plus, Apollo4 Blue Plus, Apollo4 Lite, or Apollo4 Blue Lite
+    * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of [Apollo4 Plus](https://ambiq.com/apollo4-plus/), [Apollo4 Blue Plus](https://ambiq.com/apollo4-blue-plus/), [Apollo4 Lite](https://ambiq.com/apollo4-lite/), [Apollo4 Blue Lite](https://ambiq.com/apollo4-blue-lite/), or https://ambiq.com/apollo3-blue-plus/.
     * Energy Measurement (optional): [Joulescope](https://www.joulescope.com) JS110 or JS220 (only needed for automated model energy measurements)
 * **Software**
     * [Segger J-Link 7.88+](https://www.segger.com/downloads/jlink/)

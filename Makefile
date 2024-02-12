@@ -72,13 +72,11 @@ ifeq ($(AUTODEPLOY),1)
 else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
-		# ifneq ($(ARCH),apollo3)
-			modules      += examples/har
-		# endif
+		modules      += examples/har
 
 		ifeq ($(BLE_SUPPORTED),1)
 			modules      += examples/web_ble
-			modules      += examples/audio_codec
+# modules      += examples/audio_codec
 			modules	     += examples/nnse
 			modules	     += examples/nnid
 		endif
@@ -89,10 +87,10 @@ else
 			ifneq ($(ARCH),apollo3)
 				modules      += examples/mpu_data_collection
 			endif
-			ifneq ($(BLE_SUPPORTED),1)
-# Don't include it twice
-				modules  += examples/audio_codec
-			endif
+# 			ifneq ($(BLE_SUPPORTED),1)
+# # Don't include it twice
+# 				modules  += examples/audio_codec
+# 			endif
 		endif
 	else
 		modules 	 += examples/$(EXAMPLE)

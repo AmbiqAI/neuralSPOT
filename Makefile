@@ -75,8 +75,8 @@ else
 		modules      += examples/har
 
 		ifeq ($(BLE_SUPPORTED),1)
-			modules      += examples/web_ble
-# modules      += examples/audio_codec
+#			modules      += examples/web_ble
+# 			modules      += examples/audio_codec
 			modules	     += examples/nnse
 			modules	     += examples/nnid
 		endif

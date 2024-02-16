@@ -27,6 +27,7 @@
 #include "ns_usb.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
+size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024;
 uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024] __attribute__((aligned(4)));
 #endif
 
@@ -35,7 +36,16 @@ ns_model_state_t tflm;
 
 // TF Tensor Arena
 static constexpr int kTensorArenaSize = 1024 * TFLM_VALIDATOR_ARENA_SIZE;
+
+#ifndef AM_PART_APOLLO3
+    #if (NS_AD_LARGE_ARENA == 1)
+AM_SHARED_RW alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+    #else
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+    #endif
+#else
+alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+#endif
 
 // Resource Variable Arena
 static constexpr int kVarArenaSize =

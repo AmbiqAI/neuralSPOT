@@ -12,10 +12,49 @@ from joulescope import scan
 from ns_utils import createFromTemplate, xxd_c_dump
 
 
+def generateInputAndOutputTensors(params, mc, md):
+    # Generate input and output tensors based on the model
+    inExamples = []
+    outExamples = []
+
+    # Generate random input
+    if md.inputTensors[0].type == np.int8:
+        input_data = np.random.randint(
+            -127, 127, size=tuple(md.inputTensors[0].shape), dtype=np.int8
+        )
+    else:
+        input_data = (
+            np.random.random(size=tuple(md.inputTensors[0].shape)).astype(
+                md.inputTensors[0].type
+            )
+            * 2
+            - 1
+        )
+    inExamples.append(input_data.flatten())  # Capture inputs for AutoGen
+
+    # Output tensor is not checked in ns_perf runs, just generate random data
+    if md.outputTensors[0].type == np.int8:
+        output_data = np.random.randint(
+            -127, 127, size=tuple(md.outputTensors[0].shape), dtype=np.int8
+        )
+    else:
+        output_data = (
+            np.random.random(size=tuple(md.outputTensors[0].shape)).astype(
+                md.outputTensors[0].type
+            )
+            * 2
+            - 1
+        )
+    outExamples.append(output_data.flatten())  # Capture outputs for AutoGen
+    mc.update_from_validation(inExamples, outExamples)
+
+
 def generatePowerBinary(params, mc, md, cpu_mode):
     n = params.model_name + "_power"
     d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
+    if params.joulescope:
+        generateInputAndOutputTensors(params, mc, md)
 
     rm = {
         "NS_AD_NAME": n,

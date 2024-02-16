@@ -535,8 +535,10 @@ def compile_and_deploy(params, mc, first_time=False):
 
     if params.create_profile:
         if params.verbosity > 3:
-            print(f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy")
-            
+            print(
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+            )
+
             makefile_result = os.system(
                 f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
@@ -572,9 +574,16 @@ def create_mut_metadata(tflm_dir, mc):
      stats discovered by running the default
     """
 
+    # TODO adjust 120 for AP5's TCM size
+    if (mc.arena_size_k + mc.arena_size_scratch_buffer_padding_k) > 120:
+        ns_ad_large_arena = 1
+    else:
+        ns_ad_large_arena = 0
+
     rm = {
         "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + mc.arena_size_scratch_buffer_padding_k,
+        "NS_AD_LARGE_ARENA": ns_ad_large_arena,
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
         "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)

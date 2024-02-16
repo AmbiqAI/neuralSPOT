@@ -64,7 +64,7 @@ int main(void) {
     ns_set_power_monitor_state(NS_IDLE);
 
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
-    // ns_itm_printf_enable();
+    ns_itm_printf_enable();
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");
 
@@ -72,10 +72,10 @@ int main(void) {
     ns_interrupt_master_enable();
     if (status == NS_AD_NAME_STATUS_FAILURE) {
         while (1)
-            // ns_lp_printf("Model init failed.\n");
-            example_status = NS_AD_NAME_STATUS_INIT_FAILED; // hang
+            ns_lp_printf("Model init failed.\n");
+        example_status = NS_AD_NAME_STATUS_INIT_FAILED; // hang
     }
-    // ns_lp_printf("Model init successful.\n");
+    ns_lp_printf("Model init successful.\n");
 
     // At this point, the model is ready to use - init and allocations were successful
     // Note that the model handle is not meant to be opaque, the structure is defined
@@ -92,7 +92,7 @@ int main(void) {
             model.model_input[i]->bytes);
         offset += model.model_input[i]->bytes;
     }
-
+    ns_lp_printf("Input tensors initialized.\n");
     // Event loop
     while (1) {
         switch (state) {
@@ -106,7 +106,7 @@ int main(void) {
             break;
 
         case SIGNAL_START_TO_JS:
-            // ns_lp_printf("Starting...\n");
+            ns_lp_printf("Starting...\n");
             ns_set_power_monitor_state(3);
 
             ns_delay_us(100000);
@@ -114,7 +114,7 @@ int main(void) {
             break;
 
         case RUNNING:
-            // ns_lp_printf("Running...\n");
+            ns_lp_printf("Running...\n");
             ns_set_power_monitor_state(0);
             for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
                 model.interpreter->Invoke();
@@ -124,7 +124,7 @@ int main(void) {
             break;
 
         case SIGNAL_END_TO_JS:
-            // ns_lp_printf("Ending...\n");
+            ns_lp_printf("Ending...\n");
             ns_set_power_monitor_state(2);
             ns_delay_us(100000);
 

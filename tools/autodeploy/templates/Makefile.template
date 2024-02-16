@@ -6,7 +6,7 @@ include $(rootdir)/make/local_overrides.mk
 include $(rootdir)/make/neuralspot_toolchain.mk
 include $(rootdir)/make/jlink.mk
 
-build := build
+build := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 includes_api :=
 pp_defines   := $(DEFINES)
 

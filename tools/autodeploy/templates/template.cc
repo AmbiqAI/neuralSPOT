@@ -37,11 +37,20 @@ static constexpr int NS_AD_NAME_resource_var_arena_size =
     4 * (NS_AD_RV_COUNT + 1) * sizeof(tflite::MicroResourceVariables);
 alignas(16) static uint8_t NS_AD_NAME_var_arena[NS_AD_NAME_resource_var_arena_size];
 
-int
-NS_AD_NAME_init(ns_model_state_t *ms);
+#ifdef NS_MLPROFILE
+// Timer is used for TF profiling
+ns_timer_config_t basic_tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
+};
+uint32_t NS_AD_NAME_mac_estimates[NS_AD_MAC_ESTIMATE_COUNT] = {NS_AD_MAC_ESTIMATE_LIST};
 
-int
-NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
+#endif
+
+int NS_AD_NAME_init(ns_model_state_t *ms);
+
+int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
     ms->runtime = TFLM;
     ms->model_array = NS_AD_NAME_model;
     ms->arena = NS_AD_NAME_tensor_arena;
@@ -52,19 +61,37 @@ NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
     ms->numInputTensors = NS_AD_NUM_INPUT_VECTORS;
     ms->numOutputTensors = NS_AD_NUM_OUTPUT_VECTORS;
 
+#ifdef NS_MLPROFILE
+    ns_perf_mac_count_t basic_mac = {
+        .number_of_layers = NS_AD_MAC_ESTIMATE_COUNT, .mac_count_map = NS_AD_NAME_mac_estimates};
+    ms->tickTimer = &basic_tickTimer;
+    ms->mac_estimates = &basic_mac;
+#else
     ms->tickTimer = NULL;
-    ms->mac_estimate = NULL;
+    ms->mac_estimates = NULL;
+#endif
 
     int status = NS_AD_NAME_init(ms);
     return status;
 }
 
-int
-NS_AD_NAME_init(ns_model_state_t *ms) {
+int NS_AD_NAME_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
     tflite::MicroErrorReporter micro_error_reporter;
     ms->error_reporter = &micro_error_reporter;
+
+#ifdef NS_MLPROFILE
+    // Need a timer for the profiler to collect latencies
+    NS_TRY(ns_timer_init(ms->tickTimer), "Timer init failed.\n");
+    static tflite::MicroProfiler micro_profiler;
+    ms->profiler = &micro_profiler;
+    ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
+#else
+    #ifdef NS_MLDEBUG
+    ns_TFDebugLogInit(NULL, NULL);
+    #endif
+#endif
 
     tflite::InitializeTarget();
 
@@ -72,10 +99,11 @@ NS_AD_NAME_init(ns_model_state_t *ms) {
     // copying or parsing, it's a very lightweight operation.
     ms->model = tflite::GetModel(ms->model_array);
     if (ms->model->version() != TFLITE_SCHEMA_VERSION) {
-        TF_LITE_REPORT_ERROR(ms->error_reporter,
-                             "Model provided is schema version %d not equal "
-                             "to supported version %d.",
-                             ms->model->version(), TFLITE_SCHEMA_VERSION);
+        TF_LITE_REPORT_ERROR(
+            ms->error_reporter,
+            "Model provided is schema version %d not equal "
+            "to supported version %d.",
+            ms->model->version(), TFLITE_SCHEMA_VERSION);
         return NS_AD_NAME_STATUS_FAILURE;
     }
 

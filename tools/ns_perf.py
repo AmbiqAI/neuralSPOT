@@ -26,7 +26,12 @@ class Params(BaseModel):
         True,
         description="Create source files based on TFlite file",
     )
-    run: bool = Field(True, description="Run performance measurements on EVB")
+    onboard_perf: bool = Field(
+        True, description="Capture and print performance measurements on EVB"
+    )
+    cpu_mode: str = Field(
+        "NS_MAXIMUM_PERF", description="CPU mode to use for performance measurements"
+    )
     joulescope: bool = Field(False, description="Use Joulescope for power measurements")
     create_ambiqsuite_example: bool = Field(
         True, description="Create AmbiqSuite example based on TFlite file"
@@ -180,10 +185,16 @@ if __name__ == "__main__":
 
     print(mc.modelStructureDetails.overallMacEstimates)
 
-    if params.joulescope:
-        print("")
-        print(f"*** Characterize inference energy consumption on EVB using Joulescope")
+    print("")
+    print(f"*** Characterize inference energy consumption on EVB using Joulescope")
 
+    if params.onboard_perf:
+        generatePowerBinary(params, mc, md, params.cpu_mode)
+        print(
+            f"{params.cpu_mode} Performance code flashed to EVB - connect to SWO and press reset to see results."
+        )
+
+    if params.joulescope:
         for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:
             generatePowerBinary(params, mc, md, cpu_mode)
             td, i, v, p, c, e = measurePower()
@@ -194,6 +205,7 @@ if __name__ == "__main__":
             log.info(
                 f"Model Power Measurement in {cpu_mode} mode: {t:.3f} ms and {energy:.3f} uJ per inference (avg {w:.3f} mW))"
             )
+            results.print()
 
     # if params.create_library:
     #     print("")
@@ -206,5 +218,3 @@ if __name__ == "__main__":
     #     print(f"*** Stage [{stage}/{total_stages}]: Generate AmbiqSuite Example")
     #     generateModelLib(params, mc, md, ambiqsuite=True)
     #     stage += 1
-
-    results.print()

@@ -78,8 +78,6 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
 #endif
     NS_AD_RESOLVER_ADDS
 
-    // static tflite::AllOpsResolver resolver;
-
     // Allocate ResourceVariable stuff if needed
     tflite::MicroResourceVariables *resource_variables;
     tflite::MicroAllocator *var_allocator;

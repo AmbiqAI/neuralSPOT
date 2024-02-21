@@ -93,6 +93,12 @@ int main(void) {
         offset += model.model_input[i]->bytes;
     }
     ns_lp_printf("Input tensors initialized.\n");
+
+#if NS_AD_JS_PRESENT == 0
+    // If no Joulescope, start running the model without waiting for a trigger
+    joulescopeTrigger = true;
+#endif
+
     // Event loop
     while (1) {
         switch (state) {
@@ -118,6 +124,12 @@ int main(void) {
             ns_set_power_monitor_state(0);
             for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
                 model.interpreter->Invoke();
+#ifdef NS_MLPROFILE
+                if (i == 0) {
+                    model.profiler->LogCsv(); // prints and also captures events in a buffer
+                    ns_stop_perf_profiler();
+                }
+#endif
             }
             // ns_delay_us(1100000);
             state = SIGNAL_END_TO_JS;

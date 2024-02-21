@@ -20,7 +20,7 @@
     #include "tensorflow/lite/micro/micro_profiler.h"
     #include "tensorflow/lite/micro/system_setup.h"
     #include "tensorflow/lite/schema/schema_generated.h"
-#ifdef NS_TFSTRUCTURE_RECENT
+    #ifdef NS_TFSTRUCTURE_RECENT
         #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
     #else
         #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -37,8 +37,8 @@ extern "C" {
 typedef enum { READY, NOT_READY, ERROR } ns_model_states_e;
 typedef enum { TFLM } ns_model_runtime_e;
 
-#define NS_MAX_INPUT_TENSORS 3
-#define NS_MAX_OUTPUT_TENSORS 3
+#define NS_MAX_INPUT_TENSORS 8
+#define NS_MAX_OUTPUT_TENSORS 5
 
 typedef struct {
     ns_model_states_e state;
@@ -73,8 +73,7 @@ typedef struct {
     uint32_t computed_arena_size;
 } ns_model_state_t;
 
-extern int
-ns_model_init(ns_model_state_t *ms);
+extern int ns_model_init(ns_model_state_t *ms);
 
 #ifdef __cplusplus
 }

@@ -53,7 +53,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     n = params.model_name + "_power"
     d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
-    if params.joulescope:
+    if params.joulescope or params.onboard_perf:
         generateInputAndOutputTensors(params, mc, md)
 
     rm = {
@@ -64,8 +64,13 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_POWER_RUNS": params.runs_power,
         "NS_AD_CPU_MODE": cpu_mode,
+        "NS_AD_JS_PRESENT": "1" if params.joulescope else "0",
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
+        "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
+        "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
+        .replace("[", "")
+        .replace("]", ""),
     }
     print(
         f"Compiling, deploying, and measuring {cpu_mode} power with binary at {d}/{n}"
@@ -145,16 +150,21 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         ws_p = ""
 
     # Generate library and example binary
+    if params.onboard_perf:
+        mlp = "MLPROFILE=1"
+    else:
+        mlp = ""
+
     if params.verbosity > 3:
         print(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

@@ -251,7 +251,7 @@ def measurePower():
             device.close()
             device.open()
             device.parameter_set("reduction_frequency", "50 Hz")
-            device.parameter_set("io_voltage", "3.3V")
+            device.parameter_set("io_voltage", "1.8V")
             device.parameter_set("sensor_power", "on")
             device.parameter_set("i_range", "auto")
             device.parameter_set("v_range", "15V")

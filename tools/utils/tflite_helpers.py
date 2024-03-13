@@ -114,7 +114,9 @@ def CreateAddFromSnakeOpName(snake):
     components = snake.split("_")
     addName = "Add"
     for s in components:
-        if s != "2D":
+        if s == "MATMUL":
+            s = "MatMul"
+        elif s != "2D":
             s = s.lower().title()
         addName += s
 

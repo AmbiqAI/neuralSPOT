@@ -50,6 +50,7 @@ includes_api += $(subdirectory)/third_party/tinyusb/source/src
 includes_api += $(subdirectory)/third_party/tinyusb/source/src/common
 includes_api += $(subdirectory)/third_party/tinyusb/source/src/osal
 includes_api += $(subdirectory)/third_party/tinyusb/source/src/class/cdc
+includes_api += $(subdirectory)/third_party/tinyusb/source/src/class/vendor
 includes_api += $(subdirectory)/third_party/tinyusb/source/src/device
 
 

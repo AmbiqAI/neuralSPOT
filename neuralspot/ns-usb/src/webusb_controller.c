@@ -47,8 +47,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "am_util_debug.h"
-
+// #include "am_util_debug.h"
+#include "ns_usb.h"
+#include "ns_ambiqsuite_harness.h"
 #include "tusb.h"
 
 #include "usb_descriptors.h"
@@ -177,7 +178,7 @@ void tud_vendor_rx_cb(uint8_t itf) {
             }
             break;
         default:
-            am_util_debug_printf("Error: Unsupported type of Rx Frame Header: %d\n", frame_header);
+            ns_lp_printf("Error: Unsupported type of Rx Frame Header: %d\n", frame_header);
             break;
         }
     }
@@ -194,11 +195,13 @@ void tud_vendor_rx_cb(uint8_t itf) {
 bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
     // nothing to with DATA & ACK stage
+    ns_lp_printf("tud_vendor_control_xfer_cb: %d\n", stage);
     if (stage != CONTROL_STAGE_SETUP)
         return true;
-
+    ns_lp_printf("here: %d\n", stage);
     switch (request->bmRequestType_bit.type) {
     case TUSB_REQ_TYPE_VENDOR:
+        ns_lp_printf("TUSB_REQ_TYPE_VENDOR: \n");
         switch (request->bRequest) {
         case VENDOR_REQUEST_WEBUSB:
             // match vendor request in BOS descriptor
@@ -207,6 +210,7 @@ bool tud_vendor_control_xfer_cb(
                 rhport, request, (void *)(uintptr_t)&desc_url, desc_url.bLength);
 
         case VENDOR_REQUEST_MICROSOFT:
+            ns_lp_printf("VENDOR_REQUEST_MICROSOFT: \n");
             if (request->wIndex == DESC_MS_OS_20) {
                 // Get Microsoft OS 2.0 compatible descriptor
                 uint16_t total_len;
@@ -224,11 +228,14 @@ bool tud_vendor_control_xfer_cb(
         break;
 
     case TUSB_REQ_TYPE_CLASS:
+        ns_lp_printf("TUSB_REQ_TYPE_CLASS: \n");
+
         if (request->bRequest == WEBUSB_REQUEST_SET_CONTROL_LINE_STATE) {
             // Receive the webusb line state
+            ns_lp_printf("WEBUSB_REQUEST_SET_CONTROL_LINE_STATE: \n");
             if (request->wValue != 0) {
                 webusb_connected = true;
-                am_util_debug_printf("WebUSB interface connected\r\n");
+                ns_lp_printf("WebUSB interface connected\r\n");
             } else {
                 webusb_connected = false;
             }
@@ -260,7 +267,9 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
                 break;
             }
 
-            bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
+            // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
+            bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
+            ns_lp_printf("bytes_tx: %d\n", bytes_tx);
             bufremain -= bytes_tx;
 
             i++;

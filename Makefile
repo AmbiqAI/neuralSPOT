@@ -84,6 +84,7 @@ else
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
+			modules      += examples/tinyusb_webusb
 			ifneq ($(ARCH),apollo3)
 				modules      += examples/mpu_data_collection
 			endif

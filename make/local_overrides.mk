@@ -3,7 +3,7 @@
 # PLATFORM := apollo3p_evb
 # AS_VERSION := R3.1.1
 #
-# PLATFORM := apollo4p_blue_kxr_evb
+PLATFORM := apollo4p_blue_kxr_evb
 # EXAMPLE := ap3
 
 # TARGET :=web_ble

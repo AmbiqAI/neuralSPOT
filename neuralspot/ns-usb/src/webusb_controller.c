@@ -76,7 +76,7 @@ typedef struct {
         p += 2;                                                                                    \
     }
 
-#define URL "zorro-lu.github.io/"
+#define URL "ambiqai.github.io/web-ble-dashboards/ic_demo/"
 // Microsoft OS 2.0 compatible descriptor
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22

@@ -40,19 +40,8 @@ static ns_usb_config_t webUsbConfig = {
 #include "examples.h"
 #include "ns_model.h"
 
-const char* kCategoryLabels[11] = {
-	"airplane",
-	"automobile",
-	"bird",
-	"cat",
-	"deer",
-	"dog",
-	"frog",
-	"horse",
-	"ship",
-	"truck",
-    "unknown"
-};
+const char *kCategoryLabels[11] = {"airplane", "automobile", "bird", "cat",   "deer",   "dog",
+                                   "frog",     "horse",      "ship", "truck", "unknown"};
 
 // TFLM Config
 static ns_model_state_t model;
@@ -74,7 +63,9 @@ typedef struct usb_data {
     uint8_t cpuUtilization; // 0-100
 } usb_data_t;
 
-void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps, uint8_t joulesEstimate, uint8_t cpuUtilization) {
+void sendMessage(
+    uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps, uint8_t joulesEstimate,
+    uint8_t cpuUtilization) {
     usb_data_t data = {
         .type = type,
         .length = sizeof(usb_data_t),
@@ -82,8 +73,7 @@ void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps,
         .confidence = confidence,
         .fps = fps,
         .joulesEstimate = joulesEstimate,
-        .cpuUtilization = cpuUtilization
-    };
+        .cpuUtilization = cpuUtilization};
     webusb_send_data((uint8_t *)&data, sizeof(usb_data_t));
 }
 
@@ -137,11 +127,11 @@ int main(void) {
     }
 
     // Wait for browser to be ready
-    ns_lp_printf("Press Connect on browser, then press button 0\n");
-    while (g_intButtonPressed == 0) {
-        ns_delay_us(1000);
-    }
-    ns_lp_printf("Button pressed - starting image classification\n");
+    // ns_lp_printf("Press Connect on browser, then press button 0\n");
+    // while (g_intButtonPressed == 0) {
+    //     ns_delay_us(1000);
+    // }
+    // ns_lp_printf("Button pressed - starting image classification\n");
 
     // Loop through 100 images
     while (1) {
@@ -155,15 +145,13 @@ int main(void) {
             ips = (float)invokes / ((float)(newTime - oldTime) / 1000000.0f);
             invokes = 0;
             oldTime = newTime;
-        }   
-        
+        }
+
         // Parse the output tensor to find max value
         max = -127;
         label = 0;
-        for(uint8_t i =0; i< model.model_output[0]->bytes; i++)
-        {
-            if (model.model_output[0]->data.int8[i] > max)
-            {
+        for (uint8_t i = 0; i < model.model_output[0]->bytes; i++) {
+            if (model.model_output[0]->data.int8[i] > max) {
                 max = model.model_output[0]->data.int8[i];
                 label = i;
             }
@@ -174,13 +162,12 @@ int main(void) {
         // convert ips to uint8_t
         uint8_t fps = ips;
         sendMessage(0, label, confidence, fps, 0, 0);
-        ns_lp_printf("%d - Label is %d (%s). FPS = %0.2f\n", j, label, kCategoryLabels[label], ips);
-        // ns_lp_printf("Text is %s\n", kCategoryLabels[label]);
+        // ns_lp_printf("%d - Label is %d (%s). FPS = %0.2f\n", j, label, kCategoryLabels[label],
+        // ips); ns_lp_printf("Text is %s\n", kCategoryLabels[label]);
 
         // Wrap at 100
-        j = (j + 1)%100; 
+        j = (j + 1) % 100;
     }
-
 
     // while (1) {
     //     example_status = model.interpreter->Invoke();

@@ -77,6 +77,7 @@ typedef struct {
     }
 
 #define URL "ambiqai.github.io/web-ble-dashboards/ic_demo/"
+
 // Microsoft OS 2.0 compatible descriptor
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
@@ -116,6 +117,9 @@ enum {
 //! In summary,the Tinyusb functions prototyped as weak (macro TU_ATTR_WEAK)
 //! and implemented in the user code should be added to the array below.
 //
+// Further note: Armlink laughs in the face of this attempt to keep weak functions.
+// It may or may not include them based on some internal whimsical logic. See 
+// neuralspot_toolchain.mk to see how we work around this.
 // ****************************************************************************
 volatile const void *pTUSB_WeakFcnPointers[] = {
     (void *)tud_mount_cb,
@@ -195,13 +199,10 @@ void tud_vendor_rx_cb(uint8_t itf) {
 bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
     // nothing to with DATA & ACK stage
-    ns_lp_printf("tud_vendor_control_xfer_cb: %d\n", stage);
     if (stage != CONTROL_STAGE_SETUP)
         return true;
-    ns_lp_printf("here: %d\n", stage);
     switch (request->bmRequestType_bit.type) {
     case TUSB_REQ_TYPE_VENDOR:
-        ns_lp_printf("TUSB_REQ_TYPE_VENDOR: \n");
         switch (request->bRequest) {
         case VENDOR_REQUEST_WEBUSB:
             // match vendor request in BOS descriptor
@@ -210,7 +211,6 @@ bool tud_vendor_control_xfer_cb(
                 rhport, request, (void *)(uintptr_t)&desc_url, desc_url.bLength);
 
         case VENDOR_REQUEST_MICROSOFT:
-            ns_lp_printf("VENDOR_REQUEST_MICROSOFT: \n");
             if (request->wIndex == DESC_MS_OS_20) {
                 // Get Microsoft OS 2.0 compatible descriptor
                 uint16_t total_len;
@@ -228,14 +228,11 @@ bool tud_vendor_control_xfer_cb(
         break;
 
     case TUSB_REQ_TYPE_CLASS:
-        ns_lp_printf("TUSB_REQ_TYPE_CLASS: \n");
 
         if (request->bRequest == WEBUSB_REQUEST_SET_CONTROL_LINE_STATE) {
             // Receive the webusb line state
-            ns_lp_printf("WEBUSB_REQUEST_SET_CONTROL_LINE_STATE: \n");
             if (request->wValue != 0) {
                 webusb_connected = true;
-                ns_lp_printf("WebUSB interface connected\r\n");
             } else {
                 webusb_connected = false;
             }
@@ -269,7 +266,6 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
 
             // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
             bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
-            ns_lp_printf("bytes_tx: %d\n", bytes_tx);
             bufremain -= bytes_tx;
 
             i++;
@@ -283,12 +279,12 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     return bufsize - bufremain;
 }
 
-void webusb_task(void) { tud_task(); }
+// void webusb_task(void) { tud_task(); }
 
-void webusb_init(void) {
-    // init tinyusb
-    tusb_init();
-}
+// void webusb_init(void) {
+//     // init tinyusb
+//     tusb_init();
+// }
 
 void webusb_register_msg_cb(webusb_rx_cb cb, void *param) {
     webusb_parameter.rx_msg_cb = cb;

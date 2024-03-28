@@ -1,10 +1,12 @@
 /**
- * @file ic_bench_example.cc
+ * @file ic.cc
  * @author Carlos Morales
- * @brief Minimal application instantiating a TFLM model, feeding it
- * a test input tensor, and checking the result
+ * @brief This simple demo classifies images included in examples.h using the
+ * the open source MLPerf Tiny Resnet8 - it then sends the result to an accompanying
+ * WebUSB client to display the result.
+ * 
  * @version 0.1
- * @date 2023-02-28
+ * @date 2024-03-15
  *
  * @copyright Copyright (c) 2023
  *
@@ -14,7 +16,6 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
 #include "ns_peripherals_power.h"
-#include "ns_peripherals_button.h"
 #include "ns_usb.h"
 
 #define MY_RX_BUFSIZE 4096
@@ -53,6 +54,7 @@ ns_timer_config_t basic_tickTimer = {
     .enableInterrupt = false,
 };
 
+// USB Data sent to WebUSB client
 typedef struct usb_data {
     uint8_t type;
     uint8_t length;
@@ -60,7 +62,7 @@ typedef struct usb_data {
     uint8_t confidence;
     uint8_t fps;
     uint8_t joulesEstimate;
-    uint8_t cpuUtilization; // 0-100
+    uint8_t cpuUtilization;
 } usb_data_t;
 
 void sendMessage(
@@ -74,6 +76,8 @@ void sendMessage(
         .fps = fps,
         .joulesEstimate = joulesEstimate,
         .cpuUtilization = cpuUtilization};
+    
+    // Send the data to the WebUSB client as an array of bytes
     webusb_send_data((uint8_t *)&data, sizeof(usb_data_t));
 }
 
@@ -85,13 +89,6 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     usb_handle_t usb_handle = NULL;
-    volatile int g_intButtonPressed = 0;
-    ns_button_config_t button_config = {
-        .api = &ns_button_V1_0_0,
-        .button_0_enable = true,
-        .button_1_enable = false,
-        .button_0_flag = &g_intButtonPressed,
-        .button_1_flag = NULL};
     char *source;
     int8_t max, label, j;
     j = 0;
@@ -106,7 +103,6 @@ int main(void) {
     NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
     ns_itm_printf_enable();
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
-    NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
 
     webusb_register_msg_cb(msgReceived, NULL);
 
@@ -125,13 +121,6 @@ int main(void) {
         while (1)
             example_status = ic_bench_STATUS_INIT_FAILED; // hang
     }
-
-    // Wait for browser to be ready
-    // ns_lp_printf("Press Connect on browser, then press button 0\n");
-    // while (g_intButtonPressed == 0) {
-    //     ns_delay_us(1000);
-    // }
-    // ns_lp_printf("Button pressed - starting image classification\n");
 
     // Loop through 100 images
     while (1) {
@@ -159,76 +148,14 @@ int main(void) {
 
         // Send the result to WebUSB client
         uint8_t confidence = (uint8_t)((max + 127) * 100 / 255);
+
         // convert ips to uint8_t
         uint8_t fps = ips;
         sendMessage(0, label, confidence, fps, 0, 0);
         // ns_lp_printf("%d - Label is %d (%s). FPS = %0.2f\n", j, label, kCategoryLabels[label],
-        // ips); ns_lp_printf("Text is %s\n", kCategoryLabels[label]);
+        // ips); 
 
         // Wrap at 100
         j = (j + 1) % 100;
-    }
-
-    // while (1) {
-    //     example_status = model.interpreter->Invoke();
-    //     invokes++;
-    //     ns_lp_printf(".");
-    //     newTime = ns_us_ticker_read(&basic_tickTimer);
-    //     if (newTime - oldTime > 1000000) {
-    //         ips = (float)invokes / ((float)(newTime - oldTime) / 1000000.0f);
-    //         ns_lp_printf("\nImage Classification FPS: %0.2f\n", ips);
-    //         invokes = 0;
-    //         oldTime = newTime;
-    //     }
-
-    //     if (invokes > 10) {
-    //         invokes = 0;
-    //         oldTime = newTime;
-    //     }
-    // }
-
-    // while (1) {
-    //     example_status = model.interpreter->Invoke();
-    //     invokes++;
-    //     ns_lp_printf(".");
-    //     newTime = ns_us_ticker_read(&basic_tickTimer);
-    //     if (newTime - oldTime > 1000000) {
-    //         ips = (float)invokes / ((float)(newTime - oldTime) / 1000000.0f);
-    //         ns_lp_printf("\nImage Classification FPS: %0.2f\n", ips);
-    //         invokes = 0;
-    //         oldTime = newTime;
-    //     }
-
-    //     if (invokes > 10) {
-    //         invokes = 0;
-    //         oldTime = newTime;
-    //     }
-
-    //     // if (example_status != kTfLiteOk) {
-    //     //     ns_lp_printf("Invoke failed...\n");
-    //     //     while (1)
-    //     //         example_status = ic_bench_STATUS_INVALID_CONFIG; // hang
-    //     // }
-    // }
-
-    // ns_lp_printf("Done...\n");
-    // // am_hal_gpio_state_write(74, AM_HAL_GPIO_OUTPUT_CLEAR);
-
-    // // Compare the bytes of the output tensors against expected values
-    // offset = 0;
-    // for (int i = 0; i < numOutputs; i++) {
-    //     if (0 != memcmp(
-    //                  model.model_output[i]->data.int8,
-    //                  ((char *)ic_bench_example_output_tensors) + offset,
-    //                  model.model_output[i]->bytes)) {
-    //         while (1)
-    //             example_status = ic_bench_STATUS_INVALID_CONFIG; // miscompare, so hang
-    //     }
-    //     offset += model.model_output[i]->bytes;
-    // }
-
-    while (1) {
-        // Success!
-        example_status = ic_bench_STATUS_SUCCESS;
     }
 }

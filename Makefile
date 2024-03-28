@@ -75,8 +75,6 @@ else
 		modules      += examples/har
 
 		ifeq ($(BLE_SUPPORTED),1)
-#			modules      += examples/web_ble
-# 			modules      += examples/audio_codec
 			modules	     += examples/nnse
 			modules	     += examples/nnid
 		endif
@@ -84,7 +82,7 @@ else
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
-			modules      += examples/tinyusb_webusb
+			modules      += examples/ic
 			ifneq ($(ARCH),apollo3)
 				modules      += examples/mpu_data_collection
 			endif
@@ -202,13 +200,6 @@ else
 # $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
 # $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 endif
-
-# %.size: %.axf
-# 	@echo " Generating size information for $(COMPILERNAME) $@..."
-# 	$(Q) $(MKD) -p $(@D)
-# 	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-
-# 	$(Q) $(SIZE) $< > $@
 
 .PHONY: nest
 nest: all

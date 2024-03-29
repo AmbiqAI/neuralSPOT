@@ -210,6 +210,8 @@ endif
 ifeq ($(TF_VERSION),ce72f7b8_Feb_17_2024)
 	DEFINES+= NS_TFSTRUCTURE_RECENT
 endif
+	DEFINES+= NS_TFSTRUCTURE_RECENT
+
 
 # 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0

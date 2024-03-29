@@ -22,6 +22,7 @@ extern "C" {
     #include "am_mcu_apollo.h"
     #include "am_util.h"
     #include "ns_core.h"
+    #include "webusb_controller.h"
 
     #define NS_USB_V0_0_1                                                                          \
         { .major = 0, .minor = 0, .revision = 1 }
@@ -41,9 +42,10 @@ typedef void *usb_handle_t;
 
 /// @brief USB Device Type
 typedef enum {
-    NS_USB_CDC_DEVICE, ///< CDC (uart-like) device
-    NS_USB_HID_DEVICE, ///< Human Interface Device (not supported)
-    NS_USB_MSC_DEVICE  ///< Mass Storage Device (not supported)
+    NS_USB_CDC_DEVICE,   ///< CDC (uart-like) device
+    NS_USB_HID_DEVICE,   ///< Human Interface Device (not supported)
+    NS_USB_MSC_DEVICE,   ///< Mass Storage Device (not supported)
+    NS_USB_VENDOR_DEVICE ///< Vendor Device (e.g. for WebUSB)
 } ns_usb_device_type_e;
 
 /// @brief USB Transaction Control Stucture

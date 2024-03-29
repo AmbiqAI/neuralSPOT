@@ -198,18 +198,22 @@ DEFINES+= AM_DEBUG_PRINTF
 # 1 = load TF library with debug info, turn on TF debug statements
 MLDEBUG ?= 0
 
-ifeq ($(TF_VERSION),d5f819d_Aug_10_2023)
-	DEFINES+= NS_TFSTRUCTURE_RECENT
-endif
-ifeq ($(TF_VERSION),0264234_Nov_15_2023)
-	DEFINES+= NS_TFSTRUCTURE_RECENT
-endif
-ifeq ($(TF_VERSION),fecdd5d)
-	DEFINES+= NS_TFSTRUCTURE_RECENT
-endif
-ifeq ($(TF_VERSION),ce72f7b8_Feb_17_2024)
-	DEFINES+= NS_TFSTRUCTURE_RECENT
-endif
+# Legacy - dont define for older TFs
+DEFINES+= NS_TFSTRUCTURE_RECENT
+
+# ifeq ($(TF_VERSION),d5f819d_Aug_10_2023)
+# 	DEFINES+= NS_TFSTRUCTURE_RECENT
+# endif
+# ifeq ($(TF_VERSION),0264234_Nov_15_2023)
+# 	DEFINES+= NS_TFSTRUCTURE_RECENT
+# endif
+# ifeq ($(TF_VERSION),fecdd5d)
+# 	DEFINES+= NS_TFSTRUCTURE_RECENT
+# endif
+# ifeq ($(TF_VERSION),ce72f7b8_Feb_17_2024)
+# 	DEFINES+= NS_TFSTRUCTURE_RECENT
+# endif
+
 
 # 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0

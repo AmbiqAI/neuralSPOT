@@ -543,7 +543,7 @@ void ns_ble_generic_init(
     // Add generic groups
     SvcCoreAddGroup();
     SvcDisAddGroup();
-#ifdef AM_PART_APOLLO3P
+#if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_10P0_dBm);
 #else
     HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_20P0_dBm);
@@ -554,7 +554,9 @@ void ns_ble_generic_init(
     // }
 }
 
-#ifndef AM_PART_APOLLO3P
+#if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
+void am_ble_isr(void) { HciDrvIntService(); }
+#else
 void am_cooper_irq_isr(void) {
     uint32_t ui32IntStatus;
     AM_CRITICAL_BEGIN
@@ -563,13 +565,6 @@ void am_cooper_irq_isr(void) {
     AM_CRITICAL_END
     am_hal_gpio_interrupt_service(AM_COOPER_IRQn, ui32IntStatus);
 }
-#else
-//*****************************************************************************
-//
-// Interrupt handler for BLE
-//
-//*****************************************************************************
-void am_ble_isr(void) { HciDrvIntService(); }
 #endif
 void am_uart_isr(void) {
     uint32_t ui32Status;
@@ -585,7 +580,7 @@ void am_uart_isr(void) {
 
 void ns_ble_pre_init(void) {
 // Set NVICs for BLE
-#ifdef AM_PART_APOLLO3P
+#if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     NVIC_SetPriority(BLE_IRQn, NVIC_configMAX_SYSCALL_INTERRUPT_PRIORITY);
 #else
     NVIC_SetPriority(COOPER_IOM_IRQn, 4);

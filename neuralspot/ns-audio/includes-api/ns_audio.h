@@ -181,7 +181,7 @@ typedef struct ns_audio_cfg {
     float fLGAdB;
 
     #if defined(NS_AMBIQSUITE_VERSION_R4_1_0) || defined(AM_PART_APOLLO4L) ||                      \
-        defined(AM_PART_APOLLO3P)
+        defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     void *sOffsetCalib;
     #else
     am_hal_offset_cal_coeffs_array_t *sOffsetCalib;

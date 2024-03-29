@@ -1,4 +1,3 @@
-// #include "tflite.h"
 #include <stdint.h>
 #include "nnidCntrlClass.h"
 #include "am_util_stdio.h"

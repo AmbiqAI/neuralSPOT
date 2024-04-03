@@ -9,7 +9,7 @@
 # TARGET :=web_ble
 
 # TF_VERSION := 0264234_Nov_15_2023
-TF_VERSION := bb4fc83d_Mar_28_2024
+# TF_VERSION := bb4fc83d_Mar_28_2024
 # TF_VERSION := ce72f7b8_Feb_17_2024
 
 # TOOLCHAIN := arm

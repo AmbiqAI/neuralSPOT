@@ -83,9 +83,7 @@ else
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
 			modules      += examples/ic
-			ifneq ($(ARCH),apollo3)
-				modules      += examples/mpu_data_collection
-			endif
+			modules      += examples/mpu_data_collection
 # 			ifneq ($(BLE_SUPPORTED),1)
 # # Don't include it twice
 # 				modules  += examples/audio_codec

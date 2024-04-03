@@ -76,10 +76,14 @@ ARFLAGS = rsc
 
 else ifeq ($(TOOLCHAIN),arm)
 # Armlink keeps removing stuff from static libs, so have to add some objs to the linker command line
-ARMLINKER_IS_NO_BUENO := $(BINDIR)/extern/AmbiqSuite/R4.4.1/src/am_resources.o
 ifeq ($(USB_PRESENT),1)
+ARMLINKER_IS_NO_BUENO := $(BINDIR)/neuralspot/ns-usb/src/overrides/usb_descriptors.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/webusb_controller.o
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/ns_usb_overrides.o
 endif
+
+ARMLINKER_IS_NO_BUENO := $(BINDIR)/extern/AmbiqSuite/R4.4.1/src/am_resources.o
+
 
 CONLY_FLAGS+= -xc -std=c99
 CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI) -c
@@ -97,8 +101,10 @@ CCFLAGS+= -fno-use-cxa-atexit
 LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
 LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
 ifeq ($(USB_PRESENT),1)
-LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=vTaskSwitchContext
+LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=tud_vendor_control_xfer_cb
+LFLAGS+= --keep=tud_descriptor_bos_cb --keep=tud_descriptor_string_cb
 endif
+LFLAGS+= --keep=vTaskSwitchContext
 LFLAGS+= --lto --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 

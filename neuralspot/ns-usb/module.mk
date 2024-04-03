@@ -2,7 +2,7 @@
 local_src := $(wildcard $(subdirectory)/src/overrides/*.c)
 local_src += $(wildcard $(subdirectory)/src/overrides/*.cc)
 local_src += $(wildcard $(subdirectory)/src/overrides/*.s)
-includes_api += $(subdirectory)/includes-api
+# includes_api += $(subdirectory)/includes-api
 
 local_bin := $(BINDIR)/$(subdirectory)
 # bindirs   += $(local_bin)

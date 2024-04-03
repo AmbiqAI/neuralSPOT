@@ -65,15 +65,29 @@ $1: $(call source-to-object,$2)
 	$(Q) $(AR) $(ARFLAGS) $$@ $$^
 endef
 
+# # $(call make-axf, axf-name, source-file-list)
+# define make-axf
+# $1.axf: $(call source-to-object,$2) $(libraries) $(libraries) $(override_libraries)
+# 	@echo " Helper Linking $(COMPILERNAME) $$@"
+# 	@mkdir -p $$(@D)
+# ifeq ($(TOOLCHAIN),arm)
+# 	$(Q) $(LD) $(ARMLINKER_IS_NO_BUENO) $$^ $(override_libraries) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $$@
+# else
+# # $(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $$^ $(LFLAGS)
+# 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $(LFLAGS)
+# endif
+# endef
+
 # $(call make-axf, axf-name, source-file-list)
 define make-axf
-$1.axf: $(call source-to-object,$2) $(libraries) $(libraries) $(override_libraries)
+
+$1.axf: $(call source-to-object,$2)  $(ARMLINKER_IS_NO_BUENO) $(libraries) $(lib_prebuilt) $(override_libraries)
 	@echo " Helper Linking $(COMPILERNAME) $$@"
 	@mkdir -p $$(@D)
 ifeq ($(TOOLCHAIN),arm)
-	$(Q) $(LD) $(ARMLINKER_IS_NO_BUENO) $$^ $(override_libraries) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $$@
+	$(Q) $(LD) $$^ $(LFLAGS) --list=$$*.map -o $$@
 else
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $$^ $(LFLAGS)
+	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $$(call source-to-object,$2) $(LFLAGS)
 endif
 endef
 

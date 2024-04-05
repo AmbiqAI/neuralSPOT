@@ -118,16 +118,16 @@ enum {
 //! and implemented in the user code should be added to the array below.
 //
 // Further note: Armlink laughs in the face of this attempt to keep weak functions.
-// It may or may not include them based on some internal whimsical logic. See 
-// neuralspot_toolchain.mk to see how we work around this.
+// It may or may not include them based on some internal whimsical logic. See
+// neuralspot_toolchainmk to see how we work around this.
 // ****************************************************************************
-volatile const void *pTUSB_WeakFcnPointers[] = {
-    (void *)tud_mount_cb,
-#ifndef TUSB_ADDED_FUNCTIONS
-    (void *)tud_umount_cb,
-#endif
-    (void *)tud_suspend_cb, (void *)tud_resume_cb, (void *)tud_vendor_rx_cb,
-};
+// volatile const void *pTUSB_WeakFcnPointers[] = {
+//     (void *)tud_mount_cb,
+// #ifndef TUSB_ADDED_FUNCTIONS
+//     (void *)tud_umount_cb,
+// #endif
+//     (void *)tud_suspend_cb, (void *)tud_resume_cb, (void *)tud_vendor_rx_cb,
+// };
 
 //--------------------------------------------------------------------+
 // Device callbacks

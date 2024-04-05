@@ -4,7 +4,7 @@
  * @brief This simple demo classifies images included in examples.h using the
  * the open source MLPerf Tiny Resnet8 - it then sends the result to an accompanying
  * WebUSB client to display the result.
- * 
+ *
  * @version 0.1
  * @date 2024-03-15
  *
@@ -76,7 +76,7 @@ void sendMessage(
         .fps = fps,
         .joulesEstimate = joulesEstimate,
         .cpuUtilization = cpuUtilization};
-    
+
     // Send the data to the WebUSB client as an array of bytes
     webusb_send_data((uint8_t *)&data, sizeof(usb_data_t));
 }
@@ -102,6 +102,8 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
     ns_itm_printf_enable();
+    ns_interrupt_master_enable();
+
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 
     webusb_register_msg_cb(msgReceived, NULL);
@@ -153,7 +155,7 @@ int main(void) {
         uint8_t fps = ips;
         sendMessage(0, label, confidence, fps, 0, 0);
         // ns_lp_printf("%d - Label is %d (%s). FPS = %0.2f\n", j, label, kCategoryLabels[label],
-        // ips); 
+        // ips);
 
         // Wrap at 100
         j = (j + 1) % 100;

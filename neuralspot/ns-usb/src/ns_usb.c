@@ -37,6 +37,14 @@ ns_usb_config_t usb_config = {
     .tx_cb = NULL,
     .service_cb = NULL};
 
+volatile const void *pTUSB_WeakFcnPointers[] = {
+    (void *)tud_mount_cb,
+#ifndef TUSB_ADDED_FUNCTIONS
+    (void *)tud_umount_cb,
+#endif
+    (void *)tud_suspend_cb, (void *)tud_resume_cb, (void *)tud_vendor_rx_cb,
+};
+
 volatile uint8_t gGotUSBRx = 0;
 
 bool ns_usb_data_available(usb_handle_t handle) { return (gGotUSBRx == 1); }

@@ -43,6 +43,10 @@ class Params(BaseModel):
         "model.tflite", description="Name of tflite model to be analyzed"
     )
 
+    remote_model: str = Field(
+        False, description="Send model over RPC instead of using a C array"
+    )
+
     # Create Binary Parameters
     tflm_filename: str = Field(
         "mut_model_data.h", description="Name of TFLM C file for Characterization phase"

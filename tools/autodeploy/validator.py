@@ -135,11 +135,39 @@ class ModelConfiguration:
             )
 
 
+def send_model_to_evb(params, client):
+    # Load the model as an array of bytes
+    with open(params.tflite_filename, "rb") as f:
+        model = f.read()
+
+    # Send the model to the EVB in chunks
+    for chunk in chunker(model, maxRpcBlockLength):
+        modelBlock = GenericDataOperations_PcToEvb.common.dataBlock(
+            description="Model Chunk",
+            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+            cmd=GenericDataOperations_PcToEvb.common.command.read,  # re-use the read opcode
+            buffer=chunk,
+            # buffer=chunk.tobytes(),
+            length=len(chunk),
+        )
+        status = client.ns_rpc_data_sendBlockToEVB(modelBlock)
+        if status != 0:
+            print("[ERROR] Model Send Status = %d" % status)
+            exit("Model Send Failed")
+        else:
+            log.info("Model Send Return Status = %d" % status)
+
+
 def configModel(params, client, md):
     if params.create_profile:
         prof_enable = 1  # convert to int just to be explicit for serialization
     else:
         prof_enable = 0
+
+    # Send the model before config
+    if params.remote_model:
+        log.info("Sending model to EVB over RPC")
+        send_model_to_evb(params, client)
 
     inputTensorByteLengths = []
     for tensor in md.inputTensors:
@@ -567,7 +595,7 @@ def compile_and_deploy(params, mc, first_time=False):
     return makefile_result
 
 
-def create_mut_metadata(tflm_dir, mc):
+def create_mut_metadata(params, tflm_dir, mc):
     """
     Create mut_model_metadata.h, a config header for examples/tflm_validator. Can be
      used to create the default (large buffer) configuration or a version tuned on
@@ -580,7 +608,11 @@ def create_mut_metadata(tflm_dir, mc):
     else:
         ns_ad_large_arena = 0
 
+    # TODO pass in large model setting
+    ns_ad_large_model = 1
+
     rm = {
+        "NS_AD_LARGE_MODEL": ns_ad_large_model,
         "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + mc.arena_size_scratch_buffer_padding_k,
         "NS_AD_LARGE_ARENA": ns_ad_large_arena,
@@ -646,14 +678,15 @@ def create_validation_binary(params, baseline, mc):
     tflm_dir = params.working_directory + "/" + params.model_name + "/tflm_validator"
     create_mut_main(tflm_dir, mc)
 
-    if baseline:
-        xxd_c_dump(
-            src_path=params.tflite_filename,
-            dst_path=tflm_dir + "/src/" + params.tflm_filename,
-            var_name="mut_model",
-            chunk_len=12,
-            is_header=True,
-        )
+    if not params.remote_model:
+        if baseline:
+            xxd_c_dump(
+                src_path=params.tflite_filename,
+                dst_path=tflm_dir + "/src/" + params.tflm_filename,
+                var_name="mut_model",
+                chunk_len=12,
+                is_header=True,
+            )
 
     if baseline:
         print(
@@ -664,7 +697,7 @@ def create_validation_binary(params, baseline, mc):
             f"Compiling and deploying Tuned image:    arena size = {mc.arena_size_k}k, RPC buffer size = {mc.adjusted_stat_buffer_size}, Resource Variables count = {mc.rv_count}"
         )
 
-    create_mut_metadata(tflm_dir, mc)
+    create_mut_metadata(params, tflm_dir, mc)
     create_mut_modelinit(tflm_dir, mc)
     compile_and_deploy(params, mc, first_time=baseline)
 

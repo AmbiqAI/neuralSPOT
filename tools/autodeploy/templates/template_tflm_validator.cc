@@ -13,8 +13,11 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "mut_model_data.h"
 #include "mut_model_metadata.h"
+#if (TFLM_LARGE_MODEL == 0)
+    #include "mut_model_data.h"
+#endif
+
 #include "tflm_validator.h"
 
 #include "ns_ambiqsuite_harness.h"
@@ -23,7 +26,6 @@
 #include "ns_model.h"
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
-#include "ns_rpc_generic_data.h"
 #include "ns_usb.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
@@ -36,6 +38,11 @@ ns_model_state_t tflm;
 
 // TF Tensor Arena
 static constexpr int kTensorArenaSize = 1024 * TFLM_VALIDATOR_ARENA_SIZE;
+
+#if (TFLM_LARGE_MODEL == 1)
+// AM_SHARED_RW alignas(16) static uint8_t mut_model[TFLM_VALIDATOR_MODEL_SIZE];
+AM_SHARED_RW alignas(16) static uint8_t mut_model[200000];
+#endif
 
 #ifndef AM_PART_APOLLO3
     #if (NS_AD_LARGE_ARENA == 1)
@@ -61,6 +68,7 @@ bool output_tensor_is_chunked = false;
 bool stats_is_chunked = false;
 uint32_t input_tensor_offset = 0;
 uint32_t output_tensor_offset = 0;
+uint32_t model_chunk_offset = 0;
 uint32_t stats_offset = 0;
 uint32_t stats_remaining = 0;
 
@@ -178,11 +186,29 @@ status incomingTensorChunk(const dataBlock *in) {
     return ns_rpc_data_success;
 }
 
+/**
+ * @brief Gets a chunk of model via sendBlockToEVB_cb
+ *
+ * @param in - chunk
+ * @return status
+ */
+status incomingModelChunk(const dataBlock *in) {
+    ns_lp_printf(
+        "[INFO] PC Sent Model Chunk of %d bytes, copied to %d\n", in->buffer.dataLength,
+        model_chunk_offset);
+    // Get latest chunk, copy into next spot in model array
+    memcpy(&mut_model[model_chunk_offset], in->buffer.data, in->buffer.dataLength);
+    model_chunk_offset += in->buffer.dataLength;
+    return ns_rpc_data_success;
+}
+
 status decodeIncomingSendblock(const dataBlock *in) {
     if (in->cmd == 0) {
         return configureModel(in);
-    } else {
+    } else if (in->cmd == 4) {
         return incomingTensorChunk(in);
+    } else {
+        return incomingModelChunk(in);
     }
 }
 
@@ -379,7 +405,7 @@ int main(void) {
         .api = &ns_rpc_gdo_V1_0_0,
         .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
         .rx_buf = tflm_v_cdc_rx_ff_buf,
-        .rx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
+        .rx_bufLength = TFLM_VALIDATOR_RX_BUFSIZE,
         .tx_buf = tlfm_v_cdc_tx_ff_buf,
         .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
         .sendBlockToEVB_cb = decodeIncomingSendblock,

@@ -1,35 +1,19 @@
 /**
- @file basic_tf_stub.cc
+ @file main.cc
 
- @brief KWS "Kitchen Sink" using NeuralSPOT
+ @brief Speech-to-Intent using NeuralSPOT
 
-The basic_tf_stub example is based on MLPerf's KWS model.
-It uses NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power
-modes, read button state, and print to the Jlink SWO.
+Load a TFLite model into SRAM over RPC.
 
 **/
 
-// #define RINGBUFFER_MODE
-#ifdef NS_USB1_PRESENT
-// #define RPC_ENABLED
-#endif
+#define RPC_ENABLED
+#define USE_PDM_MICROPHONE
 
-#ifndef NS_AUDADC_PRESENT
-    #define USE_PDM_MICROPHONE
-#endif
-// Define AUDIO_LEGACY to test pre-V2 ns-audio functionality
-// #define AUDIO_LEGACY
-// #define ENERGY_MONITOR_ENABLE
-// #define LOWEST_POWER_MODE
-
-// ARM perf requires ITM to be enabled, impacting power measurements.
-// For profiling measurements to wpork, example must be compiled using the MLPROFILE=1 make
-// parameter
-#ifdef NS_MLPROFILE
-    #define MEASURE_ARM_PERF true
-#else
-    #define MEASURE_ARM_PERF false
-#endif
+// Model array - will be filled by RPC
+#define KWS_MODEL_SIZE 53744
+unsigned int kws_ref_model_aligned_tflite_len = KWS_MODEL_SIZE;
+alignas(16) unsigned char g_kws_model_data[KWS_MODEL_SIZE];
 
 #include "basic_tf_stub.h"
 #include "basic_audio.h"
@@ -37,20 +21,34 @@ modes, read button state, and print to the Jlink SWO.
 #include "basic_model.h"
 #include "basic_peripherals.h"
 #include "ns_core.h"
-#ifdef RPC_ENABLED
-    #include "basic_rpc_client.h"
-    #include "ns_usb.h"
-#endif
-
-/// NeuralSPOT Includes
+#include "ns_rpc_generic_data.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
 // #include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
 
-static int recording_win = NUM_FRAMES;
+volatile uint32_t model_chunk_offset = 0;
 
+static int recording_win = NUM_FRAMES;
 typedef enum { WAITING_TO_START_RPC_SERVER, WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
+
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024;
+uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024] __attribute__((aligned(4)));
+#endif
+uint8_t cdc_rx_ff_buf[4096];
+uint8_t cdc_tx_ff_buf[4096];
+
+status incomingModelChunk(const dataBlock *in) {
+    ns_lp_printf(
+        "[INFO] PC Sent Model Chunk of %d bytes, copied to %d\n", in->buffer.dataLength,
+        model_chunk_offset);
+    // Get latest chunk, copy into next spot in model array
+    memcpy(&g_kws_model_data[model_chunk_offset], in->buffer.data, in->buffer.dataLength);
+    model_chunk_offset += in->buffer.dataLength;
+    ns_lp_printf("Model chunk offset: %d\n", model_chunk_offset);
+    return ns_rpc_data_success;
+}
 
 /**
  * @brief Main basic_tf_stub - infinite loop listening and inferring
@@ -63,83 +61,57 @@ int main(void) {
     float output[kCategoryCount];
     uint8_t output_max = 0;
     float max_val = 0.0;
-    bool measure_first_inference = MEASURE_ARM_PERF;
+    // bool measure_first_inference = MEASURE_ARM_PERF;
     ns_perf_counters_t pp;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
-#ifdef RPC_ENABLED
-    myState_e state = WAITING_TO_START_RPC_SERVER;
-#else
     myState_e state = WAITING_TO_RECORD;
-#endif
 
     // Tells callback if it should be recording audio
     audioRecording = false;
 
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-
-#ifdef ENERGY_MONITOR_ENABLE
-    // This is for measuring power using an external power monitor such as
-    // Joulescope - it sets GPIO pins so the state can be observed externally
-    // to help line up the waveforms. It has nothing to do with AI...
-    ns_init_power_monitor_state();
-#endif
-    ns_set_power_monitor_state(NS_IDLE); // no-op if ns_init_power_monitor_state not called
-
-    // Configure power - different use modes
-    // require different power configs
-    // This examples uses pre-populated power config structs -
-    // to modify create a local struct and pass it to
-    // ns_power_config()
-
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
-    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
+    ns_interrupt_master_enable();
 
-#ifdef LOWEST_POWER_MODE
-    // No printing enabled at all - use this to measure power
-#else
-    // Pick either ns_uart_printf_enable or ns_itm_printf_enable dependin on your needs
-    // ns_uart_printf_enable(); // use uart to print, uses less power
     ns_itm_printf_enable();
-    /* A note about printf and low power: printing over ITM impacts low power in two
-        ways:
-        1) enabling ITM prevents SoC from entering deep sleep, and
-        2) ITM initialization requires crypto to be enabled.
-
-        While ITM printing isn't something a deployed application would enable, NS does the
-        following to mitigate power usage during ITM:
-
-        1) ns_power_config() lets you set bNeedITM
-        2) ns_itm_printf_enable() will temporarily enable crypto if needed
-        3) ns_lp_printf() enables TPIU and ITM when needed
-        4) ns_deep_sleep() disables crypto, TPIU and ITM if enabled to allow full deep sleep
-    */
-#endif
 
 #ifdef NS_MLPROFILE
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 #endif
-    model_init();
 
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
     NS_TRY(ns_mfcc_init(&mfcc_config), "MFCC config failed.\n");
     NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
 
-    if (measure_first_inference) {
-        ns_init_perf_profiler(); // count inference cycles the first time it is invoked
+    ns_rpc_config_t rpcConfig = {
+        .api = &ns_rpc_gdo_V1_0_0,
+        .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
+        .rx_buf = cdc_rx_ff_buf,
+        .rx_bufLength = 4096,
+        .tx_buf = cdc_tx_ff_buf,
+        .tx_bufLength = 4096,
+        .sendBlockToEVB_cb = incomingModelChunk,
+        .fetchBlockFromEVB_cb = NULL,
+        .computeOnEVB_cb = NULL};
+    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
+
+    // Wait for button before loading model
+    ns_lp_printf("Run Model Loader\n");
+
+    // Wait for model to finish loading
+    while (model_chunk_offset < KWS_MODEL_SIZE) {
+        ns_rpc_genericDataOperations_pollServer(&rpcConfig);
+        ns_delay_us(1000);
     }
-    ns_interrupt_master_enable();
+    ns_lp_printf("Model loaded (%d bytes)\n", model_chunk_offset);
+    model_init();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
     ns_lp_printf("the captured audio into one of the following phrases:\n");
     ns_lp_printf("yes, no, up, down, left, right, on, off, or unknown/silence\n\n");
 
-#ifdef RPC_ENABLED
-    NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
     ns_lp_printf("Start the PC-side server, then press Button 0 to get started\n");
-#else
-    ns_lp_printf("Press Button 0 to start listening...\n");
-#endif
 
     // Event loop
     while (1) {
@@ -160,9 +132,6 @@ int main(void) {
                 ns_delay_us(250000); // wait for button click noise to die down
                 audioRecording = true;
                 ns_lp_printf("\nListening for 1 second.\n");
-#ifdef RPC_ENABLED
-                ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 1 second.\n");
-#endif
             }
             break;
 
@@ -172,12 +141,6 @@ int main(void) {
 
                 int32_t mfcc_buffer_head = (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
 
-#ifdef RINGBUFFER_MODE
-                ns_ipc_ring_buffer_pop(audioBuf, &audioDataBuffer, audio_config.numSamples * 2);
-#endif
-#ifdef RPC_ENABLED
-                ns_rpc_data_sendBlockToPC(&outBlock);
-#endif
                 ns_mfcc_compute(&mfcc_config, audioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
 
                 recording_win--;
@@ -206,20 +169,17 @@ int main(void) {
 
             ns_set_power_monitor_state(NS_INFERING);
 
-            if (measure_first_inference) {
-                ns_start_perf_profiler();
-            }
+            // if (measure_first_inference) {
+            //     ns_start_perf_profiler();
+            // }
             TfLiteStatus invoke_status = interpreter->Invoke();
-#ifdef NS_MLPROFILE
-            profiler->LogCsv();
-#endif
 
-            if (measure_first_inference) {
-                measure_first_inference = false;
-                ns_stop_perf_profiler();
-                ns_capture_perf_profiler(&pp);
-                ns_print_perf_profile(&pp);
-            }
+            // if (measure_first_inference) {
+            //     measure_first_inference = false;
+            //     ns_stop_perf_profiler();
+            //     ns_capture_perf_profiler(&pp);
+            //     ns_print_perf_profile(&pp);
+            // }
             ns_set_power_monitor_state(NS_IDLE);
 
             if (invoke_status != kTfLiteOk) {

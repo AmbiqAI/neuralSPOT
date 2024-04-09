@@ -21,7 +21,7 @@
         #include "tensorflow/lite/micro/micro_profiler.h"
         #include "tensorflow/lite/micro/system_setup.h"
         #include "tensorflow/lite/schema/schema_generated.h"
-#ifdef NS_TFSTRUCTURE_RECENT
+        #ifdef NS_TFSTRUCTURE_RECENT
             #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
         #else
             #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -60,7 +60,7 @@ typedef struct {
     ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
     #else
     void *tickTimer;
-    void *mac_estimate;
+    void *mac_estimates;
     #endif
     // State (init by baseline code)
     const tflite::Model *model;                        ///< Model structure, initialized during init

@@ -58,9 +58,9 @@ tusb_desc_device_t const desc_device = {
     .idProduct = USB_PID,
     .bcdDevice = 0x0100,
 
-    .iManufacturer = 0x01,
-    .iProduct = 0x02,
-    .iSerialNumber = 0x03,
+    .iManufacturer = USB_DESCRIPTOR_MANUFACTURER,
+    .iProduct = USB_DESCRIPTOR_PRODUCT,
+    .iSerialNumber = USB_DESCRIPTOR_SERIAL,
 
     .bNumConfigurations = 0x01};
 
@@ -69,7 +69,7 @@ tusb_desc_device_t const desc_device = {
 //--------------------------------------------------------------------+
 
 // array of pointer to string descriptors
-static char const *string_desc_arr[] = {
+char const *usb_string_desc_arr[6] = {
     (const char[]){0x09, 0x04}, // 0: is supported language is English (0x0409)
     "TinyUSB",                  // 1: Manufacturer
     "TinyUSB Device",           // 2: Product
@@ -255,7 +255,7 @@ uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
     uint8_t chr_count;
 
     if (index == 0) {
-        memcpy(&_desc_str[1], string_desc_arr[0], 2);
+        memcpy(&_desc_str[1], usb_string_desc_arr[0], 2);
         chr_count = 1;
     } else {
         //
@@ -263,11 +263,11 @@ uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/microsoft-defined-usb-descriptors
         //
 
-        if (!(index < sizeof(string_desc_arr) / sizeof(string_desc_arr[0]))) {
+        if (!(index < sizeof(usb_string_desc_arr) / sizeof(usb_string_desc_arr[0]))) {
             return NULL;
         }
 
-        const char *str = string_desc_arr[index];
+        const char *str = usb_string_desc_arr[index];
 
         //
         // Cap at max char

@@ -27,6 +27,13 @@
 
 enum { VENDOR_REQUEST_WEBUSB = 1, VENDOR_REQUEST_MICROSOFT = 2 };
 
+enum {
+    USB_DESCRIPTOR_MANUFACTURER = 0x01,
+    USB_DESCRIPTOR_PRODUCT = 0x02,
+    USB_DESCRIPTOR_SERIAL = 0x03,
+};
+
+extern char const *usb_string_desc_arr[6];
 extern uint8_t const desc_ms_os_20[];
 
 #endif /* USB_DESCRIPTORS_H_ */

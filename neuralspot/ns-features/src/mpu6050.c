@@ -11,10 +11,11 @@ Please refer to LICENSE file for licensing information.
 #include <stdlib.h>
 #include <string.h>
 #include "mpu6050.h"
-
+#include <stdio.h>
+#include <assert.h>
 #include <math.h> 
 
-//path to i2c fleury lib
+// path to i2c fleury lib
 // #include MPU6050_I2CFLEURYPATH
 
 volatile uint8_t buffer[14];

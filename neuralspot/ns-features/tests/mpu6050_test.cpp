@@ -1,6 +1,6 @@
 // #include "gtest.h"
-#include "gtest.h"
-#include "mpu6050.h"
+// #include "gtest.h"
+#include "quaternion.h"
 
 
 // test fixture
@@ -95,7 +95,6 @@ TEST_F(MahonyUpdateTest, NullPointer) {
     EXPECT_FLOAT_EQ(qy, 0.0f);   
     EXPECT_FLOAT_EQ(qz, 0.707f); 
 }
-
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);

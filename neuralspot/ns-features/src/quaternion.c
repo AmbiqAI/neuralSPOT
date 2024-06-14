@@ -10,7 +10,7 @@ Please refer to LICENSE file for licensing information.
 
 #include <stdlib.h>
 #include <string.h>
-#include "mpu6050.h"
+#include "quaternion.h"
 #include <stdio.h>
 #include <assert.h>
 #include <math.h> 
@@ -25,7 +25,7 @@ volatile uint8_t buffer[14];
 /*
  * Mahony update function (for 6DOF)
  */
-void mpu6050_mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
+void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 	float norm;
 	float halfvx, halfvy, halfvz;
 	float halfex, halfey, halfez;
@@ -51,10 +51,10 @@ void mpu6050_mahonyUpdate(float gx, float gy, float gz, float ax, float ay, floa
 		halfez = (ax * halfvy - ay * halfvx);
 
 		// Compute and apply integral feedback if enabled
-		if(mpu6050_mahonytwoKiDef > 0.0f) {
-			integralFBx += mpu6050_mahonytwoKiDef * halfex * (1.0f / mpu6050_mahonysampleFreq);	// integral error scaled by Ki
-			integralFBy += mpu6050_mahonytwoKiDef * halfey * (1.0f / mpu6050_mahonysampleFreq);
-			integralFBz += mpu6050_mahonytwoKiDef * halfez * (1.0f / mpu6050_mahonysampleFreq);
+		if(mahonytwoKiDef > 0.0f) {
+			integralFBx += mahonytwoKiDef * halfex * (1.0f / mahonysampleFreq);	// integral error scaled by Ki
+			integralFBy += mahonytwoKiDef * halfey * (1.0f / mahonysampleFreq);
+			integralFBz += mahonytwoKiDef * halfez * (1.0f / mahonysampleFreq);
 			gx += integralFBx;	// apply integral feedback
 			gy += integralFBy;
 			gz += integralFBz;
@@ -65,15 +65,15 @@ void mpu6050_mahonyUpdate(float gx, float gy, float gz, float ax, float ay, floa
 		}
 
 		// Apply proportional feedback
-		gx += mpu6050_mahonytwoKpDef * halfex;
-		gy += mpu6050_mahonytwoKpDef * halfey;
-		gz += mpu6050_mahonytwoKpDef * halfez;
+		gx += mahonytwoKpDef * halfex;
+		gy += mahonytwoKpDef * halfey;
+		gz += mahonytwoKpDef * halfez;
 	}
 
 	// Integrate rate of change of quaternion
-	gx *= (0.5f * (1.0f / mpu6050_mahonysampleFreq));		// pre-multiply common factors
-	gy *= (0.5f * (1.0f / mpu6050_mahonysampleFreq));
-	gz *= (0.5f * (1.0f / mpu6050_mahonysampleFreq));
+	gx *= (0.5f * (1.0f / mahonysampleFreq));		// pre-multiply common factors
+	gy *= (0.5f * (1.0f / mahonysampleFreq));
+	gz *= (0.5f * (1.0f / mahonysampleFreq));
 	qa = q0;
 	qb = q1;
 	qc = q2;
@@ -99,7 +99,7 @@ void mpu6050_mahonyUpdate(float gx, float gy, float gz, float ax, float ay, floa
 /*
  * get quaternion
  */
-void mpu6050_getQuaternion(double *qw, double *qx, double *qy, double *qz) {
+void getQuaternion(double *qw, double *qx, double *qy, double *qz) {
 	*qw = q0;
 	*qx = q1;
 	*qy = q2;
@@ -113,7 +113,7 @@ void mpu6050_getQuaternion(double *qw, double *qx, double *qy, double *qz) {
  * 2. rotate around sensor Y plane by pitch
  * 3. rotate around sensor X plane by roll
  */
-void mpu6050_getRollPitchYaw(double *roll, double *pitch, double *yaw) {
+void getRollPitchYaw(double *roll, double *pitch, double *yaw) {
 	*yaw = atan2(2*q1*q2 - 2*q0*q3, 2*q0*q0 + 2*q1*q1 - 1);
 	*pitch = -asin(2*q1*q3 + 2*q0*q2);
 	*roll = atan2(2*q2*q3 - 2*q0*q1, 2*q0*q0 + 2*q3*q3 - 1);

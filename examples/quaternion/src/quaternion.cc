@@ -21,7 +21,7 @@
 #include "ns_mpu6050_i2c_driver.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
-#include "mpu6050.h"
+#include "quaternion.h"
 #include "har_peripherals.h"
 
 #include <string.h>
@@ -162,10 +162,10 @@ int main(void) {
         ns_lp_printf("gyro values: %f, %f, %f\n",finalGyro[0], finalGyro[1], finalGyro[2]);
         
         // calculate and update quaternion values
-        mpu6050_mahonyUpdate(finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]);
+        mahonyUpdate(finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]);
 
         double qw, qx, qy, qz;
-        mpu6050_getQuaternion(&qw, &qx, &qy, &qz);
+        getQuaternion(&qw, &qx, &qy, &qz);
         ns_lp_printf("Quaternion: ");
         ns_lp_printf("%f,", qw);
         ns_lp_printf("%f,",qx);

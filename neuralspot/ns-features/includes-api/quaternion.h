@@ -21,14 +21,24 @@ extern "C" {
 #endif
 #include <stdint.h>
 
+typedef struct {
+  float q0;
+  float q1;
+  float q2;
+  float q3;
+  float integralFBx;
+  float integralFBy;
+  float integralFBz;
+} ns_mahony_cfg_t;
+
 // #include "mpu6050registers.h"
 #define mahonysampleFreq 61.0f // sample frequency in Hz
 #define mahonytwoKpDef (2.0f * 0.5f) // 2 * proportional gain
 #define mahonytwoKiDef (2.0f * 0.1f) // 2 * integral gain
-
-extern void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az);
-extern void getQuaternion(double *qw, double *qx, double *qy, double *qz);
-extern void getRollPitchYaw(double *pitch, double *roll, double *yaw);
+extern uint16_t ns_mahony_init(ns_mahony_cfg_t *cfg);
+extern void ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, float ax, float ay, float az);
+extern void ns_get_quaternion(ns_mahony_cfg_t *cfg,double *qw, double *qx, double *qy, double *qz);
+extern void ns_get_RollPitchYaw(ns_mahony_cfg_t *cfg, double *pitch, double *roll, double *yaw);
 
 #ifdef __cplusplus
 }

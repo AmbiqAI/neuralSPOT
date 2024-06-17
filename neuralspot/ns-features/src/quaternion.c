@@ -14,18 +14,28 @@ Please refer to LICENSE file for licensing information.
 #include <stdio.h>
 #include <assert.h>
 #include <math.h> 
+#include "ns_core.h"
 
-// path to i2c fleury lib
-// #include MPU6050_I2CFLEURYPATH
 
-volatile uint8_t buffer[14];
+uint16_t ns_mahony_init(ns_mahony_cfg_t *cfg) {
+  if(cfg == NULL) {
+    return NS_STATUS_INVALID_HANDLE;
+  }
+  cfg->q0 = 1.0f;
+  cfg->q1 = 0.0f;
+  cfg->q2 = 0.0f;
+  cfg->q3 = 0.0f;
+  cfg->integralFBx = 0.0f;
+  cfg->integralFBy = 0.0f;
+  cfg->integralFBz = 0.0f;
+  return NS_STATUS_SUCCESS;
+}
 
- volatile float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;
- volatile float integralFBx = 0.0f,  integralFBy = 0.0f, integralFBz = 0.0f;
+
 /*
  * Mahony update function (for 6DOF)
  */
-void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
+void ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, float ax, float ay, float az) {
 	float norm;
 	float halfvx, halfvy, halfvz;
 	float halfex, halfey, halfez;
@@ -41,9 +51,9 @@ void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 		az /= norm;
 
 		// Estimated direction of gravity and vector perpendicular to magnetic flux
-		halfvx = q1 * q3 - q0 * q2;
-		halfvy = q0 * q1 + q2 * q3;
-		halfvz = q0 * q0 - 0.5f + q3 * q3;
+		halfvx = cfg->q1 * cfg->q3 - cfg->q0 * cfg->q2;
+		halfvy = cfg->q0 * cfg->q1 + cfg->q2 * cfg->q3;
+		halfvz = cfg->q0 * cfg->q0 - 0.5f + cfg->q3 * cfg->q3;
 
 		// Error is sum of cross product between estimated and measured direction of gravity
 		halfex = (ay * halfvz - az * halfvy);
@@ -52,16 +62,16 @@ void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 
 		// Compute and apply integral feedback if enabled
 		if(mahonytwoKiDef > 0.0f) {
-			integralFBx += mahonytwoKiDef * halfex * (1.0f / mahonysampleFreq);	// integral error scaled by Ki
-			integralFBy += mahonytwoKiDef * halfey * (1.0f / mahonysampleFreq);
-			integralFBz += mahonytwoKiDef * halfez * (1.0f / mahonysampleFreq);
-			gx += integralFBx;	// apply integral feedback
-			gy += integralFBy;
-			gz += integralFBz;
+			cfg->integralFBx += mahonytwoKiDef * halfex * (1.0f / mahonysampleFreq);	// integral error scaled by Ki
+			cfg->integralFBy += mahonytwoKiDef * halfey * (1.0f / mahonysampleFreq);
+			cfg->integralFBz += mahonytwoKiDef * halfez * (1.0f / mahonysampleFreq);
+			gx += cfg->integralFBx;	// apply integral feedback
+			gy += cfg->integralFBy;
+			gz += cfg->integralFBz;
 		} else {
-			integralFBx = 0.0f;	// prevent integral windup
-			integralFBy = 0.0f;
-			integralFBz = 0.0f;
+			cfg->integralFBx = 0.0f;	// prevent integral windup
+			cfg->integralFBy = 0.0f;
+			cfg->integralFBz = 0.0f;
 		}
 
 		// Apply proportional feedback
@@ -74,20 +84,20 @@ void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 	gx *= (0.5f * (1.0f / mahonysampleFreq));		// pre-multiply common factors
 	gy *= (0.5f * (1.0f / mahonysampleFreq));
 	gz *= (0.5f * (1.0f / mahonysampleFreq));
-	qa = q0;
-	qb = q1;
-	qc = q2;
-	q0 += (-qb * gx - qc * gy - q3 * gz);
-	q1 += (qa * gx + qc * gz - q3 * gy);
-	q2 += (qa * gy - qb * gz + q3 * gx);
-	q3 += (qa * gz + qb * gy - qc * gx);
+	qa = cfg->q0;
+	qb = cfg->q1;
+	qc = cfg->q2;
+	cfg->q0 += (-qb * gx - qc * gy - cfg->q3 * gz);
+	cfg->q1 += (qa * gx + qc * gz - cfg->q3 * gy);
+	cfg->q2 += (qa * gy - qb * gz + cfg->q3 * gx);
+	cfg->q3 += (qa * gz + qb * gy - qc * gx);
 
 	// Normalise quaternion
-	norm = sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
-	q0 /= norm;
-	q1 /= norm;
-	q2 /= norm;
-	q3 /= norm;
+	norm = sqrt(cfg->q0 * cfg->q0 + cfg->q1 * cfg->q1 + cfg->q2 * cfg->q2 + cfg->q3 * cfg->q3);
+	cfg->q0 /= norm;
+	cfg->q1 /= norm;
+	cfg->q2 /= norm;
+	cfg->q3 /= norm;
 }
 
 
@@ -99,11 +109,11 @@ void mahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 /*
  * get quaternion
  */
-void getQuaternion(double *qw, double *qx, double *qy, double *qz) {
-	*qw = q0;
-	*qx = q1;
-	*qy = q2;
-	*qz = q3;
+void ns_get_quaternion(ns_mahony_cfg_t *cfg, double *qw, double *qx, double *qy, double *qz) {
+	*qw = cfg->q0;
+	*qx = cfg->q1;
+	*qy = cfg->q2;
+	*qz = cfg->q3;
 }
 
 /*
@@ -113,8 +123,8 @@ void getQuaternion(double *qw, double *qx, double *qy, double *qz) {
  * 2. rotate around sensor Y plane by pitch
  * 3. rotate around sensor X plane by roll
  */
-void getRollPitchYaw(double *roll, double *pitch, double *yaw) {
-	*yaw = atan2(2*q1*q2 - 2*q0*q3, 2*q0*q0 + 2*q1*q1 - 1);
-	*pitch = -asin(2*q1*q3 + 2*q0*q2);
-	*roll = atan2(2*q2*q3 - 2*q0*q1, 2*q0*q0 + 2*q3*q3 - 1);
+void ns_get_RollPitchYaw(ns_mahony_cfg_t *cfg, double *roll, double *pitch, double *yaw) {
+	*yaw = atan2(2*cfg->q1*cfg->q2 - 2*cfg->q0 * cfg->q3, 2*cfg->q0 * cfg->q0 + 2 * cfg->q1 * cfg->q1 - 1);
+	*pitch = -asin(2 * cfg->q1 * cfg->q3 + 2 * cfg->q0 * cfg->q2);
+	*roll = atan2(2 * cfg->q2 * cfg->q3 - 2 * cfg->q0 * cfg->q1, 2 * cfg->q0 * cfg->q0 + 2 * cfg->q3 * cfg->q3 - 1);
 }

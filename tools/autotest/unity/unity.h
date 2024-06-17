@@ -7,11 +7,13 @@
 #ifndef UNITY_FRAMEWORK_H
 #define UNITY_FRAMEWORK_H
 #define UNITY
+#define UNITY_INCLUDE_CONFIG_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include "am_util_test.h"
 #include "unity_internals.h"
 
 void setUp(void);

@@ -2,6 +2,7 @@
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
+#include "ns_ambiqsuite_harness.h"
 
 //*****************************************************************************
 //
@@ -40,29 +41,26 @@ am_bsp_memory_printf_state_t g_sPrintfState = {
     defined(AM_PART_APOLLO5_API)
 void unity_output_init(void) {
     #if UNITY_PRINT_OUTPUT_UART
-    //
-    // Initialize the printf interface for UART output.
-    //
-    am_bsp_uart_printf_enable();
+
     #elif UNITY_PRINT_OUTPUT_MEMORY
     am_bsp_memory_printf_enable(&g_sPrintfState);
     #else
     //
     // Initialize the printf interface for ITM/SWO output.
     //
-    am_bsp_itm_printf_enable();
+    ns_itm_printf_enable();
     #endif
 
     //
     // Start with a "start of transmission" character.
     //
     #if 1
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
     #else
     am_hal_itm_stimulus_reg_byte_write(0, 0x2);
     am_hal_itm_stimulus_reg_byte_write(0, 0x2);
@@ -87,25 +85,25 @@ void unity_output_init(void) {
     //
     // Initialize the printf interface for ITM/SWO output.
     //
-    am_util_stdio_printf_init((am_util_stdio_print_char_t)am_bsp_itm_string_print);
-    am_hal_itm_enable();
+    ns_itm_printf_enable();
+
     #endif
 
     //
     // Enable debug printf messages
     //
-    am_bsp_debug_printf_enable();
+    // am_bsp_debug_printf_enable();
 
     //
     // Start with a "start of transmission" character.
     //
     #if 1
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
-    am_util_stdio_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
+    ns_lp_printf("%c", 0x2);
     #else
     am_hal_itm_stimulus_reg_byte_write(0, 0x2);
     am_hal_itm_stimulus_reg_byte_write(0, 0x2);
@@ -134,7 +132,7 @@ void unity_output_end(void) {
     #else
     am_util_delay_ms(100);
     #endif
-    am_util_stdio_printf("%c", 0x3);
+    ns_lp_printf("%c", 0x3);
 #else
     am_hal_itm_stimulus_reg_byte_write(0, 0x3);
 #endif

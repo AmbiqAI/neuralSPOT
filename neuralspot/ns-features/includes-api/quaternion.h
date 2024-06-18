@@ -36,9 +36,9 @@ typedef struct {
 #define mahonytwoKpDef (2.0f * 0.5f) // 2 * proportional gain
 #define mahonytwoKiDef (2.0f * 0.1f) // 2 * integral gain
 extern uint16_t ns_mahony_init(ns_mahony_cfg_t *cfg);
-extern void ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, float ax, float ay, float az);
-extern void ns_get_quaternion(ns_mahony_cfg_t *cfg,double *qw, double *qx, double *qy, double *qz);
-extern void ns_get_RollPitchYaw(ns_mahony_cfg_t *cfg, double *pitch, double *roll, double *yaw);
+extern uint16_t ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, float ax, float ay, float az);
+extern uint16_t ns_get_quaternion(ns_mahony_cfg_t *cfg,double *qw, double *qx, double *qy, double *qz);
+extern uint16_t ns_get_RollPitchYaw(ns_mahony_cfg_t *cfg, double *pitch, double *roll, double *yaw);
 
 #ifdef __cplusplus
 }

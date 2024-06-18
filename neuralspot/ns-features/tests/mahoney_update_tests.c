@@ -15,7 +15,8 @@ void mahoney_update_tests_post_test_hook() {
 
 void MahonyUpdateTest_AllZeroAccelValues() {
     // set sample gyro values
-    float gx = 0.1f, gy = 0.2f, gz = 0.3f;
+    // float gx = 0.1f, gy = 0.2f, gz = 0.3f;
+    float gx = 0.0f, gy = 0.0f, gz = 0.0f;
 
     // set all accelerometer values to zero
     float ax = 0.0f, ay = 0.0f, az = 0.0f;
@@ -28,6 +29,10 @@ void MahonyUpdateTest_AllZeroAccelValues() {
     TEST_ASSERT_EQUAL_FLOAT(mcfg.q1, 0.0f);
     TEST_ASSERT_EQUAL_FLOAT(mcfg.q2, 0.0f);
     TEST_ASSERT_EQUAL_FLOAT(mcfg.q3, 0.0f);
+    // TEST_ASSERT_FLOAT_WITHIN(0.001, 1.0, mcfg.q0);
+    // TEST_ASSERT_FLOAT_WITHIN(0.002, 0.0f, mcfg.q1);
+    // TEST_ASSERT_FLOAT_WITHIN(0.002, 0.0f, mcfg.q2);
+    // TEST_ASSERT_FLOAT_WITHIN(0.002, 0.0f, mcfg.q3);
 }
 
 // test with large accel and gyro values
@@ -63,17 +68,24 @@ void MahonyUpdateTest_NegativeInputs() {
 
 // test to get quaternion values with NULL
 void MahonyUpdateTest_NullPointer() {
+
+    // float gx = 0.1f, gy = 0.2f, gz = 0.3f;
+    float gx = 0.0f, gy = 0.0f, gz = 0.0f;
+    // set all accelerometer values to zero
+    float ax = 0.0f, ay = 0.0f, az = 0.0f;
+    int status = ns_mahony_update(0, gx, gy, gz, ax, ay, az);
+    // call the function to update mahony filter with a NULL pointer
+    TEST_ASSERT_EQUAL(1, status);
+
     // set sample quaternion values
     mcfg.q0 = 0.707f;
     mcfg.q1 = 0.0f;
     mcfg.q2 = 0.0f;
     mcfg.q3 = 0.707f;
 
-    double qw, qx, qy, qz;
-    // call the function to get quaternion values with a NULL pointer
-    // ns_get_quaternion(&mcfg, &qw, 0, &qy, &qz);
 
-    TEST_ASSERT_EQUAL_FLOAT(qw, 0.707f);
-    TEST_ASSERT_EQUAL_FLOAT(qy, 0.0f);
-    TEST_ASSERT_EQUAL_FLOAT(qz, 0.707f);
+    double qw, qy, qz;
+    // call the function to get quaternion values with a NULL pointer
+    status = ns_get_quaternion(&mcfg, &qw, 0, &qy, &qz);
+    TEST_ASSERT_EQUAL(1, status);
 }

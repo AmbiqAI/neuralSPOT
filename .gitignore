@@ -9,6 +9,7 @@ _deps
 ./make/local_overrides.mk
 *.tflite
 projects/autodeploy
+projects/tests
 *.old
 *.log
 *.wav

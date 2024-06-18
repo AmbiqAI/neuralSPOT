@@ -29,10 +29,7 @@ void MahonyUpdateTest_AllZeroAccelValues() {
     TEST_ASSERT_EQUAL_FLOAT(mcfg.q1, 0.0f);
     TEST_ASSERT_EQUAL_FLOAT(mcfg.q2, 0.0f);
     TEST_ASSERT_EQUAL_FLOAT(mcfg.q3, 0.0f);
-    // TEST_ASSERT_FLOAT_WITHIN(0.001, 1.0, mcfg.q0);
-    // TEST_ASSERT_FLOAT_WITHIN(0.002, 0.0f, mcfg.q1);
-    // TEST_ASSERT_FLOAT_WITHIN(0.002, 0.0f, mcfg.q2);
-    // TEST_ASSERT_FLOAT_WITHIN(0.002, 0.0f, mcfg.q3);
+    
 }
 
 // test with large accel and gyro values

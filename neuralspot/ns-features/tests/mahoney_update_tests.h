@@ -1,4 +1,4 @@
-#include "mpu6050.h"
+#include "quaternion.h"
 void mahoney_update_tests_pre_test_hook();
 void mahoney_update_tests_post_test_hook();
 void MahonyUpdateTest_AllZeroAccelValues();

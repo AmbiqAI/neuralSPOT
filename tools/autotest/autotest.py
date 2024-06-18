@@ -100,8 +100,9 @@ def generateTestRunner(params, test_suite_name, tc):
         )
 
     if makefile_result != 0:
-        log.error("Makefile failed to build minimal example library")
-        exit("Makefile failed to build minimal example library")
+        log.error("Makefile failed to build testrunner")
+        exit_flag.set()
+        exit("Makefile failed to build testrunner")
     else:
         return d, len(test_list)
 

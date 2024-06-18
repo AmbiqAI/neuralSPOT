@@ -21,7 +21,7 @@
 #include "ns_mpu6050_i2c_driver.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
-#include "mpu6050.h"
+#include "quaternion.h"
 #include "har_peripherals.h"
 
 #include <string.h>
@@ -117,7 +117,10 @@ int main(void) {
 
     ns_lp_printf("This Quaternion example repeatedly collects MPU data, then performs sensor fusion\n");
     ns_lp_printf("to derive the corresponding quaternion values\n");
-
+    
+    // Mahony filter Initialization
+    ns_mahony_cfg_t mahony_cfg;
+    NS_TRY(ns_mahony_init(&mahony_cfg), "Mahony Init Failed.\n");
 
     // Calibrate the MPU
     ns_lp_printf("Please avoid moving sensor until calibration is finished (~20s).\n");
@@ -162,10 +165,10 @@ int main(void) {
         ns_lp_printf("gyro values: %f, %f, %f\n",finalGyro[0], finalGyro[1], finalGyro[2]);
         
         // calculate and update quaternion values
-        mpu6050_mahonyUpdate(finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]);
+        ns_mahony_update(&mahony_cfg, finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]);
 
         double qw, qx, qy, qz;
-        mpu6050_getQuaternion(&qw, &qx, &qy, &qz);
+        ns_get_quaternion(&mahony_cfg, &qw, &qx, &qy, &qz);
         ns_lp_printf("Quaternion: ");
         ns_lp_printf("%f,", qw);
         ns_lp_printf("%f,",qx);
@@ -179,6 +182,5 @@ int main(void) {
         g_sensorData[3] = qz;
         ns_lp_printf(".\n");
         ns_rpc_data_sendBlockToPC(&outBlock);
-
     }
 }

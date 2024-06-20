@@ -1,7 +1,9 @@
 #include "quaternion.h"
 void mahoney_update_tests_pre_test_hook();
 void mahoney_update_tests_post_test_hook();
-void MahonyUpdateTest_AllZeroAccelValues();
+void MahonyUpdateTest_AllZeroAccelGyroValues();
 void MahonyUpdateTest_LargeAccelGyroValues();
+void MahonyUpdateTest_RollPitchYaw();
 void MahonyUpdateTest_NegativeInputs();
 void MahonyUpdateTest_NullPointer();
+void MahonyUpdateTest_InvalidAPIVersion();

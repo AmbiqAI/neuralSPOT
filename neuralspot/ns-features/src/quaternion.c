@@ -16,19 +16,29 @@ Please refer to LICENSE file for licensing information.
 #include <math.h> 
 #include "ns_core.h"
 
+const ns_core_api_t ns_mahony_V0_0_1 = {.apiId = NS_MAHONY_API_ID, .version = NS_MAHONY_V0_0_1};
+const ns_core_api_t ns_mahony_oldest_supported_version = {
+    .apiId = NS_MAHONY_API_ID, .version = NS_MAHONY_V0_0_1};
+const ns_core_api_t ns_mahony_current_version = {.apiId = NS_MAHONY_API_ID, .version = NS_MAHONY_V0_0_1};
 
 uint16_t ns_mahony_init(ns_mahony_cfg_t *cfg) {
-  if(cfg == NULL) {
-    return NS_STATUS_INVALID_HANDLE;
-  }
-  cfg->q0 = 1.0f;
-  cfg->q1 = 0.0f;
-  cfg->q2 = 0.0f;
-  cfg->q3 = 0.0f;
-  cfg->integralFBx = 0.0f;
-  cfg->integralFBy = 0.0f;
-  cfg->integralFBz = 0.0f;
-  return NS_STATUS_SUCCESS;
+	#ifndef NS_DISABLE_API_VALIDATION
+		if (cfg == NULL) {
+			return NS_STATUS_INVALID_HANDLE;
+		}
+
+		if (ns_core_check_api(cfg->api, &ns_mahony_oldest_supported_version, &ns_mahony_current_version)) {
+			return NS_STATUS_INVALID_VERSION;
+		}
+	#endif
+	cfg->q0 = 1.0f;
+	cfg->q1 = 0.0f;
+	cfg->q2 = 0.0f;
+	cfg->q3 = 0.0f;
+	cfg->integralFBx = 0.0f;
+	cfg->integralFBy = 0.0f;
+	cfg->integralFBz = 0.0f;
+	return NS_STATUS_SUCCESS;
 }
 
 
@@ -136,8 +146,8 @@ uint16_t ns_get_RollPitchYaw(ns_mahony_cfg_t *cfg, double *roll, double *pitch, 
 	if(cfg == NULL || roll == NULL || pitch == NULL || yaw == NULL) {
 		return NS_STATUS_INVALID_HANDLE;
 	}
-	*yaw = atan2(2*cfg->q1*cfg->q2 - 2*cfg->q0 * cfg->q3, 2*cfg->q0 * cfg->q0 + 2 * cfg->q1 * cfg->q1 - 1);
+	*yaw = atan2(2 * cfg->q1 * cfg->q2 - 2 * cfg->q0 * cfg->q3, 2*cfg->q0 * cfg->q0 + 2 * cfg->q1 * cfg->q1 - 1 + + 1e-4);
 	*pitch = -asin(2 * cfg->q1 * cfg->q3 + 2 * cfg->q0 * cfg->q2);
-	*roll = atan2(2 * cfg->q2 * cfg->q3 - 2 * cfg->q0 * cfg->q1, 2 * cfg->q0 * cfg->q0 + 2 * cfg->q3 * cfg->q3 - 1);
+	*roll = atan2(2 * cfg->q2 * cfg->q3 - 2 * cfg->q0 * cfg->q1, 2 * cfg->q0 * cfg->q0 + 2 * cfg->q3 * cfg->q3 - 1 + 1e-4);
 	return NS_STATUS_SUCCESS;
 }

@@ -20,8 +20,19 @@ References:
 extern "C" {
 #endif
 #include <stdint.h>
+#include "ns_core.h"
+#define NS_MAHONY_V0_0_1                                                                          \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_MAHONY_OLDEST_SUPPORTED_VERSION NS_MAHONY_V0_0_1
+#define NS_MAHONY_CURRENT_VERSION NS_MAHONY_V0_0_1
+#define NS_MAHONY_API_ID 0xCA0009
+
+extern const ns_core_api_t ns_mahony_V0_0_1;
+extern const ns_core_api_t ns_mahony_oldest_supported_version;
+extern const ns_core_api_t ns_mahony_current_version;
 
 typedef struct {
+  const ns_core_api_t *api;
   float q0;
   float q1;
   float q2;

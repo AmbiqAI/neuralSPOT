@@ -33,6 +33,8 @@ modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
+modules      += neuralspot/ns-features
+
 # ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
 # endif
@@ -84,6 +86,8 @@ else
 			modules      += examples/rpc_server
 			modules      += examples/ic
 			modules      += examples/mpu_data_collection
+			modules      += examples/quaternion
+
 # 			ifneq ($(BLE_SUPPORTED),1)
 # # Don't include it twice
 # 				modules  += examples/audio_codec

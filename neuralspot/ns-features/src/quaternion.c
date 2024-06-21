@@ -46,9 +46,15 @@ uint16_t ns_mahony_init(ns_mahony_cfg_t *cfg) {
  * Mahony update function (for 6DOF)
  */
 uint16_t ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, float ax, float ay, float az) {
-	if(cfg == NULL) {
-		return NS_STATUS_INVALID_HANDLE;
-	}
+	#ifndef NS_DISABLE_API_VALIDATION
+		if (cfg == NULL) {
+			return NS_STATUS_INVALID_HANDLE;
+		}
+
+		if (ns_core_check_api(cfg->api, &ns_mahony_oldest_supported_version, &ns_mahony_current_version)) {
+			return NS_STATUS_INVALID_VERSION;
+		}
+	#endif
 	float norm;
 	float halfvx, halfvy, halfvz;
 	float halfex, halfey, halfez;
@@ -124,9 +130,15 @@ uint16_t ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, fl
  * get quaternion
  */
 uint16_t ns_get_quaternion(ns_mahony_cfg_t *cfg, double *qw, double *qx, double *qy, double *qz) {
+#ifndef NS_DISABLE_API_VALIDATION
 	if(cfg == NULL || qw == NULL || qx == NULL || qy == NULL || qz == NULL) {
 		return NS_STATUS_INVALID_HANDLE;
 	}
+
+	if (ns_core_check_api(cfg->api, &ns_mahony_oldest_supported_version, &ns_mahony_current_version)) {
+		return NS_STATUS_INVALID_VERSION;
+	}
+#endif
 
 	*qw = cfg->q0;
 	*qx = cfg->q1;
@@ -143,9 +155,15 @@ uint16_t ns_get_quaternion(ns_mahony_cfg_t *cfg, double *qw, double *qx, double 
  * 3. rotate around sensor X plane by roll
  */
 uint16_t ns_get_RollPitchYaw(ns_mahony_cfg_t *cfg, double *roll, double *pitch, double *yaw) {
+#ifndef NS_DISABLE_API_VALIDATION
 	if(cfg == NULL || roll == NULL || pitch == NULL || yaw == NULL) {
 		return NS_STATUS_INVALID_HANDLE;
 	}
+
+	if (ns_core_check_api(cfg->api, &ns_mahony_oldest_supported_version, &ns_mahony_current_version)) {
+		return NS_STATUS_INVALID_VERSION;
+	}
+#endif
 	*yaw = atan2(2 * cfg->q1 * cfg->q2 - 2 * cfg->q0 * cfg->q3, 2*cfg->q0 * cfg->q0 + 2 * cfg->q1 * cfg->q1 - 1 + + 1e-4);
 	*pitch = -asin(2 * cfg->q1 * cfg->q3 + 2 * cfg->q0 * cfg->q2);
 	*roll = atan2(2 * cfg->q2 * cfg->q3 - 2 * cfg->q0 * cfg->q1, 2 * cfg->q0 * cfg->q0 + 2 * cfg->q3 * cfg->q3 - 1 + 1e-4);

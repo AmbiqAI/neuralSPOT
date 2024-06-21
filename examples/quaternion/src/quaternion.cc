@@ -1,29 +1,22 @@
 /**
- @file quaternion.cc
+ * @file quaternion.cc
+ * @author Evan Chen
+ * @brief Quaternion visualization using NeuralSPOT
+ * @version 0.1
+ * @date 2024-06-21
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
 
- @brief Quaternion visualization using NeuralSPOT
-
-**/
-
-
-// ARM perf requires ITM to be enabled, impacting power measurements.
-// For profiling measurements to work, example must be compiled using the MLPROFILE=1 make parameter
-#ifdef NS_MLPROFILE
-    #define MEASURE_ARM_PERF true
-#else
-    #define MEASURE_ARM_PERF false
-#endif
 
 #include <math.h>
-
 /// NeuralSPOT Includes
-#include "ns_energy_monitor.h"
 #include "ns_mpu6050_i2c_driver.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
 #include "quaternion.h"
-#include "har_peripherals.h"
-
+#include "quaternion_peripherals.h"
 #include <string.h>
 #include <cstdlib>
 #include <cstring>
@@ -62,20 +55,12 @@ int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-
-#ifdef ENERGY_MONITOR_ENABLE
-    ns_init_power_monitor_state();
-#endif
-    ns_set_power_monitor_state(NS_IDLE); // no-op if ns_init_power_monitor_state not called
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
 #ifndef LOWEST_POWER_MODE
     ns_itm_printf_enable();
 #endif
 
-#ifdef NS_MLPROFILE
-    NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
-#endif
 
    // DataBlock init
     binary_t binaryBlock = {.data = (uint8_t *)g_sensorData,
@@ -147,7 +132,6 @@ int main(void) {
 
     // Event loop
     while (1) {
-        ns_set_power_monitor_state(NS_DATA_COLLECTION);
         buttonPressed = false;
         int16_t accelVals[MPU_AXES];
         int16_t gyroVals[MPU_AXES];
@@ -165,12 +149,6 @@ int main(void) {
         ns_lp_printf("accel values: %f, %f, %f\n", finalAccel[0], finalAccel[1], finalAccel[2]);
         ns_lp_printf("gyro values: %f, %f, %f\n",finalGyro[0], finalGyro[1], finalGyro[2]);
         
-        // calculate and update quaternion values
-        // int status = ns_mahony_update(&mahony_cfg, finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]);
-        // if (status == NS_STATUS_INVALID_HANDLE) {
-        //     ns_lp_printf("Mahony update failed. mahony_cfg cannot be a null pointer.\n");
-        //     continue;
-        // }
         NS_TRY(ns_mahony_update(&mahony_cfg, finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]), "Mahony update failed.\n");
 
         double qw, qx, qy, qz;

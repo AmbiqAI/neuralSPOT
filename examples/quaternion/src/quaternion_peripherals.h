@@ -1,15 +1,14 @@
 /**
- * @file basic_peripherals.h
- * @author Carlos Morales
+ * @file quaternion_peripherals.h
+ * @author Evan Chen
  * @brief Basic peripheral stuff (buttons, etc)
  * @version 0.1
- * @date 2022-10-26
+ * @date 2024-06-21
  *
- * @copyright Copyright (c) 2022
+ * @copyright Copyright (c) 2024
  *
  */
 
-// #include "har.h"
 #include "ns_peripherals_button.h"
 #include "ns_timer.h"
 

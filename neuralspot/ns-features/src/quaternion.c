@@ -121,10 +121,6 @@ uint16_t ns_mahony_update(ns_mahony_cfg_t *cfg, float gx, float gy, float gz, fl
 }
 
 
-/*
- * update timer for attitude
- */
-// MPU6050_TIMERUPDATE
 
 /*
  * get quaternion

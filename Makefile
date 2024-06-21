@@ -33,6 +33,7 @@ modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
+modules      += neuralspot/ns-features
 
 # ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
@@ -41,7 +42,6 @@ modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
 	modules      += neuralspot/ns-usb
-	modules      += neuralspot/ns-features
 	modules      += neuralspot/ns-rpc
 endif
 

@@ -23,7 +23,7 @@ limitations under the License.
     #include <cstring>
 
     #include "tensorflow/lite/kernels/internal/compatibility.h"
-#ifdef NS_TFSTRUCTURE_RECENT
+    #ifdef NS_TFSTRUCTURE_RECENT
         #include "tensorflow/lite/micro/micro_log.h"
     #else
         #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -32,21 +32,40 @@ limitations under the License.
 
 namespace tflite {
 
-uint32_t
-MicroProfiler::BeginEvent(const char *tag) {
-    if (num_events_ == kMaxEvents) {
-        num_events_ = 0;
+uint32_t real_event = 0;
+
+uint32_t MicroProfiler::BeginEvent(const char *tag) {
+    // ns_lp_printf("Clobberdetector event %d real event %d, pointer 0x%x.\n", num_events_,
+    // real_event, ns_microProfilerSidecar.mac_count_map);
+    if (num_events_ == NS_PROFILER_MAX_EVENTS) {
+        // ns_lp_printf("MicroProfiler::BeginEvent: Exceeded maximum number of events %d.\n",
+        //              kMaxEvents);
+        // num_events_ = 0;
+        // return num_events_;
+        TFLITE_ASSERT_FALSE;
     }
 
+    real_event++;
     tags_[num_events_] = tag;
     start_ticks_[num_events_] = ns_us_ticker_read(ns_microProfilerTimer);
     ns_reset_perf_counters();
+    #ifndef AM_PART_APOLLO5A
     ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_start[num_events_]));
+    #endif
     ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_start[num_events_]));
     if (ns_microProfilerSidecar.has_estimated_macs) {
         ns_microProfilerSidecar.estimated_mac_count[num_events_] =
             ns_microProfilerSidecar
                 .mac_count_map[num_events_ % ns_microProfilerSidecar.number_of_layers];
+        // if (num_events_ < 50)
+        //     ns_lp_printf("Estimated MACs for %d: %d %d %d @ 0x%x\n",
+        //                 num_events_,
+        //                 ns_microProfilerSidecar.estimated_mac_count[num_events_],
+        //                 ns_microProfilerSidecar.mac_count_map[num_events_ %
+        //                 ns_microProfilerSidecar.number_of_layers],
+        //                 ns_microProfilerSidecar.mac_count_map[num_events_],
+        //                 ns_microProfilerSidecar.mac_count_map
+        //                 );
     }
     end_ticks_[num_events_] = start_ticks_[num_events_] - 1;
     // ns_lp_printf("START: %s handle %d: %d\n", tag, num_events_,
@@ -55,39 +74,42 @@ MicroProfiler::BeginEvent(const char *tag) {
     return num_events_++;
 }
 
-void
-MicroProfiler::EndEvent(uint32_t event_handle) {
+void MicroProfiler::EndEvent(uint32_t event_handle) {
+    // ns_lp_printf("MicroProfiler::EndEvent: event_handle %d, num_events_ %d addr et 0x%x addr ec
+    // 0x%x.\n", event_handle,
+    //              num_events_, &(end_ticks_[event_handle]), &num_events_);
     TFLITE_DCHECK(event_handle < kMaxEvents);
+
     end_ticks_[event_handle] = ns_us_ticker_read(ns_microProfilerTimer);
+    #ifndef AM_PART_APOLLO5A
     ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_end[event_handle]));
+    #endif
     ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_end[event_handle]));
     // ns_lp_printf("END: %d: %d\n", event_handle,
     // ns_microProfilerSidecar.perf_end[event_handle].lsucnt);
     // ns_print_perf_profile(&(ns_microProfilerSidecar.perf_end[num_events_]));
 }
 
-uint32_t
-MicroProfiler::GetTotalTicks() const {
+uint32_t MicroProfiler::GetTotalTicks() const {
     int32_t ticks = 0;
     for (int i = 0; i < num_events_; ++i) {
         ticks += end_ticks_[i] - start_ticks_[i];
     }
+    ns_lp_printf("GTT num_events_ %d, ticks %d.\n", num_events_, ticks);
     return ticks;
 }
 
-void
-MicroProfiler::Log() const {
+void MicroProfiler::Log() const {
     ns_perf_counters_t d;
     for (int i = 0; i < num_events_; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
-        ns_delta_perf(&(ns_microProfilerSidecar.perf_start[i]),
-                      &(ns_microProfilerSidecar.perf_end[i]), &d);
+        ns_delta_perf(
+            &(ns_microProfilerSidecar.perf_start[i]), &(ns_microProfilerSidecar.perf_end[i]), &d);
         MicroPrintf("%s took %d us (%d cycles).", tags_[i], ticks, d.cyccnt);
     }
 }
 
-void
-MicroProfiler::LogCsv() const {
+void MicroProfiler::LogCsv() const {
     ns_perf_counters_t p;
     ns_cache_dump_t c;
     uint32_t macs;
@@ -98,22 +120,36 @@ MicroProfiler::LogCsv() const {
         "\"fold\",\"daccess\",\"dtaglookup\",\"dhitslookup\",\"dhitsline\",\"iaccess\","
         "\"itaglookup\",\"ihitslookup\",\"ihitsline\"");
     for (int i = 0; i < num_events_; ++i) {
+        // for (int i = 0; i < 50; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
-        ns_delta_perf(&(ns_microProfilerSidecar.perf_start[i]),
-                      &(ns_microProfilerSidecar.perf_end[i]), &p);
-        ns_delta_cache(&(ns_microProfilerSidecar.cache_start[i]),
-                       &(ns_microProfilerSidecar.cache_end[i]), &c);
+        ns_delta_perf(
+            &(ns_microProfilerSidecar.perf_start[i]), &(ns_microProfilerSidecar.perf_end[i]), &p);
+        ns_delta_cache(
+            &(ns_microProfilerSidecar.cache_start[i]), &(ns_microProfilerSidecar.cache_end[i]), &c);
         if (ns_microProfilerSidecar.has_estimated_macs) {
+            // macs = ns_microProfilerSidecar
+            //            .mac_count_map[i % ns_microProfilerSidecar.number_of_layers];
             macs = ns_microProfilerSidecar
                        .estimated_mac_count[i % ns_microProfilerSidecar.number_of_layers];
+
+            // ns_lp_printf("Estimated MACs for %d: %d %d %d %d @ 0x%x\n", i, macs,
+            //              ns_microProfilerSidecar.estimated_mac_count[i],
+            //              ns_microProfilerSidecar.estimated_mac_count[i %
+            //              ns_microProfilerSidecar.number_of_layers],
+            //              ns_microProfilerSidecar.mac_count_map[i],
+            //             ns_microProfilerSidecar.mac_count_map
+
+            //              );
+
         } else {
             macs = 0;
         }
 
-        MicroPrintf("%d,%s,%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", i,
-                    tags_[i], ticks, macs, p.cyccnt, p.cpicnt, p.exccnt, p.sleepcnt, p.lsucnt,
-                    p.foldcnt, c.daccess, c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess,
-                    c.itaglookup, c.ihitslookup, c.ihitsline);
+        MicroPrintf(
+            "%d,%s,%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d", i, tags_[i],
+            ticks, macs, p.cyccnt, p.cpicnt, p.exccnt, p.sleepcnt, p.lsucnt, p.foldcnt, c.daccess,
+            c.dtaglookup, c.dhitslookup, c.dhitsline, c.iaccess, c.itaglookup, c.ihitslookup,
+            c.ihitsline);
 
     // Capture statistics for Validator if enabled
     #ifdef NS_TFLM_VALIDATOR
@@ -129,8 +165,7 @@ MicroProfiler::LogCsv() const {
     }
 }
 
-void
-MicroProfiler::LogTicksPerTagCsv() {
+void MicroProfiler::LogTicksPerTagCsv() {
     MicroPrintf("\"Unique Tag\",\"Total ticks across all events with that tag.\"");
     int total_ticks = 0;
     for (int i = 0; i < num_events_; ++i) {
@@ -159,8 +194,7 @@ MicroProfiler::LogTicksPerTagCsv() {
 // position of the matching element. But if it unable to find a matching element
 // with the given tag_name, it will return the next available empty position
 // from the array.
-int
-MicroProfiler::FindExistingOrNextPosition(const char *tag_name) {
+int MicroProfiler::FindExistingOrNextPosition(const char *tag_name) {
     int pos = 0;
     for (; pos < num_events_; pos++) {
         TicksPerTag each_tag_entry = total_ticks_per_tag[pos];

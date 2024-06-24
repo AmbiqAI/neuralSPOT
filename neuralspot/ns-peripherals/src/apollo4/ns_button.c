@@ -74,7 +74,7 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
         g_ns_peripheral_button1 = cfg->button_1_flag;
     }
     if (cfg->joulescope_trigger_enable) {
-        am_hal_gpio_pinconfig(24, am_hal_gpio_pincfg_input);
+        am_hal_gpio_pinconfig(ui32JoulescopeTriggerGpioNum, am_hal_gpio_pincfg_input);
         g_ns_peripheral_joulescope_trigger = cfg->joulescope_trigger_flag;
     }
 

@@ -59,7 +59,7 @@ typedef struct {
     ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
 #else
     void *tickTimer;
-    void *mac_estimate; ///< Optional, from tflm_profiler tool
+    void *mac_estimates; ///< Optional, from tflm_profiler tool
 #endif
     // State (init by baseline code)
     const tflite::Model *model;

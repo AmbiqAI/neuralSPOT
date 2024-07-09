@@ -54,7 +54,7 @@
     #ifdef __cplusplus
 extern "C" {
     #endif
-
+    #include "ns_core.h"
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"

@@ -54,6 +54,10 @@ void ns_lp_printf_no_itm_uart_test() {
     uint32_t status = ns_core_init(&cfg);
     ns_core_init(&cfg);
     ns_lp_printf("Hello, World!\n");
+    TEST_ASSERT_FALSE(g_ns_state.uartPrintCurrentlyEnabled);
+    TEST_ASSERT_FALSE(g_ns_state.itmPrintCurrentlyEnabled);
+    TEST_ASSERT_FALSE(g_ns_state.uartPrintWantsToBeEnabled);
+    TEST_ASSERT_FALSE(g_ns_state.itmPrintWantsToBeEnabled);
     TEST_ASSERT_EQUAL_STRING("", output_buffer);
 }
 
@@ -64,6 +68,8 @@ void itm_uart_enabled_test() {
     };
     uint32_t status = ns_core_init(&cfg);
     ns_core_init(&cfg);
+    ns_itm_printf_enable();
+    ns_uart_printf_enable();
     ns_lp_printf("Hello, World!\n");
 
     // Should probably fail?
@@ -71,7 +77,7 @@ void itm_uart_enabled_test() {
 }
 
 
-// Poorly formatted String
+// Poorly formatted String -- not sure how this should be handled yet
 void poorly_formatted_string_test() {
     ns_core_config_t cfg = {
         .api = &ns_core_V1_0_0
@@ -83,4 +89,30 @@ void poorly_formatted_string_test() {
     TEST_FAIL_MESSAGE("This test should not pass");
 }
 
+// Only itm enabled
+void itm_enabled_test() {
+    ns_core_config_t cfg = {
+        .api = &ns_core_V1_0_0
+    };
+    uint32_t status = ns_core_init(&cfg);
+    ns_core_init(&cfg);
+    ns_itm_printf_enable();
+    TEST_ASSERT_TRUE(g_ns_state.itmPrintCurrentlyEnabled);
+    TEST_ASSERT_TRUE(g_ns_state.itmPrintWantsToBeEnabled);
+    ns_lp_printf("Hello, World!\n");
+    TEST_ASSERT_EQUAL_STRING("Hello, World!\n", output_buffer);
+}
 
+// Only uart enabled
+void uart_enabled_test() {
+    ns_core_config_t cfg = {
+        .api = &ns_core_V1_0_0
+    };
+    uint32_t status = ns_core_init(&cfg);
+    ns_core_init(&cfg);
+    ns_uart_printf_enable();
+    TEST_ASSERT_TRUE(g_ns_state.uartPrintCurrentlyEnabled);
+    TEST_ASSERT_TRUE(g_ns_state.uartPrintWantsToBeEnabled);
+    ns_lp_printf("Hello, World!\n");
+    TEST_ASSERT_EQUAL_STRING("Hello, World!\n", output_buffer);
+}

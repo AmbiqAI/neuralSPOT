@@ -1,0 +1,12 @@
+#include "ns_audio.h"
+void ns_audio_tests_pre_test_hook();
+void ns_audio_tests_post_test_hook();
+void ns_audio_init_test();
+void ns_audio_api_test();
+void ns_audio_null_handle_test();
+void ns_audio_null_config_test();
+void ns_audio_audioSource_test();
+void ns_audio_num_samples_test();
+void ns_audio_num_channels_greater_than_2_test();
+void ns_audio_filled_buffer();
+void ns_audio_negative_sample_rate_test();

@@ -7,4 +7,5 @@ void ns_itm_printf_disable_test();
 void ns_lp_printf_no_itm_uart_test();
 void itm_uart_enabled_test();
 void poorly_formatted_string_test();
-
+void itm_enabled_test();
+void uart_enabled_test();

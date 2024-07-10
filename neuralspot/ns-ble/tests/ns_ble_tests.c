@@ -1,0 +1,236 @@
+#include "unity/unity.h"
+#include "ns_ble.h"
+void ns_ble_pre_test_hook() {
+    // pre test hook if needed
+}
+
+void ns_ble_post_test_hook() {
+    // post test hook if needed
+}
+
+static int webbleReadHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *dest) {
+    // ns_lp_printf("webblehandler\n");
+    memcpy(dest, c->applicationValue, c->valueLen);
+    return NS_STATUS_SUCCESS;
+}
+
+static int webbleWriteHandler(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *src) {
+    // ns_lp_printf("webbleWriteHandler value %x\n", *(uint8_t *)src);
+    memcpy(c->applicationValue, src, c->valueLen);
+    return NS_STATUS_SUCCESS;
+}
+
+// Basic test to check if the service is created
+void ns_ble_create_service_test() {
+    ns_ble_service_t service;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+    service.numAttributes = 0;
+    service.numCharacteristics = 10;
+    int status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+}
+
+// Service with no characteristics - should fail
+void ns_ble_create_service_test_no_characteristics() {
+    ns_ble_service_t service;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+    service.numAttributes = 0;
+    service.numCharacteristics = 0;
+    int status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_FAILURE, status);
+}
+
+// Should return failure if service is NULL
+void ns_ble_create_null_service_test() {
+    int status = ns_ble_create_service(NULL);
+    TEST_ASSERT_EQUAL(NS_STATUS_FAILURE, status);
+}
+
+// Should return Failure
+void ns_ble_negative_attribute_test() {
+    ns_ble_service_t service;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+    service.numAttributes = -1;
+    service.numCharacteristics = 10;
+    int status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_FAILURE, status);
+}
+
+
+// Test to check if the service is created with different values
+void ns_ble_create_different_service_test() {
+    ns_ble_service_t service;
+    char customName[] = "differentService";
+    NS_TRY(ns_ble_char2uuid(customUuid("1234"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, customName, sizeof(customName));
+    service.nameLen = sizeof(customName) - 1; // exclude null terminator
+    service.baseHandle = 0x1000;
+    service.numAttributes = 0;
+    service.numCharacteristics = 5;
+    int status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+}
+
+// Test creating and adding one characteristic
+void ns_ble_characteristic_test() {
+    ns_ble_service_t service;
+    ns_ble_characteristic_t temp;
+    float temperature = 0.0;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+    int status = ns_ble_create_characteristic(
+        &temp, nameUuid("2001"), &temperature, sizeof(temperature), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+    status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+    service.numAttributes = 0;
+    service.numCharacteristics = 1;
+    status = ns_ble_add_characteristic(&service, &temp);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+}
+
+// Test creating and adding multiple characteristics
+void ns_ble_multiple_characteristics_test() {
+    ns_ble_service_t service;
+    ns_ble_characteristic_t temp1, temp2;
+    float temperature1 = 0.0, temperature2 = 0.0;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+
+    // Create first characteristic
+    int status = ns_ble_create_characteristic(
+        &temp1, nameUuid("2001"), &temperature1, sizeof(temperature1), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    // Create second characteristic
+    status = ns_ble_create_characteristic(
+        &temp2, nameUuid("2002"), &temperature2, sizeof(temperature2), NS_BLE_WRITE,
+        NULL, &webbleWriteHandler, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    service.numAttributes = 0;
+    service.numCharacteristics = 2; // Number of characteristics being added
+
+    // Add characteristics to the service
+    status = ns_ble_add_characteristic(&service, &temp1);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    status = ns_ble_add_characteristic(&service, &temp2);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+}
+
+
+// Should fail due to characteristic mismatch
+void ns_ble_multiple_characteristics_fail_test() {
+    ns_ble_service_t service;
+    ns_ble_characteristic_t temp1, temp2;
+    float temperature1 = 0.0, temperature2 = 0.0;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+
+    // Create first characteristic
+    int status = ns_ble_create_characteristic(
+        &temp1, nameUuid("2001"), &temperature1, sizeof(temperature1), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    // Create second characteristic
+    status = ns_ble_create_characteristic(
+        &temp2, nameUuid("2002"), &temperature2, sizeof(temperature2), NS_BLE_WRITE,
+        NULL, &webbleWriteHandler, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    status = ns_ble_create_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    service.numAttributes = 0;
+    service.numCharacteristics = 1; // Mismatch
+
+    // Add characteristics to the service
+    status = ns_ble_add_characteristic(&service, &temp1);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    // Attempt to add the second characteristic
+    status = ns_ble_add_characteristic(&service, &temp2);
+    TEST_ASSERT_EQUAL(NS_STATUS_FAILURE, status); 
+}
+
+// Empty service when adding characteristic - should fail
+void ns_ble_empty_service_add_characteristic_test() {
+    ns_ble_service_t service;
+    ns_ble_characteristic_t temp1;
+    float temperature1 = 0.0;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+
+    // Create first characteristic
+    int status = ns_ble_create_characteristic(
+        &temp1, nameUuid("2001"), &temperature1, sizeof(temperature1), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    service.numAttributes = 0;
+    service.numCharacteristics = 1;
+
+    // Add characteristics to the EMPTY service
+    status = ns_ble_add_characteristic(NULL, &temp1);
+    TEST_ASSERT_EQUAL(NS_STATUS_FAILURE, status);
+}
+
+
+// Test starting a service
+void ns_ble_start_service_test() {
+    ns_ble_service_t service;
+    ns_ble_characteristic_t temp1;
+    float temperature1 = 0.0;
+    char ble_name[] = "name";
+    NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
+    memcpy(service.name, ble_name, sizeof(ble_name));
+    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    service.baseHandle = 0x0800;
+
+    // Create first characteristic
+    int status = ns_ble_create_characteristic(
+        &temp1, nameUuid("2001"), &temperature1, sizeof(temperature1), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(service.numAttributes));
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    service.numAttributes = 0;
+    service.numCharacteristics = 1;
+
+    status = ns_ble_add_characteristic(&service, &temp1);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+
+    status = ns_ble_start_service(&service);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
+}
+

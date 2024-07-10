@@ -22,7 +22,6 @@ static int webbleWriteHandler(ns_ble_service_t *s, struct ns_ble_characteristic 
 
 // Basic test to check if the service is created
 void ns_ble_create_service_test() {
-    
     ns_ble_service_t service;
     char ble_name[] = "name";
     NS_TRY(ns_ble_char2uuid(nameUuid("0000"), &(service.uuid128)), "Failed to convert UUID\n");
@@ -228,9 +227,8 @@ void ns_ble_start_service_test() {
     service.numAttributes = 0;
     service.numCharacteristics = 1;
 
-    // Add characteristics to the EMPTY service
-    status = ns_ble_add_characteristic(NULL, &temp1);
-    TEST_ASSERT_EQUAL(NS_STATUS_FAILURE, status);
+    status = ns_ble_add_characteristic(&service, &temp1);
+    TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
 
     status = ns_ble_start_service(&service);
     TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);

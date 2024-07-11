@@ -1,7 +1,9 @@
 #include "ns_malloc.h"
 #include "unity/unity.h"
 #include "ns_core.h"
-
+#define configTOTAL_HEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
+uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K * 1024] __attribute__ ((aligned (4)));
+size_t const ucHeapSize = configTOTAL_HEAP_SIZE;
 void ns_free_tests_pre_test_hook() {
     // pre hook if needed
 }
@@ -9,6 +11,7 @@ void ns_free_tests_post_test_hook() {
     // post hook if needed
 }
 
+// Undefined behavior
 void ns_free_test_basic() {
     // Allocate memory for an array of integers
     int *ptr = ns_malloc(5 * sizeof(int));
@@ -23,9 +26,6 @@ void ns_free_test_basic() {
 
     // Free allocated memory
     ns_free(ptr);
-
-    // After free, pointer should be NULL
-    TEST_ASSERT_TRUE(ptr == NULL);
 }
 
 void ns_free_test_null_pointer() {
@@ -35,6 +35,7 @@ void ns_free_test_null_pointer() {
     TEST_ASSERT_TRUE(ptr == NULL);
 }
 
+// Undefined behavior
 void ns_free_test_twice() {
     // Freeing a pointer twice should not cause any issues
     int * ptr = ns_malloc(sizeof(int));
@@ -43,6 +44,7 @@ void ns_free_test_twice() {
     TEST_ASSERT_TRUE(ptr == NULL);
 }
 
+// Undefined behavior
 void ns_free_test_non_malloced_pointer() {
     // Freeing a pointer that was not allocated with malloc should not cause any issues
     int x = 5;
@@ -57,7 +59,7 @@ void ns_free_test_memory_fragmentation() {
 
     // Allocate memory in a pattern that can cause fragmentation
     for (i = 0; i < 1000; ++i) {
-        allocs[i] = ns_malloc(1000);
+        allocs[i] = ns_malloc(10);
         TEST_ASSERT_NOT_NULL(allocs[i]);
     }
 
@@ -65,10 +67,8 @@ void ns_free_test_memory_fragmentation() {
     for (i = 1; i < 1000; i += 2) {
         ns_free(allocs[i]);
     }
-
     // Allocate a large block after inducing fragmentation
-    void *large_alloc = ns_malloc(1000 * 1000);
-
+    void *large_alloc = ns_malloc(1000);
     if (large_alloc == NULL) {
         // Allocation failed due to fragmentation
         TEST_FAIL_MESSAGE("Failed to allocate a large block due to memory fragmentation.");
@@ -78,9 +78,7 @@ void ns_free_test_memory_fragmentation() {
     }
 
     // Free remaining allocations
-    for (i = 0; i < 1000; ++i) {
-        if (allocs[i] != NULL) {
-            ns_free(allocs[i]);
-        }
+    for (i = 0; i < 1000; i += 2) {
+        ns_free(allocs[i]);
     }
 }

@@ -26,9 +26,6 @@ void ns_free_test_basic() {
 
     // Free allocated memory
     ns_free(ptr);
-    *ptr = 5;
-    // After free, pointer should be NULL
-    TEST_ASSERT_TRUE(*ptr == 5);
 }
 
 void ns_free_test_null_pointer() {

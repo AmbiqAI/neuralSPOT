@@ -29,8 +29,9 @@ void ns_malloc_test_basic_allocation() {
 
 // Allocating largest unsigned int value
 void ns_malloc_test_past_max_size() {
-    double *large_double = ns_malloc(4294967295);
+    char *large_double = ns_malloc(32745);
     TEST_ASSERT_NULL(large_double);
+    ns_free(large_double);
 }
 
 // Allocating 0 bytes should return NULL

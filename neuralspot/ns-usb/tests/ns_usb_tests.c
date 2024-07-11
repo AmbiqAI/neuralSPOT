@@ -1,5 +1,6 @@
 #include "ns_usb.h"
 #include "unity/unity.h"
+#include "ns_core.h"
 
 static uint8_t rx_buf[100];
 static uint8_t tx_buf[100];
@@ -7,7 +8,7 @@ static ns_usb_config_t cfg;
 
 static void reset_usb_cfg() {
     cfg.api = &ns_usb_V1_0_0;
-    cfg.deviceType = NS_USB_CDC_DEVICE;
+    cfg.deviceType = NS_USB_VENDOR_DEVICE;
     cfg.rx_buffer = rx_buf;
     cfg.rx_bufferLength = 10;
     cfg.tx_buffer = tx_buf;
@@ -46,11 +47,12 @@ void ns_usb_test_init_null_buffers() {
     cfg.tx_buffer = NULL;
     usb_handle_t * handle;
     uint32_t status = ns_usb_init(&cfg, handle);
-    TEST_ASSERT_EQUAL(NS_STATUS_INVALID_HANDLE, status);
+    TEST_ASSERT_EQUAL(NS_STATUS_INVALID_CONFIG, status);
 }
 
 // Invalid API
 void ns_usb_test_init_invalid_api() {
+    reset_usb_cfg();
     usb_handle_t * handle;
     uint32_t status = ns_usb_init(&cfg, handle);
     TEST_ASSERT_EQUAL(NS_STATUS_INVALID_HANDLE, status);

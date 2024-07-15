@@ -704,6 +704,7 @@ int ns_ble_char2uuid(char const uuidString[16], ns_ble_uuid128_t *uuid128) {
     for (int i = 0; i < 16; i++) {
         char c1 = uuidString[i * 2];
         char c2 = uuidString[i * 2 + 1];
+        ns_lp_printf("c1: %c, c2: %c\n", c1, c2);
         if (c1 >= '0' && c1 <= '9') {
             uuid128->array[15 - i] = (c1 - '0') << 4;
         } else if (c1 >= 'a' && c1 <= 'f') {

@@ -29,7 +29,7 @@ static void initialize_audio_config() {
     audioConfig.eAudioApiMode = NS_AUDIO_API_CALLBACK;
     audioConfig.callback = audio_frame_callback;
     audioConfig.audioBuffer = (void *)&audioDataBuffer;
-    audioConfig.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
+    audioConfig.eAudioSource = NS_AUDIO_SOURCE_PDM;
     audioConfig.sampleBuffer = dmaBuffer;
     audioConfig.workingBuffer = sLGSampleBuffer;
     audioConfig.numChannels = NUM_CHANNELS;
@@ -154,6 +154,5 @@ void ns_audio_negative_sample_rate_test() {
     initialize_audio_config();
     audioConfig.sampleRate = -1;
     int status = ns_audio_init(&audioConfig);
-    ns_lp_printf("status: %d\n", status);
     TEST_ASSERT_NOT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
 }

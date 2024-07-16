@@ -41,7 +41,9 @@ void ns_button_invalid_api_test() {
 
 void ns_button_init_both_buttons_enable_test() {
     reset_button_config();
+    volatile int g_intButtonPressed2 = 0;
     cfg.button_1_enable = true;
+    cfg.button_1_flag = &g_intButtonPressed2;
     TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, ns_peripheral_button_init(&cfg));
 }
 

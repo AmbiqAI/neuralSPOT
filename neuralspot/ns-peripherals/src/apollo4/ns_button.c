@@ -86,6 +86,9 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
 
     // Register interrupt handlers
     if (cfg->button_0_enable) {
+        if (cfg->button_0_flag == NULL) {
+            return NS_STATUS_INVALID_CONFIG;
+        }
         am_hal_gpio_interrupt_register(
             AM_HAL_GPIO_INT_CHANNEL_0, AM_BSP_GPIO_BUTTON0,
             (am_hal_gpio_handler_t)ns_button_0_handler, NULL);
@@ -94,6 +97,9 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
             (void *)&ui32BUTTON0GpioNum);
     }
     if (cfg->button_1_enable) {
+        if (cfg->button_1_flag == NULL) {
+            return NS_STATUS_INVALID_CONFIG;
+        }
         am_hal_gpio_interrupt_register(
             AM_HAL_GPIO_INT_CHANNEL_0, AM_BSP_GPIO_BUTTON1,
             (am_hal_gpio_handler_t)ns_button_1_handler, NULL);
@@ -102,6 +108,9 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
             (void *)&ui32BUTTON1GpioNum);
     }
     if (cfg->joulescope_trigger_enable) {
+        if (cfg->joulescope_trigger_flag == NULL) {
+            return NS_STATUS_INVALID_CONFIG;
+        }
         am_hal_gpio_interrupt_register(
             AM_HAL_GPIO_INT_CHANNEL_0, 24, (am_hal_gpio_handler_t)ns_joulescope_trigger_handler,
             NULL);

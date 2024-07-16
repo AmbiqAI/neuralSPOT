@@ -64,8 +64,11 @@ uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))
         return am_hal_burst_mode_enable(&eBurstMode);
-    else
+    else if (eAIPowerMode == NS_MINIMUM_PERF)
         return am_hal_burst_mode_disable(&eBurstMode);
+    else 
+        return NS_STATUS_FAILURE;
+    
 }
 
 //*****************************************************************************

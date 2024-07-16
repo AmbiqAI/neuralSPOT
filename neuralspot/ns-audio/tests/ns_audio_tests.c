@@ -152,7 +152,7 @@ void ns_audio_filled_buffer() {
 
 void ns_audio_negative_sample_rate_test() {
     initialize_audio_config();
-    audioConfig.sampleRate = -1;
+    audioConfig.sampleRate = -2;
     int status = ns_audio_init(&audioConfig);
-    TEST_ASSERT_NOT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
+    TEST_ASSERT_EQUAL(NS_STATUS_INVALID_CONFIG, status);
 }

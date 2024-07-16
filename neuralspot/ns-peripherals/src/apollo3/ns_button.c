@@ -58,10 +58,16 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
 
     // Configure the button pin.
     if (cfg->button_0_enable) {
+        if (cfg->button_0_flag == NULL) {
+            return NS_STATUS_INVALID_HANDLE;
+        }
         am_hal_gpio_pinconfig(AM_BSP_GPIO_BUTTON0, g_AM_BSP_GPIO_BUTTON0);
         g_ns_peripheral_button0 = cfg->button_0_flag;
     }
     if (cfg->button_1_enable) {
+        if (cfg->button_1_flag == NULL) {
+            return NS_STATUS_INVALID_HANDLE;
+        }
         am_hal_gpio_pinconfig(AM_BSP_GPIO_BUTTON1, g_AM_BSP_GPIO_BUTTON1);
         g_ns_peripheral_button1 = cfg->button_1_flag;
     }

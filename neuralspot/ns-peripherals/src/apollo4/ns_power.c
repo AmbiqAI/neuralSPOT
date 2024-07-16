@@ -54,8 +54,10 @@ uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
-    else
+    else if (eAIPowerMode == NS_MINIMUM_PERF)
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+    else 
+        return NS_STATUS_INVALID_CONFIG;
 
     return NS_STATUS_SUCCESS;
 }

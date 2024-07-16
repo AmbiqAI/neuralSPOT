@@ -704,7 +704,6 @@ int ns_ble_char2uuid(char const uuidString[16], ns_ble_uuid128_t *uuid128) {
     for (int i = 0; i < 8; i++) {
         char c1 = uuidString[i * 2];
         char c2 = uuidString[i * 2 + 1];
-        ns_lp_printf("c1: %c, c2: %c\n", c1, c2);
         if (c1 >= '0' && c1 <= '9') {
             uuid128->array[15 - i] = (c1 - '0') << 4;
         } else if (c1 >= 'a' && c1 <= 'f') {
@@ -777,7 +776,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     service->attributes = NULL;
     service->readCback = ns_ble_generic_read_cback;
     service->writeCback = ns_ble_generic_write_cback;
-    ns_lp_printf("0\n");
+
 
     // *** Fill in service attributes
     // Primary Service Declaration
@@ -796,7 +795,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     if (service->attributes == NULL) {
         return NS_STATUS_FAILURE;
     }
-    ns_lp_printf("1\n");
+
     // *** Service Attributes
     // Add primary service declaration
     memcpy(&(service->attributes[0]), &(service->primaryAttribute), sizeof(attsAttr_t));
@@ -810,7 +809,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
 
     // *** Discovery and Advertisement structs
     // Copy over the generic values, then overwrite with service-specific values
-    ns_lp_printf("2\n");
+
 
     // Advertisement Data
     service->advData = ns_malloc(sizeof(ns_ble_generic_data_disc));
@@ -822,7 +821,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     memcpy(
         service->advData + 12, &service->uuid128,
         sizeof(service->uuid128)); // uuid128 is at offset 12
-    ns_lp_printf("3\n");
+
 
     // Scan Data
     service->scanData = ns_malloc(sizeof(ns_ble_generic_scan_data_disc));
@@ -843,10 +842,10 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // The number of CCC attributes can be calculated from numCharacteristics and numAttributes
     // There are always at least 2 attributes (declaration and value). Characteristics
     // with CCC will have a 3rd attribute (CCC).
-        ns_lp_printf("4\n");
+
 
     uint16_t numCccAttributes = incomingNumAttributes - service->numCharacteristics * 2;
-            ns_lp_printf("5\n");
+
 
     service->cccSet =
         ns_malloc(sizeof(attsCccSet_t) * (numCccAttributes + 1)); // add one for GAT_SC

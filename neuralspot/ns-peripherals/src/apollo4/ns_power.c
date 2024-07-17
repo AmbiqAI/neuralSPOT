@@ -229,7 +229,9 @@ uint32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     ns_power_down_peripherals(pCfg);
 
     // Configure power mode
-    NS_TRY(ns_set_performance_mode(pCfg->eAIPowerMode), "Set CPU Perf mode failed.");
+    if(ns_set_performance_mode(pCfg->eAIPowerMode) != NS_STATUS_SUCCESS) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
 
     if (pCfg->b128kTCM == true) {
 

@@ -126,6 +126,7 @@ void ns_power_config_power_mode_test() {
 }
 
 void ns_power_config_all_true_test() {
+    reset_custom_cfg();
     custom_cfg.bNeedAudAdc = true;
     custom_cfg.bNeedSharedSRAM = true;
     custom_cfg.bNeedCrypto = true;
@@ -142,6 +143,7 @@ void ns_power_config_all_true_test() {
 }
 
 void ns_power_config_all_false_test() {
+    reset_custom_cfg();
     custom_cfg.bNeedAudAdc = false;
     custom_cfg.bNeedSharedSRAM = false;
     custom_cfg.bNeedCrypto = false;

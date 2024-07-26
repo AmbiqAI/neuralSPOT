@@ -49,19 +49,19 @@ typedef struct {
 
 typedef osal_semaphore_def_t* osal_semaphore_t;
 
-TU_ATTR_ALWAYS_INLINE static inline osal_semaphore_t osal_semaphore_create(osal_semaphore_def_t* semdef) {
+static inline osal_semaphore_t osal_semaphore_create(osal_semaphore_def_t* semdef) {
   semdef->count = 0;
   return semdef;
 }
 
-TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_post(osal_semaphore_t sem_hdl, bool in_isr) {
+static inline bool osal_semaphore_post(osal_semaphore_t sem_hdl, bool in_isr) {
   (void) in_isr;
   sem_hdl->count++;
   return true;
 }
 
 // TODO blocking for now
-TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_wait(osal_semaphore_t sem_hdl, uint32_t msec) {
+static inline bool osal_semaphore_wait(osal_semaphore_t sem_hdl, uint32_t msec) {
   (void) msec;
 
   while (sem_hdl->count == 0) {}
@@ -70,7 +70,7 @@ TU_ATTR_ALWAYS_INLINE static inline bool osal_semaphore_wait(osal_semaphore_t se
   return true;
 }
 
-TU_ATTR_ALWAYS_INLINE static inline void osal_semaphore_reset(osal_semaphore_t sem_hdl) {
+static inline void osal_semaphore_reset(osal_semaphore_t sem_hdl) {
   sem_hdl->count = 0;
 }
 

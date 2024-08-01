@@ -113,6 +113,9 @@ typedef struct
     uint16_t item_size : 15; // size of each item
     bool overwritable  : 1 ; // ovwerwritable when full
   };
+  
+  uint16_t non_used_index_space ; ///< required for non-power-of-two buffer length
+  uint16_t max_pointer_idx      ; ///< maximum absolute pointer index
 
   volatile uint16_t wr_idx ; // write index
   volatile uint16_t rd_idx ; // read index

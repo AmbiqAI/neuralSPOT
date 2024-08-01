@@ -67,8 +67,8 @@ typedef struct
   tu_fifo_t rx_ff;
   tu_fifo_t tx_ff;
 
-  uint8_t rx_ff_buf;
-  uint8_t tx_ff_buf;
+  uint8_t *rx_ff_buf;
+  uint8_t *tx_ff_buf;
 
   OSAL_MUTEX_DEF(rx_ff_mutex);
   OSAL_MUTEX_DEF(tx_ff_mutex);

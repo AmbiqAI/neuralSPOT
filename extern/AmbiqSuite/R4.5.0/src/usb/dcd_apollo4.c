@@ -30,7 +30,10 @@
 #include "device/usbd.h"
 
 #if TUSB_OPT_DEVICE_ENABLED && CFG_TUSB_MCU == OPT_MCU_APOLLO4
-
+#include "device/dcd.h"
+#include "am_mcu_apollo.h"
+#include "am_util_delay.h"
+#include "am_bsp.h"         // Declare BSP functions am_bsp_external_vddusb33_switch() and am_bsp_external_vddusb0p9_switch()
 //!
 //! This keeps track of init and power states for the USB module
 //!
@@ -476,18 +479,18 @@ dcd_init(uint8_t rhport)
     // set argument to true, as we want the clock enabled if
 	// high speed is enabled
     //
-    uint32_t ui32hfrc2_status = dcd_usb_setHFRC2(true);
+    // uint32_t ui32hfrc2_status = dcd_usb_setHFRC2(true);
 
     //
     // set USB PHY reset disable
     //
     am_hal_usb_disable_phy_reset_override();
 
-#if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_FULL_SPEED
-    am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_FULL;
-#else
-    am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_HIGH;
-#endif
+// #if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_FULL_SPEED
+//     am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_FULL;
+// #else
+//     am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_HIGH;
+// #endif
 
     // if (ui32hfrc2_status == AM_HAL_STATUS_SUCCESS) // NeuralSPOT TODO - this is a hack, enabling these lines kill RPC in some cases
     // {

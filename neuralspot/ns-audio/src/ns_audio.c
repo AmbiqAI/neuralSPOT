@@ -65,7 +65,7 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
         return NS_STATUS_INVALID_VERSION;
     }
 
-    if ((cfg->callback == NULL) || (cfg->audioBuffer == NULL) || (cfg->sampleBuffer == NULL)) {
+    if ((cfg->callback == NULL) || (cfg->audioBuffer == NULL) || (cfg->sampleBuffer == NULL) || ((uintptr_t)cfg->audioBuffer % 2 != 0)) {
         return NS_STATUS_INVALID_CONFIG;
     }
 
@@ -87,6 +87,11 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
     if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples * 2) {
         return NS_STATUS_INVALID_CONFIG;
     }
+    
+    if ((cfg->numChannels > 2) || ((cfg->sampleRate  != 8000) && cfg->sampleRate != 16000)) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
+
 #endif
 
     // cfg->api->initialized = true;

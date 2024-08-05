@@ -54,8 +54,10 @@ uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF))
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
-    else
+    else if (eAIPowerMode == NS_MINIMUM_PERF)
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+    else 
+        return NS_STATUS_INVALID_CONFIG;
 
     return NS_STATUS_SUCCESS;
 }
@@ -227,7 +229,9 @@ uint32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     ns_power_down_peripherals(pCfg);
 
     // Configure power mode
-    NS_TRY(ns_set_performance_mode(pCfg->eAIPowerMode), "Set CPU Perf mode failed.");
+    if(ns_set_performance_mode(pCfg->eAIPowerMode) != NS_STATUS_SUCCESS) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
 
     if (pCfg->b128kTCM == true) {
 

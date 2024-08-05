@@ -1,6 +1,6 @@
 #include "ns_ble.h"
-void ns_ble_pre_test_hook();
-void ns_ble_post_test_hook();
+void ns_ble_tests_pre_test_hook();
+void ns_ble_tests_post_test_hook();
 void ns_ble_create_service_test();
 void ns_ble_create_service_test_no_characteristics();
 void ns_ble_create_null_service_test();

@@ -701,7 +701,7 @@ int ns_ble_char2uuid(char const uuidString[16], ns_ble_uuid128_t *uuid128) {
     // Written by CoPilot!
 
     // ns_lp_printf("ns_ble_char2uuid: %s\n", uuidString);
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 8; i++) {
         char c1 = uuidString[i * 2];
         char c2 = uuidString[i * 2 + 1];
         if (c1 >= '0' && c1 <= '9') {
@@ -777,6 +777,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     service->readCback = ns_ble_generic_read_cback;
     service->writeCback = ns_ble_generic_write_cback;
 
+
     // *** Fill in service attributes
     // Primary Service Declaration
     service->primaryAttributeLen = sizeof(service->uuid128.array); // need a pointer for some reason
@@ -794,6 +795,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     if (service->attributes == NULL) {
         return NS_STATUS_FAILURE;
     }
+
     // *** Service Attributes
     // Add primary service declaration
     memcpy(&(service->attributes[0]), &(service->primaryAttribute), sizeof(attsAttr_t));
@@ -808,6 +810,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // *** Discovery and Advertisement structs
     // Copy over the generic values, then overwrite with service-specific values
 
+
     // Advertisement Data
     service->advData = ns_malloc(sizeof(ns_ble_generic_data_disc));
     if (service->advData == NULL) {
@@ -818,6 +821,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     memcpy(
         service->advData + 12, &service->uuid128,
         sizeof(service->uuid128)); // uuid128 is at offset 12
+
 
     // Scan Data
     service->scanData = ns_malloc(sizeof(ns_ble_generic_scan_data_disc));
@@ -838,7 +842,11 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // The number of CCC attributes can be calculated from numCharacteristics and numAttributes
     // There are always at least 2 attributes (declaration and value). Characteristics
     // with CCC will have a 3rd attribute (CCC).
+
+
     uint16_t numCccAttributes = incomingNumAttributes - service->numCharacteristics * 2;
+
+
     service->cccSet =
         ns_malloc(sizeof(attsCccSet_t) * (numCccAttributes + 1)); // add one for GAT_SC
     if (service->cccSet == NULL) {
@@ -873,7 +881,6 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     service->control->handler_init_cb = &ns_ble_new_handler_init;
     service->control->handler_cb = &ns_ble_new_handler;
     service->control->procMsg_cb = &ns_ble_new_proc_msg;
-
     // Generic_init will fill in g_ns_ble_control with handlerIds
     // (after initializing the cordio stack.)
     ns_ble_generic_init(TRUE, &g_ns_ble_control, service->control);

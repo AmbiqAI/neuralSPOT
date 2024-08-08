@@ -5,7 +5,7 @@ set -e
 echo "Running all makes for Apollo4 Lite"
 for PL in "apollo4l_evb" "apollo4l_blue_evb"; do
     for TF in "d5f819d_Aug_10_2023" "0264234_Nov_15_2023" "ce72f7b8_Feb_17_2024" "fecdd5d"; do
-        for AS in "R4.4.1" ; do
+        for AS in "R4.4.1" "R4.5.0"; do
             make -f Makefile PLATFORM=${PL} clean > /dev/null
             make -f Makefile PLATFORM=${PL} AS_VERSION=${AS} TF_VERSION=${TF} -j > /dev/null && echo "Make PLATFORM=$PL AS_VERSION=$AS TF_VERSION=$TF success" || echo "Make PLATFORM=$PL AS_VERSION=$AS TF_VERSION=$TF failed"
             make -f Makefile PLATFORM=${PL} AS_VERSION=${AS} TF_VERSION=${TF} nestall > /dev/null > /dev/null && echo "Make Nestall PLATFORM=$PL AS_VERSION=$AS TF_VERSION=$TF success" || echo "Make PLATFORM=$PL Nestall AS_VERSION=$AS TF_VERSION=$TF failed"
@@ -21,7 +21,7 @@ done
 echo "Running all makes for Apollo4p"
 for PL in "apollo4p_evb" "apollo4p_blue_kbr_evb" "apollo4p_blue_kxr_evb"; do
     for TF in "d5f819d_Aug_10_2023" "0264234_Nov_15_2023" "ce72f7b8_Feb_17_2024" "fecdd5d"; do
-        for AS in "R4.4.1" "R4.3.0"; do
+        for AS in "R4.4.1" "R4.3.0"  "R4.5.0"; do
         # for AS in "R4.3.0" "R4.2.0" "R4.1.0"; do
             make -f Makefile clean > /dev/null
             make -f Makefile PLATFORM=${PL} AS_VERSION=${AS} TF_VERSION=${TF} -j > /dev/null && echo "Make PLATFORM=$PL AS_VERSION=$AS TF_VERSION=$TF success" || echo "Make PLATFORM=$PL AS_VERSION=$AS TF_VERSION=$TF failed"

@@ -2,6 +2,7 @@
 
 # PLATFORM := apollo3_evb
 # AS_VERSION := R3.1.1
+# AS_VERSION := R4.5.0
 #
 # PLATFORM := apollo4p_blue_kxr_evb
 # EXAMPLE := ap3

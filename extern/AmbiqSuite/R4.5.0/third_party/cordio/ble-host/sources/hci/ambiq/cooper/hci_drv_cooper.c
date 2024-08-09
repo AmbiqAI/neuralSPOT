@@ -65,6 +65,7 @@
 
 #include "hci_drv_cooper.h"
 #include "hci_dbg_trc.h"
+#include "ns_ambiqsuite_harness.h"
 
 #include <string.h>
 

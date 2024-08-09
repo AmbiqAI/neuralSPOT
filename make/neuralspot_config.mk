@@ -65,7 +65,7 @@ BINDIR := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 
 ##### Extern Library Defaults #####
 ifndef AS_VERSION
-AS_VERSION := R4.4.1
+AS_VERSION := R4.5.0
 endif
 ifndef TF_VERSION
 TF_VERSION := ce72f7b8_Feb_17_2024
@@ -105,15 +105,19 @@ endif
 
 # $(info BLE_PRESENT: $(BLE_PRESENT))
 
-ifeq ($(BLE_PRESENT),1)
-	ifeq ($(AS_VERSION),R4.3.0)
-		DEFINES+= NS_BLE_SUPPORTED
-	else ifeq ($(AS_VERSION),R4.4.1)
-		DEFINES+= NS_BLE_SUPPORTED
-	else ifeq ($(AS_VERSION),R3.1.1)
-		DEFINES+= NS_BLE_SUPPORTED
-	endif
-endif
+# ifeq ($(BLE_PRESENT),1)
+# 	ifeq ($(AS_VERSION),R4.3.0)
+# 		DEFINES+= NS_BLE_SUPPORTED
+# 	else ifeq ($(AS_VERSION),R4.4.1)
+# 		DEFINES+= NS_BLE_SUPPORTED
+# 	else ifeq ($(AS_VERSION),R4.5.0)
+# 		DEFINES+= NS_BLE_SUPPORTED
+# 	else ifeq ($(AS_VERSION),R3.1.1)
+# 		DEFINES+= NS_BLE_SUPPORTED
+# 	endif
+# endif
+
+# $(info DEFINES: $(DEFINES))
 
 # Set USB
 ifeq ($(PART),apollo4p)
@@ -180,6 +184,11 @@ else ifeq ($(AS_VERSION),R4.4.1)
 	ifeq ($(BLE_SUPPORTED),1)
 		DEFINES+= NS_BLE_SUPPORTED
 	endif
+else ifeq ($(AS_VERSION),R4.5.0)
+	BLE_SUPPORTED := $(BLE_PRESENT)
+	ifeq ($(BLE_SUPPORTED),1)
+		DEFINES+= NS_BLE_SUPPORTED
+	endif
 else ifeq ($(AS_VERSION),R3.1.1)
 	BLE_SUPPORTED := $(BLE_PRESENT)
 	ifeq ($(BLE_SUPPORTED),1)
@@ -188,6 +197,10 @@ else ifeq ($(AS_VERSION),R3.1.1)
 else
 	BLE_SUPPORTED := 0
 endif
+
+# $(info BLE_SUPPORTED: $(BLE_SUPPORTED))
+# $(info DEFINES: $(DEFINES))
+
 
 DEFINES+= SEC_ECC_CFG=SEC_ECC_CFG_HCI
 # DEFINES+= WSF_TRACE_ENABLED

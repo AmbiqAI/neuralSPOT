@@ -34,8 +34,8 @@
 #include <stdbool.h>
 #include "hci_drv_apollo.h"
 #include "dm_api.h"
-
 #include "am_mcu_apollo.h"
+#include "ns_ambiqsuite_harness.h"
 
 /**************************************************************************************************
   Macros

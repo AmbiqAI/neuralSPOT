@@ -59,7 +59,7 @@ static void *pUSBHandle = NULL;
 
 static void dcd_usb_dev_evt_callback(am_hal_usb_dev_event_e eDevState);
 
-static uint32_t dcd_usb_setHFRC2(bool bEnableClock);
+// static uint32_t dcd_usb_setHFRC2(bool bEnableClock);
 
 static void dcd_usb_ep_xfer_complete_callback(const uint8_t ep_addr,
                                               const uint16_t xfer_len,
@@ -370,20 +370,20 @@ static am_hal_usb_charger_type_e dcd_usb_charger_type;
 //! @param enable  false will disable HFRC2
 //
 //*****************************************************************************
-static uint32_t
-dcd_usb_setHFRC2(bool bEnableClock)
-{
+// static uint32_t
+// dcd_usb_setHFRC2(bool bEnableClock)
+// {
 
-    am_hal_usb_hs_clock_type am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_DISABLE ;
-    if ( bEnableClock )
-    {
-#if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_HIGH_SPEED
-        am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_HFRC2_ADJ;
-#endif
-    }
-    return am_hal_usb_control(AM_HAL_CLKGEN_CONTROL_SET_HFRC2_TYPE, &am_hal_hfrc2_clock_type ) ;
+//     am_hal_usb_hs_clock_type am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_DISABLE ;
+//     if ( bEnableClock )
+//     {
+// #if BOARD_DEVICE_RHPORT_SPEED == OPT_MODE_HIGH_SPEED
+//         am_hal_hfrc2_clock_type = AM_HAL_USB_HS_CLK_HFRC2_ADJ;
+// #endif
+//     }
+//     return am_hal_usb_control(AM_HAL_CLKGEN_CONTROL_SET_HFRC2_TYPE, &am_hal_hfrc2_clock_type ) ;
 
-}
+// }
 
 /*------------------------------------------------------------------*/
 

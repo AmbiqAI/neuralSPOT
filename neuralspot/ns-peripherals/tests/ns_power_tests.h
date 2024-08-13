@@ -3,7 +3,6 @@
 
 void ns_power_tests_pre_test_hook();
 void ns_power_tests_post_test_hook();
-void ns_power_config_no_core_init_test();
 void ns_power_config_null_test();
 void ns_power_config_test();
 void ns_power_config_invalid_api_test();

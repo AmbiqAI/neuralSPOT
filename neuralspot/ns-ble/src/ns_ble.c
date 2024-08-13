@@ -438,10 +438,8 @@ void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg) {
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
-
     // Boot the radio.
     HciDrvRadioBoot(1);
-
     // Initialize the control block.
     if (useDefault) {
         memset(&g_ns_ble_control, 0, sizeof(g_ns_ble_control));
@@ -504,7 +502,7 @@ void ns_ble_generic_init(
     DmSecLescInit();
     DmPrivInit();
     DmHandlerInit(handlerId);
-
+    
     handlerId = WsfOsSetNextHandler(L2cSlaveHandler);
     L2cSlaveHandlerInit(handlerId);
     L2cInit();

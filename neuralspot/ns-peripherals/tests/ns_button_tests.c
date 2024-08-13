@@ -53,6 +53,7 @@ void ns_button_init_both_buttons_disable_test() {
     cfg.button_0_enable = false;
     cfg.button_1_enable = false;
     TEST_ASSERT_NOT_EQUAL(NS_STATUS_SUCCESS, ns_peripheral_button_init(&cfg));
+    
 }
 
 void ns_button_init_joulescope_trigger_enable_test() {

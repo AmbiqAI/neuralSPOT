@@ -8,5 +8,5 @@ void ns_audio_null_config_test();
 void ns_audio_audioSource_test();
 void ns_audio_num_samples_test();
 void ns_audio_num_channels_greater_than_2_test();
-void ns_audio_filled_buffer();
+void ns_audio_pdm_config_test();
 void ns_audio_negative_sample_rate_test();

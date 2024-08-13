@@ -701,7 +701,7 @@ int ns_ble_char2uuid(char const uuidString[16], ns_ble_uuid128_t *uuid128) {
     // Written by CoPilot!
 
     // ns_lp_printf("ns_ble_char2uuid: %s\n", uuidString);
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 8; i++) {
         char c1 = uuidString[i * 2];
         char c2 = uuidString[i * 2 + 1];
         if (c1 >= '0' && c1 <= '9') {

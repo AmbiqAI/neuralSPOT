@@ -3,6 +3,28 @@
 #define configTOTAL_HEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
 uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K * 1024] __attribute__ ((aligned (4)));
 size_t const ucHeapSize = configTOTAL_HEAP_SIZE;
+#define webbleUuid(uuid) "19b10000" uuid "537e4f6cd104768a1214"
+#define WEBBLE_WSF_BUFFER_POOLS 4
+#define WEBBLE_WSF_BUFFER_SIZE                                                                     \
+    (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 280 * 14) / sizeof(uint32_t)
+static uint32_t webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE];
+static wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS] = {
+    {16, 8}, // 16 bytes, 8 buffers
+    {32, 4},
+    {64, 6},
+    {512, 14}};
+static ns_ble_pool_config_t webbleWsfBuffers = {
+    .pool = webbleWSFBufferPool,
+    .poolSize = sizeof(webbleWSFBufferPool),
+    .desc = webbleBufferDescriptors,
+    .descNum = WEBBLE_WSF_BUFFER_POOLS};
+ns_ble_service_t webbleService; // Webble Service
+float temperature = 0.0;
+uint16_t humidity = 2;
+// Webble Service Characteristics
+ns_ble_characteristic_t webbleTemperature, webbleHumidity, webblePressure;
+ns_ble_characteristic_t webbleAccel, webbleGyro, webbleQuat;
+ns_ble_characteristic_t webbleRgb, webbleBsec, webbleCo2, webbleGas;
 void ns_ble_tests_pre_test_hook() {
     // pre test hook if needed
 }
@@ -25,15 +47,23 @@ static int webbleWriteHandler(ns_ble_service_t *s, struct ns_ble_characteristic 
 
 // Basic test to check if the service is created
 void ns_ble_create_service_test() {
-    ns_ble_service_t service;
     char ble_name[] = "abcabcabcabcabca";
-    NS_TRY(ns_ble_char2uuid(ble_name, &(service.uuid128)), "Failed to convert UUID\n");
-    memcpy(service.name, ble_name, sizeof(ble_name));
-    service.nameLen = sizeof(ble_name) - 1; // exclude null terminator
-    service.baseHandle = 0x0800;
-    service.numAttributes = 0;
-    service.numCharacteristics = 10;
-    int status = ns_ble_create_service(&service);
+    NS_TRY(ns_ble_char2uuid(webbleUuid("0000"), &(webbleService.uuid128)), "Failed to convert UUID\n");
+    memcpy(webbleService.name, ble_name, sizeof(ble_name));
+    webbleService.nameLen = sizeof(ble_name) - 1; // exclude null terminator
+    webbleService.baseHandle = 0x0800;
+    webbleService.numAttributes = 0;
+    ns_ble_create_characteristic(
+        &webbleTemperature, webbleUuid("2001"), &temperature, sizeof(temperature), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(webbleService.numAttributes));
+
+    ns_ble_create_characteristic(
+        &webbleHumidity, webbleUuid("3001"), &humidity, sizeof(humidity), NS_BLE_READ,
+        &webbleReadHandler, NULL, NULL, 0, false, &(webbleService.numAttributes));
+    webbleService.poolConfig = &webbleWsfBuffers;
+    webbleService.numCharacteristics = 2;
+    int status = ns_ble_create_service(&webbleService);
+    ns_lp_printf("Service created\n");
     TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS, status);
 }
 

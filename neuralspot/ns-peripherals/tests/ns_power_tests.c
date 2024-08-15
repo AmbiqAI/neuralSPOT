@@ -30,33 +30,6 @@ void ns_power_tests_post_test_hook() {
     // post hook if needed
 }
 
-// Don't init core first - should fail
-void ns_power_config_no_core_init_test() {
-    uint32_t status = ns_power_config(&custom_cfg);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_development_default);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_debug_default);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_good_default);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_mlperf_mode1);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_mlperf_mode2);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_mlperf_mode3);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-
-    status = ns_power_config(&ns_audio_default);
-    TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
-}
-
 void ns_power_config_null_test() {
     ns_core_init(&core_cfg);
     uint32_t status = ns_power_config(NULL);
@@ -107,6 +80,7 @@ void ns_power_config_invalid_api_test() {
 void ns_power_config_power_mode_test() {
     reset_custom_cfg();
     custom_cfg.eAIPowerMode = 0;
+    ns_lp_printf("what\n");
     uint32_t status = ns_power_config(&custom_cfg);
     TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
 

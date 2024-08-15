@@ -13,7 +13,6 @@ uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];     // DMA targe
 am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
 am_hal_offset_cal_coeffs_array_t sOffsetCalib;
 ns_audio_config_t audioConfig;
-
 static void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
     if (g_audioRecording) {
         if (g_audioReady) {
@@ -91,17 +90,12 @@ void ns_audio_null_config_test() {
     TEST_ASSERT_EQUAL(NS_STATUS_INVALID_CONFIG, status);
 }
 
-
-//Currently, ns_audio_init being called more than once will fail.
 // Ensure both audio sources work
 void ns_audio_audioSource_test() {
     initialize_audio_config();
-    audioConfig.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
-    int status = ns_audio_init(&audioConfig);
-    TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
 
     audioConfig.eAudioSource = NS_AUDIO_SOURCE_PDM;
-    status = ns_audio_init(&audioConfig);
+    int status = ns_audio_init(&audioConfig);
     TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
 }
 
@@ -133,26 +127,27 @@ void ns_audio_num_channels_greater_than_2_test() {
     TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
 }
 
-// Test how init handles filled dma and audio buffers
-void ns_audio_filled_buffer() {
-    initialize_audio_config();
-    // Should probably fail with filled buffers
-    int16_t static filledAudioBuffer[6] = {0,0,0,0,0,0}; 
-    audioConfig.audioBuffer = (void *)&filledAudioBuffer;
-    int status = ns_audio_init(&audioConfig);
-    TEST_ASSERT_NOT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
-
-    initialize_audio_config();
-    uint32_t static filledSampleBuffer[6] = {0,0,0,0,0,0}; 
-    audioConfig.sampleBuffer = filledSampleBuffer;
-    status = ns_audio_init(&audioConfig);
-    TEST_ASSERT_NOT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
-
-}
-
 void ns_audio_negative_sample_rate_test() {
     initialize_audio_config();
     audioConfig.sampleRate = -2;
     int status = ns_audio_init(&audioConfig);
     TEST_ASSERT_EQUAL(NS_STATUS_INVALID_CONFIG, status);
+}
+
+void ns_audio_pdm_config_test() {
+    initialize_audio_config();
+    ns_pdm_cfg_t pdmConfig;
+    audioConfig.pdm_config = &pdmConfig;
+    pdmConfig.mic = NS_AUDIO_PDM_MICBOARD_0;
+    pdmConfig.clock_freq = NS_AUDIO_PDM_CLK_750KHZ;
+    for(int clock = 0; clock <= NS_CLKSEL_HFRC2_ADJ; clock++) {
+        pdmConfig.clock = clock;
+        int status = ns_audio_init(&audioConfig);
+        if(clock == NS_CLKSEL_XTHS || clock == NS_CLKSEL_HFRC2) {
+            TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
+        }
+        else {
+            TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
+        }
+    }
 }

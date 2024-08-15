@@ -438,10 +438,8 @@ void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg) {
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
-
     // Boot the radio.
     HciDrvRadioBoot(1);
-
     // Initialize the control block.
     if (useDefault) {
         memset(&g_ns_ble_control, 0, sizeof(g_ns_ble_control));
@@ -504,7 +502,7 @@ void ns_ble_generic_init(
     DmSecLescInit();
     DmPrivInit();
     DmHandlerInit(handlerId);
-
+    
     handlerId = WsfOsSetNextHandler(L2cSlaveHandler);
     L2cSlaveHandlerInit(handlerId);
     L2cInit();
@@ -777,7 +775,6 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     service->readCback = ns_ble_generic_read_cback;
     service->writeCback = ns_ble_generic_write_cback;
 
-
     // *** Fill in service attributes
     // Primary Service Declaration
     service->primaryAttributeLen = sizeof(service->uuid128.array); // need a pointer for some reason
@@ -810,7 +807,6 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // *** Discovery and Advertisement structs
     // Copy over the generic values, then overwrite with service-specific values
 
-
     // Advertisement Data
     service->advData = ns_malloc(sizeof(ns_ble_generic_data_disc));
     if (service->advData == NULL) {
@@ -821,7 +817,6 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     memcpy(
         service->advData + 12, &service->uuid128,
         sizeof(service->uuid128)); // uuid128 is at offset 12
-
 
     // Scan Data
     service->scanData = ns_malloc(sizeof(ns_ble_generic_scan_data_disc));
@@ -843,9 +838,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // There are always at least 2 attributes (declaration and value). Characteristics
     // with CCC will have a 3rd attribute (CCC).
 
-
     uint16_t numCccAttributes = incomingNumAttributes - service->numCharacteristics * 2;
-
 
     service->cccSet =
         ns_malloc(sizeof(attsCccSet_t) * (numCccAttributes + 1)); // add one for GAT_SC

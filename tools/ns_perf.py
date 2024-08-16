@@ -165,26 +165,19 @@ if __name__ == "__main__":
     if cli_params.configfile:
         yaml_params = load_yaml_config(cli_params.configfile)
 
-    # Prepare the default values
+    # prepare the default values
     default_params = Params()
 
-    # Update from YAML config
+    # update from YAML config
     updated_params = default_params.dict()
     updated_params.update(yaml_params)
     
-    # Override with CLI params
-    cli_dict = cli_params.dict(exclude_unset=True)  # Exclude unset fields
+    # override with CLI params
+    cli_dict = cli_params.dict(exclude_unset=True)  # exclude unset fields
     updated_params.update(cli_dict)
-    print(updated_params)
-    # Create Params instance with updated values
-    params = Params(**updated_params)
-    # # override parameters from config file
-    # json_params = cli_params.json()
-    # dict_params = json.loads(json_params)
-    # yaml_params.update(dict_params)
 
-    # print(yaml_params)
-    # params = Params(**yaml_params)
+    # create Params instance with updated values
+    params = Params(**updated_params)
 
     results = adResults(params)
 

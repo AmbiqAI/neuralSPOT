@@ -1,6 +1,6 @@
 import logging as log
 import pickle
-
+import yaml
 import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
@@ -41,6 +41,10 @@ class Params(BaseModel):
 
     tflite_filename: str = Field(
         "model.tflite", description="Name of tflite model to be analyzed"
+    )
+
+    configfile: str = Field(
+        "", description="Optional configuration file for parameters"
     )
 
     # Create Binary Parameters
@@ -209,11 +213,37 @@ Notes:
             self.powerMaxPerfJoules = uJoules
             self.powerMaxPerfWatts = mWatts
 
+def load_yaml_config(configfile):
+    with open(configfile, "r") as f:
+        try:
+            return yaml.safe_load(f)
+        except yaml.YAMLError as exc:
+            print(exc)
 
 if __name__ == "__main__":
     # parse cmd parameters
     parser = create_parser()
-    params = parser.parse_typed_args()
+    cli_params = parser.parse_typed_args()
+
+    # load yaml config
+    yaml_params = {}
+    if cli_params.configfile:
+        yaml_params = load_yaml_config(cli_params.configfile)
+
+    # prepare the default values
+    default_params = Params()
+
+    # update from YAML config
+    updated_params = default_params.dict()
+    updated_params.update(yaml_params)
+    
+    # override with CLI params
+    cli_dict = cli_params.dict(exclude_unset=True)  # exclude unset fields
+    updated_params.update(cli_dict)
+    
+    # create Params instance with updated values
+    params = Params(**updated_params)
+
     results = adResults(params)
 
     print("")  # put a blank line between obnoxious TF output and our output

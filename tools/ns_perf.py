@@ -1,7 +1,7 @@
 import json
 import logging as log
 import pickle
-
+import yaml
 import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
@@ -148,21 +148,36 @@ Notes:
             self.powerMaxPerfJoules = uJoules
             self.powerMaxPerfWatts = mWatts
 
+def load_yaml_config(configfile):
+    with open(configfile, "r") as f:
+        try:
+            return yaml.safe_load(f)
+        except yaml.YAMLError as exc:
+            print(exc)
 
 if __name__ == "__main__":
     # parse cmd parameters
     parser = create_parser()
     cli_params = parser.parse_typed_args()
 
-    # override parameters from config file
-    json_params = cli_params.json()
-    dict_params = json.loads(json_params)
+    # load yaml config
+    yaml_params = {}
     if cli_params.configfile:
-        with open(cli_params.configfile, "r") as f:
-            config = json.load(f)
-            dict_params.update(config)
+        yaml_params = load_yaml_config(cli_params.configfile)
 
-    params = Params(**dict_params)
+    # prepare the default values
+    default_params = Params()
+
+    # update from YAML config
+    updated_params = default_params.dict()
+    updated_params.update(yaml_params)
+    
+    # override with CLI params
+    cli_dict = cli_params.dict(exclude_unset=True)  # exclude unset fields
+    updated_params.update(cli_dict)
+
+    # create Params instance with updated values
+    params = Params(**updated_params)
 
     results = adResults(params)
 

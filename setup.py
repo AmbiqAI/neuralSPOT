@@ -47,5 +47,6 @@ setup(
         "pyogg",
         "wave",
         "erpc @ git+https://github.com/ambiqai/erpc.git#egg=erpc&subdirectory=erpc_python",
+        "PyYAML",
     ],
 )

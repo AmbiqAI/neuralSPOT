@@ -1,5 +1,5 @@
 seed: 1000
-create_binary: false
+create_binary: true
 create_profile: true
 create_library: true
 create_ambiqsuite_example: true

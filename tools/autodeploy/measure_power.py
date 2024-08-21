@@ -59,6 +59,8 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     rm = {
         "NS_AD_NAME": n,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
+        "NS_AD_MODEL_LOCATION": f"NS_AD_{params.model_location}",
+        "NS_AD_ARENA_LOCATION": f"NS_AD_{params.arena_location}",
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
@@ -102,14 +104,25 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Copy needed files
     os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/src/")
-
+    
+    postfix = ""
+    if params.model_location == "SRAM":
+        loc = "const" # will be compied over to SRAM
+        postfix = "_for_sram"
+    elif params.model_location == "MRAM":
+        loc = "const"
+    elif params.model_location == "PSRAM":
+        loc = "const" # needs to be copied to PSRAM from MRAM
+    else:
+        loc = ""
     # Generate model weight file
     xxd_c_dump(
         src_path=params.tflite_filename,
         dst_path=f"{d}/{n}/src/{n}_model_data.h",
-        var_name=f"{n}_model",
+        var_name=f"{n}_model{postfix}",
         chunk_len=12,
         is_header=True,
+        loc = loc,
     )
 
     # Generate input/output tensor example data

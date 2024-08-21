@@ -12,19 +12,29 @@
 
 #include <cstdlib>
 #include <cstring>
+// #include "ns_model.h"
+// #include "ns_ambiqsuite_harness.h"
 
-#include "mut_model_data.h"
+// #include "mut_model_data.h"
+// #include "mut_model_metadata.h"
+// #include "tflm_validator.h"
+
+// #include "ns_core.h"
+// #include "ns_malloc.h"
+// #include "ns_peripherals_button.h"
+// #include "ns_peripherals_power.h"
+// #include "ns_rpc_generic_data.h"
+// #include "ns_usb.h"
+#include "ns_model.h"
 #include "mut_model_metadata.h"
-#include "tflm_validator.h"
+#include "mut_model_data.h"
 
+#include "tflm_validator.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_malloc.h"
-#include "ns_model.h"
-#include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
-#include "ns_usb.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024;

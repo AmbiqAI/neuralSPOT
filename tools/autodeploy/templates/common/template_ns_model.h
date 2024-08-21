@@ -26,6 +26,10 @@
         #include "tensorflow/lite/micro/micro_error_reporter.h"
     #endif
 
+// Memory locations for model and arena
+#define NS_AD_TCM   0
+#define NS_AD_SRAM  2
+#define NS_AD_MRAM  3
 extern "C" {
 #endif
 

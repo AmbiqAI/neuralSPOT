@@ -1,5 +1,4 @@
 import logging as log
-import os
 import pickle
 import yaml
 import numpy as np

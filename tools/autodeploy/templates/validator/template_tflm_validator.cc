@@ -12,19 +12,6 @@
 
 #include <cstdlib>
 #include <cstring>
-// #include "ns_model.h"
-// #include "ns_ambiqsuite_harness.h"
-
-// #include "mut_model_data.h"
-// #include "mut_model_metadata.h"
-// #include "tflm_validator.h"
-
-// #include "ns_core.h"
-// #include "ns_malloc.h"
-// #include "ns_peripherals_button.h"
-// #include "ns_peripherals_power.h"
-// #include "ns_rpc_generic_data.h"
-// #include "ns_usb.h"
 #include "ns_model.h"
 #include "mut_model_metadata.h"
 #include "mut_model_data.h"
@@ -35,6 +22,7 @@
 #include "ns_malloc.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
+#include "ns_usb.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024;
@@ -46,15 +34,15 @@ ns_model_state_t tflm;
 
 // TF Tensor Arena
 static constexpr int kTensorArenaSize = 1024 * TFLM_VALIDATOR_ARENA_SIZE;
-
-#ifndef AM_PART_APOLLO3
-    #if (NS_AD_LARGE_ARENA == 1)
-AM_SHARED_RW alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+#ifdef AM_PART_APOLLO3
+    // Apollo3 doesn't have AM_SHARED_RW
+    alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+#else // not AM_PART_APOLLO3
+    #if (TFLM_ARENA_LOCATION == NS_AD_SRAM)
+        AM_SHARED_RW alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
     #else
-alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+        alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
     #endif
-#else
-alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 #endif
 
 // Resource Variable Arena
@@ -63,14 +51,15 @@ static constexpr int kVarArenaSize =
 alignas(16) static uint8_t var_arena[kVarArenaSize];
 
 // Validator Stuff
-ns_incoming_config_t mut_cfg;
-ns_outgoing_stats_t mut_stats;
+AM_SHARED_RW ns_incoming_config_t mut_cfg;
+AM_SHARED_RW ns_outgoing_stats_t mut_stats;
 static uint32_t invokes_so_far = 0;
 bool input_tensor_is_chunked = false;
 bool output_tensor_is_chunked = false;
 bool stats_is_chunked = false;
 uint32_t input_tensor_offset = 0;
 uint32_t output_tensor_offset = 0;
+uint32_t model_chunk_offset = 0;
 uint32_t stats_offset = 0;
 uint32_t stats_remaining = 0;
 
@@ -147,7 +136,7 @@ status configureModel(const dataBlock *in) {
 #ifdef NS_MLPROFILE
     ns_perf_mac_count_t basic_mac = {
         .number_of_layers = tflm_validator_number_of_estimates,
-        .mac_count_map = tflm_validator_mac_estimates};
+        .mac_count_map = (uint32_t *)tflm_validator_mac_estimates};
     tflm.tickTimer = &basic_tickTimer;
     tflm.mac_estimates = &basic_mac;
 #else
@@ -188,11 +177,44 @@ status incomingTensorChunk(const dataBlock *in) {
     return ns_rpc_data_success;
 }
 
+int imc = 0;
+/**
+ * @brief Gets a chunk of model via sendBlockToEVB_cb
+ *
+ * @param in - chunk
+ * @return status
+ */
+status incomingModelChunk(const dataBlock *in) {
+    // ns_lp_printf(
+    //     "[INFO] PC Sent Model Chunk of %d bytes, copied to %d\n", in->buffer.dataLength,
+    //     model_chunk_offset);
+    ns_lp_printf(".");
+    imc++;
+    if (imc > 100) {
+        ns_lp_printf("\n");
+        imc = 0;
+    }
+    // Get around a compiler error when model is in MRAM (ie. const)
+    //
+    #if (TFLM_MODEL_LOCATION == NS_AD_MRAM)
+        ns_lp_printf("[ERROR] Model in MRAM, cannot write\n");
+        return ns_rpc_data_failure;
+    #else
+        // Get latest chunk, copy into next spot in model array
+        memcpy(&mut_model[model_chunk_offset], in->buffer.data, in->buffer.dataLength);
+        model_chunk_offset += in->buffer.dataLength;
+    #endif
+    return ns_rpc_data_success;
+}
+
 status decodeIncomingSendblock(const dataBlock *in) {
     if (in->cmd == 0) {
         return configureModel(in);
-    } else {
+    } else if (in->cmd == 4) {
         return incomingTensorChunk(in);
+    }
+    else {
+        return incomingModelChunk(in);
     }
 }
 
@@ -206,9 +228,9 @@ status decodeIncomingSendblock(const dataBlock *in) {
 status getStatistics(dataBlock *res) {
 
     uint32_t statSize = sizeof(mut_stats.bytes) * sizeof(uint8_t);
-    uint32_t bufSize = (statSize <= (TFLM_VALIDATOR_RX_BUFSIZE - 400))
+    uint32_t bufSize = (statSize <= (TFLM_VALIDATOR_RX_BUFSIZE - 1000))
                            ? statSize
-                           : (TFLM_VALIDATOR_RX_BUFSIZE - 400);
+                           : (TFLM_VALIDATOR_RX_BUFSIZE - 1000);
 
     ns_lp_printf(
         "[INFO] Server asked for statistics (%d bytes), send back %d bytes\n", statSize, bufSize);
@@ -259,9 +281,9 @@ status getStatistics(dataBlock *res) {
 status getStatChunk(dataBlock *res) {
     // Return a chunk of stats
 
-    uint32_t chunkSize = (stats_remaining <= (TFLM_VALIDATOR_RX_BUFSIZE - 400))
+    uint32_t chunkSize = (stats_remaining <= (TFLM_VALIDATOR_RX_BUFSIZE - 1000))
                              ? stats_remaining
-                             : (TFLM_VALIDATOR_RX_BUFSIZE - 400);
+                             : (TFLM_VALIDATOR_RX_BUFSIZE - 1000);
 
     ns_lp_printf(
         "[INFO] Server asked for stats chunk, stats remaining %d, offset %d, sending %d\n",
@@ -312,18 +334,86 @@ status decodeIncomingFetchblock(dataBlock *ret) {
  * @param res - output tensor
  * @return status - fail if not configured or if invoke fails
  */
+uint32_t output_tensor_chunk_offset = 0;
+uint32_t totalSize = 0;
+uint32_t remaining = 0;
+AM_SHARED_RW uint8_t output_tensor_buffer[200000];
+binary_t binaryBlock;
+
 status infer_on_tflm(const dataBlock *in, dataBlock *res) {
     // Prep the return block, needs to happen whether errors occur or not
+     uint32_t outputSize;
+    char msg_full[] = "FullTensor\0";
+    char msg_part[] = "PartTensor\0";
+    char msg_last[] = "LastTensor\0";
+    char error_msg[] = "Invoke failed\0";
 
-    uint8_t *resultBuffer = (uint8_t *)ns_malloc(mut_cfg.config.output_length * sizeof(uint8_t));
-    char *msg_store = (char *)ns_malloc(sizeof(char) * 30);
-    res->length = mut_cfg.config.output_length * sizeof(uint8_t);
+    uint8_t *resultBuffer;
+    char *msg_store;
+
+    // If the output tensor is greater than 3000, we need to chunk it
+    if (mut_cfg.config.output_length < (TFLM_VALIDATOR_RX_BUFSIZE - 1000)) {
+        // ns_lp_printf("[INFO] Output tensor is small enough to fit in one block\n");
+        output_tensor_is_chunked = false;
+        outputSize = mut_cfg.config.output_length;
+    } else {
+        // ns_lp_printf("[INFO] Output tensor is too large, will chunk\n");
+        output_tensor_is_chunked = true;
+        outputSize = TFLM_VALIDATOR_RX_BUFSIZE - 1000;
+    }
+
+    // Check the command value and if it is 'write' then send an output tensor chunk
+    msg_store = (char *)ns_malloc(sizeof(char) * 30);
+
+    if (in->cmd == write_cmd) {
+        if (remaining >= TFLM_VALIDATOR_RX_BUFSIZE - 1000) {
+            // Send the maximum chunk size
+            outputSize = TFLM_VALIDATOR_RX_BUFSIZE - 1000;
+        } else {
+            // Send the remaining chunk
+            outputSize = remaining;
+        }
+        remaining = remaining - outputSize;
+        // ns_lp_printf("[INFO] PC requested input tensor chunk, trying to malloc %d\n", outputSize);
+        resultBuffer = (uint8_t *)ns_malloc(outputSize);
+        memcpy(resultBuffer, output_tensor_buffer + output_tensor_chunk_offset, outputSize);
+        output_tensor_chunk_offset = output_tensor_chunk_offset + outputSize;
+        res->description = msg_store;
+        res->length = outputSize;
+        res->dType = uint8_e;
+        if (remaining > 0) {
+            memcpy(msg_store, msg_part, sizeof(msg_part));
+        } else {
+            memcpy(msg_store, msg_last, sizeof(msg_last));
+        }
+        res->cmd = write_cmd;
+
+        binaryBlock = {
+            .data = (uint8_t *)resultBuffer,
+            .dataLength = outputSize};
+        res->buffer = binaryBlock;
+        memcpy(resultBuffer, in->buffer.data, in->buffer.dataLength);
+        return ns_rpc_data_success;
+    }
+    else {
+        if (output_tensor_is_chunked) {
+            memcpy(msg_store, msg_part, sizeof(msg_part));
+        }
+        else {
+            memcpy(msg_store, msg_full, sizeof(msg_full));
+        }
+    }
+
+    // Prep the return block, needs to happen whether errors occur or not
+    // ns_lp_printf("[INFO] PC requested inference, trying to malloc %d\n", mut_cfg.config.output_length);
+    resultBuffer = (uint8_t *)ns_malloc(outputSize);
+    res->length = outputSize;
     res->dType = uint8_e;
     res->description = msg_store;
     res->cmd = generic_cmd;
-    binary_t binaryBlock = {
+    binaryBlock = {
         .data = (uint8_t *)resultBuffer,
-        .dataLength = mut_cfg.config.output_length * sizeof(uint8_t)};
+        .dataLength = outputSize};
     res->buffer = binaryBlock;
 
     // 'in' contains the input tensors, treat as homogeneous block
@@ -331,14 +421,25 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
         memcpy(tflm.model_input[0]->data.int8, in->buffer.data, in->buffer.dataLength);
     } // else it is already in the input tensor
 
+    ns_lp_printf("[INFO] Invoking model with %d byte tensor\n", in->buffer.dataLength);
+
+    // Print first 10 mac estimates
+    // for (int i = 0; i < 10; i++) {
+    //     ns_lp_printf("Before MAC estimate %d: %d %d @ 0x%x\n", i, tflm.mac_estimates->mac_count_map[i], ns_microProfilerSidecar.mac_count_map[i], ns_microProfilerSidecar.mac_count_map);
+    // }
+
     TfLiteStatus invoke_status = tflm.interpreter->Invoke();
+
+    // for (int i = 0; i < 10; i++) {
+    //     ns_lp_printf("after invoke MAC estimate %d: %d %d @ 0x%x\n", i, tflm.mac_estimates->mac_count_map[i], ns_microProfilerSidecar.mac_count_map[i], ns_microProfilerSidecar.mac_count_map);
+    // }
 
     if (invoke_status != kTfLiteOk) {
         ns_lp_printf("Invoke failed\n");
-        char error_msg[] = "Invoke failed\0";
         memcpy(msg_store, error_msg, sizeof(error_msg));
         return ns_rpc_data_failure;
     }
+    ns_lp_printf("[INFO] Invoke successful\n");
 
     if ((mut_cfg.config.profile_mut == 1) && (invokes_so_far == mut_cfg.config.profile_warmup)) {
         ns_lp_printf(
@@ -346,19 +447,37 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
             invokes_so_far);
         tflm.profiler->LogCsv(); // prints and also captures events in a buffer
         ns_stop_perf_profiler();
+        // ns_lp_printf("[INFO] after profiler successful\n");
+    }
+    // Prep the return block with output tensor
+    // If the output tensor is chunked, we need to copy it to holding buffer
+    // and return the first chunk
+
+    // Calculate the total size
+    for (uint32_t t = 0; t < mut_cfg.config.num_output_tensors; t++) {
+        totalSize += outputTensorDetails[t].details.tensorSizeBytes;
     }
 
-    // Prep the return block with output tensor
+    // If the output tensor is too big, we need to copy it to holding buffer
+    uint8_t *destination = totalSize < (TFLM_VALIDATOR_RX_BUFSIZE - 1000) ? resultBuffer : output_tensor_buffer;
+
     int offset = 0;
     for (uint32_t t = 0; t < mut_cfg.config.num_output_tensors; t++) {
         memcpy(
-            resultBuffer + offset, tflm.model_output[t]->data.int8,
+            destination + offset, tflm.model_output[t]->data.int8,
             outputTensorDetails[t].details.tensorSizeBytes);
         offset += outputTensorDetails[t].details.tensorSizeBytes;
     }
 
-    char res_msg[] = "Invoke Successful!\0";
-    memcpy(msg_store, res_msg, sizeof(res_msg));
+    // If the output tensor is too big, put the first chunk in the return block
+    if (totalSize > (TFLM_VALIDATOR_RX_BUFSIZE - 1000)) {
+        memcpy(resultBuffer, destination, outputSize);
+        output_tensor_chunk_offset = outputSize;
+        remaining = totalSize - outputSize;
+    }
+
+    // ns_lp_printf("[INFO] output memcpy successful\n");
+    // char res_msg[] = "Invoke Successful!\0";
     ns_lp_printf(".");
     invokes_so_far++;
     input_tensor_offset = 0;
@@ -389,7 +508,7 @@ int main(void) {
         .api = &ns_rpc_gdo_V1_0_0,
         .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
         .rx_buf = tflm_v_cdc_rx_ff_buf,
-        .rx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
+        .rx_bufLength = TFLM_VALIDATOR_RX_BUFSIZE,
         .tx_buf = tlfm_v_cdc_tx_ff_buf,
         .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
         .sendBlockToEVB_cb = decodeIncomingSendblock,

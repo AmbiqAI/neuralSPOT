@@ -626,7 +626,7 @@ def create_mut_metadata(params, tflm_dir, mc):
         )
     )
     createFromTemplate(
-        "autodeploy/templates/template_mut_metadata.h",
+        "autodeploy/templates/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
         rm,
     )
@@ -640,7 +640,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
     }
     createFromTemplate(
-        "autodeploy/templates/template_ns_model.cc",
+        "autodeploy/templates/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
         rm,
     )
@@ -652,18 +652,18 @@ def create_mut_main(tflm_dir, mc):
 
     # Copy template main.cc to tflm_dir
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.cc",
+        "autodeploy/templates/validator/template_tflm_validator.cc",
         f"{tflm_dir}/src/tflm_validator.cc",
     )
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.h",
+        "autodeploy/templates/validator/template_tflm_validator.h",
         f"{tflm_dir}/src/tflm_validator.h",
     )
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
+        "autodeploy/templates/validator/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
     )
     shutil.copyfile(
-        "autodeploy/templates/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
+        "autodeploy/templates/common/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
     )
 
 

@@ -87,23 +87,25 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Generate files from template
     createFromTemplate(
-        "autodeploy/templates/template.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        "autodeploy/templates/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template.h", f"{d}/{n}/src/{n}_model.h", rm
+        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+        "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
+        "autodeploy/templates/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_power.mk", f"{d}/{n}/module.mk", rm
+        "autodeploy/templates/perf/template_power.mk", f"{d}/{n}/module.mk", rm
     )
 
     # Copy needed files
-    os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/src/")
+    createFromTemplate(
+        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h"
+    )
     
     postfix = ""
     if params.model_location == "SRAM":
@@ -111,8 +113,6 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         postfix = "_for_sram"
     elif params.model_location == "MRAM":
         loc = "const"
-    elif params.model_location == "PSRAM":
-        loc = "const" # needs to be copied to PSRAM from MRAM
     else:
         loc = ""
     # Generate model weight file
@@ -135,14 +135,14 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     inputs = str(flatInput).replace("[", "{").replace("]", "}")
     outputs = str(flatOutput).replace("[", "{").replace("]", "}")
 
-    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t"}
+    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.int16'>": "int16_t"}
 
     rm["NS_AD_INPUT_TENSORS"] = inputs
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/template_example_tensors.h",
+        "autodeploy/templates/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )
@@ -158,13 +158,13 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         ws_p = "-p"
     else:
         ws_null = "NUL"
-        ws_j = ""
+        ws_j = "-j"
         ws_and = "&&"
         ws_p = ""
 
     # Generate library and example binary
     if params.onboard_perf:
-        mlp = "MLPROFILE=1"
+        mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
     else:
         mlp = ""
 

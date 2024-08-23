@@ -77,7 +77,13 @@ class Params(BaseModel):
         "../projects/autodeploy",
         description="Directory where generated library will be placed",
     )
+    model_location: str = Field(
+        "TCM", description="Where the model is stored on the EVB (TCM, SRAM, or MRAM)"
+    )
 
+    arena_location: str = Field(
+        "TCM", description="Where the arena is stored on the EVB (TCM or SRAM)"
+    )
     # Logging Parameters
     verbosity: int = Field(1, description="Verbosity level (0-4)")
 
@@ -192,6 +198,10 @@ if __name__ == "__main__":
         else log.WARNING,
         format="%(levelname)s: %(message)s",
     )
+
+    if params.model_location == "SRAM" or params.arena_location == "SRAM":
+        log.error("SRAM is currently not supported for model or arena location")
+        exit("ns_perf failed")
 
     interpreter = get_interpreter(params)
 

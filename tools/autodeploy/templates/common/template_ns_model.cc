@@ -12,6 +12,10 @@
 #include "ns_model.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
+#include "NS_AD_NAME_api.h"
+#include "NS_AD_NAME_model.h"
+#include "NS_AD_NAME_model_data.h"
+#include "ns_ambiqsuite_harness.h"
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 // #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"

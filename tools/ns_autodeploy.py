@@ -261,10 +261,6 @@ if __name__ == "__main__":
         format="%(levelname)s: %(message)s",
     )    
 
-    if params.model_location == "SRAM" or params.arena_location == "SRAM":
-        log.error("SRAM is currently not supported for model or arena location")
-        exit("Autodeploy failed")
-
     results = adResults(params)
 
     print("")  # put a blank line between obnoxious TF output and our output

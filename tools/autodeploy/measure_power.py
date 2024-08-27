@@ -104,7 +104,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Copy needed files
     createFromTemplate(
-        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h"
+        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
     )
     
     postfix = ""

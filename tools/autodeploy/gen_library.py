@@ -69,7 +69,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
 
     # Generate files from templates
     createFromTemplate(
-        "autodeploy/templates/template.h", f"{d}/{n}/src/{n}_model.h", rm
+        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
 
     # Generate target-specific files from templates
@@ -96,7 +96,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             rm,
         )
         createFromTemplate(
-            "autodeploy/templates/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+            "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
         )
         shutil.copy(
             "../neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/"
@@ -113,8 +113,9 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             "../neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
             f"{d}/{n}/armclang/",
         )
-        shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
-        shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/src/")
+        createFromTemplate(
+            "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+        )
         shutil.copy(
             "autodeploy/templates/ambiqsuite_example/src/am_resources.c",
             f"{d}/{n}/src/",
@@ -137,18 +138,18 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
 
     else:
         createFromTemplate(
-            "autodeploy/templates/template.cc", f"{d}/{n}/src/{n}_model.cc", rm
+            "autodeploy/templates/minimal_example/template_minimal_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
         )
         createFromTemplate(
-            "autodeploy/templates/template_example.cc",
+            "autodeploy/templates/minimal_example/template_example.cc",
             f"{d}/{n}/src/{n}_example.cc",
             rm,
         )
         createFromTemplate(
-            "autodeploy/templates/Makefile.template", f"{d}/{n}/Makefile", rm
+            "autodeploy/templates/minimal_example/Makefile.template", f"{d}/{n}/Makefile", rm
         )
         createFromTemplate(
-            "autodeploy/templates/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
+            "autodeploy/templates/common/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
         )
         shutil.copy(
             "../neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/"
@@ -157,9 +158,19 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             "../neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
             f"{d}/{n}/src/armclang/",
         )
+        
+        shutil.copy(
+            "../neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/src/"
+        )
+        shutil.copy(
+            "../neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
+            f"{d}/{n}/src/",
+        )
 
-        shutil.copy("autodeploy/templates/linker_script.ld", f"{d}/{n}/src/")
-        shutil.copy("autodeploy/templates/ns_model.h", f"{d}/{n}/lib/")
+
+        createFromTemplate(
+            "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/lib/ns_model.h", rm
+        )
 
     # Generate model weight file
     xxd_c_dump(
@@ -187,7 +198,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/template_example_tensors.h",
+        "autodeploy/templates/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )

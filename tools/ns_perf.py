@@ -77,7 +77,13 @@ class Params(BaseModel):
         "../projects/autodeploy",
         description="Directory where generated library will be placed",
     )
+    model_location: str = Field(
+        "TCM", description="Where the model is stored on the EVB (TCM, SRAM, or MRAM)"
+    )
 
+    arena_location: str = Field(
+        "TCM", description="Where the arena is stored on the EVB (TCM or SRAM)"
+    )
     # Logging Parameters
     verbosity: int = Field(1, description="Verbosity level (0-4)")
 

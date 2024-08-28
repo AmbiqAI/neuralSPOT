@@ -26,6 +26,10 @@
         #include "tensorflow/lite/micro/micro_error_reporter.h"
     #endif
 
+// Memory locations for model and arena
+#define NS_AD_TCM   0
+#define NS_AD_SRAM  2
+#define NS_AD_MRAM  3
 extern "C" {
 #endif
 
@@ -73,8 +77,7 @@ typedef struct {
     uint32_t computed_arena_size;
 } ns_model_state_t;
 
-// extern int
-// ns_model_init(ns_model_state_t *ms);
+extern int ns_model_init(ns_model_state_t *ms);
 
 #ifdef __cplusplus
 }

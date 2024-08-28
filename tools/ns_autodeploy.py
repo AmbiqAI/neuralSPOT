@@ -43,10 +43,6 @@ class Params(BaseModel):
         False, 
         description="Capture and print performance measurements on EVB"
     )
-    measure_power: bool = Field(
-        False,
-        description="Measure power consumption of the model on the EVB using Joulescope",
-    )
     model_location: str = Field(
         "TCM", description="Where the model is stored on the EVB (TCM, SRAM, or MRAM)"
     )
@@ -280,7 +276,7 @@ if __name__ == "__main__":
         total_stages += 1
     if params.create_library:
         total_stages += 1
-    if params.measure_power:
+    if params.joulescope or params.onboard_perf:
         total_stages += 1
     if params.create_ambiqsuite_example:
         total_stages += 1
@@ -383,10 +379,10 @@ if __name__ == "__main__":
         pickle.dump(results, results_file)
         results_file.close()
 
-    if params.measure_power:
+    if params.joulescope or params.onboard_perf:
         print("")
         print(
-            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope"
+            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope or onboard measurements"
         )
 
         for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:

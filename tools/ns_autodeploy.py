@@ -35,6 +35,14 @@ class Params(BaseModel):
     create_ambiqsuite_example: bool = Field(
         True, description="Create AmbiqSuite example based on TFlite file"
     )
+    joulescope: bool = Field(
+        False,
+        description="Measure power consumption of the model on the EVB using Joulescope",
+    )
+    onboard_perf: bool = Field(
+        False, 
+        description="Capture and print performance measurements on EVB"
+    )
     measure_power: bool = Field(
         False,
         description="Measure power consumption of the model on the EVB using Joulescope",

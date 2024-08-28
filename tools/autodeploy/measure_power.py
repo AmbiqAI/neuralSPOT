@@ -59,6 +59,8 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     rm = {
         "NS_AD_NAME": n,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
+        "NS_AD_MODEL_LOCATION": f"NS_AD_{params.model_location}",
+        "NS_AD_ARENA_LOCATION": f"NS_AD_{params.arena_location}",
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
@@ -85,31 +87,42 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Generate files from template
     createFromTemplate(
-        "autodeploy/templates/template.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        "autodeploy/templates/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template.h", f"{d}/{n}/src/{n}_model.h", rm
+        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+        "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
+        "autodeploy/templates/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_power.mk", f"{d}/{n}/module.mk", rm
+        "autodeploy/templates/perf/template_power.mk", f"{d}/{n}/module.mk", rm
     )
 
     # Copy needed files
-    os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/src/")
-
+    createFromTemplate(
+        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+    )
+    
+    postfix = ""
+    if params.model_location == "SRAM":
+        loc = "const" # will be compied over to SRAM
+        postfix = "_for_sram"
+    elif params.model_location == "MRAM":
+        loc = "const"
+    else:
+        loc = ""
     # Generate model weight file
     xxd_c_dump(
         src_path=params.tflite_filename,
         dst_path=f"{d}/{n}/src/{n}_model_data.h",
-        var_name=f"{n}_model",
+        var_name=f"{n}_model{postfix}",
         chunk_len=12,
         is_header=True,
+        loc = loc,
     )
 
     # Generate input/output tensor example data
@@ -122,14 +135,14 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     inputs = str(flatInput).replace("[", "{").replace("]", "}")
     outputs = str(flatOutput).replace("[", "{").replace("]", "}")
 
-    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t"}
+    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.int16'>": "int16_t"}
 
     rm["NS_AD_INPUT_TENSORS"] = inputs
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/template_example_tensors.h",
+        "autodeploy/templates/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )
@@ -145,13 +158,13 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         ws_p = "-p"
     else:
         ws_null = "NUL"
-        ws_j = ""
+        ws_j = "-j"
         ws_and = "&&"
         ws_p = ""
 
     # Generate library and example binary
     if params.onboard_perf:
-        mlp = "MLPROFILE=1"
+        mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
     else:
         mlp = ""
 

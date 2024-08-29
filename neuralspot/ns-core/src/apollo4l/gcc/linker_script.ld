@@ -48,7 +48,7 @@ SECTIONS
         . = ALIGN(8);
     } > MCU_TCM
 
-    .heap : {
+    .heap : (NOLOAD){
         __heap_start__ = .;
         end = __heap_start__;
         _end = end;

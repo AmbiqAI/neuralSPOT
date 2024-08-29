@@ -101,7 +101,8 @@ optional arguments:
   --no-create-library   Create minimal static library based on TFlite file (default: True)
   --no-create-ambiqsuite-example
                         Create AmbiqSuite example based on TFlite file (default: True)
-  --measure-power       Measure power consumption of the model on the EVB using Joulescope (default: False)
+  --joulescope          Measure power consumption of the model on the EVB using Joulescope (default: False)
+  --onboard-perf        Capture and print performance measurements on EVB (default: False)
   --tflite-filename TFLITE_FILENAME
                         Name of tflite model to be analyzed (default: model.tflite)
   --tflm-filename TFLM_FILENAME
@@ -150,7 +151,7 @@ When this occurs, padding for scratch buffers must be manually added via the `--
 
 These scripts provide a simple way to show a models latency and energy consumption over repeated runs, typically for demonstration purposes. It requires one or more Joulescopes, of course. There are two scripts - measurer.py and plotter.py - that must be run concurrently.
 
-This script expects AI measurement firmware to be flashed on the device. The easiest way to do this is to run the ns_autodeploy script with the `--measure-power` option enabled as described above.
+This script expects AI measurement firmware to be flashed on the device. The easiest way to do this is to run the ns_autodeploy script with the `--joulescope` option enabled as described above.
 
 First, start plotter.py in one shell. Note the URL printed - this is a local web server that will dynamically show the plot.
 

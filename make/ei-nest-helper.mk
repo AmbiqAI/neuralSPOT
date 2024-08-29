@@ -50,7 +50,7 @@ ei_nest_prebuilt_libs += $(lib_prebuilt)
 # Filter out CMSIS and TensorFlow
 ei_nest_prebuilt_libs := $(call FILTER_OUT,CMSIS,$(ei_nest_prebuilt_libs))
 ei_nest_prebuilt_libs := $(call FILTER_OUT,libtensorflow,$(ei_nest_prebuilt_libs))
-$(info ei_nest_prebuilt_libs: $(ei_nest_prebuilt_libs))
+# $(info ei_nest_prebuilt_libs: $(ei_nest_prebuilt_libs))
 
 # These lists contain the full path in the nest directory
 ei_nest_dest_libs := $(addprefix libs/,$(ei_nest_libs))

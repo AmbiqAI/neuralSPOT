@@ -94,7 +94,7 @@ class Params(BaseModel):
     runs_power: int = Field(
         100, description="Number of inferences to run for power measurement"
     )
-    cpu_mode: int = Field(96, description="CPU Speed (MHz) - can be 96 or 192")
+    cpu_mode: str = Field("NS_MAXIMUM_PERF", description="CPU mode to use for performance measurements")
 
     # Library Parameters
     model_name: str = Field(
@@ -379,10 +379,21 @@ if __name__ == "__main__":
         pickle.dump(results, results_file)
         results_file.close()
 
-    if params.joulescope or params.onboard_perf:
+    if params.onboard_perf:
         print("")
         print(
-            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope or onboard measurements"
+            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB onboard measurements"
+        )
+        generatePowerBinary(params, mc, md, params.cpu_mode)
+        print(
+            f"{params.cpu_mode} Performance code flashed to EVB - connect to SWO and press reset to see results."
+        )
+        stage += 1
+
+    elif params.joulescope:
+        print("")
+        print(
+            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope"
         )
 
         for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:
@@ -396,6 +407,7 @@ if __name__ == "__main__":
             log.info(
                 f"Model Power Measurement in {cpu_mode} mode: {t:.3f} ms and {energy:.3f} uJ per inference (avg {w:.3f} mW))"
             )
+        stage += 1
 
     if params.create_library:
         print("")

@@ -37,6 +37,8 @@ modules      += neuralspot/ns-features
 
 # ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
+modules      += neuralspot/ns-spi
+modules      += neuralspot/ns-camera
 # endif
 modules      += neuralspot/ns-nnsp
 

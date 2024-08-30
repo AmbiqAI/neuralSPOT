@@ -55,6 +55,7 @@ extern "C" {
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_audio.h"
+#include <stdlib.h>
 
 // Size of a single AUDADC sample
 #define AUDADC_MAX_SAMPLE_BUF_SIZE                                                                 \
@@ -68,6 +69,7 @@ extern ns_audadc_cfg_t ns_audadc_vos_default;
 
 // AUDADC subsystem init - should only be invoked by ns_audio, not directly
 extern uint32_t audadc_init(ns_audio_config_t *cfg);
+extern void audadc_deinit(ns_audio_config_t *cfg);
 
 #ifdef __cplusplus
 }

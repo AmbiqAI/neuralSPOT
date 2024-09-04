@@ -430,10 +430,12 @@ uint32_t audadc_init(ns_audio_config_t *cfg) {
     return NS_STATUS_SUCCESS;
 }
 
+//*****************************************************************************
+//
+//  Power off audadc
+//
+//*****************************************************************************
 void audadc_deinit(ns_audio_config_t *cfg) {
-    //
-    // power off audadc
-    //
     am_hal_audadc_interrupt_disable(g_AUDADCHandle, 0xFFFFFFFF);
     while(AUDADC->DMATOTCOUNT_b.TOTCOUNT != 0); // Ensure DMATOTCOUNT is set to 0 as part of de-initialization
     if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_control(g_AUDADCHandle, AM_HAL_AUDADC_REQ_DMA_DISABLE, NULL))

@@ -144,6 +144,7 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 
 uint32_t ns_start_audio(ns_audio_config_t *cfg) {
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef NS_AUDADC_PRESENT
         if (g_ns_audio_config->audadc_config == NULL) {
             g_ns_audio_config->audadc_config = &ns_audadc_default;
         }
@@ -156,6 +157,9 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
             am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
             return NS_STATUS_INIT_FAILED;
         }
+#else
+        return NS_STATUS_INIT_FAILED;
+#endif
     } 
     else {
         if (g_ns_audio_config->pdm_config == NULL) {

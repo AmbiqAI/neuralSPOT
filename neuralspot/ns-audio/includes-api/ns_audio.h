@@ -66,14 +66,16 @@ extern "C" {
         { .major = 1, .minor = 0, .revision = 0 }
     #define NS_AUDIO_V2_0_0                                                                        \
         { .major = 2, .minor = 0, .revision = 0 }
-
+    #define NS_AUDIO_V2_1_0                                                                        \
+        { .major = 2, .minor = 1, .revision = 0 }
     #define NS_AUDIO_OLDEST_SUPPORTED_VERSION NS_AUDIO_V0_0_1
-    #define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V2_0_0
+    #define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V2_1_0
     #define NS_AUDIO_API_ID 0xCA0001
 
 extern const ns_core_api_t ns_audio_V0_0_1;
 extern const ns_core_api_t ns_audio_V1_0_0;
 extern const ns_core_api_t ns_audio_V2_0_0;
+extern const ns_core_api_t ns_audio_V2_1_0;
 extern const ns_core_api_t ns_audio_oldest_supported_version;
 extern const ns_core_api_t ns_audio_current_version;
 
@@ -209,7 +211,7 @@ extern uint32_t ns_start_audio(ns_audio_config_t *);
  *
  * @param cfg : desired configuration
  */
-uint32_t ns_end_audio(ns_audio_config_t *);
+extern uint32_t ns_end_audio(ns_audio_config_t *);
 
 
 /**

@@ -27,6 +27,7 @@
 const ns_core_api_t ns_audio_V0_0_1 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1};
 const ns_core_api_t ns_audio_V1_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V1_0_0};
 const ns_core_api_t ns_audio_V2_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V2_0_0};
+const ns_core_api_t ns_audio_V2_1_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V2_1_0};
 const ns_core_api_t ns_audio_oldest_supported_version = {
     .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION};
 const ns_core_api_t ns_audio_current_version = {
@@ -109,17 +110,25 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 #ifndef NS_AUDADC_PRESENT
         am_util_stdio_printf("Error - Trying to init non-existent AUDADC\n");
         return NS_STATUS_INIT_FAILED;
-#else
-        if (g_ns_audio_config->audadc_config == NULL) {
-            g_ns_audio_config->audadc_config = &ns_audadc_default;
-        }
 #endif
-    } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
-        if (g_ns_audio_config->pdm_config == NULL) {
-            g_ns_audio_config->pdm_config = &ns_pdm_default;
+        // If api doesn't support dynamic audio source, initialize audadc here
+        if (ns_core_check_api(g_ns_audio_config->api, &ns_audio_oldest_supported_version, &ns_audio_V2_0_0) == NS_STATUS_SUCCESS) {
+            // initialize audadc
+            if(ns_start_audio(g_ns_audio_config) != NS_STATUS_SUCCESS) {
+                return NS_STATUS_INIT_FAILED;
+            }
         }
-
-    } else {
+    }
+    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        // If api doesn't support dynamic audio source, initialize pdm here
+        if (ns_core_check_api(g_ns_audio_config->api, &ns_audio_oldest_supported_version, &ns_audio_V2_0_0) == NS_STATUS_SUCCESS) {
+            // initialize pdm
+            if(ns_start_audio(g_ns_audio_config) != NS_STATUS_SUCCESS) {
+                return NS_STATUS_INIT_FAILED;
+            }
+        }
+    }
+    else {
         return NS_STATUS_INVALID_CONFIG;
     }
 
@@ -134,10 +143,6 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 }
 
 uint32_t ns_start_audio(ns_audio_config_t *cfg) {
-    if (cfg == NULL) {
-        return NS_STATUS_INVALID_HANDLE;
-    }
-    
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
         if (g_ns_audio_config->audadc_config == NULL) {
             g_ns_audio_config->audadc_config = &ns_audadc_default;
@@ -152,7 +157,7 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
             return NS_STATUS_INIT_FAILED;
         }
     } 
-    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+    else {
         if (g_ns_audio_config->pdm_config == NULL) {
             g_ns_audio_config->pdm_config = &ns_pdm_default;
         }

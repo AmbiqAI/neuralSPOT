@@ -20,11 +20,7 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
-
-#ifdef NS_AUDADC_PRESENT
-    #include "ns_audadc.h"
-#endif
-
+#include "ns_audadc.h"
 #include "ns_ipc_ring_buffer.h"
 #include "ns_pdm.h"
 
@@ -143,6 +139,9 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
     }
     
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        if (g_ns_audio_config->audadc_config == NULL) {
+            g_ns_audio_config->audadc_config = &ns_audadc_default;
+        }
         if (audadc_init(cfg)) {
             return NS_STATUS_INIT_FAILED;
         }
@@ -154,6 +153,9 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
         }
     } 
     else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        if (g_ns_audio_config->pdm_config == NULL) {
+            g_ns_audio_config->pdm_config = &ns_pdm_default;
+        }
         if (pdm_init(g_ns_audio_config)) {
             return NS_STATUS_INIT_FAILED;
         }

@@ -199,7 +199,6 @@ void pdm_deinit(ns_audio_config_t *config) {
 
     NVIC_DisableIRQ(g_ePdmInterrupts[cfg->mic]);
 
-    am_bsp_pdm_pins_disable(cfg->mic);
 
     am_hal_pdm_disable(cfg);
     am_hal_pdm_power_control(cfg, AM_HAL_PDM_POWER_OFF, false);

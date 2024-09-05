@@ -454,7 +454,7 @@ void audadc_deinit(ns_audio_config_t *cfg) {
     am_hal_audadc_pga_powerdown(3);
     am_hal_audadc_refgen_powerdown();
     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);
-    am_util_delay_ms(100);
+    am_util_delay_ms(20);
 
 }
 

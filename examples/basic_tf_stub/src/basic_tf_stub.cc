@@ -12,7 +12,6 @@ The basic_tf_stub example is based on a speech to intent model.
 **/
 
 // #define RINGBUFFER_MODE
-#define RPC_ENABLED
 #ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
 #endif

@@ -55,7 +55,6 @@ extern "C" {
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_audio.h"
-#include <stdlib.h>
 
 // Size of a single AUDADC sample
 #define AUDADC_MAX_SAMPLE_BUF_SIZE                                                                 \

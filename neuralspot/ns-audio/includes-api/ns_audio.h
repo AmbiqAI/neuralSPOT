@@ -55,27 +55,27 @@
     #ifdef __cplusplus
 extern "C" {
     #endif
-
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"
     #include "ns_core.h"
     #include "ns_ipc_ring_buffer.h"
-
     #define NS_AUDIO_V0_0_1                                                                        \
         { .major = 0, .minor = 0, .revision = 1 }
     #define NS_AUDIO_V1_0_0                                                                        \
         { .major = 1, .minor = 0, .revision = 0 }
     #define NS_AUDIO_V2_0_0                                                                        \
         { .major = 2, .minor = 0, .revision = 0 }
-
+    #define NS_AUDIO_V2_1_0                                                                        \
+        { .major = 2, .minor = 1, .revision = 0 }
     #define NS_AUDIO_OLDEST_SUPPORTED_VERSION NS_AUDIO_V0_0_1
-    #define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V2_0_0
+    #define NS_AUDIO_CURRENT_VERSION NS_AUDIO_V2_1_0
     #define NS_AUDIO_API_ID 0xCA0001
 
 extern const ns_core_api_t ns_audio_V0_0_1;
 extern const ns_core_api_t ns_audio_V1_0_0;
 extern const ns_core_api_t ns_audio_V2_0_0;
+extern const ns_core_api_t ns_audio_V2_1_0;
 extern const ns_core_api_t ns_audio_oldest_supported_version;
 extern const ns_core_api_t ns_audio_current_version;
 
@@ -196,6 +196,23 @@ extern ns_audio_config_t *g_ns_audio_config;
  * @param cfg : desired configuration
  */
 extern uint32_t ns_audio_init(ns_audio_config_t *);
+
+
+/**
+ * @brief Start audio capture, must be called after ns_audio_init
+ *
+ * @param cfg : desired configuration
+ */
+extern uint32_t ns_start_audio(ns_audio_config_t *);
+
+
+/**
+ * @brief Stop audio capture
+ *
+ * @param cfg : desired configuration
+ */
+extern uint32_t ns_end_audio(ns_audio_config_t *);
+
 
 /**
  * @brief Extract int16 PCM from data collected by ADC

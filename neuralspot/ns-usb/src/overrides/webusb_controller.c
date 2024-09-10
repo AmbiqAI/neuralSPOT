@@ -81,7 +81,7 @@ typedef struct {
 // Microsoft OS 2.0 compatible descriptor
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
-#define REWRIT_NUMBER 3
+#define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
 
 const tusb_desc_webusb_url_t desc_url = {
     .bLength = 3 + sizeof(URL) - 1,
@@ -266,6 +266,7 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
 
             // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
             bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
+            ns_lp_printf("Sent %d of %d bytes\n", bytes_tx, bufsize);
             bufremain -= bytes_tx;
 
             i++;

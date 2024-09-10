@@ -328,6 +328,9 @@ extern uint32_t _ebss;
 //
 //*****************************************************************************
 #if defined(__GNUC_STDC_INLINE__)
+extern void _init(void) { ; }
+extern void _fini(void) { ; }
+
 void Reset_Handler(void) {
     //
     // Set the vector table pointer.

@@ -10,7 +10,7 @@
  */
 
 #include "ns_camera.h"
-#include "arducam/arducam.h"
+#include "ArducamCamera.h"
 #include "arm_math.h"
 #include "ns_camera_constants.h"
 #include "jpeg-decoder/jpeg_decoder.h"
@@ -26,8 +26,8 @@ jpeg_decoder_context_t jpegCtx = {};
 
 ArducamCamera camera;
 
-static int
-arducam_spi_read(const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin) {
+int arducam_spi_read(
+    const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin) {
     uint32_t err;
     uint8_t *bufPtr = (uint8_t *)buf;
     uint32_t bytesLeft = bufLen;
@@ -41,8 +41,8 @@ arducam_spi_read(const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen
     return err;
 }
 
-static int
-arducam_spi_write(const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin) {
+int arducam_spi_write(
+    const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin) {
     uint8_t *bufPtr = (uint8_t *)buf;
     uint32_t bytesLeft = bufLen;
     uint32_t chunkSize;
@@ -55,15 +55,14 @@ arducam_spi_write(const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLe
     return 0;
 }
 
-static void arducam_delay_ms(uint16_t delay) { ns_delay_us(1000 * delay); }
+void arducam_delay_ms(uint16_t delay) { ns_delay_us(1000 * delay); }
+void arducam_delay_us(uint16_t delay) { ns_delay_us(delay); }
 
-static void arducam_delay_us(uint16_t delay) { ns_delay_us(delay); }
-
-ArducamTransport camTransport = {
-    .spiRead = arducam_spi_read,
-    .spiWrite = arducam_spi_write,
-    .delayMs = arducam_delay_ms,
-    .delayUs = arducam_delay_us};
+// ArducamTransport camTransport = {
+//     .spiRead = arducam_spi_read,
+//     .spiWrite = arducam_spi_write,
+//     .delayMs = arducam_delay_ms,
+//     .delayUs = arducam_delay_us};
 
 void dump_camera_regs() {
     /**
@@ -85,9 +84,11 @@ int init_camera(void) {
     if (ns_spi_interface_init(&spiConfig, CAM_SPI_SPEED, AM_HAL_IOM_SPI_MODE_0)) {
         return 1;
     }
-    cameraInit(&camera, AM_BSP_IOM1_CS_CHNL, &camTransport);
-    cameraBegin(&camera);
-    cameraLowPowerOn(&camera);
+    createArducamCamera(AM_BSP_IOM1_CS_CHNL);
+
+    // cameraInit(&camera);
+    begin(&camera);
+    lowPowerOn(&camera);
     return 0;
 }
 
@@ -96,12 +97,12 @@ int start_camera() {
      * @brief Start camera and take out of standby
      *
      */
-    cameraLowPowerOff(&camera);
+    lowPowerOff(&camera);
     ns_delay_us(1000);
-    cameraSetBrightness(&camera, CAM_BRIGHTNESS_LEVEL_3);
-    cameraSetAutoExposure(&camera, true);
-    cameraSetAutoFocus(&camera, true);
-    cameraSetAutoISOSensitive(&camera, true);
+    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_3);
+    setAutoExposure(&camera, true);
+    setAutoFocus(&camera, true);
+    setAutoISOSensitive(&camera, true);
 
     return 0;
 }
@@ -111,7 +112,7 @@ int stop_camera() {
      * @brief Stop camera and put into low-power standby mode.
      *
      */
-    cameraLowPowerOn(&camera);
+    lowPowerOn(&camera);
     return 0;
 }
 
@@ -121,7 +122,7 @@ int trigger_camera_capture() {
      *
      */
     // This version blocks...
-    cameraTakePicture(&camera, CAM_IMAGE_MODE_QVGA, CAM_IMAGE_PIX_FMT_JPG);
+    takePicture(&camera, CAM_IMAGE_MODE_QVGA, CAM_IMAGE_PIX_FMT_JPG);
     return 0;
 }
 
@@ -154,8 +155,8 @@ uint32_t transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
     //     return 0;
     // }
 
-    ns_printf("FIFO length: %u\n", length);
-    cameraReadBuff(&camera, camBuf, length);
+    ns_lp_printf("FIFO length: %u\n", length);
+    readBuff(&camera, camBuf, length);
 
     // Remove trailing zeros from image
     for (index = length - 1; index >= 0; index--) {
@@ -164,6 +165,8 @@ uint32_t transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
         }
     }
     length = index + 1;
+    ns_lp_printf("Clipped FIFO length: %u\n", length);
+
     return length;
 }
 

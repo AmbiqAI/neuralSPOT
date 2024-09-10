@@ -15,13 +15,15 @@
 #define TINY_ENGINE 1
 #define INFERENCE_ENGINE TFLM_ENGINE
 
-#define AM_PART_APOLLO4
-
-#include "arducam/arducam.h"
+// #define AM_PART_APOLLO4
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "ArducamCamera.h"
 
 // Camera interface
 #define CAM_SPI_IOM 1
-#define CAM_SPI_SPEED AM_HAL_IOM_4MHZ
+#define CAM_SPI_SPEED AM_HAL_IOM_8MHZ
 
 // Camera definitions
 // Following includes camera specific header
@@ -47,4 +49,7 @@ typedef int8_t img_t;
 // #define MIN(a, b) ((a) < (b) ? (a) : (b))
 // #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
+#ifdef __cplusplus
+}
+#endif
 #endif // __TVD_CONSTANTS_H

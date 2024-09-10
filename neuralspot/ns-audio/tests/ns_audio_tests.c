@@ -49,6 +49,17 @@ void ns_audio_tests_post_test_hook() {
 
 }
 
+
+void ns_switch_audio_test() {
+    initialize_audio_config();
+    int status = ns_audio_init(&audioConfig);
+    status = ns_start_audio(&audioConfig);
+    TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
+    ns_end_audio(&audioConfig);
+    audioConfig.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
+    status = ns_start_audio(&audioConfig);
+    TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
+}
 // Basic init test
 void ns_audio_init_test() {
     initialize_audio_config();
@@ -142,7 +153,8 @@ void ns_audio_pdm_config_test() {
     pdmConfig.clock_freq = NS_AUDIO_PDM_CLK_750KHZ;
     for(int clock = 0; clock <= NS_CLKSEL_HFRC2_ADJ; clock++) {
         pdmConfig.clock = clock;
-        int status = ns_audio_init(&audioConfig);
+        ns_audio_init(&audioConfig);
+        int status = ns_start_audio(&audioConfig);
         if(clock == NS_CLKSEL_XTHS || clock == NS_CLKSEL_HFRC2) {
             TEST_ASSERT_EQUAL(NS_STATUS_INIT_FAILED, status);
         }

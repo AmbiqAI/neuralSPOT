@@ -102,7 +102,11 @@ static ns_audio_config_t audio_config = {
 #ifdef AUDIO_LEGACY
     .api = &ns_audio_V1_0_0,
 #else
+    #ifdef DYNAMIC_AUDIO_SOURCE
+    .api = &ns_audio_V2_1_0,
+    #else
     .api = &ns_audio_V2_0_0,
+    #endif
 #endif
 #ifdef RINGBUFFER_MODE
     .eAudioApiMode = NS_AUDIO_API_RINGBUFFER,

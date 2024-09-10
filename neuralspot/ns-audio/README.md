@@ -86,7 +86,7 @@ ns_audio_config_t audioConfig = {
 
 main(void) {
     ns_audio_init(&audio_config);
-
+    ns_start_audio(&audio_config);
     while (1) {
         if (g_intButtonPressed == 1) { // See NS-peripherals for button info
             g_audioRecording = true;   // Tell callback to start collecting audio
@@ -161,7 +161,7 @@ ns_audio_config_t audio_config = {
 
 main(void) {
     ns_audio_init(&audio_config);
-
+    ns_start_audio(&audio_config);
     while (1) {
         if (g_intButtonPressed == 1) { // See NS-peripherals for button info
             g_audioRecording = true;   // Tell callback to start collecting audio
@@ -219,5 +219,39 @@ main(void) {
     ns_mfcc_init(&mfcc_config);
 
     // See ns_audio examples above to see how to invoke mfcc as part of sample process
+}
+```
+
+### Version 2.1.0 Release Notes
+
+Version 2.1.0 adds the ability to dynamically switch between PDM and AUDADC sources. Taking advantage of this feature requires an API change, but backwards compatibility has been preserved via the API version feature.
+
+``` c
+ns_audio_config_t audioConfig = {
+    .api = &ns_audio_V2_1_0,
+    .eAudioApiMode = NS_AUDIO_API_CALLBACK,
+    .callback = audio_frame_callback,
+    .audioBuffer = (void *)&audioDataBuffer,
+    .eAudioSource = NS_AUDIO_SOURCE_PDM
+    .sampleBuffer = dmaBuffer,
+    .workingBuffer = sLGSampleBuffer, // only needed by ADC
+    .numChannels = NUM_CHANNELS, // 1 or 2
+    .numSamples = SAMPLES_IN_FRAME,
+    .sampleRate = SAMPLE_RATE,
+    .audioSystemHandle = NULL,     // filled in by init
+    .bufferHandle = NULL,          // only for ringbuffer mode
+#ifndef NS_AMBIQSUITE_VERSION_R4_1_0
+    .sOffsetCalib = &sOffsetCalib,
+#endif
+};
+
+main(void) {
+    // init and start audio
+    ns_audio_init(&audio_config);
+    ns_start_audio(&audio_config);
+    // switch from pdm to audadc
+    ns_end_audio(&audio_config);
+    audio_config.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
+    ns_start_audio(&audio_config);
 }
 ```

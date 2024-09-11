@@ -255,11 +255,11 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     uint32_t bufremain = bufsize;
 
     // Print first 20 bytes of buffer
-    ns_lp_printf("Sending %d bytes: ", bufsize);
-    for (int i = 0; i < 5; i++) {
-        ns_lp_printf("0x%02x ", buf[i]);
-    }
-    ns_lp_printf("\n");
+    // ns_lp_printf("Sending %d bytes: ", bufsize);
+    // for (int i = 0; i < 5; i++) {
+    //     ns_lp_printf("0x%02x ", buf[i]);
+    // }
+    // ns_lp_printf("\n");
 
     if (webusb_connected && buf) {
         int i = 0;
@@ -275,7 +275,7 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
             // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
             bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
             // tud_vendor_write_flush();
-            ns_lp_printf("Sent %d of %d bytes\n", bytes_tx, bufsize);
+            // ns_lp_printf("Sent %d of %d bytes\n", bytes_tx, bufsize);
             bufremain -= bytes_tx;
 
             i++;

@@ -122,7 +122,8 @@ int trigger_camera_capture() {
      *
      */
     // This version blocks...
-    takePicture(&camera, CAM_IMAGE_MODE_QVGA, CAM_IMAGE_PIX_FMT_JPG);
+    // takePicture(&camera, CAM_IMAGE_MODE_QVGA, CAM_IMAGE_PIX_FMT_JPG);
+    takePicture(&camera, CAM_IMAGE_MODE_96X96, CAM_IMAGE_PIX_FMT_RGB565);
     return 0;
 }
 
@@ -155,7 +156,7 @@ uint32_t transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
     //     return 0;
     // }
 
-    ns_lp_printf("FIFO length: %u\n", length);
+    // ns_lp_printf("FIFO length: %u\n", length);
     readBuff(&camera, camBuf, length);
 
     // Remove trailing zeros from image
@@ -165,7 +166,7 @@ uint32_t transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
         }
     }
     length = index + 1;
-    ns_lp_printf("Clipped FIFO length: %u\n", length);
+    // ns_lp_printf("Clipped FIFO length: %u\n", length);
 
     return length;
 }

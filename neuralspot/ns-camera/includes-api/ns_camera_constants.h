@@ -27,12 +27,17 @@ extern "C" {
 
 // Camera definitions
 // Following includes camera specific header
-#define JPEG_SIZE CAM_IMAGE_MODE_QVGA // 320x240
-#define CAM_WIDTH 320
-#define CAM_HEIGHT 240
+// #define JPEG_SIZE CAM_IMAGE_MODE_QVGA // 320x240
+#define JPEG_SIZE CAM_IMAGE_MODE_96X96 // 320x240
+// #define CAM_WIDTH 320
+// #define CAM_HEIGHT 240
+#define CAM_WIDTH 96
+#define CAM_HEIGHT 96
 #define CAM_CH_SIZE (CAM_WIDTH * CAM_HEIGHT)
 // BUFF needs to be big enough to store JPEG (assume 66% reduction)
-#define CAM_BUFF_SIZE (1 * CAM_CH_SIZE)
+
+// RGB565 = 16b/pixel = 2B/pixel
+#define CAM_BUFF_SIZE (2 * CAM_CH_SIZE)
 
 // Image/model constants
 // TODO: Generate these in deploy step

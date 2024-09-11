@@ -25,6 +25,7 @@
 #include "ns_timer.h"
 #include "ns_usb.h"
 #include "ns_core.h"
+#include "tusb.h"
 
 // Locals
 #include "ns_camera.h"
@@ -54,7 +55,8 @@ static ns_usb_config_t webUsbConfig = {
 
 // USB Data sent to WebUSB client
 typedef enum {
-    FIRST_CHUNK = 0x1,
+    FIRST_CHUNK = 0x0,
+    MIDDLE_CHUNK = 0x1,
     LAST_CHUNK = 0x2,
 } usb_data_descriptor_e;
 
@@ -119,108 +121,6 @@ ns_button_config_t button_config = {
 //     usbAvailable = false;
 // }
 
-// void
-// init_rpc(void) {
-//     /**
-//      * @brief Initialize RPC and USB
-//      *
-//      */
-//     ns_rpc_config_t rpcConfig = {.api = &ns_rpc_gdo_V1_0_0,
-//                                  .mode = NS_RPC_GENERICDATA_CLIENT,
-//                                 .rx_buf = my_cdc_rx_ff_buf,
-//                                 .rx_bufLength = MY_USB_RX_BUFSIZE,
-//                                 .tx_buf = my_cdc_tx_ff_buf,
-//                                 .tx_bufLength = MY_USB_TX_BUFSIZE,
-//                                 .sendBlockToEVB_cb = NULL,
-//                                 .fetchBlockFromEVB_cb = NULL,
-//                                 .computeOnEVB_cb = NULL};
-//     ns_rpc_genericDataOperations_init(&rpcConfig);
-// }
-
-// void
-// print_to_pc(const char *msg) {
-//     /**
-//      * @brief Print to PC over RPC
-//      *
-//      */
-//     if (usbAvailable) {
-//         ns_rpc_data_remotePrintOnPC(msg);
-//     }
-//     ns_printf(msg);
-// }
-
-// void
-// send_image_to_pc(img_t *buffer, uint32_t size) {
-//     /**
-//      * @brief Send image to PC
-//      * @param buffer Image buffer
-//      * @param size # Buffer size
-//      */
-//     static char rpcSendImageDesc[] = "SEND_IMAGE";
-//     if (!usbAvailable) {
-//         return;
-//     }
-//     binary_t binaryBlock = {
-//         .data = (uint8_t *)buffer,
-//         .dataLength = size * sizeof(uint8_t),
-//     };
-//     dataBlock commandBlock = {.length = size, .dType = int8_e, .description = rpcSendImageDesc,
-//     .cmd = generic_cmd, .buffer = binaryBlock}; ns_rpc_data_sendBlockToPC(&commandBlock);
-// }
-
-// void
-// send_results_to_pc(float32_t *results, uint32_t numResults) {
-//     /**
-//      * @brief Send classification results to PC
-//      * @param results Buffer with model outputs (logits)
-//      * @param numResults # model ouputs
-//      */
-//     static char rpcSendResultsDesc[] = "SEND_RESULTS";
-//     if (!usbAvailable) {
-//         return;
-//     }
-//     binary_t binaryBlock = {
-//         .data = (uint8_t *)results,
-//         .dataLength = numResults * sizeof(float32_t),
-//     };
-//     dataBlock commandBlock = {
-//         .length = numResults, .dType = float32_e, .description = rpcSendResultsDesc, .cmd =
-//         generic_cmd, .buffer = binaryBlock};
-//     ns_rpc_data_sendBlockToPC(&commandBlock);
-// }
-
-// uint32_t
-// fetch_image_from_pc(img_t *buffer, uint32_t size) {
-//     /**
-//      * @brief Fetch image from PC over RPC
-//      * @param buffer Image buffer
-//      * @param size # Buffer size
-//      * @return # samples actually fetched
-//      */
-//     int err;
-//     static char rpcFetchImageDesc[] = "FETCH_IMAGE";
-//     if (!usbAvailable) {
-//         return 0;
-//     }
-//     binary_t binaryBlock = {
-//         .data = (uint8_t *)buffer,
-//         .dataLength = size * sizeof(uint8_t),
-//     };
-//     dataBlock resultBlock = {.length = size, .dType = int8_e, .description = rpcFetchImageDesc,
-//     .cmd = generic_cmd, .buffer = binaryBlock}; err = ns_rpc_data_computeOnPC(&resultBlock,
-//     &resultBlock); if (resultBlock.description != rpcFetchImageDesc) {
-//         ns_free(resultBlock.description);
-//     }
-//     if (resultBlock.buffer.data != (uint8_t *)buffer) {
-//         ns_free(resultBlock.buffer.data);
-//     }
-//     if (err) {
-//         return 0;
-//     }
-//     memcpy(buffer, resultBlock.buffer.data, resultBlock.buffer.dataLength);
-//     return resultBlock.length;
-// }
-
 void trigger_camera() {
     if (collectMode == CLIENT_DATA_COLLECT) {
         // Nothing to do
@@ -247,29 +147,33 @@ void perform_capture() {
     }
     ns_lp_printf("Toc 2 = %u\n", toc());
     uint32_t camLength = camera_capture(camBuffer, CAM_BUFF_SIZE);
-    memcpy(usbXmitBuffer, camBuffer + 1, camLength);
+    memcpy(usbXmitBuffer, camBuffer, camLength);
 
     // // To debug, just print first 20 bytes
-    for (int i = 00; i < 20; i++) {
-        ns_lp_printf("0x%02x ", camBuffer[i]);
-        // if (i % 16 == 0) {
-        //     ns_lp_printf("\n");
-        // }
-    }
-    for (int i = 00; i < 20; i++) {
-        ns_lp_printf("0xx%02x ", usbXmitBuffer[i]);
-        // if (i % 16 == 0) {
-        //     ns_lp_printf("\n");
-        // }
-    }
-    ns_lp_printf("\n");
+    // for (int i = 00; i < 20; i++) {
+    //     ns_lp_printf("0x%02x ", camBuffer[i]);
+    //     // if (i % 16 == 0) {
+    //     //     ns_lp_printf("\n");
+    //     // }
+    // }
+    // for (int i = 00; i < 20; i++) {
+    //     ns_lp_printf("0xx%02x ", usbXmitBuffer[i]);
+    //     // if (i % 16 == 0) {
+    //     //     ns_lp_printf("\n");
+    //     // }
+    // }
+    // ns_lp_printf("\n");
 
     // Max xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
     int offset = 0;
     while (remaining > 0) {
-        usb_data_t data = {
-            .descriptor = FIRST_CHUNK,
+        usb_data_t data;
+        if (offset == 0) {
+            ns_lp_printf("First chunk\n");
+            data.descriptor = 0;
+        } else {
+            data.descriptor = MIDDLE_CHUNK;
         };
         int chunkSize = remaining > 511 ? 511 : remaining;
         memcpy(data.buffer, &usbXmitBuffer[offset], chunkSize);
@@ -278,8 +182,13 @@ void perform_capture() {
         if (remaining == 0) {
             data.descriptor = LAST_CHUNK;
         }
+
         webusb_send_data((uint8_t *)&data, chunkSize + 1);
+        while (tud_vendor_write_available() < 512) {
+            ns_delay_us(200);
+        }
     }
+    tud_vendor_write_flush();
 
     // int rem = webusb_send_data((uint8_t *)&usbXmitBuffer, camLength);
     // ns_lp_printf("Sent %d bytes\n", rem);

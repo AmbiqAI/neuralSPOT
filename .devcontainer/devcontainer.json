@@ -11,5 +11,5 @@
             }
         }
     },
-    "postCreateCommand": "echo 'Setup Complete!'"
+    "postCreateCommand": "chmod +x .devcontainer/install.sh && ./.devcontainer/install.sh"
 }

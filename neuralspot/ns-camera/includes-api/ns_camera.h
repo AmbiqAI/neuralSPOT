@@ -65,6 +65,7 @@ typedef struct {
     ns_spi_config_t spiConfig; // = {.iom = CAM_SPI_IOM};
 } ns_camera_config_t;
 
+// Should only be used by Arducam driver
 int arducam_spi_read(
     const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin);
 int arducam_spi_write(
@@ -72,16 +73,71 @@ int arducam_spi_write(
 void arducam_delay_ms(uint16_t delay);
 void arducam_delay_us(uint16_t delay);
 
+/**
+ * @brief Initialize the camera
+ *
+ * @param cfg
+ * @return uint32_t
+ */
 uint32_t ns_camera_init(ns_camera_config_t *cfg);
+
+/**
+ * @brief Start the camera (take out of low power mode)
+ *
+ * @param cfg
+ * @return uint32_t
+ */
 uint32_t ns_start_camera(ns_camera_config_t *cfg);
+
+/**
+ * @brief Stop the camera (put into low power mode)
+ *
+ * @param cfg
+ * @return uint32_t
+ */
 uint32_t ns_stop_camera(ns_camera_config_t *cfg);
+
+/**
+ * @brief Take a picture in mode specified by cfg
+ * Once picture is taken, it can be transferred using ns_transfer_picture
+ * @param cfg
+ * @return uint32_t
+ */
 uint32_t ns_take_picture(ns_camera_config_t *cfg);
+
+/**
+ * @brief Check if camera is still capturing
+ * This is a helper function, it should typically only be used by ns_camera
+ * @return int
+ */
 int ns_is_camera_capturing();
+
+/**
+ * @brief Transfer captured frame over SPI to local buffer
+ * NOTE: This routine is blocking and will wait for inflight capture.
+ * @param cfg
+ * @param camBuf Camera buffer to store frame
+ * @param buffer_offset JPG images are stored 1 byte offset from start of buffer, so use this to
+ * find it
+ * @param bufLen Buffer size
+ * @return uint32_t
+ */
 uint32_t ns_transfer_picture(
     ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
 
 // uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen);
 
+/**
+ * @brief Not implemented yet, coming soon
+ *
+ * @param camBuf
+ * @param camLen
+ * @param imgBuf
+ * @param imgWidth
+ * @param imgHeight
+ * @param scaleFactor
+ * @return int
+ */
 int camera_decode_image(
     uint8_t *camBuf, uint32_t camLen, int8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
     uint32_t scaleFactor);

@@ -22,7 +22,6 @@
 #include "ns_malloc.h"
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
-// #include "ns_rpc_generic_data.h"
 #include "ns_timer.h"
 #include "ns_usb.h"
 #include "ns_core.h"
@@ -80,7 +79,7 @@ typedef struct usb_data {
 // static int volatile clientCollectBtnPressed = false;
 // static data_collect_mode_e collectMode = SENSOR_DATA_COLLECT;
 static uint8_t camBuffer[CAM_BUFF_SIZE];
-static AM_SHARED_RW uint8_t usbXmitBuffer[CAM_BUFF_SIZE];
+// static AM_SHARED_RW uint8_t usbXmitBuffer[CAM_BUFF_SIZE];
 // extern img_t *imgBuffer;
 
 const ns_power_config_t ns_pwr_config = {
@@ -165,7 +164,7 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
 }
 
 int main(void) {
-    int err;
+    // int err;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     usb_handle_t usb_handle = NULL;
 

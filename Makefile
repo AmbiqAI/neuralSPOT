@@ -37,9 +37,10 @@ modules      += neuralspot/ns-features
 
 # ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
+ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-spi
 modules      += neuralspot/ns-camera
-# endif
+endif
 modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
@@ -94,6 +95,9 @@ else
 # # Don't include it twice
 # 				modules  += examples/audio_codec
 # 			endif
+		endif
+		ifeq ($(ARCH),apollo4)
+			modules      += examples/vision
 		endif
 	else
 		modules 	 += examples/$(EXAMPLE)

@@ -129,7 +129,7 @@ uint32_t ns_stop_camera(ns_camera_config_t *cfg) {
     return NS_STATUS_SUCCESS;
 }
 
-uint32_t ns_trigger_camera_capture(ns_camera_config_t *cfg) {
+uint32_t ns_take_picture(ns_camera_config_t *cfg) {
     /**
      * @brief Trigger capture (Arducam will fetch next frame from image sensor)
      *
@@ -139,7 +139,7 @@ uint32_t ns_trigger_camera_capture(ns_camera_config_t *cfg) {
     return takePicture(&camera, cfg->imageMode, cfg->imagePixFmt);
 }
 
-int is_camera_capturing() {
+int ns_is_camera_capturing() {
     /**
      * @brief Check if Arducam is still fetching frame
      *
@@ -147,9 +147,10 @@ int is_camera_capturing() {
     return !cameraImageAvailable(&camera);
 }
 
-uint32_t ns_transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
+uint32_t ns_transfer_picture(
+    ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen) {
     /**
-     * @brief Transfer captured frame over SPI.
+     * @brief Transfer captured frame over SPI to local buffer
      * NOTE: This routine is blocking and will wait for inflight capture.
      * @param camBuf Camera buffer to store frame
      * @param bufLen Buffer size
@@ -158,7 +159,7 @@ uint32_t ns_transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
     uint32_t length;
     uint32_t index;
     // Wait for capture to complete
-    while (is_camera_capturing()) {
+    while (ns_is_camera_capturing()) {
         ns_delay_us(10000);
     }
 
@@ -179,6 +180,12 @@ uint32_t ns_transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen) {
     }
     length = index + 1;
     // ns_lp_printf("Clipped FIFO length: %u\n", length);
+
+    if (cfg->imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
+        *buffer_offset = 1;
+    } else {
+        *buffer_offset = 0;
+    }
 
     return length;
 }

@@ -1,7 +1,8 @@
 /**
- * @file main.cc
- * @author Adam Page (adam.page@ambiq.com)
- * @brief
+ * @file Vision.cc
+ * @author Ambiq
+ * @brief This demo is intended to work with the vision WebBLE client
+ * See README.md for more details
  * @version 0.1
  * @date 2022-11-09
  *
@@ -60,22 +61,27 @@ typedef enum {
     LAST_CHUNK = 0x2,
 } usb_data_descriptor_e;
 
+#define MAX_WEBUSB_FRAME 512
+#define WEBUSB_HEADER_SIZE 2
+#define MAX_WEBUSB_CHUNK (MAX_WEBUSB_FRAME - WEBUSB_HEADER_SIZE)
+
 typedef struct usb_data {
     // Jpeg Image
     uint8_t descriptor;
-    uint8_t buffer[512 - 1]; // assume 66% compression (so no x3 for RGB)
+    uint8_t mode; // 0 RGB, 1 JPG
+    uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
 
-static app_state_e state = IDLE_STATE;
-static float32_t modelResults[NUM_CLASSES] = {0};
-static int modelResult = 0;
-static bool usbAvailable = false;
-static int volatile sensorCollectBtnPressed = false;
-static int volatile clientCollectBtnPressed = false;
-static data_collect_mode_e collectMode = SENSOR_DATA_COLLECT;
+// static app_state_e state = IDLE_STATE;
+// static float32_t modelResults[NUM_CLASSES] = {0};
+// static int modelResult = 0;
+// static bool usbAvailable = false;
+// static int volatile sensorCollectBtnPressed = false;
+// static int volatile clientCollectBtnPressed = false;
+// static data_collect_mode_e collectMode = SENSOR_DATA_COLLECT;
 static uint8_t camBuffer[CAM_BUFF_SIZE];
 static AM_SHARED_RW uint8_t usbXmitBuffer[CAM_BUFF_SIZE];
-extern img_t *imgBuffer;
+// extern img_t *imgBuffer;
 
 const ns_power_config_t ns_pwr_config = {
     .api = &ns_power_V1_0_0,
@@ -96,83 +102,62 @@ ns_timer_config_t tickTimer = {
     .enableInterrupt = false,
 };
 
-ns_button_config_t button_config = {
-    .api = &ns_button_V1_0_0,
-    .button_0_enable = true,
-    .button_1_enable = true,
-    .button_0_flag = &sensorCollectBtnPressed,
-    .button_1_flag = &clientCollectBtnPressed};
+// ns_button_config_t button_config = {
+//     .api = &ns_button_V1_0_0,
+//     .button_0_enable = true,
+//     .button_1_enable = true,
+//     .button_0_flag = &sensorCollectBtnPressed,
+//     .button_1_flag = &clientCollectBtnPressed};
 
 ns_camera_config_t camera_config = {
     .api = &ns_camera_V1_0_0,
     .spiSpeed = AM_HAL_IOM_8MHZ,
     .cameraHw = NS_ARDUCAM,
-    .imageMode = NS_CAM_IMAGE_MODE_96X96,
-    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
+    .imageMode = CAM_IMAGE_MODE,
+    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
+    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
     .spiConfig = {.iom = 1},
 };
 
 void tic() { elapsedTime = ns_us_ticker_read(&tickTimer); }
 uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
-static void perform_capture() {
+static uint32_t bufferOffset = 0;
 
-    while (is_camera_capturing()) {
-        ns_delay_us(50000);
-    }
-    uint32_t camLength = ns_transfer_camera_capture(camBuffer, CAM_BUFF_SIZE);
-    // uint32_t camLength = ns_camera_capture(&camera_config, camBuffer, CAM_BUFF_SIZE);
-    memcpy(usbXmitBuffer, camBuffer, camLength);
+static void perform_capture() {
+    uint32_t camLength =
+        ns_transfer_picture(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
 
     // Max xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
-    int offset = 0;
+    // int offset = 0;
+    int offset = bufferOffset;
     while (remaining > 0) {
         usb_data_t data;
         if (offset == 0) {
             // ns_lp_printf("First chunk\n");
-            data.descriptor = 0;
+            data.descriptor = FIRST_CHUNK;
         } else {
             data.descriptor = MIDDLE_CHUNK;
         };
-        int chunkSize = remaining > 511 ? 511 : remaining;
-        memcpy(data.buffer, &usbXmitBuffer[offset], chunkSize);
+
+        data.mode = camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG ? 1 : 0;
+
+        int chunkSize = remaining > MAX_WEBUSB_CHUNK ? MAX_WEBUSB_CHUNK : remaining;
+        memcpy(data.buffer, &camBuffer[offset], chunkSize);
         remaining -= chunkSize;
         offset += chunkSize;
         if (remaining == 0) {
             data.descriptor = LAST_CHUNK;
         }
 
-        webusb_send_data((uint8_t *)&data, chunkSize + 1);
-        while (tud_vendor_write_available() < 512) {
+        webusb_send_data((uint8_t *)&data, chunkSize + WEBUSB_HEADER_SIZE);
+        while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
             ns_delay_us(200);
         }
     }
     tud_vendor_write_flush();
 }
-
-// void preprocess_image() {
-//     /**
-//      * @brief Preprocess image
-//      *
-//      */
-//     if (collectMode == CLIENT_DATA_COLLECT) {
-//         // Just need to normalize
-//     } else {
-//     }
-// }
-
-// void wakeup() {
-//     am_bsp_itm_printf_enable();
-//     am_bsp_debug_printf_enable();
-//     ns_delay_us(50);
-// }
-
-// void deepsleep() {
-//     am_bsp_itm_printf_disable();
-//     am_bsp_debug_printf_disable();
-//     am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
-// }
 
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     // Do something with the received message
@@ -192,7 +177,7 @@ int main(void) {
 
     elapsedTime = 0;
     NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
-    NS_TRY(ns_peripheral_button_init(&button_config), "Button Init Failed\n");
+    // NS_TRY(ns_peripheral_button_init(&button_config), "Button Init Failed\n");
 
     // WebUSB Setup
     webusb_register_msg_cb(msgReceived, NULL);
@@ -213,10 +198,10 @@ int main(void) {
     // Send camera images to webusb clients
     ns_start_camera(&camera_config);
     ns_delay_us(10000);
-    ns_trigger_camera_capture(&camera_config);
+    ns_take_picture(&camera_config);
     while (1) {
         perform_capture();
-        ns_trigger_camera_capture(&camera_config);
+        ns_take_picture(&camera_config);
         ns_deep_sleep();
     }
 }

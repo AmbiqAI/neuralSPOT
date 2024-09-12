@@ -75,11 +75,12 @@ void arducam_delay_us(uint16_t delay);
 uint32_t ns_camera_init(ns_camera_config_t *cfg);
 uint32_t ns_start_camera(ns_camera_config_t *cfg);
 uint32_t ns_stop_camera(ns_camera_config_t *cfg);
-uint32_t ns_trigger_camera_capture(ns_camera_config_t *cfg);
-int is_camera_capturing();
-uint32_t ns_transfer_camera_capture(uint8_t *camBuf, uint32_t bufLen);
+uint32_t ns_take_picture(ns_camera_config_t *cfg);
+int ns_is_camera_capturing();
+uint32_t ns_transfer_picture(
+    ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
 
-uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen);
+// uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen);
 
 int camera_decode_image(
     uint8_t *camBuf, uint32_t camLen, int8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,

@@ -1,3 +1,30 @@
+[tool.poetry]
+name = "tools"
+version = "0.1.0"
+description = "Autodeploy is an all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs."
+authors = ["Ambiq AI <support.aitg@ambiq.com>"]
+readme = "README.md"
+
+
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = ">=1.21.6"
+soundfile = ">=0.10.3"
+pyserial = "^3.5"
+pydantic-argparse = "^0.9.0"
+pydantic = "1.8.2"
+joulescope = "^1.1.15"
+tensorflow = "^2.17.0"
+tabulate = "^0.9.0"
+tqdm = "^4.66.5"
+PyOgg = "^0.6.14a1"
+Wave = "^0.0.2"
+erpc = "1.9.1"
+PyYAML = "^6.0.2"
+
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

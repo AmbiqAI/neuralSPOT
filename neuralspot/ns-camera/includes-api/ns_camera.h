@@ -55,7 +55,12 @@ typedef enum {
     NS_CAM_IMAGE_PIX_FMT_JPEG = 0x01,
 } ns_image_pix_fmt_e;
 
-typedef struct {
+// Callback def
+struct ns_camera_cfg;
+typedef void (*ns_camera_dma_cb)(struct ns_camera_cfg *cfg);
+typedef void (*ns_camera_picture_cb)(struct ns_camera_cfg *cfg);
+
+typedef struct ns_camera_cfg {
     const ns_core_api_t *api; ///< API prefix
     int8_t iom;               ///< Apollo4 IOM port
     uint32_t spiSpeed;        // = CAM_SPI_SPEED;
@@ -63,6 +68,13 @@ typedef struct {
     ns_image_mode_e imageMode;
     ns_image_pix_fmt_e imagePixFmt;
     ns_spi_config_t spiConfig; // = {.iom = CAM_SPI_IOM};
+    ns_camera_dma_cb dmaCompleteCb;
+    ns_camera_picture_cb pictureTakenCb;
+
+    // Internal state
+    uint32_t dmaBufferOffset;
+    uint32_t dmaBufferLength;
+
 } ns_camera_config_t;
 
 // Should only be used by Arducam driver
@@ -106,6 +118,14 @@ uint32_t ns_stop_camera(ns_camera_config_t *cfg);
 uint32_t ns_take_picture(ns_camera_config_t *cfg);
 
 /**
+ * @brief Press the shutter button
+ * Start the capture process, turns on a timer to poll the camera for completion
+ * @param cfg
+ * @return uint32_t
+ */
+uint32_t ns_press_shutter_button(ns_camera_config_t *cfg);
+
+/**
  * @brief Check if camera is still capturing
  * This is a helper function, it should typically only be used by ns_camera
  * @return int
@@ -123,6 +143,9 @@ int ns_is_camera_capturing();
  * @return uint32_t
  */
 uint32_t ns_transfer_picture(
+    ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
+
+uint32_t ns_start_dma_read(
     ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
 
 // uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen);

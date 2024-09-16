@@ -108,35 +108,75 @@ ns_timer_config_t tickTimer = {
 //     .button_0_flag = &sensorCollectBtnPressed,
 //     .button_1_flag = &clientCollectBtnPressed};
 
+// DMA Callback
+volatile bool dmaComplete = false;
+volatile bool pictureTaken = false;
+// uint32_t bufferOffset = 0;
+uint32_t buffer_length = 0;
+static uint32_t bufferOffset = 0;
+
+void picture_dma_complete(ns_camera_config_t *cfg) {
+    // ns_lp_printf("DMA Complete CB\n");
+    dmaComplete = true;
+    // buffer_offset = cfg->dmaBufferOffset;
+    // buffer_length = cfg->dmaBufferLength;
+}
+
+void picture_taken_complete(ns_camera_config_t *cfg) {
+    pictureTaken = true;
+    ns_lp_printf("Picture taken CB\n");
+}
+
 ns_camera_config_t camera_config = {
     .api = &ns_camera_V1_0_0,
     .spiSpeed = AM_HAL_IOM_8MHZ,
     .cameraHw = NS_ARDUCAM,
     .imageMode = CAM_IMAGE_MODE,
-    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
-    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
+    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
+    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
     .spiConfig = {.iom = 1},
+    .dmaCompleteCb = picture_dma_complete,
+    .pictureTakenCb = picture_taken_complete,
 };
 
 void tic() { elapsedTime = ns_us_ticker_read(&tickTimer); }
 uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
-static uint32_t bufferOffset = 0;
+static uint32_t start_dma() {
+    uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
+    return camLength;
+}
 
-static void perform_capture() {
-    uint32_t camLength =
-        ns_transfer_picture(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
+uint32_t chop_off_trailing_zeros(uint32_t length) {
+    uint32_t index;
+    for (index = length - 1; index >= 0; index--) {
+        if (camBuffer[index] != 0) {
+            break;
+        }
+    }
+    return index + 1;
+}
 
+static void render_image(uint32_t camLength) {
     // Max xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
     // int offset = 0;
     int offset = bufferOffset;
+    // ns_lp_printf("Rendering image len = %d\n",camLength);
+
+    // print 40 bytes starting at 14330
+    // for (int i = 14330; i < 14370; i++) {
+    //     ns_lp_printf("%d ", camBuffer[i]);
+    // }
+    // ns_lp_printf("\n");
+
     while (remaining > 0) {
         usb_data_t data;
         if (offset == 0) {
             // ns_lp_printf("First chunk\n");
             data.descriptor = FIRST_CHUNK;
         } else {
+            // ns_lp_printf("Middle chunk\n");
             data.descriptor = MIDDLE_CHUNK;
         };
 
@@ -147,6 +187,7 @@ static void perform_capture() {
         remaining -= chunkSize;
         offset += chunkSize;
         if (remaining == 0) {
+            // ns_lp_printf("Last chunk\n");
             data.descriptor = LAST_CHUNK;
         }
 
@@ -170,7 +211,10 @@ int main(void) {
 
     // Power configuration (mem, cache, peripherals, clock)
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_pwr_config), "Power config failed.\n");
+    // NS_TRY(ns_power_config(&ns_pwr_config), "Power config failed.\n");
+    am_bsp_low_power_init();
+    am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
 
@@ -197,10 +241,49 @@ int main(void) {
     // Send camera images to webusb clients
     ns_start_camera(&camera_config);
     ns_delay_us(10000);
-    ns_take_picture(&camera_config);
+    ns_lp_printf("Taking picture\n");
+    // ns_take_picture(&camera_config);
+    ns_press_shutter_button(&camera_config);
+    ns_lp_printf("Picture started\n");
+    // ns_lp_printf("Starting DMA\n");
+    // buffer_length = start_dma();
+    // ns_lp_printf("DMA started, len %d\n", buffer_length);
+
     while (1) {
-        perform_capture();
-        ns_take_picture(&camera_config);
+        // switch (state)
+        // {
+        // case TAKEN_PICTURE:
+        //     /* code */
+        //     if (pictureTaken) {
+        //         ns_lp_printf("Picture taken\n");
+        //         pictureTaken = false;
+        //         buffer_length = start_dma();
+        //         state = DMA_STARTED;
+        //     }
+        //     break;
+        // case DMA_STARTED:
+
+        // default:
+        //     break;
+        // }
+        ns_delay_us(1000);
+        if (pictureTaken) {
+            ns_lp_printf("Picture taken\n");
+            buffer_length = start_dma();
+            pictureTaken = false;
+        }
+        if (dmaComplete) {
+            ns_lp_printf("DMA Complete\n");
+            buffer_length =
+                chop_off_trailing_zeros(buffer_length); // Remove trailing zeros, calc new length
+            // ns_lp_printf("Rendering image new len %d\n", buffer_length);
+            render_image(buffer_length);
+            // ns_lp_printf("Image rendered\n");
+            ns_press_shutter_button(&camera_config);
+            dmaComplete = false;
+            // buffer_length = start_dma();
+            // ns_lp_printf("DMA started, len %d\n", buffer_length);
+        }
         ns_deep_sleep();
     }
 }

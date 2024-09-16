@@ -12,7 +12,6 @@
 #include "ns_camera.h"
 #include "ArducamCamera.h"
 #include "arm_math.h"
-// #include "ns_camera_constants.h"
 #include "jpeg-decoder/jpeg_decoder.h"
 #include "jpeg-decoder/picojpeg.h"
 #include "ns_spi.h"
@@ -29,17 +28,110 @@ const ns_core_api_t ns_camera_current_version = {
 jpeg_decoder_context_t jpegCtx = {};
 ArducamCamera camera; // Arducam driver assumes this is a global, so :shrug:
 ns_spi_config_t *spiHandle = NULL;
+ns_camera_config_t ns_camera_config;
+bool nsCameraPictureBeingTaken = false;
+
+// DMA read state
+// SPI DMA max xfer size is 4095 on AP4, so we have to chunk it
+#define ARDU_BURST_FIFO_READ 0x3C // Burst FIFO read operation
+// #define MAX_SPI_DMA_LEN AM_HAL_IOM_MAX_TXNSIZE_SPI
+#define MAX_SPI_DMA_LEN 4095
+static uint32_t dma_total_requested_length;
+static uint32_t dma_current_chunk_length;
+static uint32_t dma_offset;
+static uint8_t *dma_cambuf;
+
+bool ns_read_done = false;
+
+void ns_camera_buff_read_done(ns_spi_config_t *cfg) {
+    ns_printf("Chunk Read done for chunk starting at offset %d\n", dma_offset);
+
+    // Calculate next chunk offset
+    dma_offset += dma_current_chunk_length;
+
+    // Check if we have more to read
+    if (dma_offset < dma_total_requested_length) {
+        // Calculate next chunk length
+        dma_current_chunk_length = (dma_total_requested_length - dma_offset) > MAX_SPI_DMA_LEN
+                                       ? MAX_SPI_DMA_LEN
+                                       : (dma_total_requested_length - dma_offset);
+
+        // Read next chunk
+        ns_lp_printf("Starting next dma addr %d len %d\n", dma_offset, dma_current_chunk_length);
+        ns_spi_read_dma(
+            spiHandle, dma_offset + dma_cambuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1,
+            camera.csPin);
+        // dma_offset += dma_current_chunk_length;
+    } else {
+        ns_read_done = true;
+        // ns_lp_printf("DMA Read done\n");
+        if (ns_camera_config.dmaCompleteCb) {
+            ns_camera_config.dmaCompleteCb(&ns_camera_config);
+        }
+        if (camera.burstFirstFlag == 0) {
+            camera.burstFirstFlag = 1;
+        }
+        camera.receivedLength -= dma_total_requested_length;
+    }
+}
+
+#define NS_CAMERA_ARDUCHIP_TRIG 0x44 // Trigger source
+#define NS_CAMERA_VSYNC_MASK 0x01
+#define NS_CAMERA_SHUTTER_MASK 0x02
+#define NS_CAMERA_CAP_DONE_MASK 0x04
+#define NS_CAM_REG_FORMAT 0X20
+#define NS_CAM_REG_CAPTURE_RESOLUTION 0X21
+#define NS_CAM_SET_CAPTURE_MODE (0 << 7)
+
+void ns_camera_check_picture_completion(ns_timer_config_t *timer) {
+    if (!nsCameraPictureBeingTaken) {
+        // ns_lp_printf("Not taking picture\n");
+        return;
+    }
+    if (getBit(&camera, NS_CAMERA_ARDUCHIP_TRIG, NS_CAMERA_CAP_DONE_MASK) == 0) {
+        ns_lp_printf("Picture not done\n");
+        return;
+    }
+    ns_lp_printf("Picture done\n");
+    camera.receivedLength = readFifoLength(&camera);
+    camera.totalLength = camera.receivedLength;
+    camera.burstFirstFlag = 0;
+
+    if (ns_camera_config.pictureTakenCb) {
+        ns_lp_printf("Calling picture taken CB\n");
+        ns_camera_config.pictureTakenCb(&ns_camera_config);
+    }
+    nsCameraPictureBeingTaken = false;
+}
+
+ns_timer_config_t timerCfg = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_INTERRUPT,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 80000,
+    .callback = ns_camera_check_picture_completion,
+};
 
 uint32_t ns_camera_init(ns_camera_config_t *cfg) {
     // Check API
     // Only IOM1 is supported currently - checkt
 
     spiHandle = &cfg->spiConfig;
+    cfg->spiConfig.cb = ns_camera_buff_read_done;
+    // cfg->dmaCompleteCb = ns_camera_buff_read_done;
+    memcpy(&ns_camera_config, cfg, sizeof(ns_camera_config_t));
+
     am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM1);
     if (ns_spi_interface_init(&cfg->spiConfig, cfg->spiSpeed, AM_HAL_IOM_SPI_MODE_0)) {
         return NS_STATUS_INIT_FAILED;
     }
     createArducamCamera(AM_BSP_IOM1_CS_CHNL); // inits camera global, other stuff
+
+    // Start a polling timer is needed
+    if (cfg->pictureTakenCb != NULL) {
+        ns_lp_printf("Starting camera timer\n");
+        NS_TRY(ns_timer_init(&timerCfg), "Failed to init camera timer\n");
+    }
 
     begin(&camera);
     lowPowerOn(&camera);
@@ -78,33 +170,29 @@ int arducam_spi_write(
 void arducam_delay_ms(uint16_t delay) { ns_delay_us(1000 * delay); }
 void arducam_delay_us(uint16_t delay) { ns_delay_us(delay); }
 
-// static void dump_camera_regs() {
-//     /**
-//      * @brief Capture Arducam SPI register values
-//      *
-//      */
-//     uint8_t regs[] = {0,    1,    2,    3,    4,    5,    6,    0x3B, 0x3E,
-//                       0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47};
-//     for (size_t i = 0; i < 18; i++) {
-//         ns_printf("[%x]=%x\n", regs[i], cameraReadReg(&camera, regs[i]));
-//     }
-// }
+uint32_t ns_read_buff(ArducamCamera *camera, uint8_t *buff, uint32_t length) {
+    if (cameraImageAvailable(camera) == 0 || (length == 0)) {
+        return 0;
+    }
 
-// int init_camera(void) {
-//     /**
-//      * @brief Initialize and configure camera
-//      *
-//      */
-//     if (ns_spi_interface_init(&spiConfig, CAM_SPI_SPEED, AM_HAL_IOM_SPI_MODE_0)) {
-//         return 1;
-//     }
-//     createArducamCamera(AM_BSP_IOM1_CS_CHNL);
+    if (camera->receivedLength < length) {
+        length = camera->receivedLength;
+    }
+    uint32_t err = ns_spi_read_dma(spiHandle, buff, length, ARDU_BURST_FIFO_READ, 1, camera->csPin);
+    // uint32_t ns_spi_read_dma(
+    //     ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen,
+    //     uint32_t csPin) {
+    // arducam_spi_read(buff, length, BURST_FIFO_READ, 1, camera->csPin);
 
-//     // cameraInit(&camera);
-//     begin(&camera);
-//     lowPowerOn(&camera);
-//     return 0;
-// }
+    //     arducamSpiCsPinLow(camera->csPin);
+    //     setFifoBurst(camera);
+    if (camera->burstFirstFlag == 0) {
+        camera->burstFirstFlag = 1;
+        // arducamSpiTransfer(0x00);
+    }
+    camera->receivedLength -= length;
+    return length;
+}
 
 uint32_t ns_start_camera(ns_camera_config_t *cfg) {
     /**
@@ -139,12 +227,64 @@ uint32_t ns_take_picture(ns_camera_config_t *cfg) {
     return takePicture(&camera, cfg->imageMode, cfg->imagePixFmt);
 }
 
+uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
+    ns_image_pix_fmt_e pixel_format = cfg->imagePixFmt;
+    ns_image_mode_e mode = cfg->imageMode;
+
+    if (camera.currentPixelFormat != pixel_format) {
+        camera.currentPixelFormat = pixel_format;
+        writeReg(&camera, NS_CAM_REG_FORMAT, pixel_format); // set the data format
+        waitI2cIdle(&camera);                               // Wait I2c Idle
+    }
+
+    if (camera.currentPictureMode != mode) {
+        camera.currentPictureMode = mode;
+        writeReg(&camera, NS_CAM_REG_CAPTURE_RESOLUTION, NS_CAM_SET_CAPTURE_MODE | mode);
+        waitI2cIdle(&camera); // Wait I2c Idle
+    }
+
+    cameraClearFifoFlag(&camera);
+    cameraStartCapture(&camera);
+    nsCameraPictureBeingTaken = true;
+}
+
 int ns_is_camera_capturing() {
     /**
      * @brief Check if Arducam is still fetching frame
      *
      */
     return !cameraImageAvailable(&camera);
+}
+
+uint32_t ns_start_dma_read(
+    ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen) {
+    // Wait for capture to complete
+    while (ns_is_camera_capturing()) {
+        ns_delay_us(10000);
+        ns_lp_printf("Waiting for camera capture\n");
+    }
+
+    // Get FIFO length
+    dma_total_requested_length = cameraReadFifoLength(&camera);
+    ns_lp_printf("FIFO length: %u\n", dma_total_requested_length);
+    if (cfg->imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
+        *buffer_offset = 1;
+    } else {
+        *buffer_offset = 0;
+    }
+
+    // Kick off DMA read
+    ns_read_done = false;
+    dma_cambuf = camBuf;
+    dma_offset = 0;
+    dma_current_chunk_length = (dma_total_requested_length > MAX_SPI_DMA_LEN)
+                                   ? MAX_SPI_DMA_LEN
+                                   : dma_total_requested_length;
+    // ns_lp_printf("Starting DMA read of chunk size %d\n", dma_current_chunk_length);
+    uint32_t err = ns_spi_read_dma(
+        spiHandle, camBuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1, camera.csPin);
+
+    return dma_total_requested_length;
 }
 
 uint32_t ns_transfer_picture(
@@ -200,6 +340,7 @@ uint32_t ns_transfer_picture(
 uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen) {
     // ns_trigger_camera_capture(cfg);
     // return transfer_camera_capture(camBuf, bufLen);
+    return 0;
 }
 
 /**

@@ -123,7 +123,7 @@ uint32_t ns_spi_read_dma(
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
     Transaction.uPeerInfo.ui32SpiChipSelect = csPin;
-    ns_lp_printf("SPI Read DMA len of %d to 0x%x\n", bufLen, (uint32_t)buf);
+    // ns_lp_printf("SPI Read DMA len of %d to 0x%x\n", bufLen, (uint32_t)buf);
     err = am_hal_iom_nonblocking_transfer(
         cfg->iomHandle, &Transaction, ns_spi_dma_read_complete_cb, 0);
 

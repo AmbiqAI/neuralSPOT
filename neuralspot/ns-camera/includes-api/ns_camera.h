@@ -63,13 +63,15 @@ typedef void (*ns_camera_picture_cb)(struct ns_camera_cfg *cfg);
 typedef struct ns_camera_cfg {
     const ns_core_api_t *api; ///< API prefix
     int8_t iom;               ///< Apollo4 IOM port
-    uint32_t spiSpeed;        // = CAM_SPI_SPEED;
+    uint32_t spiSpeed;        ///< = CAM_SPI_SPEED;
     ns_camera_hw_e cameraHw;
     ns_image_mode_e imageMode;
     ns_image_pix_fmt_e imagePixFmt;
-    ns_spi_config_t spiConfig; // = {.iom = CAM_SPI_IOM};
-    ns_camera_dma_cb dmaCompleteCb;
-    ns_camera_picture_cb pictureTakenCb;
+    ns_spi_config_t spiConfig;
+    ns_camera_dma_cb
+        dmaCompleteCb; ///< If using DMA, this will be called when DMA chunk is complete
+    ns_camera_picture_cb
+        pictureTakenCb; ///< If using polling timer, this will be called when pic is ready to xfer
 
     // Internal state
     uint32_t dmaBufferOffset;

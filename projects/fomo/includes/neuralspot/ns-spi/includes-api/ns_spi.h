@@ -21,13 +21,16 @@ extern "C" {
 #include "am_util.h"
 
 typedef enum { NS_SPI_STATUS_SUCCESS = 0, NS_SPI_STATUS_ERROR = 1 } ns_spi_status_e;
+struct ns_spi_cfg;
+typedef void (*ns_spi_cb)(struct ns_spi_cfg *);
 
 // SPI Driver Configuration
-typedef struct {
+typedef struct ns_spi_cfg {
     int8_t iom; // Apollo4 IOM port
     // Internal state
     void *iomHandle;             // AmbiqSuite IOM handle
     am_hal_iom_config_t sIomCfg; //  AmbiqSuite IOM config
+    ns_spi_cb cb;                // Callback
 } ns_spi_config_t;
 
 /**
@@ -82,6 +85,21 @@ uint32_t ns_spi_write(
  */
 uint32_t ns_spi_transfer(
     ns_spi_config_t *cfg, const void *txBuf, const void *rxBuf, uint32_t size, uint32_t csPin);
+
+/**
+ * @brief Issure DMA read, the cfg->callback will be called when the transfer is complete
+ *
+ * @param cfg
+ * @param buf
+ * @param bufLen
+ * @param reg
+ * @param regLen
+ * @param csPin
+ * @return uint32_t
+ */
+uint32_t ns_spi_read_dma(
+    ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen,
+    uint32_t csPin);
 
 #ifdef __cplusplus
 }

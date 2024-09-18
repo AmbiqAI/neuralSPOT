@@ -27,7 +27,6 @@
 #include "ns_core.h"
 #include "tusb.h"
 
-// Locals
 #include "ns_camera.h"
 #include "vision.h"
 #include "model.h"
@@ -44,7 +43,6 @@ static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE];
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
-    // .deviceType = NS_USB_CDC_DEVICE,
     .rx_buffer = NULL,
     .rx_bufferLength = 0,
     .tx_buffer = NULL,
@@ -71,16 +69,7 @@ typedef struct usb_data {
     uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
 
-// static app_state_e state = IDLE_STATE;
-// static float32_t modelResults[NUM_CLASSES] = {0};
-// static int modelResult = 0;
-// static bool usbAvailable = false;
-// static int volatile sensorCollectBtnPressed = false;
-// static int volatile clientCollectBtnPressed = false;
-// static data_collect_mode_e collectMode = SENSOR_DATA_COLLECT;
 static uint8_t camBuffer[CAM_BUFF_SIZE];
-// static AM_SHARED_RW uint8_t usbXmitBuffer[CAM_BUFF_SIZE];
-// extern img_t *imgBuffer;
 
 const ns_power_config_t ns_pwr_config = {
     .api = &ns_power_V1_0_0,
@@ -118,13 +107,11 @@ static uint32_t bufferOffset = 0;
 void picture_dma_complete(ns_camera_config_t *cfg) {
     // ns_lp_printf("DMA Complete CB\n");
     dmaComplete = true;
-    // buffer_offset = cfg->dmaBufferOffset;
-    // buffer_length = cfg->dmaBufferLength;
 }
 
 void picture_taken_complete(ns_camera_config_t *cfg) {
     pictureTaken = true;
-    ns_lp_printf("Picture taken CB\n");
+    // ns_lp_printf("Picture taken CB\n");
 }
 
 ns_camera_config_t camera_config = {
@@ -163,12 +150,6 @@ static void render_image(uint32_t camLength) {
     // int offset = 0;
     int offset = bufferOffset;
     // ns_lp_printf("Rendering image len = %d\n",camLength);
-
-    // print 40 bytes starting at 14330
-    // for (int i = 14330; i < 14370; i++) {
-    //     ns_lp_printf("%d ", camBuffer[i]);
-    // }
-    // ns_lp_printf("\n");
 
     while (remaining > 0) {
         usb_data_t data;
@@ -241,47 +222,30 @@ int main(void) {
     // Send camera images to webusb clients
     ns_start_camera(&camera_config);
     ns_delay_us(10000);
+
+    // Take the first picture
     ns_lp_printf("Taking picture\n");
-    // ns_take_picture(&camera_config);
     ns_press_shutter_button(&camera_config);
     ns_lp_printf("Picture started\n");
-    // ns_lp_printf("Starting DMA\n");
-    // buffer_length = start_dma();
-    // ns_lp_printf("DMA started, len %d\n", buffer_length);
 
     while (1) {
-        // switch (state)
-        // {
-        // case TAKEN_PICTURE:
-        //     /* code */
-        //     if (pictureTaken) {
-        //         ns_lp_printf("Picture taken\n");
-        //         pictureTaken = false;
-        //         buffer_length = start_dma();
-        //         state = DMA_STARTED;
-        //     }
-        //     break;
-        // case DMA_STARTED:
-
-        // default:
-        //     break;
-        // }
         ns_delay_us(1000);
         if (pictureTaken) {
-            ns_lp_printf("Picture taken\n");
+            // ns_lp_printf("Picture taken\n");
             buffer_length = start_dma();
             pictureTaken = false;
         }
         if (dmaComplete) {
-            ns_lp_printf("DMA Complete\n");
-            buffer_length =
-                chop_off_trailing_zeros(buffer_length); // Remove trailing zeros, calc new length
-            // ns_lp_printf("Rendering image new len %d\n", buffer_length);
+            // ns_lp_printf("DMA Complete\n");
+            if (camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
+                buffer_length = chop_off_trailing_zeros(
+                    buffer_length); // Remove trailing zeros, calc new length
+                // ns_lp_printf("Rendering image new len %d\n", buffer_length);
+            }
             render_image(buffer_length);
             // ns_lp_printf("Image rendered\n");
             ns_press_shutter_button(&camera_config);
             dmaComplete = false;
-            // buffer_length = start_dma();
             // ns_lp_printf("DMA started, len %d\n", buffer_length);
         }
         ns_deep_sleep();

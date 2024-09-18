@@ -18,7 +18,7 @@ RUN TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3
     rm /tmp/arm-gnu-toolchain.tar.xz
 
 # Update PATH
-ENV PATH="/opt/gcc-arm-none-eabi-10.3-2021.10/bin:${PATH}"
+# ENV PATH="/opt/gcc-arm-none-eabi-10.3-2021.10/bin:${PATH}"
 
 # Set the working directory
 WORKDIR /workspace

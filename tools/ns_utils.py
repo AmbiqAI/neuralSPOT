@@ -7,7 +7,13 @@ import time
 
 import numpy as np
 
-sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+# sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+base_path = os.path.dirname(__file__)  # Get the directory of the current script
+directory_to_add = os.path.abspath(os.path.join(base_path, "../neuralspot/ns-rpc/python/ns-rpc-genericdata/"))
+# Add the directory to sys.path
+sys.path.append(directory_to_add)
+
+
 import erpc
 import GenericDataOperations_PcToEvb
 

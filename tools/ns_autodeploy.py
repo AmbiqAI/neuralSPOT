@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import logging as log
 import pickle
 import yaml
@@ -17,10 +18,15 @@ from autodeploy.validator import (
 )
 from ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
+from pathlib import Path
 
 
 class Params(BaseModel):
     # General Parameters
+    # root_directory: str = Field(
+    #     str(Path.cwd()), 
+    #     description="Root directory for ns_autodeploy to run from"
+    # )
     seed: int = Field(42, description="Random Seed")
     create_binary: bool = Field(
         True,
@@ -101,7 +107,8 @@ class Params(BaseModel):
         "model", description="Name of model to be used in generated library"
     )
     working_directory: str = Field(
-        "../projects/autodeploy",
+        ".",
+        # "../projects",
         description="Directory where generated library will be placed",
     )
 

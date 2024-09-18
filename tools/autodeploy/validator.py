@@ -538,8 +538,10 @@ def printStats(stats, stats_filename):
 
 
 def compile_and_deploy(params, mc, first_time=False):
-    d = params.working_directory + "/" + params.model_name
-    d = d.replace("../", "")
+    # d = params.working_directory + "/" + params.model_name
+    # d = d.replace("../", "")
+    d = "neuralSPOT/neuralspot/" + params.working_directory + "/" + params.model_name
+    print
     # Windows sucks
     if os.name == "posix":
         ws3 = "/dev/null"
@@ -555,27 +557,29 @@ def compile_and_deploy(params, mc, first_time=False):
         makefile_result = os.system(f"cd .. {ws1} make clean >{ws3} 2>&1 ")
 
     if params.create_profile:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
         if params.verbosity > 3:
             print(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
 
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator {ws1} make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator {ws1} make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
 
     if makefile_result != 0:
@@ -625,8 +629,10 @@ def create_mut_metadata(params, tflm_dir, mc):
             mc.rv_count,
         )
     )
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_directory = os.path.join(script_dir, "templates")
     createFromTemplate(
-        "autodeploy/templates/validator/template_mut_metadata.h",
+        template_directory + "/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
         rm,
     )
@@ -639,8 +645,11 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
     }
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_directory = os.path.join(script_dir, "templates")
+
     createFromTemplate(
-        "autodeploy/templates/validator/template_tflm_model.cc",
+        template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
         rm,
     )
@@ -650,26 +659,33 @@ def create_mut_main(tflm_dir, mc):
     # make directory for tflm_validator
     os.makedirs(tflm_dir + "/src/", exist_ok=True)
 
+    
+    # Get the absolute path to the script's directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_directory = os.path.join(script_dir, "templates")
+
     # Copy template main.cc to tflm_dir
     shutil.copyfile(
-        "autodeploy/templates/validator/template_tflm_validator.cc",
+        template_directory + "/validator/template_tflm_validator.cc",
         f"{tflm_dir}/src/tflm_validator.cc",
     )
     shutil.copyfile(
-        "autodeploy/templates/validator/template_tflm_validator.h",
+        template_directory + "/validator/template_tflm_validator.h",
         f"{tflm_dir}/src/tflm_validator.h",
     )
     shutil.copyfile(
-        "autodeploy/templates/validator/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
+        template_directory + "/validator/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
     )
     shutil.copyfile(
-        "autodeploy/templates/common/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
+        template_directory + "/common/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
     )
 
 
 def create_validation_binary(params, baseline, mc):
     # tflm_dir = params.tflm_src_path
     tflm_dir = params.working_directory + "/" + params.model_name + "/tflm_validator"
+    # print(params.working_directory)
+    # print(tflm_dir)
     create_mut_main(tflm_dir, mc)
 
     # map model location parameter to linker locations

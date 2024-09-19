@@ -35,11 +35,11 @@
 #include <stdint.h>
 #include "model_metadata.h"
 
-#include "tflite-model/tflite_learn_5_compiled.h"
+#include "tflite-model/tflite_learn_7_compiled.h"
 #include "edge-impulse-sdk/classifier/ei_model_types.h"
 #include "edge-impulse-sdk/classifier/inferencing_engines/engines.h"
 
-const char* ei_classifier_inferencing_categories[] = { "beer", "can" };
+const char* ei_classifier_inferencing_categories[] = { "face" };
 
 uint8_t ei_dsp_config_3_axes[] = { 0 };
 const uint32_t ei_dsp_config_3_axes_size = 1;
@@ -65,19 +65,19 @@ ei_model_dsp_t ei_dsp_blocks[ei_dsp_blocks_size] = {
         nullptr, // factory function
     }
 };
-const ei_config_tflite_eon_graph_t ei_config_tflite_graph_5 = {
+const ei_config_tflite_eon_graph_t ei_config_tflite_graph_7 = {
     .implementation_version = 1,
-    .model_init = &tflite_learn_5_init,
-    .model_invoke = &tflite_learn_5_invoke,
-    .model_reset = &tflite_learn_5_reset,
-    .model_input = &tflite_learn_5_input,
-    .model_output = &tflite_learn_5_output,
+    .model_init = &tflite_learn_7_init,
+    .model_invoke = &tflite_learn_7_invoke,
+    .model_reset = &tflite_learn_7_reset,
+    .model_input = &tflite_learn_7_input,
+    .model_output = &tflite_learn_7_output,
 };
 
-const ei_learning_block_config_tflite_graph_t ei_learning_block_config_5 = {
+const ei_learning_block_config_tflite_graph_t ei_learning_block_config_7 = {
     .implementation_version = 1,
     .classification_mode = EI_CLASSIFIER_CLASSIFICATION_MODE_OBJECT_DETECTION,
-    .block_id = 5,
+    .block_id = 7,
     .object_detection = 1,
     .object_detection_last_layer = EI_CLASSIFIER_LAST_LAYER_FOMO,
     .output_data_tensor = 0,
@@ -86,22 +86,22 @@ const ei_learning_block_config_tflite_graph_t ei_learning_block_config_5 = {
     .threshold = 0.5,
     .quantized = 1,
     .compiled = 1,
-    .graph_config = (void*)&ei_config_tflite_graph_5
+    .graph_config = (void*)&ei_config_tflite_graph_7
 };
 
 const uint8_t ei_learning_blocks_size = 1;
-const uint32_t ei_learning_block_5_inputs[1] = { 3 };
-const uint8_t ei_learning_block_5_inputs_size = 1;
+const uint32_t ei_learning_block_7_inputs[1] = { 3 };
+const uint8_t ei_learning_block_7_inputs_size = 1;
 const ei_learning_block_t ei_learning_blocks[ei_learning_blocks_size] = {
     {
-        5,
+        7,
         false,
         &run_nn_inference,
-        (void*)&ei_learning_block_config_5,
+        (void*)&ei_learning_block_config_7,
         EI_CLASSIFIER_IMAGE_SCALING_NONE,
-        ei_learning_block_5_inputs,
-        ei_learning_block_5_inputs_size,
-        432
+        ei_learning_block_7_inputs,
+        ei_learning_block_7_inputs_size,
+        288
     },
 };
 
@@ -111,13 +111,13 @@ const ei_object_detection_nms_config_t ei_object_detection_nms = {
     0.2f  /* NMS IOU threshold */
 };
 
-const ei_impulse_t impulse_517398_0 = {
-    .project_id = 517398,
+const ei_impulse_t impulse_522036_0 = {
+    .project_id = 522036,
     .project_owner = "Ambiq",
-    .project_name = "Beer vs. cans FOMO",
+    .project_name = "Face detection - FOMO - Embedded Online Conference",
     .impulse_id = 1,
-    .impulse_name = "Image data, Image, Object Detection (Images)",
-    .deploy_version = 13,
+    .impulse_name = "Image data, Image, Object Detection (Images) #3 (Clone of version #2)",
+    .deploy_version = 18,
 
     .nn_input_frame_size = 9216,
     .raw_sample_count = 9216,
@@ -134,7 +134,11 @@ const ei_impulse_t impulse_517398_0 = {
     .object_detection_count = 10,
     .fomo_output_size = 12,
     
-    .tflite_output_features_count = 432,
+    
+    .visual_ad_grid_size_x = 0,
+    .visual_ad_grid_size_y = 0,
+    
+    .tflite_output_features_count = 288,
     .learning_blocks_size = ei_learning_blocks_size,
     .learning_blocks = ei_learning_blocks,
 
@@ -149,12 +153,12 @@ const ei_impulse_t impulse_517398_0 = {
     .slices_per_model_window = 4,
 
     .has_anomaly = EI_ANOMALY_TYPE_UNKNOWN,
-    .label_count = 2,
+    .label_count = 1,
     .categories = ei_classifier_inferencing_categories,
     .object_detection_nms = ei_object_detection_nms
 };
 
-ei_impulse_handle_t impulse_handle_517398_0 = ei_impulse_handle_t( &impulse_517398_0 );
-ei_impulse_handle_t& ei_default_impulse = impulse_handle_517398_0;
+ei_impulse_handle_t impulse_handle_522036_0 = ei_impulse_handle_t( &impulse_522036_0 );
+ei_impulse_handle_t& ei_default_impulse = impulse_handle_522036_0;
 
 #endif // _EI_CLASSIFIER_MODEL_METADATA_H_

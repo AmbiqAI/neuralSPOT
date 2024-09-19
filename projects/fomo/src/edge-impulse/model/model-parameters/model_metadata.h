@@ -77,10 +77,10 @@
 // This exists for linux runner, etc
 __attribute__((unused)) static const char *EI_RESIZE_STRINGS[] = { "none", "fit-shortest", "fit-longest", "squash" };
 
-#define EI_CLASSIFIER_PROJECT_ID                 517398
+#define EI_CLASSIFIER_PROJECT_ID                 522036
 #define EI_CLASSIFIER_PROJECT_OWNER              "Ambiq"
-#define EI_CLASSIFIER_PROJECT_NAME               "Beer vs. cans FOMO"
-#define EI_CLASSIFIER_PROJECT_DEPLOY_VERSION     13
+#define EI_CLASSIFIER_PROJECT_NAME               "Face detection - FOMO - Embedded Online Conference"
+#define EI_CLASSIFIER_PROJECT_DEPLOY_VERSION     18
 #define EI_CLASSIFIER_NN_INPUT_FRAME_SIZE        9216
 #define EI_CLASSIFIER_RAW_SAMPLE_COUNT           9216
 #define EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME      1
@@ -89,9 +89,9 @@ __attribute__((unused)) static const char *EI_RESIZE_STRINGS[] = { "none", "fit-
 #define EI_CLASSIFIER_INPUT_HEIGHT               96
 #define EI_CLASSIFIER_RESIZE_MODE                EI_CLASSIFIER_RESIZE_FIT_SHORTEST
 #define EI_CLASSIFIER_INPUT_FRAMES               1
-#define EI_CLASSIFIER_NN_OUTPUT_COUNT            432
+#define EI_CLASSIFIER_NN_OUTPUT_COUNT            288
 #define EI_CLASSIFIER_INTERVAL_MS                1
-#define EI_CLASSIFIER_LABEL_COUNT                2
+#define EI_CLASSIFIER_LABEL_COUNT                1
 #define EI_CLASSIFIER_HAS_ANOMALY                EI_ANOMALY_TYPE_UNKNOWN
 #define EI_CLASSIFIER_HAS_VISUAL_ANOMALY         0
 #define EI_CLASSIFIER_SINGLE_FEATURE_INPUT       1
@@ -146,7 +146,7 @@ __attribute__((unused)) static const char *EI_RESIZE_STRINGS[] = { "none", "fit-
 
 #define EI_STUDIO_VERSION_MAJOR             1
 #define EI_STUDIO_VERSION_MINOR             57
-#define EI_STUDIO_VERSION_PATCH             11
+#define EI_STUDIO_VERSION_PATCH             18
 
 #define EI_CLASSIFIER_HR_ENABLED            0
 

@@ -196,7 +196,7 @@ uint32_t ns_start_camera(ns_camera_config_t *cfg) {
      */
     lowPowerOff(&camera);
     ns_delay_us(1000);
-    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_3);
+    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_1);
     setAutoExposure(&camera, true);
     setAutoFocus(&camera, true);
     setAutoISOSensitive(&camera, true);

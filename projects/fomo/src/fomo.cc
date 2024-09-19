@@ -186,6 +186,7 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf) {
     // int offset = 0;
     int offset = bufferOffset;
     // ns_lp_printf("Rendering image len = %d\n",camLength);
+    ns_lp_printf("write available: %d\n", tud_vendor_write_available());
 
     while (remaining > 0) {
         usb_data_t data;
@@ -209,8 +210,15 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf) {
         }
 
         webusb_send_data((uint8_t *)&data, chunkSize + WEBUSB_HEADER_SIZE);
-        while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
+        int numr = 0;
+        while (tud_vendor_write_available() < 4096) {
             ns_delay_us(200);
+            if (numr++ > 100) {
+                ns_lp_printf("tud_vendor_write_available break %d\n ",tud_vendor_write_available() );
+                tud_vendor_write_flush();
+                break;
+            }
+
         }
     }
     tud_vendor_write_flush();
@@ -220,12 +228,11 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf) {
     metadata.descriptor = 3;
     metadata.cpu_load = 0;
     metadata.inference_latency = inf->timing.classification;
-    metadata.num_results = inf->bounding_boxes_count;
     int result_index = 0;
 
     for (size_t ix = 0; ix < inf->bounding_boxes_count; ix++) {
         auto bb = inf->bounding_boxes[ix];
-        if (bb.value == 0) {
+        if (bb.value < 0.5f) {
             break;
         } 
         else if (ix > MAX_RESULTS) {
@@ -236,7 +243,6 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf) {
         }
         
         strncpy(metadata.results[result_index].id, bb.label, 20);
-        // metadata.id[ix] = 0;
         metadata.results[result_index].x = bb.x;
         metadata.results[result_index].y = bb.y;
         metadata.results[result_index].confidence = bb.value * 100;
@@ -248,10 +254,15 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf) {
     //     ns_lp_printf("Meta: %s (%d) [ x: %d, y: %d ]\n", metadata.id[ix], metadata.confidence[ix], metadata.x[ix], metadata.y[ix]);
     // }
     webusb_send_data((uint8_t *)&metadata, sizeof(usb_metadata_t));
+    tud_vendor_write_flush();
+    // print first 10 bytes of metadata
+    ns_lp_printf("size of metadata: %d\n", sizeof(usb_metadata_t));
+    // for (size_t ix = 0; ix < 10; ix++) {
+    //     ns_lp_printf("Meta: %d\n", ((uint8_t *)&metadata)[ix]);
+    // }
     while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
         ns_delay_us(200);
     }
-    tud_vendor_write_flush();
 
 }
 
@@ -309,9 +320,17 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
 }
 
 void r565_to_rgb(uint16_t color, uint8_t *r, uint8_t *g, uint8_t *b) {
-    *r = (color & 0xF800) >> 8;
-    *g = (color & 0x07E0) >> 3;
-    *b = (color & 0x1F) << 3;
+    uint8_t r5 = (color & 0xF800) >> 11;
+    uint8_t g6 = (color & 0x07E0) >> 5;
+    uint8_t b5 = (color & 0x001F);
+    *r = ( r5 * 527 + 23 ) >> 6;
+    *g = ( g6 * 259 + 33 ) >> 6;
+    *b = ( b5 * 527 + 23 ) >> 6;
+
+
+    // *r = (color & 0xF800) >> 8;
+    // *g = (color & 0x07E0) >> 3;
+    // *b = (color & 0x1F) << 3;
 }
 
 
@@ -428,7 +447,8 @@ int main(void) {
     ns_start_camera(&camera_config);
     ns_delay_us(10000);
 
-    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_1);
+    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+    // setColorEffect(&camera, CAM_COLOR_FX_BW);
     setAutoExposure(&camera, true);
     ns_press_shutter_button(&camera_config);
     // ns_take_picture(&camera_config);
@@ -448,23 +468,23 @@ int main(void) {
                     chop_off_trailing_zeros(buffer_length); // Remove trailing zeros, calc new length
                 // ns_lp_printf("Rendering image new len %d\n", buffer_length);
             }
+            // EI_IMPULSE_ERROR err = run_classifier(&impulse_handle_517398_0, &signal_fomo, &result_fomo, debug_nn);
             EI_IMPULSE_ERROR err = run_classifier(&impulse_handle_522036_0, &signal_fomo, &result_fomo, debug_nn);
             if (err != EI_IMPULSE_OK) {
                 ns_lp_printf("ERR: Failed to run classifier (%d)\n", err);
-                // return;
             } else {
                     // print the predictions
                 // ns_lp_printf("Camera Predictions (DSP: %d ms., Classification: %d ms., Anomaly: %d ms.): \n",
                 //             result_fomo.timing.dsp, result_fomo.timing.classification, result_fomo.timing.anomaly);
 
-                bool bb_found = result_fomo.bounding_boxes[0].value > 0;
-                for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
-                    auto bb = result_fomo.bounding_boxes[ix];
-                    if (bb.value == 0) {
-                        continue;
-                    }
-                    ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
-                }
+                // bool bb_found = result_fomo.bounding_boxes[0].value > 0;
+                // for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
+                //     auto bb = result_fomo.bounding_boxes[ix];
+                //     if (bb.value == 0) {
+                //         continue;
+                //     }
+                //     ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
+                // }
                 // if (!bb_found) {
                 //     ns_lp_printf("    No objects found\n");
                 // }
@@ -472,7 +492,9 @@ int main(void) {
             render_image(buffer_length, &result_fomo);
 
             // ns_lp_printf("Image rendered\n");
-            setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_1);
+            setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+            // setColorEffect(&camera, CAM_COLOR_FX_BW);
+
             setAutoExposure(&camera, true);
             ns_press_shutter_button(&camera_config);
             dmaComplete = false;

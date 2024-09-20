@@ -69,7 +69,9 @@ typedef struct usb_data {
     uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
 
+#define JPG_BUFF_SIZE (320 * 320)
 static uint8_t camBuffer[CAM_BUFF_SIZE];
+static AM_SHARED_RW uint8_t jpgBuffer[JPG_BUFF_SIZE];
 
 const ns_power_config_t ns_pwr_config = {
     .api = &ns_power_V1_0_0,
@@ -119,8 +121,8 @@ ns_camera_config_t camera_config = {
     .spiSpeed = AM_HAL_IOM_8MHZ,
     .cameraHw = NS_ARDUCAM,
     .imageMode = CAM_IMAGE_MODE,
-    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
-    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
+    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
+    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
     .spiConfig = {.iom = 1},
     .dmaCompleteCb = picture_dma_complete,
     .pictureTakenCb = picture_taken_complete,
@@ -128,6 +130,34 @@ ns_camera_config_t camera_config = {
 
 void tic() { elapsedTime = ns_us_ticker_read(&tickTimer); }
 uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
+
+void press_rgb_shutter_button(ns_camera_config_t *cfg) {
+    camera_config.imageMode = CAM_IMAGE_MODE;
+    camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565;
+    // setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+    // setAutoExposure(&camera, true);
+    ns_lp_printf("ns err %d \n", ns_press_shutter_button(cfg));
+}
+
+void press_jpg_shutter_button(ns_camera_config_t *cfg) {
+    camera_config.imageMode = NS_CAM_IMAGE_MODE_QVGA;
+    camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG;
+    // ns_stop_camera(cfg);
+    // ns_start_camera(cfg);
+    // setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+    // setAutoExposure(&camera, true);
+    ns_lp_printf("jpg ns err %d \n", ns_press_shutter_button(cfg));
+}
+
+static uint32_t start_rgb_dma() {
+    uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
+    return camLength;
+}
+
+static uint32_t start_jpg_dma() {
+    uint32_t camLength = ns_start_dma_read(&camera_config, jpgBuffer, &bufferOffset, CAM_BUFF_SIZE);
+    return camLength;
+}
 
 static uint32_t start_dma() {
     uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
@@ -144,7 +174,7 @@ uint32_t chop_off_trailing_zeros(uint32_t length) {
     return index + 1;
 }
 
-static void render_image(uint32_t camLength) {
+static void render_image(uint32_t camLength, uint8_t *buff) {
     // Max xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
     // int offset = 0;
@@ -164,7 +194,7 @@ static void render_image(uint32_t camLength) {
         data.mode = camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG ? 1 : 0;
 
         int chunkSize = remaining > MAX_WEBUSB_CHUNK ? MAX_WEBUSB_CHUNK : remaining;
-        memcpy(data.buffer, &camBuffer[offset], chunkSize);
+        memcpy(data.buffer, &buff[offset], chunkSize);
         remaining -= chunkSize;
         offset += chunkSize;
         if (remaining == 0) {
@@ -225,14 +255,20 @@ int main(void) {
 
     // Take the first picture
     ns_lp_printf("Taking picture\n");
-    ns_press_shutter_button(&camera_config);
+    press_jpg_shutter_button(&camera_config);
     ns_lp_printf("Picture started\n");
-
+    bool takingJpg = true;
     while (1) {
         ns_delay_us(1000);
         if (pictureTaken) {
             // ns_lp_printf("Picture taken\n");
-            buffer_length = start_dma();
+            if (takingJpg) {
+                buffer_length = start_jpg_dma();
+                // takingJpg = false;
+            } else {
+                buffer_length = start_rgb_dma();
+                // takingJpg = true;
+            }
             pictureTaken = false;
         }
         if (dmaComplete) {
@@ -242,9 +278,19 @@ int main(void) {
                     buffer_length); // Remove trailing zeros, calc new length
                 // ns_lp_printf("Rendering image new len %d\n", buffer_length);
             }
-            render_image(buffer_length);
+            if (takingJpg) {
+                render_image(buffer_length, jpgBuffer);
+                ns_lp_printf("JPG rendered\n");
+                takingJpg = false;
+                press_rgb_shutter_button(&camera_config);
+            } else {
+                takingJpg = true;
+                render_image(buffer_length, camBuffer);
+                ns_lp_printf("RGB rendered\n");
+                press_jpg_shutter_button(&camera_config);
+            }
             // ns_lp_printf("Image rendered\n");
-            ns_press_shutter_button(&camera_config);
+            // press_jpg_shutter_button(&camera_config);
             dmaComplete = false;
             // ns_lp_printf("DMA started, len %d\n", buffer_length);
         }

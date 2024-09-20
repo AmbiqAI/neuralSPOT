@@ -34,19 +34,12 @@
 #endif
 
 typedef enum {
-    IDLE_STATE,
-    START_STATE,
-    CAPTURE_STATE,
-    PREPROCESS_STATE,
-    INFERENCE_STATE,
-    DISPLAY_STATE,
-    FAIL_STATE,
-    STOP_STATE
+    TAKING_RGB_IMAGE,
+    TAKING_JPG_IMAGE,
+    TRANSFERRING_RGB_IMAGE,
+    TRANSFERRING_JPG_IMAGE,
+    INFERENCING,
+    DISPLAYING,
 } app_state_e;
-
-typedef enum { SENSOR_DATA_COLLECT, CLIENT_DATA_COLLECT } data_collect_mode_e;
-
-void setup(void);
-void loop(void);
 
 #endif

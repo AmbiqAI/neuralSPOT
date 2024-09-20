@@ -235,12 +235,14 @@ uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
 
     if (camera.currentPixelFormat != pixel_format) {
         camera.currentPixelFormat = pixel_format;
+        ns_lp_printf("Setting pixel format to %d\n", pixel_format);
         writeReg(&camera, NS_CAM_REG_FORMAT, pixel_format); // set the data format
         waitI2cIdle(&camera);                               // Wait I2c Idle
     }
 
     if (camera.currentPictureMode != mode) {
         camera.currentPictureMode = mode;
+        ns_lp_printf("Setting capture mode to %d\n", mode);
         writeReg(&camera, NS_CAM_REG_CAPTURE_RESOLUTION, NS_CAM_SET_CAPTURE_MODE | mode);
         waitI2cIdle(&camera); // Wait I2c Idle
     }
@@ -248,6 +250,7 @@ uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
     cameraClearFifoFlag(&camera);
     cameraStartCapture(&camera);
     nsCameraPictureBeingTaken = true;
+    return NS_STATUS_SUCCESS;
 }
 
 int ns_is_camera_capturing() {

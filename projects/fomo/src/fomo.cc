@@ -285,8 +285,46 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf, uint8_t *
     }
 }
 
+typedef struct {
+    int8_t contrast;
+    int8_t brightness;
+    int8_t ev;;
+} cam_settings_t;
+
+uint8_t mapCameraValuesToArducamScale(int8_t in) {
+    // 0 is 0, negative numbers map to positive even uints, positive map to odd
+    if (in > 3) {
+        in = 3;
+    } else if (in < -3) {
+        in = -3;
+    }
+
+    if (in == 0) {
+        return 0;
+    } else if (in < 0) {
+        return abs(in) * 2;
+    } else {
+        return (abs(in) * 2) - 1;
+    }
+}
+
+void setCameraSettings(ArducamCamera *camera, int8_t contrast, int8_t brightness, int8_t ev) {
+    setContrast(camera, (CAM_CONTRAST_LEVEL)mapCameraValuesToArducamScale(contrast));
+    setBrightness(camera, (CAM_BRIGHTNESS_LEVEL) mapCameraValuesToArducamScale(brightness));
+    setEV(camera, (CAM_EV_LEVEL) mapCameraValuesToArducamScale(ev));
+}
+
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     // Do something with the received message (we shouldn't get one, but need the cb)
+    
+    // The message contains information about how to set the camera
+    cam_settings_t settings;
+    settings.contrast = buffer[0];
+    settings.brightness = buffer[1];
+    settings.ev = buffer[2];
+    ns_lp_printf("Received camera settings: contrast %d, brightness %d, ev %d\n", settings.contrast, settings.brightness, settings.ev);
+    setCameraSettings(&camera, settings.contrast, settings.brightness, settings.ev);
+
     ns_lp_printf("Received %d bytes: %s\n", length, buffer);
 }
 
@@ -351,7 +389,7 @@ int main(void) {
     // NS_TRY(ns_peripheral_button_init(&button_config), "Button Init Failed\n");
 
     // WebUSB Setup
-    webusb_register_msg_cb(msgReceived, NULL);
+    webusb_register_raw_cb(msgReceived, NULL);
     webUsbConfig.rx_buffer = my_rx_ff_buf;
     webUsbConfig.rx_bufferLength = MY_RX_BUFSIZE;
     webUsbConfig.tx_buffer = my_tx_ff_buf;
@@ -408,8 +446,8 @@ int main(void) {
     ns_start_camera(&camera_config);
     setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_2);
     setEV(&camera, CAM_EV_LEVEL_3);
-    setAutoExposure(&camera, true); 
     setContrast(&camera, CAM_CONTRAST_LEVEL_3);
+    setAutoExposure(&camera, true); 
     ns_delay_us(100000);
 
     press_rgb_shutter_button(&camera_config);

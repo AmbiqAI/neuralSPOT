@@ -74,7 +74,7 @@ typedef enum {
 #define MAX_WEBUSB_FRAME 512
 #define WEBUSB_HEADER_SIZE 2
 #define MAX_WEBUSB_CHUNK (MAX_WEBUSB_FRAME - WEBUSB_HEADER_SIZE)
-#define MAX_RESULTS 15
+#define MAX_RESULTS 5
 
 typedef struct usb_data {
     // Jpeg Image
@@ -87,6 +87,8 @@ typedef struct {
     char id[20]; // 20 chars max
     uint8_t x;
     uint8_t y;
+    uint8_t height;
+    uint8_t width;
     uint8_t confidence;  
 } result_t;
 
@@ -272,6 +274,8 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf, uint8_t *
         strncpy(metadata.results[result_index].id, bb.label, 20);
         metadata.results[result_index].x = bb.x;
         metadata.results[result_index].y = bb.y;
+        metadata.results[result_index].height = bb.height;
+        metadata.results[result_index].width = bb.width;
         metadata.results[result_index].confidence = bb.value * 100;
         result_index++;
     }
@@ -487,19 +491,19 @@ int main(void) {
             } 
             else {
                 // ns_lp_printf("Inference complete\n");
-                // bb_found = result_fomo.bounding_boxes[0].value > 0;
-                // for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
-                //     // ns_lp_printf("hello\n");
-                //     bb = result_fomo.bounding_boxes[ix];
-                //     // ns_lp_printf("bb.value: %f\n", bb.value);
-                //     if (bb.value == 0) {
-                //         continue;
-                //     }
-                //     ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
-                // }
-                // if (!bb_found) {
-                //     ns_lp_printf("    No objects found\n");
-                // }
+                bb_found = result_fomo.bounding_boxes[0].value > 0;
+                for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
+                    // ns_lp_printf("hello\n");
+                    bb = result_fomo.bounding_boxes[ix];
+                    // ns_lp_printf("bb.value: %f\n", bb.value);
+                    if (bb.value == 0) {
+                        continue;
+                    }
+                    ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
+                }
+                if (!bb_found) {
+                    ns_lp_printf("    No objects found\n");
+                }
             }
             // render_image(buffer_length, &result_fomo, camBuffer);
             // if (bb_found) {

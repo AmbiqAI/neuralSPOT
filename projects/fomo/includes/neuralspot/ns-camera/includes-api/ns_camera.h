@@ -30,6 +30,8 @@ extern const ns_core_api_t ns_camera_V1_0_0;
 extern const ns_core_api_t ns_camera_oldest_supported_version;
 extern const ns_core_api_t ns_camera_current_version;
 
+typedef int8_t img_t;
+
 typedef enum {
     NS_ARDUCAM = 0,
 } ns_camera_hw_e;
@@ -62,14 +64,16 @@ typedef void (*ns_camera_picture_cb)(struct ns_camera_cfg *cfg);
 
 typedef struct ns_camera_cfg {
     const ns_core_api_t *api; ///< API prefix
-    int8_t               iom; ///< Apollo4 IOM port
-    uint32_t             spiSpeed; ///< = CAM_SPI_SPEED;
-    ns_camera_hw_e       cameraHw;
-    ns_image_mode_e      imageMode;
-    ns_image_pix_fmt_e   imagePixFmt;
-    ns_spi_config_t      spiConfig;  
-    ns_camera_dma_cb     dmaCompleteCb;  ///< If using DMA, this will be called when DMA chunk is complete
-    ns_camera_picture_cb pictureTakenCb; ///< If using polling timer, this will be called when pic is ready to xfer
+    int8_t iom;               ///< Apollo4 IOM port
+    uint32_t spiSpeed;        ///< = CAM_SPI_SPEED;
+    ns_camera_hw_e cameraHw;
+    ns_image_mode_e imageMode;
+    ns_image_pix_fmt_e imagePixFmt;
+    ns_spi_config_t spiConfig;
+    ns_camera_dma_cb
+        dmaCompleteCb; ///< If using DMA, this will be called when DMA chunk is complete
+    ns_camera_picture_cb
+        pictureTakenCb; ///< If using polling timer, this will be called when pic is ready to xfer
 
     // Internal state
     uint32_t dmaBufferOffset;
@@ -162,7 +166,7 @@ uint32_t ns_start_dma_read(
  * @return int
  */
 int camera_decode_image(
-    uint8_t *camBuf, uint32_t camLen, int8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
+    uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
     uint32_t scaleFactor);
 #ifdef __cplusplus
 }

@@ -30,6 +30,8 @@ extern const ns_core_api_t ns_camera_V1_0_0;
 extern const ns_core_api_t ns_camera_oldest_supported_version;
 extern const ns_core_api_t ns_camera_current_version;
 
+typedef int8_t img_t;
+
 typedef enum {
     NS_ARDUCAM = 0,
 } ns_camera_hw_e;
@@ -164,7 +166,7 @@ uint32_t ns_start_dma_read(
  * @return int
  */
 int camera_decode_image(
-    uint8_t *camBuf, uint32_t camLen, int8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
+    uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
     uint32_t scaleFactor);
 #ifdef __cplusplus
 }

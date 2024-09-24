@@ -332,7 +332,7 @@ extern uint32_t _ebss;
 // Stub out some CPP init-related functions
 extern void _init(void) { ; }
 extern void _fini(void) { ; }
-extern void *__dso_handle = 0;
+extern void *__dso_handle = 0; 
 
 void Reset_Handler(void) {
     //

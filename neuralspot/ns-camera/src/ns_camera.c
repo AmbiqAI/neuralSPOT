@@ -43,7 +43,7 @@ bool nsCameraPictureBeingTaken = false;
 
 // DMA read state
 // SPI DMA max xfer size is 4095 on AP4, so we have to chunk it
-#define MAX_SPI_DMA_LEN 4095
+#define MAX_SPI_DMA_LEN 2048
 static uint32_t dma_total_requested_length;
 static uint32_t dma_current_chunk_length;
 static uint32_t dma_offset;
@@ -65,7 +65,8 @@ void ns_camera_buff_read_done(ns_spi_config_t *cfg) {
                                        : (dma_total_requested_length - dma_offset);
 
         // Read next chunk
-        // ns_lp_printf("Starting next dma addr %d len %d\n", dma_offset, dma_current_chunk_length);
+        // ns_lp_printf("CAMERA Starting next dma addr 0x%x offset %d len %d\n", dma_offset +
+        // dma_cambuf, dma_offset, dma_current_chunk_length); ns_delay_us(1000);
         ns_spi_read_dma(
             spiHandle, dma_offset + dma_cambuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1,
             camera.csPin);
@@ -88,7 +89,7 @@ void ns_camera_check_picture_completion(ns_timer_config_t *timer) {
         return;
     }
     if (getBit(&camera, NS_CAMERA_ARDUCHIP_TRIG, NS_CAMERA_CAP_DONE_MASK) == 0) {
-        // ns_lp_printf("Picture not done\n");
+        // ns_lp_printf("Picture not done fifo is %d\n", readFifoLength(&camera));
         return;
     }
     // ns_lp_printf("Picture done\n");
@@ -161,7 +162,9 @@ int arducam_spi_write(
     uint32_t chunkSize;
     while (bytesLeft) {
         chunkSize = bytesLeft > MAX_SPI_BUF_LEN ? MAX_SPI_BUF_LEN : bytesLeft;
-        ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
+        uint32_t ret = ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
+        if (ret)
+            ns_lp_printf("spi write ret %d\n", ret);
         bufPtr += chunkSize;
         bytesLeft -= chunkSize;
     }
@@ -180,6 +183,7 @@ uint32_t ns_read_buff(ArducamCamera *camera, uint8_t *buff, uint32_t length) {
     if (camera->receivedLength < length) {
         length = camera->receivedLength;
     }
+    // ns_lp_printf("CAMERA Starting DMA2 to 0x%x len %d\n", buff, length);
     uint32_t err = ns_spi_read_dma(spiHandle, buff, length, ARDU_BURST_FIFO_READ, 1, camera->csPin);
 
     if (camera->burstFirstFlag == 0) {
@@ -235,14 +239,14 @@ uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
 
     if (camera.currentPixelFormat != pixel_format) {
         camera.currentPixelFormat = pixel_format;
-        ns_lp_printf("Setting pixel format to %d\n", pixel_format);
+        // ns_lp_printf("Setting pixel format to %d\n", pixel_format);
         writeReg(&camera, NS_CAM_REG_FORMAT, pixel_format); // set the data format
         waitI2cIdle(&camera);                               // Wait I2c Idle
     }
 
     if (camera.currentPictureMode != mode) {
         camera.currentPictureMode = mode;
-        ns_lp_printf("Setting capture mode to %d\n", mode);
+        // ns_lp_printf("Setting capture mode to %d\n", mode);
         writeReg(&camera, NS_CAM_REG_CAPTURE_RESOLUTION, NS_CAM_SET_CAPTURE_MODE | mode);
         waitI2cIdle(&camera); // Wait I2c Idle
     }
@@ -271,7 +275,7 @@ uint32_t ns_start_dma_read(
 
     // Get FIFO length
     dma_total_requested_length = cameraReadFifoLength(&camera);
-    // ns_lp_printf("FIFO length: %u\n", dma_total_requested_length);
+    // ns_lp_printf("CAMERA FIFO length: %u\n", dma_total_requested_length);
     if (cfg->imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
         *buffer_offset = 1;
     } else {
@@ -285,7 +289,8 @@ uint32_t ns_start_dma_read(
     dma_current_chunk_length = (dma_total_requested_length > MAX_SPI_DMA_LEN)
                                    ? MAX_SPI_DMA_LEN
                                    : dma_total_requested_length;
-    // ns_lp_printf("Starting DMA read of chunk size %d\n", dma_current_chunk_length);
+    // ns_lp_printf("CAMERA Starting DMA read of chunk size %d to 0x%x\n", dma_current_chunk_length,
+    // camBuf);
     uint32_t err = ns_spi_read_dma(
         spiHandle, camBuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1, camera.csPin);
 
@@ -430,3 +435,91 @@ uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bu
 //     }
 //     return 0;
 // }
+
+int camera_decode_image(
+    uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
+    uint32_t scaleFactor) {
+
+    uint16_t *pImg;
+    uint16_t color;
+    uint8_t r, g, b;
+
+    jpeg_decoder_init(&jpegCtx, camBuf, camLen);
+
+    const int keep_x_mcus = scaleFactor * imgWidth / jpegCtx.imgInfo.m_MCUWidth;
+    const int keep_y_mcus = scaleFactor * imgHeight / jpegCtx.imgInfo.m_MCUHeight;
+
+    const int skip_x_mcus = jpegCtx.imgInfo.m_MCUSPerRow - keep_x_mcus;
+
+    const int skip_start_x_mcus = skip_x_mcus / 2;
+
+    const int skip_end_x_mcu_index = skip_start_x_mcus + keep_x_mcus;
+
+    const int skip_y_mcus = jpegCtx.imgInfo.m_MCUSPerCol - keep_y_mcus;
+    const int skip_start_y_mcus = skip_y_mcus / 2;
+    const int skip_end_y_mcu_index = skip_start_y_mcus + keep_y_mcus;
+
+    const int scaleImageSize = imgHeight * imgWidth * 3;
+
+    const img_t pixelOffset = -128;
+
+    for (int i = 0; i < scaleImageSize; i++) {
+        imgBuf[i] = 0;
+    }
+
+    while (jpeg_decoder_read(&jpegCtx)) {
+        // Out of height bounds
+        if (jpegCtx.MCUy < skip_start_y_mcus || jpegCtx.MCUy >= skip_end_y_mcu_index) {
+            continue;
+        }
+        // Out of width bounds
+        if (jpegCtx.MCUx < skip_start_x_mcus || jpegCtx.MCUx >= skip_end_x_mcu_index) {
+            continue;
+        }
+
+        pImg = jpegCtx.pImage;
+
+        int relMcuX = jpegCtx.MCUx - skip_start_x_mcus;
+        int relMcuY = jpegCtx.MCUy - skip_start_y_mcus;
+
+        int xOrigin = relMcuX * jpegCtx.imgInfo.m_MCUWidth;
+        int yOrigin = relMcuY * jpegCtx.imgInfo.m_MCUHeight;
+        // ns_lp_printf("Writing to imgBuf at 0x%x\n", imgBuf);
+        for (int mcuRow = 0; mcuRow < jpegCtx.imgInfo.m_MCUHeight; mcuRow++) {
+            int currentY = yOrigin + mcuRow;
+            for (int mcuCol = 0; mcuCol < jpegCtx.imgInfo.m_MCUWidth; mcuCol++) {
+                int currentX = xOrigin + mcuCol;
+                color = *pImg++;
+                if (scaleFactor != 1 &&
+                    (currentY % scaleFactor != 0 || currentX % scaleFactor != 0)) {
+                    continue;
+                }
+                // r = ((color & 0xF800) >> 11) * 8;
+                // g = ((color & 0x07E0) >> 5) * 4;
+                // b = ((color & 0x001F) >> 0) * 8;
+
+                int index = (currentY / scaleFactor) * (imgWidth / 1) + currentX / scaleFactor;
+                // imgBuf[index * 3 + 0] += r;
+                // imgBuf[index * 3 + 1] += g;
+                // imgBuf[index * 3 + 2] += b;
+
+                // color is RGB565, just put in into imgBuf in right order
+                // imgBuf[index * 2 + 0] = (color & 0xFF00) >> 8;
+                // imgBuf[index * 2 + 1] = (color & 0x00FF);
+                // if ((index*2) > 18432) {
+                //     ns_lp_printf("EXCEEDED BUFFER SIZE\n");
+                //     ns_lp_printf("mcuRow %d mcuCol %d currentY %d currentX %d index %d\n",
+                //     mcuRow, mcuCol, currentY, currentX, index); ns_lp_printf("width is %d height
+                //     is %d\n", jpegCtx.imgInfo.m_MCUWidth, jpegCtx.imgInfo.m_MCUHeight);
+                //     // while(1);
+                //     return -1;
+                // }
+                // if (index > 9050)
+                //     ns_lp_printf("index %d addr 0x%x\n", index, &(imgBuf[index * 2 + 0]));
+                imgBuf[index * 2 + 1] = (color & 0xFF00) >> 8;
+                imgBuf[index * 2 + 0] = (color & 0x00FF);
+            }
+        }
+    }
+    return 0;
+}

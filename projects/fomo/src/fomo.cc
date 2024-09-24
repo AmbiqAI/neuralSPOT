@@ -46,7 +46,7 @@ extern ArducamCamera camera; // Arducam driver assumes this is a global, so :shr
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 size_t ucHeapSize = (NS_MALLOC_HEAP_SIZE_IN_K + 5) * 1024;
-uint8_t ucHeap[(NS_MALLOC_HEAP_SIZE_IN_K + 5) * 1024] __attribute__((aligned(4)));
+uint8_t AM_SHARED_RW ucHeap[(NS_MALLOC_HEAP_SIZE_IN_K + 5) * 1024] __attribute__((aligned(4)));
 #endif
 
 #define MY_RX_BUFSIZE 4096
@@ -95,17 +95,19 @@ typedef struct {
 typedef struct usb_metadata {
     // Jpeg Image
     uint8_t descriptor; // 0/1/2 for first/middle/last chunk, 3 for metadata
-    uint8_t cpu_load;
+    uint8_t decode_time;
     uint8_t inference_latency;
+    uint16_t microjoules_per_inference;
     uint8_t num_results;
     result_t results[MAX_RESULTS];
 } usb_metadata_t;
 
-#define JPG_BUFF_SIZE (320*320)
-static int volatile sensorCollectBtnPressed = false;
-static int volatile clientCollectBtnPressed = false;
-static AM_SHARED_RW uint8_t jpgBuffer[JPG_BUFF_SIZE] __attribute__((aligned(4)));
-static AM_SHARED_RW uint8_t camBuffer[CAM_BUFF_SIZE] __attribute__((aligned(4)));
+// #define JPG_BUFF_SIZE (320*320)
+#define JPG_BUFF_SIZE 1024*24
+static uint8_t AM_SHARED_RW jpgBuffer1[JPG_BUFF_SIZE] __attribute__((aligned(16)));
+static uint8_t  jpgBuffer2[JPG_BUFF_SIZE] __attribute__((aligned(16)));
+static uint8_t AM_SHARED_RW rgbBuffer1[CAM_BUFF_SIZE] __attribute__((aligned(16))); // output of decoded jpg
+static uint8_t AM_SHARED_RW rgbBuffer2[CAM_BUFF_SIZE] __attribute__((aligned(16))); // output of decoded jpg
 
 const ns_power_config_t ns_pwr_config = {
     .api = &ns_power_V1_0_0,
@@ -126,42 +128,153 @@ ns_timer_config_t ei_tickTimer = {
     .enableInterrupt = false,
 };
 
-// ns_timer_config_t ei_tickTimer;
+// Forward declarations
+void tic(); 
+uint32_t toc();
+void press_jpg_shutter_button(ns_camera_config_t *cfg);
+void picture_dma_complete(ns_camera_config_t *cfg);
+void picture_taken_complete(ns_camera_config_t *cfg);
 
-// ns_button_config_t button_config = {
-//     .api = &ns_button_V1_0_0,
-//     .button_0_enable = true,
-//     .button_1_enable = true,
-//     .button_0_flag = &sensorCollectBtnPressed,
-//     .button_1_flag = &clientCollectBtnPressed};
-
-// DMA Callback
-volatile bool dmaComplete = false;
-volatile bool pictureTaken = false;
-uint32_t buffer_length = 0;
-static uint32_t bufferOffset = 0;
-
-void picture_dma_complete(ns_camera_config_t *cfg) {
-    // ns_lp_printf("DMA Complete CB\n");
-    dmaComplete = true;
-}
-
-void picture_taken_complete(ns_camera_config_t *cfg) {
-    pictureTaken = true;
-    // ns_lp_printf("Picture taken CB\n");
-}
 
 ns_camera_config_t camera_config = {
     .api = &ns_camera_V1_0_0,
     .spiSpeed = AM_HAL_IOM_8MHZ,
     .cameraHw = NS_ARDUCAM,
     .imageMode = CAM_IMAGE_MODE,
-    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
-    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
+    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
+    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
     .spiConfig = {.iom = 1},
     .dmaCompleteCb = picture_dma_complete,
     .pictureTakenCb = picture_taken_complete,
 };
+
+// Camera State
+typedef enum {
+    WAITING_FOR_SHUTTER = 0,
+    WAITING_FOR_DMA_1 = 1,
+    WAITING_FOR_DMA_2 = 2,
+    CAMERA_IDLE_1 = 3,
+    CAMERA_IDLE_2 = 4,
+} camera_state_e;
+
+// Camera FSM State
+volatile camera_state_e camera_state = WAITING_FOR_SHUTTER; 
+volatile bool dmaComplete = false; // ISR-land
+volatile uint8_t dmaTarget = 1;
+volatile bool pictureTaken = false;
+
+// Camera/CPU IPC
+volatile bool jpgReady1 = false; // IPC to CPU-land
+volatile bool jpgReady2 = false;
+volatile uint32_t buffer_length1 = 0;
+volatile uint32_t buffer_length2 = 0;
+
+static uint32_t bufferOffset = 0;
+
+static uint32_t start_jpg_dma(uint8_t bufferId);
+uint32_t chop_off_trailing_zeros(uint8_t *buff, uint32_t length);
+
+void camera_state_machine() {
+    ns_delay_us(1000);
+    switch (camera_state) {
+    case WAITING_FOR_SHUTTER:
+        if (pictureTaken) {
+            // ns_lp_printf("JPG %d Picture taken\n", dmaTarget);
+            if ((dmaTarget == 1) && (jpgReady1)) {
+                // ns_lp_printf("JPG 1 Idled\n");
+                camera_state = CAMERA_IDLE_1;
+            } else if ((dmaTarget == 2) && (jpgReady2)){
+                // ns_lp_printf("JPG 2 Idled\n");
+                camera_state = CAMERA_IDLE_2;
+            } else {
+                uint32_t buffer_length = start_jpg_dma(dmaTarget);
+                pictureTaken = false;
+                if (dmaTarget == 1) {
+                    dmaTarget = 2;
+                    buffer_length1 = buffer_length;
+                    // ns_lp_printf("Set dmaTarget to 2, %d\n", dmaTarget); 
+                    camera_state = WAITING_FOR_DMA_1;
+                } else {
+                    dmaTarget = 1;
+                    buffer_length2 = buffer_length;
+                    camera_state = WAITING_FOR_DMA_2;
+                }
+            }
+        }
+        break;
+    case WAITING_FOR_DMA_1:
+        if (dmaComplete) {
+            // ns_lp_printf("JPG 1 Complete 0x%x \n", jpgBuffer1);
+            // for debug
+            // ns_lp_printf("JPG 1 Chopped %d\n", chop_off_trailing_zeros(jpgBuffer1, buffer_length1));
+            // ns_lp_printf("JPG 2 Check Chopped %d\n", chop_off_trailing_zeros(jpgBuffer2, buffer_length2));
+
+            dmaComplete = false;
+            if (jpgReady1) {
+                ns_lp_printf("Warning: JPG1 overwritten\n");
+            }
+            jpgReady1 = true; // signal to CPU FSM
+            // Take next picture
+            press_jpg_shutter_button(&camera_config);
+            camera_state = WAITING_FOR_SHUTTER;
+        }
+        break;
+    case WAITING_FOR_DMA_2:
+        if (dmaComplete) {
+            // ns_lp_printf("JPG 2 DMA Complete %d\n", toc());
+            // chop_off_trailing_zeros(jpgBuffer2, buffer_length2);
+            // ns_lp_printf("JPG 2 Chopped %d\n", chop_off_trailing_zeros(jpgBuffer2, buffer_length2));
+
+            dmaComplete = false;
+            if (jpgReady2) {
+                ns_lp_printf("Warning: JPG2 overwritten\n");
+            }
+            jpgReady2 = true; // signal to CPU FSM
+
+            // Take next picture
+            press_jpg_shutter_button(&camera_config);
+            camera_state = WAITING_FOR_SHUTTER;
+        }
+        break;
+    case CAMERA_IDLE_1:
+        // Waiting for the last picture to be processed
+        if (jpgReady1) {
+            // CPU loop hasn't consumed last buffer, so wait
+            // ns_lp_printf("Warning1: CPU loop hasn't consumed last buffer\n");
+            camera_state = CAMERA_IDLE_1;
+        } else {
+            // OK to DMA the next picture
+            camera_state = WAITING_FOR_SHUTTER;
+        }
+        break;
+    case CAMERA_IDLE_2:
+        // Waiting for the last picture to be processed
+        if (jpgReady2) {
+            // CPU loop hasn't consumed last buffer, so wait
+            // ns_lp_printf("Warning2: CPU loop hasn't consumed last buffer\n");
+            camera_state = CAMERA_IDLE_2;
+        } else {
+            // OK to DMA the next picture
+            camera_state = WAITING_FOR_SHUTTER;
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+void picture_dma_complete(ns_camera_config_t *cfg) {
+    // ns_lp_printf("DMA Complete CB\n");
+    dmaComplete = true;
+    camera_state_machine();
+}
+
+void picture_taken_complete(ns_camera_config_t *cfg) {
+    pictureTaken = true;
+    // ns_lp_printf("Picture taken CB\n");
+    camera_state_machine();
+}
+
 
 void tic() { elapsedTime = ns_us_ticker_read(&ei_tickTimer); }
 uint32_t toc() { return ns_us_ticker_read(&ei_tickTimer) - elapsedTime; }
@@ -178,52 +291,86 @@ void press_jpg_shutter_button(ns_camera_config_t *cfg) {
     int err = ns_press_shutter_button(cfg);
 }
 
-static uint32_t start_rgb_dma() {
-    // ns_lp_printf("Starting RGB DMA\n");
-    uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
-    bufferOffset = 0;
-    return CAM_BUFF_SIZE;
-}
+// static uint32_t start_rgb_dma() {
+//     // ns_lp_printf("Starting RGB DMA\n");
+//     uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
+//     bufferOffset = 0;
+//     return CAM_BUFF_SIZE;
+// }
 
-static uint32_t start_jpg_dma() {
+static uint32_t start_jpg_dma(uint8_t bufferId) {
     // ns_lp_printf("Starting JPG DMA\n");
-    uint32_t camLength = ns_start_dma_read(&camera_config, jpgBuffer, &bufferOffset, CAM_BUFF_SIZE);
+    uint32_t camLength = 0;
+    if (bufferId == 1) {
+        // ns_lp_printf("Starting JPG DMA 1 to addr 0x%x\n", jpgBuffer1);
+        camLength = ns_start_dma_read(&camera_config, jpgBuffer1, &bufferOffset, JPG_BUFF_SIZE);
+    } else {
+        // ns_lp_printf("Starting JPG DMA 2 to addr 0x%x\n", jpgBuffer2);
+        camLength = ns_start_dma_read(&camera_config, jpgBuffer2, &bufferOffset, JPG_BUFF_SIZE);
+    }
+    // uint32_t camLength = ns_start_dma_read(&camera_config, jpgBuffer, &bufferOffset, CAM_BUFF_SIZE);
     bufferOffset = 1;
     return camLength;
 }
 
-uint32_t chop_off_trailing_zeros(uint32_t length) {
+uint32_t chop_off_trailing_zeros(uint8_t *buff, uint32_t length) {
     uint32_t index;
+    // ns_lp_printf("Chopping off trailing zeros len %d addr 0x%x\n", length, buff);
     for (index = length - 1; index >= 0; index--) {
-        if (jpgBuffer[index] != 0) {
+        if (buff[index] != 0) {
             break;
         }
     }
+        //     for (int i = 0; i < 10; i++) {
+        //     ns_lp_printf("jpgBuffer1 0x%x, jpgBuffer2 0x%x, rgbBuffer1 0x%x, rgbBuffer2 0x%x\n", jpgBuffer1[i], jpgBuffer2[i], rgbBuffer1[i], rgbBuffer2[i]);
+        // }
+    if ((index + 1) == 0) {
+        // ns_lp_printf("AAAAAAAAHHHHHHH\n");
+        // // Print first 10 bytes of jpgBuffer1, jpgBuffer2, rgbBuffer1, rgbBuffer2
+
+
+
+        // while (1)
+        //     ;
+        return 0;
+    }
+    // ns_lp_printf("Chopped length %d\n", index + 1);
     return index + 1;
 }
 
-static void render_image(uint32_t camLength, ei_impulse_result_t *inf, uint8_t *buff) {
+static void render_image(uint32_t camLength, uint8_t *buff, uint32_t pixFmt) {
     // Max xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
     int offset = bufferOffset;
-    ns_lp_printf("Rendering image len = %d inf is 0x%x, offset is %d\n",camLength, inf,offset);
+    if (pixFmt == 0) {
+        offset = 0;
+    }
+    // ns_lp_printf("Rendering image len = %d buff is 0x%x, offset is %d\n",camLength, buff, offset);
+    // ns_lp_printf("web available %d\n",tud_vendor_write_available()); 
+
 
     while (remaining > 0) {
         usb_data_t data;
-        if (offset == 0) {
-            // ns_lp_printf("First chunk\n");
+        if (offset == bufferOffset) {
+            // ns_lp_printf("First chunk\n"); 
             data.descriptor = FIRST_CHUNK;
+            // print first 10 bytes
+            // for (int i = 0; i < 10; i++) {
+            //     ns_lp_printf("0x%x ", buff[i]);
+            // }
+            // ns_lp_printf("\n");
         } else {
             // ns_lp_printf("Middle chunk\n");
             data.descriptor = MIDDLE_CHUNK;
         };
 
         // data.mode = camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG ? 1 : 0;
-        if (inf == NULL) {
-            data.mode = 0;
+        if (pixFmt == 0) {
+            data.mode = 0; // rgb
         } else {
             data.mode = 1;
         }
+
 
         int chunkSize = remaining > MAX_WEBUSB_CHUNK ? MAX_WEBUSB_CHUNK : remaining;
         memcpy(data.buffer, &buff[offset], chunkSize);
@@ -236,27 +383,37 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf, uint8_t *
 
         webusb_send_data((uint8_t *)&data, chunkSize + WEBUSB_HEADER_SIZE);
         int numr = 0;
-        while (tud_vendor_write_available() < 4096) {
+        while (tud_vendor_write_available() < MAX_WEBUSB_CHUNK) {
             ns_delay_us(200);
             if (numr++ > 100) {
                 // ns_lp_printf("tud_vendor_write_available break %d\n ",tud_vendor_write_available() );
                 tud_vendor_write_flush();
+                ns_lp_printf(".");
+
                 break;
             }
 
         }
     }
     tud_vendor_write_flush();
+}
+
+uint32_t inferenceTimePerFrame = 0;
+uint32_t decodeTimePerFrame = 0;
+
+void render_result(ei_impulse_result_t *inf) {
 
     if (inf == NULL) {
+        ns_lp_printf("No results\n");
         return;
     }
+
     // Send metadata
     usb_metadata_t metadata;
     metadata.descriptor = 3;
-    metadata.cpu_load = 50;
-    metadata.inference_latency = inf->timing.classification;
-    ns_lp_printf("Inference latency: %d\n", metadata.inference_latency);
+    metadata.decode_time = decodeTimePerFrame/1000;
+    metadata.inference_latency = inferenceTimePerFrame/1000;
+    metadata.microjoules_per_inference = 266; // TODO: Get this from the energy monitor
     int result_index = 0;
 
     for (size_t ix = 0; ix < inf->bounding_boxes_count; ix++) {
@@ -280,12 +437,25 @@ static void render_image(uint32_t camLength, ei_impulse_result_t *inf, uint8_t *
         result_index++;
     }
     metadata.num_results = result_index;
-    // ns_lp_printf("Meta number of results: %d, descriptor %d\n", metadata.num_results, metadata.descriptor);
+    // ns_lp_printf("Meta number of  results: %d, descriptor %d\n", metadata.num_results, metadata.descriptor);
+    if (metadata.num_results > 0) {
+        ns_lp_printf("Inference latency: %d, num_results %d, avail %d\n", metadata.inference_latency, result_index, tud_vendor_write_available());
+        // print first 10 bytes of metadata array
+        for (int i = 0; i < 10; i++) {
+            ns_lp_printf("0x%x ", ((uint8_t *)&metadata)[i]);
+        }
+        ns_lp_printf("\n");
+        for (int i = 0; i < 10; i++) {
+            ns_lp_printf("%d ", ((uint8_t *)&metadata)[i]);
+        }
+        ns_lp_printf("\n");
 
+    }
     webusb_send_data((uint8_t *)&metadata, sizeof(usb_metadata_t));
     tud_vendor_write_flush();
     while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
         ns_delay_us(200);
+        ns_lp_printf(".");
     }
 }
 
@@ -342,7 +512,7 @@ void r565_to_rgb(uint16_t color, uint8_t *r, uint8_t *g, uint8_t *b) {
 }
 
 static bool debug_nn = false;
-
+static bool inferOnRgb1 = true;
 // #define FEAT_TEST
 int ei_get_data(size_t offset, size_t length, float *out_ptr) {
     uint32_t outindex = 0;
@@ -360,7 +530,13 @@ int ei_get_data(size_t offset, size_t length, float *out_ptr) {
         #else
             // Convert RGB565 to RGB888 to pix
             // Grab the 565 pixel at offset + i
-            uint16_t pixel = (camBuffer[i * 2 +1] << 8) | camBuffer[i * 2];
+            uint16_t pixel;
+            if (inferOnRgb1) {
+                pixel = (rgbBuffer1[i * 2 +1] << 8) | rgbBuffer1[i * 2];
+            } else {
+                pixel = (rgbBuffer2[i * 2 +1] << 8) | rgbBuffer2[i * 2];
+            }
+            // uint16_t pixel = (rgbBuffer1[i * 2 +1] << 8) | rgbBuffer1[i * 2];
             uint8_t r, g, b;
             r565_to_rgb(pixel, &r, &g, &b);
             float pix = (r << 16) + (g << 8) + b;
@@ -416,215 +592,85 @@ int main(void) {
     ei_impulse_result_t result_fomo = { 0 };
     uint32_t camLength = 0;
 
-    // Test inference on canned data
-    // EI_IMPULSE_ERROR err = run_classifier(&impulse_handle_522036_0, &signal_fomo, &result_fomo, debug_nn);
-    // if (err != EI_IMPULSE_OK) {
-    //     ns_lp_printf("ERR: Failed to run classifier (%d)\n", err);
-    //     // return;
-    // } else {
-    //         // print the predictions
-    //     ns_lp_printf("Camera Predictions (DSP: %d ms., Classification: %d ms., Anomaly: %d ms.): \n",
-    //                 result_fomo.timing.dsp, result_fomo.timing.classification, result_fomo.timing.anomaly);
-
-    //     bool bb_found = result_fomo.bounding_boxes[0].value > 0;
-    //     for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
-    //         ns_lp_printf("hello\n");
-    //         auto bb = result_fomo.bounding_boxes[ix];
-    //         ns_lp_printf("bb.value: %f\n", bb.value);
-    //         // if (bb.value == 0) {
-    //         //     continue;
-    //         // }
-    //         ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
-    //     }
-    //     if (!bb_found) {
-    //         ns_lp_printf("    No objects found\n");
-    //     }
-    // } 
-    // while(1) {
-    //     ns_deep_sleep();
-    // }
-
-
     ns_lp_printf("📸 TinyVision Demo\n\n");
 
     ns_start_camera(&camera_config);
-    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_2);
-    setEV(&camera, CAM_EV_LEVEL_3);
-    setContrast(&camera, CAM_CONTRAST_LEVEL_3);
+    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+    setEV(&camera, CAM_EV_LEVEL_DEFAULT);
+    setContrast(&camera, CAM_CONTRAST_LEVEL_DEFAULT);
     setAutoExposure(&camera, true); 
     ns_delay_us(100000);
 
-    press_rgb_shutter_button(&camera_config);
+    // Kick off camera FSM
+    ns_lp_printf("pressing shutter button for picture\n");
+    press_jpg_shutter_button(&camera_config);
 
-    app_state_e state = TAKING_RGB_IMAGE;
+    app_state_e state = TAKING_JPG_IMAGE;
     EI_IMPULSE_ERROR err;
     bool bb_found;
     ei_impulse_result_bounding_box_t bb;
+    bool firstTime = true;
+    tic();
 
+    uint8_t next_pic = 1;
     while (1) {
-        ns_delay_us(1000);
-        switch (state) {
-        case TAKING_RGB_IMAGE:
-            if (pictureTaken) {
-                // ns_lp_printf("RGB Picture taken\n");
-                buffer_length = start_rgb_dma();
-                pictureTaken = false;
-                state = TRANSFERRING_RGB_IMAGE;
-            }
-            break;
-        case TRANSFERRING_RGB_IMAGE:
-            if (dmaComplete) {
-                // Image is in camBuffer, start taking jpg
-                // ns_lp_printf("RGB DMA Complete\n");
-                // render_image(buffer_length, NULL, camBuffer);
+        // ns_lp_printf("jpgReady1 %d, jpgReady2 %d\n", jpgReady1, jpgReady2);
+        if (jpgReady1 || jpgReady2) {
+            if ((jpgReady1) && (next_pic == 1)) {
+                // ns_lp_printf("JPG Ready 1\n");
+                uint32_t my_buffer_length = chop_off_trailing_zeros(jpgBuffer1, buffer_length1); // Remove trailing zeros, calc new length
+                render_image(my_buffer_length, jpgBuffer1, 1);
+                // ns_lp_printf("decoding image 1  len %d buffer_length1 %d, %d\n", my_buffer_length, buffer_length1, tud_vendor_write_available());
+                tic();
+                // ns_lp_printf("JPG 2 Check2 Chopped %d\n", chop_off_trailing_zeros(jpgBuffer2, buffer_length2));
 
-                press_jpg_shutter_button(&camera_config);
-                dmaComplete = false;
-                state = INFERENCING;
+                camera_decode_image(jpgBuffer1, my_buffer_length, rgbBuffer1, 96, 96, 3);
+                // ns_lp_printf("JPG 2 Check3 Chopped %d\n", chop_off_trailing_zeros(jpgBuffer2, buffer_length2));
+
+                decodeTimePerFrame = toc();
+                // ns_lp_printf("decode time 1 was %d\n", decodeTimePerFrame); 
+
+                inferOnRgb1 = true;
+                jpgReady1 = false;
+                next_pic = 2;
+                // ns_lp_printf("1 Set jpgReady1 to false, called camstate\n");
+                camera_state_machine();
+                // ns_lp_printf("1Called camstate again \n");  
+                camera_state_machine();
+
+                // render_image(18432, rgbBuffer1, 0); 
+            } else if ((jpgReady2) && (next_pic == 2)) {
+                // ns_lp_printf("JPG Ready 2\n");
+                uint32_t my_buffer_length = chop_off_trailing_zeros(jpgBuffer2, buffer_length2); // Remove trailing zeros, calc new length
+                render_image(my_buffer_length, jpgBuffer2, 1);
+                // ns_lp_printf("decoding image 2 %d\n",  tud_vendor_write_available());
+                ns_lp_printf("decoding image 2 final len %d buffer_length2 %d, %d\n", my_buffer_length, buffer_length2, tud_vendor_write_available());
+                tic();
+                camera_decode_image(jpgBuffer2, my_buffer_length, rgbBuffer2, 96, 96, 3);
+                decodeTimePerFrame = toc();
+                ns_lp_printf("decode time 2 was %d\n", decodeTimePerFrame); 
+                inferOnRgb1 = false;
+                jpgReady2 = false;
+                next_pic = 1;
+                                // ns_lp_printf("2 Set jpgReady2 to false, called camstate\n"); 
+
+                camera_state_machine();
+                // ns_lp_printf("2Called camstate again \n");
+                camera_state_machine();
+                // render_image(18432, rgbBuffer2, 0);
             }
-            break;
-        case INFERENCING:
-            // Infer on cambuf while jpg is being captured
+            // ns_lp_printf("Running classifier %d\n",  tud_vendor_write_available());
+            // ns_lp_printf("Inference avail  %d\n",  tud_vendor_write_available());
+            tic();
             err = run_classifier(&impulse_handle_522036_0, &signal_fomo, &result_fomo, debug_nn);
-            if (err != EI_IMPULSE_OK) {
-                ns_lp_printf("ERR: Failed to run classifier (%d)\n", err);
-            } 
-            else {
-                // ns_lp_printf("Inference complete\n");
-                bb_found = result_fomo.bounding_boxes[0].value > 0;
-                for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
-                    // ns_lp_printf("hello\n");
-                    bb = result_fomo.bounding_boxes[ix];
-                    // ns_lp_printf("bb.value: %f\n", bb.value);
-                    if (bb.value == 0) {
-                        continue;
-                    }
-                    ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
-                }
-                if (!bb_found) {
-                    ns_lp_printf("    No objects found\n");
-                }
-            }
-            // render_image(buffer_length, &result_fomo, camBuffer);
-            // if (bb_found) {
-            //     state = INFERENCING;
-            // } else {
-                state = TAKING_JPG_IMAGE;
-            // }
-            break;
-        case TAKING_JPG_IMAGE:
-            if (pictureTaken) {
-                // ns_lp_printf("JPG Picture taken\n");
-                buffer_length = start_jpg_dma();
-                pictureTaken = false;
-                state = TRANSFERRING_JPG_IMAGE;
-            }
-            break;
-        case TRANSFERRING_JPG_IMAGE:
-            if (dmaComplete) {
-                // ns_lp_printf("JPG DMA Complete\n");
-                // We have an inference result and a jpg image, render it
-                dmaComplete = false;
+            inferenceTimePerFrame = toc();
+            ns_lp_printf("Inference time was %d\n", inferenceTimePerFrame);
+            render_result(&result_fomo);
+            // ns_lp_printf("after render_result, toc %d\n", toc()); tic();
 
-                // Image is in jpgBuffer, render the result
-                // if (camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
-                    buffer_length = chop_off_trailing_zeros(buffer_length); // Remove trailing zeros, calc new length
-                // }
-                press_rgb_shutter_button(&camera_config); // hide capture behind rendering
-                render_image(buffer_length, &result_fomo, jpgBuffer);
-                dmaComplete = false;
-                state = TAKING_RGB_IMAGE;
-            }
-            break;
+        } else {
+            ns_deep_sleep();
         }
-        ns_deep_sleep();
+        // camera_state_machine();
     }
-
-
-
-
-    // while (1) {
-    //     ns_delay_us(1000);
-    //     if (pictureTaken) {
-    //         // The picture has been taken, start the DMA transfer
-    //         // ns_lp_printf("Picture taken\n");
-    //         buffer_length = start_dma();
-    //         pictureTaken = false;
-    //     }    
-    //     if (dmaComplete) {
-    //         // Image is in camBuffer, run the classifier and render the result
-    //         // ns_lp_printf("DMA Complete\n");
-    //         if (camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
-    //             buffer_length =
-    //                 chop_off_trailing_zeros(buffer_length); // Remove trailing zeros, calc new length
-    //             // ns_lp_printf("Rendering image new len %d\n", buffer_length);
-    //         }
-    //         // EI_IMPULSE_ERROR err = run_classifier(&impulse_handle_517398_0, &signal_fomo, &result_fomo, debug_nn);
-    //         EI_IMPULSE_ERROR err = run_classifier(&impulse_handle_522036_0, &signal_fomo, &result_fomo, debug_nn);
-    //         if (err != EI_IMPULSE_OK) {
-    //             ns_lp_printf("ERR: Failed to run classifier (%d)\n", err);
-    //         } else {
-    //                 // print the predictions
-    //             // ns_lp_printf("Camera Predictions (DSP: %d ms., Classification: %d ms., Anomaly: %d ms.): \n",
-    //             //             result_fomo.timing.dsp, result_fomo.timing.classification, result_fomo.timing.anomaly);
-
-    //             // bool bb_found = result_fomo.bounding_boxes[0].value > 0;
-    //             // for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
-    //             //     auto bb = result_fomo.bounding_boxes[ix];
-    //             //     if (bb.value == 0) {
-    //             //         continue;
-    //             //     }
-    //             //     ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
-    //             // }
-    //             // if (!bb_found) {
-    //             //     ns_lp_printf("    No objects found\n");
-    //             // }
-    //         }
-    //         render_image(buffer_length, &result_fomo);
-
-    //         // ns_lp_printf("Image rendered\n");
-    //         setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
-    //         // setColorEffect(&camera, CAM_COLOR_FX_BW);
-
-    //         setAutoExposure(&camera, true);
-    //         ns_press_shutter_button(&camera_config);
-    //         dmaComplete = false;
-    //         // ns_lp_printf("DMA started, len %d\n", buffer_length);
-    //     }
-
-
-
-
-        // tic();
-        // camLength = perform_capture();
-        // ns_lp_printf("Captured image in %d ms\n", toc()); tic();
-        // render_image(camLength);
-        // ns_lp_printf("Rendered image in %d ms\n", toc()); tic();
-        // ns_take_picture(&camera_config);
-        // ns_lp_printf("Took picture in %d ms\n", toc()); tic();
-        // // ns_lp_printf("Captured image\n");
-        // EI_IMPULSE_ERROR err = run_classifier(&impulse_handle_517398_0, &signal_fomo, &result_fomo, debug_nn);
-        // ns_lp_printf("Ran classifier in %d ms\n", toc());
-        // if (err != EI_IMPULSE_OK) {
-        //     ns_lp_printf("ERR: Failed to run classifier (%d)\n", err);
-        //     // return;
-        // } else {
-        //           // print the predictions
-        //     // ns_lp_printf("Camera Predictions (DSP: %d ms., Classification: %d ms., Anomaly: %d ms.): \n",
-        //     //             result_fomo.timing.dsp, result_fomo.timing.classification, result_fomo.timing.anomaly);
-
-        //     bool bb_found = result_fomo.bounding_boxes[0].value > 0.5f;
-        //     for (size_t ix = 0; ix < result_fomo.bounding_boxes_count; ix++) {
-        //         auto bb = result_fomo.bounding_boxes[ix];
-        //         if (bb.value == 0) {
-        //             continue;
-        //         }
-        //         ns_lp_printf("    %s (%f) [ x: %u, y: %u, width: %u, height: %u ]\n", bb.label, bb.value, bb.x, bb.y, bb.width, bb.height);
-        //     }
-        //     if (!bb_found) {
-        //         // ns_lp_printf("    No objects found\n");
-        //     }
-        // }
-    //     ns_deep_sleep();
-    // }
 }

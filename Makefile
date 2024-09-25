@@ -90,15 +90,17 @@ else
 			modules      += examples/ic
 			modules      += examples/mpu_data_collection
 			modules      += examples/quaternion
-
+			ifeq ($(ARCH),apollo4)
+				ifeq ($(AS_VERSION),R4.5.0)
+					modules += examples/vision
+				endif
+			endif
 # 			ifneq ($(BLE_SUPPORTED),1)
 # # Don't include it twice
 # 				modules  += examples/audio_codec
 # 			endif
 		endif
-		ifeq ($(ARCH),apollo4)
-			modules      += examples/vision
-		endif
+
 	else
 		modules 	 += examples/$(EXAMPLE)
 	endif

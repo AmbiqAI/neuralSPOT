@@ -43,7 +43,7 @@ bool nsCameraPictureBeingTaken = false;
 
 // DMA read state
 // SPI DMA max xfer size is 4095 on AP4, so we have to chunk it
-#define MAX_SPI_DMA_LEN 2048
+#define MAX_SPI_DMA_LEN 4095
 static uint32_t dma_total_requested_length;
 static uint32_t dma_current_chunk_length;
 static uint32_t dma_offset;
@@ -51,7 +51,7 @@ static uint8_t *dma_cambuf;
 
 bool ns_read_done = false;
 
-void ns_camera_buff_read_done(ns_spi_config_t *cfg) {
+static void ns_camera_buff_read_done(ns_spi_config_t *cfg) {
     // ns_printf("Chunk Read done for chunk starting at offset %d\n", dma_offset);
 
     // Calculate next chunk offset
@@ -140,6 +140,8 @@ uint32_t ns_camera_init(ns_camera_config_t *cfg) {
     return NS_STATUS_SUCCESS;
 }
 
+// Functions used by Arducam driver
+
 int arducam_spi_read(
     const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin) {
     uint32_t err = 0;
@@ -184,7 +186,7 @@ uint32_t ns_read_buff(ArducamCamera *camera, uint8_t *buff, uint32_t length) {
         length = camera->receivedLength;
     }
     // ns_lp_printf("CAMERA Starting DMA2 to 0x%x len %d\n", buff, length);
-    uint32_t err = ns_spi_read_dma(spiHandle, buff, length, ARDU_BURST_FIFO_READ, 1, camera->csPin);
+    ns_spi_read_dma(spiHandle, buff, length, ARDU_BURST_FIFO_READ, 1, camera->csPin);
 
     if (camera->burstFirstFlag == 0) {
         camera->burstFirstFlag = 1;
@@ -200,10 +202,10 @@ uint32_t ns_start_camera(ns_camera_config_t *cfg) {
      */
     lowPowerOff(&camera);
     ns_delay_us(1000);
-    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_1);
-    setAutoExposure(&camera, true);
+    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+    // setAutoExposure(&camera, true);
     setAutoFocus(&camera, true);
-    setAutoISOSensitive(&camera, true);
+    // setAutoISOSensitive(&camera, true);
 
     return NS_STATUS_SUCCESS;
 }
@@ -265,6 +267,29 @@ int ns_is_camera_capturing() {
     return !cameraImageAvailable(&camera);
 }
 
+static uint8_t ns_mapCameraValuesToArducamScale(int8_t in) {
+    // 0 is 0, negative numbers map to positive even uints, positive map to odd
+    if (in > 3) {
+        in = 3;
+    } else if (in < -3) {
+        in = -3;
+    }
+
+    if (in == 0) {
+        return 0;
+    } else if (in < 0) {
+        return abs(in) * 2;
+    } else {
+        return (abs(in) * 2) - 1;
+    }
+}
+
+void ns_camera_adjust_settings(int8_t contrast, int8_t brightness, int8_t ev) {
+    setContrast(&camera, (CAM_CONTRAST_LEVEL)ns_mapCameraValuesToArducamScale(contrast));
+    setBrightness(&camera, (CAM_BRIGHTNESS_LEVEL)ns_mapCameraValuesToArducamScale(brightness));
+    setEV(&camera, (CAM_EV_LEVEL)ns_mapCameraValuesToArducamScale(ev));
+}
+
 uint32_t ns_start_dma_read(
     ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen) {
     // Wait for capture to complete
@@ -291,7 +316,7 @@ uint32_t ns_start_dma_read(
                                    : dma_total_requested_length;
     // ns_lp_printf("CAMERA Starting DMA read of chunk size %d to 0x%x\n", dma_current_chunk_length,
     // camBuf);
-    uint32_t err = ns_spi_read_dma(
+    ns_spi_read_dma(
         spiHandle, camBuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1, camera.csPin);
 
     return dma_total_requested_length;
@@ -353,88 +378,37 @@ uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bu
     return 0;
 }
 
+void ns_rgb565_to_rgb888(uint16_t rgb565Pixel, uint8_t *r, uint8_t *g, uint8_t *b) {
+    uint8_t r5 = (rgb565Pixel & 0xF800) >> 11;
+    uint8_t g6 = (rgb565Pixel & 0x07E0) >> 5;
+    uint8_t b5 = (rgb565Pixel & 0x001F);
+    *r = (r5 * 527 + 23) >> 6;
+    *g = (g6 * 259 + 33) >> 6;
+    *b = (b5 * 527 + 23) >> 6;
+}
+
+uint32_t ns_chop_off_trailing_zeros(uint8_t *buff, uint32_t length) {
+    uint32_t index;
+    // ns_lp_printf("Chopping off trailing zeros len %d addr 0x%x\n", length, buff);
+    for (index = length - 1; index >= 0; index--) {
+        if (buff[index] != 0) {
+            break;
+        }
+    }
+    return index + 1;
+}
+
 /**
- * @brief Decode JPEG-encoded camera buffer into RGB image buffer. Optionally scales the image on
- * the fly to reduce memory req. RGB values are placed in range [-128, 127]
- * @param camBuf JPEG-encoded camera buffer
- * @param camLen Camera buffer length
- * @param imgBuf Image buffer to store results
- * @param imgWidth Requested image width. Clip pixels that fall outside.
- * @param imgHeight Requested image height. Clip pixels that fall outside.
- * @param scaleFactor Scaling factor
- * @return 0 if success otherwise error code
+ * @brief Decode a JPEG image from the camera buffer to RGB565 buffer
+ *
+ * @param camBuf Camera buffer to decode
+ * @param camLen Length of camera buffer
+ * @param imgBuf Image buffer to store decoded image
+ * @param imgWidth Width of image
+ * @param imgHeight Height of image
+ * @param scaleFactor Scale factor for image
+ * @return int
  */
-// int camera_decode_image(
-//     uint8_t *camBuf, uint32_t camLen, img_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
-//     uint32_t scaleFactor) {
-
-//     uint16_t *pImg;
-//     uint16_t color;
-//     uint8_t r, g, b;
-
-//     jpeg_decoder_init(&jpegCtx, camBuf, camLen);
-
-//     const int keep_x_mcus = scaleFactor * imgWidth / jpegCtx.imgInfo.m_MCUWidth;
-//     const int keep_y_mcus = scaleFactor * imgHeight / jpegCtx.imgInfo.m_MCUHeight;
-
-//     const int skip_x_mcus = jpegCtx.imgInfo.m_MCUSPerRow - keep_x_mcus;
-
-//     const int skip_start_x_mcus = skip_x_mcus / 2;
-
-//     const int skip_end_x_mcu_index = skip_start_x_mcus + keep_x_mcus;
-
-//     const int skip_y_mcus = jpegCtx.imgInfo.m_MCUSPerCol - keep_y_mcus;
-//     const int skip_start_y_mcus = skip_y_mcus / 2;
-//     const int skip_end_y_mcu_index = skip_start_y_mcus + keep_y_mcus;
-
-//     const int scaleImageSize = imgHeight * imgWidth * 3;
-
-//     const img_t pixelOffset = -128;
-
-//     for (int i = 0; i < scaleImageSize; i++) {
-//         imgBuf[i] = pixelOffset;
-//     }
-
-//     while (jpeg_decoder_read(&jpegCtx)) {
-//         // Out of height bounds
-//         if (jpegCtx.MCUy < skip_start_y_mcus || jpegCtx.MCUy >= skip_end_y_mcu_index) {
-//             continue;
-//         }
-//         // Out of width bounds
-//         if (jpegCtx.MCUx < skip_start_x_mcus || jpegCtx.MCUx >= skip_end_x_mcu_index) {
-//             continue;
-//         }
-
-//         pImg = jpegCtx.pImage;
-
-//         int relMcuX = jpegCtx.MCUx - skip_start_x_mcus;
-//         int relMcuY = jpegCtx.MCUy - skip_start_y_mcus;
-
-//         int xOrigin = relMcuX * jpegCtx.imgInfo.m_MCUWidth;
-//         int yOrigin = relMcuY * jpegCtx.imgInfo.m_MCUHeight;
-
-//         for (int mcuRow = 0; mcuRow < jpegCtx.imgInfo.m_MCUHeight; mcuRow++) {
-//             int currentY = yOrigin + mcuRow;
-//             for (int mcuCol = 0; mcuCol < jpegCtx.imgInfo.m_MCUWidth; mcuCol++) {
-//                 int currentX = xOrigin + mcuCol;
-//                 color = *pImg++;
-//                 if (scaleFactor != 1 &&
-//                     (currentY % scaleFactor != 0 || currentX % scaleFactor != 0)) {
-//                     continue;
-//                 }
-//                 r = ((color & 0xF800) >> 11) * 8;
-//                 g = ((color & 0x07E0) >> 5) * 4;
-//                 b = ((color & 0x001F) >> 0) * 8;
-
-//                 int index = (currentY / scaleFactor) * (imgWidth / 1) + currentX / scaleFactor;
-//                 imgBuf[index * 3 + 0] += r;
-//                 imgBuf[index * 3 + 1] += g;
-//                 imgBuf[index * 3 + 2] += b;
-//             }
-//         }
-//     }
-//     return 0;
-// }
 
 int camera_decode_image(
     uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
@@ -442,7 +416,7 @@ int camera_decode_image(
 
     uint16_t *pImg;
     uint16_t color;
-    uint8_t r, g, b;
+    // uint8_t r, g, b;
 
     jpeg_decoder_init(&jpegCtx, camBuf, camLen);
 
@@ -461,7 +435,7 @@ int camera_decode_image(
 
     const int scaleImageSize = imgHeight * imgWidth * 3;
 
-    const img_t pixelOffset = -128;
+    // const img_t pixelOffset = -128;
 
     for (int i = 0; i < scaleImageSize; i++) {
         imgBuf[i] = 0;
@@ -494,28 +468,7 @@ int camera_decode_image(
                     (currentY % scaleFactor != 0 || currentX % scaleFactor != 0)) {
                     continue;
                 }
-                // r = ((color & 0xF800) >> 11) * 8;
-                // g = ((color & 0x07E0) >> 5) * 4;
-                // b = ((color & 0x001F) >> 0) * 8;
-
                 int index = (currentY / scaleFactor) * (imgWidth / 1) + currentX / scaleFactor;
-                // imgBuf[index * 3 + 0] += r;
-                // imgBuf[index * 3 + 1] += g;
-                // imgBuf[index * 3 + 2] += b;
-
-                // color is RGB565, just put in into imgBuf in right order
-                // imgBuf[index * 2 + 0] = (color & 0xFF00) >> 8;
-                // imgBuf[index * 2 + 1] = (color & 0x00FF);
-                // if ((index*2) > 18432) {
-                //     ns_lp_printf("EXCEEDED BUFFER SIZE\n");
-                //     ns_lp_printf("mcuRow %d mcuCol %d currentY %d currentX %d index %d\n",
-                //     mcuRow, mcuCol, currentY, currentX, index); ns_lp_printf("width is %d height
-                //     is %d\n", jpegCtx.imgInfo.m_MCUWidth, jpegCtx.imgInfo.m_MCUHeight);
-                //     // while(1);
-                //     return -1;
-                // }
-                // if (index > 9050)
-                //     ns_lp_printf("index %d addr 0x%x\n", index, &(imgBuf[index * 2 + 0]));
                 imgBuf[index * 2 + 1] = (color & 0xFF00) >> 8;
                 imgBuf[index * 2 + 0] = (color & 0x00FF);
             }

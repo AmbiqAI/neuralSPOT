@@ -1,7 +1,7 @@
 /**
  * @file Vision.cc
  * @author Ambiq
- * @brief This demo is intended to work with the vision WebBLE client
+ * @brief This demo is intended to work with an Arducam and the vision WebUSB client
  * See README.md for more details
  * @version 0.1
  * @date 2022-11-09
@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
 // neuralSPOT
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
@@ -27,16 +28,13 @@
 #include "ns_core.h"
 #include "tusb.h"
 
-// Locals
 #include "ns_camera.h"
 #include "vision.h"
 #include "model.h"
 
-// #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-// // RPC uses malloc internally, so we need to declare it here
-// uint8_t ucHeap[NS_RPC_MALLOC_SIZE_IN_K * 1024] __attribute__((aligned(4)));
-// #endif
-
+//
+// WebUSB Configuration and Datatypes
+//
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
 static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE];
@@ -44,7 +42,6 @@ static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE];
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
-    // .deviceType = NS_USB_CDC_DEVICE,
     .rx_buffer = NULL,
     .rx_bufferLength = 0,
     .tx_buffer = NULL,
@@ -53,7 +50,7 @@ static ns_usb_config_t webUsbConfig = {
     .tx_cb = NULL,
     .service_cb = NULL};
 
-// USB Data sent to WebUSB client
+// USB Data sent to WebUSB client (used to communicated to webusb client)
 typedef enum {
     FIRST_CHUNK = 0x0,
     MIDDLE_CHUNK = 0x1,
@@ -71,16 +68,24 @@ typedef struct usb_data {
     uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
 
-// static app_state_e state = IDLE_STATE;
-// static float32_t modelResults[NUM_CLASSES] = {0};
-// static int modelResult = 0;
-// static bool usbAvailable = false;
-// static int volatile sensorCollectBtnPressed = false;
-// static int volatile clientCollectBtnPressed = false;
-// static data_collect_mode_e collectMode = SENSOR_DATA_COLLECT;
-static uint8_t camBuffer[CAM_BUFF_SIZE];
-// static AM_SHARED_RW uint8_t usbXmitBuffer[CAM_BUFF_SIZE];
-// extern img_t *imgBuffer;
+//
+// Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
+//
+static uint8_t rgbBuffer[RGB_BUFF_SIZE];
+static AM_SHARED_RW uint8_t jpgBuffer[JPG_BUFF_SIZE];
+void picture_dma_complete(ns_camera_config_t *cfg);
+void picture_taken_complete(ns_camera_config_t *cfg);
+
+ns_camera_config_t camera_config = {
+    .api = &ns_camera_V1_0_0,
+    .spiSpeed = CAM_SPI_SPEED,
+    .cameraHw = NS_ARDUCAM,
+    .imageMode = NS_CAM_IMAGE_MODE_320X320,
+    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
+    .spiConfig = {.iom = CAM_SPI_IOM}, // Only IOM1 is currently supported
+    .dmaCompleteCb = picture_dma_complete,
+    .pictureTakenCb = picture_taken_complete,
+};
 
 const ns_power_config_t ns_pwr_config = {
     .api = &ns_power_V1_0_0,
@@ -101,57 +106,101 @@ ns_timer_config_t tickTimer = {
     .enableInterrupt = false,
 };
 
-// ns_button_config_t button_config = {
-//     .api = &ns_button_V1_0_0,
-//     .button_0_enable = true,
-//     .button_1_enable = true,
-//     .button_0_flag = &sensorCollectBtnPressed,
-//     .button_1_flag = &clientCollectBtnPressed};
+//
+// State and IPC for DMA and Camera Polling Background Tasks
+//
+volatile bool dmaComplete = false;  // Set by callback, monitored and reset by main loop
+volatile bool pictureTaken = false; // Set by callback, monitored and reset by main loop
+uint32_t buffer_length = 0;         // set when DMA is started
+static uint32_t bufferOffset = 0;   // set when DMA is started
 
-ns_camera_config_t camera_config = {
-    .api = &ns_camera_V1_0_0,
-    .spiSpeed = AM_HAL_IOM_8MHZ,
-    .cameraHw = NS_ARDUCAM,
-    .imageMode = CAM_IMAGE_MODE,
-    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
-    // .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
-    .spiConfig = {.iom = 1},
-};
+void picture_dma_complete(ns_camera_config_t *cfg) {
+    // ns_lp_printf("DMA Complete CB\n");
+    dmaComplete = true;
+}
 
+void picture_taken_complete(ns_camera_config_t *cfg) {
+    pictureTaken = true;
+    // ns_lp_printf("Picture taken CB\n");
+}
+
+// Helper Functions
 void tic() { elapsedTime = ns_us_ticker_read(&tickTimer); }
 uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
-static uint32_t bufferOffset = 0;
+// void press_rgb_shutter_button(ns_camera_config_t *cfg) {
+//     camera_config.imageMode = CAM_IMAGE_MODE;
+//     camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565;
+//     // setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+//     // setAutoExposure(&camera, true);
+//     ns_lp_printf("ns err %d \n", ns_press_shutter_button(cfg));
+// }
 
-static void perform_capture() {
-    uint32_t camLength =
-        ns_transfer_picture(&camera_config, camBuffer, &bufferOffset, CAM_BUFF_SIZE);
+void press_jpg_shutter_button(ns_camera_config_t *cfg) {
+    camera_config.imageMode = NS_CAM_IMAGE_MODE_320X320;
+    camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG;
+    ns_press_shutter_button(cfg);
+}
 
-    // Max xfer is 512, so we have to chunk anything bigger
+// static uint32_t start_rgb_dma() {
+//     uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset,
+//     CAM_BUFF_SIZE); return camLength;
+// }
+
+static uint32_t start_jpg_dma() {
+    uint32_t camLength = ns_start_dma_read(&camera_config, jpgBuffer, &bufferOffset, JPG_BUFF_SIZE);
+    return camLength;
+}
+
+// static uint32_t start_dma() {
+//     uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset,
+//     CAM_BUFF_SIZE); return camLength;
+// }
+
+/**
+ * @brief Sends the image to the WebUSB client in chunks
+ *
+ * @param camLength Total length of the image
+ * @param buff Buffer containing the image
+ */
+static void render_image(uint32_t camLength, uint8_t *buff) {
+    // Max WebUSB xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
-    // int offset = 0;
     int offset = bufferOffset;
+
+    // Calculate FPS and restart timer
+    // uint32_t elapsed = toc();
+    // ns_lp_printf("FPS: %d\n", 1000000 / elapsed);
+    // tic();
+
     while (remaining > 0) {
         usb_data_t data;
         if (offset == 0) {
             // ns_lp_printf("First chunk\n");
             data.descriptor = FIRST_CHUNK;
         } else {
+            // ns_lp_printf("Middle chunk\n");
             data.descriptor = MIDDLE_CHUNK;
         };
 
         data.mode = camera_config.imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG ? 1 : 0;
 
+        // When Arducam takes a JPG picture, it adds a 0x00 to the beginning for some reason
+        // Chop that off. The ending zeros have already been removed in chop_off_trailing_zeros
+        // before render_image is called.
+
         int chunkSize = remaining > MAX_WEBUSB_CHUNK ? MAX_WEBUSB_CHUNK : remaining;
-        memcpy(data.buffer, &camBuffer[offset], chunkSize);
+        memcpy(data.buffer, &buff[offset], chunkSize);
         remaining -= chunkSize;
         offset += chunkSize;
         if (remaining == 0) {
+            // ns_lp_printf("Last chunk\n");
             data.descriptor = LAST_CHUNK;
         }
 
         webusb_send_data((uint8_t *)&data, chunkSize + WEBUSB_HEADER_SIZE);
         while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
+            // USB likes to be lazy about sending the last packet, so force it to
             ns_delay_us(200);
         }
     }
@@ -159,8 +208,10 @@ static void perform_capture() {
 }
 
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
-    // Do something with the received message
-    ns_lp_printf("Received %d bytes: %s\n", length, buffer);
+    // The message contains information about how to set the camera
+    ns_camera_adjust_settings(buffer[0], buffer[1], buffer[2]);
+
+    // ns_lp_printf("Received %d bytes: %s\n", length, buffer);
 }
 
 int main(void) {
@@ -171,15 +222,17 @@ int main(void) {
     // Power configuration (mem, cache, peripherals, clock)
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_pwr_config), "Power config failed.\n");
+    am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
 
     elapsedTime = 0;
+
     NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
-    // NS_TRY(ns_peripheral_button_init(&button_config), "Button Init Failed\n");
 
     // WebUSB Setup
-    webusb_register_msg_cb(msgReceived, NULL);
+    webusb_register_raw_cb(msgReceived, NULL);
     webUsbConfig.rx_buffer = my_rx_ff_buf;
     webUsbConfig.rx_bufferLength = MY_RX_BUFSIZE;
     webUsbConfig.tx_buffer = my_tx_ff_buf;
@@ -193,14 +246,56 @@ int main(void) {
     ns_stop_camera(&camera_config);
 
     ns_lp_printf("📸 TinyVision Demo\n\n");
+    ns_lp_printf("🔌 Connect to the WebUSB client at "
+                 "https://ambiqai.github.io/web-ble-dashboards/vision_demo/\n");
 
     // Send camera images to webusb clients
     ns_start_camera(&camera_config);
     ns_delay_us(10000);
-    ns_take_picture(&camera_config);
+
+    // Take the first picture
+    press_jpg_shutter_button(&camera_config);
+    bool takingJpg = true;
+
+    // Note: this demo only takes JPG pictures, but the code is in here to take RGB pictures too
+    //   but the WebUSB client only supports JPG without changes. See the FOMO example for more
+    //   elaborate camera use cases.
+
+    // There are two camera interactions here:
+    //   - one that starts the action of taking a picture. The time this takes depends on shutter
+    //   speed
+    //   - one that starts the DMA transfer of the picture once the camera is done taking it
+    //
+    // Both of these tasks are done in by interrupt handlers
+    //   - Once a picture is started ("shutter button pressed"), the camera needs to be polled for
+    //   completion
+    //     This is done by a timer interrupt within ns_camera.c, which calls the
+    //     picture_taken_complete callback
+    //   - The image data must then be transfered over SPI to the MCU. This is done by DMAing
+    //   chunks. ns_camera.c
+    //     takes care of monitoring progress and requesting the next chunk. Once the image is fully
+    //     transfered, the picture_dma_complete callback is called.
+
+    // Now sit in a loop triggering pics and DMA, then sending them to the WebUSB client
     while (1) {
-        perform_capture();
-        ns_take_picture(&camera_config);
+        ns_delay_us(1000);
+        if (pictureTaken) {
+            buffer_length = start_jpg_dma();
+            if (buffer_length > JPG_BUFF_SIZE) {
+                // We set the jpg buff size to less than the absolute max assuming jpg
+                // will be smaller than that. If it's not, we have a problem.
+                ns_lp_printf("JPG Bigger than expected: %d\n", buffer_length);
+            }
+            pictureTaken = false;
+        }
+        if (dmaComplete) {
+            buffer_length = ns_chop_off_trailing_zeros(
+                jpgBuffer, buffer_length); // Remove trailing zeros, calc new length
+            press_jpg_shutter_button(
+                &camera_config); // Start the next picture while current is xfering
+            render_image(buffer_length, jpgBuffer);
+            dmaComplete = false;
+        }
         ns_deep_sleep();
     }
 }

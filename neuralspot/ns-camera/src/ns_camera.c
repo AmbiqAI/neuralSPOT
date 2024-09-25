@@ -12,7 +12,6 @@
 #include "ns_camera.h"
 #include "ArducamCamera.h"
 #include "arm_math.h"
-// #include "ns_camera_constants.h"
 #include "jpeg-decoder/jpeg_decoder.h"
 #include "jpeg-decoder/picojpeg.h"
 #include "ns_spi.h"
@@ -29,22 +28,119 @@ const ns_core_api_t ns_camera_current_version = {
 jpeg_decoder_context_t jpegCtx = {};
 ArducamCamera camera; // Arducam driver assumes this is a global, so :shrug:
 ns_spi_config_t *spiHandle = NULL;
+ns_camera_config_t ns_camera_config;
+bool nsCameraPictureBeingTaken = false;
+
+// Some Arducam functions are re-written in this file, make aliases of registers
+#define ARDU_BURST_FIFO_READ 0x3C    // Burst FIFO read operation
+#define NS_CAMERA_ARDUCHIP_TRIG 0x44 // Trigger source
+#define NS_CAMERA_VSYNC_MASK 0x01
+#define NS_CAMERA_SHUTTER_MASK 0x02
+#define NS_CAMERA_CAP_DONE_MASK 0x04
+#define NS_CAM_REG_FORMAT 0X20
+#define NS_CAM_REG_CAPTURE_RESOLUTION 0X21
+#define NS_CAM_SET_CAPTURE_MODE (0 << 7)
+
+// DMA read state
+// SPI DMA max xfer size is 4095 on AP4, so we have to chunk it
+#define MAX_SPI_DMA_LEN 4095
+static uint32_t dma_total_requested_length;
+static uint32_t dma_current_chunk_length;
+static uint32_t dma_offset;
+static uint8_t *dma_cambuf;
+
+bool ns_read_done = false;
+
+static void ns_camera_buff_read_done(ns_spi_config_t *cfg) {
+    // ns_printf("Chunk Read done for chunk starting at offset %d\n", dma_offset);
+
+    // Calculate next chunk offset
+    dma_offset += dma_current_chunk_length;
+
+    // Check if we have more to read
+    if (dma_offset < dma_total_requested_length) {
+        // Calculate next chunk length
+        dma_current_chunk_length = (dma_total_requested_length - dma_offset) > MAX_SPI_DMA_LEN
+                                       ? MAX_SPI_DMA_LEN
+                                       : (dma_total_requested_length - dma_offset);
+
+        // Read next chunk
+        // ns_lp_printf("CAMERA Starting next dma addr 0x%x offset %d len %d\n", dma_offset +
+        // dma_cambuf, dma_offset, dma_current_chunk_length); ns_delay_us(1000);
+        ns_spi_read_dma(
+            spiHandle, dma_offset + dma_cambuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1,
+            camera.csPin);
+    } else {
+        ns_read_done = true;
+        // ns_lp_printf("DMA Read done\n");
+        if (ns_camera_config.dmaCompleteCb) {
+            ns_camera_config.dmaCompleteCb(&ns_camera_config);
+        }
+        if (camera.burstFirstFlag == 0) {
+            camera.burstFirstFlag = 1;
+        }
+        camera.receivedLength -= dma_total_requested_length;
+    }
+}
+
+void ns_camera_check_picture_completion(ns_timer_config_t *timer) {
+    if (!nsCameraPictureBeingTaken) {
+        // ns_lp_printf("Not taking picture\n");
+        return;
+    }
+    if (getBit(&camera, NS_CAMERA_ARDUCHIP_TRIG, NS_CAMERA_CAP_DONE_MASK) == 0) {
+        // ns_lp_printf("Picture not done fifo is %d\n", readFifoLength(&camera));
+        return;
+    }
+    // ns_lp_printf("Picture done\n");
+    camera.receivedLength = readFifoLength(&camera);
+    camera.totalLength = camera.receivedLength;
+    camera.burstFirstFlag = 0;
+
+    if (ns_camera_config.pictureTakenCb) {
+        // ns_lp_printf("Calling picture taken CB\n");
+        ns_camera_config.pictureTakenCb(&ns_camera_config);
+    }
+    nsCameraPictureBeingTaken = false;
+}
+
+ns_timer_config_t timerCfg = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_INTERRUPT,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 80000,
+    .callback = ns_camera_check_picture_completion,
+};
 
 uint32_t ns_camera_init(ns_camera_config_t *cfg) {
     // Check API
-    // Only IOM1 is supported currently - checkt
+    // Only IOM1 is supported currently - check it
+    // Check that buff size is sane
+    // Check that picture mode is sane
+    // Check that pix format is sane
 
     spiHandle = &cfg->spiConfig;
+    cfg->spiConfig.cb = ns_camera_buff_read_done;
+    memcpy(&ns_camera_config, cfg, sizeof(ns_camera_config_t));
+
     am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM1);
     if (ns_spi_interface_init(&cfg->spiConfig, cfg->spiSpeed, AM_HAL_IOM_SPI_MODE_0)) {
         return NS_STATUS_INIT_FAILED;
     }
     createArducamCamera(AM_BSP_IOM1_CS_CHNL); // inits camera global, other stuff
 
+    // Start a polling timer is needed
+    if (cfg->pictureTakenCb != NULL) {
+        // ns_lp_printf("Starting camera timer\n");
+        NS_TRY(ns_timer_init(&timerCfg), "Failed to init camera timer\n");
+    }
+
     begin(&camera);
     lowPowerOn(&camera);
     return NS_STATUS_SUCCESS;
 }
+
+// Functions used by Arducam driver
 
 int arducam_spi_read(
     const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin) {
@@ -68,7 +164,9 @@ int arducam_spi_write(
     uint32_t chunkSize;
     while (bytesLeft) {
         chunkSize = bytesLeft > MAX_SPI_BUF_LEN ? MAX_SPI_BUF_LEN : bytesLeft;
-        ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
+        uint32_t ret = ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
+        if (ret)
+            ns_lp_printf("spi write ret %d\n", ret);
         bufPtr += chunkSize;
         bytesLeft -= chunkSize;
     }
@@ -78,33 +176,24 @@ int arducam_spi_write(
 void arducam_delay_ms(uint16_t delay) { ns_delay_us(1000 * delay); }
 void arducam_delay_us(uint16_t delay) { ns_delay_us(delay); }
 
-// static void dump_camera_regs() {
-//     /**
-//      * @brief Capture Arducam SPI register values
-//      *
-//      */
-//     uint8_t regs[] = {0,    1,    2,    3,    4,    5,    6,    0x3B, 0x3E,
-//                       0x3F, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47};
-//     for (size_t i = 0; i < 18; i++) {
-//         ns_printf("[%x]=%x\n", regs[i], cameraReadReg(&camera, regs[i]));
-//     }
-// }
+// Re-implementation of Arducam readBuf using SPI DMA. This just kicks off the DMA.
+uint32_t ns_read_buff(ArducamCamera *camera, uint8_t *buff, uint32_t length) {
+    if (cameraImageAvailable(camera) == 0 || (length == 0)) {
+        return 0;
+    }
 
-// int init_camera(void) {
-//     /**
-//      * @brief Initialize and configure camera
-//      *
-//      */
-//     if (ns_spi_interface_init(&spiConfig, CAM_SPI_SPEED, AM_HAL_IOM_SPI_MODE_0)) {
-//         return 1;
-//     }
-//     createArducamCamera(AM_BSP_IOM1_CS_CHNL);
+    if (camera->receivedLength < length) {
+        length = camera->receivedLength;
+    }
+    // ns_lp_printf("CAMERA Starting DMA2 to 0x%x len %d\n", buff, length);
+    ns_spi_read_dma(spiHandle, buff, length, ARDU_BURST_FIFO_READ, 1, camera->csPin);
 
-//     // cameraInit(&camera);
-//     begin(&camera);
-//     lowPowerOn(&camera);
-//     return 0;
-// }
+    if (camera->burstFirstFlag == 0) {
+        camera->burstFirstFlag = 1;
+    }
+    camera->receivedLength -= length;
+    return length;
+}
 
 uint32_t ns_start_camera(ns_camera_config_t *cfg) {
     /**
@@ -113,10 +202,10 @@ uint32_t ns_start_camera(ns_camera_config_t *cfg) {
      */
     lowPowerOff(&camera);
     ns_delay_us(1000);
-    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_3);
-    setAutoExposure(&camera, true);
+    setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
+    // setAutoExposure(&camera, true);
     setAutoFocus(&camera, true);
-    setAutoISOSensitive(&camera, true);
+    // setAutoISOSensitive(&camera, true);
 
     return NS_STATUS_SUCCESS;
 }
@@ -139,12 +228,98 @@ uint32_t ns_take_picture(ns_camera_config_t *cfg) {
     return takePicture(&camera, cfg->imageMode, cfg->imagePixFmt);
 }
 
+// Arducam needs to be polled to check when a capture is done.
+// Instead of a tight loop, we use a timer to poll the camera.
+// This function just starts the timer and sets state.
+uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
+    ns_image_pix_fmt_e pixel_format = cfg->imagePixFmt;
+    ns_image_mode_e mode = cfg->imageMode;
+
+    if (cfg->pictureTakenCb == NULL) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
+
+    if (camera.currentPixelFormat != pixel_format) {
+        camera.currentPixelFormat = pixel_format;
+        // ns_lp_printf("Setting pixel format to %d\n", pixel_format);
+        writeReg(&camera, NS_CAM_REG_FORMAT, pixel_format); // set the data format
+        waitI2cIdle(&camera);                               // Wait I2c Idle
+    }
+
+    if (camera.currentPictureMode != mode) {
+        camera.currentPictureMode = mode;
+        // ns_lp_printf("Setting capture mode to %d\n", mode);
+        writeReg(&camera, NS_CAM_REG_CAPTURE_RESOLUTION, NS_CAM_SET_CAPTURE_MODE | mode);
+        waitI2cIdle(&camera); // Wait I2c Idle
+    }
+
+    cameraClearFifoFlag(&camera);
+    cameraStartCapture(&camera);
+    nsCameraPictureBeingTaken = true;
+    return NS_STATUS_SUCCESS;
+}
+
 int ns_is_camera_capturing() {
     /**
      * @brief Check if Arducam is still fetching frame
      *
      */
     return !cameraImageAvailable(&camera);
+}
+
+static uint8_t ns_mapCameraValuesToArducamScale(int8_t in) {
+    // 0 is 0, negative numbers map to positive even uints, positive map to odd
+    if (in > 3) {
+        in = 3;
+    } else if (in < -3) {
+        in = -3;
+    }
+
+    if (in == 0) {
+        return 0;
+    } else if (in < 0) {
+        return abs(in) * 2;
+    } else {
+        return (abs(in) * 2) - 1;
+    }
+}
+
+void ns_camera_adjust_settings(int8_t contrast, int8_t brightness, int8_t ev) {
+    setContrast(&camera, (CAM_CONTRAST_LEVEL)ns_mapCameraValuesToArducamScale(contrast));
+    setBrightness(&camera, (CAM_BRIGHTNESS_LEVEL)ns_mapCameraValuesToArducamScale(brightness));
+    setEV(&camera, (CAM_EV_LEVEL)ns_mapCameraValuesToArducamScale(ev));
+}
+
+uint32_t ns_start_dma_read(
+    ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen) {
+    // Wait for capture to complete
+    while (ns_is_camera_capturing()) {
+        ns_delay_us(10000);
+        ns_lp_printf("Waiting for camera capture\n"); // should never be here
+    }
+
+    // Get FIFO length
+    dma_total_requested_length = cameraReadFifoLength(&camera);
+    // ns_lp_printf("CAMERA FIFO length: %u\n", dma_total_requested_length);
+    if (cfg->imagePixFmt == NS_CAM_IMAGE_PIX_FMT_JPEG) {
+        *buffer_offset = 1;
+    } else {
+        *buffer_offset = 0;
+    }
+
+    // Kick off DMA read
+    ns_read_done = false;
+    dma_cambuf = camBuf;
+    dma_offset = 0;
+    dma_current_chunk_length = (dma_total_requested_length > MAX_SPI_DMA_LEN)
+                                   ? MAX_SPI_DMA_LEN
+                                   : dma_total_requested_length;
+    // ns_lp_printf("CAMERA Starting DMA read of chunk size %d to 0x%x\n", dma_current_chunk_length,
+    // camBuf);
+    ns_spi_read_dma(
+        spiHandle, camBuf, dma_current_chunk_length, ARDU_BURST_FIFO_READ, 1, camera.csPin);
+
+    return dma_total_requested_length;
 }
 
 uint32_t ns_transfer_picture(
@@ -200,87 +375,104 @@ uint32_t ns_transfer_picture(
 uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen) {
     // ns_trigger_camera_capture(cfg);
     // return transfer_camera_capture(camBuf, bufLen);
+    return 0;
+}
+
+void ns_rgb565_to_rgb888(uint16_t rgb565Pixel, uint8_t *r, uint8_t *g, uint8_t *b) {
+    uint8_t r5 = (rgb565Pixel & 0xF800) >> 11;
+    uint8_t g6 = (rgb565Pixel & 0x07E0) >> 5;
+    uint8_t b5 = (rgb565Pixel & 0x001F);
+    *r = (r5 * 527 + 23) >> 6;
+    *g = (g6 * 259 + 33) >> 6;
+    *b = (b5 * 527 + 23) >> 6;
+}
+
+uint32_t ns_chop_off_trailing_zeros(uint8_t *buff, uint32_t length) {
+    uint32_t index;
+    // ns_lp_printf("Chopping off trailing zeros len %d addr 0x%x\n", length, buff);
+    for (index = length - 1; index >= 0; index--) {
+        if (buff[index] != 0) {
+            break;
+        }
+    }
+    return index + 1;
 }
 
 /**
- * @brief Decode JPEG-encoded camera buffer into RGB image buffer. Optionally scales the image on
- * the fly to reduce memory req. RGB values are placed in range [-128, 127]
- * @param camBuf JPEG-encoded camera buffer
- * @param camLen Camera buffer length
- * @param imgBuf Image buffer to store results
- * @param imgWidth Requested image width. Clip pixels that fall outside.
- * @param imgHeight Requested image height. Clip pixels that fall outside.
- * @param scaleFactor Scaling factor
- * @return 0 if success otherwise error code
+ * @brief Decode a JPEG image from the camera buffer to RGB565 buffer
+ *
+ * @param camBuf Camera buffer to decode
+ * @param camLen Length of camera buffer
+ * @param imgBuf Image buffer to store decoded image
+ * @param imgWidth Width of image
+ * @param imgHeight Height of image
+ * @param scaleFactor Scale factor for image
+ * @return int
  */
-// int camera_decode_image(
-//     uint8_t *camBuf, uint32_t camLen, img_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
-//     uint32_t scaleFactor) {
 
-//     uint16_t *pImg;
-//     uint16_t color;
-//     uint8_t r, g, b;
+int camera_decode_image(
+    uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
+    uint32_t scaleFactor) {
 
-//     jpeg_decoder_init(&jpegCtx, camBuf, camLen);
+    uint16_t *pImg;
+    uint16_t color;
+    // uint8_t r, g, b;
 
-//     const int keep_x_mcus = scaleFactor * imgWidth / jpegCtx.imgInfo.m_MCUWidth;
-//     const int keep_y_mcus = scaleFactor * imgHeight / jpegCtx.imgInfo.m_MCUHeight;
+    jpeg_decoder_init(&jpegCtx, camBuf, camLen);
 
-//     const int skip_x_mcus = jpegCtx.imgInfo.m_MCUSPerRow - keep_x_mcus;
+    const int keep_x_mcus = scaleFactor * imgWidth / jpegCtx.imgInfo.m_MCUWidth;
+    const int keep_y_mcus = scaleFactor * imgHeight / jpegCtx.imgInfo.m_MCUHeight;
 
-//     const int skip_start_x_mcus = skip_x_mcus / 2;
+    const int skip_x_mcus = jpegCtx.imgInfo.m_MCUSPerRow - keep_x_mcus;
 
-//     const int skip_end_x_mcu_index = skip_start_x_mcus + keep_x_mcus;
+    const int skip_start_x_mcus = skip_x_mcus / 2;
 
-//     const int skip_y_mcus = jpegCtx.imgInfo.m_MCUSPerCol - keep_y_mcus;
-//     const int skip_start_y_mcus = skip_y_mcus / 2;
-//     const int skip_end_y_mcu_index = skip_start_y_mcus + keep_y_mcus;
+    const int skip_end_x_mcu_index = skip_start_x_mcus + keep_x_mcus;
 
-//     const int scaleImageSize = imgHeight * imgWidth * 3;
+    const int skip_y_mcus = jpegCtx.imgInfo.m_MCUSPerCol - keep_y_mcus;
+    const int skip_start_y_mcus = skip_y_mcus / 2;
+    const int skip_end_y_mcu_index = skip_start_y_mcus + keep_y_mcus;
 
-//     const img_t pixelOffset = -128;
+    const int scaleImageSize = imgHeight * imgWidth * 3;
 
-//     for (int i = 0; i < scaleImageSize; i++) {
-//         imgBuf[i] = pixelOffset;
-//     }
+    // const img_t pixelOffset = -128;
 
-//     while (jpeg_decoder_read(&jpegCtx)) {
-//         // Out of height bounds
-//         if (jpegCtx.MCUy < skip_start_y_mcus || jpegCtx.MCUy >= skip_end_y_mcu_index) {
-//             continue;
-//         }
-//         // Out of width bounds
-//         if (jpegCtx.MCUx < skip_start_x_mcus || jpegCtx.MCUx >= skip_end_x_mcu_index) {
-//             continue;
-//         }
+    for (int i = 0; i < scaleImageSize; i++) {
+        imgBuf[i] = 0;
+    }
 
-//         pImg = jpegCtx.pImage;
+    while (jpeg_decoder_read(&jpegCtx)) {
+        // Out of height bounds
+        if (jpegCtx.MCUy < skip_start_y_mcus || jpegCtx.MCUy >= skip_end_y_mcu_index) {
+            continue;
+        }
+        // Out of width bounds
+        if (jpegCtx.MCUx < skip_start_x_mcus || jpegCtx.MCUx >= skip_end_x_mcu_index) {
+            continue;
+        }
 
-//         int relMcuX = jpegCtx.MCUx - skip_start_x_mcus;
-//         int relMcuY = jpegCtx.MCUy - skip_start_y_mcus;
+        pImg = jpegCtx.pImage;
 
-//         int xOrigin = relMcuX * jpegCtx.imgInfo.m_MCUWidth;
-//         int yOrigin = relMcuY * jpegCtx.imgInfo.m_MCUHeight;
+        int relMcuX = jpegCtx.MCUx - skip_start_x_mcus;
+        int relMcuY = jpegCtx.MCUy - skip_start_y_mcus;
 
-//         for (int mcuRow = 0; mcuRow < jpegCtx.imgInfo.m_MCUHeight; mcuRow++) {
-//             int currentY = yOrigin + mcuRow;
-//             for (int mcuCol = 0; mcuCol < jpegCtx.imgInfo.m_MCUWidth; mcuCol++) {
-//                 int currentX = xOrigin + mcuCol;
-//                 color = *pImg++;
-//                 if (scaleFactor != 1 &&
-//                     (currentY % scaleFactor != 0 || currentX % scaleFactor != 0)) {
-//                     continue;
-//                 }
-//                 r = ((color & 0xF800) >> 11) * 8;
-//                 g = ((color & 0x07E0) >> 5) * 4;
-//                 b = ((color & 0x001F) >> 0) * 8;
-
-//                 int index = (currentY / scaleFactor) * (imgWidth / 1) + currentX / scaleFactor;
-//                 imgBuf[index * 3 + 0] += r;
-//                 imgBuf[index * 3 + 1] += g;
-//                 imgBuf[index * 3 + 2] += b;
-//             }
-//         }
-//     }
-//     return 0;
-// }
+        int xOrigin = relMcuX * jpegCtx.imgInfo.m_MCUWidth;
+        int yOrigin = relMcuY * jpegCtx.imgInfo.m_MCUHeight;
+        // ns_lp_printf("Writing to imgBuf at 0x%x\n", imgBuf);
+        for (int mcuRow = 0; mcuRow < jpegCtx.imgInfo.m_MCUHeight; mcuRow++) {
+            int currentY = yOrigin + mcuRow;
+            for (int mcuCol = 0; mcuCol < jpegCtx.imgInfo.m_MCUWidth; mcuCol++) {
+                int currentX = xOrigin + mcuCol;
+                color = *pImg++;
+                if (scaleFactor != 1 &&
+                    (currentY % scaleFactor != 0 || currentX % scaleFactor != 0)) {
+                    continue;
+                }
+                int index = (currentY / scaleFactor) * (imgWidth / 1) + currentX / scaleFactor;
+                imgBuf[index * 2 + 1] = (color & 0xFF00) >> 8;
+                imgBuf[index * 2 + 0] = (color & 0x00FF);
+            }
+        }
+    }
+    return 0;
+}

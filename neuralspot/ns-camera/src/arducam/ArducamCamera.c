@@ -245,12 +245,16 @@ CamStatus cameraBegin(ArducamCamera *camera) {
     updateCameraInfo(camera);
     camera->verDateAndNumber[0] = readReg(camera, CAM_REG_YEAR_ID) & 0x3F; // year
     waitI2cIdle(camera);
+    ns_lp_printf("year: %d\n", camera->verDateAndNumber[0]);
     camera->verDateAndNumber[1] = readReg(camera, CAM_REG_MONTH_ID) & 0x0F; // month
     waitI2cIdle(camera);
+    ns_lp_printf("month: %d\n", camera->verDateAndNumber[1]);
     camera->verDateAndNumber[2] = readReg(camera, CAM_REG_DAY_ID) & 0x1F; // day
     waitI2cIdle(camera);
+    ns_lp_printf("day: %d\n", camera->verDateAndNumber[2]);
     camera->verDateAndNumber[3] = readReg(camera, CAM_REG_FPGA_VERSION_NUMBER) & 0xFF; // day
     waitI2cIdle(camera);
+    ns_lp_printf("fpga version: %d\n", camera->verDateAndNumber[3]);
 
     writeReg(camera, CAM_REG_DEBUG_DEVICE_ADDRESS, camera->myCameraInfo.deviceAddress);
     waitI2cIdle(camera);
@@ -610,6 +614,7 @@ void cameraWriteReg(ArducamCamera *camera, uint8_t addr, uint8_t val) {
 uint8_t cameraReadReg(ArducamCamera *camera, uint8_t addr) {
     uint8_t data;
     data = busRead(camera, addr & 0x7F);
+    // ns_lp_printf("addr %d data: %d\n", addr, data);
     return data;
 }
 

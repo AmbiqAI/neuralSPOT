@@ -30,6 +30,8 @@ extern const ns_core_api_t ns_camera_V1_0_0;
 extern const ns_core_api_t ns_camera_oldest_supported_version;
 extern const ns_core_api_t ns_camera_current_version;
 
+typedef int8_t img_t;
+
 typedef enum {
     NS_ARDUCAM = 0,
 } ns_camera_hw_e;
@@ -55,14 +57,28 @@ typedef enum {
     NS_CAM_IMAGE_PIX_FMT_JPEG = 0x01,
 } ns_image_pix_fmt_e;
 
-typedef struct {
+// Callback def
+struct ns_camera_cfg;
+typedef void (*ns_camera_dma_cb)(struct ns_camera_cfg *cfg);
+typedef void (*ns_camera_picture_cb)(struct ns_camera_cfg *cfg);
+
+typedef struct ns_camera_cfg {
     const ns_core_api_t *api; ///< API prefix
     int8_t iom;               ///< Apollo4 IOM port
-    uint32_t spiSpeed;        // = CAM_SPI_SPEED;
+    uint32_t spiSpeed;        ///< = CAM_SPI_SPEED;
     ns_camera_hw_e cameraHw;
     ns_image_mode_e imageMode;
     ns_image_pix_fmt_e imagePixFmt;
-    ns_spi_config_t spiConfig; // = {.iom = CAM_SPI_IOM};
+    ns_spi_config_t spiConfig;
+    ns_camera_dma_cb
+        dmaCompleteCb; ///< If using DMA, this will be called when DMA chunk is complete
+    ns_camera_picture_cb
+        pictureTakenCb; ///< If using polling timer, this will be called when pic is ready to xfer
+
+    // Internal state
+    uint32_t dmaBufferOffset;
+    uint32_t dmaBufferLength;
+
 } ns_camera_config_t;
 
 // Should only be used by Arducam driver
@@ -106,6 +122,14 @@ uint32_t ns_stop_camera(ns_camera_config_t *cfg);
 uint32_t ns_take_picture(ns_camera_config_t *cfg);
 
 /**
+ * @brief Press the shutter button
+ * Start the capture process, turns on a timer to poll the camera for completion
+ * @param cfg
+ * @return uint32_t
+ */
+uint32_t ns_press_shutter_button(ns_camera_config_t *cfg);
+
+/**
  * @brief Check if camera is still capturing
  * This is a helper function, it should typically only be used by ns_camera
  * @return int
@@ -125,22 +149,54 @@ int ns_is_camera_capturing();
 uint32_t ns_transfer_picture(
     ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
 
+/**
+ * @brief Start a DMA read of the camera buffer
+ *
+ * @param cfg
+ * @param camBuf Buffer to store image
+ * @param buffer_offset Returned value of buffer offset
+ * @param bufLen Length of buffer
+ * @return uint32_t Total size of image in bytes
+ */
+uint32_t ns_start_dma_read(
+    ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
+
 // uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen);
 
 /**
- * @brief Not implemented yet, coming soon
+ * @brief Converts a JPG to an RGB565 image
  *
- * @param camBuf
- * @param camLen
- * @param imgBuf
- * @param imgWidth
- * @param imgHeight
- * @param scaleFactor
+ * @param camBuf Buffer containing JPG image
+ * @param camLen Length of JPG image in bytes
+ * @param imgBuf Buffer to store RGB565 image
+ * @param imgWidth Width of RGB565 image
+ * @param imgHeight Height of RGB565 image
+ * @param scaleFactor Scale factor to reduce image size
  * @return int
  */
 int camera_decode_image(
-    uint8_t *camBuf, uint32_t camLen, int8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
+    uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
     uint32_t scaleFactor);
+
+/**
+ * @brief Adjust camera settings
+ *
+ * @param contrast
+ * @param brightness
+ * @param ev
+ */
+
+void ns_camera_adjust_settings(int8_t contrast, int8_t brightness, int8_t ev);
+
+/**
+ * @brief Chop off trailing zeros from a buffer
+ *
+ * @param buff JPG buffer
+ * @param length Adjusted length after trailing zeros are removed
+ * @return uint32_t
+ */
+uint32_t ns_chop_off_trailing_zeros(uint8_t *buff, uint32_t length);
+
 #ifdef __cplusplus
 }
 #endif

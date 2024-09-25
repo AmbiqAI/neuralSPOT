@@ -39,7 +39,7 @@ void iom_isr(void); //!< iom isr prototype
 void iom_isr(void) {
     uint32_t ui32Status;
     // ns_lp_printf("IOM1 ISR\n");
-    uint32_t foo = am_hal_iom_interrupt_status_get(ns_spi_config.iomHandle, true, &ui32Status);
+    am_hal_iom_interrupt_status_get(ns_spi_config.iomHandle, true, &ui32Status);
     // ns_lp_printf("IOM1 ISR %d, status %d\n", foo, ui32Status);
     if (!am_hal_iom_interrupt_status_get(ns_spi_config.iomHandle, true, &ui32Status)) {
         if (ui32Status) {
@@ -132,7 +132,7 @@ uint32_t ns_spi_read_dma(
         ns_lp_printf("SPI Read DMA Error %d\n", err);
         return err;
     }
-    // return NS_SPI_STATUS_SUCCESS;
+    return NS_SPI_STATUS_SUCCESS;
 }
 
 uint32_t ns_spi_write(

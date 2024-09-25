@@ -149,25 +149,54 @@ int ns_is_camera_capturing();
 uint32_t ns_transfer_picture(
     ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
 
+/**
+ * @brief Start a DMA read of the camera buffer
+ *
+ * @param cfg
+ * @param camBuf Buffer to store image
+ * @param buffer_offset Returned value of buffer offset
+ * @param bufLen Length of buffer
+ * @return uint32_t Total size of image in bytes
+ */
 uint32_t ns_start_dma_read(
     ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen);
 
 // uint32_t ns_camera_capture(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t bufLen);
 
 /**
- * @brief Not implemented yet, coming soon
+ * @brief Converts a JPG to an RGB565 image
  *
- * @param camBuf
- * @param camLen
- * @param imgBuf
- * @param imgWidth
- * @param imgHeight
- * @param scaleFactor
+ * @param camBuf Buffer containing JPG image
+ * @param camLen Length of JPG image in bytes
+ * @param imgBuf Buffer to store RGB565 image
+ * @param imgWidth Width of RGB565 image
+ * @param imgHeight Height of RGB565 image
+ * @param scaleFactor Scale factor to reduce image size
  * @return int
  */
 int camera_decode_image(
     uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight,
     uint32_t scaleFactor);
+
+/**
+ * @brief Adjust camera settings
+ *
+ * @param contrast
+ * @param brightness
+ * @param ev
+ */
+
+void ns_camera_adjust_settings(int8_t contrast, int8_t brightness, int8_t ev);
+
+/**
+ * @brief Chop off trailing zeros from a buffer
+ *
+ * @param buff JPG buffer
+ * @param length Adjusted length after trailing zeros are removed
+ * @return uint32_t
+ */
+uint32_t ns_chop_off_trailing_zeros(uint8_t *buff, uint32_t length);
+
 #ifdef __cplusplus
 }
 #endif

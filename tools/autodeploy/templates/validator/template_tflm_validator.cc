@@ -497,6 +497,9 @@ int main(void) {
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
 #ifdef NS_MLPROFILE
+    basic_tickTimer.api = &ns_timer_V1_0_0;
+    basic_tickTimer.timer = NS_TIMER_COUNTER;
+    basic_tickTimer.enableInterrupt = false;
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 #endif
     ns_itm_printf_enable();

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import json
 import logging as log
 import pickle
@@ -17,6 +19,7 @@ from autodeploy.validator import (
 )
 from ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
+from pathlib import Path
 
 
 class Params(BaseModel):
@@ -74,7 +77,7 @@ class Params(BaseModel):
         "model", description="Name of model to be used in generated library"
     )
     working_directory: str = Field(
-        "../projects/autodeploy",
+        str(Path.cwd()),
         description="Directory where generated library will be placed",
     )
     model_location: str = Field(

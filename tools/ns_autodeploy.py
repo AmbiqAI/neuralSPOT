@@ -107,8 +107,7 @@ class Params(BaseModel):
         "model", description="Name of model to be used in generated library"
     )
     working_directory: str = Field(
-        ".",
-        # "../projects",
+        str(Path.cwd()),
         description="Directory where generated library will be placed",
     )
 

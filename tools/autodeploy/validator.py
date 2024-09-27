@@ -538,10 +538,10 @@ def printStats(stats, stats_filename):
 
 
 def compile_and_deploy(params, mc, first_time=False):
-    # d = params.working_directory + "/" + params.model_name
-    # d = d.replace("../", "")
-    d = "neuralSPOT/neuralspot/" + params.working_directory + "/" + params.model_name
-    print
+    model_path = params.working_directory + "/" + params.model_name
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
+    d = os.path.join(make_dir, model_path)
     # Windows sucks
     if os.name == "posix":
         ws3 = "/dev/null"
@@ -557,8 +557,6 @@ def compile_and_deploy(params, mc, first_time=False):
         makefile_result = os.system(f"cd .. {ws1} make clean >{ws3} 2>&1 ")
 
     if params.create_profile:
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
         if params.verbosity > 3:
             print(
                 f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
@@ -682,10 +680,7 @@ def create_mut_main(tflm_dir, mc):
 
 
 def create_validation_binary(params, baseline, mc):
-    # tflm_dir = params.tflm_src_path
     tflm_dir = params.working_directory + "/" + params.model_name + "/tflm_validator"
-    # print(params.working_directory)
-    # print(tflm_dir)
     create_mut_main(tflm_dir, mc)
 
     # map model location parameter to linker locations

@@ -50,8 +50,11 @@ def generateInputAndOutputTensors(params, mc, md):
 
 
 def generatePowerBinary(params, mc, md, cpu_mode):
+    model_path = params.working_directory + "/" + params.model_name
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
     n = params.model_name + "_power"
-    d = params.working_directory + "/" + params.model_name
+    d = os.path.join(make_dir, model_path)
     adds, addsLen = mc.modelStructureDetails.getAddList()
     if params.joulescope or params.onboard_perf:
         generateInputAndOutputTensors(params, mc, md)
@@ -82,29 +85,33 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     os.makedirs(f"{d}/{n}", exist_ok=True)
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
+
     # os.system(f"mkdir -p {d}/{n}")
     # os.system(f"mkdir -p {d}/{n}/src")
 
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_directory = os.path.join(script_dir, "templates")
+    
     # Generate files from template
     createFromTemplate(
-        "autodeploy/templates/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        template_directory + "/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
+        template_directory + "/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+        template_directory + "/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
+        template_directory + "/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/perf/template_power.mk", f"{d}/{n}/module.mk", rm
+        template_directory + "/perf/template_power.mk", f"{d}/{n}/module.mk", rm
     )
 
     # Copy needed files
     createFromTemplate(
-        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+        template_directory + "/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
     )
     
     postfix = ""
@@ -142,7 +149,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/common/template_example_tensors.h",
+        template_directory + "/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )
@@ -169,15 +176,16 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         mlp = ""
 
     if params.verbosity > 3:
+        print('make_dir: ', make_dir)
         print(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {make_dir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

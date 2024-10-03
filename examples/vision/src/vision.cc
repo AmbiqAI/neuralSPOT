@@ -37,8 +37,8 @@
 //
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
-static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE];
-static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE];
+static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE] __attribute__((aligned(16)));
+static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE] __attribute__((aligned(16)));
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
@@ -71,8 +71,9 @@ typedef struct usb_data {
 //
 // Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
 //
-static uint8_t rgbBuffer[RGB_BUFF_SIZE];
-static AM_SHARED_RW uint8_t jpgBuffer[JPG_BUFF_SIZE];
+#define JPG_MODE
+static uint8_t rgbBuffer[RGB_BUFF_SIZE] __attribute__((aligned(16)));
+static uint8_t jpgBuffer[JPG_BUFF_SIZE] __attribute__((aligned(16)));
 void picture_dma_complete(ns_camera_config_t *cfg);
 void picture_taken_complete(ns_camera_config_t *cfg);
 
@@ -80,8 +81,13 @@ ns_camera_config_t camera_config = {
     .api = &ns_camera_V1_0_0,
     .spiSpeed = CAM_SPI_SPEED,
     .cameraHw = NS_ARDUCAM,
+#ifdef JPG_MODE
     .imageMode = NS_CAM_IMAGE_MODE_320X320,
     .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG,
+#else
+    .imageMode = NS_CAM_IMAGE_MODE_96X96,
+    .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
+#endif
     .spiConfig = {.iom = CAM_SPI_IOM}, // Only IOM1 is currently supported
     .dmaCompleteCb = picture_dma_complete,
     .pictureTakenCb = picture_taken_complete,
@@ -125,16 +131,17 @@ void picture_taken_complete(ns_camera_config_t *cfg) {
 }
 
 // Helper Functions
-void tic() { elapsedTime = ns_us_ticker_read(&tickTimer); }
-uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
-// void press_rgb_shutter_button(ns_camera_config_t *cfg) {
-//     camera_config.imageMode = CAM_IMAGE_MODE;
-//     camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565;
-//     // setBrightness(&camera, CAM_BRIGHTNESS_LEVEL_DEFAULT);
-//     // setAutoExposure(&camera, true);
-//     ns_lp_printf("ns err %d \n", ns_press_shutter_button(cfg));
-// }
+void tic() {
+    uint32_t oldTime = elapsedTime;
+    elapsedTime = ns_us_ticker_read(&tickTimer);
+    if (elapsedTime == oldTime) {
+        // We've saturated the timer, reset it
+        ns_timer_clear(&tickTimer);
+    }
+}
+
+uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
 void press_jpg_shutter_button(ns_camera_config_t *cfg) {
     camera_config.imageMode = NS_CAM_IMAGE_MODE_320X320;
@@ -142,20 +149,21 @@ void press_jpg_shutter_button(ns_camera_config_t *cfg) {
     ns_press_shutter_button(cfg);
 }
 
-// static uint32_t start_rgb_dma() {
-//     uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset,
-//     CAM_BUFF_SIZE); return camLength;
-// }
+void press_rgb_shutter_button(ns_camera_config_t *cfg) {
+    camera_config.imageMode = NS_CAM_IMAGE_MODE_96X96;
+    camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565;
+    ns_press_shutter_button(cfg);
+}
+
+static uint32_t start_rgb_dma() {
+    uint32_t camLength = ns_start_dma_read(&camera_config, rgbBuffer, &bufferOffset, RGB_BUFF_SIZE);
+    return camLength;
+}
 
 static uint32_t start_jpg_dma() {
     uint32_t camLength = ns_start_dma_read(&camera_config, jpgBuffer, &bufferOffset, JPG_BUFF_SIZE);
     return camLength;
 }
-
-// static uint32_t start_dma() {
-//     uint32_t camLength = ns_start_dma_read(&camera_config, camBuffer, &bufferOffset,
-//     CAM_BUFF_SIZE); return camLength;
-// }
 
 /**
  * @brief Sends the image to the WebUSB client in chunks
@@ -167,11 +175,12 @@ static void render_image(uint32_t camLength, uint8_t *buff) {
     // Max WebUSB xfer is 512, so we have to chunk anything bigger
     int remaining = camLength;
     int offset = bufferOffset;
+    // ns_lp_printf("Sending image of length %d\n", camLength);
 
     // Calculate FPS and restart timer
-    // uint32_t elapsed = toc();
-    // ns_lp_printf("FPS: %d\n", 1000000 / elapsed);
-    // tic();
+    //  uint32_t elapsed = toc();
+    //  ns_lp_printf("FPS: %d\n", 1000000 / elapsed);
+    //  tic();
 
     while (remaining > 0) {
         usb_data_t data;
@@ -201,8 +210,10 @@ static void render_image(uint32_t camLength, uint8_t *buff) {
         webusb_send_data((uint8_t *)&data, chunkSize + WEBUSB_HEADER_SIZE);
         while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
             // USB likes to be lazy about sending the last packet, so force it to
-            ns_delay_us(200);
+            // ns_lp_printf(".");
+            ns_delay_us(400);
         }
+        ns_delay_us(400);
     }
     tud_vendor_write_flush();
 }
@@ -254,12 +265,16 @@ int main(void) {
     ns_delay_us(10000);
 
     // Take the first picture
+#ifdef JPG_MODE
     press_jpg_shutter_button(&camera_config);
-    bool takingJpg = true;
+#else
+    press_rgb_shutter_button(&camera_config);
+#endif
 
-    // Note: this demo only takes JPG pictures, but the code is in here to take RGB pictures too
-    //   but the WebUSB client only supports JPG without changes. See the FOMO example for more
-    //   elaborate camera use cases.
+    ns_lp_printf("Taking picture\n");
+
+    // Note: this demo only takes JPG pictures, but the code is in here to take RGB pictures.
+    // See the FOMO example for more elaborate camera use cases.
 
     // There are two camera interactions here:
     //   - one that starts the action of taking a picture. The time this takes depends on shutter
@@ -280,20 +295,33 @@ int main(void) {
     while (1) {
         ns_delay_us(1000);
         if (pictureTaken) {
+            // ns_lp_printf("Picture taken\n");
+            tic();
+#ifdef JPG_MODE
             buffer_length = start_jpg_dma();
             if (buffer_length > JPG_BUFF_SIZE) {
                 // We set the jpg buff size to less than the absolute max assuming jpg
                 // will be smaller than that. If it's not, we have a problem.
                 ns_lp_printf("JPG Bigger than expected: %d\n", buffer_length);
             }
+#else
+            buffer_length = start_rgb_dma();
+#endif
+
             pictureTaken = false;
         }
         if (dmaComplete) {
+// ns_lp_printf("DMA Complete %d\n", toc());
+#ifdef JPG_MODE
             buffer_length = ns_chop_off_trailing_zeros(
                 jpgBuffer, buffer_length); // Remove trailing zeros, calc new length
             press_jpg_shutter_button(
                 &camera_config); // Start the next picture while current is xfering
             render_image(buffer_length, jpgBuffer);
+#else
+            press_rgb_shutter_button(&camera_config);
+            render_image(buffer_length, rgbBuffer);
+#endif
             dmaComplete = false;
         }
         ns_deep_sleep();

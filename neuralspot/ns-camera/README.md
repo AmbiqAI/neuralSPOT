@@ -65,7 +65,7 @@ int main(void) {
         ns_deep_sleep();
     }
 
-    // Do something with the picture!
+    // Do something with the picture...
 }
 ```
 
@@ -79,7 +79,9 @@ This library offers a handful of helper functions:
 
 # Wiring up an Arducam
 
-The ns-camera component (currently) only supports SPI-base Arducam Mega 5MP (maybe 3MP too, but it hasn't been tested). To connect the Arducam to an Apollo4 EVB, make the following connections:
+The ns-camera component (currently) only supports SPI-base Arducam Mega 5MP (maybe 3MP too, but it hasn't been tested).
+
+To connect the Arducam to an Apollo4 EVB's IOM1 interface, make the following connections:
 
 1. Camera GND to any EVB GND
 2. Camera 5V/VDD to any EVB 5V pin
@@ -87,3 +89,12 @@ The ns-camera component (currently) only supports SPI-base Arducam Mega 5MP (may
 4. Camera MISO to EVB Pin 10
 5. Camera MOSI to EVB 9
 6. Camera CS to EVB 11
+
+To connect the Arducam to an Apollo5 EVB's IOM2 interface, make the following connections:
+
+1. Camera GND to any EVB GND
+2. Camera 5V/VDD to any EVB 5V pin
+3. Camera SCK to EVB Pin 25
+4. Camera MISO to EVB Pin 27
+5. Camera MOSI to EVB 26
+6. Camera CS to EVB 29

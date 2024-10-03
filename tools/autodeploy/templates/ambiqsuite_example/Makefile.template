@@ -30,7 +30,7 @@ includes_api += lib
 include $(rootdir)/src/tensorflow_headers/module.mk
 
 # AmbiqSuite Headers and Util sources
-as_base = ../../../../../..
+as_base = ($rootdir)/extern/AmbiqSuite/$(AS_VERSION)
 includes_api += $(as_base)/boards/$(BOARD)_$(EVB)/bsp
 includes_api += $(as_base)/CMSIS/ARM/Include
 includes_api += $(as_base)/CMSIS/AmbiqMicro/Include

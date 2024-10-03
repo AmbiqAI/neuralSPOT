@@ -261,6 +261,10 @@ if __name__ == "__main__":
     # create Params instance with updated values
     params = Params(**updated_params)
 
+    # check if params.working_directory is relative path. If it is, make it absolute so that measure_power.py can use it
+    if not os.path.isabs(params.working_directory):
+        params.working_directory = os.path.abspath(params.working_directory)
+
     # set logging level
     log.basicConfig(
         level=log.DEBUG

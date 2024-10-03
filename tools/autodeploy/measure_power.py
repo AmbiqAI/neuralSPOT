@@ -50,11 +50,14 @@ def generateInputAndOutputTensors(params, mc, md):
 
 
 def generatePowerBinary(params, mc, md, cpu_mode):
+    # The following 5 lines find the paths relative to the cwd
     model_path = params.working_directory + "/" + params.model_name
     script_dir = os.path.dirname(os.path.abspath(__file__))
     make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
-    n = params.model_name + "_power"
     d = os.path.join(make_dir, model_path)
+    relative_build_path = os.path.relpath(d, make_dir)
+
+    n = params.model_name + "_power"
     adds, addsLen = mc.modelStructureDetails.getAddList()
     if params.joulescope or params.onboard_perf:
         generateInputAndOutputTensors(params, mc, md)
@@ -174,18 +177,16 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
     else:
         mlp = ""
-
     if params.verbosity > 3:
-        print('make_dir: ', make_dir)
         print(
-            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd {make_dir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {make_dir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

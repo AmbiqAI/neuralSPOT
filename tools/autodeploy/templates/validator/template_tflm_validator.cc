@@ -13,10 +13,10 @@
 #include <cstdlib>
 #include <cstring>
 #include "ns_model.h"
+#include "tflm_validator.h"
 #include "mut_model_metadata.h"
 #include "mut_model_data.h"
 
-#include "tflm_validator.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_malloc.h"

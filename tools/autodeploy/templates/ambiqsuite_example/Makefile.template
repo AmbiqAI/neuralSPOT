@@ -1,4 +1,13 @@
-rootdir := ..
+# Initialize rootdir to be cwd
+rootdir := $(shell pwd)
+
+# Shell command to check if the current directory is not neuralSPOT
+rootdir := $(shell \
+    while [ "$$(basename $$PWD)" != "neuralSPOT" ]; do \
+        cd ..; \
+    done; \
+    pwd \
+)
 build := bin
 BINDIR := $(build)
 TOOLCHAIN := NS_AD_TOOLCHAIN

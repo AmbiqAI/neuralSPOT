@@ -538,10 +538,13 @@ def printStats(stats, stats_filename):
 
 
 def compile_and_deploy(params, mc, first_time=False):
+    # The following 5 lines find the paths relative to the cwd
     model_path = params.working_directory + "/" + params.model_name
     script_dir = os.path.dirname(os.path.abspath(__file__))
     make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
     d = os.path.join(make_dir, model_path)
+    relative_build_path = os.path.relpath(d, start=make_dir) # this line is used so that the Makefile doens't put the absolute path in the build directory
+
     # Windows sucks
     if os.name == "posix":
         ws3 = "/dev/null"
@@ -555,29 +558,28 @@ def compile_and_deploy(params, mc, first_time=False):
 
     if first_time:
         makefile_result = os.system(f"cd .. {ws1} make clean >{ws3} 2>&1 ")
-
     if params.create_profile:
         if params.verbosity > 3:
             print(
-                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
 
             makefile_result = os.system(
-                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator {ws1} make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {make_dir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
 
     if makefile_result != 0:

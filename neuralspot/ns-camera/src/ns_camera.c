@@ -416,7 +416,6 @@ int camera_decode_image(
 
     uint16_t *pImg;
     uint16_t color;
-    // uint8_t r, g, b;
 
     jpeg_decoder_init(&jpegCtx, camBuf, camLen);
 
@@ -433,9 +432,7 @@ int camera_decode_image(
     const int skip_start_y_mcus = skip_y_mcus / 2;
     const int skip_end_y_mcu_index = skip_start_y_mcus + keep_y_mcus;
 
-    const int scaleImageSize = imgHeight * imgWidth * 3;
-
-    // const img_t pixelOffset = -128;
+    const int scaleImageSize = imgHeight * imgWidth * 2;
 
     for (int i = 0; i < scaleImageSize; i++) {
         imgBuf[i] = 0;

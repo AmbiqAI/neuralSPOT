@@ -1,4 +1,20 @@
-rootdir := ../../../..
+# Initialize rootdir to be cwd
+rootdir := $(shell pwd)
+
+# Shell command to check if the current directory is not neuralSPOT
+rootdir := $(shell \
+    while [ "$$(basename $$PWD)" != "neuralSPOT" ]; do \
+        cd ..; \
+    done; \
+    pwd \
+)
+
+
+# Print the value of rootdir
+$(info rootdir: $(rootdir))
+
+
+# Include the necessary files
 
 include $(rootdir)/make/helpers.mk
 include $(rootdir)/make/neuralspot_config.mk

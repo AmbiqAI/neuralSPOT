@@ -7,7 +7,12 @@ from ns_utils import createFromTemplate, xxd_c_dump
 
 
 def generateModelLib(params, mc, md, ambiqsuite=False):
-
+    # Get the absolute path to the script's directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_directory = os.path.join(script_dir, "templates")
+    # Get the  base path of neuralSPOT
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
     if ambiqsuite:
         n = params.model_name + "_ambiqsuite"
     else:
@@ -69,107 +74,107 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
 
     # Generate files from templates
     createFromTemplate(
-        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
+        template_directory + "/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
 
     # Generate target-specific files from templates
     if ambiqsuite:
         createFromTemplate(
-            "autodeploy/templates/ambiqsuite_example/src/template_ambiqsuite_model.cc",
+            template_directory + "/ambiqsuite_example/src/template_ambiqsuite_model.cc",
             f"{d}/{n}/src/{n}_model.cc",
             rm,
         )
         createFromTemplate(
-            "autodeploy/templates/ambiqsuite_example/src/template_ambiqsuite_example.cc",
+            template_directory + "/ambiqsuite_example/src/template_ambiqsuite_example.cc",
             f"{d}/{n}/src/{n}_example.cc",
             rm,
         )
         createFromTemplate(
-            "autodeploy/templates/ambiqsuite_example/Makefile.template",
+            template_directory + "/ambiqsuite_example/Makefile.template",
             f"{d}/{n}/gcc/Makefile",
             rm,
         )
         rm["NS_AD_TOOLCHAIN"] = "arm"
         createFromTemplate(
-            "autodeploy/templates/ambiqsuite_example/Makefile.template",
+            template_directory + "/ambiqsuite_example/Makefile.template",
             f"{d}/{n}/armclang/Makefile",
             rm,
         )
         createFromTemplate(
-            "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+            template_directory + "/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/"
+            make_dir + "/neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/"
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/gcc/"
+            make_dir + "/neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/gcc/"
         )
 
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
+            make_dir + "/neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
             f"{d}/{n}/src/",
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
+            make_dir + "/neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
             f"{d}/{n}/armclang/",
         )
         createFromTemplate(
-            "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+            template_directory + "/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
         )
         shutil.copy(
-            "autodeploy/templates/ambiqsuite_example/src/am_resources.c",
+            template_directory + "/ambiqsuite_example/src/am_resources.c",
             f"{d}/{n}/src/",
         )
         shutil.copy(
-            "autodeploy/templates/ambiqsuite_example/src/am_hal_usbregs-override.h",
+            template_directory + "/ambiqsuite_example/src/am_hal_usbregs-override.h",
             f"{d}/{n}/src/",
         )
 
         shutil.copytree(
-            "autodeploy/templates/ambiqsuite_example/src/tensorflow_headers",
+            template_directory + "/ambiqsuite_example/src/tensorflow_headers",
             f"{d}/{n}/src/tensorflow_headers/",
             dirs_exist_ok=True,
         )
         shutil.copytree(
-            "autodeploy/templates/ambiqsuite_example/make",
+            template_directory + "/ambiqsuite_example/make",
             f"{d}/{n}/make",
             dirs_exist_ok=True,
         )
 
     else:
         createFromTemplate(
-            "autodeploy/templates/minimal_example/template_minimal_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
+            template_directory + "/minimal_example/template_minimal_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
         )
         createFromTemplate(
-            "autodeploy/templates/minimal_example/template_example.cc",
+            template_directory + "/minimal_example/template_example.cc",
             f"{d}/{n}/src/{n}_example.cc",
             rm,
         )
         createFromTemplate(
-            "autodeploy/templates/minimal_example/Makefile.template", f"{d}/{n}/Makefile", rm
+            template_directory + "/minimal_example/Makefile.template", f"{d}/{n}/Makefile", rm
         )
         createFromTemplate(
-            "autodeploy/templates/common/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
+            template_directory + "/common/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/"
+            make_dir + "/neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/"
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
+            make_dir + "/neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
             f"{d}/{n}/src/armclang/",
         )
         
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/src/"
+            make_dir + "/neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/src/"
         )
         shutil.copy(
-            "../neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
+            make_dir + "/neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
             f"{d}/{n}/src/",
         )
 
 
         createFromTemplate(
-            "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/lib/ns_model.h", rm
+            template_directory + "/common/template_ns_model.h", f"{d}/{n}/lib/ns_model.h", rm
         )
 
     # Generate model weight file
@@ -198,7 +203,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/common/template_example_tensors.h",
+        template_directory + "/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )

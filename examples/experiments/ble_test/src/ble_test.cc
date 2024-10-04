@@ -52,7 +52,8 @@ const ns_power_config_t ns_power_ble = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = true};
 
 // FreeRTOS Tasks
 TaskHandle_t radio_task_handle;  // Services WSF for BLE

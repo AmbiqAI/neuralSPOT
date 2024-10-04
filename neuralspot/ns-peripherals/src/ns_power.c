@@ -71,7 +71,8 @@ const ns_power_config_t ns_development_default = {
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = true};
+    .bNeedITM = true,
+    .bNeedXtal = true};
 
 const ns_power_config_t ns_debug_default = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -85,7 +86,8 @@ const ns_power_config_t ns_debug_default = {
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = true};
+    .bNeedITM = true,
+    .bNeedXtal = true};
 
 const ns_power_config_t ns_good_default = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -99,7 +101,8 @@ const ns_power_config_t ns_good_default = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = true};
+    .bNeedITM = true,
+    .bNeedXtal = false};
 
 const ns_power_config_t ns_mlperf_mode1 = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -113,7 +116,8 @@ const ns_power_config_t ns_mlperf_mode1 = {
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = false};
 
 const ns_power_config_t ns_mlperf_mode2 = {
     .eAIPowerMode = NS_MINIMUM_PERF,
@@ -127,7 +131,8 @@ const ns_power_config_t ns_mlperf_mode2 = {
     .bNeedAlternativeUART = true,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = false};
 
 const ns_power_config_t ns_mlperf_mode3 = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -141,7 +146,8 @@ const ns_power_config_t ns_mlperf_mode3 = {
     .bNeedAlternativeUART = true,
     .b128kTCM = true,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = false};
 
 const ns_power_config_t ns_audio_default = {
     .eAIPowerMode = NS_MAXIMUM_PERF,
@@ -155,7 +161,8 @@ const ns_power_config_t ns_audio_default = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = false};
 
 extern uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode);
 extern uint32_t ns_power_platform_config(const ns_power_config_t *pCfg);

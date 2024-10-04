@@ -159,11 +159,7 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
     }
     // return;
-    if (pCfg->bNeedBluetooth == false) {
-        // TODO: setting this pwrctl mode kills FreeRTOS tasks
-        // vTaskScheduler works after a power cycle, but not after resets.
-        // Since the only neuralSPOT examples needing freertos involve bluetooth,
-        // use that flag for now.
+    if (pCfg->bNeedXtal == false) {
         // XTAL powerdown
         am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
     }

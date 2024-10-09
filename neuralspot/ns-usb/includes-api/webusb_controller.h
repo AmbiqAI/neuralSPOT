@@ -16,6 +16,7 @@
 
 #ifndef WEBUSB_CONTROLLER_H
 #define WEBUSB_CONTROLLER_H
+#include "tusb.h"
 
 #if defined __cplusplus
 extern "C" {
@@ -61,6 +62,15 @@ void webusb_register_msg_cb(webusb_rx_cb cb, void *param);
  *
  */
 void webusb_register_raw_cb(webusb_rx_cb cb, void *param);
+
+/**
+ * @brief Setter function so different apps/examples can set their own URL for WebUSB
+ *
+ * @param new_url url to set
+ *
+ */
+void set_desc_url(tusb_desc_webusb_url_t new_url);
+
 
 #if defined __cplusplus
 }

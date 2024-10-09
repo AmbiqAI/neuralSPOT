@@ -440,7 +440,7 @@ typedef struct TU_ATTR_PACKED
   uint8_t bLength;
   uint8_t bDescriptorType;
   uint8_t bScheme;
-  char    url[];
+  const char * url;
 } tusb_desc_webusb_url_t;
 
 // DFU Functional Descriptor

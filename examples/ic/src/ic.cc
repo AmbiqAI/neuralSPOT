@@ -86,6 +86,17 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     ns_lp_printf("Received %d bytes: %s\n", length, buffer);
 }
 
+void init_desc_url() {
+    static const char *url_string = "https://ambiqai.github.io/web-ble-dashboards/ic_demo/";
+    tusb_desc_webusb_url_t new_url = {
+        .bLength = 3 + sizeof(url_string) - 1,
+        .bDescriptorType = 3,
+        .bScheme = 1,
+        .url = url_string
+    };
+    set_desc_url(new_url);
+}
+
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     usb_handle_t usb_handle = NULL;
@@ -97,7 +108,7 @@ int main(void) {
     uint32_t newTime = oldTime;
     float ips = 0;
 
-    // Initialize the platform
+
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
@@ -105,7 +116,7 @@ int main(void) {
     ns_interrupt_master_enable();
 
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
-
+    init_desc_url();
     webusb_register_msg_cb(msgReceived, NULL);
 
     // Initialize USB

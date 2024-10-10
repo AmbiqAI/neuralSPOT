@@ -185,7 +185,8 @@ const ns_power_config_t ns_power_ble = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = true};
+    .bNeedITM = true,
+    .bNeedXtal = true};
 #endif // AC_RPC_MODE
 
 int main(void) {

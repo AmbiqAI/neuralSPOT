@@ -111,7 +111,8 @@ const ns_power_config_t ns_power_ble = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = true};
 
 // BLE and FreeRTOS state
 TaskHandle_t audio_task_handle; // Collects audio identifies it

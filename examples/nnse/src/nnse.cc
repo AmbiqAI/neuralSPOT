@@ -108,7 +108,8 @@ const ns_power_config_t ns_power_ble = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false};
+    .bNeedITM = false,
+    .bNeedXtal = true};
 
 // Speech Enhancement Control Structure
 seCntrlClass cntrl_inst;

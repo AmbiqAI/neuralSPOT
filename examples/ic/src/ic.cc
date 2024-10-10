@@ -87,7 +87,7 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
 }
 
 void init_desc_url() {
-    static const char *url_string = "https://ambiqai.github.io/web-ble-dashboards/ic_demo/";
+    static const char *url_string = "ambiqai.github.io/web-ble-dashboards/ic_demo/";
     tusb_desc_webusb_url_t new_url = {
         .bLength = 3 + sizeof(url_string) - 1,
         .bDescriptorType = 3,

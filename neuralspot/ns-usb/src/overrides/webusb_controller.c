@@ -51,7 +51,7 @@
 #include "ns_usb.h"
 #include "tusb.h"
 
-// #include "am_util_debug.h"
+#include "am_util_debug.h"
 #include "ns_ambiqsuite_harness.h"
 //--------------------------------------------------------------------+
 // Structure definitions

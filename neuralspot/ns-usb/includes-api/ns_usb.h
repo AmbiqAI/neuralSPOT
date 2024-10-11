@@ -37,7 +37,6 @@ extern const ns_core_api_t ns_usb_V0_0_1;
 extern const ns_core_api_t ns_usb_V1_0_0;
 extern const ns_core_api_t ns_usb_oldest_supported_version;
 extern const ns_core_api_t ns_usb_current_version;
-
 typedef void *usb_handle_t;
 
 /// @brief USB Device Type
@@ -77,7 +76,9 @@ typedef struct {
     ns_usb_rx_cb rx_cb;           ///< Callback for rx events
     ns_usb_tx_cb tx_cb;           ///< Callback for tx events
     ns_usb_service_cb service_cb; ///< Callback for service events
+    tusb_desc_webusb_url_t desc_url; ///< WebUSB URL descriptor
 } ns_usb_config_t;
+
 
 /**
  * @brief Initialize the USB system
@@ -133,6 +134,8 @@ extern uint8_t *ns_usb_get_tx_buffer();
 extern uint32_t ns_get_cdc_rx_bufferLength();
 
 extern uint32_t ns_get_cdc_tx_bufferLength();
+
+extern tusb_desc_webusb_url_t ns_get_desc_url();
 
     #ifdef __cplusplus
 }

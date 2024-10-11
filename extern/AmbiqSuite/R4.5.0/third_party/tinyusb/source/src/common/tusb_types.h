@@ -38,7 +38,7 @@
 #ifdef __cplusplus
  extern "C" {
 #endif
-
+#define MAX_URL_LENGTH 1000
 /*------------------------------------------------------------------*/
 /* CONSTANTS
  *------------------------------------------------------------------*/
@@ -451,7 +451,7 @@ typedef struct TU_ATTR_PACKED
   uint8_t bLength;
   uint8_t bDescriptorType;
   uint8_t bScheme;
-  const char *  url;
+  char    url[MAX_URL_LENGTH]; // changed to a fixed size array because for some reason the popup doesn't show up when using flexible array members
 } tusb_desc_webusb_url_t;
 
 // DFU Functional Descriptor

@@ -80,16 +80,6 @@ typedef struct {
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
 #define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
 
-tusb_desc_webusb_url_t desc_url = {
-    .bLength = 0,
-    .bDescriptorType = 0,
-    .bScheme = 0,
-    .url = NULL
-};
-
-void set_desc_url(tusb_desc_webusb_url_t new_url) {
-    desc_url = new_url;
-}
 
 // The max of USB2.0 bulk type packet size is 512 in High Speed.
 static uint8_t rx_buf[512];
@@ -200,6 +190,7 @@ void tud_vendor_rx_cb(uint8_t itf) {
 // request)
 bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
+    tusb_desc_webusb_url_t desc_url = ns_get_desc_url();
     // nothing to with DATA & ACK stage
     if (stage != CONTROL_STAGE_SETUP)
         return true;

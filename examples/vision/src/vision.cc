@@ -30,7 +30,6 @@
 
 #include "ns_camera.h"
 #include "vision.h"
-#include "model.h"
 
 //
 // WebUSB Configuration and Datatypes

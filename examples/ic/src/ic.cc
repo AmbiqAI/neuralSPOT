@@ -22,7 +22,6 @@
 #define MY_TX_BUFSIZE 4096
 uint8_t my_rx_ff_buf[MY_RX_BUFSIZE];
 uint8_t my_tx_ff_buf[MY_TX_BUFSIZE];
-#define IC_URL "ambiqai.github.io/web-ble-dashboards/ic_demo/"
 
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
@@ -34,7 +33,11 @@ static ns_usb_config_t webUsbConfig = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = {0}};
+
+// WebUSB URL
+static ns_tusb_desc_webusb_url_t ic_url;
 
 // Model stuff
 #include "ic_bench_api.h"
@@ -87,14 +90,6 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     ns_lp_printf("Received %d bytes: %s\n", length, buffer);
 }
 
-// WebUSB URL
-tusb_desc_webusb_url_t ic_url = {
-    .bLength = 3 + sizeof(IC_URL) - 1,
-    .bDescriptorType = 3,
-    .bScheme = 1,
-    IC_URL // There is a designated initializer gcc bug here: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=55227
-};
-
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     usb_handle_t usb_handle = NULL;
@@ -116,6 +111,12 @@ int main(void) {
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 
     webusb_register_msg_cb(msgReceived, NULL);
+
+    // instantiate the URL descriptor
+    strcpy(ic_url.url, "ambiqai.github.io/web-ble-dashboards/ic_demo/");
+    ic_url.bDescriptorType = 3;
+    ic_url.bScheme = 1;
+    ic_url.bLength = 3 + sizeof(ic_url.url) - 1;
 
     // Initialize USB
     webUsbConfig.rx_buffer = my_rx_ff_buf;

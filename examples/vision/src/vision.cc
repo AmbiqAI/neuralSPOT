@@ -36,7 +36,6 @@
 //
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
-#define VISION_URL "ambiqai.github.io/web-ble-dashboards/vision_demo/"
 
 static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE] __attribute__((aligned(16)));
 static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE] __attribute__((aligned(16)));
@@ -49,7 +48,8 @@ static ns_usb_config_t webUsbConfig = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = {0}};
 
 // USB Data sent to WebUSB client (used to communicated to webusb client)
 typedef enum {
@@ -70,12 +70,7 @@ typedef struct usb_data {
 } usb_data_t;
 
 // WebUSB URL
-tusb_desc_webusb_url_t vision_url = {
-    .bLength = 3 + sizeof(VISION_URL) - 1,
-    .bDescriptorType = 3,
-    .bScheme = 1,
-    VISION_URL // There is a designated initializer gcc bug here: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=55227 
-};
+static ns_tusb_desc_webusb_url_t vision_url;
 
 //
 // Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
@@ -251,6 +246,12 @@ int main(void) {
 
     NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
 
+    // Initialize the URL descriptor
+    strcpy(vision_url.url,"ambiqai.github.io/web-ble-dashboards/vision_demo/");
+    vision_url.bDescriptorType = 3;
+    vision_url.bScheme = 1;
+    vision_url.bLength = 3 + sizeof(vision_url.url) - 1;
+    
     // WebUSB Setup
     webusb_register_raw_cb(msgReceived, NULL);
     webUsbConfig.rx_buffer = my_rx_ff_buf;

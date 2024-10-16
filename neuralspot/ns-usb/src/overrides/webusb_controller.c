@@ -190,7 +190,7 @@ void tud_vendor_rx_cb(uint8_t itf) {
 // request)
 bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
-    ns_tusb_desc_webusb_url_t desc_url = ns_get_desc_url();
+    ns_tusb_desc_webusb_url_t * desc_url = ns_get_desc_url();
     // nothing to with DATA & ACK stage
     if (stage != CONTROL_STAGE_SETUP)
         return true;
@@ -201,7 +201,7 @@ bool tud_vendor_control_xfer_cb(
             // match vendor request in BOS descriptor
             // Get landing page url
             return tud_control_xfer(
-                rhport, request, (void *)(uintptr_t)&desc_url, desc_url.bLength);
+                rhport, request, (void *)(uintptr_t)desc_url, desc_url->bLength);
 
         case VENDOR_REQUEST_MICROSOFT:
             if (request->wIndex == DESC_MS_OS_20) {

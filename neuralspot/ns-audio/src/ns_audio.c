@@ -20,17 +20,14 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
-
-#ifdef NS_AUDADC_PRESENT
-    #include "ns_audadc.h"
-#endif
-
+#include "ns_audadc.h"
 #include "ns_ipc_ring_buffer.h"
 #include "ns_pdm.h"
 
 const ns_core_api_t ns_audio_V0_0_1 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V0_0_1};
 const ns_core_api_t ns_audio_V1_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V1_0_0};
 const ns_core_api_t ns_audio_V2_0_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V2_0_0};
+const ns_core_api_t ns_audio_V2_1_0 = {.apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_V2_1_0};
 const ns_core_api_t ns_audio_oldest_supported_version = {
     .apiId = NS_AUDIO_API_ID, .version = NS_AUDIO_OLDEST_SUPPORTED_VERSION};
 const ns_core_api_t ns_audio_current_version = {
@@ -113,32 +110,25 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 #ifndef NS_AUDADC_PRESENT
         am_util_stdio_printf("Error - Trying to init non-existent AUDADC\n");
         return NS_STATUS_INIT_FAILED;
-#else
-        if (g_ns_audio_config->audadc_config == NULL) {
-            g_ns_audio_config->audadc_config = &ns_audadc_default;
-        }
-
-        if (audadc_init(cfg)) {
-            return NS_STATUS_INIT_FAILED;
-        }
-
-        // Trigger the AUDADC sampling for the first time manually.
-        if (AM_HAL_STATUS_SUCCESS !=
-            am_hal_audadc_sw_trigger(g_ns_audio_config->audioSystemHandle)) {
-            am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
-            return NS_STATUS_INIT_FAILED;
-        }
 #endif
-    } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
-        if (g_ns_audio_config->pdm_config == NULL) {
-            g_ns_audio_config->pdm_config = &ns_pdm_default;
+        // If api doesn't support dynamic audio source, initialize audadc here
+        if (ns_core_check_api(g_ns_audio_config->api, &ns_audio_oldest_supported_version, &ns_audio_V2_0_0) == NS_STATUS_SUCCESS) {
+            // initialize audadc
+            if(ns_start_audio(g_ns_audio_config) != NS_STATUS_SUCCESS) {
+                return NS_STATUS_INIT_FAILED;
+            }
         }
-
-        if (pdm_init(g_ns_audio_config)) {
-            return NS_STATUS_INIT_FAILED;
+    }
+    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        // If api doesn't support dynamic audio source, initialize pdm here
+        if (ns_core_check_api(g_ns_audio_config->api, &ns_audio_oldest_supported_version, &ns_audio_V2_0_0) == NS_STATUS_SUCCESS) {
+            // initialize pdm
+            if(ns_start_audio(g_ns_audio_config) != NS_STATUS_SUCCESS) {
+                return NS_STATUS_INIT_FAILED;
+            }
         }
-
-    } else {
+    }
+    else {
         return NS_STATUS_INVALID_CONFIG;
     }
 
@@ -151,6 +141,51 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
 
     return AM_HAL_STATUS_SUCCESS;
 }
+
+uint32_t ns_start_audio(ns_audio_config_t *cfg) {
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef NS_AUDADC_PRESENT
+        if (g_ns_audio_config->audadc_config == NULL) {
+            g_ns_audio_config->audadc_config = &ns_audadc_default;
+        }
+        if (audadc_init(cfg)) {
+            return NS_STATUS_INIT_FAILED;
+        }
+        // Trigger the AUDADC sampling for the first time manually.
+        if (AM_HAL_STATUS_SUCCESS !=
+            am_hal_audadc_sw_trigger(g_ns_audio_config->audioSystemHandle)) {
+            am_util_stdio_printf("Error - triggering the AUDADC failed.\n");
+            return NS_STATUS_INIT_FAILED;
+        }
+#else
+        return NS_STATUS_INIT_FAILED;
+#endif
+    } 
+    else {
+        if (g_ns_audio_config->pdm_config == NULL) {
+            g_ns_audio_config->pdm_config = &ns_pdm_default;
+        }
+        if (pdm_init(g_ns_audio_config)) {
+            return NS_STATUS_INIT_FAILED;
+        }
+    }
+    return NS_STATUS_SUCCESS;
+}
+
+uint32_t ns_end_audio(ns_audio_config_t *cfg) {
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+       audadc_deinit(cfg);
+       return NS_STATUS_SUCCESS;
+    } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        pdm_deinit(cfg);
+        return NS_STATUS_SUCCESS;
+    }
+    return NS_STATUS_INVALID_CONFIG;
+}
+
+
+
+
 
 // static uint32_t synthData = 0;
 // static void

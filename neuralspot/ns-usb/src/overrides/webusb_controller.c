@@ -81,7 +81,7 @@ typedef struct {
 // Microsoft OS 2.0 compatible descriptor
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
-#define REWRIT_NUMBER 3
+#define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
 
 const tusb_desc_webusb_url_t desc_url = {
     .bLength = 3 + sizeof(URL) - 1,
@@ -254,6 +254,13 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     uint32_t bytes_tx = 0;
     uint32_t bufremain = bufsize;
 
+    // Print first 20 bytes of buffer
+    // ns_lp_printf("Sending %d bytes: ", bufsize);
+    // for (int i = 0; i < 5; i++) {
+    //     ns_lp_printf("0x%02x ", buf[i]);
+    // }
+    // ns_lp_printf("\n");
+
     if (webusb_connected && buf) {
         int i = 0;
         do {
@@ -261,11 +268,14 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
             // until the upper limit of rewrite numbers is reached or buf is
             // written all.
             if (i == REWRIT_NUMBER) {
+                ns_lp_printf("Warning: The number of rewriting is over %d\n", i);
                 break;
             }
 
             // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
             bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
+            // tud_vendor_write_flush();
+            // ns_lp_printf("Sent %d of %d bytes\n", bytes_tx, bufsize);
             bufremain -= bytes_tx;
 
             i++;

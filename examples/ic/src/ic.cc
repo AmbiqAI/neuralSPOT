@@ -22,7 +22,8 @@
 #define MY_TX_BUFSIZE 4096
 uint8_t my_rx_ff_buf[MY_RX_BUFSIZE];
 uint8_t my_tx_ff_buf[MY_TX_BUFSIZE];
-
+// WebUSB URL
+static ns_tusb_desc_webusb_url_t ic_url;
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
@@ -34,10 +35,7 @@ static ns_usb_config_t webUsbConfig = {
     .rx_cb = NULL,
     .tx_cb = NULL,
     .service_cb = NULL,
-    .desc_url = {0}};
-
-// WebUSB URL
-static ns_tusb_desc_webusb_url_t ic_url;
+    .desc_url = &ic_url};
 
 // Model stuff
 #include "ic_bench_api.h"
@@ -123,7 +121,6 @@ int main(void) {
     webUsbConfig.rx_bufferLength = MY_RX_BUFSIZE;
     webUsbConfig.tx_buffer = my_tx_ff_buf;
     webUsbConfig.tx_bufferLength = MY_TX_BUFSIZE;
-    webUsbConfig.desc_url = ic_url;
     NS_TRY(ns_usb_init(&webUsbConfig, &usb_handle), "USB Init Failed\n");
     ns_lp_printf("USB Init Success\n");
 

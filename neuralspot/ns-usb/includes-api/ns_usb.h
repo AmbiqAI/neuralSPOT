@@ -87,7 +87,7 @@ typedef struct {
     ns_usb_rx_cb rx_cb;           ///< Callback for rx events
     ns_usb_tx_cb tx_cb;           ///< Callback for tx events
     ns_usb_service_cb service_cb; ///< Callback for service events
-    ns_tusb_desc_webusb_url_t desc_url; ///< WebUSB URL descriptor
+    ns_tusb_desc_webusb_url_t *desc_url; ///< WebUSB URL descriptor
 } ns_usb_config_t;
 
 
@@ -146,7 +146,7 @@ extern uint32_t ns_get_cdc_rx_bufferLength();
 
 extern uint32_t ns_get_cdc_tx_bufferLength();
 
-extern ns_tusb_desc_webusb_url_t ns_get_desc_url();
+extern ns_tusb_desc_webusb_url_t * ns_get_desc_url();
 
     #ifdef __cplusplus
 }

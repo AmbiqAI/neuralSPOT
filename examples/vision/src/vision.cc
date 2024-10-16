@@ -39,6 +39,8 @@
 
 static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE] __attribute__((aligned(16)));
 static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE] __attribute__((aligned(16)));
+// WebUSB URL
+static ns_tusb_desc_webusb_url_t vision_url;
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
@@ -49,7 +51,7 @@ static ns_usb_config_t webUsbConfig = {
     .rx_cb = NULL,
     .tx_cb = NULL,
     .service_cb = NULL,
-    .desc_url = {0}};
+    .desc_url = &vision_url};
 
 // USB Data sent to WebUSB client (used to communicated to webusb client)
 typedef enum {
@@ -69,8 +71,6 @@ typedef struct usb_data {
     uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
 
-// WebUSB URL
-static ns_tusb_desc_webusb_url_t vision_url;
 
 //
 // Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
@@ -258,7 +258,7 @@ int main(void) {
     webUsbConfig.rx_bufferLength = MY_RX_BUFSIZE;
     webUsbConfig.tx_buffer = my_tx_ff_buf;
     webUsbConfig.tx_bufferLength = MY_TX_BUFSIZE;
-    webUsbConfig.desc_url = vision_url;
+
     NS_TRY(ns_usb_init(&webUsbConfig, &usb_handle), "USB Init Failed\n");
     ns_lp_printf("USB Init Success\n");
 

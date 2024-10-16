@@ -425,10 +425,10 @@ extern int ns_ble_start_service(ns_ble_service_t *s);
 /**
  * @brief Function to set the BLE TX power.
  *
- * @param power - tx power level in dBm
+ * @param power - tx power level in dBm.
  * @return bool
  */
-extern bool ns_ble_set_tx_power(txPowerLevel_t power);
+extern int ns_ble_set_tx_power(txPowerLevel_t power);
 
 
     #ifdef __cplusplus

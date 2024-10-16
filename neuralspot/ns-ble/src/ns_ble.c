@@ -1041,3 +1041,9 @@ int ns_ble_start_service(ns_ble_service_t *s) {
 
     return NS_STATUS_SUCCESS;
 }
+
+
+bool ns_ble_set_tx_power(txPowerLevel_t power) {
+    bool status = HciVscSetRfPowerLevelEx(power);
+    return status;
+}

@@ -557,7 +557,7 @@ def compile_and_deploy(params, mc, first_time=False):
         # d = d.replace("/", "\\")
 
     if first_time:
-        makefile_result = os.system(f"cd .. {ws1} make clean >{ws3} 2>&1 ")
+        makefile_result = os.system(f"cd {make_dir} {ws1} make clean >{ws3} 2>&1 ")
     if params.create_profile:
         if params.verbosity > 3:
             print(

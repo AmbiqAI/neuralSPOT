@@ -27,7 +27,7 @@ extern ns_pdm_cfg_t ns_pdm_default;
 
 /// AUDADC subsystem init - should only be invoked by ns_audio, not directly
 extern uint32_t pdm_init(ns_audio_config_t *config);
-
+extern void pdm_deinit(ns_audio_config_t *config);
 #ifdef __cplusplus
 }
 #endif

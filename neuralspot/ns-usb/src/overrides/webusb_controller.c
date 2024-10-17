@@ -46,15 +46,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-// #include "am_util_debug.h"
+#include "webusb_controller.h"
+#include "usb_descriptors.h"
 #include "ns_usb.h"
-#include "ns_ambiqsuite_harness.h"
 #include "tusb.h"
 
-#include "usb_descriptors.h"
-#include "webusb_controller.h"
-
+#include "am_util_debug.h"
+#include "ns_ambiqsuite_harness.h"
 //--------------------------------------------------------------------+
 // Structure definitions
 //--------------------------------------------------------------------+
@@ -76,18 +74,12 @@ typedef struct {
         p += 2;                                                                                    \
     }
 
-#define URL "ambiqai.github.io/web-ble-dashboards/ic_demo/"
 
 // Microsoft OS 2.0 compatible descriptor
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
 #define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
 
-const tusb_desc_webusb_url_t desc_url = {
-    .bLength = 3 + sizeof(URL) - 1,
-    .bDescriptorType = 3, // WEBUSB URL type
-    .bScheme = 1,         // 0: http, 1: https
-    .url = URL};
 
 // The max of USB2.0 bulk type packet size is 512 in High Speed.
 static uint8_t rx_buf[512];
@@ -198,6 +190,7 @@ void tud_vendor_rx_cb(uint8_t itf) {
 // request)
 bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
+    ns_tusb_desc_webusb_url_t * desc_url = ns_get_desc_url();
     // nothing to with DATA & ACK stage
     if (stage != CONTROL_STAGE_SETUP)
         return true;
@@ -208,7 +201,7 @@ bool tud_vendor_control_xfer_cb(
             // match vendor request in BOS descriptor
             // Get landing page url
             return tud_control_xfer(
-                rhport, request, (void *)(uintptr_t)&desc_url, desc_url.bLength);
+                rhport, request, (void *)(uintptr_t)desc_url, desc_url->bLength);
 
         case VENDOR_REQUEST_MICROSOFT:
             if (request->wIndex == DESC_MS_OS_20) {

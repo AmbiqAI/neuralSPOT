@@ -22,7 +22,8 @@
 #define MY_TX_BUFSIZE 4096
 uint8_t my_rx_ff_buf[MY_RX_BUFSIZE];
 uint8_t my_tx_ff_buf[MY_TX_BUFSIZE];
-
+// WebUSB URL
+static ns_tusb_desc_webusb_url_t ic_url;
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
@@ -33,7 +34,8 @@ static ns_usb_config_t webUsbConfig = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = &ic_url};
 
 // Model stuff
 #include "ic_bench_api.h"
@@ -97,7 +99,7 @@ int main(void) {
     uint32_t newTime = oldTime;
     float ips = 0;
 
-    // Initialize the platform
+
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
@@ -107,6 +109,12 @@ int main(void) {
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 
     webusb_register_msg_cb(msgReceived, NULL);
+
+    // instantiate the URL descriptor
+    strcpy(ic_url.url, "ambiqai.github.io/web-ble-dashboards/ic_demo/");
+    ic_url.bDescriptorType = 3;
+    ic_url.bScheme = 1;
+    ic_url.bLength = 3 + sizeof(ic_url.url) - 1;
 
     // Initialize USB
     webUsbConfig.rx_buffer = my_rx_ff_buf;

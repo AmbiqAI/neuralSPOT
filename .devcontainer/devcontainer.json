@@ -7,9 +7,14 @@
                 "ms-python.python"
             ],
             "settings": {
-                "terminal.integrated.shell.linux": "/bin/bash"
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "terminal.integrated.env.linux": {
+                    "PATH": "/opt/gcc-arm-none-eabi-10.3-2021.10/bin:/workspaces/neuralSPOT/tools:${env:PATH}"
+                }
+
             }
         }
     },
-    "postCreateCommand": "chmod +x .devcontainer/install.sh && ./.devcontainer/install.sh"
+    "postCreateCommand": "chmod +x /workspaces/neuralSPOT/tools/ns_perf.py && chmod +x /workspaces/neuralSPOT/tools/ns_autodeploy.py && chmod +x .devcontainer/install.sh && ./.devcontainer/install.sh"
+
 }

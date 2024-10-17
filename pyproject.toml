@@ -21,7 +21,7 @@ tabulate = "^0.9.0"
 tqdm = "^4.66.5"
 PyOgg = "^0.6.14a1"
 Wave = "^0.0.2"
-erpc = "1.9.1"
+erpc = { git = "https://github.com/ambiqai/erpc.git", subdirectory = "erpc_python"}
 PyYAML = "^6.0.2"
 
 

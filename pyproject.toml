@@ -1,30 +1,48 @@
-[tool.poetry]
-name = "tools"
-version = "0.1.0"
-description = "Autodeploy is an all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs."
-authors = ["Ambiq AI <support.aitg@ambiq.com>"]
+[project]
+name = "neuralspot"
+version = "0.0.1"
+description =  "Autodeploy is an all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs."
 readme = "README.md"
+authors = [
+    {name="Ambiq AI", email="support.aitg@ambiq.com"}
+]
+requires-python = ">= 3.10"
+dependencies = [
+    "numpy>=1.21.6",
+    "soundfile>=0.10.3",
+    "pyserial~=3.5",
+    "pydantic-argparse~=0.9.0",
+    "pydantic~=1.8.2",
+    "joulescope>=1.1.15",
+    "tensorflow~=2.17.0",
+    "tabulate>=0.9.0",
+    "tqdm>=4.66.5",
+    "PyOgg",
+    "Wave~=0.0.2",
+    "erpc@git+https://github.com/ambiqai/erpc.git#egg=devewhlop&subdirectory=erpc_python",
+    "PyYAML>=6.0.2"
+]
+
+[project.urls]
+Homepage = "https://github.com/ambiqai/neuralSPOT"
+Documentation = "https://ambiqai.github.io/neuralSPOT"
+Repository = "https://github.com/ambiqai/neuralSPOT"
 
 
+[tool.setuptools]
+packages=[
+    "neuralspot",
+    "neuralspot.rpc",
+    "neuralspot.rpc.GenericDataOperations_EvbToPc",
+    "neuralspot.rpc.GenericDataOperations_PcToEvb",
+]
 
-
-[tool.poetry.dependencies]
-python = "^3.10"
-numpy = ">=1.21.6"
-soundfile = ">=0.10.3"
-pyserial = "^3.5"
-pydantic-argparse = "^0.9.0"
-pydantic = "1.8.2"
-joulescope = "^1.1.15"
-tensorflow = "^2.17.0"
-tabulate = "^0.9.0"
-tqdm = "^4.66.5"
-PyOgg = "^0.6.14a1"
-Wave = "^0.0.2"
-erpc = { git = "https://github.com/ambiqai/erpc.git", subdirectory = "erpc_python"}
-PyYAML = "^6.0.2"
-
+[tool.setuptools.package-dir]
+neuralspot = "neuralspot"
+"neuralspot.rpc" = "neuralspot/ns-rpc/python/ns-rpc-genericdata"
+"neuralspot.rpc.GenericDataOperations_EvbToPc" = "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_EvbToPc"
+"neuralspot.rpc.GenericDataOperations_PcToEvb" = "neuralspot/ns-rpc/python/ns-rpc-genericdata/GenericDataOperations_PcToEvb"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools >= 61.0", "wheel"]
+build-backend = "setuptools.build_meta"

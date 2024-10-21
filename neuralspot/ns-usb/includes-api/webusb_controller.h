@@ -17,6 +17,7 @@
 #ifndef WEBUSB_CONTROLLER_H
 #define WEBUSB_CONTROLLER_H
 
+
 #if defined __cplusplus
 extern "C" {
 #endif
@@ -61,6 +62,9 @@ void webusb_register_msg_cb(webusb_rx_cb cb, void *param);
  *
  */
 void webusb_register_raw_cb(webusb_rx_cb cb, void *param);
+
+
+
 
 #if defined __cplusplus
 }

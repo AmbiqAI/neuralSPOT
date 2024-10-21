@@ -66,15 +66,6 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
     ns_itm_printf_enable();
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
-
-    joulescopeTrigger_config.api = &ns_button_V1_0_0;
-    joulescopeTrigger_config.joulescope_trigger_enable = true;
-    joulescopeTrigger_config.joulescope_trigger_flag = &joulescopeTrigger;
-    joulescopeTrigger_config.button_0_enable = false;
-    joulescopeTrigger_config.button_1_enable = false;
-    joulescopeTrigger_config.button_0_flag = NULL;
-    joulescopeTrigger_config.button_1_flag = NULL;
-
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");
 
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults

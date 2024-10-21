@@ -36,8 +36,11 @@
 //
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
+
 static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE] __attribute__((aligned(16)));
 static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE] __attribute__((aligned(16)));
+// WebUSB URL
+static ns_tusb_desc_webusb_url_t vision_url;
 static ns_usb_config_t webUsbConfig = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_VENDOR_DEVICE,
@@ -47,7 +50,8 @@ static ns_usb_config_t webUsbConfig = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = &vision_url};
 
 // USB Data sent to WebUSB client (used to communicated to webusb client)
 typedef enum {
@@ -66,6 +70,7 @@ typedef struct usb_data {
     uint8_t mode; // 0 RGB, 1 JPG
     uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
+
 
 //
 // Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
@@ -241,12 +246,19 @@ int main(void) {
 
     NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
 
+    // Initialize the URL descriptor
+    strcpy(vision_url.url,"ambiqai.github.io/web-ble-dashboards/vision_demo/");
+    vision_url.bDescriptorType = 3;
+    vision_url.bScheme = 1;
+    vision_url.bLength = 3 + sizeof(vision_url.url) - 1;
+    
     // WebUSB Setup
     webusb_register_raw_cb(msgReceived, NULL);
     webUsbConfig.rx_buffer = my_rx_ff_buf;
     webUsbConfig.rx_bufferLength = MY_RX_BUFSIZE;
     webUsbConfig.tx_buffer = my_tx_ff_buf;
     webUsbConfig.tx_bufferLength = MY_TX_BUFSIZE;
+
     NS_TRY(ns_usb_init(&webUsbConfig, &usb_handle), "USB Init Failed\n");
     ns_lp_printf("USB Init Success\n");
 

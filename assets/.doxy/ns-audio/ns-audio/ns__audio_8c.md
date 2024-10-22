@@ -46,6 +46,7 @@ _Implementation of the NeuralSPOT ns-audio API._ [More...](#detailed-description
 |  const ns\_core\_api\_t | [**ns\_audio\_V0\_0\_1**](#variable-ns_audio_v0_0_1)  <br> |
 |  const ns\_core\_api\_t | [**ns\_audio\_V1\_0\_0**](#variable-ns_audio_v1_0_0)  <br> |
 |  const ns\_core\_api\_t | [**ns\_audio\_V2\_0\_0**](#variable-ns_audio_v2_0_0)  <br> |
+|  const ns\_core\_api\_t | [**ns\_audio\_V2\_1\_0**](#variable-ns_audio_v2_1_0)  <br> |
 |  const ns\_core\_api\_t | [**ns\_audio\_current\_version**](#variable-ns_audio_current_version)  <br> |
 |  const ns\_core\_api\_t | [**ns\_audio\_oldest\_supported\_version**](#variable-ns_audio_oldest_supported_version)  <br> |
 
@@ -71,6 +72,8 @@ _Implementation of the NeuralSPOT ns-audio API._ [More...](#detailed-description
 |  void | [**ns\_audio\_getPCM**](#function-ns_audio_getpcm) (int16\_t \* pcm, uint32\_t \* raw, int16\_t len) <br>_Extract int16 PCM from data collected by ADC._  |
 |  void | [**ns\_audio\_getPCM\_v2**](#function-ns_audio_getpcm_v2) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* config, void \* pcm) <br>_Extract int16 PCM from AUDADC or PDM sources._  |
 |  uint32\_t | [**ns\_audio\_init**](#function-ns_audio_init) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br>_Initialize NeuralSPOT audio capture library._  |
+|  uint32\_t | [**ns\_end\_audio**](#function-ns_end_audio) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br>_Stop audio capture._  |
+|  uint32\_t | [**ns\_start\_audio**](#function-ns_start_audio) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br>_Start audio capture, must be called after ns\_audio\_init._  |
 
 
 
@@ -148,6 +151,17 @@ const ns_core_api_t ns_audio_V1_0_0;
 
 ```C++
 const ns_core_api_t ns_audio_V2_0_0;
+```
+
+
+
+
+
+
+### variable ns\_audio\_V2\_1\_0 
+
+```C++
+const ns_core_api_t ns_audio_V2_1_0;
 ```
 
 
@@ -240,6 +254,56 @@ void ns_audio_getPCM_v2 (
 _Initialize NeuralSPOT audio capture library._ 
 ```C++
 uint32_t ns_audio_init (
+    ns_audio_config_t * cfg
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `cfg` : desired configuration 
+
+
+
+
+        
+
+
+
+### function ns\_end\_audio 
+
+_Stop audio capture._ 
+```C++
+uint32_t ns_end_audio (
+    ns_audio_config_t * cfg
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `cfg` : desired configuration 
+
+
+
+
+        
+
+
+
+### function ns\_start\_audio 
+
+_Start audio capture, must be called after ns\_audio\_init._ 
+```C++
+uint32_t ns_start_audio (
     ns_audio_config_t * cfg
 ) 
 ```

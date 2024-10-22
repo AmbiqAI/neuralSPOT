@@ -12,21 +12,67 @@ from joulescope import scan
 from ns_utils import createFromTemplate, xxd_c_dump
 
 
+def generateInputAndOutputTensors(params, mc, md):
+    # Generate input and output tensors based on the model
+    inExamples = []
+    outExamples = []
+
+    # Generate random input
+    if md.inputTensors[0].type == np.int8:
+        input_data = np.random.randint(
+            -127, 127, size=tuple(md.inputTensors[0].shape), dtype=np.int8
+        )
+    else:
+        input_data = (
+            np.random.random(size=tuple(md.inputTensors[0].shape)).astype(
+                md.inputTensors[0].type
+            )
+            * 2
+            - 1
+        )
+    inExamples.append(input_data.flatten())  # Capture inputs for AutoGen
+
+    # Output tensor is not checked in ns_perf runs, just generate random data
+    if md.outputTensors[0].type == np.int8:
+        output_data = np.random.randint(
+            -127, 127, size=tuple(md.outputTensors[0].shape), dtype=np.int8
+        )
+    else:
+        output_data = (
+            np.random.random(size=tuple(md.outputTensors[0].shape)).astype(
+                md.outputTensors[0].type
+            )
+            * 2
+            - 1
+        )
+    outExamples.append(output_data.flatten())  # Capture outputs for AutoGen
+    mc.update_from_validation(inExamples, outExamples)
+
+
 def generatePowerBinary(params, mc, md, cpu_mode):
     n = params.model_name + "_power"
     d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
+    if params.joulescope or params.onboard_perf:
+        generateInputAndOutputTensors(params, mc, md)
 
     rm = {
         "NS_AD_NAME": n,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
+        "NS_AD_MODEL_LOCATION": f"NS_AD_{params.model_location}",
+        "NS_AD_ARENA_LOCATION": f"NS_AD_{params.arena_location}",
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_POWER_RUNS": params.runs_power,
         "NS_AD_CPU_MODE": cpu_mode,
+        "NS_AD_JS_PRESENT": "1" if params.joulescope else "0",
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
+        "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
+        "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
+        .replace("[", "")
+        .replace("]", ""),
     }
     print(
         f"Compiling, deploying, and measuring {cpu_mode} power with binary at {d}/{n}"
@@ -41,31 +87,42 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Generate files from template
     createFromTemplate(
-        "autodeploy/templates/template.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        "autodeploy/templates/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template.h", f"{d}/{n}/src/{n}_model.h", rm
+        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+        "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
+        "autodeploy/templates/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/template_power.mk", f"{d}/{n}/module.mk", rm
+        "autodeploy/templates/perf/template_power.mk", f"{d}/{n}/module.mk", rm
     )
 
     # Copy needed files
-    os.system(f"cp autodeploy/templates/ns_model.h {d}/{n}/src/")
-
+    createFromTemplate(
+        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+    )
+    
+    postfix = ""
+    if params.model_location == "SRAM":
+        loc = "const" # will be compied over to SRAM
+        postfix = "_for_sram"
+    elif params.model_location == "MRAM":
+        loc = "const"
+    else:
+        loc = ""
     # Generate model weight file
     xxd_c_dump(
         src_path=params.tflite_filename,
         dst_path=f"{d}/{n}/src/{n}_model_data.h",
-        var_name=f"{n}_model",
+        var_name=f"{n}_model{postfix}",
         chunk_len=12,
         is_header=True,
+        loc = loc,
     )
 
     # Generate input/output tensor example data
@@ -78,14 +135,14 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     inputs = str(flatInput).replace("[", "{").replace("]", "}")
     outputs = str(flatOutput).replace("[", "{").replace("]", "}")
 
-    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t"}
+    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.int16'>": "int16_t"}
 
     rm["NS_AD_INPUT_TENSORS"] = inputs
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/template_example_tensors.h",
+        "autodeploy/templates/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )
@@ -101,21 +158,26 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         ws_p = "-p"
     else:
         ws_null = "NUL"
-        ws_j = ""
+        ws_j = "-j"
         ws_and = "&&"
         ws_p = ""
 
     # Generate library and example binary
+    if params.onboard_perf:
+        mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
+    else:
+        mlp = ""
+
     if params.verbosity > 3:
         print(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

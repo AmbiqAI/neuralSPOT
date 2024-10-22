@@ -4,6 +4,7 @@
     <compoundname>neuralSPOT/neuralspot/ns-audio</compoundname>
     <innerdir refid="dir_b70d46c064802b213244316ef6218d52">neuralSPOT/neuralspot/ns-audio/includes-api</innerdir>
     <innerdir refid="dir_e70eef2d5115541d1d6cb7ad27f30382">neuralSPOT/neuralspot/ns-audio/src</innerdir>
+    <innerdir refid="dir_ebce5d9663c103d379a321152159c42b">neuralSPOT/neuralspot/ns-audio/tests</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

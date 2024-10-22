@@ -29,12 +29,12 @@
 
 #ifndef __AM_MFCC_H__
     #define __AM_MFCC_H__
+    #include "arm_math.h"
 
     #ifdef __cplusplus
 extern "C" {
     #endif
 
-    #include "arm_math.h"
     #include "ns_audio_features_common.h"
     #include "ns_core.h"
     #include "string.h"

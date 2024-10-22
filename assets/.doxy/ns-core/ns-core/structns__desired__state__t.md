@@ -35,6 +35,7 @@
 
 | Type | Name |
 | ---: | :--- |
+|  bool | [**ap3BurstModeInitialized**](#variable-ap3burstmodeinitialized)  <br> |
 |  [**ns\_core\_api\_t**](structns__core__api__t.md) const  \* | [**api**](#variable-api)  <br> |
 |  bool | [**cryptoCurrentlyEnabled**](#variable-cryptocurrentlyenabled)  <br> |
 |  bool | [**cryptoWantsToBeEnabled**](#variable-cryptowantstobeenabled)  <br> |
@@ -90,6 +91,17 @@
 
 
 ## Public Attributes Documentation
+
+
+
+
+### variable ap3BurstModeInitialized 
+
+```C++
+bool ns_desired_state_t::ap3BurstModeInitialized;
+```
+
+
 
 
 

@@ -33,7 +33,15 @@ modules      += neuralspot/ns-peripherals
 modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
+modules      += neuralspot/ns-features
+
+# ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
+ifeq ($(ARCH),apollo4)
+modules      += neuralspot/ns-spi
+modules      += neuralspot/ns-camera
+endif
+modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
 	modules      += neuralspot/ns-usb
@@ -41,7 +49,7 @@ ifeq ($(USB_PRESENT),1)
 endif
 
 ifeq ($(BLE_SUPPORTED),1)
-	modules      += neuralspot/ns-ble
+modules      += neuralspot/ns-ble
 endif
 
 # External Component Modules
@@ -50,6 +58,7 @@ modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
 modules      += extern/tensorflow/$(TF_VERSION)
 modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules 	 += extern/codecs/opus-precomp
+# modules 	 += extern/codecs/opus1.4
 
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
@@ -71,19 +80,27 @@ else
 		modules      += examples/har
 
 		ifeq ($(BLE_SUPPORTED),1)
-			modules      += examples/web_ble
-			modules      += examples/audio_codec
+			modules	     += examples/nnse
+			modules	     += examples/nnid
 		endif
 
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
 			modules      += examples/rpc_server
+			modules      += examples/ic
 			modules      += examples/mpu_data_collection
-			ifneq ($(BLE_SUPPORTED),1)
-# Don't include it twice
-				modules  += examples/audio_codec
+			modules      += examples/quaternion
+			ifeq ($(ARCH),apollo4)
+				ifeq ($(AS_VERSION),R4.5.0)
+					modules += examples/vision
+				endif
 			endif
+# 			ifneq ($(BLE_SUPPORTED),1)
+# # Don't include it twice
+# 				modules  += examples/audio_codec
+# 			endif
 		endif
+
 	else
 		modules 	 += examples/$(EXAMPLE)
 	endif
@@ -122,16 +139,7 @@ all:
 
 include $(addsuffix /module.mk,$(modules))
 
-# LINTINCLUDES = $(addprefix -I ,$(includes_api))
-# LINTINCLUDES += $(addprefix -D,$(pp_defines))
-# LINTIGNORE = extern
-# LINTSOURCES =  $(call FILTER_OUT,extern, $(sources))
-
-# #LINTSOURCES = $(filter-out $(wildcard extern/*)), $(sources))
-# $(info --$(sources))
-# $(info --$(LINTSOURCES))
-
-all: $(bindirs) $(libraries) $(examples)
+all: $(bindirs) $(libraries) $(examples) $(override_libraries) $(exampexample_librariesle) $(BINDIR)/board.svd
 
 .SECONDARY:
 .PHONY: libraries
@@ -140,39 +148,20 @@ libraries: $(libraries)
 .PHONY: clean
 clean:
 ifeq ($(OS),Windows_NT)
-	@echo "Windows_NT"
-	$(Q) $(RM) -rf $(bindirs)/* $(JLINK_CF) $(NESTDIR)
+	$(Q) $(RM) -rf $(BINDIRROOT) $(JLINK_CF) $(NESTDIR)
 else
-	$(Q) $(RM) -rf $(bindirs) $(JLINK_CF) $(NESTDIR)
+	$(Q) $(RM) -rf $(BINDIRROOT) $(JLINK_CF) $(NESTDIR)
 endif
 
 # lint: $(LINTSOURCES)
 # 	$(LINT) $< -- $(LINTINCLUDES)
 
 ifneq "$(MAKECMDGOALS)" "clean"
-  include $(dependencies)
+ include $(dependencies)
 endif
 
-# Compute stuff for nest creation
-nest_files = $(call rwildcard,extern/tensorflow/$(TF_VERSION)/.,*.h)
-nest_files += $(call rwildcard,extern/tensorflow/$(TF_VERSION)/.,*.hpp)
-nest_files += $(call rwildcard,extern/AmbiqSuite/$(AS_VERSION)/.,*.h)
-nest_files += $(call rwildcard,extern/AmbiqSuite/$(AS_VERSION)/.,*.hpp)
-nest_files += $(call rwildcard,extern/SEGGER_RTT/$(SR_VERSION)/.,*.h)
-nest_files += $(call rwildcard,extern/SEGGER_RTT/$(SR_VERSION)/.,*.hpp)
-nest_files += $(call rwildcard,extern/erpc/$(ERPC_VERSION)/.,*.h)
-nest_files += $(call rwildcard,extern/erpc/$(ERPC_VERSION)/.,*.hpp)
-nest_files += $(call rwildcard,extern/CMSIS/$(CMSIS_VERSION)/.,*.h)
-nest_files += $(call rwildcard,extern/CMSIS/$(CMSIS_VERSION)/.,*.hpp)
-nest_dirs = $(sort $(dir $(nest_files)))
-nest_dirs += $(call FILTER_IN,neuralspot,$(includes_api))
-
-nest_libs = $(addprefix libs/,$(notdir $(libraries)))
-nest_libs += $(addprefix libs/,$(notdir $(lib_prebuilt)))
-
-nest_component_includes = $(call FILTER_IN,$(NESTCOMP),$(nest_dirs))
-nest_component_libs = $(call FILTER_IN,$(NESTCOMP),$(libraries))
-nest_component_libs += $(call FILTER_IN,$(NESTCOMP),$(lib_prebuilt))
+include make/nest-helper.mk
+include make/ei-nest-helper.mk
 
 # Compute stuff for doc creation
 doc_sources = $(addprefix ../../,$(sources))
@@ -183,6 +172,9 @@ deploy_target = $(filter %$(TARGET).bin, $(examples))
 
 $(bindirs):
 	$(Q) $(MKD) -p $@
+
+$(BINDIR)/board.svd:
+	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 
 $(BINDIR)/%.o: %.cc
 	@echo " Compiling $(COMPILERNAME) $< to make $@"
@@ -204,46 +196,21 @@ $(BINDIR)/%.o: %.s
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
 
-%.axf: src/%.o $(objects) $(libraries)
-	@echo " Linking $(COMPILERNAME) $@"
-	@mkdir -p $(@D)
-ifeq ($(TOOLCHAIN),arm)
-	$(Q) $(LD) $< $(objects) $(lib_prebuilt) $(libraries) $(LFLAGS) --list=$*.map -o $@
-else
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@  $< $(objects) $(LFLAGS)
-endif
-
 ifeq ($(TOOLCHAIN),arm)
 %.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $@ $<
-	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
-	# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-	# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 else
 %.bin: %.axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
-	$(Q) @cp ./extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(BINDIR)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-	$(Q) $(SIZE) @$*.sizeinput $< > $*.size
+# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 endif
-# $(Q) echo $(objects) $(lib_prebuilt) > $*.sizeinput
-
-
-.PHONY: docs
-docs: export DOXYGEN_OUTPUT_DIRECTORY = docs/docs
-docs: export
-docs:
-	@echo " Making Documents"
-	@echo "INCLUDES = $(doc_sources)"
-	@echo "EXCLUDE_PATTERNS = */AmbiqSuite/* */tensorflow/* */$(BINDIR)/* */$(NESTDIR)/*"
-#	@echo "H_INCLUDES = $(all_includes)"
-	$(Q) $(DOX) docs/doxygen/Doxyfile
 
 .PHONY: nest
 nest: all
@@ -259,22 +226,28 @@ nest: all
 		"mkdir" -p $(NESTDIR)"/includes/"$$target ; \
 		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
 	done
-	@for file in $(libraries); do \
-		cp $$file $(NESTDIR)"/libs/" ; \
+	@for target in $(nest_lib_dirs); do \
+		"mkdir" -p $(NESTDIR)"/"$$target ; \
 	done
-	@for file in $(lib_prebuilt); do \
-		cp $$file $(NESTDIR)"/libs/" ; \
+
+	@for file in $(nest_libs); do \
+		cp $(BINDIRROOT)/$$file $(NESTDIR)/libs/$$file ; \
 	done
+	@for file in $(nest_prebuilt_libs); do \
+		cp $$file $(NESTDIR)/libs/$$file ; \
+	done
+
 	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
 	@cp -R neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
 
 	@cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested
 	@cp $(BINDIR)/board.svd $(NESTDIR)/pack/svd
-	@echo "# Autogenerated file - created by NeuralSPOT make nest" > $(NESTDIR)/autogen.mk
-	@echo "INCLUDES += $(includes_api)" >> $(NESTDIR)/autogen.mk
-	@echo "libraries += $(nest_libs)" >> $(NESTDIR)/autogen.mk
-	@echo "local_app_name := $(NESTEGG)" >> $(NESTDIR)/autogen.mk
+	@echo "# Autogenerated file - created by NeuralSPOT make nest" > $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "INCLUDES += $(includes_api)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "libraries += $(nest_dest_libs)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "override_libraries += $(nest_dest_override_libs)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "local_app_name := $(NESTEGG)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
 
 .PHONY: nestcomponent
 nestcomponent:
@@ -296,6 +269,55 @@ nestall: nest
 	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make
 	@cp make/jlink.mk $(NESTDIR)/make
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile
+
+.PHONY: einest
+einest: all
+	@echo " Building EdgeImpulse Nest without src/ at $(NESTDIR) based on $< ..."
+	$(Q) $(MKD) -p $(NESTDIR)
+	$(Q) $(MKD) -p $(NESTDIR)/src
+	$(Q) $(MKD) -p $(NESTDIR)/src/ns-core
+	$(Q) $(MKD) -p $(NESTDIR)/srcpreserved
+	$(Q) $(MKD) -p $(NESTDIR)/libs
+	$(Q) $(MKD) -p $(NESTDIR)/make
+	$(Q) $(MKD) -p $(NESTDIR)/pack/svd
+	$(Q) @cp -R projects/edgeimpulse/src/ambiq $(NESTDIR)/src/ambiq-copy-me-into-porting-dir
+	@for target in $(ei_nest_dirs); do \
+		"mkdir" -p $(NESTDIR)"/includes/"$$target ; \
+		cp -R $$target/. $(NESTDIR)"/includes/"$$target 2>/dev/null || true; \
+	done
+	@for target in $(ei_nest_lib_dirs); do \
+		"mkdir" -p $(NESTDIR)"/"$$target ; \
+	done
+
+	@for file in $(ei_nest_libs); do \
+		cp $(BINDIRROOT)/$$file $(NESTDIR)/libs/$$file ; \
+	done
+	@for file in $(ei_nest_prebuilt_libs); do \
+		cp $$file $(NESTDIR)/libs/$$file ; \
+	done
+
+	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
+	@cp -R neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
+
+	@cp $(LINKER_FILE) $(NESTDIR)/libs
+	@cp make/ei-nest-makefile.mk $(NESTDIR)/Makefile.suggested
+	@cp $(BINDIR)/board.svd $(NESTDIR)/pack/svd
+	@echo "# Autogenerated file - created by NeuralSPOT make nest" > $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "INCLUDES += $(ei_includes_api)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "libraries += $(ei_nest_dest_libs)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "override_libraries += $(ei_nest_dest_override_libs)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+	@echo "local_app_name := $(NESTEGG)" >> $(NESTDIR)/autogen_$(BOARD)_$(EVB)_$(TOOLCHAIN).mk
+
+.PHONY: einestall
+einestall: einest
+	@echo " Building EdgeImpulse Nestall including src/ at $(NESTDIR) based on $< ..."
+	@cp -R $(NESTSOURCEDIR) $(NESTDIR)
+	@cp make/helpers.mk $(NESTDIR)/make
+	@cp make/neuralspot_config.mk $(NESTDIR)/make
+	@cp make/neuralspot_toolchain.mk $(NESTDIR)/make
+	@cp make/jlink.mk $(NESTDIR)/make
+	@cp make/ei-nest-makefile.mk $(NESTDIR)/Makefile
+
 
 $(JLINK_CF):
 	@echo " Creating JLink command sequence input file... $(deploy_target)"

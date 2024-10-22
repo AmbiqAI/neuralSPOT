@@ -128,7 +128,7 @@ This function will print filled JSON fields to serial port.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" line="317" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_power_profile.c" bodystart="39" bodyend="272" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" declline="317" declcolumn="6"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" line="317" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_power_profile.c" bodystart="43" bodyend="276" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" declline="317" declcolumn="6"/>
       </memberdef>
       <memberdef kind="function" id="ns__power__profile_8h_1aba1ae8ba95a1baf5cb1cf9965b06157a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -149,7 +149,7 @@ This function will print filled JSON fields to serial port.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" line="326" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_power_profile.c" bodystart="274" bodyend="492" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" declline="326" declcolumn="6"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" line="326" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_power_profile.c" bodystart="278" bodyend="496" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_power_profile.h" declline="326" declcolumn="6"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

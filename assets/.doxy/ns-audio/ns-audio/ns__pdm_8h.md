@@ -60,6 +60,7 @@
 
 | Type | Name |
 | ---: | :--- |
+|  void | [**pdm\_deinit**](#function-pdm_deinit) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* config) <br> |
 |  uint32\_t | [**pdm\_init**](#function-pdm_init) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* config) <br>_AUDADC subsystem init - should only be invoked by ns\_audio, not directly._  |
 
 
@@ -143,6 +144,19 @@ ns_pdm_cfg_t ns_pdm_default;
 
 
 ## Public Functions Documentation
+
+
+
+
+### function pdm\_deinit 
+
+```C++
+void pdm_deinit (
+    ns_audio_config_t * config
+) 
+```
+
+
 
 
 

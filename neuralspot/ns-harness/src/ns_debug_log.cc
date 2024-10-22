@@ -19,8 +19,7 @@ limitations under the License.
 extern "C" {
 #endif // __cplusplus
 
-void
-ns_TFDebugLog(const char *s) {
+void ns_TFDebugLog(const char *s) {
 #if defined(NS_MLDEBUG) || defined(NS_MLPROFILE)
     ns_lp_printf("%s", s);
 #endif
@@ -28,13 +27,12 @@ ns_TFDebugLog(const char *s) {
 
 #ifdef NS_MLPROFILE
 ns_timer_config_t *ns_microProfilerTimer;
-ns_profiler_sidecar_t ns_microProfilerSidecar;
 ns_cache_config_t ns_microProfiler_cache_config;
-ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
+AM_SHARED_RW ns_profiler_sidecar_t ns_microProfilerSidecar;
+AM_SHARED_RW ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
 #endif
 
-void
-ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m) {
+void ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m) {
 #if defined(NS_MLDEBUG) || defined(NS_MLPROFILE)
     RegisterDebugLogCallback(ns_TFDebugLog);
 #endif
@@ -45,6 +43,11 @@ ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m) {
         ns_microProfilerSidecar.has_estimated_macs = true;
         ns_microProfilerSidecar.number_of_layers = m->number_of_layers;
         ns_microProfilerSidecar.mac_count_map = m->mac_count_map;
+        // print out the mac count map
+        // ns_lp_printf("est is located at 0x%x\n", ns_microProfilerSidecar.mac_count_map);
+        // for (int i = 0; i < 50; i++) {
+        //     ns_lp_printf("Layer %d: %d\n", i, ns_microProfilerSidecar.mac_count_map[i]);
+        // }
     } else {
         ns_microProfilerSidecar.has_estimated_macs = false;
     }

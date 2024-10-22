@@ -24,6 +24,7 @@
 * **bNeedITM** ([**ns\_power\_config\_t**](structns__power__config__t.md))
 * **bNeedSharedSRAM** ([**ns\_power\_config\_t**](structns__power__config__t.md))
 * **bNeedUSB** ([**ns\_power\_config\_t**](structns__power__config__t.md))
+* **bNeedXtal** ([**ns\_power\_config\_t**](structns__power__config__t.md))
 
 
 ## e

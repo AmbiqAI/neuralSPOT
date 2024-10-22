@@ -26,8 +26,11 @@
 #include "am_util.h"
 #include "ns_ambiqsuite_harness.h"
 
-void
-ns_itm_printf_enable(void) {
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+// AP3TODO
+#else
+
+void ns_itm_printf_enable(void) {
     // Enable crypto only as long as needed
     if (g_ns_state.cryptoCurrentlyEnabled == false) {
         am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
@@ -42,8 +45,7 @@ ns_itm_printf_enable(void) {
     g_ns_state.itmPrintWantsToBeEnabled = true;
 }
 
-void
-ns_uart_printf_enable(void) {
+void ns_uart_printf_enable(void) {
     // Enable crypto only as long as needed
     am_bsp_uart_printf_enable();
 
@@ -56,8 +58,7 @@ ns_uart_printf_enable(void) {
 //
 //
 //*****************************************************************************
-int32_t
-ns_cryptoless_itm_printf_enable(void) {
+int32_t ns_cryptoless_itm_printf_enable(void) {
     // Enable the ITM interface and the SWO pin.
     am_hal_itm_enable();
     am_hal_tpiu_enable(AM_HAL_TPIU_BAUD_1M);
@@ -72,8 +73,7 @@ ns_cryptoless_itm_printf_enable(void) {
 //
 //
 //*****************************************************************************
-int32_t
-ns_cryptoless_itm_printf_disable(void) {
+int32_t ns_cryptoless_itm_printf_disable(void) {
     // Disable the ITM/TPIU
     am_hal_itm_disable();
 
@@ -86,8 +86,7 @@ ns_cryptoless_itm_printf_disable(void) {
     return 0;
 }
 
-void
-ns_lp_printf(const char *format, ...) {
+void ns_lp_printf(const char *format, ...) {
     va_list myargs;
 
     if ((g_ns_state.uartPrintWantsToBeEnabled == false) &&
@@ -99,8 +98,9 @@ ns_lp_printf(const char *format, ...) {
     if ((g_ns_state.uartPrintWantsToBeEnabled) && (g_ns_state.uartPrintCurrentlyEnabled == false)) {
         am_bsp_uart_printf_enable();
         g_ns_state.uartPrintCurrentlyEnabled = true;
-    } else if ((g_ns_state.itmPrintWantsToBeEnabled == true) &&
-               (g_ns_state.itmPrintCurrentlyEnabled == false)) {
+    } else if (
+        (g_ns_state.itmPrintWantsToBeEnabled == true) &&
+        (g_ns_state.itmPrintCurrentlyEnabled == false)) {
         ns_cryptoless_itm_printf_enable();
         g_ns_state.itmPrintCurrentlyEnabled = true;
     }
@@ -109,6 +109,7 @@ ns_lp_printf(const char *format, ...) {
     am_util_stdio_vprintf(format, myargs);
     va_end(myargs);
 }
+#endif
 
 ```
 

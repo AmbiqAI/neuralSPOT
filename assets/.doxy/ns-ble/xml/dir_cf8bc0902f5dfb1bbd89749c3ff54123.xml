@@ -2,7 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
   <compounddef id="dir_cf8bc0902f5dfb1bbd89749c3ff54123" kind="dir">
     <compoundname>neuralSPOT/neuralspot/ns-ble/src</compoundname>
-    <innerfile refid="hci__apollo__config_8h">hci_apollo_config.h</innerfile>
     <innerfile refid="ns__ble_8c">ns_ble.c</innerfile>
     <briefdescription>
     </briefdescription>

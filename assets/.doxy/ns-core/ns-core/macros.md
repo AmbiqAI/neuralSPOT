@@ -12,7 +12,7 @@
 
 * **heapBITS\_PER\_BYTE** ([**heap\_4.c**](heap__4_8c.md))
 * **heapMINIMUM\_BLOCK\_SIZE** ([**heap\_4.c**](heap__4_8c.md))
-* **HEAP\_SIZE** ([**startup\_gcc.c**](startup__gcc_8c.md))
+* **HEAP\_SIZE** ([**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4l_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4p_2gcc_2startup__gcc_8c.md))
 
 
 ## m
@@ -34,6 +34,7 @@
 * **NS\_STATUS\_SUCCESS** ([**ns\_core.h**](ns__core_8h.md))
 * **NS\_TRY** ([**ns\_core.h**](ns__core_8h.md))
 * **NS\_CORE\_API\_ID** ([**ns\_core.c**](ns__core_8c.md))
+* **NS\_CORE\_INVALID** ([**ns\_core\_tests.c**](ns__core__tests_8c.md))
 
 
 ## _

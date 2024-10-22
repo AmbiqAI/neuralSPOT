@@ -20,7 +20,7 @@
 #include "tensorflow/lite/micro/micro_profiler.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
-#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
+#ifdef NS_TFSTRUCTURE_RECENT
     #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
 #else
     #include "tensorflow/lite/micro/micro_error_reporter.h"
@@ -97,7 +97,7 @@ model_init(void) {
     resolver.AddSoftmax();
 
     // Build an interpreter to run the model with.
-#if defined(NS_TF_VERSION_fecdd5d) or defined(NS_TF_VERSION_d5f819d_Aug_10_2023)
+#ifdef NS_TFSTRUCTURE_RECENT
     static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
                                                        kTensorArenaSize, nullptr, profiler);
 #else

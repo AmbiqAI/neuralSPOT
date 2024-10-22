@@ -47,6 +47,7 @@ _Power Mode Definitino._
 |  bool | [**bNeedITM**](#variable-bneeditm)  <br>_Enable Temperature Compensation._  |
 |  bool | [**bNeedSharedSRAM**](#variable-bneedsharedsram)  <br>_Prevents SSRAM from being powered off._  |
 |  bool | [**bNeedUSB**](#variable-bneedusb)  <br>_Prevents USB from being powered off._  |
+|  bool | [**bNeedXtal**](#variable-bneedxtal)  <br>_Enable XTAL._  |
 |  [**ns\_power\_mode\_e**](ns__peripherals__power_8h.md#enum-ns_power_mode_e) | [**eAIPowerMode**](#variable-eaipowermode)  <br>_CPU power mode (controls clock speed, etc)_  |
 
 
@@ -211,6 +212,17 @@ bool ns_power_config_t::bNeedSharedSRAM;
 
 ```C++
 bool ns_power_config_t::bNeedUSB;
+```
+
+
+
+
+
+
+### variable bNeedXtal 
+
+```C++
+bool ns_power_config_t::bNeedXtal;
 ```
 
 

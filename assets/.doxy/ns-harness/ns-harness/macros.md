@@ -5,6 +5,7 @@
 
 ## n
 
+* **NS\_PUT\_IN\_TCM** ([**ns\_ambiqsuite\_harness.h**](ns__ambiqsuite__harness_8h.md))
 * **ns\_debug\_printf\_disable** ([**ns\_ambiqsuite\_harness.h**](ns__ambiqsuite__harness_8h.md))
 * **ns\_debug\_printf\_enable** ([**ns\_ambiqsuite\_harness.h**](ns__ambiqsuite__harness_8h.md))
 * **ns\_delay\_us** ([**ns\_ambiqsuite\_harness.h**](ns__ambiqsuite__harness_8h.md))

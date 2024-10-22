@@ -2,7 +2,7 @@
 
 # File hci\_apollo\_config.h
 
-[**File List**](files.md) **>** [**neuralSPOT**](dir_75594cce7c7773aa3cb253214bf56510.md) **>** [**neuralspot**](dir_b737d82f35ec218ac5a7ef4105db9c0e.md) **>** [**ns-ble**](dir_ec3c5c5ea2d338d436d6fa61f38fc381.md) **>** [**src**](dir_cf8bc0902f5dfb1bbd89749c3ff54123.md) **>** [**hci\_apollo\_config.h**](hci__apollo__config_8h.md)
+[**File List**](files.md) **>** [**includes-api**](dir_4e48286ed5350b74cbe32681da7dff10.md) **>** [**hci\_apollo\_config.h**](hci__apollo__config_8h.md)
 
 [Go to the documentation of this file](hci__apollo__config_8h.md)
 

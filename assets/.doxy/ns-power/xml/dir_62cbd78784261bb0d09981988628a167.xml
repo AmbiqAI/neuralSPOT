@@ -4,6 +4,7 @@
     <compoundname>neuralSPOT/neuralspot/ns-peripherals</compoundname>
     <innerdir refid="dir_fe04d02a8bfca0247bd216a75646089c">neuralSPOT/neuralspot/ns-peripherals/includes-api</innerdir>
     <innerdir refid="dir_cf9eff0d6bf97258df730d615fa0f132">neuralSPOT/neuralspot/ns-peripherals/src</innerdir>
+    <innerdir refid="dir_212d9119d40fadcef4edfdca97975f2d">neuralSPOT/neuralspot/ns-peripherals/tests</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

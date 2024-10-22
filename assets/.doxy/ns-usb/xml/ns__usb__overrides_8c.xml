@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__usb__overrides_8c" kind="file" language="C++">
+    <compoundname>ns_usb_overrides.c</compoundname>
+    <includes refid="ns__usb_8h" local="yes">ns_usb.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_usb.h</label>
+        <link refid="ns__usb_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>webusb_controller.h</label>
+        <link refid="webusb__controller_8h"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c</label>
+        <link refid="ns__usb__overrides_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__usb__overrides_8c_1a21f2efdf0e5810dd2f5857a2aee3e91d" prot="public" static="no" mutable="no">
+        <type>volatile uint8_t</type>
+        <definition>volatile uint8_t gGotUSBRx</definition>
+        <argsstring></argsstring>
+        <name>gGotUSBRx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" line="8" column="25" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="41" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" declline="8" declcolumn="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__usb__overrides_8c_1a0e953cb5a59c55a1aeddb3948fb222ab" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref></type>
+        <definition>ns_usb_config_t usb_config</definition>
+        <argsstring></argsstring>
+        <name>usb_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" line="9" column="24" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="29" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" declline="9" declcolumn="24"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__usb__overrides_8c_1a8a10535dfe03a33af833f55b6ba33cfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void tud_cdc_rx_cb</definition>
+        <argsstring>(uint8_t itf)</argsstring>
+        <name>tud_cdc_rx_cb</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>itf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" line="12" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" bodystart="12" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb__overrides_8c_1a1db62490ab8613591d4dc8033d6778d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void tud_cdc_tx_complete_cb</definition>
+        <argsstring>(uint8_t itf)</argsstring>
+        <name>tud_cdc_tx_complete_cb</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>itf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" line="27" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c" bodystart="27" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;ns_usb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mini-rant:<sp/>these<sp/>two<sp/>functions<sp/>which<sp/>override<sp/>a<sp/>WEAK<sp/>function<sp/>in<sp/>TinyUSB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>are<sp/>declared<sp/>here<sp/>to<sp/>get<sp/>around<sp/>armlink&apos;s<sp/>overzealous<sp/>(and<sp/>inconsistent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>removal<sp/>-<sp/>even<sp/>with<sp/>this,<sp/>the<sp/>linker<sp/>will<sp/>insists<sp/>on<sp/>removing<sp/>them<sp/>unless</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>we<sp/>force<sp/>a<sp/>--keep<sp/>in<sp/>the<sp/>linker<sp/>flags.<sp/>I<sp/>can&apos;t<sp/>even...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint8_t<sp/>gGotUSBRx;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref><sp/>usb_config;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Invoked<sp/>when<sp/>CDC<sp/>interface<sp/>received<sp/>data<sp/>from<sp/>host</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>tud_cdc_rx_cb(uint8_t<sp/>itf)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)itf;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__usb__transaction__t" kindref="compound">ns_usb_transaction_t</ref><sp/>rx;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usb_config.<ref refid="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" kindref="member">rx_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.handle<sp/>=<sp/>&amp;usb_config;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.rx_buffer<sp/>=<sp/>usb_config.<ref refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kindref="member">rx_buffer</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.tx_buffer<sp/>=<sp/>usb_config.<ref refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kindref="member">tx_buffer</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.status<sp/>=<sp/>AM_HAL_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.itf<sp/>=<sp/>itf;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" kindref="member">rx_cb</ref>(&amp;rx);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>gGotUSBRx<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;---rx---\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>tud_cdc_tx_complete_cb(uint8_t<sp/>itf)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)itf;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__usb__transaction__t" kindref="compound">ns_usb_transaction_t</ref><sp/>rx;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usb_config.<ref refid="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" kindref="member">tx_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.handle<sp/>=<sp/>&amp;usb_config;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.rx_buffer<sp/>=<sp/>usb_config.<ref refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kindref="member">rx_buffer</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.tx_buffer<sp/>=<sp/>usb_config.<ref refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kindref="member">tx_buffer</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.status<sp/>=<sp/>AM_HAL_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rx.itf<sp/>=<sp/>itf;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" kindref="member">tx_cb</ref>(&amp;rx);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;---tx---\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/ns_usb_overrides.c"/>
+  </compounddef>
+</doxygen>

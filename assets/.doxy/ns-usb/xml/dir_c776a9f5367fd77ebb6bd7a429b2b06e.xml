@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_c776a9f5367fd77ebb6bd7a429b2b06e" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-usb/tests</compoundname>
+    <innerfile refid="ns__usb__tests_8c">ns_usb_tests.c</innerfile>
+    <innerfile refid="ns__usb__tests_8h">ns_usb_tests.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-usb/tests/"/>
+  </compounddef>
+</doxygen>

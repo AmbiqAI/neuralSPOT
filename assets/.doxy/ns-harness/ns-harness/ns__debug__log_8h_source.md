@@ -33,7 +33,7 @@ extern "C" {
 #include "ns_timer.h"
 
 // Match TFLM kMaxEvents
-#define NS_PROFILER_MAX_EVENTS 1024
+#define NS_PROFILER_MAX_EVENTS 4096
 // #define NS_PROFILER_RPC_EVENTS_MAX 128
 #define NS_PROFILER_TAG_SIZE 12
 typedef struct {
@@ -67,8 +67,7 @@ extern ns_profiler_sidecar_t ns_microProfilerSidecar;
 extern ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
 #endif
 
-extern void
-ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m);
+extern void ns_TFDebugLogInit(ns_timer_config_t *t, ns_perf_mac_count_t *m);
 
 #ifdef __cplusplus
 } // extern "C"

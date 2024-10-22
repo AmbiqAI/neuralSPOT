@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__usb__config__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_usb_config_t</compoundname>
+    <includes refid="ns__usb_8h" local="no">ns_usb.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__usb__config__t_1aabcd9dc7d127647a2cb021e31704b855" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_usb_config_t::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_usb_config_t::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="81" column="25" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1a0ccfdaca8e4d4f2ddbe20cc880b093df" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-usb_1ga4aca6e5a14e39094d9f64c7c5835acc8" kindref="member">ns_usb_device_type_e</ref></type>
+        <definition>ns_usb_device_type_e ns_usb_config_t::deviceType</definition>
+        <argsstring></argsstring>
+        <name>deviceType</name>
+        <qualifiedname>ns_usb_config_t::deviceType</qualifiedname>
+        <briefdescription>
+<para>Device type, only CDC is currently supported. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="82" column="26" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_usb_config_t::rx_buffer</definition>
+        <argsstring></argsstring>
+        <name>rx_buffer</name>
+        <qualifiedname>ns_usb_config_t::rx_buffer</qualifiedname>
+        <briefdescription>
+<para>Pointer to allocated buffer which USB CDC will use for rx transfers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="83" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1a4e79d9d8f1ede0e15bbd1089f213cfad" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ns_usb_config_t::rx_bufferLength</definition>
+        <argsstring></argsstring>
+        <name>rx_bufferLength</name>
+        <qualifiedname>ns_usb_config_t::rx_bufferLength</qualifiedname>
+        <briefdescription>
+<para>Length of rx buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="84" column="14" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_usb_config_t::tx_buffer</definition>
+        <argsstring></argsstring>
+        <name>tx_buffer</name>
+        <qualifiedname>ns_usb_config_t::tx_buffer</qualifiedname>
+        <briefdescription>
+<para>Pointer to allocated buffer which USB CDC will use for tx transfers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="85" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1ae7fc102dd2312880a5268661c83e1239" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t ns_usb_config_t::tx_bufferLength</definition>
+        <argsstring></argsstring>
+        <name>tx_bufferLength</name>
+        <qualifiedname>ns_usb_config_t::tx_bufferLength</qualifiedname>
+        <briefdescription>
+<para>Length of tx buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="86" column="14" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" prot="public" static="no" mutable="no">
+        <type>ns_usb_rx_cb</type>
+        <definition>ns_usb_rx_cb ns_usb_config_t::rx_cb</definition>
+        <argsstring></argsstring>
+        <name>rx_cb</name>
+        <qualifiedname>ns_usb_config_t::rx_cb</qualifiedname>
+        <briefdescription>
+<para>Callback for rx events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="87" column="18" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" prot="public" static="no" mutable="no">
+        <type>ns_usb_tx_cb</type>
+        <definition>ns_usb_tx_cb ns_usb_config_t::tx_cb</definition>
+        <argsstring></argsstring>
+        <name>tx_cb</name>
+        <qualifiedname>ns_usb_config_t::tx_cb</qualifiedname>
+        <briefdescription>
+<para>Callback for tx events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="88" column="18" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" prot="public" static="no" mutable="no">
+        <type>ns_usb_service_cb</type>
+        <definition>ns_usb_service_cb ns_usb_config_t::service_cb</definition>
+        <argsstring></argsstring>
+        <name>service_cb</name>
+        <qualifiedname>ns_usb_config_t::service_cb</qualifiedname>
+        <briefdescription>
+<para>Callback for service events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="89" column="23" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__config__t_1aec3e9369b795bc6523b061e9da2b32a0" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-usb_1gae261479721391e47057d2e947cace999" kindref="member">ns_tusb_desc_webusb_url_t</ref> *</type>
+        <definition>ns_tusb_desc_webusb_url_t* ns_usb_config_t::desc_url</definition>
+        <argsstring></argsstring>
+        <name>desc_url</name>
+        <qualifiedname>ns_usb_config_t::desc_url</qualifiedname>
+        <briefdescription>
+<para>WebUSB URL descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="90" column="31" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>USB Configuration Struct. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>TU_ATTR_PACKED</label>
+        <link refid="struct_t_u___a_t_t_r___p_a_c_k_e_d"/>
+      </node>
+      <node id="1">
+        <label>ns_usb_config_t</label>
+        <link refid="structns__usb__config__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rx_cb</edgelabel>
+          <edgelabel>tx_cb</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>desc_url</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_usb_transaction_t</label>
+        <link refid="structns__usb__transaction__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="80" column="1" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="80" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structns__usb__config__t_1aabcd9dc7d127647a2cb021e31704b855" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>api</name></member>
+      <member refid="structns__usb__config__t_1aec3e9369b795bc6523b061e9da2b32a0" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>desc_url</name></member>
+      <member refid="structns__usb__config__t_1a0ccfdaca8e4d4f2ddbe20cc880b093df" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>deviceType</name></member>
+      <member refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>rx_buffer</name></member>
+      <member refid="structns__usb__config__t_1a4e79d9d8f1ede0e15bbd1089f213cfad" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>rx_bufferLength</name></member>
+      <member refid="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>rx_cb</name></member>
+      <member refid="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>service_cb</name></member>
+      <member refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>tx_buffer</name></member>
+      <member refid="structns__usb__config__t_1ae7fc102dd2312880a5268661c83e1239" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>tx_bufferLength</name></member>
+      <member refid="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" prot="public" virt="non-virtual"><scope>ns_usb_config_t</scope><name>tx_cb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

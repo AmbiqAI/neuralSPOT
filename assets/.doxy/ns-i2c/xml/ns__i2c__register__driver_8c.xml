@@ -127,7 +127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="27" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="27" bodyend="45"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="26" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="26" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1ga778d58af078c2b77c2175a82ed80b9ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -205,7 +205,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="58" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="58" bodyend="76"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="60" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="60" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1gab7550497c4b76abb7cb964632b0bc39d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -283,7 +283,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="89" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="89" bodyend="100"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="94" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="94" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1gabb9e32d516ca511624b2e50480e34ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -361,7 +361,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="113" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="113" bodyend="126"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" line="117" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c" bodystart="117" bodyend="130"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -384,77 +384,81 @@
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_hal_iom.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__i2c_8h" kindref="compound">ns_i2c.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal">uint32_t</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><ref refid="group__ns-i2c_1gaa8ccff053b2fcd4bc386d4a39735741d" kindref="member">ns_i2c_read_sequential_regs</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint32_t<sp/>regAddr,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>size)<sp/>{</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1gaa8ccff053b2fcd4bc386d4a39735741d" kindref="member">ns_i2c_read_sequential_regs</ref>(</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint32_t<sp/>regAddr,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(AM_PART_APOLLO4B)<sp/>||<sp/>defined(AM_PART_APOLLO4P)<sp/>||<sp/>defined(AM_PART_APOLLO4L)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>regAddr;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_RX;</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>size;</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32RxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32I2CDevAddr<sp/>=<sp/>devAddr;</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction))<sp/>{</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
-<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal">uint32_t</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><ref refid="group__ns-i2c_1ga778d58af078c2b77c2175a82ed80b9ee" kindref="member">ns_i2c_write_sequential_regs</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint32_t<sp/>regAddr,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>size)<sp/>{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>1;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>regAddr;</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_TX;</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>size;</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32TxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32I2CDevAddr<sp/>=<sp/>devAddr;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction)<sp/>!=<sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal">uint32_t</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><ref refid="group__ns-i2c_1gab7550497c4b76abb7cb964632b0bc39d" kindref="member">ns_i2c_read_reg</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint8_t<sp/>regAddr,<sp/>uint8_t<sp/>*value,</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>mask)<sp/>{</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>regValue;</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-i2c_1gaa8ccff053b2fcd4bc386d4a39735741d" kindref="member">ns_i2c_read_sequential_regs</ref>(cfg,<sp/>devAddr,<sp/>regAddr,<sp/>&amp;regValue,<sp/>1))<sp/>{</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mask<sp/>!=<sp/>0xFF)<sp/>{</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regValue<sp/>=<sp/>regValue<sp/>&amp;<sp/>mask;</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>(*value)<sp/>=<sp/>(uint8_t)regValue;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
-<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal">uint32_t</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><ref refid="group__ns-i2c_1gabb9e32d516ca511624b2e50480e34ebd" kindref="member">ns_i2c_write_reg</ref>(<ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint8_t<sp/>regAddr,<sp/>uint8_t<sp/>value,</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>mask)<sp/>{</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>regValue<sp/>=<sp/>value;</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mask<sp/>!=<sp/>0xFF)<sp/>{</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-i2c_1gaa8ccff053b2fcd4bc386d4a39735741d" kindref="member">ns_i2c_read_sequential_regs</ref>(cfg,<sp/>devAddr,<sp/>regAddr,<sp/>&amp;regValue,<sp/>1))<sp/>{</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regValue<sp/>=<sp/>(regValue<sp/>&amp;<sp/>~mask)<sp/>|<sp/>(value<sp/>&amp;<sp/>mask);</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-i2c_1ga778d58af078c2b77c2175a82ed80b9ee" kindref="member">ns_i2c_write_sequential_regs</ref>(cfg,<sp/>devAddr,<sp/>regAddr,<sp/>&amp;regValue,<sp/>1))<sp/>{</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
-<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32Instr<sp/>=<sp/>(uint32_t)regAddr;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_RX;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>size;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32RxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32I2CDevAddr<sp/>=<sp/>devAddr;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction))<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1ga778d58af078c2b77c2175a82ed80b9ee" kindref="member">ns_i2c_write_sequential_regs</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint32_t<sp/>regAddr,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(AM_PART_APOLLO4B)<sp/>||<sp/>defined(AM_PART_APOLLO4P)<sp/>||<sp/>defined(AM_PART_APOLLO4L)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>regAddr;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32Instr<sp/>=<sp/>(uint32_t)regAddr;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_TX;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>size;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32TxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32I2CDevAddr<sp/>=<sp/>devAddr;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction)<sp/>!=<sp/>AM_HAL_STATUS_SUCCESS)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1gab7550497c4b76abb7cb964632b0bc39d" kindref="member">ns_i2c_read_reg</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint8_t<sp/>regAddr,<sp/>uint8_t<sp/>*value,<sp/>uint8_t<sp/>mask)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>regValue;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-i2c_1gaa8ccff053b2fcd4bc386d4a39735741d" kindref="member">ns_i2c_read_sequential_regs</ref>(cfg,<sp/>devAddr,<sp/>regAddr,<sp/>&amp;regValue,<sp/>1))<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mask<sp/>!=<sp/>0xFF)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regValue<sp/>=<sp/>regValue<sp/>&amp;<sp/>mask;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>(*value)<sp/>=<sp/>(uint8_t)regValue;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-i2c_1gabb9e32d516ca511624b2e50480e34ebd" kindref="member">ns_i2c_write_reg</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>devAddr,<sp/>uint8_t<sp/>regAddr,<sp/>uint8_t<sp/>value,<sp/>uint8_t<sp/>mask)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>regValue<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mask<sp/>!=<sp/>0xFF)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-i2c_1gaa8ccff053b2fcd4bc386d4a39735741d" kindref="member">ns_i2c_read_sequential_regs</ref>(cfg,<sp/>devAddr,<sp/>regAddr,<sp/>&amp;regValue,<sp/>1))<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>regValue<sp/>=<sp/>(regValue<sp/>&amp;<sp/>~mask)<sp/>|<sp/>(value<sp/>&amp;<sp/>mask);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-i2c_1ga778d58af078c2b77c2175a82ed80b9ee" kindref="member">ns_i2c_write_sequential_regs</ref>(cfg,<sp/>devAddr,<sp/>regAddr,<sp/>&amp;regValue,<sp/>1))<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_I2C_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c_register_driver.c"/>
   </compounddef>

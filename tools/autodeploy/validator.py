@@ -111,7 +111,7 @@ class ModelConfiguration:
         self.compute_buf_size(md)
 
     def compute_buf_size(self, md):
-        self.adjusted_stat_buf_size = max(
+        self.adjusted_stat_buffer_size = max(
             next_power_of_2(self.stat_buffer_size + 50),
             next_power_of_2(md.totalInputTensorBytes + 50),
             next_power_of_2(md.totalOutputTensorBytes + 50),
@@ -133,7 +133,28 @@ class ModelConfiguration:
                 "Needed RPC buffer size is %d, exceeding limit of %d. Switching to chunk mode."
                 % (self.adjusted_stat_buffer_size, params.max_rpc_buf_size)
             )
+def send_model_to_evb(params, client):
+    # Load the model as an array of bytes
+    with open(params.tflite_filename, "rb") as f:
+        model = f.read()
 
+    # Send the model to the EVB in chunks
+    for chunk in chunker(model, maxRpcBlockLength):
+        modelBlock = GenericDataOperations_PcToEvb.common.dataBlock(
+            description="Model Chunk",
+            dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
+            cmd=GenericDataOperations_PcToEvb.common.command.read,  # re-use the read opcode
+            buffer=chunk,
+            # buffer=chunk.tobytes(),
+            length=len(chunk),
+        )
+        status = client.ns_rpc_data_sendBlockToEVB(modelBlock)
+        if status != 0:
+            print("[ERROR] Model Send Status = %d" % status)
+            exit("Model Send Failed")
+        # else:
+            # log.info("Model Send Return Status = %d" % status)
+            # print(".", end="")
 
 def configModel(params, client, md):
     if params.create_profile:
@@ -535,6 +556,10 @@ def compile_and_deploy(params, mc, first_time=False):
 
     if params.create_profile:
         if params.verbosity > 3:
+            print(
+                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+            )
+
             makefile_result = os.system(
                 f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
@@ -563,16 +588,28 @@ def compile_and_deploy(params, mc, first_time=False):
     return makefile_result
 
 
-def create_mut_metadata(tflm_dir, mc):
+def create_mut_metadata(params, tflm_dir, mc):
     """
     Create mut_model_metadata.h, a config header for examples/tflm_validator. Can be
      used to create the default (large buffer) configuration or a version tuned on
      stats discovered by running the default
     """
 
+    # TODO adjust 120 for AP5's TCM size
+    if (mc.arena_size_k + mc.arena_size_scratch_buffer_padding_k) > 120:
+        ns_ad_large_arena = 1
+    else:
+        ns_ad_large_arena = 0
+
+    ns_ad_large_model = 0
+
     rm = {
+        "NS_AD_LARGE_MODEL": ns_ad_large_model,
+        "NS_AD_MODEL_LOCATION": f"NS_AD_{params.model_location}",
+        "NS_AD_ARENA_LOCATION": f"NS_AD_{params.arena_location}",
         "NS_AD_RPC_BUFSIZE": mc.adjusted_stat_buffer_size,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + mc.arena_size_scratch_buffer_padding_k,
+        "NS_AD_LARGE_ARENA": ns_ad_large_arena,
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
         "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
@@ -589,7 +626,7 @@ def create_mut_metadata(tflm_dir, mc):
         )
     )
     createFromTemplate(
-        "autodeploy/templates/template_mut_metadata.h",
+        "autodeploy/templates/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
         rm,
     )
@@ -603,7 +640,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
     }
     createFromTemplate(
-        "autodeploy/templates/template_ns_model.cc",
+        "autodeploy/templates/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
         rm,
     )
@@ -615,18 +652,18 @@ def create_mut_main(tflm_dir, mc):
 
     # Copy template main.cc to tflm_dir
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.cc",
+        "autodeploy/templates/validator/template_tflm_validator.cc",
         f"{tflm_dir}/src/tflm_validator.cc",
     )
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.h",
+        "autodeploy/templates/validator/template_tflm_validator.h",
         f"{tflm_dir}/src/tflm_validator.h",
     )
     shutil.copyfile(
-        "autodeploy/templates/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
+        "autodeploy/templates/validator/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
     )
     shutil.copyfile(
-        "autodeploy/templates/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
+        "autodeploy/templates/common/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
     )
 
 
@@ -635,6 +672,14 @@ def create_validation_binary(params, baseline, mc):
     tflm_dir = params.working_directory + "/" + params.model_name + "/tflm_validator"
     create_mut_main(tflm_dir, mc)
 
+    # map model location parameter to linker locations
+    if params.model_location == "SRAM":
+        loc = "sram"
+    elif params.model_location == "MRAM":
+        loc = "const"
+    else:
+        loc = ""
+
     if baseline:
         xxd_c_dump(
             src_path=params.tflite_filename,
@@ -642,6 +687,7 @@ def create_validation_binary(params, baseline, mc):
             var_name="mut_model",
             chunk_len=12,
             is_header=True,
+            loc=loc,
         )
 
     if baseline:
@@ -653,7 +699,7 @@ def create_validation_binary(params, baseline, mc):
             f"Compiling and deploying Tuned image:    arena size = {mc.arena_size_k}k, RPC buffer size = {mc.adjusted_stat_buffer_size}, Resource Variables count = {mc.rv_count}"
         )
 
-    create_mut_metadata(tflm_dir, mc)
+    create_mut_metadata(params, tflm_dir, mc)
     create_mut_modelinit(tflm_dir, mc)
     compile_and_deploy(params, mc, first_time=baseline)
 

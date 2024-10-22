@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.4" xml:lang="en-US">
+  <compound refid="structns__usb__config__t" kind="struct"><name>ns_usb_config_t</name>
+    <member refid="structns__usb__config__t_1aabcd9dc7d127647a2cb021e31704b855" kind="variable"><name>api</name></member>
+    <member refid="structns__usb__config__t_1a0ccfdaca8e4d4f2ddbe20cc880b093df" kind="variable"><name>deviceType</name></member>
+    <member refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kind="variable"><name>rx_buffer</name></member>
+    <member refid="structns__usb__config__t_1a4e79d9d8f1ede0e15bbd1089f213cfad" kind="variable"><name>rx_bufferLength</name></member>
+    <member refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kind="variable"><name>tx_buffer</name></member>
+    <member refid="structns__usb__config__t_1ae7fc102dd2312880a5268661c83e1239" kind="variable"><name>tx_bufferLength</name></member>
+    <member refid="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" kind="variable"><name>rx_cb</name></member>
+    <member refid="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" kind="variable"><name>tx_cb</name></member>
+    <member refid="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" kind="variable"><name>service_cb</name></member>
+    <member refid="structns__usb__config__t_1aec3e9369b795bc6523b061e9da2b32a0" kind="variable"><name>desc_url</name></member>
+  </compound>
+  <compound refid="structns__usb__transaction__t" kind="struct"><name>ns_usb_transaction_t</name>
+    <member refid="structns__usb__transaction__t_1ac3febb78ecef6a9d89bcb41748eaf0e4" kind="variable"><name>handle</name></member>
+    <member refid="structns__usb__transaction__t_1a8b31adeb78a0beab7c086c8286e45fb5" kind="variable"><name>rx_buffer</name></member>
+    <member refid="structns__usb__transaction__t_1ad4738ca8f734ca24a777258d9dffe3ec" kind="variable"><name>tx_buffer</name></member>
+    <member refid="structns__usb__transaction__t_1a11b102be4ee558683a567f599bb98d0a" kind="variable"><name>status</name></member>
+    <member refid="structns__usb__transaction__t_1a7bc7ca3fea841de5e4da8d31bf28e1e5" kind="variable"><name>itf</name></member>
+    <member refid="structns__usb__transaction__t_1a08d8dee6c9cbbc30d62a1fdceb2d520f" kind="variable"><name>dtr</name></member>
+    <member refid="structns__usb__transaction__t_1a73bfd39794fdc9cd0942e169786d0a57" kind="variable"><name>rts</name></member>
+  </compound>
+  <compound refid="struct_t_u___a_t_t_r___p_a_c_k_e_d" kind="struct"><name>TU_ATTR_PACKED</name>
+    <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1aaf70ed850af3b0ca5a256ecfc268154f" kind="variable"><name>bLength</name></member>
+    <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a9e26bc4754a94ae795bb9ec14cf5300d" kind="variable"><name>bDescriptorType</name></member>
+    <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a8d25ac9c5db553ffe646ba184ceab823" kind="variable"><name>bScheme</name></member>
+    <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a4a213e38e9f48e6ee1ee9f9d8f300ed0" kind="variable"><name>url</name></member>
+  </compound>
+  <compound refid="structwebusb__parameter__t" kind="struct"><name>webusb_parameter_t</name>
+    <member refid="structwebusb__parameter__t_1adf94834d58ee9fbfb5eb6d39387d21e7" kind="variable"><name>rx_msg_cb</name></member>
+    <member refid="structwebusb__parameter__t_1a0ba9e050146d3fb522659ef7aa899d70" kind="variable"><name>rx_raw_cb</name></member>
+    <member refid="structwebusb__parameter__t_1abc36aab8cd9b23fa1c552a97e0fca6c9" kind="variable"><name>rx_msg_param</name></member>
+    <member refid="structwebusb__parameter__t_1aa15e7f297546e750896fb769fc180fcd" kind="variable"><name>rx_raw_param</name></member>
+  </compound>
+  <compound refid="ns__usb_8h" kind="file"><name>ns_usb.h</name>
+    <member refid="group__ns-usb_1gac54895ae242a2e5156da6823afeaf6ec" kind="define"><name>NS_USB_V0_0_1</name></member>
+    <member refid="group__ns-usb_1ga9635ebcf0839c6157150b595938bc972" kind="define"><name>NS_USB_V1_0_0</name></member>
+    <member refid="group__ns-usb_1ga0f499a188c56664021bbaef9664953d5" kind="define"><name>NS_USB_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="group__ns-usb_1gaba16fc7666c5d8582facac507847f64e" kind="define"><name>NS_USB_CURRENT_VERSION</name></member>
+    <member refid="group__ns-usb_1ga52eefded91a6c1f0b76515f6873d63be" kind="define"><name>NS_USB_API_ID</name></member>
+    <member refid="group__ns-usb_1ga3a0a3a9d3952e2b57333ed6daceb163e" kind="define"><name>MAX_URL_LENGTH</name></member>
+    <member refid="group__ns-usb_1ga4aca6e5a14e39094d9f64c7c5835acc8" kind="enum"><name>ns_usb_device_type_e</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a290f77ae7c1a594db71a1b9f7f900c19" kind="enumvalue"><name>NS_USB_CDC_DEVICE</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8aac724d0ec83dd5a46cf39ca0fb506935" kind="enumvalue"><name>NS_USB_HID_DEVICE</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a35a79373fafde4c20951c7f89d810be6" kind="enumvalue"><name>NS_USB_MSC_DEVICE</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a7afaa83de0d2f3855d9c028552d2605d" kind="enumvalue"><name>NS_USB_VENDOR_DEVICE</name></member>
+    <member refid="group__ns-usb_1ga6732af495020c70ac6a70d5c7c8b13a6" kind="typedef"><name>usb_handle_t</name></member>
+    <member refid="group__ns-usb_1gae261479721391e47057d2e947cace999" kind="typedef"><name>ns_tusb_desc_webusb_url_t</name></member>
+    <member refid="group__ns-usb_1gacd77551adddbc5814592981c3ddd2ea0" kind="typedef"><name>ns_usb_rx_cb</name></member>
+    <member refid="group__ns-usb_1gaf458451b7bf9a4c2cab8e67bd2ba98f2" kind="typedef"><name>ns_usb_tx_cb</name></member>
+    <member refid="group__ns-usb_1gaf706fa5100aec8fdb320c9f268307ee9" kind="typedef"><name>ns_usb_service_cb</name></member>
+    <member refid="group__ns-usb_1ga8860ea655ff02c11ef421b2868666f22" kind="variable"><name>ns_usb_V0_0_1</name></member>
+    <member refid="group__ns-usb_1ga9fb1a62e1156a23423bbcfbf7c9a3b9a" kind="variable"><name>ns_usb_V1_0_0</name></member>
+    <member refid="group__ns-usb_1gaed4e04b1095861c79a7311846ede9750" kind="variable"><name>ns_usb_oldest_supported_version</name></member>
+    <member refid="group__ns-usb_1gabcce1abf517a2a3895481b42c48187a4" kind="variable"><name>ns_usb_current_version</name></member>
+    <member refid="group__ns-usb_1ga0771febd668bd46beb762a864f5ae521" kind="function"><name>ns_usb_init</name></member>
+    <member refid="group__ns-usb_1gabdf6b8dab620f89a597158f7edab3715" kind="function"><name>ns_usb_register_callbacks</name></member>
+    <member refid="group__ns-usb_1gaeaffd24e760b500227b4a8cf1514bbcb" kind="function"><name>ns_usb_recieve_data</name></member>
+    <member refid="group__ns-usb_1ga793a9b29ab9e0db229742e55c9cae9a2" kind="function"><name>ns_usb_send_data</name></member>
+    <member refid="group__ns-usb_1ga2033d43e98bc0ec7763e7c87f321ac32" kind="function"><name>ns_usb_handle_read_error</name></member>
+    <member refid="group__ns-usb_1gad00d52ff27b45c0157823dc291156729" kind="function"><name>ns_usb_data_available</name></member>
+    <member refid="group__ns-usb_1ga185c9712b19b0bae083177d6b29d50c4" kind="function"><name>ns_usb_get_rx_buffer</name></member>
+    <member refid="group__ns-usb_1ga5e85918c24fb5ee4e93b3da1388ea332" kind="function"><name>ns_usb_get_tx_buffer</name></member>
+    <member refid="group__ns-usb_1ga5fe866e58411f62b9e21052b2ac6bc2f" kind="function"><name>ns_get_cdc_rx_bufferLength</name></member>
+    <member refid="group__ns-usb_1gaeefc8f6f05ae75e692836e17bb35606e" kind="function"><name>ns_get_cdc_tx_bufferLength</name></member>
+    <member refid="group__ns-usb_1ga7db5fbec55d9ecd50b1c40ea193f87a2" kind="function"><name>ns_get_desc_url</name></member>
+  </compound>
+  <compound refid="usb__descriptors_8h" kind="file"><name>usb_descriptors.h</name>
+    <member refid="usb__descriptors_8h_1a06fc87d81c62e9abb8790b6e5713c55b" kind="enum"><name>@0</name></member>
+    <member refid="usb__descriptors_8h_1a06fc87d81c62e9abb8790b6e5713c55ba39cdf9a9781b06f1afb0ded177db95d6" kind="enumvalue"><name>VENDOR_REQUEST_WEBUSB</name></member>
+    <member refid="usb__descriptors_8h_1a06fc87d81c62e9abb8790b6e5713c55baa35fd2ab8b7a286445e577d34601352c" kind="enumvalue"><name>VENDOR_REQUEST_MICROSOFT</name></member>
+    <member refid="usb__descriptors_8h_1adf764cbdea00d65edcd07bb9953ad2b7" kind="enum"><name>@1</name></member>
+    <member refid="usb__descriptors_8h_1adf764cbdea00d65edcd07bb9953ad2b7abc3a18827021ff7e188a6bf9378243f0" kind="enumvalue"><name>USB_DESCRIPTOR_MANUFACTURER</name></member>
+    <member refid="usb__descriptors_8h_1adf764cbdea00d65edcd07bb9953ad2b7ac6781894385fd241764c1186afcb289c" kind="enumvalue"><name>USB_DESCRIPTOR_PRODUCT</name></member>
+    <member refid="usb__descriptors_8h_1adf764cbdea00d65edcd07bb9953ad2b7a75ffe04cbfb37f959361fd069b8c0f31" kind="enumvalue"><name>USB_DESCRIPTOR_SERIAL</name></member>
+    <member refid="usb__descriptors_8h_1aae0db1cd2b170c8d59b2ea5d2d960ef2" kind="variable"><name>usb_string_desc_arr</name></member>
+    <member refid="usb__descriptors_8h_1a380d5a84df7672a5a0fef43d0710e0a3" kind="variable"><name>desc_ms_os_20</name></member>
+  </compound>
+  <compound refid="webusb__controller_8h" kind="file"><name>webusb_controller.h</name>
+    <member refid="webusb__controller_8h_1a23dfb005e6b2e0e6055a4a44a2b55266" kind="typedef"><name>webusb_rx_cb</name></member>
+    <member refid="webusb__controller_8h_1a0d92ebc26f1f6ed65d246e0938ab936c" kind="function"><name>webusb_send_data</name></member>
+    <member refid="webusb__controller_8h_1a9779f78e02f89ba743a8c903a947a8a5" kind="function"><name>webusb_init</name></member>
+    <member refid="webusb__controller_8h_1ada6db8ad7cedc7442c6586b85e857101" kind="function"><name>webusb_task</name></member>
+    <member refid="webusb__controller_8h_1a7819e99d0399141b263b2844d9011f58" kind="function"><name>webusb_register_msg_cb</name></member>
+    <member refid="webusb__controller_8h_1ac65bfedfe3de244f77b36d2f46b51647" kind="function"><name>webusb_register_raw_cb</name></member>
+  </compound>
+  <compound refid="ns__usb_8c" kind="file"><name>ns_usb.c</name>
+    <member refid="group__ns-usb_1ga8860ea655ff02c11ef421b2868666f22" kind="variable"><name>ns_usb_V0_0_1</name></member>
+    <member refid="group__ns-usb_1ga9fb1a62e1156a23423bbcfbf7c9a3b9a" kind="variable"><name>ns_usb_V1_0_0</name></member>
+    <member refid="group__ns-usb_1gaed4e04b1095861c79a7311846ede9750" kind="variable"><name>ns_usb_oldest_supported_version</name></member>
+    <member refid="group__ns-usb_1gabcce1abf517a2a3895481b42c48187a4" kind="variable"><name>ns_usb_current_version</name></member>
+    <member refid="ns__usb_8c_1a0e953cb5a59c55a1aeddb3948fb222ab" kind="variable"><name>usb_config</name></member>
+    <member refid="ns__usb_8c_1a21f2efdf0e5810dd2f5857a2aee3e91d" kind="variable"><name>gGotUSBRx</name></member>
+    <member refid="ns__usb_8c_1a0aecf1227b00d83736336b6b88e47a77" kind="variable"><name>g_ns_usbTimer</name></member>
+    <member refid="group__ns-usb_1gad00d52ff27b45c0157823dc291156729" kind="function"><name>ns_usb_data_available</name></member>
+    <member refid="group__ns-usb_1ga5fe866e58411f62b9e21052b2ac6bc2f" kind="function"><name>ns_get_cdc_rx_bufferLength</name></member>
+    <member refid="group__ns-usb_1gaeefc8f6f05ae75e692836e17bb35606e" kind="function"><name>ns_get_cdc_tx_bufferLength</name></member>
+    <member refid="group__ns-usb_1ga185c9712b19b0bae083177d6b29d50c4" kind="function"><name>ns_usb_get_rx_buffer</name></member>
+    <member refid="group__ns-usb_1ga5e85918c24fb5ee4e93b3da1388ea332" kind="function"><name>ns_usb_get_tx_buffer</name></member>
+    <member refid="ns__usb_8c_1ae94c63e56b3e2bca90a17f7b2588b378" kind="function"><name>ns_usb_service_callback</name></member>
+    <member refid="group__ns-usb_1ga0771febd668bd46beb762a864f5ae521" kind="function"><name>ns_usb_init</name></member>
+    <member refid="group__ns-usb_1gabdf6b8dab620f89a597158f7edab3715" kind="function"><name>ns_usb_register_callbacks</name></member>
+    <member refid="group__ns-usb_1gaeaffd24e760b500227b4a8cf1514bbcb" kind="function"><name>ns_usb_recieve_data</name></member>
+    <member refid="group__ns-usb_1ga2033d43e98bc0ec7763e7c87f321ac32" kind="function"><name>ns_usb_handle_read_error</name></member>
+    <member refid="group__ns-usb_1ga793a9b29ab9e0db229742e55c9cae9a2" kind="function"><name>ns_usb_send_data</name></member>
+    <member refid="group__ns-usb_1ga7db5fbec55d9ecd50b1c40ea193f87a2" kind="function"><name>ns_get_desc_url</name></member>
+  </compound>
+  <compound refid="ns__usb__overrides_8c" kind="file"><name>ns_usb_overrides.c</name>
+    <member refid="ns__usb__overrides_8c_1a21f2efdf0e5810dd2f5857a2aee3e91d" kind="variable"><name>gGotUSBRx</name></member>
+    <member refid="ns__usb__overrides_8c_1a0e953cb5a59c55a1aeddb3948fb222ab" kind="variable"><name>usb_config</name></member>
+    <member refid="ns__usb__overrides_8c_1a8a10535dfe03a33af833f55b6ba33cfb" kind="function"><name>tud_cdc_rx_cb</name></member>
+    <member refid="ns__usb__overrides_8c_1a1db62490ab8613591d4dc8033d6778d0" kind="function"><name>tud_cdc_tx_complete_cb</name></member>
+  </compound>
+  <compound refid="usb__descriptors_8c" kind="file"><name>usb_descriptors.c</name>
+    <member refid="usb__descriptors_8c_1aa6eee64ef847fafb5261d9c5df05ad2f" kind="define"><name>_PID_MAP</name></member>
+    <member refid="usb__descriptors_8c_1a989c980e0b99f803f7ce0ca224cdb733" kind="define"><name>USB_PID</name></member>
+    <member refid="usb__descriptors_8c_1a76e2168140a8a6693bf0588641c8252a" kind="define"><name>CONFIG_TOTAL_LEN</name></member>
+    <member refid="usb__descriptors_8c_1a1954b234c7f10ee7bc2aae113fdfd9c4" kind="define"><name>EPNUM_CDC_NOTIF</name></member>
+    <member refid="usb__descriptors_8c_1aa28ada903072dee41c869b03522dc5b9" kind="define"><name>EPNUM_CDC_OUT</name></member>
+    <member refid="usb__descriptors_8c_1aeeb12a4af5853f54202fa79a4af790db" kind="define"><name>EPNUM_CDC_IN</name></member>
+    <member refid="usb__descriptors_8c_1a05604c58e70160bbf944ce40f3fedfe7" kind="define"><name>EPNUM_VENDOR_OUT</name></member>
+    <member refid="usb__descriptors_8c_1a778184da0f6789fb10a8a327e7e84520" kind="define"><name>EPNUM_VENDOR_IN</name></member>
+    <member refid="usb__descriptors_8c_1a0d5e23bac60070676b465522a140f5c7" kind="define"><name>POWER</name></member>
+    <member refid="usb__descriptors_8c_1acb1109794eba6d0c2f34e5a1399ca553" kind="define"><name>CDC_FS_EP_LEN</name></member>
+    <member refid="usb__descriptors_8c_1a59e6f5b66a466fea9be345058ad6466b" kind="define"><name>CDC_HS_EP_LEN</name></member>
+    <member refid="usb__descriptors_8c_1a6e498874678c5a801a7fae0d82a1db18" kind="define"><name>BOS_TOTAL_LEN</name></member>
+    <member refid="usb__descriptors_8c_1a0e697e56316c22b4ced43c45ca93bf2e" kind="define"><name>MS_OS_20_DESC_LEN</name></member>
+    <member refid="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5" kind="enum"><name>@2</name></member>
+    <member refid="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5a417a1b5f14108f730ac4ba859fb2c198" kind="enumvalue"><name>ITF_NUM_CDC</name></member>
+    <member refid="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5afeba5ae5caa5e06004f48aee0bcde1d8" kind="enumvalue"><name>ITF_NUM_CDC_DATA</name></member>
+    <member refid="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5a1f949a95fbfac35713bdf246d4670b52" kind="enumvalue"><name>ITF_NUM_VENDOR</name></member>
+    <member refid="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5a936a2a3258df7c0ac994897782e04bed" kind="enumvalue"><name>ITF_NUM_TOTAL</name></member>
+    <member refid="usb__descriptors_8c_1ae4653a41146db1badedb5a6126e6b6b7" kind="variable"><name>desc_device</name></member>
+    <member refid="usb__descriptors_8c_1aae0db1cd2b170c8d59b2ea5d2d960ef2" kind="variable"><name>usb_string_desc_arr</name></member>
+    <member refid="usb__descriptors_8c_1af2de154bf5687cf263c1f1683aa9a4be" kind="variable"><name>_desc_str</name></member>
+    <member refid="usb__descriptors_8c_1a34140533069ca5f678f63e383bc90279" kind="variable"><name>desc_fs_configuration</name></member>
+    <member refid="usb__descriptors_8c_1ab2a623e158e2b6d6db033f76f995fb75" kind="variable"><name>desc_bos</name></member>
+    <member refid="usb__descriptors_8c_1a380d5a84df7672a5a0fef43d0710e0a3" kind="variable"><name>desc_ms_os_20</name></member>
+    <member refid="usb__descriptors_8c_1a1f453b8b047af5e8a9c9a2ebd8a09259" kind="function"><name>tud_descriptor_device_cb</name></member>
+    <member refid="usb__descriptors_8c_1ab8ee9fe0bc8bf4d317c4e7c7fa52194e" kind="function"><name>tud_descriptor_configuration_cb</name></member>
+    <member refid="usb__descriptors_8c_1a355fb71410fb4f5ac6a129178226fc1d" kind="function"><name>tud_descriptor_bos_cb</name></member>
+    <member refid="usb__descriptors_8c_1aea15ffe5fdfb35131e6b3a9414a34f84" kind="function"><name>TU_VERIFY_STATIC</name></member>
+    <member refid="usb__descriptors_8c_1a1876e368b150921b252b6f3b0a2cbdc7" kind="function"><name>tud_descriptor_string_cb</name></member>
+  </compound>
+  <compound refid="webusb__controller_8c" kind="file"><name>webusb_controller.c</name>
+    <member refid="webusb__controller_8c_1aa02bff331d7f1e710dcc060056f19206" kind="define"><name>BYTES_TO_UINT16</name></member>
+    <member refid="webusb__controller_8c_1a789372e640f135f249ce3848cd3fc74b" kind="define"><name>BSTREAM_TO_UINT16</name></member>
+    <member refid="webusb__controller_8c_1aa6a2e6ac950c806ef19cc19c7c349ee2" kind="define"><name>DESC_MS_OS_20</name></member>
+    <member refid="webusb__controller_8c_1a7c8e673cfe9393994d4c187f2173a5a6" kind="define"><name>WEBUSB_REQUEST_SET_CONTROL_LINE_STATE</name></member>
+    <member refid="webusb__controller_8c_1ab49efb4d2268e3e1d617ffe0432eaef7" kind="define"><name>REWRIT_NUMBER</name></member>
+    <member refid="webusb__controller_8c_1abc6126af1d45847bc59afa0aa3216b04" kind="enum"><name>@3</name></member>
+    <member refid="webusb__controller_8c_1abc6126af1d45847bc59afa0aa3216b04a0c655fb231e7b896a415339c5d8b9397" kind="enumvalue"><name>RX_INVALID</name></member>
+    <member refid="webusb__controller_8c_1abc6126af1d45847bc59afa0aa3216b04abb789b6e2254b9a1d513b2d56e4d66f2" kind="enumvalue"><name>RX_ACORE_MSG</name></member>
+    <member refid="webusb__controller_8c_1abc6126af1d45847bc59afa0aa3216b04a4fa4040e503c821fc24d64931c2d5653" kind="enumvalue"><name>RX_RAW_DATA</name></member>
+    <member refid="webusb__controller_8c_1acc06fac57c814ab75d9556e57c3d6be5" kind="variable"><name>rx_buf</name></member>
+    <member refid="webusb__controller_8c_1a2902f2c60b84677f528c8444794edc1b" kind="variable"><name>webusb_connected</name></member>
+    <member refid="webusb__controller_8c_1a15eabb0f8e0a85edaaa85e61e8c8d02b" kind="variable"><name>webusb_parameter</name></member>
+    <member refid="webusb__controller_8c_1a13e2fb6e00b5192eef1a15d98f916448" kind="function"><name>tud_mount_cb</name></member>
+    <member refid="webusb__controller_8c_1a0b3d5a3b4f78ed731c3af09c5506343a" kind="function"><name>tud_umount_cb</name></member>
+    <member refid="webusb__controller_8c_1a84ceba8c41ca46959876fc7cbc0e0071" kind="function"><name>tud_suspend_cb</name></member>
+    <member refid="webusb__controller_8c_1a1e7d894258d83cb25bf9e0fa742b70c3" kind="function"><name>tud_resume_cb</name></member>
+    <member refid="webusb__controller_8c_1a5219051df5ec9171c637799a384c3602" kind="function"><name>tud_vendor_rx_cb</name></member>
+    <member refid="webusb__controller_8c_1ae3053a796a3a1be9db26ff8a08509d69" kind="function"><name>tud_vendor_control_xfer_cb</name></member>
+    <member refid="webusb__controller_8c_1a0d92ebc26f1f6ed65d246e0938ab936c" kind="function"><name>webusb_send_data</name></member>
+    <member refid="webusb__controller_8c_1a7819e99d0399141b263b2844d9011f58" kind="function"><name>webusb_register_msg_cb</name></member>
+    <member refid="webusb__controller_8c_1ac65bfedfe3de244f77b36d2f46b51647" kind="function"><name>webusb_register_raw_cb</name></member>
+  </compound>
+  <compound refid="ns__usb__tests_8c" kind="file"><name>ns_usb_tests.c</name>
+    <member refid="ns__usb__tests_8c_1a7c8bcccb878d3d8bbee370e4d6d14474" kind="variable"><name>rx_buf</name></member>
+    <member refid="ns__usb__tests_8c_1aaa6566fa6aff45ab0176b3799c978a1c" kind="variable"><name>tx_buf</name></member>
+    <member refid="ns__usb__tests_8c_1a044c58a41f9ab7ddfc4b8a5edf95f1f3" kind="variable"><name>cfg</name></member>
+    <member refid="ns__usb__tests_8c_1a67fa0b51427eec6d4225c7226fd58662" kind="variable"><name>handle</name></member>
+    <member refid="ns__usb__tests_8c_1adfb335eebb4beafef877db8238ea65e3" kind="function"><name>reset_usb_cfg</name></member>
+    <member refid="ns__usb__tests_8c_1a256d552e29fa0ace1c9fe7576197f054" kind="function"><name>ns_usb_tests_pre_test_hook</name></member>
+    <member refid="ns__usb__tests_8c_1abb54876ee0dd25fce377791e4c21b962" kind="function"><name>ns_usb_tests_post_test_hook</name></member>
+    <member refid="ns__usb__tests_8c_1a6dab3d267498de8e28bd5bff836e719c" kind="function"><name>ns_usb_test_init</name></member>
+    <member refid="ns__usb__tests_8c_1ac9fdab9764b1e34b5f4505dee32c7982" kind="function"><name>ns_usb_test_init_null_config</name></member>
+    <member refid="ns__usb__tests_8c_1a6c0989c1d9681f4b9eb77c6f3a514d54" kind="function"><name>ns_usb_test_init_null_buffers</name></member>
+    <member refid="ns__usb__tests_8c_1af33825249e459ff1e505ee0c66467461" kind="function"><name>ns_usb_test_init_invalid_api</name></member>
+  </compound>
+  <compound refid="ns__usb__tests_8h" kind="file"><name>ns_usb_tests.h</name>
+    <member refid="ns__usb__tests_8h_1a256d552e29fa0ace1c9fe7576197f054" kind="function"><name>ns_usb_tests_pre_test_hook</name></member>
+    <member refid="ns__usb__tests_8h_1abb54876ee0dd25fce377791e4c21b962" kind="function"><name>ns_usb_tests_post_test_hook</name></member>
+    <member refid="ns__usb__tests_8h_1a6dab3d267498de8e28bd5bff836e719c" kind="function"><name>ns_usb_test_init</name></member>
+    <member refid="ns__usb__tests_8h_1ac9fdab9764b1e34b5f4505dee32c7982" kind="function"><name>ns_usb_test_init_null_config</name></member>
+    <member refid="ns__usb__tests_8h_1a6c0989c1d9681f4b9eb77c6f3a514d54" kind="function"><name>ns_usb_test_init_null_buffers</name></member>
+    <member refid="ns__usb__tests_8h_1af33825249e459ff1e505ee0c66467461" kind="function"><name>ns_usb_test_init_invalid_api</name></member>
+  </compound>
+  <compound refid="group__ns-usb" kind="group"><name>ns-usb</name>
+    <member refid="group__ns-usb_1ga4aca6e5a14e39094d9f64c7c5835acc8" kind="enum"><name>ns_usb_device_type_e</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a290f77ae7c1a594db71a1b9f7f900c19" kind="enumvalue"><name>NS_USB_CDC_DEVICE</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8aac724d0ec83dd5a46cf39ca0fb506935" kind="enumvalue"><name>NS_USB_HID_DEVICE</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a35a79373fafde4c20951c7f89d810be6" kind="enumvalue"><name>NS_USB_MSC_DEVICE</name></member>
+    <member refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a7afaa83de0d2f3855d9c028552d2605d" kind="enumvalue"><name>NS_USB_VENDOR_DEVICE</name></member>
+    <member refid="group__ns-usb_1ga6732af495020c70ac6a70d5c7c8b13a6" kind="typedef"><name>usb_handle_t</name></member>
+    <member refid="group__ns-usb_1gae261479721391e47057d2e947cace999" kind="typedef"><name>ns_tusb_desc_webusb_url_t</name></member>
+    <member refid="group__ns-usb_1gacd77551adddbc5814592981c3ddd2ea0" kind="typedef"><name>ns_usb_rx_cb</name></member>
+    <member refid="group__ns-usb_1gaf458451b7bf9a4c2cab8e67bd2ba98f2" kind="typedef"><name>ns_usb_tx_cb</name></member>
+    <member refid="group__ns-usb_1gaf706fa5100aec8fdb320c9f268307ee9" kind="typedef"><name>ns_usb_service_cb</name></member>
+    <member refid="group__ns-usb_1ga8860ea655ff02c11ef421b2868666f22" kind="variable"><name>ns_usb_V0_0_1</name></member>
+    <member refid="group__ns-usb_1ga9fb1a62e1156a23423bbcfbf7c9a3b9a" kind="variable"><name>ns_usb_V1_0_0</name></member>
+    <member refid="group__ns-usb_1gaed4e04b1095861c79a7311846ede9750" kind="variable"><name>ns_usb_oldest_supported_version</name></member>
+    <member refid="group__ns-usb_1gabcce1abf517a2a3895481b42c48187a4" kind="variable"><name>ns_usb_current_version</name></member>
+    <member refid="group__ns-usb_1ga0771febd668bd46beb762a864f5ae521" kind="function"><name>ns_usb_init</name></member>
+    <member refid="group__ns-usb_1gabdf6b8dab620f89a597158f7edab3715" kind="function"><name>ns_usb_register_callbacks</name></member>
+    <member refid="group__ns-usb_1gaeaffd24e760b500227b4a8cf1514bbcb" kind="function"><name>ns_usb_recieve_data</name></member>
+    <member refid="group__ns-usb_1ga793a9b29ab9e0db229742e55c9cae9a2" kind="function"><name>ns_usb_send_data</name></member>
+    <member refid="group__ns-usb_1ga2033d43e98bc0ec7763e7c87f321ac32" kind="function"><name>ns_usb_handle_read_error</name></member>
+    <member refid="group__ns-usb_1gad00d52ff27b45c0157823dc291156729" kind="function"><name>ns_usb_data_available</name></member>
+    <member refid="group__ns-usb_1ga185c9712b19b0bae083177d6b29d50c4" kind="function"><name>ns_usb_get_rx_buffer</name></member>
+    <member refid="group__ns-usb_1ga5e85918c24fb5ee4e93b3da1388ea332" kind="function"><name>ns_usb_get_tx_buffer</name></member>
+    <member refid="group__ns-usb_1ga5fe866e58411f62b9e21052b2ac6bc2f" kind="function"><name>ns_get_cdc_rx_bufferLength</name></member>
+    <member refid="group__ns-usb_1gaeefc8f6f05ae75e692836e17bb35606e" kind="function"><name>ns_get_cdc_tx_bufferLength</name></member>
+    <member refid="group__ns-usb_1ga7db5fbec55d9ecd50b1c40ea193f87a2" kind="function"><name>ns_get_desc_url</name></member>
+    <member refid="group__ns-usb_1gac54895ae242a2e5156da6823afeaf6ec" kind="define"><name>NS_USB_V0_0_1</name></member>
+    <member refid="group__ns-usb_1ga9635ebcf0839c6157150b595938bc972" kind="define"><name>NS_USB_V1_0_0</name></member>
+    <member refid="group__ns-usb_1ga0f499a188c56664021bbaef9664953d5" kind="define"><name>NS_USB_OLDEST_SUPPORTED_VERSION</name></member>
+    <member refid="group__ns-usb_1gaba16fc7666c5d8582facac507847f64e" kind="define"><name>NS_USB_CURRENT_VERSION</name></member>
+    <member refid="group__ns-usb_1ga52eefded91a6c1f0b76515f6873d63be" kind="define"><name>NS_USB_API_ID</name></member>
+    <member refid="group__ns-usb_1ga3a0a3a9d3952e2b57333ed6daceb163e" kind="define"><name>MAX_URL_LENGTH</name></member>
+  </compound>
+  <compound refid="dir_a2a61ebab6bf7d344fb1c36a75cc33e9" kind="dir"><name>neuralSPOT/neuralspot/ns-usb/includes-api</name>
+  </compound>
+  <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
+  </compound>
+  <compound refid="dir_b737d82f35ec218ac5a7ef4105db9c0e" kind="dir"><name>neuralSPOT/neuralspot</name>
+  </compound>
+  <compound refid="dir_450d7ce7daa9d29b9b3b5cb7d00f16f9" kind="dir"><name>neuralSPOT/neuralspot/ns-usb</name>
+  </compound>
+  <compound refid="dir_9c7a8f6708b262eb1b0dd6b85c35f66f" kind="dir"><name>neuralSPOT/neuralspot/ns-usb/src/overrides</name>
+  </compound>
+  <compound refid="dir_f255d6a194767e484966de6b2584c9a6" kind="dir"><name>neuralSPOT/neuralspot/ns-usb/src</name>
+  </compound>
+  <compound refid="dir_c776a9f5367fd77ebb6bd7a429b2b06e" kind="dir"><name>neuralSPOT/neuralspot/ns-usb/tests</name>
+  </compound>
+</doxygenindex>

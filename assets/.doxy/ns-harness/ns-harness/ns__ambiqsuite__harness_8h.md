@@ -92,6 +92,7 @@ _Abstract common AmbiqSuite function calls._ [More...](#detailed-description)
 
 | Type | Name |
 | ---: | :--- |
+| define  | [**NS\_PUT\_IN\_TCM**](ns__ambiqsuite__harness_8h.md#define-ns_put_in_tcm)  <br> |
 | define  | [**ns\_debug\_printf\_disable**](ns__ambiqsuite__harness_8h.md#define-ns_debug_printf_disable)  am\_bsp\_debug\_printf\_disable<br> |
 | define  | [**ns\_debug\_printf\_enable**](ns__ambiqsuite__harness_8h.md#define-ns_debug_printf_enable)  am\_bsp\_debug\_printf\_enable<br> |
 | define  | [**ns\_delay\_us**](ns__ambiqsuite__harness_8h.md#define-ns_delay_us)  am\_hal\_delay\_us<br> |
@@ -243,6 +244,17 @@ void ns_uart_printf_enable (
 
 
 ## Macro Definition Documentation
+
+
+
+
+
+### define NS\_PUT\_IN\_TCM 
+
+```C++
+#define NS_PUT_IN_TCM 
+```
+
 
 
 

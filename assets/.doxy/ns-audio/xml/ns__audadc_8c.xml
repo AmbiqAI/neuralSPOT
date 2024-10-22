@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
   <compounddef id="ns__audadc_8c" kind="file" language="C++">
     <compoundname>ns_audadc.c</compoundname>
-    <includes refid="ns__audadc_8h" local="yes">ns_audadc.h</includes>
+    <includes refid="ns__audadc_8h" local="yes">../ns_audadc.h</includes>
     <includes local="yes">am_bsp.h</includes>
     <includes local="yes">am_mcu_apollo.h</includes>
     <includes local="yes">am_util.h</includes>
@@ -24,7 +24,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c</label>
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c</label>
         <link refid="ns__audadc_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -40,7 +40,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>ns_audadc.h</label>
+        <label>../ns_audadc.h</label>
         <link refid="ns__audadc_8h_source"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="43" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="43" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="43" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1a298326c7c4e91a4396e9d60f04bc4592" prot="public" static="no">
         <name>HFRC</name>
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="44" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="44" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="44" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1a128c51f84d339a401f5fa8f8c88ab1f3" prot="public" static="no">
         <name>HFRC2</name>
@@ -99,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="45" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="45" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="45" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1af9751565e57ec6b40de37452277a25bc" prot="public" static="no">
         <name>HFRC2_ADJ</name>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="46" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="46" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="46" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1a7b12acf0c1601c3f44c95ca8d93d4f8c" prot="public" static="no">
         <name>CLK_SRC</name>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="47" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="47" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="47" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1a789bcb6da61eff5a1d2bbadac383877c" prot="public" static="no">
         <name>PREAMP_FULL_GAIN</name>
@@ -132,7 +132,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="70" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1a438a0941aee18a2481d1644ba152d649" prot="public" static="no">
         <name>CH_A0_GAIN_DB</name>
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="71" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1ade185e30f4bd3a6e9999465aba97ef8a" prot="public" static="no">
         <name>CH_A1_GAIN_DB</name>
@@ -154,7 +154,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="72" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="72" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="72" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1ab0da057f80f6689702ca794ffba76412" prot="public" static="no">
         <name>CH_B0_GAIN_DB</name>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="73" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="73" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="73" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="ns__audadc_8c_1a9edfc7f2e9407f253c0059bafd4727c4" prot="public" static="no">
         <name>CH_B1_GAIN_DB</name>
@@ -176,7 +176,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="74" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="74" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="74" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="74" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -191,7 +191,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="49" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="49" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="49" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1ac472e36e3e8c2ea3c002fffe9b132060" prot="public" static="no" mutable="no">
         <type>MCUCTRL_Type *</type>
@@ -204,7 +204,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="50" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="50" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="50" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1a79bc9452434f4919574ec91e4e05b642" prot="public" static="yes" mutable="no">
         <type>void *</type>
@@ -217,7 +217,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="53" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="53" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="53" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1a08d724446ac7324973c4492e13a1f79f" prot="public" static="yes" mutable="no">
         <type>volatile bool</type>
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="56" column="22" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="56" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="56" column="22" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1a84ac566ddd71c2f714e9447e7c4f5632" prot="public" static="yes" mutable="no">
         <type>uint32_t</type>
@@ -243,7 +243,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="62" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="62" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="62" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1af3329a446b57015a50cc08b29b02f047" prot="public" static="no" mutable="no">
         <type>am_hal_audadc_gain_config_t</type>
@@ -263,7 +263,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="76" column="29" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="76" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="76" column="29" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1a32a3784ca3236b590009f1dce1a173ac" prot="public" static="no" mutable="no">
         <type>am_hal_audadc_dma_config_t</type>
@@ -276,7 +276,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="84" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="84" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="84" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1a8b9f9405264573156553d938b3fae1af" prot="public" static="no" mutable="no">
         <type><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref></type>
@@ -297,7 +297,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="90" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="90" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="90" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8c_1aba99c8c9af9d61b229c89d996cf4b533" prot="public" static="no" mutable="no">
         <type><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref></type>
@@ -316,7 +316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="99" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="99" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="99" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="99" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -335,7 +335,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="111" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="111" bodyend="159"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="111" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="111" bodyend="159"/>
       </memberdef>
       <memberdef kind="function" id="ns__audadc_8c_1a2088bc9f3df057fcb4401925ca59fdfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -352,7 +352,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="161" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="161" bodyend="188"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="161" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="161" bodyend="188"/>
       </memberdef>
       <memberdef kind="function" id="ns__audadc_8c_1a13a737aff624019e451a80743109622c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -369,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="190" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="190" bodyend="208"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="190" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="190" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="ns__audadc_8c_1a2ec68001c9e676bab8df11c4ec58c7c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -399,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="216" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="216" bodyend="331"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="216" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="216" bodyend="331"/>
       </memberdef>
       <memberdef kind="function" id="ns__audadc_8c_1a06188e453dafb69bddaf6925537ba9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -415,7 +415,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="338" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="338" bodyend="376"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="338" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="338" bodyend="376"/>
       </memberdef>
       <memberdef kind="function" id="ns__audadc_8c_1acd7c4868a8a5a9d18daa44bf85f9a817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -432,7 +432,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" line="383" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="383" bodyend="431"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="383" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="383" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1a97bbe4349694c751b032c617bb4b1030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void audadc_deinit</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_deinit</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="438" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="438" bodyend="459"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -455,7 +472,7 @@
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_audadc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;../ns_audadc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -850,8 +867,36 @@
 <codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
 <codeline lineno="431"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="432"><highlight class="normal"></highlight></codeline>
-<codeline lineno="433"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Power<sp/>off<sp/>audadc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>audadc_deinit(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_interrupt_disable(g_AUDADCHandle,<sp/>0xFFFFFFFF);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(AUDADC-&gt;DMATOTCOUNT_b.TOTCOUNT<sp/>!=<sp/>0);<sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>DMATOTCOUNT<sp/>is<sp/>set<sp/>to<sp/>0<sp/>as<sp/>part<sp/>of<sp/>de-initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_control(g_AUDADCHandle,<sp/>AM_HAL_AUDADC_REQ_DMA_DISABLE,<sp/>NULL))</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>AUDADC<sp/>control<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_irtt_disable(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_disable(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_deinitialize(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>POWER_CYCLE_MICBIAS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_micbias_powerdown();</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(0);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(1);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(2);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(3);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_refgen_powerdown();</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>am_util_delay_ms(20);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
-    <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c"/>
+    <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c"/>
   </compounddef>
 </doxygen>

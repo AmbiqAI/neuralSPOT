@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" line="84" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="66" bodyend="74" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" declline="84" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" line="84" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="67" bodyend="75" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" declline="84" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="_generic_data_operations___pc_to_evb_8h_1a45bc77c884220f51fd935f21944753e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>status</type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" line="90" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="88" bodyend="96" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" declline="90" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" line="90" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="87" bodyend="95" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/GenericDataOperations_PcToEvb.h" declline="90" declcolumn="1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="define">

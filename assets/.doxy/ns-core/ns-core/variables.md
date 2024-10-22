@@ -33,7 +33,7 @@
 
 ## u
 
-* **ucHeap** ([**heap\_4.c**](heap__4_8c.md))
+* **ucHeapSize** ([**heap\_4.c**](heap__4_8c.md))
 
 
 ## x
@@ -47,11 +47,13 @@
 
 ## _
 
-* **\_ebss** ([**startup\_gcc.c**](startup__gcc_8c.md))
-* **\_edata** ([**startup\_gcc.c**](startup__gcc_8c.md))
-* **\_etext** ([**startup\_gcc.c**](startup__gcc_8c.md))
-* **\_sbss** ([**startup\_gcc.c**](startup__gcc_8c.md))
-* **\_sdata** ([**startup\_gcc.c**](startup__gcc_8c.md))
+* **\_ebss** ([**startup\_gcc.c**](apollo3_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4l_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4p_2gcc_2startup__gcc_8c.md))
+* **\_edata** ([**startup\_gcc.c**](apollo3_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4l_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4p_2gcc_2startup__gcc_8c.md))
+* **\_etext** ([**startup\_gcc.c**](apollo3_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4l_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4p_2gcc_2startup__gcc_8c.md))
+* **\_sbss** ([**startup\_gcc.c**](apollo3_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4l_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4p_2gcc_2startup__gcc_8c.md))
+* **\_sdata** ([**startup\_gcc.c**](apollo3_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4l_2gcc_2startup__gcc_8c.md), [**startup\_gcc.c**](apollo4p_2gcc_2startup__gcc_8c.md))
+* **\_etcm** ([**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md))
+* **\_stcm** ([**startup\_gcc.c**](apollo3p_2gcc_2startup__gcc_8c.md))
 
 
 

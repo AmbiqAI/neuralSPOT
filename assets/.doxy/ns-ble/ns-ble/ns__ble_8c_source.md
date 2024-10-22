@@ -20,7 +20,7 @@ ns_ble_control_t g_ns_ble_control;
 
 static appAdvCfg_t ns_ble_default_AdvCfg = {
     {60000, 0, 0}, 
-    {800, 800, 0}  
+    {96, 96, 0}    
 };
 
 static appSlaveCfg_t ns_ble_default_SlaveCfg = {
@@ -36,16 +36,18 @@ static appSecCfg_t ns_ble_default_SecCfg = {
 };
 
 static appUpdateCfg_t ns_ble_default_UpdateCfg = {
-    3000, 
-    8,    
-    18,   
-    0,    
-    600,  
-    5     
+    3100, 
+    // 3000, /*! Connection idle period in ms before attempting */
+    8,   
+    18,  
+    0,   
+    600, 
+    5    
 };
 
 static smpCfg_t ns_ble_default_SmpCfg = {
-    3000,                
+    // 3000,                /*! 'Repeated attempts' timeout in msec */
+    3200,                
     SMP_IO_NO_IN_NO_OUT, 
     7,                   
     16,                  
@@ -66,9 +68,25 @@ static const uint8_t ns_ble_generic_data_disc[] = {
     DM_ADV_TYPE_16_UUID, 
     UINT16_TO_BYTES(ATT_UUID_DEVICE_INFO_SERVICE),
 
-    17,                                              
-    DM_ADV_TYPE_128_UUID,                            
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; // placeholder for 128-bit UUID
+    17,                   
+    DM_ADV_TYPE_128_UUID, 
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+};
 
 static const uint8_t ns_ble_generic_scan_data_disc[] = {
     32,                     
@@ -126,7 +144,6 @@ static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 /*************************************************************************************************/
 static void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
-    // ns_lp_printf("ns_ble_generic_AttCback\n");
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
         memcpy(pMsg, pEvt, sizeof(attEvt_t));
         pMsg->pValue = (uint8_t *)(pMsg + 1);
@@ -162,7 +179,7 @@ static void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
 static void ns_ble_generic_conn_update(dmEvt_t *pMsg) {
     // hciLeConnUpdateCmplEvt_t *evt = (hciLeConnUpdateCmplEvt_t *)pMsg;
 
-    // ns_lp_printf("connection update status = 0x%x", evt->status);
+    // ns_lp_printf("connection update status = 0x%x\n", evt->status);
 
     // if (evt->status == 0) {
     //     ns_lp_printf("handle = 0x%x", evt->handle);
@@ -220,6 +237,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
         break;
 
     case ATTS_CCC_STATE_IND:
+        ns_lp_printf("ATTS_CCC_STATE_IND\n");
         break;
 
     case ATT_MTU_UPDATE_IND:
@@ -305,6 +323,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
         break;
 
     case DM_HW_ERROR_IND:
+        ns_lp_printf("DM_HW_ERROR_IND\n");
         uiEvent = APP_UI_HW_ERROR;
         break;
 
@@ -348,7 +367,7 @@ void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control
 void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
     // ns_lp_printf("ns_ble_generic_handler: %d\n", event);
     if (pMsg != NULL) {
-        // ns_lp_printf("Amdtp got evt %d", pMsg->event);
+        // ns_lp_printf("Amdtp got evt %d\n", pMsg->event);
 
         /* process ATT messages */
         if (pMsg->event >= ATT_CBACK_START && pMsg->event <= ATT_CBACK_END) {
@@ -358,6 +377,8 @@ void ns_ble_generic_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
         /* process DM messages */
         else if (pMsg->event >= DM_CBACK_START && pMsg->event <= DM_CBACK_END) {
             /* process advertising and connection-related messages */
+            // ns_lp_printf("Amdtp got evt %d\n", pMsg->event);
+
             AppSlaveProcDmMsg((dmEvt_t *)pMsg);
 
             /* process security-related messages */
@@ -378,10 +399,8 @@ void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg) {
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
-
     // Boot the radio.
     HciDrvRadioBoot(1);
-
     // Initialize the control block.
     if (useDefault) {
         memset(&g_ns_ble_control, 0, sizeof(g_ns_ble_control));
@@ -483,12 +502,20 @@ void ns_ble_generic_init(
     // Add generic groups
     SvcCoreAddGroup();
     SvcDisAddGroup();
+#if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
+    HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_10P0_dBm);
+#else
+    HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_20P0_dBm);
+#endif
 
     // if (useDefault) {
     //     *control = &g_ns_ble_control;
     // }
 }
 
+#if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
+void am_ble_isr(void) { HciDrvIntService(); }
+#else
 void am_cooper_irq_isr(void) {
     uint32_t ui32IntStatus;
     AM_CRITICAL_BEGIN
@@ -497,7 +524,7 @@ void am_cooper_irq_isr(void) {
     AM_CRITICAL_END
     am_hal_gpio_interrupt_service(AM_COOPER_IRQn, ui32IntStatus);
 }
-
+#endif
 void am_uart_isr(void) {
     uint32_t ui32Status;
 
@@ -511,9 +538,13 @@ void am_uart_isr(void) {
 //*****************************************************************************
 
 void ns_ble_pre_init(void) {
-    // Set NVICs for BLE
+// Set NVICs for BLE
+#if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
+    NVIC_SetPriority(BLE_IRQn, NVIC_configMAX_SYSCALL_INTERRUPT_PRIORITY);
+#else
     NVIC_SetPriority(COOPER_IOM_IRQn, 4);
     NVIC_SetPriority(AM_COOPER_IRQn, 4);
+#endif
 }
 
 void ns_ble_new_handler(wsfEventMask_t event, wsfMsgHdr_t *pMsg) {
@@ -530,8 +561,13 @@ void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
     dmConnId_t connId = 1;
     // ns_lp_printf("ns_ble_send_value");
     if (AttsCccEnabled(connId, c->indicationTimer.msg.status)) {
-        AttsSetAttr(c->valueHandle, c->valueLen, c->applicationValue);
+        int ret = AttsSetAttr(c->valueHandle, c->valueLen, c->applicationValue);
+        if (ret != ATT_SUCCESS) {
+            ns_lp_printf("... failed to send\n");
+        }
+        ns_interrupt_master_disable(); // critical region
         AttsHandleValueNtf(connId, c->valueHandle, c->valueLen, c->applicationValue);
+        ns_interrupt_master_enable();
     } else {
         // ns_lp_printf("... not sent\n");
     }
@@ -550,8 +586,11 @@ static bool ns_ble_handle_indication_timer_expired(ns_ble_msg_t *pMsg) {
                 // Call the callback to update the value of attribute
                 c->notifyHandlerCb(service, c);
 
-                // Send the value
-                ns_ble_send_value(c, (attEvt_t *)pMsg);
+                // Send the value if not asynchronous
+                if (c->indicationIsAsynchronous == false) {
+                    ns_ble_send_value(c, (attEvt_t *)pMsg);
+                }
+
                 // Restart timer
                 WsfTimerStartMs(&c->indicationTimer, c->indicationPeriod);
                 return true;
@@ -573,11 +612,11 @@ static void ns_ble_process_ccc_state(attsCccEvt_t *pMsg) {
             if (service->characteristics[j]->cccIndex == idx) {
                 if (pMsg->value == ATT_CLIENT_CFG_NOTIFY) {
                     // Start the timer
-                    // ns_lp_printf("webbleStartTimer\n");
+                    ns_lp_printf("webbleStartTimer\n");
                     WsfTimerStartMs(&c->indicationTimer, c->indicationPeriod);
                 } else {
                     // Stop the timer
-                    // ns_lp_printf("webbleStopTimer\n");
+                    ns_lp_printf("webbleStopTimer\n");
                     WsfTimerStop(&c->indicationTimer);
                 }
             }
@@ -588,7 +627,7 @@ static void ns_ble_process_ccc_state(attsCccEvt_t *pMsg) {
 bool ns_ble_new_proc_msg(ns_ble_msg_t *pMsg) {
     bool messageHandled = true;
     // ns_lp_printf("ns_ble_new_proc_msg\n");
-
+    // ns_lp_printf("ns_ble_new_proc_msg: %d\n", pMsg->hdr.event);
     switch (pMsg->hdr.event) {
     case DM_CONN_OPEN_IND:
         ns_ble_generic_conn_open((dmEvt_t *)pMsg);
@@ -655,7 +694,7 @@ uint16_t ns_ble_get_next_handle_id(ns_ble_service_t *service) {
 uint8_t ns_ble_generic_write_cback(
     dmConnId_t connId, uint16_t handle, uint8_t operation, uint16_t offset, uint16_t len,
     uint8_t *pValue, attsAttr_t *pAttr) {
-    ns_lp_printf("ns_ble_generic_write_cback, handle %d\n", handle);
+    // ns_lp_printf("ns_ble_generic_write_cback, handle %d\n", handle);
     for (int i = 0; i < g_ns_ble_control.numServices; i++) {
         ns_ble_service_t *service = g_ns_ble_control.services[i];
         for (int j = 0; j < service->numCharacteristics; j++) {
@@ -714,6 +753,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     if (service->attributes == NULL) {
         return NS_STATUS_FAILURE;
     }
+
     // *** Service Attributes
     // Add primary service declaration
     memcpy(&(service->attributes[0]), &(service->primaryAttribute), sizeof(attsAttr_t));
@@ -758,7 +798,9 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // The number of CCC attributes can be calculated from numCharacteristics and numAttributes
     // There are always at least 2 attributes (declaration and value). Characteristics
     // with CCC will have a 3rd attribute (CCC).
+
     uint16_t numCccAttributes = incomingNumAttributes - service->numCharacteristics * 2;
+
     service->cccSet =
         ns_malloc(sizeof(attsCccSet_t) * (numCccAttributes + 1)); // add one for GAT_SC
     if (service->cccSet == NULL) {
@@ -793,7 +835,6 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     service->control->handler_init_cb = &ns_ble_new_handler_init;
     service->control->handler_cb = &ns_ble_new_handler;
     service->control->procMsg_cb = &ns_ble_new_proc_msg;
-
     // Generic_init will fill in g_ns_ble_control with handlerIds
     // (after initializing the cordio stack.)
     ns_ble_generic_init(TRUE, &g_ns_ble_control, service->control);
@@ -808,7 +849,7 @@ int ns_ble_create_characteristic(
     ns_ble_characteristic_t *c, const char *uuidString, void *applicationValue,
     uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb,
     ns_ble_characteristic_write_handler_t writeHandlerCb,
-    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs,
+    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs, uint8_t async,
     uint16_t *attributeCount) {
     uint8_t prop = 0;
     uint16_t permissions = 0;
@@ -885,6 +926,7 @@ int ns_ble_create_characteristic(
         c->ccc.settings = ATTS_SET_CCC;
         c->ccc.permissions = ATTS_PERMIT_READ | ATTS_PERMIT_WRITE;
         c->indicationPeriod = periodMs;
+        c->indicationIsAsynchronous = async;
         *attributeCount += 1;
     } else {
         c->ccc.pUuid = NULL;
@@ -938,7 +980,12 @@ int ns_ble_add_characteristic(ns_ble_service_t *s, ns_ble_characteristic_t *c) {
 
 int ns_ble_start_service(ns_ble_service_t *s) {
     // *** Finish creating Service structures, then kick it off
-
+    if (s->nextCharacteristicIndex != s->numCharacteristics) {
+        ns_lp_printf(
+            "ns_ble_start_service: numCharacteristics mismatch, specified %d, added %d\n",
+            s->numCharacteristics, s->nextCharacteristicIndex);
+        return NS_STATUS_FAILURE;
+    }
     // Populate Group
     s->group.pNext = NULL;
     s->group.pAttr = s->attributes;
@@ -954,6 +1001,15 @@ int ns_ble_start_service(ns_ble_service_t *s) {
     DmDevReset();
 
     return NS_STATUS_SUCCESS;
+}
+
+
+int ns_ble_set_tx_power(txPowerLevel_t power) {
+    // valid power level is checked in the function for both ap3 and ap4, so no need to check here
+    if(HciVscSetRfPowerLevelEx(power)) {
+        return NS_STATUS_SUCCESS;
+    }
+    else return NS_STATUS_FAILURE;
 }
 
 ```

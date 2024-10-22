@@ -22,6 +22,7 @@
     <member refid="structns__ble__characteristic_1ab7d130b34cabd8a946ddc17f144bfd6c" kind="variable"><name>cccIndicationHandle</name></member>
     <member refid="structns__ble__characteristic_1aa254cdec8255a2dfbfbf965130dd85bc" kind="variable"><name>indicationTimer</name></member>
     <member refid="structns__ble__characteristic_1a1d8a976e4686c354bb6cd7285a922732" kind="variable"><name>indicationPeriod</name></member>
+    <member refid="structns__ble__characteristic_1a5925cff13949b8e3096158cc16d2dc97" kind="variable"><name>indicationIsAsynchronous</name></member>
     <member refid="structns__ble__characteristic_1aa8bc4c994b6c71a25c9b481ae5d266f7" kind="variable"><name>handleId</name></member>
   </compound>
   <compound refid="structns__ble__connection__t" kind="struct"><name>ns_ble_connection_t</name>
@@ -122,11 +123,16 @@
   <compound refid="structns__ble__uuid128__t" kind="struct"><name>ns_ble_uuid128_t</name>
     <member refid="structns__ble__uuid128__t_1a28f80349d636dc95268d72689bb5ba2a" kind="variable"><name>array</name></member>
   </compound>
+  <compound refid="hci__apollo__config_8h" kind="file"><name>hci_apollo_config.h</name>
+    <member refid="hci__apollo__config_8h_1a2ffa7ad0cd7abd9173dc7e2363cdf5e4" kind="define"><name>HCI_APOLLO_RESET_PIN</name></member>
+    <member refid="hci__apollo__config_8h_1a4d142c6421182d7eafbeb8bc9db58504" kind="define"><name>HCI_APOLLO_CFG_OVERRIDE_ISR</name></member>
+  </compound>
   <compound refid="ns__ble_8h" kind="file"><name>ns_ble.h</name>
     <member refid="group__ns-ble_1ga6ee69a7a5a48ce93cc3c8c326eb563d9" kind="define"><name>NS_BLE_V0_0_1</name></member>
     <member refid="group__ns-ble_1ga8d3190efebb5d2079f761fa2f207a2ad" kind="define"><name>NS_BLE_OLDEST_SUPPORTED_VERSION</name></member>
     <member refid="group__ns-ble_1gafbbbbfa480e630dde4434619632402bf" kind="define"><name>NS_BLE_CURRENT_VERSION</name></member>
     <member refid="group__ns-ble_1gaebad2eb29e74b6ef383d516eeab42a83" kind="define"><name>NS_BLE_API_ID</name></member>
+    <member refid="group__ns-ble_1gae6c7d380d3ae94c3d34ff1816e348f35" kind="define"><name>NS_BLE_DEFAULT_MALLOC_K</name></member>
     <member refid="group__ns-ble_1gafbc976780cbeb3343e7c0b94d28dbc3d" kind="define"><name>NS_BLE_CHAR_DECL</name></member>
     <member refid="group__ns-ble_1ga01c8ed5a9f2bed6f986718fa6f3df1a8" kind="define"><name>NS_BLE_CHAR_VAL</name></member>
     <member refid="group__ns-ble_1ga5fd8c9260eb21ef9033c3790621b6f2f" kind="define"><name>NS_BLE_CCC_DECL</name></member>
@@ -157,14 +163,11 @@
     <member refid="group__ns-ble_1ga394d3804a93c2f0e3e658f9260d82300" kind="function"><name>ns_ble_pre_init</name></member>
     <member refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kind="function"><name>ns_ble_create_service</name></member>
     <member refid="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" kind="function"><name>ns_ble_send_value</name></member>
-    <member refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kind="function"><name>ns_ble_create_characteristic</name></member>
+    <member refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kind="function"><name>ns_ble_create_characteristic</name></member>
     <member refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kind="function"><name>ns_ble_add_characteristic</name></member>
     <member refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kind="function"><name>ns_ble_char2uuid</name></member>
     <member refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kind="function"><name>ns_ble_start_service</name></member>
-  </compound>
-  <compound refid="hci__apollo__config_8h" kind="file"><name>hci_apollo_config.h</name>
-    <member refid="hci__apollo__config_8h_1a2ffa7ad0cd7abd9173dc7e2363cdf5e4" kind="define"><name>HCI_APOLLO_RESET_PIN</name></member>
-    <member refid="hci__apollo__config_8h_1a4d142c6421182d7eafbeb8bc9db58504" kind="define"><name>HCI_APOLLO_CFG_OVERRIDE_ISR</name></member>
+    <member refid="group__ns-ble_1ga42ce7e54b28c9b8dd283e7ce03404309" kind="function"><name>ns_ble_set_tx_power</name></member>
   </compound>
   <compound refid="ns__ble_8c" kind="file"><name>ns_ble.c</name>
     <member refid="group__ns-ble_1ga04b5b9c9cffcfe8faf0aaf3b3044af61" kind="variable"><name>ns_ble_V0_0_1</name></member>
@@ -201,9 +204,62 @@
     <member refid="ns__ble_8c_1a4db88906f37d8e7693f638e3a7a9d2b2" kind="function"><name>ns_ble_generic_write_cback</name></member>
     <member refid="ns__ble_8c_1a6dcfd1b390adaedf5386453f47d3e306" kind="function"><name>ns_ble_generic_read_cback</name></member>
     <member refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kind="function"><name>ns_ble_create_service</name></member>
-    <member refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kind="function"><name>ns_ble_create_characteristic</name></member>
+    <member refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kind="function"><name>ns_ble_create_characteristic</name></member>
     <member refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kind="function"><name>ns_ble_add_characteristic</name></member>
     <member refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kind="function"><name>ns_ble_start_service</name></member>
+    <member refid="group__ns-ble_1ga42ce7e54b28c9b8dd283e7ce03404309" kind="function"><name>ns_ble_set_tx_power</name></member>
+  </compound>
+  <compound refid="ns__ble__tests_8c" kind="file"><name>ns_ble_tests.c</name>
+    <member refid="ns__ble__tests_8c_1a9f213227674effff0122a75d94d87938" kind="define"><name>configTOTAL_HEAP_SIZE</name></member>
+    <member refid="ns__ble__tests_8c_1ac960fb0a7332963e0eef5b0be9c8e97c" kind="define"><name>webbleUuid</name></member>
+    <member refid="ns__ble__tests_8c_1a5fc04b4704019b2e3ca05efe141df0d8" kind="define"><name>WEBBLE_WSF_BUFFER_POOLS</name></member>
+    <member refid="ns__ble__tests_8c_1a36f830a2e2bc30b1eff8fa6814d42792" kind="define"><name>WEBBLE_WSF_BUFFER_SIZE</name></member>
+    <member refid="ns__ble__tests_8c_1a90e8cd581702224cd749165e4df0ab86" kind="variable"><name>ucHeapSize</name></member>
+    <member refid="ns__ble__tests_8c_1a0682229ac957fe7347360788a119a737" kind="variable"><name>webbleWSFBufferPool</name></member>
+    <member refid="ns__ble__tests_8c_1ad54cc2755561c2dd2d8f0f3792eb837b" kind="variable"><name>webbleBufferDescriptors</name></member>
+    <member refid="ns__ble__tests_8c_1abde641819f6a164e7a2ed014fd91854f" kind="variable"><name>webbleWsfBuffers</name></member>
+    <member refid="ns__ble__tests_8c_1a460db94c696f67477e35d003e93a4d51" kind="variable"><name>webbleService</name></member>
+    <member refid="ns__ble__tests_8c_1afc1d28cfbce795d6ea954ebe725241f5" kind="variable"><name>temperature</name></member>
+    <member refid="ns__ble__tests_8c_1a16505294fc4a064075013682a4e8fe85" kind="variable"><name>humidity</name></member>
+    <member refid="ns__ble__tests_8c_1a3709417e3642a1138f2e990df6c6c9dc" kind="variable"><name>webbleTemperature</name></member>
+    <member refid="ns__ble__tests_8c_1aeeb1d6207c6ae631b5e02389ce047ead" kind="variable"><name>webbleHumidity</name></member>
+    <member refid="ns__ble__tests_8c_1a55f65a56b45a63abef9d84921668e907" kind="variable"><name>webblePressure</name></member>
+    <member refid="ns__ble__tests_8c_1afc59f15ad885b3b401804eaea0166084" kind="variable"><name>webbleAccel</name></member>
+    <member refid="ns__ble__tests_8c_1ad20da42ec69cd7b7e72025313087ee3d" kind="variable"><name>webbleGyro</name></member>
+    <member refid="ns__ble__tests_8c_1af557ba533d52111eea977defbaedfb01" kind="variable"><name>webbleQuat</name></member>
+    <member refid="ns__ble__tests_8c_1ae0c137f782d60c959d02b54441dc44c8" kind="variable"><name>webbleRgb</name></member>
+    <member refid="ns__ble__tests_8c_1af6e0d30aad321651642beb833f4f0f6d" kind="variable"><name>webbleBsec</name></member>
+    <member refid="ns__ble__tests_8c_1ae5d87014a12b24e95b5d6d0e620349d7" kind="variable"><name>webbleCo2</name></member>
+    <member refid="ns__ble__tests_8c_1ab7b3ff3c7ab782809cfb3623f4301507" kind="variable"><name>webbleGas</name></member>
+    <member refid="ns__ble__tests_8c_1a11208261e6ac23565e05907272f18bb5" kind="function"><name>__attribute__</name></member>
+    <member refid="ns__ble__tests_8c_1ad9c5997492ca4ae24fc4e5b7586cdde3" kind="function"><name>ns_ble_tests_pre_test_hook</name></member>
+    <member refid="ns__ble__tests_8c_1a4826a870c62a1abf4a095b0d19325cd8" kind="function"><name>ns_ble_tests_post_test_hook</name></member>
+    <member refid="ns__ble__tests_8c_1a7c7c4c9a0fc877b0c35cb46afad6e9b8" kind="function"><name>webbleReadHandler</name></member>
+    <member refid="ns__ble__tests_8c_1a1ba630f52ea441f9b291532ce4608711" kind="function"><name>webbleWriteHandler</name></member>
+    <member refid="ns__ble__tests_8c_1af7c934cfc4a2283ae3d94da13ef96fb7" kind="function"><name>ns_ble_create_service_test</name></member>
+    <member refid="ns__ble__tests_8c_1a7320e8854fe13b9074c4116aa4fa0cec" kind="function"><name>ns_ble_create_service_test_no_characteristics</name></member>
+    <member refid="ns__ble__tests_8c_1a5a658c4ebcc5aba6fdc98ebaa52b507d" kind="function"><name>ns_ble_create_null_service_test</name></member>
+    <member refid="ns__ble__tests_8c_1a47199ff22e710d61d1d09c7362dd6b4a" kind="function"><name>ns_ble_negative_attribute_test</name></member>
+    <member refid="ns__ble__tests_8c_1a0620d794ff6e8e6a95bae75941b2ef85" kind="function"><name>ns_ble_create_different_service_test</name></member>
+    <member refid="ns__ble__tests_8c_1a6dcc34e330b81d9a16805e3b65b1c8f4" kind="function"><name>ns_ble_characteristic_test</name></member>
+    <member refid="ns__ble__tests_8c_1a235c5b5d5a104f919a31662f55ca71a1" kind="function"><name>ns_ble_multiple_characteristics_test</name></member>
+    <member refid="ns__ble__tests_8c_1a987b0f0569d13ffd4b9c82ca00f25fed" kind="function"><name>ns_ble_multiple_characteristics_fail_test</name></member>
+    <member refid="ns__ble__tests_8c_1a00388509aff1b515d7b500ef52dc49fb" kind="function"><name>ns_ble_empty_service_add_characteristic_test</name></member>
+    <member refid="ns__ble__tests_8c_1ac03af4f197de8d1c055d5e21a7de1efe" kind="function"><name>ns_ble_start_service_test</name></member>
+  </compound>
+  <compound refid="ns__ble__tests_8h" kind="file"><name>ns_ble_tests.h</name>
+    <member refid="ns__ble__tests_8h_1ad9c5997492ca4ae24fc4e5b7586cdde3" kind="function"><name>ns_ble_tests_pre_test_hook</name></member>
+    <member refid="ns__ble__tests_8h_1a4826a870c62a1abf4a095b0d19325cd8" kind="function"><name>ns_ble_tests_post_test_hook</name></member>
+    <member refid="ns__ble__tests_8h_1af7c934cfc4a2283ae3d94da13ef96fb7" kind="function"><name>ns_ble_create_service_test</name></member>
+    <member refid="ns__ble__tests_8h_1a7320e8854fe13b9074c4116aa4fa0cec" kind="function"><name>ns_ble_create_service_test_no_characteristics</name></member>
+    <member refid="ns__ble__tests_8h_1a5a658c4ebcc5aba6fdc98ebaa52b507d" kind="function"><name>ns_ble_create_null_service_test</name></member>
+    <member refid="ns__ble__tests_8h_1a47199ff22e710d61d1d09c7362dd6b4a" kind="function"><name>ns_ble_negative_attribute_test</name></member>
+    <member refid="ns__ble__tests_8h_1a0620d794ff6e8e6a95bae75941b2ef85" kind="function"><name>ns_ble_create_different_service_test</name></member>
+    <member refid="ns__ble__tests_8h_1a6dcc34e330b81d9a16805e3b65b1c8f4" kind="function"><name>ns_ble_characteristic_test</name></member>
+    <member refid="ns__ble__tests_8h_1a235c5b5d5a104f919a31662f55ca71a1" kind="function"><name>ns_ble_multiple_characteristics_test</name></member>
+    <member refid="ns__ble__tests_8h_1a987b0f0569d13ffd4b9c82ca00f25fed" kind="function"><name>ns_ble_multiple_characteristics_fail_test</name></member>
+    <member refid="ns__ble__tests_8h_1a00388509aff1b515d7b500ef52dc49fb" kind="function"><name>ns_ble_empty_service_add_characteristic_test</name></member>
+    <member refid="ns__ble__tests_8h_1ac03af4f197de8d1c055d5e21a7de1efe" kind="function"><name>ns_ble_start_service_test</name></member>
   </compound>
   <compound refid="group__ns-ble" kind="group"><name>ns-ble</name>
     <member refid="group__ns-ble_1ga06fc87d81c62e9abb8790b6e5713c55b" kind="enum"><name>@0</name></member>
@@ -228,14 +284,16 @@
     <member refid="group__ns-ble_1ga394d3804a93c2f0e3e658f9260d82300" kind="function"><name>ns_ble_pre_init</name></member>
     <member refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kind="function"><name>ns_ble_create_service</name></member>
     <member refid="group__ns-ble_1ga670a123296c8fac2bf24e59114d89ba4" kind="function"><name>ns_ble_send_value</name></member>
-    <member refid="group__ns-ble_1ga6d77fd62ffad52179d16327aac4272f8" kind="function"><name>ns_ble_create_characteristic</name></member>
+    <member refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kind="function"><name>ns_ble_create_characteristic</name></member>
     <member refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kind="function"><name>ns_ble_add_characteristic</name></member>
     <member refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kind="function"><name>ns_ble_char2uuid</name></member>
     <member refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kind="function"><name>ns_ble_start_service</name></member>
+    <member refid="group__ns-ble_1ga42ce7e54b28c9b8dd283e7ce03404309" kind="function"><name>ns_ble_set_tx_power</name></member>
     <member refid="group__ns-ble_1ga6ee69a7a5a48ce93cc3c8c326eb563d9" kind="define"><name>NS_BLE_V0_0_1</name></member>
     <member refid="group__ns-ble_1ga8d3190efebb5d2079f761fa2f207a2ad" kind="define"><name>NS_BLE_OLDEST_SUPPORTED_VERSION</name></member>
     <member refid="group__ns-ble_1gafbbbbfa480e630dde4434619632402bf" kind="define"><name>NS_BLE_CURRENT_VERSION</name></member>
     <member refid="group__ns-ble_1gaebad2eb29e74b6ef383d516eeab42a83" kind="define"><name>NS_BLE_API_ID</name></member>
+    <member refid="group__ns-ble_1gae6c7d380d3ae94c3d34ff1816e348f35" kind="define"><name>NS_BLE_DEFAULT_MALLOC_K</name></member>
     <member refid="group__ns-ble_1gafbc976780cbeb3343e7c0b94d28dbc3d" kind="define"><name>NS_BLE_CHAR_DECL</name></member>
     <member refid="group__ns-ble_1ga01c8ed5a9f2bed6f986718fa6f3df1a8" kind="define"><name>NS_BLE_CHAR_VAL</name></member>
     <member refid="group__ns-ble_1ga5fd8c9260eb21ef9033c3790621b6f2f" kind="define"><name>NS_BLE_CCC_DECL</name></member>
@@ -254,5 +312,7 @@
   <compound refid="dir_ec3c5c5ea2d338d436d6fa61f38fc381" kind="dir"><name>neuralSPOT/neuralspot/ns-ble</name>
   </compound>
   <compound refid="dir_cf8bc0902f5dfb1bbd89749c3ff54123" kind="dir"><name>neuralSPOT/neuralspot/ns-ble/src</name>
+  </compound>
+  <compound refid="dir_8983aa85a9e91ac6633429bf8b0fa928" kind="dir"><name>neuralSPOT/neuralspot/ns-ble/tests</name>
   </compound>
 </doxygenindex>

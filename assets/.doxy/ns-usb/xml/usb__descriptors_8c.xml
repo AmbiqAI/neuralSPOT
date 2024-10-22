@@ -1,0 +1,758 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="usb__descriptors_8c" kind="file" language="C++">
+    <compoundname>usb_descriptors.c</compoundname>
+    <includes local="yes">tusb.h</includes>
+    <includes refid="usb__descriptors_8h" local="yes">usb_descriptors.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>usb_descriptors.h</label>
+        <link refid="usb__descriptors_8h_source"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c</label>
+        <link refid="usb__descriptors_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tusb.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="usb__descriptors_8c_1aa6eee64ef847fafb5261d9c5df05ad2f" prot="public" static="no">
+        <name>_PID_MAP</name>
+        <param><defname>itf</defname></param>
+        <param><defname>n</defname></param>
+        <initializer>((CFG_TUD_##itf) &lt;&lt; (n))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="36" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a989c980e0b99f803f7ce0ca224cdb733" prot="public" static="no">
+        <name>USB_PID</name>
+        <initializer>    (0x4000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | _PID_MAP(MIDI, 3) |         \
+     _PID_MAP(VENDOR, 4))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="37" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a76e2168140a8a6693bf0588641c8252a" prot="public" static="no">
+        <name>CONFIG_TOTAL_LEN</name>
+        <initializer>(TUD_CONFIG_DESC_LEN + TUD_CDC_DESC_LEN + TUD_VENDOR_DESC_LEN)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="89" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a1954b234c7f10ee7bc2aae113fdfd9c4" prot="public" static="no">
+        <name>EPNUM_CDC_NOTIF</name>
+        <initializer>0x81</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="91" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1aa28ada903072dee41c869b03522dc5b9" prot="public" static="no">
+        <name>EPNUM_CDC_OUT</name>
+        <initializer>0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="92" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1aeeb12a4af5853f54202fa79a4af790db" prot="public" static="no">
+        <name>EPNUM_CDC_IN</name>
+        <initializer>0x82</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="93" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a05604c58e70160bbf944ce40f3fedfe7" prot="public" static="no">
+        <name>EPNUM_VENDOR_OUT</name>
+        <initializer>0x03</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="94" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a778184da0f6789fb10a8a327e7e84520" prot="public" static="no">
+        <name>EPNUM_VENDOR_IN</name>
+        <initializer>0x83</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="95" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a0d5e23bac60070676b465522a140f5c7" prot="public" static="no">
+        <name>POWER</name>
+        <initializer>100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="97" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1acb1109794eba6d0c2f34e5a1399ca553" prot="public" static="no">
+        <name>CDC_FS_EP_LEN</name>
+        <initializer>0x40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="98" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a59e6f5b66a466fea9be345058ad6466b" prot="public" static="no">
+        <name>CDC_HS_EP_LEN</name>
+        <initializer>0x200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="99" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a6e498874678c5a801a7fae0d82a1db18" prot="public" static="no">
+        <name>BOS_TOTAL_LEN</name>
+        <initializer>(TUD_BOS_DESC_LEN + TUD_BOS_WEBUSB_DESC_LEN + TUD_BOS_MICROSOFT_OS_DESC_LEN)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="187" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="usb__descriptors_8c_1a0e697e56316c22b4ced43c45ca93bf2e" prot="public" static="no">
+        <name>MS_OS_20_DESC_LEN</name>
+        <initializer>0xB2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="189" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5" prot="public" static="no" strong="no">
+        <type></type>
+        <name>@2</name>
+        <enumvalue id="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5a417a1b5f14108f730ac4ba859fb2c198" prot="public">
+          <name>ITF_NUM_CDC</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5afeba5ae5caa5e06004f48aee0bcde1d8" prot="public">
+          <name>ITF_NUM_CDC_DATA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5a1f949a95fbfac35713bdf246d4670b52" prot="public">
+          <name>ITF_NUM_VENDOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="usb__descriptors_8c_1a99fb83031ce9923c84392b4e92f956b5a936a2a3258df7c0ac994897782e04bed" prot="public">
+          <name>ITF_NUM_TOTAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="88" column="1" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="88" bodyend="88"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="usb__descriptors_8c_1ae4653a41146db1badedb5a6126e6b6b7" prot="public" static="no" mutable="no">
+        <type>tusb_desc_device_t const</type>
+        <definition>tusb_desc_device_t const desc_device</definition>
+        <argsstring></argsstring>
+        <name>desc_device</name>
+        <initializer>= {
+    .bLength = sizeof(tusb_desc_device_t),
+    .bDescriptorType = TUSB_DESC_DEVICE,
+    .bcdUSB = 0x0210, 
+
+    
+    
+    
+    .bDeviceClass = TUSB_CLASS_MISC,
+    .bDeviceSubClass = MISC_SUBCLASS_COMMON,
+    .bDeviceProtocol = MISC_PROTOCOL_IAD,
+    .bMaxPacketSize0 = CFG_TUD_ENDPOINT0_SIZE,
+
+    .idVendor = 0xCafe,
+    .idProduct = USB_PID,
+    .bcdDevice = 0x0100,
+
+    .iManufacturer = USB_DESCRIPTOR_MANUFACTURER,
+    .iProduct = USB_DESCRIPTOR_PRODUCT,
+    .iSerialNumber = USB_DESCRIPTOR_SERIAL,
+
+    .bNumConfigurations = 0x01}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="44" column="26" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="usb__descriptors_8c_1aae0db1cd2b170c8d59b2ea5d2d960ef2" prot="public" static="no" mutable="no">
+        <type>char const  *</type>
+        <definition>char const* usb_string_desc_arr[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>usb_string_desc_arr</name>
+        <initializer>= {
+    (const char[]){0x09, 0x04}, 
+    &quot;TinyUSB&quot;,                  
+    &quot;TinyUSB Device&quot;,           
+    &quot;123456&quot;,                   
+    &quot;TinyUSB CDC&quot;,              
+                                
+    &quot;TinyUSB WebUSB&quot;            
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="72" column="12" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="usb__descriptors_8c_1af2de154bf5687cf263c1f1683aa9a4be" prot="public" static="yes" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t _desc_str[32]</definition>
+        <argsstring>[32]</argsstring>
+        <name>_desc_str</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="82" column="17" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="usb__descriptors_8c_1a34140533069ca5f678f63e383bc90279" prot="public" static="yes" mutable="no">
+        <type>uint8_t const</type>
+        <definition>uint8_t const desc_fs_configuration[]</definition>
+        <argsstring>[]</argsstring>
+        <name>desc_fs_configuration</name>
+        <initializer>= {
+    
+    
+    
+    
+    TUD_CONFIG_DESCRIPTOR(
+        1, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, POWER),
+
+    
+    
+    
+    
+    TUD_CDC_DESCRIPTOR(
+        ITF_NUM_CDC, 4, EPNUM_CDC_NOTIF, 8, EPNUM_CDC_OUT, EPNUM_CDC_IN, CDC_FS_EP_LEN),
+
+    
+    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 5, EPNUM_VENDOR_OUT, EPNUM_VENDOR_IN, 64),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="101" column="22" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="usb__descriptors_8c_1ab2a623e158e2b6d6db033f76f995fb75" prot="public" static="no" mutable="no">
+        <type>uint8_t const</type>
+        <definition>uint8_t const desc_bos[]</definition>
+        <argsstring>[]</argsstring>
+        <name>desc_bos</name>
+        <initializer>= {
+    
+    TUD_BOS_DESCRIPTOR(BOS_TOTAL_LEN, 2),
+
+    
+    TUD_BOS_WEBUSB_DESCRIPTOR(VENDOR_REQUEST_WEBUSB, 1),
+
+    
+    TUD_BOS_MS_OS_20_DESCRIPTOR(MS_OS_20_DESC_LEN, VENDOR_REQUEST_MICROSOFT)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="192" column="15" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="usb__descriptors_8c_1a380d5a84df7672a5a0fef43d0710e0a3" prot="public" static="no" mutable="no">
+        <type>uint8_t const</type>
+        <definition>uint8_t const desc_ms_os_20[]</definition>
+        <argsstring>[]</argsstring>
+        <name>desc_ms_os_20</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="207" column="15" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="usb__descriptors_8c_1a1f453b8b047af5e8a9c9a2ebd8a09259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t const *</type>
+        <definition>uint8_t const  * tud_descriptor_device_cb</definition>
+        <argsstring>(void)</argsstring>
+        <name>tud_descriptor_device_cb</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Invoked when received GET DEVICE DESCRIPTOR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Application return pointer to descriptor </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="147" column="15" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="usb__descriptors_8c_1ab8ee9fe0bc8bf4d317c4e7c7fa52194e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t const *</type>
+        <definition>uint8_t const  * tud_descriptor_configuration_cb</definition>
+        <argsstring>(uint8_t index)</argsstring>
+        <name>tud_descriptor_configuration_cb</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>Invoked when received GET CONFIGURATION DESCRIPTOR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Descriptor contents must exist long enough for transfer to complete</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Application return pointer to descriptor. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="157" column="15" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="157" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="usb__descriptors_8c_1a355fb71410fb4f5ac6a129178226fc1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t const *</type>
+        <definition>uint8_t const  * tud_descriptor_bos_cb</definition>
+        <argsstring>(void)</argsstring>
+        <name>tud_descriptor_bos_cb</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="202" column="15" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="usb__descriptors_8c_1aea15ffe5fdfb35131e6b3a9414a34f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TU_VERIFY_STATIC</definition>
+        <argsstring>(sizeof(desc_ms_os_20)==MS_OS_20_DESC_LEN, &quot;Incorrect size&quot;)</argsstring>
+        <name>TU_VERIFY_STATIC</name>
+        <param>
+          <type>sizeof(desc_ms_os_20)</type>
+          <defval>=MS_OS_20_DESC_LEN</defval>
+        </param>
+        <param>
+          <type>&quot;Incorrect size&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="243" column="1" declfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" declline="243" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="usb__descriptors_8c_1a1876e368b150921b252b6f3b0a2cbdc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t const *</type>
+        <definition>uint16_t const  * tud_descriptor_string_cb</definition>
+        <argsstring>(uint8_t index, uint16_t langid)</argsstring>
+        <name>tud_descriptor_string_cb</name>
+        <param>
+          <type>uint8_t</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>langid</declname>
+        </param>
+        <briefdescription>
+<para>Invoked when received GET STRING DESCRIPTOR request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Application return pointer to descriptor. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" line="252" column="16" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c" bodystart="252" bodyend="294"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>The<sp/>MIT<sp/>License<sp/>(MIT)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>2019<sp/>Ha<sp/>Thach<sp/>(tinyusb.org)</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>obtaining<sp/>a<sp/>copy</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>of<sp/>this<sp/>software<sp/>and<sp/>associated<sp/>documentation<sp/>files<sp/>(the<sp/>&quot;Software&quot;),<sp/>to<sp/>deal</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>in<sp/>the<sp/>Software<sp/>without<sp/>restriction,<sp/>including<sp/>without<sp/>limitation<sp/>the<sp/>rights</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>to<sp/>use,<sp/>copy,<sp/>modify,<sp/>merge,<sp/>publish,<sp/>distribute,<sp/>sublicense,<sp/>and/or<sp/>sell</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>and<sp/>to<sp/>permit<sp/>persons<sp/>to<sp/>whom<sp/>the<sp/>Software<sp/>is</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>furnished<sp/>to<sp/>do<sp/>so,<sp/>subject<sp/>to<sp/>the<sp/>following<sp/>conditions:</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>The<sp/>above<sp/>copyright<sp/>notice<sp/>and<sp/>this<sp/>permission<sp/>notice<sp/>shall<sp/>be<sp/>included<sp/>in</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>all<sp/>copies<sp/>or<sp/>substantial<sp/>portions<sp/>of<sp/>the<sp/>Software.</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>&quot;AS<sp/>IS&quot;,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,<sp/>EXPRESS<sp/>OR</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY,</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE<sp/>AND<sp/>NONINFRINGEMENT.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>AUTHORS<sp/>OR<sp/>COPYRIGHT<sp/>HOLDERS<sp/>BE<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>CLAIM,<sp/>DAMAGES<sp/>OR<sp/>OTHER</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>AN<sp/>ACTION<sp/>OF<sp/>CONTRACT,<sp/>TORT<sp/>OR<sp/>OTHERWISE,<sp/>ARISING<sp/>FROM,</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE<sp/>SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER<sp/>DEALINGS<sp/>IN</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tusb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;usb_descriptors.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>A<sp/>combination<sp/>of<sp/>interfaces<sp/>must<sp/>have<sp/>a<sp/>unique<sp/>product<sp/>id,<sp/>since<sp/>PC<sp/>will<sp/>save</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/>device<sp/>driver<sp/>after<sp/>the<sp/>first<sp/>plug.<sp/>Same<sp/>VID/PID<sp/>with<sp/>different<sp/>interface<sp/>e.g</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*<sp/>MSC<sp/>(first),<sp/>then<sp/>CDC<sp/>(later)<sp/>will<sp/>possibly<sp/>cause<sp/>system<sp/>error<sp/>on<sp/>PC.</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="33"><highlight class="comment"><sp/>*<sp/>Auto<sp/>ProductID<sp/>layout&apos;s<sp/>Bitmap:</highlight></codeline>
+<codeline lineno="34"><highlight class="comment"><sp/>*<sp/><sp/><sp/>[MSB]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HID<sp/>|<sp/>MSC<sp/>|<sp/>CDC<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[LSB]</highlight></codeline>
+<codeline lineno="35"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_PID_MAP(itf,<sp/>n)<sp/>((CFG_TUD_##itf)<sp/>&lt;&lt;<sp/>(n))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>USB_PID<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="38"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>(0x4000<sp/>|<sp/>_PID_MAP(CDC,<sp/>0)<sp/>|<sp/>_PID_MAP(MSC,<sp/>1)<sp/>|<sp/>_PID_MAP(HID,<sp/>2)<sp/>|<sp/>_PID_MAP(MIDI,<sp/>3)<sp/>|<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="39"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/>_PID_MAP(VENDOR,<sp/>4))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Device<sp/>Descriptors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">tusb_desc_device_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>desc_device<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>.bLength<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(tusb_desc_device_t),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>.bDescriptorType<sp/>=<sp/>TUSB_DESC_DEVICE,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>.bcdUSB<sp/>=<sp/>0x0210,<sp/></highlight><highlight class="comment">//<sp/>at<sp/>least<sp/>2.1<sp/>or<sp/>3.x<sp/>for<sp/>BOS<sp/>&amp;<sp/>webUSB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>Interface<sp/>Association<sp/>Descriptor<sp/>(IAD)<sp/>for<sp/>CDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>As<sp/>required<sp/>by<sp/>USB<sp/>Specs<sp/>IAD&apos;s<sp/>subclass<sp/>must<sp/>be<sp/>common<sp/>class<sp/>(2)<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>protocol<sp/>must<sp/>be<sp/>IAD<sp/>(1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>.bDeviceClass<sp/>=<sp/>TUSB_CLASS_MISC,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>.bDeviceSubClass<sp/>=<sp/>MISC_SUBCLASS_COMMON,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>.bDeviceProtocol<sp/>=<sp/>MISC_PROTOCOL_IAD,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>.bMaxPacketSize0<sp/>=<sp/>CFG_TUD_ENDPOINT0_SIZE,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>.idVendor<sp/>=<sp/>0xCafe,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>.idProduct<sp/>=<sp/>USB_PID,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>.bcdDevice<sp/>=<sp/>0x0100,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>.iManufacturer<sp/>=<sp/>USB_DESCRIPTOR_MANUFACTURER,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>.iProduct<sp/>=<sp/>USB_DESCRIPTOR_PRODUCT,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>.iSerialNumber<sp/>=<sp/>USB_DESCRIPTOR_SERIAL,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNumConfigurations<sp/>=<sp/>0x01};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>String<sp/>Descriptors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>array<sp/>of<sp/>pointer<sp/>to<sp/>string<sp/>descriptors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*usb_string_desc_arr[6]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">[]){0x09,<sp/>0x04},<sp/></highlight><highlight class="comment">//<sp/>0:<sp/>is<sp/>supported<sp/>language<sp/>is<sp/>English<sp/>(0x0409)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TinyUSB&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1:<sp/>Manufacturer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TinyUSB<sp/>Device&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2:<sp/>Product</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;123456&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3:<sp/>Serials,<sp/>should<sp/>use<sp/>chip<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TinyUSB<sp/>CDC&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4:<sp/>CDC<sp/>Interface.<sp/>TODO:<sp/>Keep<sp/>the<sp/>CDC<sp/>interface.<sp/>If<sp/>disable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CDC,<sp/>usb<sp/>enum<sp/>will<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;TinyUSB<sp/>WebUSB&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5:<sp/>Vendor<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint16_t<sp/>_desc_str[32];</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>Descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>ITF_NUM_CDC<sp/>=<sp/>0,<sp/>ITF_NUM_CDC_DATA,<sp/>ITF_NUM_VENDOR,<sp/>ITF_NUM_TOTAL<sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONFIG_TOTAL_LEN<sp/>(TUD_CONFIG_DESC_LEN<sp/>+<sp/>TUD_CDC_DESC_LEN<sp/>+<sp/>TUD_VENDOR_DESC_LEN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EPNUM_CDC_NOTIF<sp/>0x81</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EPNUM_CDC_OUT<sp/>0x02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EPNUM_CDC_IN<sp/>0x82</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EPNUM_VENDOR_OUT<sp/>0x03</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EPNUM_VENDOR_IN<sp/>0x83</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>POWER<sp/>100</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CDC_FS_EP_LEN<sp/>0x40</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CDC_HS_EP_LEN<sp/>0x200</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>desc_fs_configuration[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config<sp/>number,<sp/>interface<sp/>count,<sp/>string<sp/>index,<sp/>total<sp/>length,<sp/>attribute,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>power<sp/>in<sp/>mA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_CONFIG_DESCRIPTOR(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>ITF_NUM_TOTAL,<sp/>0,<sp/>CONFIG_TOTAL_LEN,<sp/>TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP,<sp/>POWER),</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interface<sp/>number,<sp/>string<sp/>index,<sp/>EP<sp/>notification<sp/>address<sp/>and<sp/>size,<sp/>EP<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>address<sp/>(out,<sp/>in)<sp/>and<sp/>size.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_CDC_DESCRIPTOR(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ITF_NUM_CDC,<sp/>4,<sp/>EPNUM_CDC_NOTIF,<sp/>8,<sp/>EPNUM_CDC_OUT,<sp/>EPNUM_CDC_IN,<sp/>CDC_FS_EP_LEN),</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interface<sp/>number,<sp/>string<sp/>index,<sp/>EP<sp/>Out<sp/>&amp;<sp/>IN<sp/>address,<sp/>EP<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR,<sp/>5,<sp/>EPNUM_VENDOR_OUT,<sp/>EPNUM_VENDOR_IN,<sp/>64),</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>TUD_OPT_HIGH_SPEED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>desc_hs_configuration[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Config<sp/>number,<sp/>interface<sp/>count,<sp/>string<sp/>index,<sp/>total<sp/>length,<sp/>attribute,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>power<sp/>in<sp/>mA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_CONFIG_DESCRIPTOR(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1,<sp/>ITF_NUM_TOTAL,<sp/>0,<sp/>CONFIG_TOTAL_LEN,<sp/>TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP,<sp/>POWER),</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interface<sp/>number,<sp/>string<sp/>index,<sp/>EP<sp/>notification<sp/>address<sp/>and<sp/>size,<sp/>EP<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>address<sp/>(out,<sp/>in)<sp/>and<sp/>size.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_CDC_DESCRIPTOR(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ITF_NUM_CDC,<sp/>4,<sp/>EPNUM_CDC_NOTIF,<sp/>8,<sp/>EPNUM_CDC_OUT,<sp/>EPNUM_CDC_IN,<sp/>CDC_HS_EP_LEN),</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interface<sp/>number,<sp/>string<sp/>index,<sp/>EP<sp/>Out<sp/>&amp;<sp/>IN<sp/>address,<sp/>EP<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR,<sp/>5,<sp/>EPNUM_VENDOR_OUT,<sp/>EPNUM_VENDOR_IN,<sp/>512),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>TUD_OPT_HIGH_SPEED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>**********************<sp/>executable<sp/>functions<sp/>*****************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight></codeline>
+<codeline lineno="146"><highlight class="comment"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*tud_descriptor_device_cb(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*)&amp;desc_device;<sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight></codeline>
+<codeline lineno="156"><highlight class="comment"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*tud_descriptor_configuration_cb(uint8_t<sp/>index)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)index;<sp/></highlight><highlight class="comment">//<sp/>for<sp/>multiple<sp/>configurations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>TUD_OPT_HIGH_SPEED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Although<sp/>we<sp/>are<sp/>highspeed,<sp/>host<sp/>may<sp/>be<sp/>fullspeed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(tud_speed_get()<sp/>==<sp/>TUSB_SPEED_HIGH)<sp/>?<sp/>desc_hs_configuration<sp/>:<sp/>desc_fs_configuration;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>desc_fs_configuration;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BOS<sp/>Descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//--------------------------------------------------------------------+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>Microsoft<sp/>OS<sp/>2.0<sp/>registry<sp/>property<sp/>descriptor</highlight></codeline>
+<codeline lineno="173"><highlight class="comment">Per<sp/>MS<sp/>requirements</highlight></codeline>
+<codeline lineno="174"><highlight class="comment">https://msdn.microsoft.com/en-us/library/windows/hardware/hh450799(v=vs.85).aspx</highlight></codeline>
+<codeline lineno="175"><highlight class="comment">device<sp/>should<sp/>create<sp/>DeviceInterfaceGUIDs.<sp/>It<sp/>can<sp/>be<sp/>done<sp/>by<sp/>driver<sp/>and</highlight></codeline>
+<codeline lineno="176"><highlight class="comment">in<sp/>case<sp/>of<sp/>real<sp/>PnP<sp/>solution<sp/>device<sp/>should<sp/>expose<sp/>MS<sp/>&quot;Microsoft<sp/>OS<sp/>2.0</highlight></codeline>
+<codeline lineno="177"><highlight class="comment">registry<sp/>property<sp/>descriptor&quot;.<sp/>Such<sp/>descriptor<sp/>can<sp/>insert<sp/>any<sp/>record</highlight></codeline>
+<codeline lineno="178"><highlight class="comment">into<sp/>Windows<sp/>registry<sp/>per<sp/>device/configuration/interface.<sp/>In<sp/>our<sp/>case<sp/>it</highlight></codeline>
+<codeline lineno="179"><highlight class="comment">will<sp/>insert<sp/>&quot;DeviceInterfaceGUIDs&quot;<sp/>multistring<sp/>property.</highlight></codeline>
+<codeline lineno="180"><highlight class="comment"></highlight></codeline>
+<codeline lineno="181"><highlight class="comment">GUID<sp/>is<sp/>freshly<sp/>generated<sp/>and<sp/>should<sp/>be<sp/>OK<sp/>to<sp/>use.</highlight></codeline>
+<codeline lineno="182"><highlight class="comment"></highlight></codeline>
+<codeline lineno="183"><highlight class="comment">https://developers.google.com/web/fundamentals/native-hardware/build-for-webusb/</highlight></codeline>
+<codeline lineno="184"><highlight class="comment">(Section<sp/>Microsoft<sp/>OS<sp/>compatibility<sp/>descriptors)</highlight></codeline>
+<codeline lineno="185"><highlight class="comment">*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>BOS_TOTAL_LEN<sp/>(TUD_BOS_DESC_LEN<sp/>+<sp/>TUD_BOS_WEBUSB_DESC_LEN<sp/>+<sp/>TUD_BOS_MICROSOFT_OS_DESC_LEN)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MS_OS_20_DESC_LEN<sp/>0xB2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BOS<sp/>Descriptor<sp/>is<sp/>required<sp/>for<sp/>webUSB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>desc_bos[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>total<sp/>length,<sp/>number<sp/>of<sp/>device<sp/>caps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_BOS_DESCRIPTOR(BOS_TOTAL_LEN,<sp/>2),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vendor<sp/>Code,<sp/>iLandingPage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_BOS_WEBUSB_DESCRIPTOR(VENDOR_REQUEST_WEBUSB,<sp/>1),</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Microsoft<sp/>OS<sp/>2.0<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>TUD_BOS_MS_OS_20_DESCRIPTOR(MS_OS_20_DESC_LEN,<sp/>VENDOR_REQUEST_MICROSOFT)};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*tud_descriptor_bos_cb(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>desc_bos;<sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PC<sp/>get<sp/>descriptors,<sp/>the<sp/>device<sp/>will<sp/>be<sp/>identified<sp/>as<sp/>WinUSB.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WinUSB<sp/>device<sp/>will<sp/>loads<sp/>winusb.sys<sp/>as<sp/>the<sp/>functional<sp/>driver<sp/>of<sp/>the<sp/>device.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Users<sp/>do<sp/>not<sp/>need<sp/>to<sp/>develop<sp/>windows<sp/>drivers<sp/>themselves.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">uint8_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>desc_ms_os_20[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>header:<sp/>length,<sp/>type,<sp/>windows<sp/>version,<sp/>total<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(0x000A),<sp/>U16_TO_U8S_LE(MS_OS_20_SET_HEADER_DESCRIPTOR),<sp/>U32_TO_U8S_LE(0x06030000),</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(MS_OS_20_DESC_LEN),</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>subset<sp/>header:<sp/>length,<sp/>type,<sp/>configuration<sp/>index,<sp/>reserved,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>configuration<sp/>total<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(0x0008),<sp/>U16_TO_U8S_LE(MS_OS_20_SUBSET_HEADER_CONFIGURATION),<sp/>0,<sp/>0,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(MS_OS_20_DESC_LEN<sp/>-<sp/>0x0A),</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Function<sp/>Subset<sp/>header:<sp/>length,<sp/>type,<sp/>first<sp/>interface,<sp/>reserved,<sp/>subset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(0x0008),<sp/>U16_TO_U8S_LE(MS_OS_20_SUBSET_HEADER_FUNCTION),<sp/>ITF_NUM_VENDOR,<sp/>0,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(MS_OS_20_DESC_LEN<sp/>-<sp/>0x0A<sp/>-<sp/>0x08),</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MS<sp/>OS<sp/>2.0<sp/>Compatible<sp/>ID<sp/>descriptor:<sp/>length,<sp/>type,<sp/>compatible<sp/>ID,<sp/>sub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>compatible<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(0x0014),<sp/>U16_TO_U8S_LE(MS_OS_20_FEATURE_COMPATBLE_ID),<sp/></highlight><highlight class="charliteral">&apos;W&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;I&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;N&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;U&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/></highlight><highlight class="comment">//<sp/>sub-compatible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MS<sp/>OS<sp/>2.0<sp/>Registry<sp/>property<sp/>descriptor:<sp/>length,<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(MS_OS_20_DESC_LEN<sp/>-<sp/>0x0A<sp/>-<sp/>0x08<sp/>-<sp/>0x08<sp/>-<sp/>0x14),</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(MS_OS_20_FEATURE_REG_PROPERTY),<sp/>U16_TO_U8S_LE(0x0007),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(0x002A),<sp/></highlight><highlight class="comment">//<sp/>wPropertyDataType,<sp/>wPropertyNameLength<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PropertyName<sp/>&quot;DeviceInterfaceGUIDs\0&quot;<sp/>in<sp/>UTF-16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;v&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;i&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;c&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;I&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;n&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;t&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;r&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;f&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;c&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;G&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;U&apos;</highlight><highlight class="normal">,<sp/>0x00,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;I&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;s&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/>0x00,<sp/>0x00,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>U16_TO_U8S_LE(0x0050),<sp/></highlight><highlight class="comment">//<sp/>wPropertyDataLength</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bPropertyData:<sp/>“{975F44D9-0D08-43FD-8B3E-127CA8AFFF9D}”.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;{&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;7&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;5&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;4&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;4&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;8&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;4&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>0x00,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;8&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;3&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;E&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;1&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;2&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;7&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;8&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">,<sp/>0x00,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;9&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;D&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/></highlight><highlight class="charliteral">&apos;}&apos;</highlight><highlight class="normal">,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">TU_VERIFY_STATIC(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(desc_ms_os_20)<sp/>==<sp/>MS_OS_20_DESC_LEN,<sp/></highlight><highlight class="stringliteral">&quot;Incorrect<sp/>size&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="250"><highlight class="comment"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal">uint16_t<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>*tud_descriptor_string_cb(uint8_t<sp/>index,<sp/>uint16_t<sp/>langid)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)langid;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>chr_count;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(index<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memcpy(&amp;_desc_str[1],<sp/>usb_string_desc_arr[0],<sp/>2);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chr_count<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>the<sp/>0xEE<sp/>index<sp/>string<sp/>is<sp/>a<sp/>Microsoft<sp/>OS<sp/>1.0<sp/>Descriptors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/microsoft-defined-usb-descriptors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!(index<sp/>&lt;<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(usb_string_desc_arr)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(usb_string_desc_arr[0])))<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NULL;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*str<sp/>=<sp/>usb_string_desc_arr[index];</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cap<sp/>at<sp/>max<sp/>char</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chr_count<sp/>=<sp/>strlen(str);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(chr_count<sp/>&gt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(_desc_str))<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chr_count<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(_desc_str)<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>ASCII<sp/>string<sp/>into<sp/>UTF-16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint8_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>chr_count;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_desc_str[1<sp/>+<sp/>i]<sp/>=<sp/>str[i];</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>byte<sp/>is<sp/>length<sp/>(including<sp/>header),<sp/>second<sp/>byte<sp/>is<sp/>string<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>_desc_str[0]<sp/>=<sp/>(TUSB_DESC_STRING<sp/>&lt;&lt;<sp/>8)<sp/>|<sp/>(2<sp/>*<sp/>chr_count<sp/>+<sp/>2);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_desc_str;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/usb_descriptors.c"/>
+  </compounddef>
+</doxygen>

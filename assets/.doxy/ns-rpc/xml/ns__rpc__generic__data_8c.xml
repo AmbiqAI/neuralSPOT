@@ -156,8 +156,8 @@
         <definition>const ns_core_api_t ns_rpc_gdo_oldest_supported_version</definition>
         <argsstring></argsstring>
         <name>ns_rpc_gdo_oldest_supported_version</name>
-        <initializer>= {.apiId = NS_RPC_GDO_API_ID,
-                                                           .version = NS_RPC_GDO_V0_0_1}</initializer>
+        <initializer>= {
+    .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V0_0_1}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -171,8 +171,8 @@
         <definition>const ns_core_api_t ns_rpc_gdo_current_version</definition>
         <argsstring></argsstring>
         <name>ns_rpc_gdo_current_version</name>
-        <initializer>= {.apiId = NS_RPC_GDO_API_ID,
-                                                  .version = NS_RPC_GDO_V1_0_0}</initializer>
+        <initializer>= {
+    .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_0_0}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -186,15 +186,16 @@
         <definition>ns_usb_config_t g_RpcGenericUSBHandle</definition>
         <argsstring></argsstring>
         <name>g_RpcGenericUSBHandle</name>
-        <initializer>= {.api = &amp;ns_usb_V1_0_0,
-                                         .deviceType = NS_USB_CDC_DEVICE,
-                                         .rx_buffer = NULL,
-                                         .rx_bufferLength = 0,
-                                         .tx_buffer = NULL,
-                                         .tx_bufferLength = 0,
-                                         .rx_cb = NULL,
-                                         .tx_cb = NULL,
-                                         .service_cb = NULL}</initializer>
+        <initializer>= {
+    .api = &amp;ns_usb_V1_0_0,
+    .deviceType = NS_USB_CDC_DEVICE,
+    .rx_buffer = NULL,
+    .rx_bufferLength = 0,
+    .tx_buffer = NULL,
+    .tx_bufferLength = 0,
+    .rx_cb = NULL,
+    .tx_cb = NULL,
+    .service_cb = NULL}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -208,23 +209,24 @@
         <definition>ns_rpc_config_t g_RpcGenericDataConfig</definition>
         <argsstring></argsstring>
         <name>g_RpcGenericDataConfig</name>
-        <initializer>= {.api = &amp;ns_rpc_gdo_current_version,
-                                          .mode = NS_RPC_GENERICDATA_CLIENT,
-                                          .rx_buf = NULL,
-                                          .rx_bufLength = 0,
-                                          .tx_buf = NULL,
-                                          .tx_bufLength = 0,
-                                          .usbHandle = NULL,
-                                          .sendBlockToEVB_cb = NULL,
-                                          .fetchBlockFromEVB_cb = NULL,
-                                          .computeOnEVB_cb = NULL}</initializer>
+        <initializer>= {
+    .api = &amp;ns_rpc_gdo_current_version,
+    .mode = NS_RPC_GENERICDATA_CLIENT,
+    .rx_buf = NULL,
+    .rx_bufLength = 0,
+    .tx_buf = NULL,
+    .tx_bufLength = 0,
+    .usbHandle = NULL,
+    .sendBlockToEVB_cb = NULL,
+    .fetchBlockFromEVB_cb = NULL,
+    .computeOnEVB_cb = NULL}</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="51" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="51" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="52" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="52" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -243,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="66" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="66" bodyend="74"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="67" column="8" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="67" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="ns__rpc__generic__data_8c_1a45bc77c884220f51fd935f21944753e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>status</type>
@@ -260,7 +262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="77" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="77" bodyend="85"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="77" column="8" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="77" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="ns__rpc__generic__data_8c_1a44a116cfbb9e9dd67151d3ac30943f4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>status</type>
@@ -281,7 +283,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="88" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="88" bodyend="96"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="87" column="8" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="87" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint16_t</type>
@@ -311,7 +313,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="105" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="105" bodyend="160"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="103" column="10" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="103" bodyend="158"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga7b88e87ecf200321fd79aad5482be7fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -339,7 +341,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="173" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="173" bodyend="177"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="170" column="6" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="170" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1gacfdfdcbee7e9576fcd1bacdeb586a1d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint16_t</type>
@@ -356,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="180" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="180" bodyend="183"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="180" column="10" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="180" bodyend="183"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1gabb7ebcc3085dd93ceb56760352519bd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -384,7 +386,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="186" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="186" bodyend="196"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="185" column="6" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="185" bodyend="195"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga59df2d799f9f35d1f1314265e3ff40c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -412,7 +414,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="199" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="199" bodyend="202"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" line="197" column="6" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="197" bodyend="200"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -441,49 +443,49 @@
 <codeline lineno="32"><highlight class="normal"></highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_V1_0_0<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_RPC_GDO_API_ID,<sp/>.version<sp/>=<sp/>NS_RPC_GDO_V1_0_0};</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_oldest_supported_version<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_RPC_GDO_API_ID,</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.version<sp/>=<sp/>NS_RPC_GDO_V0_0_1};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_oldest_supported_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_RPC_GDO_API_ID,<sp/>.version<sp/>=<sp/>NS_RPC_GDO_V0_0_1};</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_current_version<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_RPC_GDO_API_ID,</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.version<sp/>=<sp/>NS_RPC_GDO_V1_0_0};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_current_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_RPC_GDO_API_ID,<sp/>.version<sp/>=<sp/>NS_RPC_GDO_V1_0_0};</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal">ns_usb_config_t<sp/>g_RpcGenericUSBHandle<sp/>=<sp/>{.api<sp/>=<sp/>&amp;ns_usb_V1_0_0,</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.deviceType<sp/>=<sp/>NS_USB_CDC_DEVICE,</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.rx_buffer<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.rx_bufferLength<sp/>=<sp/>0,</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tx_buffer<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tx_bufferLength<sp/>=<sp/>0,</highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.rx_cb<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tx_cb<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.service_cb<sp/>=<sp/>NULL};</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>g_RpcGenericDataConfig<sp/>=<sp/>{.<ref refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" kindref="member">api</ref><sp/>=<sp/>&amp;ns_rpc_gdo_current_version,</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.mode<sp/>=<sp/>NS_RPC_GENERICDATA_CLIENT,</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.rx_buf<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.rx_bufLength<sp/>=<sp/>0,</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tx_buf<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.tx_bufLength<sp/>=<sp/>0,</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.usbHandle<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.sendBlockToEVB_cb<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.fetchBlockFromEVB_cb<sp/>=<sp/>NULL,</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.computeOnEVB_cb<sp/>=<sp/>NULL};</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GenericDataOperations<sp/>implements<sp/>3<sp/>function<sp/>calls<sp/>that<sp/>service</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>remote<sp/>calls<sp/>from<sp/>a<sp/>PC.<sp/>They<sp/>must<sp/>be<sp/>instantiated<sp/>to<sp/>enable<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Datatypes,<sp/>function<sp/>prototypes,<sp/>etc,<sp/>are<sp/>defined<sp/>in<sp/>the<sp/>RPC&apos;s<sp/>include<sp/>files</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal">status</highlight></codeline>
-<codeline lineno="66"><highlight class="normal">ns_rpc_data_sendBlockToEVB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Received<sp/>call<sp/>to<sp/>sendBlockToEVB\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref>(block);</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ns_rpc_data_success;</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal">status</highlight></codeline>
-<codeline lineno="77"><highlight class="normal">ns_rpc_data_fetchBlockFromEVB(<ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">ns_usb_config_t<sp/>g_RpcGenericUSBHandle<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_usb_V1_0_0,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>.deviceType<sp/>=<sp/>NS_USB_CDC_DEVICE,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_buffer<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_bufferLength<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_buffer<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_bufferLength<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>.service_cb<sp/>=<sp/>NULL};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>g_RpcGenericDataConfig<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" kindref="member">api</ref><sp/>=<sp/>&amp;ns_rpc_gdo_current_version,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>.mode<sp/>=<sp/>NS_RPC_GENERICDATA_CLIENT,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_buf<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_bufLength<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_buf<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_bufLength<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>.usbHandle<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>.sendBlockToEVB_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>.fetchBlockFromEVB_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>.computeOnEVB_cb<sp/>=<sp/>NULL};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GenericDataOperations<sp/>implements<sp/>3<sp/>function<sp/>calls<sp/>that<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>remote<sp/>calls<sp/>from<sp/>a<sp/>PC.<sp/>They<sp/>must<sp/>be<sp/>instantiated<sp/>to<sp/>enable<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Datatypes,<sp/>function<sp/>prototypes,<sp/>etc,<sp/>are<sp/>defined<sp/>in<sp/>the<sp/>RPC&apos;s<sp/>include<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">status<sp/>ns_rpc_data_sendBlockToEVB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Received<sp/>call<sp/>to<sp/>sendBlockToEVB\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref>(block);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ns_rpc_data_success;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">status<sp/>ns_rpc_data_fetchBlockFromEVB(<ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Received<sp/>call<sp/>to<sp/>fetchBlockFromEVB\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
 <codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" kindref="member">fetchBlockFromEVB_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
@@ -493,129 +495,124 @@
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="85"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal">status</highlight></codeline>
-<codeline lineno="88"><highlight class="normal">ns_rpc_data_computeOnEVB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*in_block,<sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*result_block)<sp/>{</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Received<sp/>call<sp/>to<sp/>computeOnEVB\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref>(in_block,<sp/>result_block);</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ns_rpc_data_success;</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void<sp/>ns_rpc_data_serverService(uint8_t<sp/>haveUsbData)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>((g_RpcGenericDataConfig.serviceServer<sp/>==<sp/>true)<sp/>&amp;&amp;<sp/>(haveUsbData<sp/>==<sp/>1))<sp/>{</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_server_poll();<sp/>//<sp/>service<sp/>RPC<sp/>server</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal">uint16_t</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(cfg-&gt;<ref refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" kindref="member">api</ref>,<sp/>&amp;ns_rpc_gdo_oldest_supported_version,</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;ns_rpc_gdo_current_version))<sp/>{</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>usb_handle_t<sp/>usb_handle<sp/>=<sp/>ns_usb_init(&amp;g_RpcGenericUSBHandle);</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_handle_t<sp/>usb_handle<sp/>=<sp/>NULL;</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>server<sp/>mode,<sp/>add<sp/>a<sp/>service<sp/>callback<sp/>to<sp/>USB</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>(cfg-&gt;mode<sp/>==<sp/>NS_RPC_GENERICDATA_SERVER)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.service_cb<sp/>=<sp/>&amp;ns_rpc_data_serverService;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.rx_buffer<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref>;</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.rx_bufferLength<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref>;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.tx_buffer<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref>;</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.tx_bufferLength<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">status<sp/>ns_rpc_data_computeOnEVB(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*in_block,<sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*result_block)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Received<sp/>call<sp/>to<sp/>computeOnEVB\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref>(in_block,<sp/>result_block);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ns_rpc_data_success;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void<sp/>ns_rpc_data_serverService(uint8_t<sp/>haveUsbData)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>if<sp/>((g_RpcGenericDataConfig.serviceServer<sp/>==<sp/>true)<sp/>&amp;&amp;<sp/>(haveUsbData<sp/>==<sp/>1))<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_server_poll();<sp/>//<sp/>service<sp/>RPC<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">uint16_t<sp/><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" kindref="member">api</ref>,<sp/>&amp;ns_rpc_gdo_oldest_supported_version,<sp/>&amp;ns_rpc_gdo_current_version))<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>usb_handle_t<sp/>usb_handle<sp/>=<sp/>ns_usb_init(&amp;g_RpcGenericUSBHandle);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_handle_t<sp/>usb_handle<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>server<sp/>mode,<sp/>add<sp/>a<sp/>service<sp/>callback<sp/>to<sp/>USB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>(cfg-&gt;mode<sp/>==<sp/>NS_RPC_GENERICDATA_SERVER)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.service_cb<sp/>=<sp/>&amp;ns_rpc_data_serverService;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.rx_buffer<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.rx_bufferLength<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.tx_buffer<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericUSBHandle.tx_bufferLength<sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(ns_usb_init(&amp;g_RpcGenericUSBHandle,<sp/>&amp;usb_handle),<sp/></highlight><highlight class="stringliteral">&quot;USB<sp/>Init<sp/>Failed\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"></highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(ns_usb_init(&amp;g_RpcGenericUSBHandle,<sp/>&amp;usb_handle),<sp/></highlight><highlight class="stringliteral">&quot;USB<sp/>Init<sp/>Failed\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref>;</highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref>;</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" kindref="member">fetchBlockFromEVB_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" kindref="member">fetchBlockFromEVB_cb</ref>;</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref>;</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_RpcGenericDataConfig.serviceServer<sp/>=<sp/>cfg-&gt;serviceServer;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref>;</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref>;</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref>;</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" kindref="member">sendBlockToEVB_cb</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" kindref="member">fetchBlockFromEVB_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" kindref="member">fetchBlockFromEVB_cb</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" kindref="member">computeOnEVB_cb</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_RpcGenericDataConfig.serviceServer<sp/>=<sp/>cfg-&gt;serviceServer;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" kindref="member">usbHandle</ref><sp/>=<sp/>usb_handle;</highlight></codeline>
 <codeline lineno="139"><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.<ref refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" kindref="member">usbHandle</ref><sp/>=<sp/>usb_handle;</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>ERPC<sp/>init</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>USB<sp/>transport<sp/>layer<sp/>initialization<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>erpc_transport_t<sp/>transport<sp/>=<sp/>erpc_transport_usb_cdc_init(usb_handle);</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>MessageBufferFactory<sp/>initialization<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>erpc_mbf_t<sp/>message_buffer_factory<sp/>=<sp/>erpc_mbf_static_init();</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"></highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref><sp/>==<sp/>NS_RPC_GENERICDATA_CLIENT)<sp/>{</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Init<sp/>eRPC<sp/>client<sp/>environment<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_client_init(transport,<sp/>message_buffer_factory);</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>server<sp/>and<sp/>service</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_server_init(transport,<sp/>message_buffer_factory);</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_service_t<sp/>service<sp/>=<sp/>create_pc_to_evb_service();</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_add_service_to_server(service);</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
-<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"></highlight></codeline>
-<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ns_rpc_genericDataOperations_enableServerPoll(ns_rpc_config_t<sp/>*cfg)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.serviceServer<sp/>=<sp/>true;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ns_rpc_genericDataOperations_disableServerPoll(ns_rpc_config_t<sp/>*cfg)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.serviceServer<sp/>=<sp/>false;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="171"><highlight class="normal"></highlight></codeline>
-<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><ref refid="group__ns-rpc-generic-data_1ga7b88e87ecf200321fd79aad5482be7fd" kindref="member">ns_rpc_genericDataOperations_pollServer</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_usb_data_available(cfg-&gt;<ref refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" kindref="member">usbHandle</ref>))<sp/>{</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_server_poll();<sp/></highlight><highlight class="comment">//<sp/>service<sp/>RPC<sp/>server</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="179"><highlight class="normal">uint16_t</highlight></codeline>
-<codeline lineno="180"><highlight class="normal">ns_rpc_genericDataOperationsClient_reset(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>ERPC<sp/>init</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>USB<sp/>transport<sp/>layer<sp/>initialization<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>erpc_transport_t<sp/>transport<sp/>=<sp/>erpc_transport_usb_cdc_init(usb_handle);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>MessageBufferFactory<sp/>initialization<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>erpc_mbf_t<sp/>message_buffer_factory<sp/>=<sp/>erpc_mbf_static_init();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref><sp/>==<sp/>NS_RPC_GENERICDATA_CLIENT)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Init<sp/>eRPC<sp/>client<sp/>environment<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_client_init(transport,<sp/>message_buffer_factory);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>server<sp/>and<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_server_init(transport,<sp/>message_buffer_factory);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_service_t<sp/>service<sp/>=<sp/>create_pc_to_evb_service();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>erpc_add_service_to_server(service);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ns_rpc_genericDataOperations_enableServerPoll(ns_rpc_config_t<sp/>*cfg)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.serviceServer<sp/>=<sp/>true;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ns_rpc_genericDataOperations_disableServerPoll(ns_rpc_config_t<sp/>*cfg)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>g_RpcGenericDataConfig.serviceServer<sp/>=<sp/>false;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga7b88e87ecf200321fd79aad5482be7fd" kindref="member">ns_rpc_genericDataOperations_pollServer</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>erpc_status_t<sp/>stat;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_usb_data_available(cfg-&gt;<ref refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" kindref="member">usbHandle</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stat<sp/>=<sp/>erpc_server_poll();<sp/></highlight><highlight class="comment">//<sp/>service<sp/>RPC<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stat<sp/>!=<sp/>kErpcStatus_Success)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;erpc_server_poll<sp/>failed<sp/>with<sp/>status<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>stat);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">uint16_t<sp/>ns_rpc_genericDataOperationsClient_reset(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
 <codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>erpc_client_deinit();</highlight></codeline>
 <codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>(cfg);</highlight></codeline>
 <codeline lineno="183"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="184"><highlight class="normal"></highlight></codeline>
-<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><ref refid="group__ns-rpc-generic-data_1gabb7ebcc3085dd93ceb56760352519bd7" kindref="member">ns_rpc_genericDataOperations_printDatablock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Descriptor:<sp/>%s\n&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1ad7308917b0550c28c8d43cc71cc86ccd" kindref="member">description</ref>);</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Length:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1a68ab7a4343e0854b94b550c6869902c4" kindref="member">length</ref>);</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;buffer.dataLength:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.dataLength);</highlight></codeline>
-<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Contents:\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.dataLength;<sp/>i++)<sp/>{</highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;0x%x,<sp/>&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.data[i]);</highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="199"><highlight class="normal"><ref refid="group__ns-rpc-generic-data_1ga59df2d799f9f35d1f1314265e3ff40c5" kindref="member">ns_rpc_data_clientDoneWithBlockFromPC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_free(block-&gt;<ref refid="structdata_block_1ad7308917b0550c28c8d43cc71cc86ccd" kindref="member">description</ref>);</highlight></codeline>
-<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_free(block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.data);</highlight></codeline>
-<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"></highlight></codeline>
-<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="205"><highlight class="normal">uint16_t</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
-<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1gabb7ebcc3085dd93ceb56760352519bd7" kindref="member">ns_rpc_genericDataOperations_printDatablock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Descriptor:<sp/>%s\n&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1ad7308917b0550c28c8d43cc71cc86ccd" kindref="member">description</ref>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Length:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1a68ab7a4343e0854b94b550c6869902c4" kindref="member">length</ref>);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;buffer.dataLength:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.dataLength);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Contents:\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.dataLength;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;0x%x,<sp/>&quot;</highlight><highlight class="normal">,<sp/>block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.data[i]);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga59df2d799f9f35d1f1314265e3ff40c5" kindref="member">ns_rpc_data_clientDoneWithBlockFromPC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_free(block-&gt;<ref refid="structdata_block_1ad7308917b0550c28c8d43cc71cc86ccd" kindref="member">description</ref>);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_free(block-&gt;<ref refid="structdata_block_1aac07c81b51adb1ec7e2e9ee2740274e8" kindref="member">buffer</ref>.data);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">uint16_t<sp/><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;<sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c"/>
   </compounddef>

@@ -17,12 +17,11 @@
 
 const ns_core_api_t ns_i2c_V0_0_1 = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V0_0_1};
 const ns_core_api_t ns_i2c_V1_0_0 = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V1_0_0};
-const ns_core_api_t ns_i2c_oldest_supported_version = {.apiId = NS_I2C_API_ID,
-                                                       .version = NS_I2C_V0_0_1};
+const ns_core_api_t ns_i2c_oldest_supported_version = {
+    .apiId = NS_I2C_API_ID, .version = NS_I2C_V0_0_1};
 const ns_core_api_t ns_i2c_current_version = {.apiId = NS_I2C_API_ID, .version = NS_I2C_V1_0_0};
 
-uint32_t
-ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
+uint32_t ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
 
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
@@ -52,12 +51,15 @@ ns_i2c_interface_init(ns_i2c_config_t *cfg, uint32_t speed) {
     return NS_I2C_STATUS_SUCCESS;
 }
 
-uint32_t
-ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
+uint32_t ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
     am_hal_iom_transfer_t Transaction;
     Transaction.ui8Priority = 1;
     Transaction.ui32InstrLen = 0;
+#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L)
     Transaction.ui64Instr = 0;
+#else
+    Transaction.ui32Instr = 0;
+#endif
     Transaction.eDirection = AM_HAL_IOM_RX;
     Transaction.ui32NumBytes = size;
     Transaction.pui32RxBuffer = (uint32_t *)buf;
@@ -72,12 +74,15 @@ ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr)
     return NS_I2C_STATUS_SUCCESS;
 }
 
-uint32_t
-ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
+uint32_t ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr) {
     am_hal_iom_transfer_t Transaction;
     Transaction.ui8Priority = 1;
     Transaction.ui32InstrLen = 0;
+#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L)
     Transaction.ui64Instr = 0;
+#else
+    Transaction.ui32Instr = 0;
+#endif
     Transaction.eDirection = AM_HAL_IOM_TX;
     Transaction.ui32NumBytes = size;
     Transaction.pui32TxBuffer = (uint32_t *)buf;
@@ -92,15 +97,14 @@ ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint16_t addr
     return NS_I2C_STATUS_SUCCESS;
 }
 
-uint32_t
-ns_i2c_write_read(ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite,
-                  void *readBuf, size_t numRead) {
+uint32_t ns_i2c_write_read(
+    ns_i2c_config_t *cfg, uint16_t addr, const void *writeBuf, size_t numWrite, void *readBuf,
+    size_t numRead) {
     ns_i2c_write(cfg, writeBuf, numWrite, addr);
     return ns_i2c_read(cfg, readBuf, numRead, addr);
 }
 
-uint32_t
-ns_i2c_transfer(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs) {
+uint32_t ns_i2c_transfer(ns_i2c_config_t *cfg, ns_i2c_msg_t *msgs, size_t numMsgs) {
     ns_i2c_msg_t *msg;
     uint32_t msg_len = 0;
     for (size_t i = 0; i < numMsgs; i++) {

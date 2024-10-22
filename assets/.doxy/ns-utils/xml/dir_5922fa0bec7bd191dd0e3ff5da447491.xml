@@ -2,6 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
   <compounddef id="dir_5922fa0bec7bd191dd0e3ff5da447491" kind="dir">
     <compoundname>neuralSPOT/neuralspot/ns-utils/src</compoundname>
+    <innerdir refid="dir_707bd67c77e0cdcc384b3fcaae8a053a">neuralSPOT/neuralspot/ns-utils/src/apollo3</innerdir>
+    <innerdir refid="dir_f4b6e016fb89d71f6ddac0c53471985d">neuralSPOT/neuralspot/ns-utils/src/apollo4</innerdir>
     <innerfile refid="ns__energy__monitor_8c">ns_energy_monitor.c</innerfile>
     <innerfile refid="ns__malloc_8c">ns_malloc.c</innerfile>
     <innerfile refid="ns__perf__profile_8c">ns_perf_profile.c</innerfile>

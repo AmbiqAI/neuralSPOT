@@ -7,11 +7,15 @@
     <includes local="yes">am_util.h</includes>
     <includes local="yes">ns_core.h</includes>
     <includes local="yes">ns_ipc_ring_buffer.h</includes>
-    <includedby refid="ns__audadc_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c</includedby>
+    <includedby refid="apollo3_2ns__pdm_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c</includedby>
+    <includedby refid="apollo3_2ns__pdm_8h" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.h</includedby>
+    <includedby refid="ns__audadc_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c</includedby>
+    <includedby refid="apollo4_2ns__pdm_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_pdm.c</includedby>
     <includedby refid="ns__audadc_8h" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h</includedby>
     <includedby refid="ns__audio_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_audio.c</includedby>
-    <includedby refid="ns__pdm_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_pdm.c</includedby>
     <includedby refid="ns__pdm_8h" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h</includedby>
+    <includedby refid="ns__audio__tests_8c" local="yes">neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c</includedby>
+    <includedby refid="ns__audio__tests_8h" local="yes">neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h</label>
@@ -55,28 +59,48 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h</label>
-        <link refid="ns__audadc_8h_source"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c</label>
+        <link refid="apollo3_2ns__pdm_8c"/>
+      </node>
       <node id="3">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.h</label>
+        <link refid="apollo3_2ns__pdm_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_pdm.c</label>
+        <link refid="apollo4_2ns__pdm_8c"/>
+      </node>
+      <node id="5">
+        <label>neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h</label>
+        <link refid="ns__audadc_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
         <label>neuralSPOT/neuralspot/ns-audio/src/ns_audio.c</label>
         <link refid="ns__audio_8c"/>
       </node>
-      <node id="4">
-        <label>neuralSPOT/neuralspot/ns-audio/src/ns_pdm.c</label>
-        <link refid="ns__pdm_8c"/>
-      </node>
-      <node id="5">
+      <node id="7">
         <label>neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h</label>
         <link refid="ns__pdm_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h</label>
+        <link refid="ns__audio__tests_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="structns__audadc__cfg__t" prot="public">ns_audadc_cfg_t</innerclass>
@@ -92,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="65" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="65" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="63" column="43" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-audio_1gacc71ba8c8ce109222867a30f629fe87b" prot="public" static="no">
         <name>NS_AUDIO_V1_0_0</name>
@@ -103,11 +127,22 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="67" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="67" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="65" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-audio_1ga6cd4a166584d85c6c0633904ab7d7281" prot="public" static="no">
         <name>NS_AUDIO_V2_0_0</name>
         <initializer>        { .major = 2, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="67" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1ga357f6988b0bd826d8ee9589490abaf89" prot="public" static="no">
+        <name>NS_AUDIO_V2_1_0</name>
+        <initializer>        { .major = 2, .minor = 1, .revision = 0 }</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -125,18 +160,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="72" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="72" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-audio_1gaeb7928f9bf518bdc0b2678e1c6838017" prot="public" static="no">
         <name>NS_AUDIO_CURRENT_VERSION</name>
-        <initializer>NS_AUDIO_V2_0_0</initializer>
+        <initializer>NS_AUDIO_V2_1_0</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="73" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="73" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="72" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-audio_1gae6dfef07fcfabffabd1f51435b12c1e9" prot="public" static="no">
         <name>NS_AUDIO_API_ID</name>
@@ -147,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="74" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="74" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="73" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-audio_1ga9340fa419f10ce63cf8d85c08d67b19f" prot="public" static="no">
         <name>NS_AUDIO_DMA_BUFFER_SIZE</name>
@@ -364,7 +399,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="188" column="19"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="189" column="19"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -379,7 +414,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="76" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="31" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="76" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="75" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="27" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="75" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-audio_1gab6a4a8cf5963f5f1f89ab077aebf2023" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -392,7 +427,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="77" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="32" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="77" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="76" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="28" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="76" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-audio_1ga1930391d50c7943a64b5d880b83dc407" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -405,7 +440,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="78" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="33" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="78" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="77" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="29" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="77" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1ga96ed17cf860229cb3cdb9a72df67e634" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_V2_1_0</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_V2_1_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="78" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="30" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="78" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-audio_1ga90f0ca4d98c0ba5b7f35b1d6cc844edb" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -418,7 +466,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="79" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="34" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="79" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="79" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="31" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="79" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-audio_1gaf721b679c31095f360c648454b6f50e1" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -431,7 +479,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="80" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="36" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="80" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="80" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="33" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="80" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" prot="public" static="no" mutable="no">
         <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
@@ -445,7 +493,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="190" column="26" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="53" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="190" declcolumn="26"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="191" column="26" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="50" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="191" declcolumn="26"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -475,7 +523,63 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="197" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="55" bodyend="148" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="197" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="198" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="52" bodyend="143" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="198" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1ga55e60de796839733a56906df5b732e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_start_audio</definition>
+        <argsstring>(ns_audio_config_t *)</argsstring>
+        <name>ns_start_audio</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Start audio capture, must be called after ns_audio_init. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: desired configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="206" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="145" bodyend="173" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="206" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1ga4f5f641c72025f6021ad5688a7fecfd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_end_audio</definition>
+        <argsstring>(ns_audio_config_t *)</argsstring>
+        <name>ns_end_audio</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Stop audio capture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: desired configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="214" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="175" bodyend="184" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="214" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -527,7 +631,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="206" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="163" bodyend="175" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="206" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="224" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="203" bodyend="215" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="224" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -567,7 +671,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="214" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="177" bodyend="224" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="214" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="232" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="217" bodyend="264" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="232" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -630,27 +734,27 @@
 <codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
 <codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ipc_ring_buffer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V0_0_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
-<codeline lineno="66"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>0,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>1<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V1_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
-<codeline lineno="68"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>1,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V2_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
-<codeline lineno="70"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>2,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_OLDEST_SUPPORTED_VERSION<sp/>NS_AUDIO_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_CURRENT_VERSION<sp/>NS_AUDIO_V2_0_0</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_API_ID<sp/>0xCA0001</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V0_0_1;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V1_0_0;</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V2_0_0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ipc_ring_buffer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V0_0_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="64"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>0,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>1<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V1_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="66"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>1,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V2_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="68"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>2,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_V2_1_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="70"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>2,<sp/>.minor<sp/>=<sp/>1,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_OLDEST_SUPPORTED_VERSION<sp/>NS_AUDIO_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_CURRENT_VERSION<sp/>NS_AUDIO_V2_1_0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_AUDIO_API_ID<sp/>0xCA0001</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V0_0_1;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V1_0_0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V2_0_0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_V2_1_0;</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_oldest_supported_version;</highlight></codeline>
 <codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_audio_current_version;</highlight></codeline>
 <codeline lineno="81"><highlight class="normal"></highlight></codeline>
@@ -716,10 +820,10 @@
 <codeline lineno="158" refid="structns__audio__cfg_1a1be664af213fd6688bf0204f07a8338d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-audio_1gac60456a745861cbe75be2504b3071f32" kindref="member">ns_audio_source_e</ref><sp/><ref refid="structns__audio__cfg_1a1be664af213fd6688bf0204f07a8338d" kindref="member">eAudioSource</ref>;<sp/></highlight></codeline>
 <codeline lineno="159" refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>*<ref refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" kindref="member">sampleBuffer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="160"><highlight class="normal"></highlight></codeline>
-<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structns__audio__cfg_1a87623d4cc52b521307a3e47053ab9f9c" kindref="member">workingBuffer</ref>;<sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>NS_AUDADC_PRESENT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structns__audio__cfg_1a285779a2cc94237ccc88fc6bf88d174b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="structns__audio__cfg_1a285779a2cc94237ccc88fc6bf88d174b" kindref="member">workingBuffer</ref>;<sp/></highlight></codeline>
 <codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="164" refid="structns__audio__cfg_1a87623d4cc52b521307a3e47053ab9f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_sample_t<sp/>*<ref refid="structns__audio__cfg_1a87623d4cc52b521307a3e47053ab9f9c" kindref="member">workingBuffer</ref>;<sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_sample_t<sp/>*<ref refid="structns__audio__cfg_1a285779a2cc94237ccc88fc6bf88d174b" kindref="member">workingBuffer</ref>;<sp/></highlight></codeline>
 <codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="166"><highlight class="normal"></highlight></codeline>
 <codeline lineno="167" refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref>;<sp/></highlight></codeline>
@@ -735,25 +839,33 @@
 <codeline lineno="180" refid="structns__audio__cfg_1ace386b1d646c5861878a928d549d914d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_ipc_ring_buffer_t<sp/>*<ref refid="structns__audio__cfg_1ace386b1d646c5861878a928d549d914d" kindref="member">bufferHandle</ref>;<sp/></highlight></codeline>
 <codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fLGAdB;</highlight></codeline>
 <codeline lineno="182"><highlight class="normal"></highlight></codeline>
-<codeline lineno="183"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>defined(NS_AMBIQSUITE_VERSION_R4_1_0)<sp/>||<sp/>defined(AM_PART_APOLLO4L)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sOffsetCalib;</highlight></codeline>
-<codeline lineno="185"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_offset_cal_coeffs_array_t<sp/>*sOffsetCalib;</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="188" refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" refkind="member"><highlight class="normal">}<sp/><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref>;</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"></highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>;</highlight></codeline>
-<codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" kindref="member">ns_audio_init</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*);</highlight></codeline>
-<codeline lineno="198"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" kindref="member">ns_audio_getPCM</ref>(int16_t<sp/>*pcm,<sp/>uint32_t<sp/>*raw,<sp/>int16_t<sp/>len);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>defined(NS_AMBIQSUITE_VERSION_R4_1_0)<sp/>||<sp/>defined(AM_PART_APOLLO4L)<sp/>||<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="184"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>defined(AM_PART_APOLLO3P)<sp/>||<sp/>defined(AM_PART_APOLLO3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*sOffsetCalib;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_offset_cal_coeffs_array_t<sp/>*sOffsetCalib;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" refkind="member"><highlight class="normal">}<sp/><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" kindref="member">ns_audio_init</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-audio_1ga55e60de796839733a56906df5b732e79" kindref="member">ns_start_audio</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*);</highlight></codeline>
 <codeline lineno="207"><highlight class="normal"></highlight></codeline>
-<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" kindref="member">ns_audio_getPCM_v2</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pcm);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-audio_1ga4f5f641c72025f6021ad5688a7fecfd9" kindref="member">ns_end_audio</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*);</highlight></codeline>
 <codeline lineno="215"><highlight class="normal"></highlight></codeline>
-<codeline lineno="216"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="219"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_AUDIO</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" kindref="member">ns_audio_getPCM</ref>(int16_t<sp/>*pcm,<sp/>uint32_t<sp/>*raw,<sp/>int16_t<sp/>len);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" kindref="member">ns_audio_getPCM_v2</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pcm);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_AUDIO</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h"/>
   </compounddef>

@@ -35,9 +35,28 @@ ns_usb_config_t usb_config = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = NULL};
 
 volatile uint8_t gGotUSBRx = 0;
+
+// volatile const void *pTUSB_WeakFcnPointers[] =
+// {
+//     (void *)tud_mount_cb,
+// #ifndef TUSB_ADDED_FUNCTIONS
+//     (void *)tud_umount_cb,
+// #endif
+//     (void *)tud_suspend_cb,
+//     (void *)tud_resume_cb,
+//     (void *)tud_cdc_line_state_cb,
+//     (void *)tud_cdc_rx_cb,
+//     (void *)tud_vendor_rx_cb,
+//     (void *)tud_vendor_control_xfer_cb,
+//     (void *)tud_descriptor_bos_cb,
+//     (void *)tud_descriptor_device_cb,
+//     (void *)tud_descriptor_configuration_cb,
+//     (void *)tud_descriptor_string_cb,
+// };
 
 bool ns_usb_data_available(usb_handle_t handle) { return (gGotUSBRx == 1); }
 
@@ -50,9 +69,12 @@ uint8_t *ns_usb_get_tx_buffer() { return usb_config.tx_buffer; }
 
 static void ns_usb_service_callback(ns_timer_config_t *c) {
     // Invoked in ISR context
+    // ns_lp_printf("U");
     tud_task();
-    if (usb_config.service_cb != NULL)
+    if (usb_config.service_cb != NULL) {
         usb_config.service_cb(gGotUSBRx);
+        // ns_lp_printf("got usb rx %d\n", gGotUSBRx);
+    }
 }
 
 ns_timer_config_t g_ns_usbTimer = {
@@ -86,6 +108,7 @@ uint32_t ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
     usb_config.rx_cb = cfg->rx_cb;
     usb_config.tx_cb = cfg->tx_cb;
     usb_config.service_cb = cfg->service_cb;
+    usb_config.desc_url = cfg->desc_url;
     *h = (void *)&usb_config;
     tusb_init();
 
@@ -101,13 +124,14 @@ void ns_usb_register_callbacks(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx
     ((ns_usb_config_t *)handle)->tx_cb = txcb;
 }
 
+// Blocking read from USB. Will loop until we get the full buffer or timeout
 uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     // USB reads one block at a time, loop until we get full
     // request
     uint32_t bytes_rx = 0;
     uint32_t retries = 100000;
-    uint32_t block_retries = 3; // number of rx blocks we'll retry
+    uint32_t block_retries = 15; // number of rx blocks we'll retry
 
     // if (gGotUSBRx == 0)
     //     ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
@@ -118,7 +142,11 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     // uint32_t after = tud_cdc_available();
     // uint8_t after_sem = gGotUSBRx;
     while (tud_cdc_available() < bufsize) {
+        // If there isn't enough data to satisfy request, wait for a while
+
         // ns_lp_printf("Mystery path after %d %d %d\n", after, after_sem, gGotUSBRx);
+
+        // We only care abot gGotUSBRx in order to count 'blocks' (i.e. USB RX interrupts)
         ns_interrupt_master_disable(); // critical region
         if (tud_cdc_available() < bufsize) {
             gGotUSBRx = 0; // set to 1 in IRQ context, need to disable IRQs for a bit
@@ -127,7 +155,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
 
         // Wait for a block to come in
         while ((gGotUSBRx == 0) && (tud_cdc_available() < bufsize)) {
-            ns_delay_us(150);
+            ns_delay_us(750);
             retries--;
             if (retries == 0) {
                 ns_lp_printf("[ERROR] ns_usb_recieve_data exhausted wait for sem\n");
@@ -135,7 +163,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
             }
         };
 
-        // Incoming blocks may be less than needed bytes, try up to 3 times
+        // Incoming blocks may be less than needed bytes, try up to 5 times
         if (block_retries == 0) {
             ns_lp_printf("[ERROR] ns_usb_recieve_data exhausted block retries\n");
             break;
@@ -152,9 +180,12 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
     // ns_lp_printf("Got bytes %d\n", bytes_rx);
-    //  ns_delay_us(100);
+    ns_delay_us(200);
 
     // dontoptimizeme = after + after_sem + before + before_sem + after2 + after2_sem;
+    if (bytes_rx != bufsize) {
+        ns_lp_printf("[ERROR] RX error, asked for %d, got %d\n", bufsize, bytes_rx);
+    }
     return bytes_rx;
 }
 
@@ -182,4 +213,8 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);
     // tud_cdc_write_flush();
     return bytes_tx;
+}
+
+ns_tusb_desc_webusb_url_t * ns_get_desc_url() { 
+    return usb_config.desc_url;
 }

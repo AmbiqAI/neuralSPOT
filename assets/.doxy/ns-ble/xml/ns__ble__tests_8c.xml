@@ -1,0 +1,954 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__ble__tests_8c" kind="file" language="C++">
+    <compoundname>ns_ble_tests.c</compoundname>
+    <includes local="yes">unity/unity.h</includes>
+    <includes refid="ns__ble_8h" local="yes">ns_ble.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ns_ble.h</label>
+        <link refid="ns__ble_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c</label>
+        <link refid="ns__ble__tests_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>app_api.h</label>
+      </node>
+      <node id="11">
+        <label>app_db.h</label>
+      </node>
+      <node id="12">
+        <label>app_hw.h</label>
+      </node>
+      <node id="13">
+        <label>app_ui.h</label>
+      </node>
+      <node id="14">
+        <label>att_api.h</label>
+      </node>
+      <node id="15">
+        <label>att_handler.h</label>
+      </node>
+      <node id="16">
+        <label>bstream.h</label>
+      </node>
+      <node id="17">
+        <label>dm_api.h</label>
+      </node>
+      <node id="18">
+        <label>dm_handler.h</label>
+      </node>
+      <node id="19">
+        <label>gatt_api.h</label>
+      </node>
+      <node id="20">
+        <label>hci_api.h</label>
+      </node>
+      <node id="30">
+        <label>hci_core.h</label>
+      </node>
+      <node id="31">
+        <label>hci_drv_apollo.h</label>
+      </node>
+      <node id="32">
+        <label>hci_drv_cooper.h</label>
+      </node>
+      <node id="33">
+        <label>hci_handler.h</label>
+      </node>
+      <node id="21">
+        <label>l2c_api.h</label>
+      </node>
+      <node id="22">
+        <label>l2c_handler.h</label>
+      </node>
+      <node id="4">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="5">
+        <label>ns_malloc.h</label>
+      </node>
+      <node id="23">
+        <label>smp_api.h</label>
+      </node>
+      <node id="24">
+        <label>smp_handler.h</label>
+      </node>
+      <node id="28">
+        <label>stdbool.h</label>
+      </node>
+      <node id="29">
+        <label>string.h</label>
+      </node>
+      <node id="25">
+        <label>svc_ch.h</label>
+      </node>
+      <node id="26">
+        <label>svc_core.h</label>
+      </node>
+      <node id="27">
+        <label>svc_dis.h</label>
+      </node>
+      <node id="2">
+        <label>unity/unity.h</label>
+      </node>
+      <node id="7">
+        <label>wsf_buf.h</label>
+      </node>
+      <node id="8">
+        <label>wsf_msg.h</label>
+      </node>
+      <node id="9">
+        <label>wsf_trace.h</label>
+      </node>
+      <node id="6">
+        <label>wsf_types.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__ble__tests_8c_1a9f213227674effff0122a75d94d87938" prot="public" static="no">
+        <name>configTOTAL_HEAP_SIZE</name>
+        <initializer>NS_MALLOC_HEAP_SIZE_IN_K * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="3" column="11" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__ble__tests_8c_1ac960fb0a7332963e0eef5b0be9c8e97c" prot="public" static="no">
+        <name>webbleUuid</name>
+        <param><defname>uuid</defname></param>
+        <initializer>&quot;19b10000&quot; uuid &quot;537e4f6cd104768a1214&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="6" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="6" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__ble__tests_8c_1a5fc04b4704019b2e3ca05efe141df0d8" prot="public" static="no">
+        <name>WEBBLE_WSF_BUFFER_POOLS</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="7" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__ble__tests_8c_1a36f830a2e2bc30b1eff8fa6814d42792" prot="public" static="no">
+        <name>WEBBLE_WSF_BUFFER_SIZE</name>
+        <initializer>    (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 280 * 14) / sizeof(uint32_t)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="8" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__ble__tests_8c_1a90e8cd581702224cd749165e4df0ab86" prot="public" static="no" mutable="no">
+        <type>size_t const</type>
+        <definition>size_t const ucHeapSize</definition>
+        <argsstring></argsstring>
+        <name>ucHeapSize</name>
+        <initializer>= configTOTAL_HEAP_SIZE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="5" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="5" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1a0682229ac957fe7347360788a119a737" prot="public" static="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE]</definition>
+        <argsstring>[WEBBLE_WSF_BUFFER_SIZE]</argsstring>
+        <name>webbleWSFBufferPool</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="10" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1ad54cc2755561c2dd2d8f0f3792eb837b" prot="public" static="yes" mutable="no">
+        <type>wsfBufPoolDesc_t</type>
+        <definition>wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS]</definition>
+        <argsstring>[WEBBLE_WSF_BUFFER_POOLS]</argsstring>
+        <name>webbleBufferDescriptors</name>
+        <initializer>= {
+    {16, 8}, 
+    {32, 4},
+    {64, 6},
+    {512, 14}}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="11" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1abde641819f6a164e7a2ed014fd91854f" prot="public" static="yes" mutable="no">
+        <type><ref refid="structns__ble__pool__config__t" kindref="compound">ns_ble_pool_config_t</ref></type>
+        <definition>ns_ble_pool_config_t webbleWsfBuffers</definition>
+        <argsstring></argsstring>
+        <name>webbleWsfBuffers</name>
+        <initializer>= {
+    .pool = webbleWSFBufferPool,
+    .poolSize = sizeof(webbleWSFBufferPool),
+    .desc = webbleBufferDescriptors,
+    .descNum = WEBBLE_WSF_BUFFER_POOLS}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="16" column="29" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1a460db94c696f67477e35d003e93a4d51" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref></type>
+        <definition>ns_ble_service_t webbleService</definition>
+        <argsstring></argsstring>
+        <name>webbleService</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="21" column="18" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1afc1d28cfbce795d6ea954ebe725241f5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="22" column="7" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1a16505294fc4a064075013682a4e8fe85" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t humidity</definition>
+        <argsstring></argsstring>
+        <name>humidity</name>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="23" column="10" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1a3709417e3642a1138f2e990df6c6c9dc" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleTemperature</definition>
+        <argsstring></argsstring>
+        <name>webbleTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="25" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1aeeb1d6207c6ae631b5e02389ce047ead" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleHumidity</definition>
+        <argsstring></argsstring>
+        <name>webbleHumidity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="25" column="43" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1a55f65a56b45a63abef9d84921668e907" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webblePressure</definition>
+        <argsstring></argsstring>
+        <name>webblePressure</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="25" column="58" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1afc59f15ad885b3b401804eaea0166084" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleAccel</definition>
+        <argsstring></argsstring>
+        <name>webbleAccel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="26" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1ad20da42ec69cd7b7e72025313087ee3d" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleGyro</definition>
+        <argsstring></argsstring>
+        <name>webbleGyro</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="26" column="37" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1af557ba533d52111eea977defbaedfb01" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleQuat</definition>
+        <argsstring></argsstring>
+        <name>webbleQuat</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="26" column="48" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1ae0c137f782d60c959d02b54441dc44c8" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleRgb</definition>
+        <argsstring></argsstring>
+        <name>webbleRgb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="27" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1af6e0d30aad321651642beb833f4f0f6d" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleBsec</definition>
+        <argsstring></argsstring>
+        <name>webbleBsec</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="27" column="35" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1ae5d87014a12b24e95b5d6d0e620349d7" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleCo2</definition>
+        <argsstring></argsstring>
+        <name>webbleCo2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="27" column="46" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__ble__tests_8c_1ab7b3ff3c7ab782809cfb3623f4301507" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref></type>
+        <definition>ns_ble_characteristic_t webbleGas</definition>
+        <argsstring></argsstring>
+        <name>webbleGas</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="27" column="56" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__ble__tests_8c_1a11208261e6ac23565e05907272f18bb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K *1024]</type>
+        <definition>uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K *1024] __attribute__</definition>
+        <argsstring>((aligned(4)))</argsstring>
+        <name>__attribute__</name>
+        <param>
+          <type>(aligned(4))</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="4" column="16" declfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" declline="4" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1ad9c5997492ca4ae24fc4e5b7586cdde3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="28" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a4826a870c62a1abf4a095b0d19325cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="32" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a7c7c4c9a0fc877b0c35cb46afad6e9b8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int webbleReadHandler</definition>
+        <argsstring>(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *dest)</argsstring>
+        <name>webbleReadHandler</name>
+        <param>
+          <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>struct <ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>dest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="36" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a1ba630f52ea441f9b291532ce4608711" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int webbleWriteHandler</definition>
+        <argsstring>(ns_ble_service_t *s, struct ns_ble_characteristic *c, void *src)</argsstring>
+        <name>webbleWriteHandler</name>
+        <param>
+          <type><ref refid="group__ns-ble_1gaf74e3f492cc0808ff997255e4858c1f2" kindref="member">ns_ble_service_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>struct <ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="42" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="42" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1af7c934cfc4a2283ae3d94da13ef96fb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_create_service_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_create_service_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="49" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="49" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a7320e8854fe13b9074c4116aa4fa0cec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_create_service_test_no_characteristics</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_create_service_test_no_characteristics</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="71" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="71" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a5a658c4ebcc5aba6fdc98ebaa52b507d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_create_null_service_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_create_null_service_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="85" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a47199ff22e710d61d1d09c7362dd6b4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_negative_attribute_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_negative_attribute_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="91" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="91" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a0620d794ff6e8e6a95bae75941b2ef85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_create_different_service_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_create_different_service_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="105" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="105" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a6dcc34e330b81d9a16805e3b65b1c8f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_characteristic_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_characteristic_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="119" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="119" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a235c5b5d5a104f919a31662f55ca71a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_multiple_characteristics_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_multiple_characteristics_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="141" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="141" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a987b0f0569d13ffd4b9c82ca00f25fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_multiple_characteristics_fail_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_multiple_characteristics_fail_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="178" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="178" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1a00388509aff1b515d7b500ef52dc49fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_empty_service_add_characteristic_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_empty_service_add_characteristic_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="216" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="216" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__ble__tests_8c_1ac03af4f197de8d1c055d5e21a7de1efe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_ble_start_service_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_ble_start_service_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" line="241" column="6" bodyfile="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c" bodystart="241" bodyend="265"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;unity/unity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__ble_8h" kindref="compound">ns_ble.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>configTOTAL_HEAP_SIZE<sp/>NS_MALLOC_HEAP_SIZE_IN_K<sp/>*<sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal">uint8_t<sp/>ucHeap[NS_MALLOC_HEAP_SIZE_IN_K<sp/>*<sp/>1024]<sp/>__attribute__<sp/>((aligned<sp/>(4)));</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ucHeapSize<sp/>=<sp/>configTOTAL_HEAP_SIZE;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>webbleUuid(uuid)<sp/>&quot;19b10000&quot;</highlight><highlight class="normal"><sp/>uuid<sp/>&quot;537e4f6cd104768a1214&quot;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>WEBBLE_WSF_BUFFER_POOLS<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>WEBBLE_WSF_BUFFER_SIZE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="9"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>(WEBBLE_WSF_BUFFER_POOLS<sp/>*<sp/>16<sp/>+<sp/>16<sp/>*<sp/>8<sp/>+<sp/>32<sp/>*<sp/>4<sp/>+<sp/>64<sp/>*<sp/>6<sp/>+<sp/>280<sp/>*<sp/>14)<sp/>/<sp/>sizeof(uint32_t)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE];</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>wsfBufPoolDesc_t<sp/>webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>{16,<sp/>8},<sp/></highlight><highlight class="comment">//<sp/>16<sp/>bytes,<sp/>8<sp/>buffers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>{32,<sp/>4},</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>{64,<sp/>6},</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>{512,<sp/>14}};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structns__ble__pool__config__t" kindref="compound">ns_ble_pool_config_t</ref><sp/>webbleWsfBuffers<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>.pool<sp/>=<sp/>webbleWSFBufferPool,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>.poolSize<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(webbleWSFBufferPool),</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>.desc<sp/>=<sp/>webbleBufferDescriptors,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>.descNum<sp/>=<sp/>WEBBLE_WSF_BUFFER_POOLS};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>webbleService;<sp/></highlight><highlight class="comment">//<sp/>Webble<sp/>Service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>temperature<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">uint16_t<sp/>humidity<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Webble<sp/>Service<sp/>Characteristics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>webbleTemperature,<sp/>webbleHumidity,<sp/>webblePressure;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>webbleAccel,<sp/>webbleGyro,<sp/>webbleQuat;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>webbleRgb,<sp/>webbleBsec,<sp/>webbleCo2,<sp/>webbleGas;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_tests_pre_test_hook()<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pre<sp/>test<sp/>hook<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_tests_post_test_hook()<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>post<sp/>test<sp/>hook<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>webbleReadHandler(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref><sp/>*c,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*dest)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;webblehandler\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(dest,<sp/>c-&gt;applicationValue,<sp/>c-&gt;valueLen);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>webbleWriteHandler(<ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>*s,<sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic</ref><sp/>*c,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*src)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;webbleWriteHandler<sp/>value<sp/>%x\n&quot;,<sp/>*(uint8_t<sp/>*)src);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(c-&gt;applicationValue,<sp/>src,<sp/>c-&gt;valueLen);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>test<sp/>to<sp/>check<sp/>if<sp/>the<sp/>service<sp/>is<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_create_service_test()<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(webbleUuid(</highlight><highlight class="stringliteral">&quot;0000&quot;</highlight><highlight class="normal">),<sp/>&amp;(webbleService.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(webbleService.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>webbleService.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>webbleService.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>webbleService.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleTemperature,<sp/>webbleUuid(</highlight><highlight class="stringliteral">&quot;2001&quot;</highlight><highlight class="normal">),<sp/>&amp;temperature,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature),<sp/>NS_BLE_READ,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleReadHandler,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(webbleService.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleHumidity,<sp/>webbleUuid(</highlight><highlight class="stringliteral">&quot;3001&quot;</highlight><highlight class="normal">),<sp/>&amp;humidity,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(humidity),<sp/>NS_BLE_READ,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleReadHandler,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(webbleService.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>webbleService.<ref refid="structns__ble__service_1a511050a682d655a2b86970c986b0e725" kindref="member">poolConfig</ref><sp/>=<sp/>&amp;webbleWsfBuffers;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>webbleService.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;webbleService);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Service<sp/>created\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Service<sp/>with<sp/>no<sp/>characteristics<sp/>-<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_create_service_test_no_characteristics()<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_FAILURE,<sp/>status);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>failure<sp/>if<sp/>service<sp/>is<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_create_null_service_test()<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(NULL);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_FAILURE,<sp/>status);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>Failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_negative_attribute_test()<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_FAILURE,<sp/>status);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>to<sp/>check<sp/>if<sp/>the<sp/>service<sp/>is<sp/>created<sp/>with<sp/>different<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_create_different_service_test()<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>customName[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;differentService&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(customName,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>customName,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(customName));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(customName)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x1000;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>creating<sp/>and<sp/>adding<sp/>one<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_characteristic_test()<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>temp;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>temperature<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp,<sp/>ble_name,<sp/>&amp;temperature,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature),<sp/>NS_BLE_READ,<sp/>&amp;webbleReadHandler,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(&amp;service,<sp/>&amp;temp);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>creating<sp/>and<sp/>adding<sp/>multiple<sp/>characteristics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_multiple_characteristics_test()<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>temp1,<sp/>temp2;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>temperature1<sp/>=<sp/>0.0,<sp/>temperature2<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>first<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp1,<sp/></highlight><highlight class="stringliteral">&quot;characteristic0&quot;</highlight><highlight class="normal">,<sp/>&amp;temperature1,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature1),<sp/>NS_BLE_READ,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleReadHandler,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>second<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp2,<sp/></highlight><highlight class="stringliteral">&quot;characteristic1&quot;</highlight><highlight class="normal">,<sp/>&amp;temperature2,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature2),<sp/>NS_BLE_WRITE,<sp/>NULL,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleWriteHandler,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>2;<sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>characteristics<sp/>being<sp/>added</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>characteristics<sp/>to<sp/>the<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(&amp;service,<sp/>&amp;temp1);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(&amp;service,<sp/>&amp;temp2);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>due<sp/>to<sp/>characteristic<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_multiple_characteristics_fail_test()<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>temp1,<sp/>temp2;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>temperature1<sp/>=<sp/>0.0,<sp/>temperature2<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>first<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp1,<sp/></highlight><highlight class="stringliteral">&quot;characteristic0&quot;</highlight><highlight class="normal">,<sp/>&amp;temperature1,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature1),<sp/>NS_BLE_READ,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleReadHandler,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>second<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp2,<sp/></highlight><highlight class="stringliteral">&quot;characteristic1&quot;</highlight><highlight class="normal">,<sp/>&amp;temperature2,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature2),<sp/>NS_BLE_WRITE,<sp/>NULL,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleWriteHandler,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga6210cc35d88021c96095b96066616adf" kindref="member">ns_ble_create_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>Mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>characteristics<sp/>to<sp/>the<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(&amp;service,<sp/>&amp;temp1);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>to<sp/>add<sp/>the<sp/>second<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(&amp;service,<sp/>&amp;temp2);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_FAILURE,<sp/>status);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Empty<sp/>service<sp/>when<sp/>adding<sp/>characteristic<sp/>-<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_empty_service_add_characteristic_test()<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>temp1;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>temperature1<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>first<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp1,<sp/></highlight><highlight class="stringliteral">&quot;characteristic0&quot;</highlight><highlight class="normal">,<sp/>&amp;temperature1,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature1),<sp/>NS_BLE_READ,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleReadHandler,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>characteristics<sp/>to<sp/>the<sp/>EMPTY<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(NULL,<sp/>&amp;temp1);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_FAILURE,<sp/>status);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>starting<sp/>a<sp/>service</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_ble_start_service_test()<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__service" kindref="compound">ns_ble_service_t</ref><sp/>service;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__ble__characteristic" kindref="compound">ns_ble_characteristic_t</ref><sp/>temp1;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>temperature1<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ble_name[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;abcabcabcabcabca&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(<ref refid="group__ns-ble_1ga2c0d0c641c24f7ff8a43a868cfae85cd" kindref="member">ns_ble_char2uuid</ref>(ble_name,<sp/>&amp;(service.uuid128)),<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>convert<sp/>UUID\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(service.<ref refid="structns__ble__service_1aa800de1217cf5e505b4e0118fe327135" kindref="member">name</ref>,<sp/>ble_name,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a357d96b329ae70a2a63f64149d070ace" kindref="member">nameLen</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ble_name)<sp/>-<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>exclude<sp/>null<sp/>terminator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a072f47eb598a0f095c194619331ddc76" kindref="member">baseHandle</ref><sp/>=<sp/>0x0800;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>first<sp/>characteristic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga84962cb8608fa7cd12e08c63cc8646e9" kindref="member">ns_ble_create_characteristic</ref>(</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;temp1,<sp/></highlight><highlight class="stringliteral">&quot;characteristic0&quot;</highlight><highlight class="normal">,<sp/>&amp;temperature1,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(temperature1),<sp/>NS_BLE_READ,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;webbleReadHandler,<sp/>NULL,<sp/>NULL,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;(service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref>));</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1a23f3fdd50a1d651a24d805b4ba8d5367" kindref="member">numAttributes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>service.<ref refid="structns__ble__service_1aa6f719649fce31c6f8bfbdabfa75e2a4" kindref="member">numCharacteristics</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1gafb5d6f3f04ec1bcfb691d86c0618861e" kindref="member">ns_ble_add_characteristic</ref>(&amp;service,<sp/>&amp;temp1);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-ble_1ga3393014ed7c66d81fe25c12be59522e6" kindref="member">ns_ble_start_service</ref>(&amp;service);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-ble/tests/ns_ble_tests.c"/>
+  </compounddef>
+</doxygen>

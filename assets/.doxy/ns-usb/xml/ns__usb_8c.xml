@@ -1,0 +1,728 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__usb_8c" kind="file" language="C++">
+    <compoundname>ns_usb.c</compoundname>
+    <includes refid="ns__usb_8h" local="yes">ns_usb.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes local="yes">ns_timer.h</includes>
+    <includes local="yes">tusb.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_usb.h</label>
+        <link refid="ns__usb_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>webusb_controller.h</label>
+        <link refid="webusb__controller_8h"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-usb/src/ns_usb.c</label>
+        <link refid="ns__usb_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="8">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+      <node id="9">
+        <label>ns_timer.h</label>
+      </node>
+      <node id="10">
+        <label>tusb.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-usb_1ga8860ea655ff02c11ef421b2868666f22" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_usb_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_usb_V0_0_1</name>
+        <initializer>= {.apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="20" column="21" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-usb_1ga9fb1a62e1156a23423bbcfbf7c9a3b9a" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_usb_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_usb_V1_0_0</name>
+        <initializer>= {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="22" column="21" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-usb_1gaed4e04b1095861c79a7311846ede9750" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_usb_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_usb_oldest_supported_version</name>
+        <initializer>= {
+    .apiId = NS_USB_API_ID, .version = NS_USB_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="24" column="21" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-usb_1gabcce1abf517a2a3895481b42c48187a4" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_usb_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_usb_current_version</name>
+        <initializer>= {.apiId = NS_USB_API_ID, .version = NS_USB_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="27" column="21" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__usb_8c_1a0e953cb5a59c55a1aeddb3948fb222ab" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref></type>
+        <definition>ns_usb_config_t usb_config</definition>
+        <argsstring></argsstring>
+        <name>usb_config</name>
+        <initializer>= {
+    .api = &amp;ns_usb_V1_0_0,
+    .deviceType = <ref refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a290f77ae7c1a594db71a1b9f7f900c19" kindref="member">NS_USB_CDC_DEVICE</ref>,
+    .rx_buffer = NULL,
+    .rx_bufferLength = 0,
+    .tx_buffer = NULL,
+    .tx_bufferLength = 0,
+    .rx_cb = NULL,
+    .tx_cb = NULL,
+    .service_cb = NULL,
+    .desc_url = NULL}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="29" column="17" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__usb_8c_1a21f2efdf0e5810dd2f5857a2aee3e91d" prot="public" static="no" mutable="no">
+        <type>volatile uint8_t</type>
+        <definition>volatile uint8_t gGotUSBRx</definition>
+        <argsstring></argsstring>
+        <name>gGotUSBRx</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="41" column="18" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__usb_8c_1a0aecf1227b00d83736336b6b88e47a77" prot="public" static="no" mutable="no">
+        <type>ns_timer_config_t</type>
+        <definition>ns_timer_config_t g_ns_usbTimer</definition>
+        <argsstring></argsstring>
+        <name>g_ns_usbTimer</name>
+        <initializer>= {
+    .api = &amp;ns_timer_V1_0_0,
+    .timer = NS_TIMER_USB,
+    .enableInterrupt = true,
+    .periodInMicroseconds = 1000,
+    .callback = ns_usb_service_callback}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="80" column="19" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-usb_1gad00d52ff27b45c0157823dc291156729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ns_usb_data_available</definition>
+        <argsstring>(usb_handle_t handle)</argsstring>
+        <name>ns_usb_data_available</name>
+        <param>
+          <type>usb_handle_t</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="61" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga5fe866e58411f62b9e21052b2ac6bc2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_get_cdc_rx_bufferLength</definition>
+        <argsstring>()</argsstring>
+        <name>ns_get_cdc_rx_bufferLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="63" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1gaeefc8f6f05ae75e692836e17bb35606e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_get_cdc_tx_bufferLength</definition>
+        <argsstring>()</argsstring>
+        <name>ns_get_cdc_tx_bufferLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="64" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga185c9712b19b0bae083177d6b29d50c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t *</type>
+        <definition>uint8_t * ns_usb_get_rx_buffer</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_get_rx_buffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="66" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga5e85918c24fb5ee4e93b3da1388ea332" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t *</type>
+        <definition>uint8_t * ns_usb_get_tx_buffer</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_get_tx_buffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="68" column="9" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb_8c_1ae94c63e56b3e2bca90a17f7b2588b378" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ns_usb_service_callback</definition>
+        <argsstring>(ns_timer_config_t *c)</argsstring>
+        <name>ns_usb_service_callback</name>
+        <param>
+          <type>ns_timer_config_t *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga0771febd668bd46beb762a864f5ae521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_usb_init</definition>
+        <argsstring>(ns_usb_config_t *cfg, usb_handle_t *h)</argsstring>
+        <name>ns_usb_init</name>
+        <param>
+          <type><ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>usb_handle_t *</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the USB system. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="87" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="87" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1gabdf6b8dab620f89a597158f7edab3715" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_register_callbacks</definition>
+        <argsstring>(usb_handle_t handle, ns_usb_rx_cb rxcb, ns_usb_tx_cb txcb)</argsstring>
+        <name>ns_usb_register_callbacks</name>
+        <param>
+          <type>usb_handle_t</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>ns_usb_rx_cb</type>
+          <declname>rxcb</declname>
+        </param>
+        <param>
+          <type>ns_usb_tx_cb</type>
+          <declname>txcb</declname>
+        </param>
+        <briefdescription>
+<para>Register callbacks for USB events, should be called after ns_usb_init. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rx_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tx_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="122" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1gaeaffd24e760b500227b4a8cf1514bbcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_usb_recieve_data</definition>
+        <argsstring>(usb_handle_t handle, void *buffer, uint32_t bufsize)</argsstring>
+        <name>ns_usb_recieve_data</name>
+        <param>
+          <type>usb_handle_t</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufsize</declname>
+        </param>
+        <briefdescription>
+<para>Blocking USB Receive Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>USB handle </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to buffer where data will be placed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested number of bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="128" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="128" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga2033d43e98bc0ec7763e7c87f321ac32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_handle_read_error</definition>
+        <argsstring>(usb_handle_t h)</argsstring>
+        <name>ns_usb_handle_read_error</name>
+        <param>
+          <type>usb_handle_t</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+<para>Flushes the USB RX fifo after a delay, resets ns_usb rx state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>h</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>handle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="192" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga793a9b29ab9e0db229742e55c9cae9a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_usb_send_data</definition>
+        <argsstring>(usb_handle_t handle, void *buffer, uint32_t bufsize)</argsstring>
+        <name>ns_usb_send_data</name>
+        <param>
+          <type>usb_handle_t</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufsize</declname>
+        </param>
+        <briefdescription>
+<para>Blocking USB Send Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>USB handle </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to buffer with data to be sent </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested number of bytes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="202" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="202" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-usb_1ga7db5fbec55d9ecd50b1c40ea193f87a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="group__ns-usb_1gae261479721391e47057d2e947cace999" kindref="member">ns_tusb_desc_webusb_url_t</ref> *</type>
+        <definition>ns_tusb_desc_webusb_url_t * ns_get_desc_url</definition>
+        <argsstring>()</argsstring>
+        <name>ns_get_desc_url</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" line="218" column="28" bodyfile="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c" bodystart="218" bodyend="220"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_usb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_timer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tusb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_usb_V0_0_1<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_USB_API_ID,<sp/>.version<sp/>=<sp/>NS_USB_V0_0_1};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_usb_V1_0_0<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_USB_API_ID,<sp/>.version<sp/>=<sp/>NS_USB_V1_0_0};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_usb_oldest_supported_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_USB_API_ID,<sp/>.version<sp/>=<sp/>NS_USB_V0_0_1};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_usb_current_version<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_USB_API_ID,<sp/>.version<sp/>=<sp/>NS_USB_V1_0_0};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref><sp/>usb_config<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__usb__config__t_1aabcd9dc7d127647a2cb021e31704b855" kindref="member">api</ref><sp/>=<sp/>&amp;ns_usb_V1_0_0,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>.deviceType<sp/>=<sp/><ref refid="group__ns-usb_1gga4aca6e5a14e39094d9f64c7c5835acc8a290f77ae7c1a594db71a1b9f7f900c19" kindref="member">NS_USB_CDC_DEVICE</ref>,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_buffer<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_bufferLength<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_buffer<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_bufferLength<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>.rx_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>.tx_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>.service_cb<sp/>=<sp/>NULL,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>.desc_url<sp/>=<sp/>NULL};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>uint8_t<sp/>gGotUSBRx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>volatile<sp/>const<sp/>void<sp/>*pTUSB_WeakFcnPointers[]<sp/>=</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_mount_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#ifndef<sp/>TUSB_ADDED_FUNCTIONS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_umount_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_suspend_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_resume_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_cdc_line_state_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_cdc_rx_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_vendor_rx_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_vendor_control_xfer_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_descriptor_bos_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_descriptor_device_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_descriptor_configuration_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)tud_descriptor_string_cb,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>};</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ns_usb_data_available(usb_handle_t<sp/>handle)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(gGotUSBRx<sp/>==<sp/>1);<sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">uint32_t<sp/>ns_get_cdc_rx_bufferLength()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>usb_config.<ref refid="structns__usb__config__t_1a4e79d9d8f1ede0e15bbd1089f213cfad" kindref="member">rx_bufferLength</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">uint32_t<sp/>ns_get_cdc_tx_bufferLength()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>usb_config.<ref refid="structns__usb__config__t_1ae7fc102dd2312880a5268661c83e1239" kindref="member">tx_bufferLength</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">uint8_t<sp/>*ns_usb_get_rx_buffer()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>usb_config.<ref refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kindref="member">rx_buffer</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">uint8_t<sp/>*ns_usb_get_tx_buffer()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>usb_config.<ref refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kindref="member">tx_buffer</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_service_callback(ns_timer_config_t<sp/>*c)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invoked<sp/>in<sp/>ISR<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;U&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>tud_task();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(usb_config.<ref refid="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" kindref="member">service_cb</ref><sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" kindref="member">service_cb</ref>(gGotUSBRx);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;got<sp/>usb<sp/>rx<sp/>%d\n&quot;,<sp/>gGotUSBRx);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">ns_timer_config_t<sp/>g_ns_usbTimer<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_timer_V1_0_0,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>.timer<sp/>=<sp/>NS_TIMER_USB,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>.enableInterrupt<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>.periodInMicroseconds<sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>.callback<sp/>=<sp/>ns_usb_service_callback};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-usb_1ga0771febd668bd46beb762a864f5ae521" kindref="member">ns_usb_init</ref>(<ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref><sp/>*cfg,<sp/>usb_handle_t<sp/>*h)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(cfg-&gt;<ref refid="structns__usb__config__t_1aabcd9dc7d127647a2cb021e31704b855" kindref="member">api</ref>,<sp/>&amp;ns_usb_oldest_supported_version,<sp/>&amp;ns_usb_current_version))<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cfg-&gt;<ref refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kindref="member">rx_buffer</ref><sp/>==<sp/>NULL)<sp/>||<sp/>(cfg-&gt;<ref refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kindref="member">tx_buffer</ref><sp/>==<sp/>NULL))<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_CONFIG;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a0ccfdaca8e4d4f2ddbe20cc880b093df" kindref="member">deviceType</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1a0ccfdaca8e4d4f2ddbe20cc880b093df" kindref="member">deviceType</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kindref="member">rx_buffer</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1ad0ba03a344422896457d383a1b639430" kindref="member">rx_buffer</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a4e79d9d8f1ede0e15bbd1089f213cfad" kindref="member">rx_bufferLength</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1a4e79d9d8f1ede0e15bbd1089f213cfad" kindref="member">rx_bufferLength</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kindref="member">tx_buffer</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1a94c0d9c156f1eaaeb6d317a4670758be" kindref="member">tx_buffer</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1ae7fc102dd2312880a5268661c83e1239" kindref="member">tx_bufferLength</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1ae7fc102dd2312880a5268661c83e1239" kindref="member">tx_bufferLength</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" kindref="member">rx_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1a1c05427e1607389966f3049d7b74f43e" kindref="member">rx_cb</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" kindref="member">tx_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1a4053340280435b27d6ae16aca79f81c1" kindref="member">tx_cb</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" kindref="member">service_cb</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1a57c2c423abcc8060bf935c859c2116e3" kindref="member">service_cb</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_config.<ref refid="structns__usb__config__t_1aec3e9369b795bc6523b061e9da2b32a0" kindref="member">desc_url</ref><sp/>=<sp/>cfg-&gt;<ref refid="structns__usb__config__t_1aec3e9369b795bc6523b061e9da2b32a0" kindref="member">desc_url</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>*h<sp/>=<sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*)&amp;usb_config;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>tusb_init();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>up<sp/>a<sp/>timer<sp/>to<sp/>service<sp/>usb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_TRY(ns_timer_init(&amp;g_ns_usbTimer),<sp/></highlight><highlight class="stringliteral">&quot;Timer<sp/>Init<sp/>Failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-usb_1gabdf6b8dab620f89a597158f7edab3715" kindref="member">ns_usb_register_callbacks</ref>(usb_handle_t<sp/>handle,<sp/>ns_usb_rx_cb<sp/>rxcb,<sp/>ns_usb_tx_cb<sp/>txcb)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>((<ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref><sp/>*)handle)-&gt;rx_cb<sp/>=<sp/>rxcb;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>((<ref refid="structns__usb__config__t" kindref="compound">ns_usb_config_t</ref><sp/>*)handle)-&gt;tx_cb<sp/>=<sp/>txcb;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Blocking<sp/>read<sp/>from<sp/>USB.<sp/>Will<sp/>loop<sp/>until<sp/>we<sp/>get<sp/>the<sp/>full<sp/>buffer<sp/>or<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-usb_1gaeaffd24e760b500227b4a8cf1514bbcb" kindref="member">ns_usb_recieve_data</ref>(usb_handle_t<sp/>handle,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint32_t<sp/>bufsize)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>USB<sp/>reads<sp/>one<sp/>block<sp/>at<sp/>a<sp/>time,<sp/>loop<sp/>until<sp/>we<sp/>get<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>bytes_rx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>retries<sp/>=<sp/>100000;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>block_retries<sp/>=<sp/>15;<sp/></highlight><highlight class="comment">//<sp/>number<sp/>of<sp/>rx<sp/>blocks<sp/>we&apos;ll<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>(gGotUSBRx<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>ns_lp_printf(&quot;Kicking<sp/>off<sp/>read<sp/>of<sp/>%d,<sp/>have<sp/>%d,<sp/>sem<sp/>%d<sp/>\n&quot;,<sp/>bufsize,<sp/>tud_cdc_available(),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gGotUSBRx);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>before<sp/>=<sp/>tud_cdc_available();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint8_t<sp/>before_sem<sp/>=<sp/>gGotUSBRx;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_delay_us(10);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>after<sp/>=<sp/>tud_cdc_available();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint8_t<sp/>after_sem<sp/>=<sp/>gGotUSBRx;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(tud_cdc_available()<sp/>&lt;<sp/>bufsize)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>there<sp/>isn&apos;t<sp/>enough<sp/>data<sp/>to<sp/>satisfy<sp/>request,<sp/>wait<sp/>for<sp/>a<sp/>while</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Mystery<sp/>path<sp/>after<sp/>%d<sp/>%d<sp/>%d\n&quot;,<sp/>after,<sp/>after_sem,<sp/>gGotUSBRx);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>care<sp/>abot<sp/>gGotUSBRx<sp/>in<sp/>order<sp/>to<sp/>count<sp/>&apos;blocks&apos;<sp/>(i.e.<sp/>USB<sp/>RX<sp/>interrupts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_interrupt_master_disable();<sp/></highlight><highlight class="comment">//<sp/>critical<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tud_cdc_available()<sp/>&lt;<sp/>bufsize)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gGotUSBRx<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>set<sp/>to<sp/>1<sp/>in<sp/>IRQ<sp/>context,<sp/>need<sp/>to<sp/>disable<sp/>IRQs<sp/>for<sp/>a<sp/>bit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_interrupt_master_enable();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>a<sp/>block<sp/>to<sp/>come<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>((gGotUSBRx<sp/>==<sp/>0)<sp/>&amp;&amp;<sp/>(tud_cdc_available()<sp/>&lt;<sp/>bufsize))<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_delay_us(750);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>retries--;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(retries<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;[ERROR]<sp/>ns_usb_recieve_data<sp/>exhausted<sp/>wait<sp/>for<sp/>sem\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incoming<sp/>blocks<sp/>may<sp/>be<sp/>less<sp/>than<sp/>needed<sp/>bytes,<sp/>try<sp/>up<sp/>to<sp/>5<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(block_retries<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;[ERROR]<sp/>ns_usb_recieve_data<sp/>exhausted<sp/>block<sp/>retries\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>block_retries--;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>after2<sp/>=<sp/>tud_cdc_available();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint8_t<sp/>after2_sem<sp/>=<sp/>gGotUSBRx;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>gGotUSBRx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>bytes_rx<sp/>=<sp/>tud_cdc_read((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*)buffer,<sp/>bufsize);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>(retries<sp/>!=<sp/>10000)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>ns_lp_printf(&quot;rx_data<sp/>ask<sp/>%d<sp/>got<sp/>%d<sp/>retries<sp/>%d<sp/>before<sp/>cnt,<sp/>sem:<sp/>%d,%d,<sp/>after<sp/>cnt,<sp/>sem:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>%d,<sp/>%d,<sp/>af2<sp/>cnt,sem:<sp/>%d,<sp/>%d\n&quot;,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bufsize,<sp/>bytes_rx,<sp/>retries,<sp/>before,<sp/>before_sem,<sp/>after,<sp/>after_sem,<sp/>after2,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>after2_sem);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Got<sp/>bytes<sp/>%d\n&quot;,<sp/>bytes_rx);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_delay_us(200);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dontoptimizeme<sp/>=<sp/>after<sp/>+<sp/>after_sem<sp/>+<sp/>before<sp/>+<sp/>before_sem<sp/>+<sp/>after2<sp/>+<sp/>after2_sem;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(bytes_rx<sp/>!=<sp/>bufsize)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;[ERROR]<sp/>RX<sp/>error,<sp/>asked<sp/>for<sp/>%d,<sp/>got<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>bufsize,<sp/>bytes_rx);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bytes_rx;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-usb_1ga2033d43e98bc0ec7763e7c87f321ac32" kindref="member">ns_usb_handle_read_error</ref>(usb_handle_t<sp/>h)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_delay_us(10000);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;In<sp/>error<sp/>after<sp/>wait\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>tud_cdc_read_flush();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>gGotUSBRx<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>may<sp/>be<sp/>set<sp/>by<sp/>final<sp/>RX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-usb_1ga793a9b29ab9e0db229742e55c9cae9a2" kindref="member">ns_usb_send_data</ref>(usb_handle_t<sp/>handle,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buffer,<sp/>uint32_t<sp/>bufsize)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>bytes_tx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;NS<sp/>USB<sp/><sp/>asked<sp/>to<sp/>send<sp/>%d,<sp/>\n&quot;,<sp/>bufsize);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(bytes_tx<sp/>&lt;<sp/>bufsize)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bytes_tx<sp/>+=<sp/>tud_cdc_write((</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*)(buffer<sp/>+<sp/>bytes_tx),<sp/>bufsize<sp/>-<sp/>bytes_tx);<sp/></highlight><highlight class="comment">//<sp/>blocking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tud_cdc_write_flush();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;NS<sp/>USB<sp/><sp/>asked<sp/>to<sp/>send<sp/>%d,<sp/>sent<sp/>%d<sp/>bytes\n&quot;,<sp/>bufsize,<sp/>bytes_tx);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>retval<sp/>=<sp/><sp/>tud_cdc_write(buffer,<sp/>bufsize);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tud_cdc_write_flush();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bytes_tx;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="struct_t_u___a_t_t_r___p_a_c_k_e_d" kindref="compound">ns_tusb_desc_webusb_url_t</ref><sp/>*<sp/>ns_get_desc_url()<sp/>{<sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>usb_config.<ref refid="structns__usb__config__t_1aec3e9369b795bc6523b061e9da2b32a0" kindref="member">desc_url</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-usb/src/ns_usb.c"/>
+  </compounddef>
+</doxygen>

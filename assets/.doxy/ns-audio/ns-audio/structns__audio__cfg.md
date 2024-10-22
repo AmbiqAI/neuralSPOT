@@ -52,7 +52,7 @@
 |  am\_hal\_pdm\_transfer\_t | [**sTransfer**](#variable-stransfer)  <br> |
 |  uint32\_t \* | [**sampleBuffer**](#variable-samplebuffer)  <br>_Where samples are DMA'd to._  |
 |  uint16\_t | [**sampleRate**](#variable-samplerate)  <br>_In Hz._  |
-|  am\_hal\_audadc\_sample\_t \* | [**workingBuffer**](#variable-workingbuffer)  <br>_Working buffer used by AUDADC, otherwise NULL._  |
+|  void \* | [**workingBuffer**](#variable-workingbuffer)  <br>_Not used for Apollo4 Lite._  |
 
 
 
@@ -321,7 +321,7 @@ uint16_t ns_audio_cfg::sampleRate;
 ### variable workingBuffer 
 
 ```C++
-am_hal_audadc_sample_t* ns_audio_cfg::workingBuffer;
+void* ns_audio_cfg::workingBuffer;
 ```
 
 

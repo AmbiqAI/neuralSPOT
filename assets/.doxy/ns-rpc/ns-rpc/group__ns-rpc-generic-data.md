@@ -115,6 +115,7 @@
 | define  | [**NS\_RPC\_GDO\_OLDEST\_SUPPORTED\_VERSION**](ns__rpc__generic__data_8h.md#define-ns_rpc_gdo_oldest_supported_version)  NS\_RPC\_GDO\_V0\_0\_1<br> |
 | define  | [**NS\_RPC\_GDO\_V0\_0\_1**](ns__rpc__generic__data_8h.md#define-ns_rpc_gdo_v0_0_1)          { .major = 0, .minor = 0, .revision = 1 }<br> |
 | define  | [**NS\_RPC\_GDO\_V1\_0\_0**](ns__rpc__generic__data_8h.md#define-ns_rpc_gdo_v1_0_0)          { .major = 1, .minor = 0, .revision = 0 }<br> |
+| define  | [**NS\_RPC\_MALLOC\_SIZE\_IN\_K**](ns__rpc__generic__data_8h.md#define-ns_rpc_malloc_size_in_k)  8<br> |
 
 ## Public Types Documentation
 
@@ -437,6 +438,17 @@ void ns_rpc_genericDataOperations_printDatablock (
 
 ```C++
 #define NS_RPC_GDO_V1_0_0 { .major = 1, .minor = 0, .revision = 0 }
+```
+
+
+
+
+
+
+### define NS\_RPC\_MALLOC\_SIZE\_IN\_K 
+
+```C++
+#define NS_RPC_MALLOC_SIZE_IN_K 8
 ```
 
 

@@ -92,7 +92,7 @@
 
 | Type | Name |
 | ---: | :--- |
-| define  | [**NS\_PROFILER\_MAX\_EVENTS**](ns__debug__log_8h.md#define-ns_profiler_max_events)  1024<br> |
+| define  | [**NS\_PROFILER\_MAX\_EVENTS**](ns__debug__log_8h.md#define-ns_profiler_max_events)  4096<br> |
 | define  | [**NS\_PROFILER\_TAG\_SIZE**](ns__debug__log_8h.md#define-ns_profiler_tag_size)  12<br> |
 
 ## Public Functions Documentation
@@ -120,7 +120,7 @@ void ns_TFDebugLogInit (
 ### define NS\_PROFILER\_MAX\_EVENTS 
 
 ```C++
-#define NS_PROFILER_MAX_EVENTS 1024
+#define NS_PROFILER_MAX_EVENTS 4096
 ```
 
 

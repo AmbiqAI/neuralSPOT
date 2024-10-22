@@ -22,6 +22,7 @@
     <member refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" kind="variable"><name>b128kTCM</name></member>
     <member refid="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" kind="variable"><name>bEnableTempCo</name></member>
     <member refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" kind="variable"><name>bNeedITM</name></member>
+    <member refid="structns__power__config__t_1a84b22525e06d278f7e5dc900db9559be" kind="variable"><name>bNeedXtal</name></member>
   </compound>
   <compound refid="ns__peripherals__button_8h" kind="file"><name>ns_peripherals_button.h</name>
     <member refid="ns__peripherals__button_8h_1a8946e011a7407c37702af42c3c518acd" kind="define"><name>NS_BUTTON_V0_0_1</name></member>
@@ -50,6 +51,7 @@
     <member refid="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" kind="variable"><name>ns_power_oldest_supported_version</name></member>
     <member refid="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" kind="variable"><name>ns_power_current_version</name></member>
     <member refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kind="variable"><name>ns_development_default</name></member>
+    <member refid="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" kind="variable"><name>ns_debug_default</name></member>
     <member refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kind="variable"><name>ns_good_default</name></member>
     <member refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kind="variable"><name>ns_mlperf_mode1</name></member>
     <member refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kind="variable"><name>ns_mlperf_mode2</name></member>
@@ -59,6 +61,25 @@
     <member refid="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" kind="function"><name>ns_deep_sleep</name></member>
     <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
   </compound>
+  <compound refid="apollo3_2ns__button_8c" kind="file"><name>ns_button.c</name>
+    <member refid="apollo3_2ns__button_8c_1ad673d2019dad9880e59dbe25183a1ea7" kind="variable"><name>g_ns_peripheral_button0</name></member>
+    <member refid="apollo3_2ns__button_8c_1ad25dc92825bcbd9b2a9b0bf618887753" kind="variable"><name>g_ns_peripheral_button1</name></member>
+    <member refid="apollo3_2ns__button_8c_1afd657682cccd271c74e6093ef8ca610f" kind="variable"><name>g_ns_peripheral_joulescope_trigger</name></member>
+    <member refid="apollo3_2ns__button_8c_1a234ac5cc96261765b30db936cbad216f" kind="function"><name>ns_button_0_handler</name></member>
+    <member refid="apollo3_2ns__button_8c_1ad11880a33d5a071aeee682ae8b674d50" kind="function"><name>ns_button_1_handler</name></member>
+    <member refid="apollo3_2ns__button_8c_1ad9b27187795918cf4114b7432f20e4b0" kind="function"><name>am_gpio_isr</name></member>
+    <member refid="apollo3_2ns__button_8c_1a539c52a074af34615b314917f2f52ebd" kind="function"><name>ns_button_platform_init</name></member>
+  </compound>
+  <compound refid="apollo4_2ns__button_8c" kind="file"><name>ns_button.c</name>
+    <member refid="apollo4_2ns__button_8c_1ad673d2019dad9880e59dbe25183a1ea7" kind="variable"><name>g_ns_peripheral_button0</name></member>
+    <member refid="apollo4_2ns__button_8c_1ad25dc92825bcbd9b2a9b0bf618887753" kind="variable"><name>g_ns_peripheral_button1</name></member>
+    <member refid="apollo4_2ns__button_8c_1afd657682cccd271c74e6093ef8ca610f" kind="variable"><name>g_ns_peripheral_joulescope_trigger</name></member>
+    <member refid="apollo4_2ns__button_8c_1ab4b1dc828c04d79f060b611b1984b311" kind="function"><name>am_gpio0_001f_isr</name></member>
+    <member refid="apollo4_2ns__button_8c_1a234ac5cc96261765b30db936cbad216f" kind="function"><name>ns_button_0_handler</name></member>
+    <member refid="apollo4_2ns__button_8c_1ad11880a33d5a071aeee682ae8b674d50" kind="function"><name>ns_button_1_handler</name></member>
+    <member refid="apollo4_2ns__button_8c_1afb035c82b22bb386d37e8e76f606a61e" kind="function"><name>ns_joulescope_trigger_handler</name></member>
+    <member refid="apollo4_2ns__button_8c_1a539c52a074af34615b314917f2f52ebd" kind="function"><name>ns_button_platform_init</name></member>
+  </compound>
   <compound refid="ns__button_8c" kind="file"><name>ns_button.c</name>
     <member refid="ns__button_8c_1a9d9d690be966d93a730a9c7b9d6aa4ec" kind="variable"><name>ns_button_V0_0_1</name></member>
     <member refid="ns__button_8c_1aad3d053176636dc0250c6ea000d81872" kind="variable"><name>ns_button_V1_0_0</name></member>
@@ -67,11 +88,23 @@
     <member refid="ns__button_8c_1ad673d2019dad9880e59dbe25183a1ea7" kind="variable"><name>g_ns_peripheral_button0</name></member>
     <member refid="ns__button_8c_1ad25dc92825bcbd9b2a9b0bf618887753" kind="variable"><name>g_ns_peripheral_button1</name></member>
     <member refid="ns__button_8c_1afd657682cccd271c74e6093ef8ca610f" kind="variable"><name>g_ns_peripheral_joulescope_trigger</name></member>
-    <member refid="ns__button_8c_1ab4b1dc828c04d79f060b611b1984b311" kind="function"><name>am_gpio0_001f_isr</name></member>
     <member refid="ns__button_8c_1a234ac5cc96261765b30db936cbad216f" kind="function"><name>ns_button_0_handler</name></member>
     <member refid="ns__button_8c_1ad11880a33d5a071aeee682ae8b674d50" kind="function"><name>ns_button_1_handler</name></member>
     <member refid="ns__button_8c_1afb035c82b22bb386d37e8e76f606a61e" kind="function"><name>ns_joulescope_trigger_handler</name></member>
+    <member refid="ns__button_8c_1a539c52a074af34615b314917f2f52ebd" kind="function"><name>ns_button_platform_init</name></member>
     <member refid="ns__button_8c_1a47ca0f4f5f0ff466cd113e4ca1900594" kind="function"><name>ns_peripheral_button_init</name></member>
+  </compound>
+  <compound refid="apollo3_2ns__power_8c" kind="file"><name>ns_power.c</name>
+    <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
+    <member refid="apollo3_2ns__power_8c_1a558411c9a30ac7019443eabc344c8135" kind="function"><name>ns_power_down_peripherals</name></member>
+    <member refid="apollo3_2ns__power_8c_1acf8b2e4b1199f9457101c6e484a32782" kind="function"><name>ns_power_platform_config</name></member>
+    <member refid="apollo3_2ns__power_8c_1a95493f1f347c5cd80384dcc91d85859c" kind="function"><name>ns_platform_deep_sleep</name></member>
+  </compound>
+  <compound refid="apollo4_2ns__power_8c" kind="file"><name>ns_power.c</name>
+    <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
+    <member refid="apollo4_2ns__power_8c_1a558411c9a30ac7019443eabc344c8135" kind="function"><name>ns_power_down_peripherals</name></member>
+    <member refid="apollo4_2ns__power_8c_1acf8b2e4b1199f9457101c6e484a32782" kind="function"><name>ns_power_platform_config</name></member>
+    <member refid="apollo4_2ns__power_8c_1a95493f1f347c5cd80384dcc91d85859c" kind="function"><name>ns_platform_deep_sleep</name></member>
   </compound>
   <compound refid="ns__power_8c" kind="file"><name>ns_power.c</name>
     <member refid="group__ns-power_1gacc59e094579b9a62714927f7c5671981" kind="variable"><name>ns_power_V0_0_1</name></member>
@@ -79,14 +112,16 @@
     <member refid="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" kind="variable"><name>ns_power_oldest_supported_version</name></member>
     <member refid="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" kind="variable"><name>ns_power_current_version</name></member>
     <member refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kind="variable"><name>ns_development_default</name></member>
+    <member refid="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" kind="variable"><name>ns_debug_default</name></member>
     <member refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kind="variable"><name>ns_good_default</name></member>
     <member refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kind="variable"><name>ns_mlperf_mode1</name></member>
     <member refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kind="variable"><name>ns_mlperf_mode2</name></member>
     <member refid="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" kind="variable"><name>ns_mlperf_mode3</name></member>
     <member refid="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" kind="variable"><name>ns_audio_default</name></member>
     <member refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kind="function"><name>ns_set_performance_mode</name></member>
-    <member refid="ns__power_8c_1a558411c9a30ac7019443eabc344c8135" kind="function"><name>ns_power_down_peripherals</name></member>
+    <member refid="ns__power_8c_1acf8b2e4b1199f9457101c6e484a32782" kind="function"><name>ns_power_platform_config</name></member>
     <member refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kind="function"><name>ns_power_config</name></member>
+    <member refid="ns__power_8c_1a95493f1f347c5cd80384dcc91d85859c" kind="function"><name>ns_platform_deep_sleep</name></member>
     <member refid="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" kind="function"><name>ns_deep_sleep</name></member>
   </compound>
   <compound refid="ns__tempco_8c" kind="file"><name>ns_tempco.c</name>
@@ -108,6 +143,55 @@
     <member refid="ns__tempco_8h_1abe55c917fd1f79f20cfc9d0b006637c6" kind="variable"><name>g_ns_tempco_ADCHandle</name></member>
     <member refid="ns__tempco_8h_1a443a4f5174c1ed55f6e489b354384c3e" kind="function"><name>ns_tempco_init</name></member>
   </compound>
+  <compound refid="ns__button__tests_8c" kind="file"><name>ns_button_tests.c</name>
+    <member refid="ns__button__tests_8c_1a8cdfcbaacb15dd69b4f80ca4d609c782" kind="variable"><name>cfg</name></member>
+    <member refid="ns__button__tests_8c_1a9eb6ea5f39a34e3d79b371ad7802e21b" kind="function"><name>reset_button_config</name></member>
+    <member refid="ns__button__tests_8c_1a12d7cf78c67b76443c246255a816800b" kind="function"><name>ns_button_tests_pre_test_hook</name></member>
+    <member refid="ns__button__tests_8c_1afb7071a2eaf626f19010dd83ae9d40b9" kind="function"><name>ns_button_tests_post_test_hook</name></member>
+    <member refid="ns__button__tests_8c_1ae6999a4368086e5e4ce2144c46e943db" kind="function"><name>ns_button_basic_init_test</name></member>
+    <member refid="ns__button__tests_8c_1a45bfcbac023db90fec0dde7324be0abf" kind="function"><name>ns_button_init_null_test</name></member>
+    <member refid="ns__button__tests_8c_1ad87a3cbfce49236a233187898e829099" kind="function"><name>ns_button_invalid_api_test</name></member>
+    <member refid="ns__button__tests_8c_1a1314e7e548bda95a9545eca7a3fd736b" kind="function"><name>ns_button_init_both_buttons_enable_test</name></member>
+    <member refid="ns__button__tests_8c_1a0885a959854480eac9aadf2f927483d0" kind="function"><name>ns_button_init_both_buttons_disable_test</name></member>
+    <member refid="ns__button__tests_8c_1a5956eba8fb7816259cd8aa54078d3163" kind="function"><name>ns_button_init_joulescope_trigger_enable_test</name></member>
+    <member refid="ns__button__tests_8c_1a3218fa4d818c07c637ada4e8832b05c4" kind="function"><name>ns_button_enable_no_flag_test</name></member>
+    <member refid="ns__button__tests_8c_1a4cebe1dba4aee3a875a063f28b53cfca" kind="function"><name>ns_button_joulescope_enable_no_flag_test</name></member>
+  </compound>
+  <compound refid="ns__button__tests_8h" kind="file"><name>ns_button_tests.h</name>
+    <member refid="ns__button__tests_8h_1a12d7cf78c67b76443c246255a816800b" kind="function"><name>ns_button_tests_pre_test_hook</name></member>
+    <member refid="ns__button__tests_8h_1afb7071a2eaf626f19010dd83ae9d40b9" kind="function"><name>ns_button_tests_post_test_hook</name></member>
+    <member refid="ns__button__tests_8h_1ae6999a4368086e5e4ce2144c46e943db" kind="function"><name>ns_button_basic_init_test</name></member>
+    <member refid="ns__button__tests_8h_1a45bfcbac023db90fec0dde7324be0abf" kind="function"><name>ns_button_init_null_test</name></member>
+    <member refid="ns__button__tests_8h_1ad87a3cbfce49236a233187898e829099" kind="function"><name>ns_button_invalid_api_test</name></member>
+    <member refid="ns__button__tests_8h_1a1314e7e548bda95a9545eca7a3fd736b" kind="function"><name>ns_button_init_both_buttons_enable_test</name></member>
+    <member refid="ns__button__tests_8h_1a0885a959854480eac9aadf2f927483d0" kind="function"><name>ns_button_init_both_buttons_disable_test</name></member>
+    <member refid="ns__button__tests_8h_1a5956eba8fb7816259cd8aa54078d3163" kind="function"><name>ns_button_init_joulescope_trigger_enable_test</name></member>
+    <member refid="ns__button__tests_8h_1a3218fa4d818c07c637ada4e8832b05c4" kind="function"><name>ns_button_enable_no_flag_test</name></member>
+    <member refid="ns__button__tests_8h_1a4cebe1dba4aee3a875a063f28b53cfca" kind="function"><name>ns_button_joulescope_enable_no_flag_test</name></member>
+  </compound>
+  <compound refid="ns__power__tests_8c" kind="file"><name>ns_power_tests.c</name>
+    <member refid="ns__power__tests_8c_1a6c0d6592997c882f5e8a2f181299ad20" kind="variable"><name>custom_cfg</name></member>
+    <member refid="ns__power__tests_8c_1ac755ddb2344278e5f8ef15ef1ff8590e" kind="variable"><name>core_cfg</name></member>
+    <member refid="ns__power__tests_8c_1a58915570bfe386895748c6f3b9ac6ffc" kind="function"><name>reset_custom_cfg</name></member>
+    <member refid="ns__power__tests_8c_1a7f9cda503f806000f4f66451ab015732" kind="function"><name>ns_power_tests_pre_test_hook</name></member>
+    <member refid="ns__power__tests_8c_1af2a3f33c802112c27bc900510d75fc6a" kind="function"><name>ns_power_tests_post_test_hook</name></member>
+    <member refid="ns__power__tests_8c_1ac28865a5566e654edcb4bb01f3b8fc1d" kind="function"><name>ns_power_config_null_test</name></member>
+    <member refid="ns__power__tests_8c_1ab4b4042b180c9d2f9ce9b8236625a300" kind="function"><name>ns_power_config_test</name></member>
+    <member refid="ns__power__tests_8c_1a49c9e68664d9714c5957698e2593a75a" kind="function"><name>ns_power_config_invalid_api_test</name></member>
+    <member refid="ns__power__tests_8c_1a7748139a02239a9baf6726199dae43e6" kind="function"><name>ns_power_config_power_mode_test</name></member>
+    <member refid="ns__power__tests_8c_1afecd1577ca1c0ec8db37421da27aeb3f" kind="function"><name>ns_power_config_all_true_test</name></member>
+    <member refid="ns__power__tests_8c_1a35eb5596f75492e2199fcfc08a7ce931" kind="function"><name>ns_power_config_all_false_test</name></member>
+  </compound>
+  <compound refid="ns__power__tests_8h" kind="file"><name>ns_power_tests.h</name>
+    <member refid="ns__power__tests_8h_1a7f9cda503f806000f4f66451ab015732" kind="function"><name>ns_power_tests_pre_test_hook</name></member>
+    <member refid="ns__power__tests_8h_1af2a3f33c802112c27bc900510d75fc6a" kind="function"><name>ns_power_tests_post_test_hook</name></member>
+    <member refid="ns__power__tests_8h_1ac28865a5566e654edcb4bb01f3b8fc1d" kind="function"><name>ns_power_config_null_test</name></member>
+    <member refid="ns__power__tests_8h_1ab4b4042b180c9d2f9ce9b8236625a300" kind="function"><name>ns_power_config_test</name></member>
+    <member refid="ns__power__tests_8h_1a49c9e68664d9714c5957698e2593a75a" kind="function"><name>ns_power_config_invalid_api_test</name></member>
+    <member refid="ns__power__tests_8h_1a7748139a02239a9baf6726199dae43e6" kind="function"><name>ns_power_config_power_mode_test</name></member>
+    <member refid="ns__power__tests_8h_1afecd1577ca1c0ec8db37421da27aeb3f" kind="function"><name>ns_power_config_all_true_test</name></member>
+    <member refid="ns__power__tests_8h_1a35eb5596f75492e2199fcfc08a7ce931" kind="function"><name>ns_power_config_all_false_test</name></member>
+  </compound>
   <compound refid="group__ns-power" kind="group"><name>ns-power</name>
     <member refid="group__ns-power_1gabd0847bd4ffca2198c2099c2b9888348" kind="enum"><name>ns_power_mode_e</name></member>
     <member refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186" kind="enumvalue"><name>NS_MINIMUM_PERF</name></member>
@@ -118,6 +202,7 @@
     <member refid="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" kind="variable"><name>ns_power_oldest_supported_version</name></member>
     <member refid="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" kind="variable"><name>ns_power_current_version</name></member>
     <member refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kind="variable"><name>ns_development_default</name></member>
+    <member refid="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" kind="variable"><name>ns_debug_default</name></member>
     <member refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kind="variable"><name>ns_good_default</name></member>
     <member refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kind="variable"><name>ns_mlperf_mode1</name></member>
     <member refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kind="variable"><name>ns_mlperf_mode2</name></member>
@@ -132,6 +217,10 @@
     <member refid="group__ns-power_1gaf9578a4e472d8d6d81af205f9f31a007" kind="define"><name>NS_POWER_CURRENT_VERSION</name></member>
     <member refid="group__ns-power_1ga94a6c1ddfab179a04e73602e3d62f54b" kind="define"><name>NS_POWER_API_ID</name></member>
   </compound>
+  <compound refid="dir_96b1dd14f5e69a1b588911fee16f56b3" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/src/apollo3</name>
+  </compound>
+  <compound refid="dir_1c005e3bbb5b4e96ef4b5df2b5884295" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/src/apollo4</name>
+  </compound>
   <compound refid="dir_fe04d02a8bfca0247bd216a75646089c" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/includes-api</name>
   </compound>
   <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
@@ -141,5 +230,7 @@
   <compound refid="dir_62cbd78784261bb0d09981988628a167" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals</name>
   </compound>
   <compound refid="dir_cf9eff0d6bf97258df730d615fa0f132" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/src</name>
+  </compound>
+  <compound refid="dir_212d9119d40fadcef4edfdca97975f2d" kind="dir"><name>neuralSPOT/neuralspot/ns-peripherals/tests</name>
   </compound>
 </doxygenindex>

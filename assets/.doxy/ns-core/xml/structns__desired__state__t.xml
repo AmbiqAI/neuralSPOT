@@ -143,6 +143,20 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="82" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="82" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="structns__desired__state__t_1a4137072dd0243b6f488085c23a811f2f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_desired_state_t::ap3BurstModeInitialized</definition>
+        <argsstring></argsstring>
+        <name>ap3BurstModeInitialized</name>
+        <qualifiedname>ns_desired_state_t::ap3BurstModeInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="83" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -168,8 +182,9 @@
         <link refid="structns__semver__t"/>
       </node>
     </collaborationgraph>
-    <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="72" column="1" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="72" bodyend="83"/>
+    <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="72" column="1" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="72" bodyend="84"/>
     <listofallmembers>
+      <member refid="structns__desired__state__t_1a4137072dd0243b6f488085c23a811f2f" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>ap3BurstModeInitialized</name></member>
       <member refid="structns__desired__state__t_1a7259474b31bfc7c75c3df8a8ae4b20b9" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>api</name></member>
       <member refid="structns__desired__state__t_1a9f40bd33a959b4bbf32ec089f1750d5e" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>cryptoCurrentlyEnabled</name></member>
       <member refid="structns__desired__state__t_1a376d1e394375d117db1a9f0393ab7035" prot="public" virt="non-virtual"><scope>ns_desired_state_t</scope><name>cryptoWantsToBeEnabled</name></member>

@@ -2,13 +2,13 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
   <compounddef id="dir_e70eef2d5115541d1d6cb7ad27f30382" kind="dir">
     <compoundname>neuralSPOT/neuralspot/ns-audio/src</compoundname>
-    <innerfile refid="ns__audadc_8c">ns_audadc.c</innerfile>
+    <innerdir refid="dir_1a531e93c11b219ab9869f377e190a5d">neuralSPOT/neuralspot/ns-audio/src/apollo3</innerdir>
+    <innerdir refid="dir_9e4df1ce7893b775eb3c7fcb555505ab">neuralSPOT/neuralspot/ns-audio/src/apollo4</innerdir>
     <innerfile refid="ns__audadc_8h">ns_audadc.h</innerfile>
     <innerfile refid="ns__audio_8c">ns_audio.c</innerfile>
     <innerfile refid="ns__audio__features__common_8c">ns_audio_features_common.c</innerfile>
     <innerfile refid="ns__melspec_8c">ns_melspec.c</innerfile>
     <innerfile refid="ns__mfcc_8c">ns_mfcc.c</innerfile>
-    <innerfile refid="ns__pdm_8c">ns_pdm.c</innerfile>
     <innerfile refid="ns__pdm_8h">ns_pdm.h</innerfile>
     <briefdescription>
     </briefdescription>

@@ -6,7 +6,7 @@
     <includes local="yes">am_mcu_apollo.h</includes>
     <includes local="yes">am_util.h</includes>
     <includes refid="ns__audio_8h" local="yes">ns_audio.h</includes>
-    <includedby refid="ns__audadc_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c</includedby>
+    <includedby refid="ns__audadc_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c</includedby>
     <includedby refid="ns__audio_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_audio.c</includedby>
     <incdepgraph>
       <node id="5">
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="66" column="24" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="90" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="66" declcolumn="24"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="66" column="24" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="90" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="66" declcolumn="24"/>
       </memberdef>
       <memberdef kind="variable" id="ns__audadc_8h_1aba99c8c9af9d61b229c89d996cf4b533" prot="public" static="no" mutable="no">
         <type><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref></type>
@@ -101,7 +101,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="67" column="24" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="99" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="67" declcolumn="24"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="67" column="24" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="99" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="67" declcolumn="24"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -120,7 +120,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="70" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c" bodystart="383" bodyend="431" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="70" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="70" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="383" bodyend="431" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="70" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8h_1a97bbe4349694c751b032c617bb4b1030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void audadc_deinit</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_deinit</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="438" bodyend="459" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h" declline="71" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -194,12 +211,13 @@
 <codeline lineno="68"><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDADC<sp/>subsystem<sp/>init<sp/>-<sp/>should<sp/>only<sp/>be<sp/>invoked<sp/>by<sp/>ns_audio,<sp/>not<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>audadc_init(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg);</highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AI_AUDADC_AUDIO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>audadc_deinit(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AI_AUDADC_AUDIO</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-audio/src/ns_audadc.h"/>
   </compounddef>

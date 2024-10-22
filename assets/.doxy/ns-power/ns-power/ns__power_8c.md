@@ -15,7 +15,6 @@
 * `#include "am_util.h"`
 * `#include "ns_core.h"`
 * `#include "ns_peripherals_power.h"`
-* `#include "ns_tempco.h"`
 
 
 
@@ -42,6 +41,7 @@
 | Type | Name |
 | ---: | :--- |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_audio\_default**](#variable-ns_audio_default)  <br>_Good for AI that uses audio peripherals._  |
+|  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_debug\_default**](#variable-ns_debug_default)  <br>_Enables all things._  |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_development\_default**](#variable-ns_development_default)  <br>_Enables most things._  |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_good\_default**](#variable-ns_good_default)  <br>_Reasonable settings for more applications._  |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_mlperf\_mode1**](#variable-ns_mlperf_mode1)  <br>_Good power/perf setting._  |
@@ -72,8 +72,9 @@
 | Type | Name |
 | ---: | :--- |
 |  void | [**ns\_deep\_sleep**](#function-ns_deep_sleep) (void) <br>_neuralSPOT-aware deep\_sleep - turns off certain systems off before sleeping and turns them back upon waking._  |
+|  void | [**ns\_platform\_deep\_sleep**](#function-ns_platform_deep_sleep) (void) <br>_Wraps am\_hal\_sysctrl\_sleep to enable and disable systems as needed._  |
 |  uint32\_t | [**ns\_power\_config**](#function-ns_power_config) (const [**ns\_power\_config\_t**](structns__power__config__t.md) \* pCfg) <br>_Set SOC Power Mode._  |
-|  void | [**ns\_power\_down\_peripherals**](#function-ns_power_down_peripherals) (const [**ns\_power\_config\_t**](structns__power__config__t.md) \* pCfg) <br> |
+|  uint32\_t | [**ns\_power\_platform\_config**](#function-ns_power_platform_config) (const [**ns\_power\_config\_t**](structns__power__config__t.md) \* pCfg) <br> |
 |  uint32\_t | [**ns\_set\_performance\_mode**](#function-ns_set_performance_mode) ([**ns\_power\_mode\_e**](ns__peripherals__power_8h.md#enum-ns_power_mode_e) eAIPowerMode) <br>_Sets CPU frequency to one of the ns\_power\_modes._  |
 
 
@@ -112,6 +113,17 @@
 
 ```C++
 const ns_power_config_t ns_audio_default;
+```
+
+
+
+
+
+
+### variable ns\_debug\_default 
+
+```C++
+const ns_power_config_t ns_debug_default;
 ```
 
 
@@ -222,7 +234,6 @@ const ns_core_api_t ns_power_oldest_supported_version;
 
 ### function ns\_deep\_sleep 
 
-_neuralSPOT-aware deep\_sleep - turns off certain systems off before sleeping and turns them back upon waking._ 
 ```C++
 void ns_deep_sleep (
     void
@@ -231,10 +242,19 @@ void ns_deep_sleep (
 
 
 
-neuralSPOT-aware deep\_sleep - turns off certain systems off before sleeping and turns them back upon waking. 
 
 
-        
+
+### function ns\_platform\_deep\_sleep 
+
+```C++
+void ns_platform_deep_sleep (
+    void
+) 
+```
+
+
+
 
 
 
@@ -270,10 +290,10 @@ uint32\_t success/failure
 
 
 
-### function ns\_power\_down\_peripherals 
+### function ns\_power\_platform\_config 
 
 ```C++
-void ns_power_down_peripherals (
+uint32_t ns_power_platform_config (
     const ns_power_config_t * pCfg
 ) 
 ```
@@ -305,10 +325,10 @@ uint32_t ns_set_performance_mode (
 
 **Returns:**
 
-uint32\_t status 
+uint32\_t status
 
 
-
+Sets CPU frequency to one of the ns\_power\_modes. 
 
 
         

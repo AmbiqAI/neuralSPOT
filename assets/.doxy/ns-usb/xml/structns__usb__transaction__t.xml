@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__usb__transaction__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_usb_transaction_t</compoundname>
+    <includes refid="ns__usb_8h" local="no">ns_usb.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__usb__transaction__t_1ac3febb78ecef6a9d89bcb41748eaf0e4" prot="public" static="no" mutable="no">
+        <type>usb_handle_t</type>
+        <definition>usb_handle_t ns_usb_transaction_t::handle</definition>
+        <argsstring></argsstring>
+        <name>handle</name>
+        <qualifiedname>ns_usb_transaction_t::handle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="53" column="18" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__transaction__t_1a8b31adeb78a0beab7c086c8286e45fb5" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_usb_transaction_t::rx_buffer</definition>
+        <argsstring></argsstring>
+        <name>rx_buffer</name>
+        <qualifiedname>ns_usb_transaction_t::rx_buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="54" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__transaction__t_1ad4738ca8f734ca24a777258d9dffe3ec" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_usb_transaction_t::tx_buffer</definition>
+        <argsstring></argsstring>
+        <name>tx_buffer</name>
+        <qualifiedname>ns_usb_transaction_t::tx_buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="55" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__transaction__t_1a11b102be4ee558683a567f599bb98d0a" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_usb_transaction_t::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>ns_usb_transaction_t::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="56" column="13" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__transaction__t_1a7bc7ca3fea841de5e4da8d31bf28e1e5" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_usb_transaction_t::itf</definition>
+        <argsstring></argsstring>
+        <name>itf</name>
+        <qualifiedname>ns_usb_transaction_t::itf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="57" column="13" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__transaction__t_1a08d8dee6c9cbbc30d62a1fdceb2d520f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_usb_transaction_t::dtr</definition>
+        <argsstring></argsstring>
+        <name>dtr</name>
+        <qualifiedname>ns_usb_transaction_t::dtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="58" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__usb__transaction__t_1a73bfd39794fdc9cd0942e169786d0a57" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_usb_transaction_t::rts</definition>
+        <argsstring></argsstring>
+        <name>rts</name>
+        <qualifiedname>ns_usb_transaction_t::rts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="59" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>USB Transaction Control Stucture. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="52" column="1" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="52" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structns__usb__transaction__t_1a08d8dee6c9cbbc30d62a1fdceb2d520f" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>dtr</name></member>
+      <member refid="structns__usb__transaction__t_1ac3febb78ecef6a9d89bcb41748eaf0e4" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>handle</name></member>
+      <member refid="structns__usb__transaction__t_1a7bc7ca3fea841de5e4da8d31bf28e1e5" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>itf</name></member>
+      <member refid="structns__usb__transaction__t_1a73bfd39794fdc9cd0942e169786d0a57" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>rts</name></member>
+      <member refid="structns__usb__transaction__t_1a8b31adeb78a0beab7c086c8286e45fb5" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>rx_buffer</name></member>
+      <member refid="structns__usb__transaction__t_1a11b102be4ee558683a567f599bb98d0a" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>status</name></member>
+      <member refid="structns__usb__transaction__t_1ad4738ca8f734ca24a777258d9dffe3ec" prot="public" virt="non-virtual"><scope>ns_usb_transaction_t</scope><name>tx_buffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

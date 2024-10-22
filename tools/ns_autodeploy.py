@@ -1,6 +1,7 @@
 import logging as log
 import pickle
-
+import yaml
+import os
 import numpy as np
 import pydantic_argparse
 from autodeploy.gen_library import generateModelLib
@@ -34,13 +35,27 @@ class Params(BaseModel):
     create_ambiqsuite_example: bool = Field(
         True, description="Create AmbiqSuite example based on TFlite file"
     )
-    measure_power: bool = Field(
+    joulescope: bool = Field(
         False,
         description="Measure power consumption of the model on the EVB using Joulescope",
     )
+    onboard_perf: bool = Field(
+        False, 
+        description="Capture and print performance measurements on EVB"
+    )
+    model_location: str = Field(
+        "TCM", description="Where the model is stored on the EVB (TCM, SRAM, or MRAM)"
+    )
 
+    arena_location: str = Field(
+        "TCM", description="Where the arena is stored on the EVB (TCM or SRAM)"
+    )
     tflite_filename: str = Field(
         "model.tflite", description="Name of tflite model to be analyzed"
+    )
+
+    configfile: str = Field(
+        "", description="Optional configuration file for parameters"
     )
 
     # Create Binary Parameters
@@ -52,7 +67,7 @@ class Params(BaseModel):
     #     description="Root directory for ns_autodeploy to place generated files",
     # )
     max_arena_size: int = Field(
-        120, description="Maximum KB to be allocated for TF arena"
+        100, description="Maximum KB to be allocated for TF arena"
     )
     arena_size_scratch_buffer_padding: int = Field(
         0,
@@ -79,7 +94,7 @@ class Params(BaseModel):
     runs_power: int = Field(
         100, description="Number of inferences to run for power measurement"
     )
-    cpu_mode: int = Field(96, description="CPU Speed (MHz) - can be 96 or 192")
+    cpu_mode: str = Field("NS_MAXIMUM_PERF", description="CPU mode to use for performance measurements")
 
     # Library Parameters
     model_name: str = Field(
@@ -209,11 +224,47 @@ Notes:
             self.powerMaxPerfJoules = uJoules
             self.powerMaxPerfWatts = mWatts
 
+def load_yaml_config(configfile):
+    with open(configfile, "r") as f:
+        try:
+            return yaml.safe_load(f)
+        except yaml.YAMLError as exc:
+            print(exc)
 
 if __name__ == "__main__":
     # parse cmd parameters
     parser = create_parser()
-    params = parser.parse_typed_args()
+    cli_params = parser.parse_typed_args()
+
+    # load yaml config
+    yaml_params = {}
+    if cli_params.configfile:
+        yaml_params = load_yaml_config(cli_params.configfile)
+
+    # prepare the default values
+    default_params = Params()
+
+    # update from YAML config
+    updated_params = default_params.dict()
+    updated_params.update(yaml_params)
+    
+    # override with CLI params
+    cli_dict = cli_params.dict(exclude_unset=True)  # exclude unset fields
+    updated_params.update(cli_dict)
+
+    # create Params instance with updated values
+    params = Params(**updated_params)
+
+    # set logging level
+    log.basicConfig(
+        level=log.DEBUG
+        if params.verbosity > 2
+        else log.INFO
+        if params.verbosity > 1
+        else log.WARNING,
+        format="%(levelname)s: %(message)s",
+    )    
+
     results = adResults(params)
 
     print("")  # put a blank line between obnoxious TF output and our output
@@ -225,25 +276,12 @@ if __name__ == "__main__":
         total_stages += 1
     if params.create_library:
         total_stages += 1
-    if params.measure_power:
+    if params.joulescope or params.onboard_perf:
         total_stages += 1
     if params.create_ambiqsuite_example:
         total_stages += 1
 
-    # set logging level
-    log.basicConfig(
-        level=log.DEBUG
-        if params.verbosity > 2
-        else log.INFO
-        if params.verbosity > 1
-        else log.WARNING,
-        format="%(levelname)s: %(message)s",
-    )
-
     interpreter = get_interpreter(params)
-
-    mc = ModelConfiguration(params)
-    md = ModelDetails(interpreter)
 
     # Pickle the model details for later use
     # mc_file = open("model_config.pkl", "wb")
@@ -254,7 +292,34 @@ if __name__ == "__main__":
     #     # Configure the model on the EVB
     #     client = rpc_connect_as_client(params)
 
-    if params.create_binary:
+
+    pkl_dir = params.working_directory + "/" + params.model_name + "/"
+    mc_name = pkl_dir + f"{params.model_name}_mc.pkl"
+    md_name = pkl_dir + f"{params.model_name}_md.pkl"
+    results_name = pkl_dir + f"{params.model_name}_results.pkl"
+    if (params.create_profile == False) or (params.create_binary == False):
+        if not os.path.exists(mc_name) or not os.path.exists(md_name) or not os.path.exists(results_name):
+            log.error(
+                "Cannot skip create_profile and create_binary phases without having run them at least once. Please run the phases in order."
+            )
+            exit("Autodeploy failed")
+
+        # Read MC and MD from Pickle file
+        log.info("Reading MC and MD from Pickle files")
+        mc_file = open(mc_name, "rb")
+        mc = pickle.load(mc_file)
+        mc_file.close()
+        md_file = open(md_name, "rb")
+        md = pickle.load(md_file)
+        md_file.close()
+        results_file = open(results_name, "rb")
+        results = pickle.load(results_file)
+        results_file.close()
+        if params.create_profile == True or params.create_binary == True:
+            total_stages -= 1
+    else:
+        mc = ModelConfiguration(params)
+        md = ModelDetails(interpreter)
         print(
             f"*** Stage [{stage}/{total_stages}]: Create and fine-tune EVB model characterization image"
         )
@@ -266,6 +331,7 @@ if __name__ == "__main__":
 
         stats = getModelStats(params, client)
         mc.update_from_stats(stats, md)
+        # check common params mistakes
         mc.check(params)
 
         # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
@@ -273,7 +339,7 @@ if __name__ == "__main__":
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
-    if params.create_profile:
+        #Create profile
         print("")
         print(
             f"*** Stage [{stage}/{total_stages}]: Characterize model performance on EVB"
@@ -301,24 +367,6 @@ if __name__ == "__main__":
             )
             otIndex += 1
 
-    pkl_dir = params.working_directory + "/" + params.model_name + "/"
-    mc_name = pkl_dir + params.model_name + "_mc.pkl"
-    md_name = pkl_dir + params.model_name + "_md.pkl"
-    results_name = pkl_dir + params.model_name + "_results.pkl"
-
-    if (params.create_profile == False) or (params.create_binary == False):
-        # Read MC and MD from Pickle file
-        log.info("Reading MC and MD from Pickle files")
-        mc_file = open(mc_name, "rb")
-        mc = pickle.load(mc_file)
-        mc_file.close()
-        md_file = open(md_name, "rb")
-        md = pickle.load(md_file)
-        md_file.close()
-        results_file = open(results_name, "rb")
-        results = pickle.load(results_file)
-        results_file.close()
-    else:
         # Pickle the model details for later use
         log.info("Writing MC and MD to Pickle files")
         mc_file = open(mc_name, "wb")
@@ -331,7 +379,18 @@ if __name__ == "__main__":
         pickle.dump(results, results_file)
         results_file.close()
 
-    if params.measure_power:
+    if params.onboard_perf:
+        print("")
+        print(
+            f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB onboard measurements"
+        )
+        generatePowerBinary(params, mc, md, params.cpu_mode)
+        print(
+            f"{params.cpu_mode} Performance code flashed to EVB - connect to SWO and press reset to see results."
+        )
+        stage += 1
+
+    elif params.joulescope:
         print("")
         print(
             f"*** Stage [{stage}/{total_stages}]: Characterize inference energy consumption on EVB using Joulescope"
@@ -348,6 +407,7 @@ if __name__ == "__main__":
             log.info(
                 f"Model Power Measurement in {cpu_mode} mode: {t:.3f} ms and {energy:.3f} uJ per inference (avg {w:.3f} mW))"
             )
+        stage += 1
 
     if params.create_library:
         print("")

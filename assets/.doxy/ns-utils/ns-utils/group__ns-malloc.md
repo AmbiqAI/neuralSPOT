@@ -31,11 +31,6 @@
 
 
 
-## Public Attributes
-
-| Type | Name |
-| ---: | :--- |
-|  uint8\_t | [**ucHeap**](#variable-ucheap)  <br> |
 
 
 
@@ -91,19 +86,6 @@
 | Type | Name |
 | ---: | :--- |
 | define  | [**NS\_MALLOC\_HEAP\_SIZE\_IN\_K**](ns__malloc_8h.md#define-ns_malloc_heap_size_in_k)  16<br> |
-
-## Public Attributes Documentation
-
-
-
-
-### variable ucHeap 
-
-```C++
-uint8_t ucHeap[NS_MALLOC_HEAP_SIZE_IN_K *1024];
-```
-
-
 
 ## Public Functions Documentation
 

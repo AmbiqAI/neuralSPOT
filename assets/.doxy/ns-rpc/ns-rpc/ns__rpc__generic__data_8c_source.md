@@ -29,38 +29,39 @@ const ns_core_api_t ns_rpc_gdo_V0_0_1 = {.apiId = NS_RPC_GDO_API_ID, .version = 
 
 const ns_core_api_t ns_rpc_gdo_V1_0_0 = {.apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_0_0};
 
-const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {.apiId = NS_RPC_GDO_API_ID,
-                                                           .version = NS_RPC_GDO_V0_0_1};
+const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {
+    .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V0_0_1};
 
-const ns_core_api_t ns_rpc_gdo_current_version = {.apiId = NS_RPC_GDO_API_ID,
-                                                  .version = NS_RPC_GDO_V1_0_0};
+const ns_core_api_t ns_rpc_gdo_current_version = {
+    .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_0_0};
 
-ns_usb_config_t g_RpcGenericUSBHandle = {.api = &ns_usb_V1_0_0,
-                                         .deviceType = NS_USB_CDC_DEVICE,
-                                         .rx_buffer = NULL,
-                                         .rx_bufferLength = 0,
-                                         .tx_buffer = NULL,
-                                         .tx_bufferLength = 0,
-                                         .rx_cb = NULL,
-                                         .tx_cb = NULL,
-                                         .service_cb = NULL};
+ns_usb_config_t g_RpcGenericUSBHandle = {
+    .api = &ns_usb_V1_0_0,
+    .deviceType = NS_USB_CDC_DEVICE,
+    .rx_buffer = NULL,
+    .rx_bufferLength = 0,
+    .tx_buffer = NULL,
+    .tx_bufferLength = 0,
+    .rx_cb = NULL,
+    .tx_cb = NULL,
+    .service_cb = NULL};
 
-ns_rpc_config_t g_RpcGenericDataConfig = {.api = &ns_rpc_gdo_current_version,
-                                          .mode = NS_RPC_GENERICDATA_CLIENT,
-                                          .rx_buf = NULL,
-                                          .rx_bufLength = 0,
-                                          .tx_buf = NULL,
-                                          .tx_bufLength = 0,
-                                          .usbHandle = NULL,
-                                          .sendBlockToEVB_cb = NULL,
-                                          .fetchBlockFromEVB_cb = NULL,
-                                          .computeOnEVB_cb = NULL};
+ns_rpc_config_t g_RpcGenericDataConfig = {
+    .api = &ns_rpc_gdo_current_version,
+    .mode = NS_RPC_GENERICDATA_CLIENT,
+    .rx_buf = NULL,
+    .rx_bufLength = 0,
+    .tx_buf = NULL,
+    .tx_bufLength = 0,
+    .usbHandle = NULL,
+    .sendBlockToEVB_cb = NULL,
+    .fetchBlockFromEVB_cb = NULL,
+    .computeOnEVB_cb = NULL};
 
 // GenericDataOperations implements 3 function calls that service
 // remote calls from a PC. They must be instantiated to enable them.
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
-status
-ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
+status ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
     // ns_lp_printf("Received call to sendBlockToEVB\n");
 
     if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
@@ -70,8 +71,7 @@ ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
     }
 }
 
-status
-ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
+status ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
     // ns_lp_printf("Received call to fetchBlockFromEVB\n");
 
     if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
@@ -81,8 +81,7 @@ ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
     }
 }
 
-status
-ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
+status ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
     // ns_lp_printf("Received call to computeOnEVB\n");
 
     if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
@@ -98,15 +97,14 @@ ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
 //     }
 // }
 
-uint16_t
-ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
+uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
     }
 
-    if (ns_core_check_api(cfg->api, &ns_rpc_gdo_oldest_supported_version,
-                          &ns_rpc_gdo_current_version)) {
+    if (ns_core_check_api(
+            cfg->api, &ns_rpc_gdo_oldest_supported_version, &ns_rpc_gdo_current_version)) {
         return NS_STATUS_INVALID_VERSION;
     }
     #endif
@@ -166,21 +164,22 @@ ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
 //     g_RpcGenericDataConfig.serviceServer = false;
 // }
 
-void
-ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
+void ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
+    erpc_status_t stat;
     if (ns_usb_data_available(cfg->usbHandle)) {
-        erpc_server_poll(); // service RPC server
+        stat = erpc_server_poll(); // service RPC server
+        if (stat != kErpcStatus_Success) {
+            ns_lp_printf("erpc_server_poll failed with status %d\n", stat);
+        }
     }
 }
 
-uint16_t
-ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
+uint16_t ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
     erpc_client_deinit();
     return ns_rpc_genericDataOperations_init(cfg);
 }
 
-void
-ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
+void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     uint32_t i = 0;
     ns_lp_printf("Descriptor: %s\n", block->description);
     ns_lp_printf("Length: %d\n", block->length);
@@ -192,17 +191,13 @@ ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     ns_lp_printf("\n");
 }
 
-void
-ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
+void ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
     ns_free(block->description);
     ns_free(block->buffer.data);
 }
 
 #else
-uint16_t
-ns_rpc_genericDataOperations_init() {
-    return 1;
-}
+uint16_t ns_rpc_genericDataOperations_init() { return 1; }
 #endif
 
 ```

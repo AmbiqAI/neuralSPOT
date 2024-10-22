@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="54" column="25" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="54" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="55" column="25" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" prot="public" static="no" mutable="no">
         <type>rpcGenericDataMode_e</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="55" column="26" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="55" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="56" column="26" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" prot="public" static="no" mutable="no">
         <type>uint8_t *</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="56" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="56" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="57" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="57" column="14" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="57" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="58" column="14" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" prot="public" static="no" mutable="no">
         <type>uint8_t *</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="58" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="58" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="59" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="59" column="14" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="59" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="60" column="14" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" prot="public" static="no" mutable="no">
         <type>usb_handle_t</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="60" column="18" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="60" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="61" column="18" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" prot="public" static="no" mutable="no">
         <type>ns_rpc_data_sendBlockToEVB_cb</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="61" column="35" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="61" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="62" column="35" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="62" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" prot="public" static="no" mutable="no">
         <type>ns_rpc_data_fetchBlockFromEVB_cb</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="62" column="38" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="62" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="63" column="38" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" prot="public" static="no" mutable="no">
         <type>ns_rpc_data_computeOnEVB_cb</type>
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="63" column="33" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="63" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="64" column="33" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -182,7 +182,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="53" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="53" bodyend="64"/>
+    <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="54" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="54" bodyend="65"/>
     <listofallmembers>
       <member refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>api</name></member>
       <member refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" prot="public" virt="non-virtual"><scope>ns_rpc_config_t</scope><name>computeOnEVB_cb</name></member>

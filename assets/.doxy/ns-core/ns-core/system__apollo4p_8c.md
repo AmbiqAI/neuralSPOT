@@ -4,7 +4,7 @@
 
 
 
-[**FileList**](files.md) **>** [**armclang**](dir_2202e181cb244b86d6f52412849515e1.md) **>** [**system\_apollo4p.c**](system__apollo4p_8c.md)
+[**FileList**](files.md) **>** [**apollo4p**](dir_c58f1eb3a5e551e5695aea95f324fbae.md) **>** [**armclang**](dir_8f4c64cf0628cf64bd11e8bebf31f7d5.md) **>** [**system\_apollo4p.c**](system__apollo4p_8c.md)
 
 [Go to the source code of this file](system__apollo4p_8c_source.md)
 
@@ -217,5 +217,5 @@ None.
 
 
 ------------------------------
-The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-core/src/armclang/system_apollo4p.c`
+The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-core/src/apollo4p/armclang/system_apollo4p.c`
 

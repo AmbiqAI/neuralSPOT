@@ -7,6 +7,7 @@
 
 * **apiId** ([**ns\_core\_api\_t**](structns__core__api__t.md))
 * **api** ([**ns\_core\_config\_t**](structns__core__config__t.md), [**ns\_desired\_state\_t**](structns__desired__state__t.md))
+* **ap3BurstModeInitialized** ([**ns\_desired\_state\_t**](structns__desired__state__t.md))
 
 
 ## c

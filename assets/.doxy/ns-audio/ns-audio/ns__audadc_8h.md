@@ -61,6 +61,7 @@
 
 | Type | Name |
 | ---: | :--- |
+|  void | [**audadc\_deinit**](#function-audadc_deinit) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br> |
 |  uint32\_t | [**audadc\_init**](#function-audadc_init) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br> |
 
 
@@ -120,6 +121,19 @@ ns_audadc_cfg_t ns_audadc_vos_default;
 
 
 ## Public Functions Documentation
+
+
+
+
+### function audadc\_deinit 
+
+```C++
+void audadc_deinit (
+    ns_audio_config_t * cfg
+) 
+```
+
+
 
 
 

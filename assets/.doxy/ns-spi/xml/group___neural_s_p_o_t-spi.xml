@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="group___neural_s_p_o_t-spi" kind="group">
+    <compoundname>NeuralSPOT-spi</compoundname>
+    <title>NeuralSPOT-spi</title>
+    <innerclass refid="structns__spi__cfg" prot="public">ns_spi_cfg</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group___neural_s_p_o_t-spi_1ga96fd99e5d14b6ad4bc3bd0a725059eae" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_spi_status_e</name>
+        <enumvalue id="group___neural_s_p_o_t-spi_1gga96fd99e5d14b6ad4bc3bd0a725059eaea185528e8cf1aa5ba304bde78254c05d1" prot="public">
+          <name>NS_SPI_STATUS_SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group___neural_s_p_o_t-spi_1gga96fd99e5d14b6ad4bc3bd0a725059eaeaaa0beea9599dec83121fc718fda9c28c" prot="public">
+          <name>NS_SPI_STATUS_ERROR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="23" column="1" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___neural_s_p_o_t-spi_1ga26a42325496912d007eb947043d01bd6" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_spi_cb) (struct ns_spi_cfg *)</definition>
+        <argsstring>)(struct ns_spi_cfg *)</argsstring>
+        <name>ns_spi_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="25" column="9" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group___neural_s_p_o_t-spi_1gad8b32cb0ea049d61839e2b02f8150024" prot="public" static="no">
+        <type>struct <ref refid="structns__spi__cfg" kindref="compound">ns_spi_cfg</ref></type>
+        <definition>typedef struct ns_spi_cfg ns_spi_config_t</definition>
+        <argsstring></argsstring>
+        <name>ns_spi_config_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="34" column="17"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1ga990ec3f0ca2df24118a321bfef408319" prot="public" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t ns_spi_cfg::iom</definition>
+        <argsstring></argsstring>
+        <name>iom</name>
+        <qualifiedname>ns_spi_cfg::iom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="29" column="12" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1ga9ac5412b7f66e674c9ea23b02f42591a" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_spi_cfg::iomHandle</definition>
+        <argsstring></argsstring>
+        <name>iomHandle</name>
+        <qualifiedname>ns_spi_cfg::iomHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="31" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1gaf11fb88a0440f53122404be573fd5800" prot="public" static="no" mutable="no">
+        <type>am_hal_iom_config_t</type>
+        <definition>am_hal_iom_config_t ns_spi_cfg::sIomCfg</definition>
+        <argsstring></argsstring>
+        <name>sIomCfg</name>
+        <qualifiedname>ns_spi_cfg::sIomCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="32" column="25" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1ga6ab68c7941daf02fc0718685eb0adea5" prot="public" static="no" mutable="no">
+        <type>ns_spi_cb</type>
+        <definition>ns_spi_cb ns_spi_cfg::cb</definition>
+        <argsstring></argsstring>
+        <name>cb</name>
+        <qualifiedname>ns_spi_cfg::cb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="33" column="15" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1ga2afc99e5bc3d12e54f9dfc879774bf9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_interface_init</definition>
+        <argsstring>(ns_spi_config_t *cfg, uint32_t speed, am_hal_iom_spi_mode_e mode)</argsstring>
+        <name>ns_spi_interface_init</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>speed</declname>
+        </param>
+        <param>
+          <type>am_hal_iom_spi_mode_e</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the SPI interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bus speed in Hz </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI mode (CPOL, CPHA) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="44" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="52" bodyend="76" declfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" declline="44" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1gaf1c458dc2a954200ef12fd098a8d8d15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_read</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>ns_spi_read</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Read from a SPI device. The SPI device is selected by the csPin parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to read into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>regLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="57" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="78" bodyend="99" declfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" declline="57" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1ga26470c9a15ec6ab256db16b9c1667661" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_write</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>ns_spi_write</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Write to a SPI device. The SPI device is selected by the csPin parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to write from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register to write to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>regLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="72" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="138" bodyend="157" declfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" declline="72" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1ga6a3e9375d7b8f17200f0576c663deed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_transfer</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *txBuf, const void *rxBuf, uint32_t size, uint32_t csPin)</argsstring>
+        <name>ns_spi_transfer</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>txBuf</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>rxBuf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Transfer data to/from a SPI device. The SPI device is selected by the csPin parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transmit buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rxBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receive buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the transfer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Full-duplex transfer !NOTE: Do not use for now</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="86" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="159" bodyend="181" declfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" declline="86" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1gaa690be9c6f7bba845a52a98f8ca8cf2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_read_dma</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>ns_spi_read_dma</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Issure DMA read, the cfg-&gt;callback will be called when the transfer is complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>regLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="100" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="110" bodyend="136" declfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" declline="100" declcolumn="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

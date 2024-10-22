@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="79" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="72" bodyend="138" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="79" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="79" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="33" bodyend="59" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="79" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -197,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="87" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="141" bodyend="148" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="87" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="87" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo3/ns_timer_ap3.c" bodystart="106" bodyend="113" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="87" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -227,7 +227,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="95" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_timer.c" bodystart="151" bodyend="159" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="95" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" line="95" column="17" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo3/ns_timer_ap3.c" bodystart="115" bodyend="123" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_timer.h" declline="95" declcolumn="17"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="define">

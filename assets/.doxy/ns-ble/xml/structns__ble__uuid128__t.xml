@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="226" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="226" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="232" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="232" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -24,7 +24,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="225" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="225" bodyend="227"/>
+    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="231" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="231" bodyend="233"/>
     <listofallmembers>
       <member refid="structns__ble__uuid128__t_1a28f80349d636dc95268d72689bb5ba2a" prot="public" virt="non-virtual"><scope>ns_ble_uuid128_t</scope><name>array</name></member>
     </listofallmembers>

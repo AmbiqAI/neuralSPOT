@@ -4,7 +4,7 @@
 
 
 
-[**FileList**](files.md) **>** [**neuralSPOT**](dir_75594cce7c7773aa3cb253214bf56510.md) **>** [**neuralspot**](dir_b737d82f35ec218ac5a7ef4105db9c0e.md) **>** [**ns-peripherals**](dir_62cbd78784261bb0d09981988628a167.md) **>** [**src**](dir_cf9eff0d6bf97258df730d615fa0f132.md) **>** [**ns\_tempco.h**](ns__tempco_8h.md)
+[**FileList**](files.md) **>** [**apollo4**](dir_1c005e3bbb5b4e96ef4b5df2b5884295.md) **>** [**ns\_tempco.h**](ns__tempco_8h.md)
 
 [Go to the source code of this file](ns__tempco_8h_source.md)
 
@@ -209,5 +209,5 @@ uint32_t ns_tempco_init (
 
 
 ------------------------------
-The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h`
+The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h`
 

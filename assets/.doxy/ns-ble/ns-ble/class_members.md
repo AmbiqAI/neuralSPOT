@@ -73,6 +73,7 @@
 
 ## i
 
+* **indicationIsAsynchronous** ([**ns\_ble\_characteristic**](structns__ble__characteristic.md))
 * **indicationPeriod** ([**ns\_ble\_characteristic**](structns__ble__characteristic.md))
 * **indicationTimer** ([**ns\_ble\_characteristic**](structns__ble__characteristic.md))
 

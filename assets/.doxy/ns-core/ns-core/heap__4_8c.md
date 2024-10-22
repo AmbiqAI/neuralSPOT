@@ -44,6 +44,11 @@
 
 
 
+## Public Attributes
+
+| Type | Name |
+| ---: | :--- |
+|  size\_t const | [**ucHeapSize**](#variable-ucheapsize)   = = configTOTAL\_HEAP\_SIZE<br> |
 
 
 ## Public Static Attributes
@@ -51,7 +56,6 @@
 | Type | Name |
 | ---: | :--- |
 |  [**BlockLink\_t**](struct_a___b_l_o_c_k___l_i_n_k.md) \* | [**pxEnd**](#variable-pxend)   = = NULL<br> |
-|  uint8\_t | [**ucHeap**](#variable-ucheap)  <br> |
 |  size\_t | [**xBlockAllocatedBit**](#variable-xblockallocatedbit)   = = 0<br> |
 |  size\_t | [**xFreeBytesRemaining**](#variable-xfreebytesremaining)   = = 0U<br> |
 |  const size\_t | [**xHeapStructSize**](#variable-xheapstructsize)   = =
@@ -91,6 +95,7 @@
 
 | Type | Name |
 | ---: | :--- |
+|  uint8\_t ucHeap[configTOTAL\_HEAP\_SIZE] | [**\_\_attribute\_\_**](#function-__attribute__) ((aligned(4))) <br> |
 |  void | [**prvHeapInit**](#function-prvheapinit) (void) <br> |
 |  void | [**prvInsertBlockIntoFreeList**](#function-prvinsertblockintofreelist) ([**BlockLink\_t**](struct_a___b_l_o_c_k___l_i_n_k.md) \* pxBlockToInsert) <br> |
 
@@ -140,6 +145,19 @@ typedef struct A_BLOCK_LINK BlockLink_t;
 
 
 
+## Public Attributes Documentation
+
+
+
+
+### variable ucHeapSize 
+
+```C++
+size_t const ucHeapSize;
+```
+
+
+
 ## Public Static Attributes Documentation
 
 
@@ -149,17 +167,6 @@ typedef struct A_BLOCK_LINK BlockLink_t;
 
 ```C++
 BlockLink_t * pxEnd;
-```
-
-
-
-
-
-
-### variable ucHeap 
-
-```C++
-uint8_t ucHeap[configTOTAL_HEAP_SIZE];
 ```
 
 
@@ -349,6 +356,19 @@ size_t xPortGetMinimumEverFreeHeapSize (
 
 
 ## Public Static Functions Documentation
+
+
+
+
+### function \_\_attribute\_\_ 
+
+```C++
+static uint8_t ucHeap[configTOTAL_HEAP_SIZE] __attribute__ (
+    (aligned(4))
+) 
+```
+
+
 
 
 

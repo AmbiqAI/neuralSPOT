@@ -2,7 +2,7 @@
 
 # File ns\_audadc.c
 
-[**File List**](files.md) **>** [**neuralSPOT**](dir_75594cce7c7773aa3cb253214bf56510.md) **>** [**neuralspot**](dir_b737d82f35ec218ac5a7ef4105db9c0e.md) **>** [**ns-audio**](dir_45211a8475460839574f71aa108f4957.md) **>** [**src**](dir_e70eef2d5115541d1d6cb7ad27f30382.md) **>** [**ns\_audadc.c**](ns__audadc_8c.md)
+[**File List**](files.md) **>** [**apollo4**](dir_9e4df1ce7893b775eb3c7fcb555505ab.md) **>** [**ns\_audadc.c**](ns__audadc_8c.md)
 
 [Go to the documentation of this file](ns__audadc_8c.md)
 
@@ -23,7 +23,7 @@
 
 #ifndef AM_PART_APOLLO4L
 
-    #include "ns_audadc.h"
+    #include "../ns_audadc.h"
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"
@@ -416,6 +416,34 @@ uint32_t audadc_init(ns_audio_config_t *cfg) {
     am_hal_interrupt_master_enable();
 
     return NS_STATUS_SUCCESS;
+}
+
+//*****************************************************************************
+//
+//  Power off audadc
+//
+//*****************************************************************************
+void audadc_deinit(ns_audio_config_t *cfg) {
+    am_hal_audadc_interrupt_disable(g_AUDADCHandle, 0xFFFFFFFF);
+    while(AUDADC->DMATOTCOUNT_b.TOTCOUNT != 0); // Ensure DMATOTCOUNT is set to 0 as part of de-initialization
+    if (AM_HAL_STATUS_SUCCESS != am_hal_audadc_control(g_AUDADCHandle, AM_HAL_AUDADC_REQ_DMA_DISABLE, NULL))
+    {
+        am_util_stdio_printf("Error - AUDADC control failed.\n");
+    }
+    am_hal_audadc_irtt_disable(g_AUDADCHandle);
+    am_hal_audadc_disable(g_AUDADCHandle);
+    am_hal_audadc_deinitialize(g_AUDADCHandle);
+#ifdef POWER_CYCLE_MICBIAS
+    am_hal_audadc_micbias_powerdown();
+#endif
+    am_hal_audadc_pga_powerdown(0);
+    am_hal_audadc_pga_powerdown(1);
+    am_hal_audadc_pga_powerdown(2);
+    am_hal_audadc_pga_powerdown(3);
+    am_hal_audadc_refgen_powerdown();
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);
+    am_util_delay_ms(20);
+
 }
 
 #endif // AM_PART_APOLLO4L

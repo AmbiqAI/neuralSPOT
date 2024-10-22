@@ -46,7 +46,8 @@
 |  uint16\_t | [**declarationHandle**](#variable-declarationhandle)  <br> |
 |  uint16\_t | [**declarationLen**](#variable-declarationlen)  <br> |
 |  uint8\_t | [**declarationProperties**](#variable-declarationproperties)  <br> |
-|  uint16\_t | [**handleId**](#variable-handleid)  <br>_periodic measurement period in ms_  |
+|  uint16\_t | [**handleId**](#variable-handleid)  <br>_TRUE if indication is asynchronous._  |
+|  uint8\_t | [**indicationIsAsynchronous**](#variable-indicationisasynchronous)  <br>_periodic measurement period in ms_  |
 |  uint32\_t | [**indicationPeriod**](#variable-indicationperiod)  <br>_periodic measurement timer_  |
 |  wsfTimer\_t | [**indicationTimer**](#variable-indicationtimer)  <br> |
 |  ns\_ble\_characteristic\_notify\_handler\_t | [**notifyHandlerCb**](#variable-notifyhandlercb)  <br> |
@@ -231,6 +232,17 @@ uint8_t ns_ble_characteristic::declarationProperties[19];
 
 ```C++
 uint16_t ns_ble_characteristic::handleId;
+```
+
+
+
+
+
+
+### variable indicationIsAsynchronous 
+
+```C++
+uint8_t ns_ble_characteristic::indicationIsAsynchronous;
 ```
 
 

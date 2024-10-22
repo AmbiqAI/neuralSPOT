@@ -2,7 +2,7 @@
 
 # File system\_apollo4p.c
 
-[**File List**](files.md) **>** [**armclang**](dir_2202e181cb244b86d6f52412849515e1.md) **>** [**system\_apollo4p.c**](system__apollo4p_8c.md)
+[**File List**](files.md) **>** [**apollo4p**](dir_c58f1eb3a5e551e5695aea95f324fbae.md) **>** [**armclang**](dir_8f4c64cf0628cf64bd11e8bebf31f7d5.md) **>** [**system\_apollo4p.c**](system__apollo4p_8c.md)
 
 [Go to the documentation of this file](system__apollo4p_8c.md)
 
@@ -64,25 +64,23 @@
 //
 // Clocks
 //
-#define __HSI             (6000000UL)
-#define __XTAL            (32768UL)         // Crystal Oscillator frequency
-#define __SYS_OSC_CLK     (96000000)        // Main oscillator frequency
-#define __SYSTEM_CLOCK    (1 * __SYS_OSC_CLK)
+#define __HSI (6000000UL)
+#define __XTAL (32768UL)         // Crystal Oscillator frequency
+#define __SYS_OSC_CLK (96000000) // Main oscillator frequency
+#define __SYSTEM_CLOCK (1 * __SYS_OSC_CLK)
 
 //
 // Initialize SystemCoreClock with the system core clock frequency value
 // achieved after system intitialization.
 // This means system core clock frequency after call to SystemInit()
 //
-uint32_t SystemCoreClock = __SYSTEM_CLOCK;  // System Clock Frequency (Core Clock)
+uint32_t SystemCoreClock = __SYSTEM_CLOCK; // System Clock Frequency (Core Clock)
 
 //*****************************************************************************
 //
 //
 //*****************************************************************************
-void
-SystemCoreClockUpdate(void)
-{
+void SystemCoreClockUpdate(void) {
     //
     // Calculate the system frequency based upon the current register settings.
     // This function can be used to retrieve the system core clock frequeny
@@ -95,9 +93,7 @@ SystemCoreClockUpdate(void)
 //
 //
 //*****************************************************************************
-void
-SystemInit(void)
-{
+void SystemInit(void) {
     //
     // Initialize the system
     // Do not use global variables because this function is called before
@@ -105,7 +101,6 @@ SystemInit(void)
     //
     SystemCoreClock = __SYSTEM_CLOCK;
 }
-
 
 ```
 

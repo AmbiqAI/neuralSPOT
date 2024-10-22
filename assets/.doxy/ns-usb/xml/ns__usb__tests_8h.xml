@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__usb__tests_8h" kind="file" language="C++">
+    <compoundname>ns_usb_tests.h</compoundname>
+    <includes refid="ns__usb_8h" local="yes">ns_usb.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_usb.h</label>
+        <link refid="ns__usb_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>webusb_controller.h</label>
+        <link refid="webusb__controller_8h"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h</label>
+        <link refid="ns__usb__tests_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__usb__tests_8h_1a256d552e29fa0ace1c9fe7576197f054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" line="2" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.c" bodystart="22" bodyend="24" declfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" declline="2" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb__tests_8h_1abb54876ee0dd25fce377791e4c21b962" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" line="3" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.c" bodystart="26" bodyend="28" declfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" declline="3" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb__tests_8h_1a6dab3d267498de8e28bd5bff836e719c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_test_init</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_test_init</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" line="4" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.c" bodystart="31" bodyend="34" declfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" declline="4" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb__tests_8h_1ac9fdab9764b1e34b5f4505dee32c7982" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_test_init_null_config</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_test_init_null_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" line="5" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.c" bodystart="37" bodyend="40" declfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" declline="5" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb__tests_8h_1a6c0989c1d9681f4b9eb77c6f3a514d54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_test_init_null_buffers</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_test_init_null_buffers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" line="6" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.c" bodystart="43" bodyend="49" declfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" declline="6" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__usb__tests_8h_1af33825249e459ff1e505ee0c66467461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_usb_test_init_invalid_api</definition>
+        <argsstring>()</argsstring>
+        <name>ns_usb_test_init_invalid_api</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" line="7" column="6" bodyfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.c" bodystart="52" bodyend="58" declfile="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h" declline="7" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;ns_usb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_tests_pre_test_hook();</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_tests_post_test_hook();</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_test_init();</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_test_init_null_config();</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_test_init_null_buffers();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_usb_test_init_invalid_api();</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h"/>
+  </compounddef>
+</doxygen>

@@ -74,6 +74,7 @@ typedef struct {
     bool cryptoCurrentlyEnabled;    // Current state for Crypto
     bool uartPrintWantsToBeEnabled; // Desired state for ITM printing
     bool uartPrintCurrentlyEnabled; // Current state for ITM printing
+    bool ap3BurstModeInitialized;   // Current state for Apollo3 Burst Mode
 } ns_desired_state_t;
 
 extern ns_desired_state_t g_ns_state;

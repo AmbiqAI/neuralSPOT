@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structwebusb__parameter__t" kind="struct" language="C++" prot="public">
+    <compoundname>webusb_parameter_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structwebusb__parameter__t_1adf94834d58ee9fbfb5eb6d39387d21e7" prot="public" static="no" mutable="no">
+        <type>webusb_rx_cb</type>
+        <definition>webusb_rx_cb webusb_parameter_t::rx_msg_cb</definition>
+        <argsstring></argsstring>
+        <name>rx_msg_cb</name>
+        <qualifiedname>webusb_parameter_t::rx_msg_cb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" line="60" column="18" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwebusb__parameter__t_1a0ba9e050146d3fb522659ef7aa899d70" prot="public" static="no" mutable="no">
+        <type>webusb_rx_cb</type>
+        <definition>webusb_rx_cb webusb_parameter_t::rx_raw_cb</definition>
+        <argsstring></argsstring>
+        <name>rx_raw_cb</name>
+        <qualifiedname>webusb_parameter_t::rx_raw_cb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" line="61" column="18" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwebusb__parameter__t_1abc36aab8cd9b23fa1c552a97e0fca6c9" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* webusb_parameter_t::rx_msg_param</definition>
+        <argsstring></argsstring>
+        <name>rx_msg_param</name>
+        <qualifiedname>webusb_parameter_t::rx_msg_param</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" line="62" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwebusb__parameter__t_1aa15e7f297546e750896fb769fc180fcd" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* webusb_parameter_t::rx_raw_param</definition>
+        <argsstring></argsstring>
+        <name>rx_raw_param</name>
+        <qualifiedname>webusb_parameter_t::rx_raw_param</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" line="63" column="10" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" line="59" column="1" bodyfile="neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c" bodystart="59" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structwebusb__parameter__t_1adf94834d58ee9fbfb5eb6d39387d21e7" prot="public" virt="non-virtual"><scope>webusb_parameter_t</scope><name>rx_msg_cb</name></member>
+      <member refid="structwebusb__parameter__t_1abc36aab8cd9b23fa1c552a97e0fca6c9" prot="public" virt="non-virtual"><scope>webusb_parameter_t</scope><name>rx_msg_param</name></member>
+      <member refid="structwebusb__parameter__t_1a0ba9e050146d3fb522659ef7aa899d70" prot="public" virt="non-virtual"><scope>webusb_parameter_t</scope><name>rx_raw_cb</name></member>
+      <member refid="structwebusb__parameter__t_1aa15e7f297546e750896fb769fc180fcd" prot="public" virt="non-virtual"><scope>webusb_parameter_t</scope><name>rx_raw_param</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

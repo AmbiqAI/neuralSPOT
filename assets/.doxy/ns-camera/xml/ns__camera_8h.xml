@@ -1,0 +1,1138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__camera_8h" kind="file" language="C++">
+    <compoundname>ns_camera.h</compoundname>
+    <includes local="yes">ns_core.h</includes>
+    <includes local="yes">ns_spi.h</includes>
+    <includes local="yes">arm_math.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includedby refid="_arducam_camera_8c" local="yes">neuralSPOT/neuralspot/ns-camera/src/arducam/ArducamCamera.c</includedby>
+    <includedby refid="ns__camera_8c" local="yes">neuralSPOT/neuralspot/ns-camera/src/ns_camera.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h</label>
+        <link refid="ns__camera_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>arm_math.h</label>
+      </node>
+      <node id="2">
+        <label>ns_core.h</label>
+      </node>
+      <node id="3">
+        <label>ns_spi.h</label>
+      </node>
+      <node id="5">
+        <label>stdint.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structns__camera__cfg" prot="public">ns_camera_cfg</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__camera_8h_1abc3feb701306d0f0e32d50969398759f" prot="public" static="no">
+        <name>NS_CAMERA_V1_0_0</name>
+        <initializer>    { .major = 1, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="22" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__camera_8h_1acb911beff68d05855caf534a44333e88" prot="public" static="no">
+        <name>NS_CAMERA_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_CAMERA_V1_0_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="25" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__camera_8h_1adbd0d6f9115f9e968ee83bc8e3599865" prot="public" static="no">
+        <name>NS_CAMERA_CURRENT_VERSION</name>
+        <initializer>NS_CAMERA_V1_0_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="26" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__camera_8h_1aff4ff0cb506daef5e24e2e9c611f86ec" prot="public" static="no">
+        <name>NS_CAMERA_API_ID</name>
+        <initializer>0xCA000A</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="27" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="ns__camera_8h_1afc9c1beaad5d94495a5724c3b579f160" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_camera_hw_e</name>
+        <enumvalue id="ns__camera_8h_1afc9c1beaad5d94495a5724c3b579f160a994ed4caf4324765d40dbee99f7a9e28" prot="public">
+          <name>NS_ARDUCAM</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="35" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_image_mode_e</name>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19a10b98f433300915c6c2a0aefc7feca30" prot="public">
+          <name>NS_CAM_IMAGE_MODE_QQVGA</name>
+          <initializer>= 0x00</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>160x120 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19a0898940c958c94515b89b5ddaa168d13" prot="public">
+          <name>NS_CAM_IMAGE_MODE_QVGA</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>320x240 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19ab507da6fdf4ac670b69fa727ae7b3fbb" prot="public">
+          <name>NS_CAM_IMAGE_MODE_VGA</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>640x480 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19a3c61abbcb71533e7520464ffe5f2be83" prot="public">
+          <name>NS_CAM_IMAGE_MODE_SVGA</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>800x600 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19aad918812836b1544bb248e0ddf6514e3" prot="public">
+          <name>NS_CAM_IMAGE_MODE_HD</name>
+          <initializer>= 0x04</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>1280x720 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19ac819558a0864c9e4ff042c39b2d49d70" prot="public">
+          <name>NS_CAM_IMAGE_MODE_SXGAM</name>
+          <initializer>= 0x05</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>1280x960 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19aba6b9739102f97d8ae0a76ecd456a0e4" prot="public">
+          <name>NS_CAM_IMAGE_MODE_UXGA</name>
+          <initializer>= 0x06</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>1600x1200 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19ad7c35dd6ae38d23f2978b4b16f64f404" prot="public">
+          <name>NS_CAM_IMAGE_MODE_FHD</name>
+          <initializer>= 0x07</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>1920x1080 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19ab8e1893ca1deb5c8b9283a0d8a991bb5" prot="public">
+          <name>NS_CAM_IMAGE_MODE_QXGA</name>
+          <initializer>= 0x08</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>2048x1536 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19abff7bb3e86fd16c4d15c9be5b1cb6df4" prot="public">
+          <name>NS_CAM_IMAGE_MODE_WQXGA2</name>
+          <initializer>= 0x09</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>2592x1944 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19a2d8d64f884c9f52becf268e774d15acb" prot="public">
+          <name>NS_CAM_IMAGE_MODE_96X96</name>
+          <initializer>= 0x0a</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>96x96 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19a5b6b0613f60c9cfe780bd823cdaf32b7" prot="public">
+          <name>NS_CAM_IMAGE_MODE_128X128</name>
+          <initializer>= 0x0b</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>128x128 </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a7ca1ddec231daac0e72a5abc3a67cf19a64e3951add9ceaf590ee957a5edd0869" prot="public">
+          <name>NS_CAM_IMAGE_MODE_320X320</name>
+          <initializer>= 0x0c</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>320x320 </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="39" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="39" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="ns__camera_8h_1a37b53a8e5fbbb8bbb77aa09aa411c9a1" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_image_pix_fmt_e</name>
+        <enumvalue id="ns__camera_8h_1a37b53a8e5fbbb8bbb77aa09aa411c9a1aa406e255098376a9a5e7b59f511b7530" prot="public">
+          <name>NS_CAM_IMAGE_PIX_FMT_RGB565</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__camera_8h_1a37b53a8e5fbbb8bbb77aa09aa411c9a1a834f8b83c459d46c130701ec5020dad6" prot="public">
+          <name>NS_CAM_IMAGE_PIX_FMT_JPEG</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="55" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="55" bodyend="58"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="ns__camera_8h_1a7643da4748aa9e8a194b62f72cfd3f20" prot="public" static="no">
+        <type>int8_t</type>
+        <definition>typedef int8_t img_t</definition>
+        <argsstring></argsstring>
+        <name>img_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="33" column="16" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ns__camera_8h_1afc34dcc96117ea15fcf69f892bbc5c99" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_camera_dma_cb) (struct ns_camera_cfg *cfg)</definition>
+        <argsstring>)(struct ns_camera_cfg *cfg)</argsstring>
+        <name>ns_camera_dma_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="62" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ns__camera_8h_1a28c02d9303228a090c63dc2944ba5ecc" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_camera_picture_cb) (struct ns_camera_cfg *cfg)</definition>
+        <argsstring>)(struct ns_camera_cfg *cfg)</argsstring>
+        <name>ns_camera_picture_cb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="63" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ns__camera_8h_1a767c8bda268eff8520efaaea2a90fb8c" prot="public" static="no">
+        <type>struct <ref refid="structns__camera__cfg" kindref="compound">ns_camera_cfg</ref></type>
+        <definition>typedef struct ns_camera_cfg ns_camera_config_t</definition>
+        <argsstring></argsstring>
+        <name>ns_camera_config_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="82" column="20"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__camera_8h_1a40225f6aabeb67a472f60b25935c69a8" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_camera_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_camera_V1_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="29" column="28" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="20" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="29" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__camera_8h_1a8f9af12bf324fd958c33f9d5a581fc86" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_camera_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_camera_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="30" column="28" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="21" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="30" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__camera_8h_1a67caa5f7d807d2bb98b167089c8673f4" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_camera_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_camera_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="31" column="28" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="23" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="31" declcolumn="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__camera_8h_1ad8845d5c93ddf4484840cf44e1579a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int arducam_spi_read</definition>
+        <argsstring>(const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>arducam_spi_read</name>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="85" column="5" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="145" bodyend="158" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="85" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1af101352cd26dd8cb09b6c98c7d72e49b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int arducam_spi_write</definition>
+        <argsstring>(const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>arducam_spi_write</name>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="87" column="5" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="160" bodyend="174" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="87" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a8257736396a90809023c734b5386d7da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void arducam_delay_ms</definition>
+        <argsstring>(uint16_t delay)</argsstring>
+        <name>arducam_delay_ms</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>delay</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="89" column="6" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="176" bodyend="176" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="89" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a56d103d6671d9e6af3e46146efb0cd15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void arducam_delay_us</definition>
+        <argsstring>(uint16_t delay)</argsstring>
+        <name>arducam_delay_us</name>
+        <param>
+          <type>uint16_t</type>
+          <declname>delay</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="90" column="6" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="177" bodyend="177" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="90" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a133c966fe20c2cc14921e499feda9782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_camera_init</definition>
+        <argsstring>(ns_camera_config_t *cfg)</argsstring>
+        <name>ns_camera_init</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the camera. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="98" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="115" bodyend="141" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="98" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1ac2532335675b33a9947766778eb64fbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_start_camera</definition>
+        <argsstring>(ns_camera_config_t *cfg)</argsstring>
+        <name>ns_start_camera</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Start the camera (take out of low power mode) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Start camera and take out of standby</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="106" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="198" bodyend="211" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="106" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a67a93fa866a0e1112067ff8fdf0fe23f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_stop_camera</definition>
+        <argsstring>(ns_camera_config_t *cfg)</argsstring>
+        <name>ns_stop_camera</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Stop the camera (put into low power mode) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Stop camera and put into low-power standby mode.</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="114" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="212" bodyend="219" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="114" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1af23914b862bea3c38030e758b10140cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_take_picture</definition>
+        <argsstring>(ns_camera_config_t *cfg)</argsstring>
+        <name>ns_take_picture</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Take a picture in mode specified by cfg Once picture is taken, it can be transferred using ns_transfer_picture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Trigger capture (Arducam will fetch next frame from image sensor)</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="122" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="221" bodyend="229" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="122" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1aa81360a39515f4b54e7a7c431f959878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_press_shutter_button</definition>
+        <argsstring>(ns_camera_config_t *cfg)</argsstring>
+        <name>ns_press_shutter_button</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Press the shutter button Start the capture process, turns on a timer to poll the camera for completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="130" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="234" bodyend="260" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="130" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a4528e8761550280996f439d354f1d551" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ns_is_camera_capturing</definition>
+        <argsstring>()</argsstring>
+        <name>ns_is_camera_capturing</name>
+        <briefdescription>
+<para>Check if camera is still capturing This is a helper function, it should typically only be used by ns_camera. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Check if Arducam is still fetching frame</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="137" column="5" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="262" bodyend="268" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="137" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1abb7096fc0a157dd6cb62af5f9eb0da40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_transfer_picture</definition>
+        <argsstring>(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen)</argsstring>
+        <name>ns_transfer_picture</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>camBuf</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>buffer_offset</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <briefdescription>
+<para>Transfer captured frame over SPI to local buffer NOTE: This routine is blocking and will wait for inflight capture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>camBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Camera buffer to store frame </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JPG images are stored 1 byte offset from start of buffer, so use this to find it </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer size </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Transfer captured frame over SPI to local buffer NOTE: This routine is blocking and will wait for inflight capture. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>camBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Camera buffer to store frame </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer size </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="149" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="325" bodyend="366" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="149" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1ac1dd9495448019f2b030f0e23fef8d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_start_dma_read</definition>
+        <argsstring>(ns_camera_config_t *cfg, uint8_t *camBuf, uint32_t *buffer_offset, uint32_t bufLen)</argsstring>
+        <name>ns_start_dma_read</name>
+        <param>
+          <type><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>camBuf</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>buffer_offset</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <briefdescription>
+<para>Start a DMA read of the camera buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>camBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to store image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returned value of buffer offset </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Total size of image in bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="161" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="293" bodyend="323" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="161" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a2c198e22a16e963e70184b8abea3551c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int camera_decode_image</definition>
+        <argsstring>(uint8_t *camBuf, uint32_t camLen, uint8_t *imgBuf, uint32_t imgWidth, uint32_t imgHeight, uint32_t scaleFactor)</argsstring>
+        <name>camera_decode_image</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>camBuf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>camLen</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>imgBuf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>imgWidth</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>imgHeight</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>scaleFactor</declname>
+        </param>
+        <briefdescription>
+<para>Converts a JPG to an RGB565 image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>camBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer containing JPG image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>camLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of JPG image in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imgBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to store RGB565 image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imgWidth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Width of RGB565 image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imgHeight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Height of RGB565 image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scaleFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scale factor to reduce image size </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int</para>
+</simplesect>
+Converts a JPG to an RGB565 image.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>camBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Camera buffer to decode </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>camLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of camera buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imgBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Image buffer to store decoded image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imgWidth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Width of image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>imgHeight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Height of image </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scaleFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scale factor for image </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>int </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="177" column="5" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="413" bodyend="475" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="177" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1a687c63ec87654472713a1058ee30d1e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_camera_adjust_settings</definition>
+        <argsstring>(int8_t contrast, int8_t brightness, int8_t ev)</argsstring>
+        <name>ns_camera_adjust_settings</name>
+        <param>
+          <type>int8_t</type>
+          <declname>contrast</declname>
+        </param>
+        <param>
+          <type>int8_t</type>
+          <declname>brightness</declname>
+        </param>
+        <param>
+          <type>int8_t</type>
+          <declname>ev</declname>
+        </param>
+        <briefdescription>
+<para>Adjust camera settings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>contrast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>brightness</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="189" column="6" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="287" bodyend="291" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="189" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__camera_8h_1ab1dc416ffb40bc54d9e8163480cacf64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_chop_off_trailing_zeros</definition>
+        <argsstring>(uint8_t *buff, uint32_t length)</argsstring>
+        <name>ns_chop_off_trailing_zeros</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buff</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Chop off trailing zeros from a buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JPG buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adjusted length after trailing zeros are removed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="198" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/src/ns_camera.c" bodystart="390" bodyend="399" declfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" declline="198" declcolumn="10"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__CAMERA_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__CAMERA_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_spi.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;arm_math.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_CAMERA_V1_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="23"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>1,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_CAMERA_OLDEST_SUPPORTED_VERSION<sp/>NS_CAMERA_V1_0_0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_CAMERA_CURRENT_VERSION<sp/>NS_CAMERA_V1_0_0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_CAMERA_API_ID<sp/>0xCA000A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_camera_V1_0_0;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_camera_oldest_supported_version;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_camera_current_version;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int8_t<sp/>img_t;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_ARDUCAM<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/>ns_camera_hw_e;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_QQVGA<sp/>=<sp/>0x00,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_QVGA<sp/>=<sp/>0x01,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_VGA<sp/>=<sp/>0x02,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_SVGA<sp/>=<sp/>0x03,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_HD<sp/>=<sp/>0x04,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_SXGAM<sp/>=<sp/>0x05,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_UXGA<sp/>=<sp/>0x06,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_FHD<sp/>=<sp/>0x07,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_QXGA<sp/>=<sp/>0x08,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_WQXGA2<sp/>=<sp/>0x09,<sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_96X96<sp/>=<sp/>0x0a,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_128X128<sp/>=<sp/>0x0b,<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_MODE_320X320<sp/>=<sp/>0x0c,<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}<sp/>ns_image_mode_e;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_PIX_FMT_RGB565<sp/>=<sp/>0x02,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_CAM_IMAGE_PIX_FMT_JPEG<sp/>=<sp/>0x01,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}<sp/>ns_image_pix_fmt_e;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>def</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__camera__cfg" kindref="compound">ns_camera_cfg</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*ns_camera_dma_cb)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__camera__cfg" kindref="compound">ns_camera_cfg</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>void<sp/>(*ns_camera_picture_cb)(</highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__camera__cfg" kindref="compound">ns_camera_cfg</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structns__camera__cfg" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__camera__cfg" kindref="compound">ns_camera_cfg</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structns__camera__cfg_1a16ff1ac0ee53538ca0d94914e402b658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*<ref refid="structns__camera__cfg_1a16ff1ac0ee53538ca0d94914e402b658" kindref="member">api</ref>;<sp/></highlight></codeline>
+<codeline lineno="67" refid="structns__camera__cfg_1abccd806f3d100be7c7f40025b85f7e2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int8_t<sp/><ref refid="structns__camera__cfg_1abccd806f3d100be7c7f40025b85f7e2c" kindref="member">iom</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structns__camera__cfg_1ad617301a8e37a57655da4bfb576aa933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__camera__cfg_1ad617301a8e37a57655da4bfb576aa933" kindref="member">spiSpeed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_camera_hw_e<sp/>cameraHw;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_image_mode_e<sp/>imageMode;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_image_pix_fmt_e<sp/>imagePixFmt;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_spi_config_t<sp/>spiConfig;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_camera_dma_cb</highlight></codeline>
+<codeline lineno="74" refid="structns__camera__cfg_1ac2d7d3b08caaa834b44cc3694d8a0ff3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structns__camera__cfg_1ac2d7d3b08caaa834b44cc3694d8a0ff3" kindref="member">dmaCompleteCb</ref>;<sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_camera_picture_cb</highlight></codeline>
+<codeline lineno="76" refid="structns__camera__cfg_1a3ea9dc68df44ac8b3c0fc08dd4a067c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structns__camera__cfg_1a3ea9dc68df44ac8b3c0fc08dd4a067c3" kindref="member">pictureTakenCb</ref>;<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>dmaBufferOffset;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>dmaBufferLength;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Should<sp/>only<sp/>be<sp/>used<sp/>by<sp/>Arducam<sp/>driver</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>arducam_spi_read(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>bufLen,<sp/>uint64_t<sp/>reg,<sp/>uint32_t<sp/>regLen,<sp/>uint32_t<sp/>csPin);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>arducam_spi_write(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>bufLen,<sp/>uint64_t<sp/>reg,<sp/>uint32_t<sp/>regLen,<sp/>uint32_t<sp/>csPin);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>arducam_delay_ms(uint16_t<sp/>delay);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>arducam_delay_us(uint16_t<sp/>delay);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">uint32_t<sp/>ns_camera_init(<ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">uint32_t<sp/>ns_start_camera(<ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">uint32_t<sp/>ns_stop_camera(<ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">uint32_t<sp/>ns_take_picture(<ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">uint32_t<sp/>ns_press_shutter_button(<ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ns_is_camera_capturing();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">uint32_t<sp/>ns_transfer_picture(</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg,<sp/>uint8_t<sp/>*camBuf,<sp/>uint32_t<sp/>*buffer_offset,<sp/>uint32_t<sp/>bufLen);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">uint32_t<sp/>ns_start_dma_read(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__camera__cfg" kindref="compound">ns_camera_config_t</ref><sp/>*cfg,<sp/>uint8_t<sp/>*camBuf,<sp/>uint32_t<sp/>*buffer_offset,<sp/>uint32_t<sp/>bufLen);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>uint32_t<sp/>ns_camera_capture(ns_camera_config_t<sp/>*cfg,<sp/>uint8_t<sp/>*camBuf,<sp/>uint32_t<sp/>bufLen);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>camera_decode_image(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*camBuf,<sp/>uint32_t<sp/>camLen,<sp/>uint8_t<sp/>*imgBuf,<sp/>uint32_t<sp/>imgWidth,<sp/>uint32_t<sp/>imgHeight,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>scaleFactor);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_camera_adjust_settings(int8_t<sp/>contrast,<sp/>int8_t<sp/>brightness,<sp/>int8_t<sp/>ev);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">uint32_t<sp/>ns_chop_off_trailing_zeros(uint8_t<sp/>*buff,<sp/>uint32_t<sp/>length);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__CAMERA_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h"/>
+  </compounddef>
+</doxygen>

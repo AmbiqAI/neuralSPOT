@@ -96,20 +96,20 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="159" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="159" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structns__audio__cfg_1a87623d4cc52b521307a3e47053ab9f9c" prot="public" static="no" mutable="no">
-        <type>am_hal_audadc_sample_t *</type>
-        <definition>am_hal_audadc_sample_t* ns_audio_cfg::workingBuffer</definition>
+      <memberdef kind="variable" id="structns__audio__cfg_1a285779a2cc94237ccc88fc6bf88d174b" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_audio_cfg::workingBuffer</definition>
         <argsstring></argsstring>
         <name>workingBuffer</name>
         <qualifiedname>ns_audio_cfg::workingBuffer</qualifiedname>
         <briefdescription>
-<para>Working buffer used by AUDADC, otherwise NULL. </para>
+<para>Not used for Apollo4 Lite. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="164" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="164" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="162" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" prot="public" static="no" mutable="no">
         <type>uint8_t</type>
@@ -257,7 +257,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="186" column="38" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="186" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="187" column="38" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="187" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -289,7 +289,7 @@
         <link refid="structns__pdm__cfg__t"/>
       </node>
     </collaborationgraph>
-    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="148" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="148" bodyend="188"/>
+    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="148" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="148" bodyend="189"/>
     <listofallmembers>
       <member refid="structns__audio__cfg_1aa28c1a191b21b4dfc45e41baf052336c" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>api</name></member>
       <member refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>audadc_config</name></member>
@@ -307,7 +307,7 @@
       <member refid="structns__audio__cfg_1a5748e0fa5c04209d41375d31662944e5" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>sampleRate</name></member>
       <member refid="structns__audio__cfg_1a5aacc154b3d40b62f720aff2575e1d95" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>sOffsetCalib</name></member>
       <member refid="structns__audio__cfg_1a5ca839301c1bf52d5a600c30f77225c7" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>sTransfer</name></member>
-      <member refid="structns__audio__cfg_1a87623d4cc52b521307a3e47053ab9f9c" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>workingBuffer</name></member>
+      <member refid="structns__audio__cfg_1a285779a2cc94237ccc88fc6bf88d174b" prot="public" virt="non-virtual"><scope>ns_audio_cfg</scope><name>workingBuffer</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -13,7 +13,7 @@
     <member refid="structns__audio__cfg_1aed4fd73f4160b6cf91452ac0d425c270" kind="variable"><name>audioBuffer</name></member>
     <member refid="structns__audio__cfg_1a1be664af213fd6688bf0204f07a8338d" kind="variable"><name>eAudioSource</name></member>
     <member refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" kind="variable"><name>sampleBuffer</name></member>
-    <member refid="structns__audio__cfg_1a87623d4cc52b521307a3e47053ab9f9c" kind="variable"><name>workingBuffer</name></member>
+    <member refid="structns__audio__cfg_1a285779a2cc94237ccc88fc6bf88d174b" kind="variable"><name>workingBuffer</name></member>
     <member refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kind="variable"><name>numChannels</name></member>
     <member refid="structns__audio__cfg_1a3cda7603b16a3d4c901e8a72765b4ddd" kind="variable"><name>numSamples</name></member>
     <member refid="structns__audio__cfg_1a5748e0fa5c04209d41375d31662944e5" kind="variable"><name>sampleRate</name></member>
@@ -80,6 +80,7 @@
     <member refid="group__ns-audio_1ga0c7ca1c6a6a797e5e26d337050f006a0" kind="define"><name>NS_AUDIO_V0_0_1</name></member>
     <member refid="group__ns-audio_1gacc71ba8c8ce109222867a30f629fe87b" kind="define"><name>NS_AUDIO_V1_0_0</name></member>
     <member refid="group__ns-audio_1ga6cd4a166584d85c6c0633904ab7d7281" kind="define"><name>NS_AUDIO_V2_0_0</name></member>
+    <member refid="group__ns-audio_1ga357f6988b0bd826d8ee9589490abaf89" kind="define"><name>NS_AUDIO_V2_1_0</name></member>
     <member refid="group__ns-audio_1gacb8e5edd501c9f6a5eafaca1e3a0fe87" kind="define"><name>NS_AUDIO_OLDEST_SUPPORTED_VERSION</name></member>
     <member refid="group__ns-audio_1gaeb7928f9bf518bdc0b2678e1c6838017" kind="define"><name>NS_AUDIO_CURRENT_VERSION</name></member>
     <member refid="group__ns-audio_1gae6dfef07fcfabffabd1f51435b12c1e9" kind="define"><name>NS_AUDIO_API_ID</name></member>
@@ -109,10 +110,13 @@
     <member refid="group__ns-audio_1ga13441b97381f02eb62e402fe49d7469d" kind="variable"><name>ns_audio_V0_0_1</name></member>
     <member refid="group__ns-audio_1gab6a4a8cf5963f5f1f89ab077aebf2023" kind="variable"><name>ns_audio_V1_0_0</name></member>
     <member refid="group__ns-audio_1ga1930391d50c7943a64b5d880b83dc407" kind="variable"><name>ns_audio_V2_0_0</name></member>
+    <member refid="group__ns-audio_1ga96ed17cf860229cb3cdb9a72df67e634" kind="variable"><name>ns_audio_V2_1_0</name></member>
     <member refid="group__ns-audio_1ga90f0ca4d98c0ba5b7f35b1d6cc844edb" kind="variable"><name>ns_audio_oldest_supported_version</name></member>
     <member refid="group__ns-audio_1gaf721b679c31095f360c648454b6f50e1" kind="variable"><name>ns_audio_current_version</name></member>
     <member refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kind="variable"><name>g_ns_audio_config</name></member>
     <member refid="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" kind="function"><name>ns_audio_init</name></member>
+    <member refid="group__ns-audio_1ga55e60de796839733a56906df5b732e79" kind="function"><name>ns_start_audio</name></member>
+    <member refid="group__ns-audio_1ga4f5f641c72025f6021ad5688a7fecfd9" kind="function"><name>ns_end_audio</name></member>
     <member refid="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" kind="function"><name>ns_audio_getPCM</name></member>
     <member refid="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" kind="function"><name>ns_audio_getPCM_v2</name></member>
   </compound>
@@ -170,21 +174,46 @@
     <member refid="ns__audadc_8c_1a2ec68001c9e676bab8df11c4ec58c7c2" kind="function"><name>audadc_config</name></member>
     <member refid="ns__audadc_8c_1a06188e453dafb69bddaf6925537ba9d3" kind="function"><name>am_audadc0_isr</name></member>
     <member refid="ns__audadc_8c_1acd7c4868a8a5a9d18daa44bf85f9a817" kind="function"><name>audadc_init</name></member>
+    <member refid="ns__audadc_8c_1a97bbe4349694c751b032c617bb4b1030" kind="function"><name>audadc_deinit</name></member>
+  </compound>
+  <compound refid="apollo3_2ns__pdm_8c" kind="file"><name>ns_pdm.c</name>
+    <member refid="apollo3_2ns__pdm_8c_1a09a70f3a79d9e94f85d8db31fec6311b" kind="variable"><name>pvPDMHandle</name></member>
+    <member refid="apollo3_2ns__pdm_8c_1aa9aa133d692ba1ae274788ad8f6dac29" kind="variable"><name>ns_pdm_default</name></member>
+    <member refid="apollo3_2ns__pdm_8c_1a8f4bfeb1a0f1412e38a98e85a520b705" kind="function"><name>pdm_trigger_dma</name></member>
+    <member refid="apollo3_2ns__pdm_8c_1aeebb83c9ca268003290efea280354594" kind="function"><name>pdm_init</name></member>
+    <member refid="apollo3_2ns__pdm_8c_1ac78eeda0cfeef7327e416b111ef34a5e" kind="function"><name>pdm_deinit</name></member>
+    <member refid="apollo3_2ns__pdm_8c_1adf8879ad28d5cd9f65567708a732027d" kind="function"><name>am_pdm0_isr</name></member>
+  </compound>
+  <compound refid="apollo4_2ns__pdm_8c" kind="file"><name>ns_pdm.c</name>
+    <member refid="apollo4_2ns__pdm_8c_1a09a70f3a79d9e94f85d8db31fec6311b" kind="variable"><name>pvPDMHandle</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1a976fb8d6624a2fa2e7907d57411b3c4f" kind="variable"><name>g_ePdmInterrupts</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1aa9aa133d692ba1ae274788ad8f6dac29" kind="variable"><name>ns_pdm_default</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1a8f4bfeb1a0f1412e38a98e85a520b705" kind="function"><name>pdm_trigger_dma</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1aeebb83c9ca268003290efea280354594" kind="function"><name>pdm_init</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1ac78eeda0cfeef7327e416b111ef34a5e" kind="function"><name>pdm_deinit</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1af63efd6ebb25501b731992ada6d9ced0" kind="function"><name>am_pdm_isr_common</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1adf8879ad28d5cd9f65567708a732027d" kind="function"><name>am_pdm0_isr</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1ac6bbca4cb7f27aa168e3c258096fea6f" kind="function"><name>am_pdm1_isr</name></member>
+    <member refid="apollo4_2ns__pdm_8c_1a591567c52718323cf66733f3dde94504" kind="function"><name>am_pdm2_isr</name></member>
   </compound>
   <compound refid="ns__audadc_8h" kind="file"><name>ns_audadc.h</name>
     <member refid="ns__audadc_8h_1a5d23db65adf0c631d90decc53c9baf84" kind="define"><name>AUDADC_MAX_SAMPLE_BUF_SIZE</name></member>
     <member refid="ns__audadc_8h_1a8b9f9405264573156553d938b3fae1af" kind="variable"><name>ns_audadc_default</name></member>
     <member refid="ns__audadc_8h_1aba99c8c9af9d61b229c89d996cf4b533" kind="variable"><name>ns_audadc_vos_default</name></member>
     <member refid="ns__audadc_8h_1acd7c4868a8a5a9d18daa44bf85f9a817" kind="function"><name>audadc_init</name></member>
+    <member refid="ns__audadc_8h_1a97bbe4349694c751b032c617bb4b1030" kind="function"><name>audadc_deinit</name></member>
   </compound>
   <compound refid="ns__audio_8c" kind="file"><name>ns_audio.c</name>
     <member refid="group__ns-audio_1ga13441b97381f02eb62e402fe49d7469d" kind="variable"><name>ns_audio_V0_0_1</name></member>
     <member refid="group__ns-audio_1gab6a4a8cf5963f5f1f89ab077aebf2023" kind="variable"><name>ns_audio_V1_0_0</name></member>
     <member refid="group__ns-audio_1ga1930391d50c7943a64b5d880b83dc407" kind="variable"><name>ns_audio_V2_0_0</name></member>
+    <member refid="group__ns-audio_1ga96ed17cf860229cb3cdb9a72df67e634" kind="variable"><name>ns_audio_V2_1_0</name></member>
     <member refid="group__ns-audio_1ga90f0ca4d98c0ba5b7f35b1d6cc844edb" kind="variable"><name>ns_audio_oldest_supported_version</name></member>
     <member refid="group__ns-audio_1gaf721b679c31095f360c648454b6f50e1" kind="variable"><name>ns_audio_current_version</name></member>
     <member refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kind="variable"><name>g_ns_audio_config</name></member>
     <member refid="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" kind="function"><name>ns_audio_init</name></member>
+    <member refid="group__ns-audio_1ga55e60de796839733a56906df5b732e79" kind="function"><name>ns_start_audio</name></member>
+    <member refid="group__ns-audio_1ga4f5f641c72025f6021ad5688a7fecfd9" kind="function"><name>ns_end_audio</name></member>
     <member refid="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" kind="function"><name>ns_audio_getPCM</name></member>
     <member refid="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" kind="function"><name>ns_audio_getPCM_v2</name></member>
   </compound>
@@ -214,21 +243,58 @@
     <member refid="group__ns-_m_f_c_c_1gaab2cee00877e16fd48f12e9a34e18694" kind="function"><name>ns_mfcc_init</name></member>
     <member refid="group__ns-_m_f_c_c_1gadde7fb04bb212352723066b36e73405b" kind="function"><name>ns_mfcc_compute</name></member>
   </compound>
-  <compound refid="ns__pdm_8c" kind="file"><name>ns_pdm.c</name>
-    <member refid="ns__pdm_8c_1a09a70f3a79d9e94f85d8db31fec6311b" kind="variable"><name>pvPDMHandle</name></member>
-    <member refid="ns__pdm_8c_1a976fb8d6624a2fa2e7907d57411b3c4f" kind="variable"><name>g_ePdmInterrupts</name></member>
-    <member refid="ns__pdm_8c_1aa9aa133d692ba1ae274788ad8f6dac29" kind="variable"><name>ns_pdm_default</name></member>
-    <member refid="ns__pdm_8c_1a8f4bfeb1a0f1412e38a98e85a520b705" kind="function"><name>pdm_trigger_dma</name></member>
-    <member refid="ns__pdm_8c_1aeebb83c9ca268003290efea280354594" kind="function"><name>pdm_init</name></member>
-    <member refid="ns__pdm_8c_1af63efd6ebb25501b731992ada6d9ced0" kind="function"><name>am_pdm_isr_common</name></member>
-    <member refid="ns__pdm_8c_1adf8879ad28d5cd9f65567708a732027d" kind="function"><name>am_pdm0_isr</name></member>
-    <member refid="ns__pdm_8c_1ac6bbca4cb7f27aa168e3c258096fea6f" kind="function"><name>am_pdm1_isr</name></member>
-    <member refid="ns__pdm_8c_1a591567c52718323cf66733f3dde94504" kind="function"><name>am_pdm2_isr</name></member>
+  <compound refid="apollo3_2ns__pdm_8h" kind="file"><name>ns_pdm.h</name>
+    <member refid="apollo3_2ns__pdm_8h_1a008f54c9bc9b3504387d593c453f28dc" kind="define"><name>NS_AUDIO_PDM_SAMPLE_16BIT</name></member>
+    <member refid="apollo3_2ns__pdm_8h_1aa9aa133d692ba1ae274788ad8f6dac29" kind="variable"><name>ns_pdm_default</name></member>
+    <member refid="apollo3_2ns__pdm_8h_1aeebb83c9ca268003290efea280354594" kind="function"><name>pdm_init</name></member>
+    <member refid="apollo3_2ns__pdm_8h_1ac78eeda0cfeef7327e416b111ef34a5e" kind="function"><name>pdm_deinit</name></member>
   </compound>
   <compound refid="ns__pdm_8h" kind="file"><name>ns_pdm.h</name>
     <member refid="ns__pdm_8h_1a008f54c9bc9b3504387d593c453f28dc" kind="define"><name>NS_AUDIO_PDM_SAMPLE_16BIT</name></member>
     <member refid="ns__pdm_8h_1aa9aa133d692ba1ae274788ad8f6dac29" kind="variable"><name>ns_pdm_default</name></member>
     <member refid="ns__pdm_8h_1aeebb83c9ca268003290efea280354594" kind="function"><name>pdm_init</name></member>
+    <member refid="ns__pdm_8h_1ac78eeda0cfeef7327e416b111ef34a5e" kind="function"><name>pdm_deinit</name></member>
+  </compound>
+  <compound refid="ns__audio__tests_8c" kind="file"><name>ns_audio_tests.c</name>
+    <member refid="ns__audio__tests_8c_1ae5597ce31d23d11493e6e674fe257d73" kind="define"><name>NUM_CHANNELS</name></member>
+    <member refid="ns__audio__tests_8c_1a966cb2eed4436763c207af4b32b08f53" kind="define"><name>NUM_FRAMES</name></member>
+    <member refid="ns__audio__tests_8c_1ac51cd4ed73859c0380134f48f2878b1e" kind="define"><name>SAMPLES_IN_FRAME</name></member>
+    <member refid="ns__audio__tests_8c_1a4b76a0c2859cfd819a343a780070ee2b" kind="define"><name>SAMPLE_RATE</name></member>
+    <member refid="ns__audio__tests_8c_1a82aeedc9041caddf8f460773ddf383a6" kind="variable"><name>g_audioReady</name></member>
+    <member refid="ns__audio__tests_8c_1a38c72f8212378bd1812f01c579d7e999" kind="variable"><name>g_audioRecording</name></member>
+    <member refid="ns__audio__tests_8c_1acf001ccfdbaad57384a9525e6489582e" kind="variable"><name>audioDataBuffer</name></member>
+    <member refid="ns__audio__tests_8c_1a24d7015e97c51dc268140b683d85bf55" kind="variable"><name>dmaBuffer</name></member>
+    <member refid="ns__audio__tests_8c_1af7c36d5c71536bc57513c47570501cc8" kind="variable"><name>sLGSampleBuffer</name></member>
+    <member refid="ns__audio__tests_8c_1a87d52b6faf78a373961f5e1cc903285c" kind="variable"><name>sOffsetCalib</name></member>
+    <member refid="ns__audio__tests_8c_1a420191540e11d20fa3fe78c6e724a1d9" kind="variable"><name>audioConfig</name></member>
+    <member refid="ns__audio__tests_8c_1a3419358c69b8289e18f447909b440e37" kind="function"><name>audio_frame_callback</name></member>
+    <member refid="ns__audio__tests_8c_1abf7683ed1b8a5753619364e5e4e8a519" kind="function"><name>initialize_audio_config</name></member>
+    <member refid="ns__audio__tests_8c_1aa26405e09d2e3877c704800b0cf899be" kind="function"><name>ns_audio_tests_pre_test_hook</name></member>
+    <member refid="ns__audio__tests_8c_1ae36e2fe3e8b7e96b30a17c2d271966ef" kind="function"><name>ns_audio_tests_post_test_hook</name></member>
+    <member refid="ns__audio__tests_8c_1a500f6447a577ccbc20f7e37f58480ffe" kind="function"><name>ns_switch_audio_test</name></member>
+    <member refid="ns__audio__tests_8c_1a10cca80917125721c01d4ebedf40fbd0" kind="function"><name>ns_audio_init_test</name></member>
+    <member refid="ns__audio__tests_8c_1aa6261366a359dc8d193512ce2bc87db8" kind="function"><name>ns_audio_api_test</name></member>
+    <member refid="ns__audio__tests_8c_1aa2bd9eff5880cebcd0b88501723cab28" kind="function"><name>ns_audio_null_handle_test</name></member>
+    <member refid="ns__audio__tests_8c_1ad58c4a0df13f19ee69220d125f086a29" kind="function"><name>ns_audio_null_config_test</name></member>
+    <member refid="ns__audio__tests_8c_1a9d671b76911781855ad2ffbe76107236" kind="function"><name>ns_audio_audioSource_test</name></member>
+    <member refid="ns__audio__tests_8c_1a25eed21c4764199c460ff5707cdf8596" kind="function"><name>ns_audio_num_samples_test</name></member>
+    <member refid="ns__audio__tests_8c_1a15c890d808bb22de724d92fbe8554028" kind="function"><name>ns_audio_num_channels_greater_than_2_test</name></member>
+    <member refid="ns__audio__tests_8c_1a7b0c1a654dd5c4251e1a3305c74cdbe8" kind="function"><name>ns_audio_negative_sample_rate_test</name></member>
+    <member refid="ns__audio__tests_8c_1a697162bf14ea8c5e613aa51139f51745" kind="function"><name>ns_audio_pdm_config_test</name></member>
+  </compound>
+  <compound refid="ns__audio__tests_8h" kind="file"><name>ns_audio_tests.h</name>
+    <member refid="ns__audio__tests_8h_1aa26405e09d2e3877c704800b0cf899be" kind="function"><name>ns_audio_tests_pre_test_hook</name></member>
+    <member refid="ns__audio__tests_8h_1ae36e2fe3e8b7e96b30a17c2d271966ef" kind="function"><name>ns_audio_tests_post_test_hook</name></member>
+    <member refid="ns__audio__tests_8h_1a500f6447a577ccbc20f7e37f58480ffe" kind="function"><name>ns_switch_audio_test</name></member>
+    <member refid="ns__audio__tests_8h_1a10cca80917125721c01d4ebedf40fbd0" kind="function"><name>ns_audio_init_test</name></member>
+    <member refid="ns__audio__tests_8h_1aa6261366a359dc8d193512ce2bc87db8" kind="function"><name>ns_audio_api_test</name></member>
+    <member refid="ns__audio__tests_8h_1aa2bd9eff5880cebcd0b88501723cab28" kind="function"><name>ns_audio_null_handle_test</name></member>
+    <member refid="ns__audio__tests_8h_1ad58c4a0df13f19ee69220d125f086a29" kind="function"><name>ns_audio_null_config_test</name></member>
+    <member refid="ns__audio__tests_8h_1a9d671b76911781855ad2ffbe76107236" kind="function"><name>ns_audio_audioSource_test</name></member>
+    <member refid="ns__audio__tests_8h_1a25eed21c4764199c460ff5707cdf8596" kind="function"><name>ns_audio_num_samples_test</name></member>
+    <member refid="ns__audio__tests_8h_1a15c890d808bb22de724d92fbe8554028" kind="function"><name>ns_audio_num_channels_greater_than_2_test</name></member>
+    <member refid="ns__audio__tests_8h_1a697162bf14ea8c5e613aa51139f51745" kind="function"><name>ns_audio_pdm_config_test</name></member>
+    <member refid="ns__audio__tests_8h_1a7b0c1a654dd5c4251e1a3305c74cdbe8" kind="function"><name>ns_audio_negative_sample_rate_test</name></member>
   </compound>
   <compound refid="group__ns-audio" kind="group"><name>ns-audio</name>
     <member refid="group__ns-audio_1gac323b3153cc1c87ccdacca907cc10ba7" kind="enum"><name>ns_audio_api_mode_e</name></member>
@@ -256,15 +322,19 @@
     <member refid="group__ns-audio_1ga13441b97381f02eb62e402fe49d7469d" kind="variable"><name>ns_audio_V0_0_1</name></member>
     <member refid="group__ns-audio_1gab6a4a8cf5963f5f1f89ab077aebf2023" kind="variable"><name>ns_audio_V1_0_0</name></member>
     <member refid="group__ns-audio_1ga1930391d50c7943a64b5d880b83dc407" kind="variable"><name>ns_audio_V2_0_0</name></member>
+    <member refid="group__ns-audio_1ga96ed17cf860229cb3cdb9a72df67e634" kind="variable"><name>ns_audio_V2_1_0</name></member>
     <member refid="group__ns-audio_1ga90f0ca4d98c0ba5b7f35b1d6cc844edb" kind="variable"><name>ns_audio_oldest_supported_version</name></member>
     <member refid="group__ns-audio_1gaf721b679c31095f360c648454b6f50e1" kind="variable"><name>ns_audio_current_version</name></member>
     <member refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kind="variable"><name>g_ns_audio_config</name></member>
     <member refid="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" kind="function"><name>ns_audio_init</name></member>
+    <member refid="group__ns-audio_1ga55e60de796839733a56906df5b732e79" kind="function"><name>ns_start_audio</name></member>
+    <member refid="group__ns-audio_1ga4f5f641c72025f6021ad5688a7fecfd9" kind="function"><name>ns_end_audio</name></member>
     <member refid="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" kind="function"><name>ns_audio_getPCM</name></member>
     <member refid="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" kind="function"><name>ns_audio_getPCM_v2</name></member>
     <member refid="group__ns-audio_1ga0c7ca1c6a6a797e5e26d337050f006a0" kind="define"><name>NS_AUDIO_V0_0_1</name></member>
     <member refid="group__ns-audio_1gacc71ba8c8ce109222867a30f629fe87b" kind="define"><name>NS_AUDIO_V1_0_0</name></member>
     <member refid="group__ns-audio_1ga6cd4a166584d85c6c0633904ab7d7281" kind="define"><name>NS_AUDIO_V2_0_0</name></member>
+    <member refid="group__ns-audio_1ga357f6988b0bd826d8ee9589490abaf89" kind="define"><name>NS_AUDIO_V2_1_0</name></member>
     <member refid="group__ns-audio_1gacb8e5edd501c9f6a5eafaca1e3a0fe87" kind="define"><name>NS_AUDIO_OLDEST_SUPPORTED_VERSION</name></member>
     <member refid="group__ns-audio_1gaeb7928f9bf518bdc0b2678e1c6838017" kind="define"><name>NS_AUDIO_CURRENT_VERSION</name></member>
     <member refid="group__ns-audio_1gae6dfef07fcfabffabd1f51435b12c1e9" kind="define"><name>NS_AUDIO_API_ID</name></member>
@@ -286,6 +356,10 @@
     <member refid="group__ns-_m_f_c_c_1ga4aa2c43b09c1300c334821f5507d6f71" kind="define"><name>M_2PI</name></member>
     <member refid="group__ns-_m_f_c_c_1gae71449b1cc6e6250b91f539153a7a0d3" kind="define"><name>M_PI</name></member>
   </compound>
+  <compound refid="dir_1a531e93c11b219ab9869f377e190a5d" kind="dir"><name>neuralSPOT/neuralspot/ns-audio/src/apollo3</name>
+  </compound>
+  <compound refid="dir_9e4df1ce7893b775eb3c7fcb555505ab" kind="dir"><name>neuralSPOT/neuralspot/ns-audio/src/apollo4</name>
+  </compound>
   <compound refid="dir_b70d46c064802b213244316ef6218d52" kind="dir"><name>neuralSPOT/neuralspot/ns-audio/includes-api</name>
   </compound>
   <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
@@ -295,5 +369,7 @@
   <compound refid="dir_45211a8475460839574f71aa108f4957" kind="dir"><name>neuralSPOT/neuralspot/ns-audio</name>
   </compound>
   <compound refid="dir_e70eef2d5115541d1d6cb7ad27f30382" kind="dir"><name>neuralSPOT/neuralspot/ns-audio/src</name>
+  </compound>
+  <compound refid="dir_ebce5d9663c103d379a321152159c42b" kind="dir"><name>neuralSPOT/neuralspot/ns-audio/tests</name>
   </compound>
 </doxygenindex>

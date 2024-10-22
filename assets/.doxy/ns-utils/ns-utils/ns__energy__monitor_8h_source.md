@@ -60,6 +60,8 @@ extern "C" {
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"
+    #include "ns_core.h"
+    #include "ns_ambiqsuite_harness.h"
 
     #define NS_POWER_MONITOR_GPIO_0 22
     #define NS_POWER_MONITOR_GPIO_1 23

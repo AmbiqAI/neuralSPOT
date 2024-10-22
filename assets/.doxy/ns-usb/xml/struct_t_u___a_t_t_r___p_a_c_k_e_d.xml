@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="struct_t_u___a_t_t_r___p_a_c_k_e_d" kind="struct" language="C++" prot="public">
+    <compoundname>TU_ATTR_PACKED</compoundname>
+    <includes refid="ns__usb_8h" local="no">ns_usb.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_t_u___a_t_t_r___p_a_c_k_e_d_1aaf70ed850af3b0ca5a256ecfc268154f" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t TU_ATTR_PACKED::bLength</definition>
+        <argsstring></argsstring>
+        <name>bLength</name>
+        <qualifiedname>TU_ATTR_PACKED::bLength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="65" column="11" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a9e26bc4754a94ae795bb9ec14cf5300d" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t TU_ATTR_PACKED::bDescriptorType</definition>
+        <argsstring></argsstring>
+        <name>bDescriptorType</name>
+        <qualifiedname>TU_ATTR_PACKED::bDescriptorType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="66" column="11" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a8d25ac9c5db553ffe646ba184ceab823" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t TU_ATTR_PACKED::bScheme</definition>
+        <argsstring></argsstring>
+        <name>bScheme</name>
+        <qualifiedname>TU_ATTR_PACKED::bScheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="67" column="11" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a4a213e38e9f48e6ee1ee9f9d8f300ed0" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char TU_ATTR_PACKED::url[MAX_URL_LENGTH]</definition>
+        <argsstring>[MAX_URL_LENGTH]</argsstring>
+        <name>url</name>
+        <qualifiedname>TU_ATTR_PACKED::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="68" column="11" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>URL buffer Stucture. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" line="63" column="1" bodyfile="neuralSPOT/neuralspot/ns-usb/includes-api/ns_usb.h" bodystart="64" bodyend="69"/>
+    <listofallmembers>
+      <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a9e26bc4754a94ae795bb9ec14cf5300d" prot="public" virt="non-virtual"><scope>TU_ATTR_PACKED</scope><name>bDescriptorType</name></member>
+      <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1aaf70ed850af3b0ca5a256ecfc268154f" prot="public" virt="non-virtual"><scope>TU_ATTR_PACKED</scope><name>bLength</name></member>
+      <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a8d25ac9c5db553ffe646ba184ceab823" prot="public" virt="non-virtual"><scope>TU_ATTR_PACKED</scope><name>bScheme</name></member>
+      <member refid="struct_t_u___a_t_t_r___p_a_c_k_e_d_1a4a213e38e9f48e6ee1ee9f9d8f300ed0" prot="public" virt="non-virtual"><scope>TU_ATTR_PACKED</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

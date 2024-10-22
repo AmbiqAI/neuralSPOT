@@ -51,7 +51,11 @@ extern "C" {
     #include "att_api.h"
     #include "hci_core.h"
     #include "hci_drv_apollo.h"
-    #include "hci_drv_cooper.h"
+    #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
+        #include "hci_drv_apollo3.h"
+    #else
+        #include "hci_drv_cooper.h"
+    #endif
     #include "hci_handler.h"
 
     // *** Versions
@@ -61,6 +65,8 @@ extern "C" {
     #define NS_BLE_OLDEST_SUPPORTED_VERSION NS_BLE_V0_0_1
     #define NS_BLE_CURRENT_VERSION NS_BLE_V0_0_1
     #define NS_BLE_API_ID 0xCA0008
+
+    #define NS_BLE_DEFAULT_MALLOC_K 8
 
 extern const ns_core_api_t ns_ble_V0_0_1;
 extern const ns_core_api_t ns_ble_oldest_supported_version;
@@ -322,8 +328,9 @@ typedef struct ns_ble_characteristic {
     uint16_t cccHandle;
     uint16_t cccIndex;
     uint16_t cccIndicationHandle;
-    wsfTimer_t indicationTimer; /*! \brief periodic measurement timer */
-    uint32_t indicationPeriod;  /*! \brief periodic measurement period in ms */
+    wsfTimer_t indicationTimer;       /*! \brief periodic measurement timer */
+    uint32_t indicationPeriod;        /*! \brief periodic measurement period in ms */
+    uint8_t indicationIsAsynchronous; /*! \brief TRUE if indication is asynchronous */
 
     // Internals
     uint16_t handleId;
@@ -381,7 +388,7 @@ extern int ns_ble_create_characteristic(
     ns_ble_characteristic_t *c, char const *uuidString, void *applicationValue,
     uint16_t valueLength, uint16_t properties, ns_ble_characteristic_read_handler_t readHandlerCb,
     ns_ble_characteristic_write_handler_t writeHandlerCb,
-    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs,
+    ns_ble_characteristic_notify_handler_t notifyHandlerCb, uint16_t periodMs, uint8_t async,
     uint16_t *attributeCount);
 
 /**
@@ -413,6 +420,16 @@ extern int ns_ble_char2uuid(const char uuidString[16], ns_ble_uuid128_t *uuid128
  * @return int
  */
 extern int ns_ble_start_service(ns_ble_service_t *s);
+
+
+/**
+ * @brief Function to set the BLE TX power.
+ *
+ * @param power - tx power level in dBm.
+ * @return bool
+ */
+extern int ns_ble_set_tx_power(txPowerLevel_t power);
+
 
     #ifdef __cplusplus
 }

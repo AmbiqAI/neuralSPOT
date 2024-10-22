@@ -14,4 +14,7 @@ Here is a list of all files with brief descriptions:
                 * **file** [**ns-ambiqsuite-harness.c**](ns-ambiqsuite-harness_8c.md) _Wrappers for common AmbiqSuite operations._     
                 * **file** [**ns\_debug\_log.cc**](ns__debug__log_8cc.md)     
                 * **file** [**ns\_micro\_profiler.cc**](ns__micro__profiler_8cc.md) 
+            * **dir** [**tests**](dir_005af69e787a160fad8c7d3f6a25f06b.md)     
+                * **file** [**ns\_harness\_tests.c**](ns__harness__tests_8c.md)     
+                * **file** [**ns\_harness\_tests.h**](ns__harness__tests_8h.md)     
 

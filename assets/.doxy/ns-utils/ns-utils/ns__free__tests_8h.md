@@ -1,0 +1,172 @@
+
+
+# File ns\_free\_tests.h
+
+
+
+[**FileList**](files.md) **>** [**neuralSPOT**](dir_75594cce7c7773aa3cb253214bf56510.md) **>** [**neuralspot**](dir_b737d82f35ec218ac5a7ef4105db9c0e.md) **>** [**ns-utils**](dir_8caed56d1b8d43fb57ec0577c38aa59e.md) **>** [**tests**](dir_62cfc4ab5fe382f357338287112ab49a.md) **>** [**ns\_free\_tests.h**](ns__free__tests_8h.md)
+
+[Go to the source code of this file](ns__free__tests_8h_source.md)
+
+
+
+* `#include "ns_malloc.h"`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Public Functions
+
+| Type | Name |
+| ---: | :--- |
+|  void | [**ns\_free\_test\_basic**](#function-ns_free_test_basic) () <br> |
+|  void | [**ns\_free\_test\_memory\_fragmentation**](#function-ns_free_test_memory_fragmentation) () <br> |
+|  void | [**ns\_free\_test\_non\_malloced\_pointer**](#function-ns_free_test_non_malloced_pointer) () <br> |
+|  void | [**ns\_free\_test\_null\_pointer**](#function-ns_free_test_null_pointer) () <br> |
+|  void | [**ns\_free\_test\_twice**](#function-ns_free_test_twice) () <br> |
+|  void | [**ns\_free\_tests\_post\_test\_hook**](#function-ns_free_tests_post_test_hook) () <br> |
+|  void | [**ns\_free\_tests\_pre\_test\_hook**](#function-ns_free_tests_pre_test_hook) () <br> |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Public Functions Documentation
+
+
+
+
+### function ns\_free\_test\_basic 
+
+```C++
+void ns_free_test_basic () 
+```
+
+
+
+
+
+
+### function ns\_free\_test\_memory\_fragmentation 
+
+```C++
+void ns_free_test_memory_fragmentation () 
+```
+
+
+
+
+
+
+### function ns\_free\_test\_non\_malloced\_pointer 
+
+```C++
+void ns_free_test_non_malloced_pointer () 
+```
+
+
+
+
+
+
+### function ns\_free\_test\_null\_pointer 
+
+```C++
+void ns_free_test_null_pointer () 
+```
+
+
+
+
+
+
+### function ns\_free\_test\_twice 
+
+```C++
+void ns_free_test_twice () 
+```
+
+
+
+
+
+
+### function ns\_free\_tests\_post\_test\_hook 
+
+```C++
+void ns_free_tests_post_test_hook () 
+```
+
+
+
+
+
+
+### function ns\_free\_tests\_pre\_test\_hook 
+
+```C++
+void ns_free_tests_pre_test_hook () 
+```
+
+
+
+
+------------------------------
+The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h`
+

@@ -9,6 +9,12 @@
 * **AI1** ([**ns\_power\_profile.h**](ns__power__profile_8h.md))
 * **AI2** ([**ns\_power\_profile.h**](ns__power__profile_8h.md))
 * **AI3** ([**ns\_power\_profile.h**](ns__power__profile_8h.md))
+* **AP3\_CTIMER\_FREQ\_IN\_MHZ** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md))
+
+
+## c
+
+* **configTOTAL\_HEAP\_SIZE** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md))
 
 
 ## n

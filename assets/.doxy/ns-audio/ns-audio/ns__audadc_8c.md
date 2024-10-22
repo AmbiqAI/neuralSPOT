@@ -4,13 +4,13 @@
 
 
 
-[**FileList**](files.md) **>** [**neuralSPOT**](dir_75594cce7c7773aa3cb253214bf56510.md) **>** [**neuralspot**](dir_b737d82f35ec218ac5a7ef4105db9c0e.md) **>** [**ns-audio**](dir_45211a8475460839574f71aa108f4957.md) **>** [**src**](dir_e70eef2d5115541d1d6cb7ad27f30382.md) **>** [**ns\_audadc.c**](ns__audadc_8c.md)
+[**FileList**](files.md) **>** [**apollo4**](dir_9e4df1ce7893b775eb3c7fcb555505ab.md) **>** [**ns\_audadc.c**](ns__audadc_8c.md)
 
 [Go to the source code of this file](ns__audadc_8c_source.md)
 
 
 
-* `#include "ns_audadc.h"`
+* `#include "../ns_audadc.h"`
 * `#include "am_bsp.h"`
 * `#include "am_mcu_apollo.h"`
 * `#include "am_util.h"`
@@ -94,6 +94,7 @@
 | ---: | :--- |
 |  void | [**am\_audadc0\_isr**](#function-am_audadc0_isr) (void) <br> |
 |  uint32\_t | [**audadc\_config**](#function-audadc_config) ([**ns\_audadc\_cfg\_t**](structns__audadc__cfg__t.md) \* cfg) <br>_Configure and enable the AUDADC._  |
+|  void | [**audadc\_deinit**](#function-audadc_deinit) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br> |
 |  uint32\_t | [**audadc\_init**](#function-audadc_init) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br> |
 |  uint32\_t | [**audadc\_slot\_config**](#function-audadc_slot_config) ([**ns\_audio\_config\_t**](ns__audio_8h.md#typedef-ns_audio_config_t) \* cfg) <br> |
 
@@ -297,6 +298,19 @@ uint32\_t status
 
 
 
+### function audadc\_deinit 
+
+```C++
+void audadc_deinit (
+    ns_audio_config_t * cfg
+) 
+```
+
+
+
+
+
+
 ### function audadc\_init 
 
 ```C++
@@ -463,5 +477,5 @@ static void audadc_pga_init (
 
 
 ------------------------------
-The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-audio/src/ns_audadc.c`
+The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c`
 

@@ -10,6 +10,7 @@
 
 _NeuralSPOT Power Management Library._ [More...](#detailed-description)
 
+* `#include "ns_core.h"`
 * `#include "am_bsp.h"`
 * `#include "am_mcu_apollo.h"`
 * `#include "am_util.h"`
@@ -49,6 +50,7 @@ _NeuralSPOT Power Management Library._ [More...](#detailed-description)
 | Type | Name |
 | ---: | :--- |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_audio\_default**](#variable-ns_audio_default)  <br>_Good for AI that uses audio peripherals._  |
+|  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_debug\_default**](#variable-ns_debug_default)  <br>_Enables all things._  |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_development\_default**](#variable-ns_development_default)  <br>_Enables most things._  |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_good\_default**](#variable-ns_good_default)  <br>_Reasonable settings for more applications._  |
 |  const [**ns\_power\_config\_t**](structns__power__config__t.md) | [**ns\_mlperf\_mode1**](#variable-ns_mlperf_mode1)  <br>_Good power/perf setting._  |
@@ -186,6 +188,17 @@ const ns_power_config_t ns_audio_default;
 
 
 
+### variable ns\_debug\_default 
+
+```C++
+const ns_power_config_t ns_debug_default;
+```
+
+
+
+
+
+
 ### variable ns\_development\_default 
 
 ```C++
@@ -289,7 +302,6 @@ const ns_core_api_t ns_power_oldest_supported_version;
 
 ### function ns\_deep\_sleep 
 
-_neuralSPOT-aware deep\_sleep - turns off certain systems off before sleeping and turns them back upon waking._ 
 ```C++
 void ns_deep_sleep (
     void
@@ -298,10 +310,6 @@ void ns_deep_sleep (
 
 
 
-neuralSPOT-aware deep\_sleep - turns off certain systems off before sleeping and turns them back upon waking. 
-
-
-        
 
 
 
@@ -359,10 +367,10 @@ uint32_t ns_set_performance_mode (
 
 **Returns:**
 
-uint32\_t status 
+uint32\_t status
 
 
-
+Sets CPU frequency to one of the ns\_power\_modes. 
 
 
         

@@ -1,0 +1,755 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__spi_8c" kind="file" language="C++">
+    <compoundname>ns_spi.c</compoundname>
+    <includes local="no">string.h</includes>
+    <includes refid="ns__spi_8h" local="yes">ns_spi.h</includes>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ns_spi.h</label>
+        <link refid="ns__spi_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-spi/src/ns_spi.c</label>
+        <link refid="ns__spi_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="5">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="6">
+        <label>am_util.h</label>
+      </node>
+      <node id="7">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="2">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__spi_8c_1aa8cf1ca7c30080b0457a7662315c4721" prot="public" static="no">
+        <name>NS_SPI_DMA_MAX_XFER_SIZE</name>
+        <initializer>4095</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="22" column="9" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__spi_8c_1a5d59300275c11cc8e7feb454d1ce983d" prot="public" static="no">
+        <name>iom_isr</name>
+        <param><defname>void</defname></param>
+        <initializer>am_iom_isrx(1)</initializer>
+        <briefdescription>
+<para>iom isr prototype </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Take over the interrupt handler for whichever IOM is used.</para>
+<para>IOM ISRs Take over correct IOM ISR. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="28" column="9" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="28" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" declline="32" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__spi_8c_1a80913c18e50e881efe3de65f191a8f90" prot="public" static="no">
+        <name>am_iom_isrx</name>
+        <param><defname>n</defname></param>
+        <initializer>am_iom_isr(n)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="29" column="9" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__spi_8c_1ad82e489bcec090007c577fe79b34e146" prot="public" static="no">
+        <name>am_iom_isr</name>
+        <param><defname>n</defname></param>
+        <initializer>am_iomaster##n##_isr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="30" column="9" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__spi_8c_1ac64023cb1bd1e48704c92e709022b6db" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref></type>
+        <definition>ns_spi_config_t ns_spi_config</definition>
+        <argsstring></argsstring>
+        <name>ns_spi_config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="20" column="17" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__spi_8c_1aed68f27b40fad45e088fd502035d40b9" prot="public" static="no" mutable="no">
+        <type>const IRQn_Type</type>
+        <definition>const IRQn_Type gc_iomIrq</definition>
+        <argsstring></argsstring>
+        <name>gc_iomIrq</name>
+        <initializer>= (IRQn_Type)(1 + IOMSTR0_IRQn)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="21" column="17" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__spi_8c_1ae3db28b7ef43a99cc4270fb354121c4f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_tcb_command_buffer[NS_SPI_DMA_MAX_XFER_SIZE+1]</definition>
+        <argsstring>[NS_SPI_DMA_MAX_XFER_SIZE+1]</argsstring>
+        <name>ns_spi_tcb_command_buffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="23" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1ga2afc99e5bc3d12e54f9dfc879774bf9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_interface_init</definition>
+        <argsstring>(ns_spi_config_t *cfg, uint32_t speed, am_hal_iom_spi_mode_e mode)</argsstring>
+        <name>ns_spi_interface_init</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>speed</declname>
+        </param>
+        <param>
+          <type>am_hal_iom_spi_mode_e</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the SPI interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bus speed in Hz </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI mode (CPOL, CPHA) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="52" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="52" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1gaf1c458dc2a954200ef12fd098a8d8d15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_read</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>ns_spi_read</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Read from a SPI device. The SPI device is selected by the csPin parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to read into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>regLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="78" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="78" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__spi_8c_1abfc42ad205f5c8bd3151f638374f10d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void ns_spi_dma_read_complete_cb</definition>
+        <argsstring>(void *pCallbackCtxt, uint32_t ui32TransactionStatus)</argsstring>
+        <name>ns_spi_dma_read_complete_cb</name>
+        <param>
+          <type>void *</type>
+          <declname>pCallbackCtxt</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ui32TransactionStatus</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="101" column="13" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1gaa690be9c6f7bba845a52a98f8ca8cf2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_read_dma</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>ns_spi_read_dma</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Issure DMA read, the cfg-&gt;callback will be called when the transfer is complete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>regLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="110" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="110" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1ga26470c9a15ec6ab256db16b9c1667661" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_write</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *buf, uint32_t bufLen, uint64_t reg, uint32_t regLen, uint32_t csPin)</argsstring>
+        <name>ns_spi_write</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>bufLen</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>regLen</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Write to a SPI device. The SPI device is selected by the csPin parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer to write from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bufLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register to write to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>regLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Register length </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="138" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="138" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="group___neural_s_p_o_t-spi_1ga6a3e9375d7b8f17200f0576c663deed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_spi_transfer</definition>
+        <argsstring>(ns_spi_config_t *cfg, const void *txBuf, const void *rxBuf, uint32_t size, uint32_t csPin)</argsstring>
+        <name>ns_spi_transfer</name>
+        <param>
+          <type><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>txBuf</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>rxBuf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>csPin</declname>
+        </param>
+        <briefdescription>
+<para>Transfer data to/from a SPI device. The SPI device is selected by the csPin parameter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SPI Configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transmit buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rxBuf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Receive buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the transfer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>csPin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CS pin number </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Full-duplex transfer !NOTE: Do not use for now</para>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" line="159" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c" bodystart="159" bodyend="181"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Generic SPI driver. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Adam Page </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-08-26</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__spi_8h" kindref="compound">ns_spi.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref><sp/>ns_spi_config;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IRQn_Type<sp/>gc_iomIrq<sp/>=<sp/>(IRQn_Type)(1<sp/>+<sp/>IOMSTR0_IRQn);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_SPI_DMA_MAX_XFER_SIZE<sp/>4095</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">uint32_t<sp/>ns_spi_tcb_command_buffer[NS_SPI_DMA_MAX_XFER_SIZE<sp/>+<sp/>1];</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>iom_isr<sp/>am_iom_isrx(1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>am_iom_isrx(n)<sp/>am_iom_isr(n)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>am_iom_isr(n)<sp/>am_iomaster##n##_isr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="ns__spi_8c_1a5d59300275c11cc8e7feb454d1ce983d" kindref="member">iom_isr</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="37"><highlight class="comment"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="ns__spi_8c_1a5d59300275c11cc8e7feb454d1ce983d" kindref="member">iom_isr</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32Status;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;IOM1<sp/>ISR\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_interrupt_status_get(ns_spi_config.iomHandle,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;ui32Status);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;IOM1<sp/>ISR<sp/>%d,<sp/>status<sp/>%d\n&quot;,<sp/>foo,<sp/>ui32Status);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!am_hal_iom_interrupt_status_get(ns_spi_config.iomHandle,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>&amp;ui32Status))<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32Status)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_iom_interrupt_clear(ns_spi_config.iomHandle,<sp/>ui32Status);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_iom_interrupt_service(ns_spi_config.iomHandle,<sp/>ui32Status);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">uint32_t<sp/><ref refid="group___neural_s_p_o_t-spi_1ga2afc99e5bc3d12e54f9dfc879774bf9f" kindref="member">ns_spi_interface_init</ref>(<ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>speed,<sp/>am_hal_iom_spi_mode_e<sp/>mode)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.pNBTxnBuf<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.eInterfaceMode<sp/>=<sp/>AM_HAL_IOM_SPI_MODE;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.eSpiMode<sp/>=<sp/>mode;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.ui32NBTxnBufLength<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.ui32ClockFreq<sp/>=<sp/>speed;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.ui32NBTxnBufLength<sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ns_spi_tcb_command_buffer)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;sIomCfg.pNBTxnBuf<sp/>=<sp/>ns_spi_tcb_command_buffer;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>am_bsp_iom_pins_enable(cfg-&gt;iom,<sp/>AM_HAL_IOM_SPI_MODE);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_initialize(cfg-&gt;iom,<sp/>&amp;(cfg-&gt;iomHandle))<sp/>||</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_iom_power_ctrl(cfg-&gt;iomHandle,<sp/>AM_HAL_SYSCTRL_WAKE,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_iom_configure(cfg-&gt;iomHandle,<sp/>&amp;(cfg-&gt;sIomCfg)))<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_enable(cfg-&gt;iomHandle);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>config<sp/>in<sp/>global</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>memcpy(&amp;ns_spi_config,<sp/>cfg,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref>));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_ClearPendingIRQ(gc_iomIrq);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(gc_iomIrq);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">uint32_t<sp/><ref refid="group___neural_s_p_o_t-spi_1gaf1c458dc2a954200ef12fd098a8d8d15" kindref="member">ns_spi_read</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>bufLen,<sp/>uint64_t<sp/>reg,<sp/>uint32_t<sp/>regLen,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>csPin)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>err;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>regLen;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>reg;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_RX;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>bufLen;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32RxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32SpiChipSelect<sp/>=<sp/>csPin;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>err<sp/>=<sp/>am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>err;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_spi_dma_read_complete_cb(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pCallbackCtxt,<sp/>uint32_t<sp/>ui32TransactionStatus)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)pCallbackCtxt;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)ui32TransactionStatus;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;SPI<sp/>Read<sp/>done\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_spi_config.cb)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_spi_config.cb(&amp;ns_spi_config);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal">uint32_t<sp/><ref refid="group___neural_s_p_o_t-spi_1gaa690be9c6f7bba845a52a98f8ca8cf2b" kindref="member">ns_spi_read_dma</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>bufLen,<sp/>uint64_t<sp/>reg,<sp/>uint32_t<sp/>regLen,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>csPin)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>err;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>regLen;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>reg;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_RX;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>bufLen;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32RxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32SpiChipSelect<sp/>=<sp/>csPin;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;SPI<sp/>Read<sp/>DMA<sp/>len<sp/>of<sp/>%d<sp/>to<sp/>0x%x\n&quot;,<sp/>bufLen,<sp/>(uint32_t)buf);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>err<sp/>=<sp/>am_hal_iom_nonblocking_transfer(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg-&gt;iomHandle,<sp/>&amp;Transaction,<sp/>ns_spi_dma_read_complete_cb,<sp/>0);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>err<sp/>=<sp/>am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;SPI<sp/>Read<sp/>DMA<sp/>Error<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>err);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>err;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">uint32_t<sp/><ref refid="group___neural_s_p_o_t-spi_1ga26470c9a15ec6ab256db16b9c1667661" kindref="member">ns_spi_write</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*buf,<sp/>uint32_t<sp/>bufLen,<sp/>uint64_t<sp/>reg,<sp/>uint32_t<sp/>regLen,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>csPin)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8Priority<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>regLen;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>reg;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_TX;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>bufLen;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32TxBuffer<sp/>=<sp/>(uint32_t<sp/>*)buf;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32SpiChipSelect<sp/>=<sp/>csPin;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_blocking_transfer(cfg-&gt;iomHandle,<sp/>&amp;Transaction))<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">uint32_t<sp/><ref refid="group___neural_s_p_o_t-spi_1ga6a3e9375d7b8f17200f0576c663deed3" kindref="member">ns_spi_transfer</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__spi__cfg" kindref="compound">ns_spi_config_t</ref><sp/>*cfg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*txBuf,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*rxBuf,<sp/>uint32_t<sp/>size,<sp/>uint32_t<sp/>csPin)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_iom_transfer_t<sp/>Transaction;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32InstrLen<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui64Instr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.eDirection<sp/>=<sp/>AM_HAL_IOM_FULLDUPLEX;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32NumBytes<sp/>=<sp/>size;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32TxBuffer<sp/>=<sp/>(uint32_t<sp/>*)txBuf;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.pui32RxBuffer<sp/>=<sp/>(uint32_t<sp/>*)rxBuf;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.bContinue<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui8RepeatCount<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32PauseCondition<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.ui32StatusSetClr<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>Transaction.uPeerInfo.ui32SpiChipSelect<sp/>=<sp/>csPin;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(am_hal_iom_spi_blocking_fullduplex(cfg-&gt;iomHandle,<sp/>&amp;Transaction))<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_ERROR;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_SPI_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-spi/src/ns_spi.c"/>
+  </compounddef>
+</doxygen>

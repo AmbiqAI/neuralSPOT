@@ -65,13 +65,9 @@ _Simple timer facility._ [More...](#detailed-description)
 
 | Type | Name |
 | ---: | :--- |
-|  void | [**am\_timer01\_isr**](#function-am_timer01_isr) (void) <br> |
-|  void | [**am\_timer02\_isr**](#function-am_timer02_isr) (void) <br> |
-|  void | [**am\_timer03\_isr**](#function-am_timer03_isr) (void) <br> |
 |  bool | [**ns\_core\_initialized**](#function-ns_core_initialized) (void) <br> |
-|  uint32\_t | [**ns\_timer\_clear**](#function-ns_timer_clear) ([**ns\_timer\_config\_t**](ns__timer_8h.md#typedef-ns_timer_config_t) \* cfg) <br>_Clear timer._  |
 |  uint32\_t | [**ns\_timer\_init**](#function-ns_timer_init) ([**ns\_timer\_config\_t**](ns__timer_8h.md#typedef-ns_timer_config_t) \* cfg) <br>_Initialize one of 3 timers supported by NeuralSPOT._  |
-|  uint32\_t | [**ns\_us\_ticker\_read**](#function-ns_us_ticker_read) ([**ns\_timer\_config\_t**](ns__timer_8h.md#typedef-ns_timer_config_t) \* cfg) <br>_Read current value of timer._  |
+|  uint32\_t | [**ns\_timer\_platform\_init**](#function-ns_timer_platform_init) ([**ns\_timer\_config\_t**](ns__timer_8h.md#typedef-ns_timer_config_t) \* cfg) <br> |
 
 
 
@@ -197,45 +193,6 @@ const ns_core_api_t ns_timer_oldest_supported_version;
 
 
 
-### function am\_timer01\_isr 
-
-```C++
-void am_timer01_isr (
-    void
-) 
-```
-
-
-
-
-
-
-### function am\_timer02\_isr 
-
-```C++
-void am_timer02_isr (
-    void
-) 
-```
-
-
-
-
-
-
-### function am\_timer03\_isr 
-
-```C++
-void am_timer03_isr (
-    void
-) 
-```
-
-
-
-
-
-
 ### function ns\_core\_initialized 
 
 ```C++
@@ -246,38 +203,6 @@ bool ns_core_initialized (
 
 
 
-
-
-
-### function ns\_timer\_clear 
-
-_Clear timer._ 
-```C++
-uint32_t ns_timer_clear (
-    ns_timer_config_t * cfg
-) 
-```
-
-
-
-
-
-**Parameters:**
-
-
-* `cfg` 
-
-
-
-**Returns:**
-
-uint32\_t status 
-
-
-
-
-
-        
 
 
 
@@ -316,35 +241,16 @@ uint32\_t status
 
 
 
-### function ns\_us\_ticker\_read 
+### function ns\_timer\_platform\_init 
 
-_Read current value of timer._ 
 ```C++
-uint32_t ns_us_ticker_read (
+uint32_t ns_timer_platform_init (
     ns_timer_config_t * cfg
 ) 
 ```
 
 
 
-
-
-**Parameters:**
-
-
-* `cfg` 
-
-
-
-**Returns:**
-
-uint32\_t timer if success, 0xDEADBEEF if bad handle 
-
-
-
-
-
-        
 
 ------------------------------
 The documentation for this class was generated from the following file `neuralSPOT/neuralspot/ns-utils/src/ns_timer.c`

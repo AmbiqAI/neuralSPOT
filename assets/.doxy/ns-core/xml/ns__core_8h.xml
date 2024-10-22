@@ -7,6 +7,8 @@
     <includes local="yes">am_util.h</includes>
     <includes local="yes">ns_ambiqsuite_harness.h</includes>
     <includedby refid="ns__core_8c" local="yes">neuralSPOT/neuralspot/ns-core/src/ns_core.c</includedby>
+    <includedby refid="ns__core__tests_8c" local="yes">neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c</includedby>
+    <includedby refid="ns__core__tests_8h" local="yes">neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h</label>
@@ -39,10 +41,16 @@
         <link refid="ns__core_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>neuralSPOT/neuralspot/ns-core/src/ns_core.c</label>
         <link refid="ns__core_8c"/>
+      </node>
+      <node id="3">
+        <label>neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.h</label>
+        <link refid="ns__core__tests_8h_source"/>
       </node>
     </invincdepgraph>
     <innerclass refid="structns__semver__t" prot="public">ns_semver_t</innerclass>
@@ -242,7 +250,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="89" column="27" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="13" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="89" declcolumn="27"/>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="90" column="27" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="13" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="90" declcolumn="27"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -257,7 +265,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="91" column="13" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="91" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="92" column="13" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="92" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -287,7 +295,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="99" column="17" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="81" bodyend="106" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="99" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="100" column="17" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="81" bodyend="107" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="100" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-core_1ga07adab44cf8388346e17c1e68e130739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -314,7 +322,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="101" column="17" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="59" bodyend="79" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="101" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="102" column="17" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="59" bodyend="79" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="102" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-core_1ga1c951a408f6460c49e0ed03bbba05666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -327,7 +335,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="104" column="13" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="108" bodyend="111" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="104" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="105" column="13" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="109" bodyend="112" declfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" declline="105" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -411,23 +419,24 @@
 <codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cryptoCurrentlyEnabled;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>state<sp/>for<sp/>Crypto</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>uartPrintWantsToBeEnabled;<sp/></highlight><highlight class="comment">//<sp/>Desired<sp/>state<sp/>for<sp/>ITM<sp/>printing</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>uartPrintCurrentlyEnabled;<sp/></highlight><highlight class="comment">//<sp/>Current<sp/>state<sp/>for<sp/>ITM<sp/>printing</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal">}<sp/><ref refid="structns__desired__state__t" kindref="compound">ns_desired_state_t</ref>;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__desired__state__t" kindref="compound">ns_desired_state_t</ref><sp/><ref refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kindref="member">g_ns_state</ref>;</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ns_core_initialized();</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(<ref refid="structns__core__config__t" kindref="compound">ns_core_config_t</ref><sp/>*c);</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-core_1ga07adab44cf8388346e17c1e68e130739" kindref="member">ns_core_check_api</ref>(</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>*submitted,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>*oldest,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>*newest);</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_fail_loop();</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ap3BurstModeInitialized;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Current<sp/>state<sp/>for<sp/>Apollo3<sp/>Burst<sp/>Mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/><ref refid="structns__desired__state__t" kindref="compound">ns_desired_state_t</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__desired__state__t" kindref="compound">ns_desired_state_t</ref><sp/><ref refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kindref="member">g_ns_state</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ns_core_initialized();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(<ref refid="structns__core__config__t" kindref="compound">ns_core_config_t</ref><sp/>*c);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-core_1ga07adab44cf8388346e17c1e68e130739" kindref="member">ns_core_check_api</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>*submitted,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>*oldest,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>*newest);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_fail_loop();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h"/>
   </compounddef>

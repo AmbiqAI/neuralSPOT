@@ -46,7 +46,7 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
 | ---: | :--- |
 |  appAdvCfg\_t | [**ns\_ble\_default\_AdvCfg**](#variable-ns_ble_default_advcfg)   = = {
     {60000, 0, 0}, 
-    {800, 800, 0}  
+    {96, 96, 0}    
 }<br> |
 |  appSecCfg\_t | [**ns\_ble\_default\_SecCfg**](#variable-ns_ble_default_seccfg)   = = {
     DM\_AUTH\_BOND\_FLAG \| DM\_AUTH\_SC\_FLAG,
@@ -60,7 +60,8 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
     NS\_BLE\_CONN\_MAX, 
 }<br> |
 |  smpCfg\_t | [**ns\_ble\_default\_SmpCfg**](#variable-ns_ble_default_smpcfg)   = = {
-    3000,                
+    
+    3200,                
     SMP\_IO\_NO\_IN\_NO\_OUT, 
     7,                   
     16,                  
@@ -68,33 +69,15 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
     0,                   
 }<br> |
 |  appUpdateCfg\_t | [**ns\_ble\_default\_UpdateCfg**](#variable-ns_ble_default_updatecfg)   = = {
-    3000, 
-    8,    
-    18,   
-    0,    
-    600,  
-    5     
+    3100, 
+    
+    8,   
+    18,  
+    0,   
+    600, 
+    5    
 }<br> |
-|  const uint8\_t | [**ns\_ble\_generic\_data\_disc**](#variable-ns_ble_generic_data_disc)   = = {
-    
-    2,                        
-    DM\_ADV\_TYPE\_FLAGS,        
-    DM\_FLAG\_LE\_GENERAL\_DISC \| 
-        DM\_FLAG\_LE\_BREDR\_NOT\_SUP,
-
-    
-    2,                    
-    DM\_ADV\_TYPE\_TX\_POWER, 
-    0,                    
-
-    
-    3,                   
-    DM\_ADV\_TYPE\_16\_UUID, 
-    UINT16\_TO\_BYTES(ATT\_UUID\_DEVICE\_INFO\_SERVICE),
-
-    17,                                              
-    DM\_ADV\_TYPE\_128\_UUID,                            
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}<br> |
+|  const uint8\_t | [**ns\_ble\_generic\_data\_disc**](#variable-ns_ble_generic_data_disc)  <br> |
 |  const uint8\_t | [**ns\_ble\_generic\_scan\_data\_disc**](#variable-ns_ble_generic_scan_data_disc)  <br> |
 
 
@@ -118,7 +101,7 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
 |  void | [**am\_uart\_isr**](#function-am_uart_isr) (void) <br> |
 |  int | [**ns\_ble\_add\_characteristic**](#function-ns_ble_add_characteristic) ([**ns\_ble\_service\_t**](ns__ble_8h.md#typedef-ns_ble_service_t) \* s, [**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c) <br>_Add a characteristic to a service. This function should be called after all characteristics have been defined using ns\_ble\_create\_characteristic._  |
 |  int | [**ns\_ble\_char2uuid**](#function-ns_ble_char2uuid) (const char uuidString, [**ns\_ble\_uuid128\_t**](structns__ble__uuid128__t.md) \* uuid128) <br>_Helper function to convert a 16-byte UUID string to a 128-bit UUID byte array. UUID string must be exactly 16 characters long and only contain hex characters._  |
-|  int | [**ns\_ble\_create\_characteristic**](#function-ns_ble_create_characteristic) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, char const \* uuidString, void \* applicationValue, uint16\_t valueLength, uint16\_t properties, ns\_ble\_characteristic\_read\_handler\_t readHandlerCb, ns\_ble\_characteristic\_write\_handler\_t writeHandlerCb, ns\_ble\_characteristic\_notify\_handler\_t notifyHandlerCb, uint16\_t periodMs, uint16\_t \* attributeCount) <br>_Define a characteristic for subsequent addition to a service._  |
+|  int | [**ns\_ble\_create\_characteristic**](#function-ns_ble_create_characteristic) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, char const \* uuidString, void \* applicationValue, uint16\_t valueLength, uint16\_t properties, ns\_ble\_characteristic\_read\_handler\_t readHandlerCb, ns\_ble\_characteristic\_write\_handler\_t writeHandlerCb, ns\_ble\_characteristic\_notify\_handler\_t notifyHandlerCb, uint16\_t periodMs, uint8\_t async, uint16\_t \* attributeCount) <br>_Define a characteristic for subsequent addition to a service._  |
 |  int | [**ns\_ble\_create\_service**](#function-ns_ble_create_service) ([**ns\_ble\_service\_t**](ns__ble_8h.md#typedef-ns_ble_service_t) \* s) <br>_Create a BLE service based on the given configuration._  |
 |  void | [**ns\_ble\_generic\_handler**](#function-ns_ble_generic_handler) (wsfEventMask\_t event, wsfMsgHdr\_t \* pMsg) <br> |
 |  void | [**ns\_ble\_generic\_handlerInit**](#function-ns_ble_generic_handlerinit) (wsfHandlerId\_t handlerId, [**ns\_ble\_service\_control\_t**](ns__ble_8h.md#typedef-ns_ble_service_control_t) \* cfg) <br> |
@@ -131,6 +114,7 @@ _Generic BLE Wrapper._ [More...](#detailed-description)
 |  bool | [**ns\_ble\_new\_proc\_msg**](#function-ns_ble_new_proc_msg) ([**ns\_ble\_msg\_t**](unionns__ble__msg__t.md) \* pMsg) <br> |
 |  void | [**ns\_ble\_pre\_init**](#function-ns_ble_pre_init) (void) <br>_Call this function from the setup\_task, prior to creating the RadioTask All this does is set up NVIC priorities._  |
 |  void | [**ns\_ble\_send\_value**](#function-ns_ble_send_value) ([**ns\_ble\_characteristic\_t**](structns__ble__characteristic.md) \* c, attEvt\_t \* pMsg) <br> |
+|  int | [**ns\_ble\_set\_tx\_power**](#function-ns_ble_set_tx_power) (txPowerLevel\_t power) <br>_Function to set the BLE TX power._  |
 |  int | [**ns\_ble\_start\_service**](#function-ns_ble_start_service) ([**ns\_ble\_service\_t**](ns__ble_8h.md#typedef-ns_ble_service_t) \* s) <br>_Invoked by RadioTask to start the service. This function should be called after all characteristics have been added._  |
 
 
@@ -460,6 +444,7 @@ int ns_ble_create_characteristic (
     ns_ble_characteristic_write_handler_t writeHandlerCb,
     ns_ble_characteristic_notify_handler_t notifyHandlerCb,
     uint16_t periodMs,
+    uint8_t async,
     uint16_t * attributeCount
 ) 
 ```
@@ -692,6 +677,38 @@ void ns_ble_send_value (
 
 
 
+
+
+
+### function ns\_ble\_set\_tx\_power 
+
+_Function to set the BLE TX power._ 
+```C++
+int ns_ble_set_tx_power (
+    txPowerLevel_t power
+) 
+```
+
+
+
+
+
+**Parameters:**
+
+
+* `power` - tx power level in dBm. 
+
+
+
+**Returns:**
+
+bool 
+
+
+
+
+
+        
 
 
 

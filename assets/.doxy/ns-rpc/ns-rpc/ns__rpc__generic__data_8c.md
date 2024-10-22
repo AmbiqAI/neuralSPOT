@@ -45,25 +45,27 @@
 
 | Type | Name |
 | ---: | :--- |
-|  [**ns\_rpc\_config\_t**](structns__rpc__config__t.md) | [**g\_RpcGenericDataConfig**](#variable-g_rpcgenericdataconfig)   = = {.api = &ns\_rpc\_gdo\_current\_version,
-                                          .mode = NS\_RPC\_GENERICDATA\_CLIENT,
-                                          .rx\_buf = NULL,
-                                          .rx\_bufLength = 0,
-                                          .tx\_buf = NULL,
-                                          .tx\_bufLength = 0,
-                                          .usbHandle = NULL,
-                                          .sendBlockToEVB\_cb = NULL,
-                                          .fetchBlockFromEVB\_cb = NULL,
-                                          .computeOnEVB\_cb = NULL}<br> |
-|  ns\_usb\_config\_t | [**g\_RpcGenericUSBHandle**](#variable-g_rpcgenericusbhandle)   = = {.api = &ns\_usb\_V1\_0\_0,
-                                         .deviceType = NS\_USB\_CDC\_DEVICE,
-                                         .rx\_buffer = NULL,
-                                         .rx\_bufferLength = 0,
-                                         .tx\_buffer = NULL,
-                                         .tx\_bufferLength = 0,
-                                         .rx\_cb = NULL,
-                                         .tx\_cb = NULL,
-                                         .service\_cb = NULL}<br> |
+|  [**ns\_rpc\_config\_t**](structns__rpc__config__t.md) | [**g\_RpcGenericDataConfig**](#variable-g_rpcgenericdataconfig)   = = {
+    .api = &ns\_rpc\_gdo\_current\_version,
+    .mode = NS\_RPC\_GENERICDATA\_CLIENT,
+    .rx\_buf = NULL,
+    .rx\_bufLength = 0,
+    .tx\_buf = NULL,
+    .tx\_bufLength = 0,
+    .usbHandle = NULL,
+    .sendBlockToEVB\_cb = NULL,
+    .fetchBlockFromEVB\_cb = NULL,
+    .computeOnEVB\_cb = NULL}<br> |
+|  ns\_usb\_config\_t | [**g\_RpcGenericUSBHandle**](#variable-g_rpcgenericusbhandle)   = = {
+    .api = &ns\_usb\_V1\_0\_0,
+    .deviceType = NS\_USB\_CDC\_DEVICE,
+    .rx\_buffer = NULL,
+    .rx\_bufferLength = 0,
+    .tx\_buffer = NULL,
+    .tx\_bufferLength = 0,
+    .rx\_cb = NULL,
+    .tx\_cb = NULL,
+    .service\_cb = NULL}<br> |
 |  const ns\_core\_api\_t | [**ns\_rpc\_gdo\_V0\_0\_1**](#variable-ns_rpc_gdo_v0_0_1)  <br> |
 |  const ns\_core\_api\_t | [**ns\_rpc\_gdo\_V1\_0\_0**](#variable-ns_rpc_gdo_v1_0_0)  <br> |
 |  const ns\_core\_api\_t | [**ns\_rpc\_gdo\_current\_version**](#variable-ns_rpc_gdo_current_version)  <br> |

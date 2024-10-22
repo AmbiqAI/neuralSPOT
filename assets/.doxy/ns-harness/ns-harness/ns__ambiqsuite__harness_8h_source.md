@@ -16,6 +16,10 @@
 extern "C" {
     #endif
 
+    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+        #define am_hal_gpio_pincfg_output g_AM_HAL_GPIO_OUTPUT
+    #endif
+
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"
@@ -34,16 +38,26 @@ extern "C" {
 
     #define ns_printf ns_lp_printf
 
-    #define ns_delay_us am_hal_delay_us
+    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+        #define ns_itm_printf_enable am_bsp_itm_printf_enable
+        #define ns_lp_printf am_util_stdio_printf
+        #define ns_delay_us am_util_delay_us
+        // SRAM is default for AP3
+        #define NS_PUT_IN_TCM __attribute__((section(".tcm")))
+
+    #else
+        #define ns_delay_us am_hal_delay_us
+        // TCM is default for AP4
+        #define NS_PUT_IN_TCM
 
 extern void ns_itm_printf_enable(void);
-extern void
-
-ns_uart_printf_enable(void);
-
-extern int32_t ns_cryptoless_itm_printf_disable(void);
 
 extern void ns_lp_printf(const char *format, ...);
+
+    #endif
+extern void ns_uart_printf_enable(void);
+
+extern int32_t ns_cryptoless_itm_printf_disable(void);
 
     #ifdef __cplusplus
 }

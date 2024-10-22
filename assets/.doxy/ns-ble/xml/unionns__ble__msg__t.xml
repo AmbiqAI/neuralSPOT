@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="114" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="114" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="120" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="120" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="unionns__ble__msg__t_1af43b77819c9368abd89ac826d8d7fb0a" prot="public" static="no" mutable="no">
         <type>dmEvt_t</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="115" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="115" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="121" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="121" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="unionns__ble__msg__t_1a0cb86559d933ac35f10ac2356963382d" prot="public" static="no" mutable="no">
         <type>attsCccEvt_t</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="116" column="18" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="116" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="122" column="18" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="122" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="unionns__ble__msg__t_1a8533a3ee714034c77112a8b97c27ffb3" prot="public" static="no" mutable="no">
         <type>attEvt_t</type>
@@ -57,14 +57,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="117" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="117" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="123" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="123" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="113" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="113" bodyend="118"/>
+    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="119" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="119" bodyend="124"/>
     <listofallmembers>
       <member refid="unionns__ble__msg__t_1a8533a3ee714034c77112a8b97c27ffb3" prot="public" virt="non-virtual"><scope>ns_ble_msg_t</scope><name>att</name></member>
       <member refid="unionns__ble__msg__t_1a0cb86559d933ac35f10ac2356963382d" prot="public" virt="non-virtual"><scope>ns_ble_msg_t</scope><name>ccc</name></member>

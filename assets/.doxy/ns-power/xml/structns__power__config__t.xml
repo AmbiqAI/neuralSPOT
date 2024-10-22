@@ -184,13 +184,28 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="95" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="95" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="structns__power__config__t_1a84b22525e06d278f7e5dc900db9559be" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_power_config_t::bNeedXtal</definition>
+        <argsstring></argsstring>
+        <name>bNeedXtal</name>
+        <qualifiedname>ns_power_config_t::bNeedXtal</qualifiedname>
+        <briefdescription>
+<para>Enable XTAL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="96" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Power Mode Definitino. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="83" column="1" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="83" bodyend="96"/>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="83" column="1" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" bodystart="83" bodyend="97"/>
     <listofallmembers>
       <member refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>api</name></member>
       <member refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>b128kTCM</name></member>
@@ -203,6 +218,7 @@
       <member refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedITM</name></member>
       <member refid="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedSharedSRAM</name></member>
       <member refid="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedUSB</name></member>
+      <member refid="structns__power__config__t_1a84b22525e06d278f7e5dc900db9559be" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>bNeedXtal</name></member>
       <member refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" prot="public" virt="non-virtual"><scope>ns_power_config_t</scope><name>eAIPowerMode</name></member>
     </listofallmembers>
   </compounddef>

@@ -147,6 +147,7 @@
     <member refid="group__ns-rpc-generic-data_1ga984ad9860c2cfef92b65ca1efc8921f5" kind="define"><name>NS_RPC_GDO_OLDEST_SUPPORTED_VERSION</name></member>
     <member refid="group__ns-rpc-generic-data_1ga239b05b6971ede68420b5ad14396feb1" kind="define"><name>NS_RPC_GDO_CURRENT_VERSION</name></member>
     <member refid="group__ns-rpc-generic-data_1gaaaa4ee8f339bae82319817321c1b8a7b" kind="define"><name>NS_RPC_GDO_API_ID</name></member>
+    <member refid="group__ns-rpc-generic-data_1ga64d4af6ba4d70797c022a948e013bb5f" kind="define"><name>NS_RPC_MALLOC_SIZE_IN_K</name></member>
     <member refid="group__ns-rpc-generic-data_1ga99b5a0f4eb7ab45fe7963d3ee14e4d61" kind="enum"><name>rpcGenericDataMode_e</name></member>
     <member refid="group__ns-rpc-generic-data_1gga99b5a0f4eb7ab45fe7963d3ee14e4d61a6aa731452095877a31c6b6e1d7e55cd0" kind="enumvalue"><name>NS_RPC_GENERICDATA_CLIENT</name></member>
     <member refid="group__ns-rpc-generic-data_1gga99b5a0f4eb7ab45fe7963d3ee14e4d61a032b185053f6de099dc70b5a17cca9ee" kind="enumvalue"><name>NS_RPC_GENERICDATA_SERVER</name></member>
@@ -205,6 +206,7 @@
     <member refid="group__ns-rpc-generic-data_1ga984ad9860c2cfef92b65ca1efc8921f5" kind="define"><name>NS_RPC_GDO_OLDEST_SUPPORTED_VERSION</name></member>
     <member refid="group__ns-rpc-generic-data_1ga239b05b6971ede68420b5ad14396feb1" kind="define"><name>NS_RPC_GDO_CURRENT_VERSION</name></member>
     <member refid="group__ns-rpc-generic-data_1gaaaa4ee8f339bae82319817321c1b8a7b" kind="define"><name>NS_RPC_GDO_API_ID</name></member>
+    <member refid="group__ns-rpc-generic-data_1ga64d4af6ba4d70797c022a948e013bb5f" kind="define"><name>NS_RPC_MALLOC_SIZE_IN_K</name></member>
   </compound>
   <compound refid="dir_2723405b1f2a31e5bda368efdd9e115c" kind="dir"><name>neuralSPOT/neuralspot/ns-rpc/includes-api</name>
   </compound>

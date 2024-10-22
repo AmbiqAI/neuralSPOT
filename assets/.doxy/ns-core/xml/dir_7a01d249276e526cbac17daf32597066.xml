@@ -4,6 +4,7 @@
     <compoundname>neuralSPOT/neuralspot/ns-core</compoundname>
     <innerdir refid="dir_da37538f420cb91275568ee8c81f5653">neuralSPOT/neuralspot/ns-core/includes-api</innerdir>
     <innerdir refid="dir_2b540daedd13b1486e7bf344eba1e313">neuralSPOT/neuralspot/ns-core/src</innerdir>
+    <innerdir refid="dir_ae8b3b42ecd578532e898a7057869875">neuralSPOT/neuralspot/ns-core/tests</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

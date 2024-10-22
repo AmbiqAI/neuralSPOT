@@ -5,9 +5,10 @@
 
 ## a
 
-* **am\_timer01\_isr** ([**ns\_timer.c**](ns__timer_8c.md))
-* **am\_timer02\_isr** ([**ns\_timer.c**](ns__timer_8c.md))
-* **am\_timer03\_isr** ([**ns\_timer.c**](ns__timer_8c.md))
+* **am\_ctimer\_isr** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md))
+* **am\_timer01\_isr** ([**ns\_timer\_ap4.c**](ns__timer__ap4_8c.md))
+* **am\_timer02\_isr** ([**ns\_timer\_ap4.c**](ns__timer__ap4_8c.md))
+* **am\_timer03\_isr** ([**ns\_timer\_ap4.c**](ns__timer__ap4_8c.md))
 
 
 ## n
@@ -34,8 +35,35 @@
 * **ns\_timer\_clear** ([**ns\_timer.h**](ns__timer_8h.md))
 * **ns\_timer\_init** ([**ns\_timer.h**](ns__timer_8h.md))
 * **ns\_us\_ticker\_read** ([**ns\_timer.h**](ns__timer_8h.md))
+* **ns\_timer\_platform\_init** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md), [**ns\_timer\_ap4.c**](ns__timer__ap4_8c.md), [**ns\_timer.c**](ns__timer_8c.md))
 * **ns\_delta\_byte\_counter\_wrap** ([**ns\_perf\_profile.c**](ns__perf__profile_8c.md))
 * **ns\_core\_initialized** ([**ns\_timer.c**](ns__timer_8c.md))
+* **ns\_free\_test\_basic** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_free\_test\_memory\_fragmentation** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_free\_test\_non\_malloced\_pointer** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_free\_test\_null\_pointer** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_free\_test\_twice** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_free\_tests\_post\_test\_hook** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_free\_tests\_pre\_test\_hook** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_free\_tests.h**](ns__free__tests_8h.md))
+* **ns\_malloc\_test\_allocate\_zero** ([**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md), [**ns\_malloc\_tests.h**](ns__malloc__tests_8h.md))
+* **ns\_malloc\_test\_basic\_allocation** ([**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md), [**ns\_malloc\_tests.h**](ns__malloc__tests_8h.md))
+* **ns\_malloc\_test\_no\_overlap\_in\_heap\_allocations** ([**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md), [**ns\_malloc\_tests.h**](ns__malloc__tests_8h.md))
+* **ns\_malloc\_test\_past\_max\_size** ([**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md), [**ns\_malloc\_tests.h**](ns__malloc__tests_8h.md))
+* **ns\_malloc\_tests\_post\_test\_hook** ([**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md), [**ns\_malloc\_tests.h**](ns__malloc__tests_8h.md))
+* **ns\_malloc\_tests\_pre\_test\_hook** ([**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md), [**ns\_malloc\_tests.h**](ns__malloc__tests_8h.md))
+
+
+## t
+
+* **timer0\_handler** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md))
+* **timer1\_handler** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md))
+* **timer2\_handler** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md))
+* **timer3\_handler** ([**ns\_timer\_ap3.c**](ns__timer__ap3_8c.md))
+
+
+## _
+
+* **\_\_attribute\_\_** ([**ns\_free\_tests.c**](ns__free__tests_8c.md), [**ns\_malloc\_tests.c**](ns__malloc__tests_8c.md))
 
 
 

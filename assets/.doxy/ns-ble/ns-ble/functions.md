@@ -17,6 +17,7 @@
 * **ns\_ble\_create\_service** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_pre\_init** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_send\_value** ([**ns\_ble.h**](ns__ble_8h.md))
+* **ns\_ble\_set\_tx\_power** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_start\_service** ([**ns\_ble.h**](ns__ble_8h.md))
 * **ns\_ble\_generic\_AttCback** ([**ns\_ble.c**](ns__ble_8c.md))
 * **ns\_ble\_generic\_CccCback** ([**ns\_ble.c**](ns__ble_8c.md))
@@ -37,6 +38,29 @@
 * **ns\_ble\_new\_handler\_init** ([**ns\_ble.c**](ns__ble_8c.md))
 * **ns\_ble\_new\_proc\_msg** ([**ns\_ble.c**](ns__ble_8c.md))
 * **ns\_ble\_process\_ccc\_state** ([**ns\_ble.c**](ns__ble_8c.md))
+* **ns\_ble\_characteristic\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_create\_different\_service\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_create\_null\_service\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_create\_service\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_create\_service\_test\_no\_characteristics** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_empty\_service\_add\_characteristic\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_multiple\_characteristics\_fail\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_multiple\_characteristics\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_negative\_attribute\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_start\_service\_test** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_tests\_post\_test\_hook** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+* **ns\_ble\_tests\_pre\_test\_hook** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md), [**ns\_ble\_tests.h**](ns__ble__tests_8h.md))
+
+
+## w
+
+* **webbleReadHandler** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md))
+* **webbleWriteHandler** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md))
+
+
+## _
+
+* **\_\_attribute\_\_** ([**ns\_ble\_tests.c**](ns__ble__tests_8c.md))
 
 
 

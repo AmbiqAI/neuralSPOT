@@ -2,7 +2,7 @@
 
 # File ns\_tempco.c
 
-[**File List**](files.md) **>** [**neuralSPOT**](dir_75594cce7c7773aa3cb253214bf56510.md) **>** [**neuralspot**](dir_b737d82f35ec218ac5a7ef4105db9c0e.md) **>** [**ns-peripherals**](dir_62cbd78784261bb0d09981988628a167.md) **>** [**src**](dir_cf9eff0d6bf97258df730d615fa0f132.md) **>** [**ns\_tempco.c**](ns__tempco_8c.md)
+[**File List**](files.md) **>** [**apollo4**](dir_1c005e3bbb5b4e96ef4b5df2b5884295.md) **>** [**ns\_tempco.c**](ns__tempco_8c.md)
 
 [Go to the documentation of this file](ns__tempco_8c.md)
 

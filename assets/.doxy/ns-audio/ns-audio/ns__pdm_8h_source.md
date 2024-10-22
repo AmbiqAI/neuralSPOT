@@ -25,9 +25,8 @@ extern "C" {
 
 extern ns_pdm_cfg_t ns_pdm_default;
 
-extern uint32_t
-pdm_init(ns_audio_config_t *config);
-
+extern uint32_t pdm_init(ns_audio_config_t *config);
+extern void pdm_deinit(ns_audio_config_t *config);
 #ifdef __cplusplus
 }
 #endif

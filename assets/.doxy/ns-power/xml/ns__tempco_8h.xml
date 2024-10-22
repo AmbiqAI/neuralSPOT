@@ -6,11 +6,11 @@
     <includes local="yes">am_mcu_apollo.h</includes>
     <includes local="yes">am_util.h</includes>
     <includes local="yes">ns_ambiqsuite_harness.h</includes>
-    <includedby refid="ns__power_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c</includedby>
-    <includedby refid="ns__tempco_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c</includedby>
+    <includedby refid="apollo4_2ns__power_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_power.c</includedby>
+    <includedby refid="ns__tempco_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c</includedby>
     <incdepgraph>
       <node id="1">
-        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h</label>
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h</label>
         <link refid="ns__tempco_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -36,11 +36,11 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c</label>
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c</label>
         <link refid="ns__tempco_8c"/>
       </node>
       <node id="1">
-        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h</label>
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h</label>
         <link refid="ns__tempco_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="37" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" bodystart="37" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" line="37" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" bodystart="37" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -71,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="33" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="24" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="33" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" line="33" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c" bodystart="24" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" declline="33" declcolumn="17"/>
       </memberdef>
       <memberdef kind="variable" id="ns__tempco_8h_1a1e2463aa9f344f5ade772454992d8cf2" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="34" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="25" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="34" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" line="34" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c" bodystart="25" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" declline="34" declcolumn="17"/>
       </memberdef>
       <memberdef kind="variable" id="ns__tempco_8h_1a871e62b8b755f25f43d9725da5c5859e" prot="public" static="no" mutable="no">
         <type>am_hal_adc_sample_t</type>
@@ -97,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="35" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="26" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="35" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" line="35" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c" bodystart="26" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" declline="35" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="ns__tempco_8h_1abe55c917fd1f79f20cfc9d0b006637c6" prot="public" static="no" mutable="no">
         <type>void *</type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="36" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="27" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="36" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" line="36" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c" bodystart="27" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" declline="36" declcolumn="13"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -128,7 +128,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" line="39" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.c" bodystart="50" bodyend="101" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h" declline="39" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" line="39" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.c" bodystart="50" bodyend="101" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h" declline="39" declcolumn="17"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -182,6 +182,6 @@
 <codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_tempco.h"/>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_tempco.h"/>
   </compounddef>
 </doxygen>

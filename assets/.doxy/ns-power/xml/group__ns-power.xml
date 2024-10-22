@@ -57,7 +57,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="71" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="53" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="71" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="71" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="52" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="71" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1gaba3e2ea00eb6f88fecc9d27225d2b540" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="72" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="55" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="72" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="72" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="54" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="72" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="73" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="57" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="73" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="73" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="56" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="73" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="74" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="60" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="74" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="74" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="59" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="74" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" prot="public" static="no" mutable="no">
         <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
@@ -110,7 +110,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="98" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="63" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="98" declcolumn="32"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="99" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="62" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="99" declcolumn="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_debug_default</definition>
+        <argsstring></argsstring>
+        <name>ns_debug_default</name>
+        <briefdescription>
+<para>Enables all things. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="100" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="77" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="100" declcolumn="32"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1gae90836b195988b047dfd869088c1024f" prot="public" static="no" mutable="no">
         <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
@@ -124,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="99" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="77" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="99" declcolumn="32"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="101" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="92" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="101" declcolumn="32"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" prot="public" static="no" mutable="no">
         <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
@@ -138,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="100" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="91" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="100" declcolumn="32"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="102" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="107" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="102" declcolumn="32"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" prot="public" static="no" mutable="no">
         <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
@@ -152,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="101" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="105" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="101" declcolumn="32"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="103" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="122" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="103" declcolumn="32"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" prot="public" static="no" mutable="no">
         <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
@@ -166,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="102" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="119" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="102" declcolumn="32"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="104" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="137" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="104" declcolumn="32"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" prot="public" static="no" mutable="no">
         <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
@@ -180,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="103" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="133" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="103" declcolumn="32"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="105" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="152" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="105" declcolumn="32"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -212,7 +226,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="111" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="265" bodyend="361" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="111" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="113" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="171" bodyend="193" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="113" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -226,11 +240,10 @@
 <para>neuralSPOT-aware deep_sleep - turns off certain systems off before sleeping and turns them back upon waking. </para>
         </briefdescription>
         <detaileddescription>
-<para>neuralSPOT-aware deep_sleep - turns off certain systems off before sleeping and turns them back upon waking. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="118" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="368" bodyend="395" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="118" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="120" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="202" bodyend="202" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="120" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-power_1ga5e478ff8045369408f29963f631e2677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -254,13 +267,13 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>uint32_t status </para>
+<simplesect kind="return"><para>uint32_t status</para>
 </simplesect>
-</para>
+Sets CPU frequency to one of the ns_power_modes. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="126" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="147" bodyend="155" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="126" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" line="128" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_power.c" bodystart="52" bodyend="72" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_power.h" declline="128" declcolumn="10"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="define">

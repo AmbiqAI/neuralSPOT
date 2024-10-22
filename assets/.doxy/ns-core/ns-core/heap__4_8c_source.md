@@ -43,6 +43,7 @@
  * See heap_1.c, heap_2.c and heap_3.c for alternative implementations, and the
  * memory management pages of http://www.FreeRTOS.org for more information.
  */
+
 #include <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
@@ -54,7 +55,7 @@ task.h is included from an application file. */
 #include "task.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
-#define configTOTAL_HEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
+// #define configTOTAL_xHEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
 
 #if (configSUPPORT_DYNAMIC_ALLOCATION == 0)
     #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
@@ -70,9 +71,12 @@ task.h is included from an application file. */
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 /* The application writer has already defined the array used for the RTOS
 heap - probably so it can be placed in a special segment or address. */
-extern uint8_t ucHeap[configTOTAL_HEAP_SIZE];
+size_t const ucHeapSize __attribute((weak));
+uint8_t ucHeap[] __attribute((weak));
 #else
-static uint8_t ucHeap[configTOTAL_HEAP_SIZE];
+    #define configTOTAL_HEAP_SIZE NS_MALLOC_HEAP_SIZE_IN_K * 1024
+size_t const ucHeapSize = configTOTAL_HEAP_SIZE;
+static uint8_t ucHeap[configTOTAL_HEAP_SIZE] __attribute__((aligned(4)));
 #endif /* configAPPLICATION_ALLOCATED_HEAP */
 
 /* Define the linked list structure.  This is used to link free blocks in order
@@ -90,15 +94,13 @@ typedef struct A_BLOCK_LINK {
  * the block in front it and/or the block behind it if the memory blocks are
  * adjacent to each other.
  */
-static void
-prvInsertBlockIntoFreeList(BlockLink_t *pxBlockToInsert);
+static void prvInsertBlockIntoFreeList(BlockLink_t *pxBlockToInsert);
 
 /*
  * Called automatically to setup the required heap structures the first time
  * pvPortMalloc() is called.
  */
-static void
-prvHeapInit(void);
+static void prvHeapInit(void);
 
 /*-----------------------------------------------------------*/
 
@@ -124,8 +126,7 @@ static size_t xBlockAllocatedBit = 0;
 /*-----------------------------------------------------------*/
 
 
-void *
-prvPortMalloc(size_t xWantedSize, uint8_t enableSuspendResume) {
+void *prvPortMalloc(size_t xWantedSize, uint8_t enableSuspendResume) {
     BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
     void *pvReturn = NULL;
 
@@ -249,20 +250,13 @@ prvPortMalloc(size_t xWantedSize, uint8_t enableSuspendResume) {
     return pvReturn;
 }
 
-void *
-pvPortMalloc(size_t xWantedSize) {
-    return prvPortMalloc(xWantedSize, 1);
-}
+void *pvPortMalloc(size_t xWantedSize) { return prvPortMalloc(xWantedSize, 1); }
 
-void *
-pvTasklessPortMalloc(size_t xWantedSize) {
-    return prvPortMalloc(xWantedSize, 0);
-}
+void *pvTasklessPortMalloc(size_t xWantedSize) { return prvPortMalloc(xWantedSize, 0); }
 
 /*-----------------------------------------------------------*/
 
-void
-prvPortFree(void *pv, uint8_t enableSuspendResume) {
+void prvPortFree(void *pv, uint8_t enableSuspendResume) {
     uint8_t *puc = (uint8_t *)pv;
     BlockLink_t *pxLink;
 
@@ -304,42 +298,27 @@ prvPortFree(void *pv, uint8_t enableSuspendResume) {
     }
 }
 
-void
-vPortFree(void *pv) {
-    prvPortFree(pv, 1);
-}
+void vPortFree(void *pv) { prvPortFree(pv, 1); }
 
-void
-vTasklessPortFree(void *pv) {
-    prvPortFree(pv, 0);
-}
+void vTasklessPortFree(void *pv) { prvPortFree(pv, 0); }
 
 /*-----------------------------------------------------------*/
 
-size_t
-xPortGetFreeHeapSize(void) {
-    return xFreeBytesRemaining;
+size_t xPortGetFreeHeapSize(void) { return xFreeBytesRemaining; }
+/*-----------------------------------------------------------*/
+
+size_t xPortGetMinimumEverFreeHeapSize(void) { return xMinimumEverFreeBytesRemaining; }
+/*-----------------------------------------------------------*/
+
+void vPortInitialiseBlocks(void) { /* This just exists to keep the linker quiet. */
 }
 /*-----------------------------------------------------------*/
 
-size_t
-xPortGetMinimumEverFreeHeapSize(void) {
-    return xMinimumEverFreeBytesRemaining;
-}
-/*-----------------------------------------------------------*/
-
-void
-vPortInitialiseBlocks(void) {
-    /* This just exists to keep the linker quiet. */
-}
-/*-----------------------------------------------------------*/
-
-static void
-prvHeapInit(void) {
+static void prvHeapInit(void) {
     BlockLink_t *pxFirstFreeBlock;
     uint8_t *pucAlignedHeap;
     size_t uxAddress;
-    size_t xTotalHeapSize = configTOTAL_HEAP_SIZE;
+    size_t xTotalHeapSize = ucHeapSize;
 
     /* Ensure the heap starts on a correctly aligned boundary. */
     uxAddress = (size_t)ucHeap;
@@ -381,8 +360,7 @@ prvHeapInit(void) {
 }
 /*-----------------------------------------------------------*/
 
-static void
-prvInsertBlockIntoFreeList(BlockLink_t *pxBlockToInsert) {
+static void prvInsertBlockIntoFreeList(BlockLink_t *pxBlockToInsert) {
     BlockLink_t *pxIterator;
     uint8_t *puc;
 

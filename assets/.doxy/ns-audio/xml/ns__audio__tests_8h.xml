@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__audio__tests_8h" kind="file" language="C++">
+    <compoundname>ns_audio_tests.h</compoundname>
+    <includes refid="ns__audio_8h" local="yes">ns_audio.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_audio.h</label>
+        <link refid="ns__audio_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h</label>
+        <link refid="ns__audio__tests_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+      <node id="7">
+        <label>ns_ipc_ring_buffer.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__audio__tests_8h_1aa26405e09d2e3877c704800b0cf899be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="2" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="44" bodyend="46" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="2" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1ae36e2fe3e8b7e96b30a17c2d271966ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="3" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="48" bodyend="50" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="3" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a500f6447a577ccbc20f7e37f58480ffe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_switch_audio_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_switch_audio_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="4" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="53" bodyend="62" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="4" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a10cca80917125721c01d4ebedf40fbd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_init_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_init_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="5" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="64" bodyend="68" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="5" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1aa6261366a359dc8d193512ce2bc87db8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_api_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_api_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="6" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="71" bodyend="77" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="6" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1aa2bd9eff5880cebcd0b88501723cab28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_null_handle_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_null_handle_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="7" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="79" bodyend="82" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="7" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1ad58c4a0df13f19ee69220d125f086a29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_null_config_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_null_config_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="8" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="84" bodyend="102" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="8" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a9d671b76911781855ad2ffbe76107236" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_audioSource_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_audioSource_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="9" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="105" bodyend="111" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="9" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a25eed21c4764199c460ff5707cdf8596" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_num_samples_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_num_samples_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="10" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="113" bodyend="125" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="10" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a15c890d808bb22de724d92fbe8554028" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_num_channels_greater_than_2_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_num_channels_greater_than_2_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="11" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="127" bodyend="139" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="11" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a697162bf14ea8c5e613aa51139f51745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_pdm_config_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_pdm_config_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="12" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="148" bodyend="165" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="12" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audio__tests_8h_1a7b0c1a654dd5c4251e1a3305c74cdbe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_negative_sample_rate_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_audio_negative_sample_rate_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" line="13" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.c" bodystart="141" bodyend="146" declfile="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h" declline="13" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__audio_8h" kindref="compound">ns_audio.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_tests_pre_test_hook();</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_tests_post_test_hook();</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_switch_audio_test();</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_init_test();</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_api_test();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_null_handle_test();</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_null_config_test();</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_audioSource_test();</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_num_samples_test();</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_num_channels_greater_than_2_test();</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_pdm_config_test();</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_audio_negative_sample_rate_test();</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-audio/tests/ns_audio_tests.h"/>
+  </compounddef>
+</doxygen>

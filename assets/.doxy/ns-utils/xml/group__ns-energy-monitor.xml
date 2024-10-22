@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="75" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="70" bodyend="75" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="75" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="77" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="70" bodyend="75" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="77" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-energy-monitor_1ga2014c52dcb38dfd219f788172c576f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="82" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="78" bodyend="83" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="82" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="84" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="78" bodyend="83" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="84" declcolumn="13"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="define">
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="63" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="63" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="65" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1ga72a8433f9137d73a6c5d09124953a58f" prot="public" static="no">
         <name>NS_POWER_MONITOR_GPIO_1</name>
@@ -71,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="64" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="64" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="66" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1gaa96b5d7e278674d4afeb189712e2a3c7" prot="public" static="no">
         <name>NS_IDLE</name>
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="66" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="66" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="68" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1gaa8ce9c40e3e7bc0e49948f1b76d9994b" prot="public" static="no">
         <name>NS_DATA_COLLECTION</name>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="67" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="67" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="69" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1gabffd5b3bdc81eb9632a4cc7f790dcca5" prot="public" static="no">
         <name>NS_FEATURE_EXTRACTION</name>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="68" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="68" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1ga70e13e17c6b6bd8aad673b992462e677" prot="public" static="no">
         <name>NS_INFERING</name>
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="69" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="69" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

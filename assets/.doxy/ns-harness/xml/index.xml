@@ -31,10 +31,11 @@
     <member refid="group__harness_1ga36ec9d0ef197296c86ba4370c6594848" kind="define"><name>ns_interrupt_master_disable</name></member>
     <member refid="group__harness_1ga77397bc4fa3344e52a5780bceb3c9ce0" kind="define"><name>ns_printf</name></member>
     <member refid="group__harness_1ga958da5cc5a3b1beb0d8bc276d1f7e478" kind="define"><name>ns_delay_us</name></member>
+    <member refid="group__harness_1ga62b77fac3e22142f163cb4097de64ed0" kind="define"><name>NS_PUT_IN_TCM</name></member>
     <member refid="group__harness_1ga26fb00674628eeb2b74665c1e1be5e1d" kind="function"><name>ns_itm_printf_enable</name></member>
+    <member refid="group__harness_1ga6ec08b083c76471764833f501d434297" kind="function"><name>ns_lp_printf</name></member>
     <member refid="group__harness_1ga2fc2e872bb1a1bb597a27b0922090ae6" kind="function"><name>ns_uart_printf_enable</name></member>
     <member refid="group__harness_1gaf70b5d7d71a64a22147d3c862f0757a9" kind="function"><name>ns_cryptoless_itm_printf_disable</name></member>
-    <member refid="group__harness_1ga6ec08b083c76471764833f501d434297" kind="function"><name>ns_lp_printf</name></member>
   </compound>
   <compound refid="ns__debug__log_8h" kind="file"><name>ns_debug_log.h</name>
     <member refid="ns__debug__log_8h_1a82598054b28f12ed48d2a3d2c2c60a01" kind="define"><name>NS_PROFILER_MAX_EVENTS</name></member>
@@ -54,11 +55,29 @@
   </compound>
   <compound refid="ns__micro__profiler_8cc" kind="file"><name>ns_micro_profiler.cc</name>
   </compound>
+  <compound refid="ns__harness__tests_8c" kind="file"><name>ns_harness_tests.c</name>
+    <member refid="ns__harness__tests_8c_1a87670cef430ebe7427b1c2a9461a72a6" kind="function"><name>ns_harness_tests_pre_test_hook</name></member>
+    <member refid="ns__harness__tests_8c_1a8a6acaf5f0c1a324460af799513a1c52" kind="function"><name>ns_harness_tests_post_test_hook</name></member>
+    <member refid="ns__harness__tests_8c_1a348209952fde7317e51008a35633b1e7" kind="function"><name>ns_itm_printf_enable_test</name></member>
+    <member refid="ns__harness__tests_8c_1a39d3bf70fd7a93600801aa3f1ac9a16d" kind="function"><name>ns_itm_printf_disable_test</name></member>
+    <member refid="ns__harness__tests_8c_1a054ab808aeb9209bbc26d7cfe8f7d997" kind="function"><name>ns_lp_printf_no_itm_uart_test</name></member>
+    <member refid="ns__harness__tests_8c_1a8a2b261b88f69aff70a63f6b30e12f9d" kind="function"><name>itm_uart_enabled_test</name></member>
+    <member refid="ns__harness__tests_8c_1abc9e301f5a7310ed4b0b120ddc986aaa" kind="function"><name>uart_enabled_test</name></member>
+  </compound>
+  <compound refid="ns__harness__tests_8h" kind="file"><name>ns_harness_tests.h</name>
+    <member refid="ns__harness__tests_8h_1a87670cef430ebe7427b1c2a9461a72a6" kind="function"><name>ns_harness_tests_pre_test_hook</name></member>
+    <member refid="ns__harness__tests_8h_1a8a6acaf5f0c1a324460af799513a1c52" kind="function"><name>ns_harness_tests_post_test_hook</name></member>
+    <member refid="ns__harness__tests_8h_1a348209952fde7317e51008a35633b1e7" kind="function"><name>ns_itm_printf_enable_test</name></member>
+    <member refid="ns__harness__tests_8h_1a39d3bf70fd7a93600801aa3f1ac9a16d" kind="function"><name>ns_itm_printf_disable_test</name></member>
+    <member refid="ns__harness__tests_8h_1a054ab808aeb9209bbc26d7cfe8f7d997" kind="function"><name>ns_lp_printf_no_itm_uart_test</name></member>
+    <member refid="ns__harness__tests_8h_1a8a2b261b88f69aff70a63f6b30e12f9d" kind="function"><name>itm_uart_enabled_test</name></member>
+    <member refid="ns__harness__tests_8h_1abc9e301f5a7310ed4b0b120ddc986aaa" kind="function"><name>uart_enabled_test</name></member>
+  </compound>
   <compound refid="group__harness" kind="group"><name>harness</name>
     <member refid="group__harness_1ga26fb00674628eeb2b74665c1e1be5e1d" kind="function"><name>ns_itm_printf_enable</name></member>
+    <member refid="group__harness_1ga6ec08b083c76471764833f501d434297" kind="function"><name>ns_lp_printf</name></member>
     <member refid="group__harness_1ga2fc2e872bb1a1bb597a27b0922090ae6" kind="function"><name>ns_uart_printf_enable</name></member>
     <member refid="group__harness_1gaf70b5d7d71a64a22147d3c862f0757a9" kind="function"><name>ns_cryptoless_itm_printf_disable</name></member>
-    <member refid="group__harness_1ga6ec08b083c76471764833f501d434297" kind="function"><name>ns_lp_printf</name></member>
     <member refid="group__harness_1gabe6b91ca27cea2a517d14912b1453a1f" kind="define"><name>ns_debug_printf_enable</name></member>
     <member refid="group__harness_1ga6203112ae7a749c1f4a4bc488a693b3b" kind="define"><name>ns_uart_printf_disable</name></member>
     <member refid="group__harness_1ga0b5ac5b733449352e00a1f8bd15391c3" kind="define"><name>ns_itm_printf_disable</name></member>
@@ -67,6 +86,7 @@
     <member refid="group__harness_1ga36ec9d0ef197296c86ba4370c6594848" kind="define"><name>ns_interrupt_master_disable</name></member>
     <member refid="group__harness_1ga77397bc4fa3344e52a5780bceb3c9ce0" kind="define"><name>ns_printf</name></member>
     <member refid="group__harness_1ga958da5cc5a3b1beb0d8bc276d1f7e478" kind="define"><name>ns_delay_us</name></member>
+    <member refid="group__harness_1ga62b77fac3e22142f163cb4097de64ed0" kind="define"><name>NS_PUT_IN_TCM</name></member>
   </compound>
   <compound refid="dir_5a7ca3359baeaf8be53d9a3d1e900244" kind="dir"><name>neuralSPOT/neuralspot/ns-harness/includes-api</name>
   </compound>
@@ -77,5 +97,7 @@
   <compound refid="dir_e0d7b3aff6df2cba2f05a768a095730e" kind="dir"><name>neuralSPOT/neuralspot/ns-harness</name>
   </compound>
   <compound refid="dir_8df671c8e5b7eec7f2ec532421bc80bd" kind="dir"><name>neuralSPOT/neuralspot/ns-harness/src</name>
+  </compound>
+  <compound refid="dir_005af69e787a160fad8c7d3f6a25f06b" kind="dir"><name>neuralSPOT/neuralspot/ns-harness/tests</name>
   </compound>
 </doxygenindex>

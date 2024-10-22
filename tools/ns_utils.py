@@ -54,6 +54,8 @@ def xxd_c_dump(
     var_name: str = "mut_model",
     chunk_len: int = 12,
     is_header: bool = True,
+    loc: str = "const",
+
 ):
     """Generate C like char array of hex values from binary source. Equivalent to `xxd -i src_path > dst_path`
         but with added features to provide # columns and variable name.
@@ -71,14 +73,23 @@ def xxd_c_dump(
             wfp.write(f"#ifndef __{var_name.upper()}_H{os.linesep}")
             wfp.write(f"#define __{var_name.upper()}_H{os.linesep}")
 
-        wfp.write(f"alignas(16) const unsigned char {var_name}[] = {{{os.linesep}")
+        if loc == "const":
+            prefix = "const"
+        elif loc == "sram":
+            prefix = "AM_SHARED_RW"
+        else: # linker's default location, usually TCM
+            prefix = ""
+        
+        wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"
             )
             var_len += len(chunk)
         wfp.write(f"}};{os.linesep}")
+
         wfp.write(f"const unsigned int {var_name}_len = {var_len};{os.linesep}")
+        wfp.write(f"#define {var_name}_LEN {var_len} {os.linesep}")
         if is_header:
             wfp.write(f"#endif // __{var_name.upper()}_H{os.linesep}")
 

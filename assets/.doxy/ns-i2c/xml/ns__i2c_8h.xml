@@ -291,7 +291,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="71" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="31" bodyend="59" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="71" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="71" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="30" bodyend="58" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="71" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1ga822cc31eb17394f82c159e6df0c0d67b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -355,7 +355,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="80" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="69" bodyend="86" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="80" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="80" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="67" bodyend="88" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="80" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1ga5757f76f1bb7b4bc298f6dfb21ef15c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -419,7 +419,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="89" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="96" bodyend="113" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="89" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="89" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="97" bodyend="118" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="89" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1ga1d8814cf1501280bd5eff6d0772c00a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -507,7 +507,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="100" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="125" bodyend="129" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="100" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="100" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="129" bodyend="134" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="100" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-i2c_1ga44c2009f6720856edc6b5bc2f7aac4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -559,7 +559,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="110" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="138" bodyend="152" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="110" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" line="110" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_i2c.c" bodystart="142" bodyend="156" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_i2c.h" declline="110" declcolumn="10"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

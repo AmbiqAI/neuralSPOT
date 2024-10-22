@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__core__tests_8c" kind="file" language="C++">
+    <compoundname>ns_core_tests.c</compoundname>
+    <includes refid="ns__core_8h" local="yes">ns_core.h</includes>
+    <includes local="yes">unity/unity.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_core.h</label>
+        <link refid="ns__core_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c</label>
+        <link refid="ns__core__tests_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="7">
+        <label>unity/unity.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__core__tests_8c_1a73ad5748f12df06d86fcd5936a89cea9" prot="public" static="no">
+        <name>NS_CORE_INVALID</name>
+        <initializer>        { .major = 5, .minor = 5, .revision = 5 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" line="3" column="11" bodyfile="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__core__tests_8c_1aa5f959b880a567cc35a633981d7c874f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_core_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_core_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" line="6" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" bodystart="6" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__core__tests_8c_1a2193b662259dd5669b194a4bf39f4bf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_core_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_core_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" line="10" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" bodystart="10" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__core__tests_8c_1a52176b24aa8c15eb229fb4328108797f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_core_test_init</definition>
+        <argsstring>()</argsstring>
+        <name>ns_core_test_init</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" line="15" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__core__tests_8c_1a2c92a44dba3c79dca3ba2f3ffcc6f626" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_core_test_null_cfg</definition>
+        <argsstring>()</argsstring>
+        <name>ns_core_test_null_cfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" line="24" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__core__tests_8c_1afa3f02d329102722aea413ab61a23525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_core_test_invalid_api</definition>
+        <argsstring>()</argsstring>
+        <name>ns_core_test_invalid_api</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" line="30" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c" bodystart="30" bodyend="47"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__core_8h" kindref="compound">ns_core.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;unity/unity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_CORE_INVALID<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="4"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>5,<sp/>.minor<sp/>=<sp/>5,<sp/>.revision<sp/>=<sp/>5<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_tests_pre_test_hook()<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pre<sp/>hook<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_tests_post_test_hook()<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>post<sp/>hook<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>test<sp/>should<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_test_init()<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__core__config__t" kindref="compound">ns_core_config_t</ref><sp/>cfg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="structns__core__config__t_1a6c9666c382d6f31b85919e6bd6bb8c9d" kindref="member">api</ref><sp/>=<sp/>&amp;ns_core_V1_0_0</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(&amp;cfg);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>null<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_test_null_cfg()<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(NULL);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_HANDLE,<sp/>status);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>different<sp/>invalid<sp/>api<sp/>versions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_test_invalid_api()<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__core__config__t" kindref="compound">ns_core_config_t</ref><sp/>cfg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="structns__core__config__t_1a6c9666c382d6f31b85919e6bd6bb8c9d" kindref="member">api</ref><sp/>=<sp/>NULL</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(&amp;cfg);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_VERSION,<sp/>status);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>API<sp/>id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>invalid_api<sp/>=<sp/>{.apiId<sp/>=<sp/>0xCCCCCC,<sp/>.version<sp/>=<sp/>NS_CORE_V0_0_1};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structns__core__config__t_1a6c9666c382d6f31b85919e6bd6bb8c9d" kindref="member">api</ref><sp/>=<sp/>&amp;invalid_api;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status2<sp/>=<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(&amp;cfg);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_VERSION,<sp/>status2);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>API<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__core__api__t" kindref="compound">ns_core_api_t</ref><sp/>invalid_api2<sp/>=<sp/>{.apiId<sp/>=<sp/>0xCA0000,<sp/>.version<sp/>=<sp/>NS_CORE_INVALID};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structns__core__config__t_1a6c9666c382d6f31b85919e6bd6bb8c9d" kindref="member">api</ref><sp/>=<sp/>&amp;invalid_api;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status3<sp/>=<sp/><ref refid="group__ns-core_1gaf3368f0bb97af25baefc3df6b89a32b4" kindref="member">ns_core_init</ref>(&amp;cfg);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_VERSION,<sp/>status3);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-core/tests/ns_core_tests.c"/>
+  </compounddef>
+</doxygen>

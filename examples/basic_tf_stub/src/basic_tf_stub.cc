@@ -11,7 +11,7 @@ The basic_tf_stub example is based on a speech to intent model.
 
 **/
 
-#define RINGBUFFER_MODE
+// #define RINGBUFFER_MODE
 #ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
 #endif
@@ -19,13 +19,17 @@ The basic_tf_stub example is based on a speech to intent model.
 #ifndef NS_AUDADC_PRESENT
     #define USE_PDM_MICROPHONE
 #endif
+
+// Define DYNAMIC_AUDIO_SOURCE to test switching between AUDADC and PDM audio sources
+// #define DYNAMIC_AUDIO_SOURCE
 // Define AUDIO_LEGACY to test pre-V2 ns-audio functionality
 // #define AUDIO_LEGACY
 // #define ENERGY_MONITOR_ENABLE
 // #define LOWEST_POWER_MODE
 
 // ARM perf requires ITM to be enabled, impacting power measurements.
-// For profiling measurements to wpork, example must be compiled using the MLPROFILE=1 make parameter
+// For profiling measurements to wpork, example must be compiled using the MLPROFILE=1 make
+// parameter
 #ifdef NS_MLPROFILE
     #define MEASURE_ARM_PERF true
 #else
@@ -46,7 +50,7 @@ The basic_tf_stub example is based on a speech to intent model.
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
-#include "ns_perf_profile.h"
+// #include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
 
 static int recording_win = NUM_FRAMES;
@@ -93,8 +97,8 @@ int main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    NS_TRY(ns_power_config(&ns_audio_default), "Power Init Failed.\n");
-    NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
 
 #ifdef LOWEST_POWER_MODE
     // No printing enabled at all - use this to measure power
@@ -121,8 +125,10 @@ int main(void) {
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 #endif
     model_init();
-
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
+#ifdef DYNAMIC_AUDIO_SOURCE
+    NS_TRY(ns_start_audio(&audio_config), "Audio start failed.\n");
+#endif
     NS_TRY(ns_mfcc_init(&mfcc_config), "MFCC config failed.\n");
     NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
 
@@ -247,11 +253,21 @@ int main(void) {
 
             ns_lp_printf("\n**** Most probably: [%s]\n\n", kCategoryLabels[output_max]);
             ns_lp_printf("Press Button 0 to start listening...\n");
-
+#ifdef DYNAMIC_AUDIO_SOURCE
+            ns_end_audio(&audio_config);
+            if(audio_config.eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+                audio_config.eAudioSource = NS_AUDIO_SOURCE_PDM;
+                ns_start_audio(&audio_config);
+            }
+            else {
+                audio_config.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
+                ns_start_audio(&audio_config);
+            }
+#endif
             buttonPressed = false; // thoroughly debounce the button
             state = WAITING_TO_RECORD;
             break;
         }
-        ns_deep_sleep();
+        // ns_deep_sleep();
     } // while(1)
 }

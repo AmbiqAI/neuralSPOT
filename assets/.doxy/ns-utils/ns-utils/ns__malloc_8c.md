@@ -11,6 +11,7 @@
 
 
 * `#include "ns_malloc.h"`
+* `#include "ns_ambiqsuite_harness.h"`
 
 
 
@@ -32,6 +33,11 @@
 
 
 
+## Public Attributes
+
+| Type | Name |
+| ---: | :--- |
+|  int | [**total\_allocated**](#variable-total_allocated)   = = 0<br> |
 
 
 
@@ -80,6 +86,19 @@
 
 
 
+
+
+
+## Public Attributes Documentation
+
+
+
+
+### variable total\_allocated 
+
+```C++
+int total_allocated;
+```
 
 
 

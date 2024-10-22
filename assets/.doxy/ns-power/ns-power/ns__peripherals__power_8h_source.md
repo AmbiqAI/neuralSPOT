@@ -52,7 +52,7 @@
     #ifdef __cplusplus
 extern "C" {
     #endif
-
+    #include "ns_core.h"
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
     #include "am_util.h"
@@ -90,9 +90,11 @@ typedef struct {
     bool b128kTCM;                
     bool bEnableTempCo;           
     bool bNeedITM;                
+    bool bNeedXtal;               
 } ns_power_config_t;
 
 extern const ns_power_config_t ns_development_default; 
+extern const ns_power_config_t ns_debug_default;       
 extern const ns_power_config_t ns_good_default;  
 extern const ns_power_config_t ns_mlperf_mode1;  
 extern const ns_power_config_t ns_mlperf_mode2;  

@@ -48,7 +48,7 @@ Initialize the cache profiler.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="56" column="16" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="23" bodyend="34" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="56" declcolumn="16"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="56" column="16" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="25" bodyend="36" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="56" declcolumn="16"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga3d71e40ad288f91c8bf9c319d7a028f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -85,7 +85,7 @@ Capture the current value of the cache performance counters in the provided stru
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="64" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="42" bodyend="51" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="64" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="64" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="43" bodyend="64" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="64" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga260f0984f5bbf10aa8c5591dc36b9e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -122,7 +122,7 @@ Print the cache performance counters.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="71" bodyend="80" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="71" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="82" bodyend="91" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="71" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1gac76ffef4069b3a01dba19e7af22ba75b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -179,7 +179,7 @@ Print the delta between two cache performance counter snapshots.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="80" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="89" bodyend="104" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="80" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="80" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="99" bodyend="114" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="80" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga8de598c1400870868659453e3d08c08f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -231,7 +231,7 @@ Print the delta between two cache performance counter snapshots.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="90" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="54" bodyend="63" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="90" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="90" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="66" bodyend="75" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="90" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga7012775f3ad475e8d977b60766182a8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -249,7 +249,7 @@ Print the delta between two cache performance counter snapshots.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="105" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="111" bodyend="118" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="105" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="105" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="120" bodyend="128" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="105" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga289ac76609da3ca33b9ce20d1be05218" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -267,7 +267,7 @@ Print the delta between two cache performance counter snapshots.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="111" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="125" bodyend="128" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="111" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="111" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="134" bodyend="137" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="111" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1gab4d63f1d9add998303ee63c64c47a48b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -285,7 +285,7 @@ Print the delta between two cache performance counter snapshots.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="117" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="135" bodyend="142" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="117" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="117" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="143" bodyend="151" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="117" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga6ee9e1f3c1bec6055335583693339952" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -303,7 +303,7 @@ Print the delta between two cache performance counter snapshots.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="123" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="149" bodyend="151" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="123" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="123" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="157" bodyend="157" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="123" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1gac4431d0efc47f8b2c1fcf20f05c0f430" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -340,7 +340,7 @@ Capture the current value of the HW performance counters in the provided struct.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="131" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="159" bodyend="166" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="131" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="131" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="164" bodyend="171" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="131" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1ga2e7ab288293bccc9914ee9e3e0235877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -392,7 +392,7 @@ Capture the current value of the HW performance counters in the provided struct.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="140" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="175" bodyend="182" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="140" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="140" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="178" bodyend="185" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="140" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-cache-profile_1gae1a66a1314758decfabc97b53c679d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -429,7 +429,7 @@ Print a HW performance counter snapshot.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="147" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="190" bodyend="203" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="147" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="147" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_perf_profile.c" bodystart="192" bodyend="205" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" declline="147" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

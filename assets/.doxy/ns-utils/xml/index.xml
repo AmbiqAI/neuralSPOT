@@ -266,7 +266,6 @@
   </compound>
   <compound refid="ns__malloc_8h" kind="file"><name>ns_malloc.h</name>
     <member refid="group__ns-malloc_1ga1823dcf7f73e6af2ef7e9d311f152124" kind="define"><name>NS_MALLOC_HEAP_SIZE_IN_K</name></member>
-    <member refid="group__ns-malloc_1ga681d2e64f7d6d886ee29f1875d6e2c9e" kind="variable"><name>ucHeap</name></member>
     <member refid="group__ns-malloc_1gabf1c042e70be409ee2d41838f83bb8d3" kind="function"><name>ns_malloc_init</name></member>
     <member refid="group__ns-malloc_1ga45bcbf6ad4ad52cb96f6d024acaa0602" kind="function"><name>ns_malloc</name></member>
     <member refid="group__ns-malloc_1ga8a1763f61176219155b7cd50652f383d" kind="function"><name>ns_free</name></member>
@@ -314,12 +313,35 @@
     <member refid="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" kind="function"><name>ns_us_ticker_read</name></member>
     <member refid="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" kind="function"><name>ns_timer_clear</name></member>
   </compound>
+  <compound refid="ns__timer__ap3_8c" kind="file"><name>ns_timer_ap3.c</name>
+    <member refid="ns__timer__ap3_8c_1aedbcd1819f17194ff1270ace572a9d87" kind="define"><name>AP3_CTIMER_FREQ_IN_MHZ</name></member>
+    <member refid="ns__timer__ap3_8c_1a908f17a703e458493dcfedb6eb7e31d2" kind="variable"><name>ns_timer_config</name></member>
+    <member refid="ns__timer__ap3_8c_1a49e6958e534502a46887e809694f9c76" kind="variable"><name>g_sTimer</name></member>
+    <member refid="ns__timer__ap3_8c_1aade3444ba208657bb2a9b699a9735ee3" kind="function"><name>timer0_handler</name></member>
+    <member refid="ns__timer__ap3_8c_1a911351e140c152fde410490502f5e252" kind="function"><name>timer1_handler</name></member>
+    <member refid="ns__timer__ap3_8c_1a0e61cbb390600be460092c47d63f002f" kind="function"><name>timer2_handler</name></member>
+    <member refid="ns__timer__ap3_8c_1aed8daf6d21bcdda93b16d0da84e286fb" kind="function"><name>timer3_handler</name></member>
+    <member refid="ns__timer__ap3_8c_1a13f9ad21010e7abfde293020e2cf49c6" kind="function"><name>am_ctimer_isr</name></member>
+    <member refid="ns__timer__ap3_8c_1a5408d02d4399e350874694b6142345c3" kind="function"><name>ns_timer_platform_init</name></member>
+    <member refid="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" kind="function"><name>ns_us_ticker_read</name></member>
+    <member refid="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" kind="function"><name>ns_timer_clear</name></member>
+  </compound>
+  <compound refid="ns__timer__ap4_8c" kind="file"><name>ns_timer_ap4.c</name>
+    <member refid="ns__timer__ap4_8c_1a908f17a703e458493dcfedb6eb7e31d2" kind="variable"><name>ns_timer_config</name></member>
+    <member refid="ns__timer__ap4_8c_1a96eb5798dc9e24f474b3311be68af81f" kind="function"><name>am_timer01_isr</name></member>
+    <member refid="ns__timer__ap4_8c_1a8eededfa1da60f72e658cfec646504da" kind="function"><name>am_timer02_isr</name></member>
+    <member refid="ns__timer__ap4_8c_1acf50452cd5c57c795290bf1e3c277f53" kind="function"><name>am_timer03_isr</name></member>
+    <member refid="ns__timer__ap4_8c_1a5408d02d4399e350874694b6142345c3" kind="function"><name>ns_timer_platform_init</name></member>
+    <member refid="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" kind="function"><name>ns_us_ticker_read</name></member>
+    <member refid="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" kind="function"><name>ns_timer_clear</name></member>
+  </compound>
   <compound refid="ns__energy__monitor_8c" kind="file"><name>ns_energy_monitor.c</name>
     <member refid="ns__energy__monitor_8c_1a9fa6ceaf42fbeb49aa2af80e27ebe19b" kind="variable"><name>g_ns_power_monitor_enabled</name></member>
     <member refid="group__ns-energy-monitor_1gacecb7a02127f2e998c7472c1aad5550e" kind="function"><name>ns_init_power_monitor_state</name></member>
     <member refid="group__ns-energy-monitor_1ga2014c52dcb38dfd219f788172c576f53" kind="function"><name>ns_set_power_monitor_state</name></member>
   </compound>
   <compound refid="ns__malloc_8c" kind="file"><name>ns_malloc.c</name>
+    <member refid="ns__malloc_8c_1aef455b70c94cc079c4ec994bcc7d0c49" kind="variable"><name>total_allocated</name></member>
     <member refid="group__ns-malloc_1gabf1c042e70be409ee2d41838f83bb8d3" kind="function"><name>ns_malloc_init</name></member>
     <member refid="group__ns-malloc_1ga45bcbf6ad4ad52cb96f6d024acaa0602" kind="function"><name>ns_malloc</name></member>
     <member refid="group__ns-malloc_1ga8a1763f61176219155b7cd50652f383d" kind="function"><name>ns_free</name></member>
@@ -354,13 +376,49 @@
     <member refid="group__ns-timer_1ga93689eef9661b59db4b442f9983dfda7" kind="variable"><name>ns_timer_oldest_supported_version</name></member>
     <member refid="group__ns-timer_1gab43f66097bc24e408d6ced413ea734c0" kind="variable"><name>ns_timer_current_version</name></member>
     <member refid="ns__timer_8c_1a908f17a703e458493dcfedb6eb7e31d2" kind="variable"><name>ns_timer_config</name></member>
-    <member refid="ns__timer_8c_1a96eb5798dc9e24f474b3311be68af81f" kind="function"><name>am_timer01_isr</name></member>
-    <member refid="ns__timer_8c_1a8eededfa1da60f72e658cfec646504da" kind="function"><name>am_timer02_isr</name></member>
-    <member refid="ns__timer_8c_1acf50452cd5c57c795290bf1e3c277f53" kind="function"><name>am_timer03_isr</name></member>
     <member refid="ns__timer_8c_1a0c6cdc197dcb605e1fad2f479fc47177" kind="function"><name>ns_core_initialized</name></member>
+    <member refid="ns__timer_8c_1a5408d02d4399e350874694b6142345c3" kind="function"><name>ns_timer_platform_init</name></member>
     <member refid="group__ns-timer_1ga0fc939c8a81836c911cea74a1c0b3ad5" kind="function"><name>ns_timer_init</name></member>
-    <member refid="group__ns-timer_1gae2d6df247f6a4cca523f714bf9f8fc62" kind="function"><name>ns_us_ticker_read</name></member>
-    <member refid="group__ns-timer_1gad88c0ffad661f8dc90107f6f3eced888" kind="function"><name>ns_timer_clear</name></member>
+  </compound>
+  <compound refid="ns__free__tests_8c" kind="file"><name>ns_free_tests.c</name>
+    <member refid="ns__free__tests_8c_1a9f213227674effff0122a75d94d87938" kind="define"><name>configTOTAL_HEAP_SIZE</name></member>
+    <member refid="ns__free__tests_8c_1a90e8cd581702224cd749165e4df0ab86" kind="variable"><name>ucHeapSize</name></member>
+    <member refid="ns__free__tests_8c_1a11208261e6ac23565e05907272f18bb5" kind="function"><name>__attribute__</name></member>
+    <member refid="ns__free__tests_8c_1a3278c1695b8d9e13478a886e078000e2" kind="function"><name>ns_free_tests_pre_test_hook</name></member>
+    <member refid="ns__free__tests_8c_1a0b93bcd7802dc8e5c8f1cedcce2eadd1" kind="function"><name>ns_free_tests_post_test_hook</name></member>
+    <member refid="ns__free__tests_8c_1a9d4564b086cb3bf09b396bd828f9ae97" kind="function"><name>ns_free_test_basic</name></member>
+    <member refid="ns__free__tests_8c_1a22e451b25d135280421517d70515edb9" kind="function"><name>ns_free_test_null_pointer</name></member>
+    <member refid="ns__free__tests_8c_1a0435cc3bac47e3d850ca141a2c77e1f4" kind="function"><name>ns_free_test_twice</name></member>
+    <member refid="ns__free__tests_8c_1a57f96cf9512e09975af41744ee3daa67" kind="function"><name>ns_free_test_non_malloced_pointer</name></member>
+    <member refid="ns__free__tests_8c_1af9693b828d4186643603edf9fbd1c10c" kind="function"><name>ns_free_test_memory_fragmentation</name></member>
+  </compound>
+  <compound refid="ns__free__tests_8h" kind="file"><name>ns_free_tests.h</name>
+    <member refid="ns__free__tests_8h_1a3278c1695b8d9e13478a886e078000e2" kind="function"><name>ns_free_tests_pre_test_hook</name></member>
+    <member refid="ns__free__tests_8h_1a0b93bcd7802dc8e5c8f1cedcce2eadd1" kind="function"><name>ns_free_tests_post_test_hook</name></member>
+    <member refid="ns__free__tests_8h_1a9d4564b086cb3bf09b396bd828f9ae97" kind="function"><name>ns_free_test_basic</name></member>
+    <member refid="ns__free__tests_8h_1a22e451b25d135280421517d70515edb9" kind="function"><name>ns_free_test_null_pointer</name></member>
+    <member refid="ns__free__tests_8h_1a0435cc3bac47e3d850ca141a2c77e1f4" kind="function"><name>ns_free_test_twice</name></member>
+    <member refid="ns__free__tests_8h_1a57f96cf9512e09975af41744ee3daa67" kind="function"><name>ns_free_test_non_malloced_pointer</name></member>
+    <member refid="ns__free__tests_8h_1af9693b828d4186643603edf9fbd1c10c" kind="function"><name>ns_free_test_memory_fragmentation</name></member>
+  </compound>
+  <compound refid="ns__malloc__tests_8c" kind="file"><name>ns_malloc_tests.c</name>
+    <member refid="ns__malloc__tests_8c_1a9f213227674effff0122a75d94d87938" kind="define"><name>configTOTAL_HEAP_SIZE</name></member>
+    <member refid="ns__malloc__tests_8c_1a90e8cd581702224cd749165e4df0ab86" kind="variable"><name>ucHeapSize</name></member>
+    <member refid="ns__malloc__tests_8c_1a11208261e6ac23565e05907272f18bb5" kind="function"><name>__attribute__</name></member>
+    <member refid="ns__malloc__tests_8c_1a6bd3f6ada23e92e1d4266e2f85fdf622" kind="function"><name>ns_malloc_tests_pre_test_hook</name></member>
+    <member refid="ns__malloc__tests_8c_1a288089f0cebf3f4b67b7e7dd06763b55" kind="function"><name>ns_malloc_tests_post_test_hook</name></member>
+    <member refid="ns__malloc__tests_8c_1a0dc16ba73e7e62ee4f504a1ebfaa851e" kind="function"><name>ns_malloc_test_basic_allocation</name></member>
+    <member refid="ns__malloc__tests_8c_1a6aec62df66dae1076ae73907fe5309df" kind="function"><name>ns_malloc_test_past_max_size</name></member>
+    <member refid="ns__malloc__tests_8c_1a1278400336e99763852c3e92c0d0e28c" kind="function"><name>ns_malloc_test_allocate_zero</name></member>
+    <member refid="ns__malloc__tests_8c_1afe7288c1bd6fac9d6be2cbc433886abe" kind="function"><name>ns_malloc_test_no_overlap_in_heap_allocations</name></member>
+  </compound>
+  <compound refid="ns__malloc__tests_8h" kind="file"><name>ns_malloc_tests.h</name>
+    <member refid="ns__malloc__tests_8h_1a6bd3f6ada23e92e1d4266e2f85fdf622" kind="function"><name>ns_malloc_tests_pre_test_hook</name></member>
+    <member refid="ns__malloc__tests_8h_1a288089f0cebf3f4b67b7e7dd06763b55" kind="function"><name>ns_malloc_tests_post_test_hook</name></member>
+    <member refid="ns__malloc__tests_8h_1a0dc16ba73e7e62ee4f504a1ebfaa851e" kind="function"><name>ns_malloc_test_basic_allocation</name></member>
+    <member refid="ns__malloc__tests_8h_1a6aec62df66dae1076ae73907fe5309df" kind="function"><name>ns_malloc_test_past_max_size</name></member>
+    <member refid="ns__malloc__tests_8h_1a1278400336e99763852c3e92c0d0e28c" kind="function"><name>ns_malloc_test_allocate_zero</name></member>
+    <member refid="ns__malloc__tests_8h_1afe7288c1bd6fac9d6be2cbc433886abe" kind="function"><name>ns_malloc_test_no_overlap_in_heap_allocations</name></member>
   </compound>
   <compound refid="group__ns-energy-monitor" kind="group"><name>ns-energy-monitor</name>
     <member refid="group__ns-energy-monitor_1gacecb7a02127f2e998c7472c1aad5550e" kind="function"><name>ns_init_power_monitor_state</name></member>
@@ -373,7 +431,6 @@
     <member refid="group__ns-energy-monitor_1ga70e13e17c6b6bd8aad673b992462e677" kind="define"><name>NS_INFERING</name></member>
   </compound>
   <compound refid="group__ns-malloc" kind="group"><name>ns-malloc</name>
-    <member refid="group__ns-malloc_1ga681d2e64f7d6d886ee29f1875d6e2c9e" kind="variable"><name>ucHeap</name></member>
     <member refid="group__ns-malloc_1gabf1c042e70be409ee2d41838f83bb8d3" kind="function"><name>ns_malloc_init</name></member>
     <member refid="group__ns-malloc_1ga45bcbf6ad4ad52cb96f6d024acaa0602" kind="function"><name>ns_malloc</name></member>
     <member refid="group__ns-malloc_1ga8a1763f61176219155b7cd50652f383d" kind="function"><name>ns_free</name></member>
@@ -414,6 +471,10 @@
     <member refid="group__ns-timer_1ga9f70041582cc5c33ccaff86d45d4a245" kind="define"><name>NS_TIMER_CURRENT_VERSION</name></member>
     <member refid="group__ns-timer_1gadcef98048173e025cee41cf66f2bc208" kind="define"><name>NS_TIMER_API_ID</name></member>
   </compound>
+  <compound refid="dir_707bd67c77e0cdcc384b3fcaae8a053a" kind="dir"><name>neuralSPOT/neuralspot/ns-utils/src/apollo3</name>
+  </compound>
+  <compound refid="dir_f4b6e016fb89d71f6ddac0c53471985d" kind="dir"><name>neuralSPOT/neuralspot/ns-utils/src/apollo4</name>
+  </compound>
   <compound refid="dir_0f796f8be3b51b94a477512418b4fa0e" kind="dir"><name>neuralSPOT/neuralspot/ns-utils/includes-api</name>
   </compound>
   <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
@@ -423,5 +484,7 @@
   <compound refid="dir_8caed56d1b8d43fb57ec0577c38aa59e" kind="dir"><name>neuralSPOT/neuralspot/ns-utils</name>
   </compound>
   <compound refid="dir_5922fa0bec7bd191dd0e3ff5da447491" kind="dir"><name>neuralSPOT/neuralspot/ns-utils/src</name>
+  </compound>
+  <compound refid="dir_62cfc4ab5fe382f357338287112ab49a" kind="dir"><name>neuralSPOT/neuralspot/ns-utils/tests</name>
   </compound>
 </doxygenindex>

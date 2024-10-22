@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="struct_sdk_date" kind="struct" language="C++" prot="public">
+    <compoundname>SdkDate</compoundname>
+    <includes refid="_arducam_camera_8h" local="no">ArducamCamera.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_sdk_date_1a6f9775f144a724ee2a39851f13874b9a" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t SdkDate::year</definition>
+        <argsstring></argsstring>
+        <name>year</name>
+        <qualifiedname>SdkDate::year</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="41" column="13" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_sdk_date_1ad7878af273017d0448dd310c89db3920" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t SdkDate::month</definition>
+        <argsstring></argsstring>
+        <name>month</name>
+        <qualifiedname>SdkDate::month</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="42" column="13" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_sdk_date_1a13e995793581e5431680c07193545e5c" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t SdkDate::day</definition>
+        <argsstring></argsstring>
+        <name>day</name>
+        <qualifiedname>SdkDate::day</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="43" column="13" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_sdk_date_1a0849e6eb6505f8c495693dd142aaf7db" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t SdkDate::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>SdkDate::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="44" column="14" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>SDK version update time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="40" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="40" bodyend="45"/>
+    <listofallmembers>
+      <member refid="struct_sdk_date_1a13e995793581e5431680c07193545e5c" prot="public" virt="non-virtual"><scope>SdkDate</scope><name>day</name></member>
+      <member refid="struct_sdk_date_1ad7878af273017d0448dd310c89db3920" prot="public" virt="non-virtual"><scope>SdkDate</scope><name>month</name></member>
+      <member refid="struct_sdk_date_1a0849e6eb6505f8c495693dd142aaf7db" prot="public" virt="non-virtual"><scope>SdkDate</scope><name>version</name></member>
+      <member refid="struct_sdk_date_1a6f9775f144a724ee2a39851f13874b9a" prot="public" virt="non-virtual"><scope>SdkDate</scope><name>year</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

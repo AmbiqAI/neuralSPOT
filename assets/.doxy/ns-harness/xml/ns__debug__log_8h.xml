@@ -27,7 +27,7 @@
       <sectiondef kind="define">
       <memberdef kind="define" id="ns__debug__log_8h_1a82598054b28f12ed48d2a3d2c2c60a01" prot="public" static="no">
         <name>NS_PROFILER_MAX_EVENTS</name>
-        <initializer>1024</initializer>
+        <initializer>4096</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="62" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="37" bodyend="56" declfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" declline="62" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="61" column="13" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="35" bodyend="59" declfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" declline="61" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -101,7 +101,7 @@
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_timer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Match<sp/>TFLM<sp/>kMaxEvents</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PROFILER_MAX_EVENTS<sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PROFILER_MAX_EVENTS<sp/>4096</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#define<sp/>NS_PROFILER_RPC_EVENTS_MAX<sp/>128</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PROFILER_TAG_SIZE<sp/>12</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29" refid="structns__profiler__sidecar__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
@@ -135,14 +135,13 @@
 <codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__profiler__event__stats__t" kindref="compound">ns_profiler_event_stats_t</ref><sp/>ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];</highlight></codeline>
 <codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal">ns_TFDebugLogInit(ns_timer_config_t<sp/>*t,<sp/><ref refid="structns__perf__mac__count__t" kindref="compound">ns_perf_mac_count_t</ref><sp/>*m);</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>extern<sp/>&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>TENSORFLOW_LITE_MICRO_DEBUG_LOG_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_TFDebugLogInit(ns_timer_config_t<sp/>*t,<sp/><ref refid="structns__perf__mac__count__t" kindref="compound">ns_perf_mac_count_t</ref><sp/>*m);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>extern<sp/>&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>TENSORFLOW_LITE_MICRO_DEBUG_LOG_H_</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h"/>
   </compounddef>

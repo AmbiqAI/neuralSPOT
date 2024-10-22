@@ -69,9 +69,9 @@
 
 | Type | Name |
 | ---: | :--- |
-|  void | [**am\_gpio0\_001f\_isr**](#function-am_gpio0_001f_isr) (void) <br>_GPIO Button0 ISR handler._  |
 |  void | [**ns\_button\_0\_handler**](#function-ns_button_0_handler) (void \* pArg) <br> |
 |  void | [**ns\_button\_1\_handler**](#function-ns_button_1_handler) (void \* pArg) <br> |
+|  uint32\_t | [**ns\_button\_platform\_init**](#function-ns_button_platform_init) ([**ns\_button\_config\_t**](structns__button__config__t.md) \* cfg) <br> |
 |  void | [**ns\_joulescope\_trigger\_handler**](#function-ns_joulescope_trigger_handler) (void \* pArg) <br> |
 |  uint32\_t | [**ns\_peripheral\_button\_init**](#function-ns_peripheral_button_init) ([**ns\_button\_config\_t**](structns__button__config__t.md) \* cfg) <br>_Initialize button monitoring per the configuration struct._  |
 
@@ -186,19 +186,6 @@ const ns_core_api_t ns_button_oldest_supported_version;
 
 
 
-### function am\_gpio0\_001f\_isr 
-
-```C++
-void am_gpio0_001f_isr (
-    void
-) 
-```
-
-
-
-
-
-
 ### function ns\_button\_0\_handler 
 
 ```C++
@@ -217,6 +204,19 @@ void ns_button_0_handler (
 ```C++
 void ns_button_1_handler (
     void * pArg
+) 
+```
+
+
+
+
+
+
+### function ns\_button\_platform\_init 
+
+```C++
+uint32_t ns_button_platform_init (
+    ns_button_config_t * cfg
 ) 
 ```
 

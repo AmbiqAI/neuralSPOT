@@ -9,11 +9,14 @@
 ```C++
 
 
-#include "ns_power_profile.h"
-#include "ns_ambiqsuite_harness.h"
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+// Not supported on AP3
+#else
+    #include "ns_power_profile.h"
+    #include "ns_ambiqsuite_harness.h"
+    #include <stdarg.h>
+    #include <stdio.h>
+    #include <stdlib.h>
 
 // This is the data structure we need to fill up
 am_bsp_pp_b1_t am_bsp_pp1;
@@ -296,7 +299,7 @@ void ns_pp_snapshot(bool bSingleShot, uint32_t uNumber) {
     am_bsp_pp1.P_LEGACYVRLPOVR = PWRCTRL->LEGACYVRLPOVR;
     am_bsp_pp1.P_VRSTATUS = PWRCTRL->VRSTATUS;
 
-#ifndef AM_PART_APOLLO4L
+    #ifndef AM_PART_APOLLO4L
     am_bsp_pp1.P_PWRWEIGHTULP0 = PWRCTRL->PWRWEIGHTULP0;
     am_bsp_pp1.P_PWRWEIGHTULP1 = PWRCTRL->PWRWEIGHTULP1;
     am_bsp_pp1.P_PWRWEIGHTULP2 = PWRCTRL->PWRWEIGHTULP2;
@@ -317,7 +320,7 @@ void ns_pp_snapshot(bool bSingleShot, uint32_t uNumber) {
     am_bsp_pp1.P_PWRWEIGHTHP5 = PWRCTRL->PWRWEIGHTHP5;
     am_bsp_pp1.P_PWRWEIGHTSLP = PWRCTRL->PWRWEIGHTSLP;
     am_bsp_pp1.P_VRDEMOTIONTHR = PWRCTRL->VRDEMOTIONTHR;
-#endif
+    #endif
 
     am_bsp_pp1.P_SRAMCTRL = PWRCTRL->SRAMCTRL;
     am_bsp_pp1.P_ADCSTATUS = PWRCTRL->ADCSTATUS;
@@ -436,7 +439,7 @@ void ns_pp_snapshot(bool bSingleShot, uint32_t uNumber) {
     am_bsp_pp3.T_CTRL14 = TIMER->CTRL14;
     am_bsp_pp3.T_CTRL15 = TIMER->CTRL15;
 
-#ifndef AM_PART_APOLLO4L
+    #ifndef AM_PART_APOLLO4L
     // Function Block 6: AUDADC
     if (AM_HAL_STATUS_SUCCESS ==
         am_hal_audadc_power_control(g_pp_AUDADCHandle, AM_HAL_SYSCTRL_WAKE, false)) {
@@ -478,9 +481,10 @@ void ns_pp_snapshot(bool bSingleShot, uint32_t uNumber) {
         am_bsp_pp4.AU_DMATARGADDR = AUDADC->DMATARGADDR;
         am_bsp_pp4.AU_DMASTAT = AUDADC->DMASTAT;
     }
-#endif
+    #endif
     ns_print_JSON();
 }
+#endif
 
 ```
 

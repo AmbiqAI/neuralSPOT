@@ -187,7 +187,7 @@
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/system_setup.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/schema/schema_generated.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(NS_TF_VERSION_fecdd5d)<sp/>or<sp/>defined(NS_TF_VERSION_d5f819d_Aug_10_2023)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_TFSTRUCTURE_RECENT</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;tensorflow/lite/micro/micro_error_reporter.h&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -245,7 +245,7 @@
 <codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="90"><highlight class="normal"></highlight></codeline>
 <codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>an<sp/>interpreter<sp/>to<sp/>run<sp/>the<sp/>model<sp/>with.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#ifdef<sp/>NS_TF_VERSION_fecdd5d</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_TFSTRUCTURE_RECENT</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>tflite::MicroInterpreter<sp/>static_interpreter(</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ms-&gt;<ref refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kindref="member">model</ref>,<sp/>resolver,<sp/>ms-&gt;<ref refid="structns__model__state__t_1a8e32f9c624f9a774367c4d81d499742c" kindref="member">arena</ref>,<sp/>ms-&gt;<ref refid="structns__model__state__t_1ad20c8f882ed7f569eb34f0875c01402f" kindref="member">arena_size</ref>,<sp/>resource_variables,<sp/>ms-&gt;<ref refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" kindref="member">profiler</ref>);</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>

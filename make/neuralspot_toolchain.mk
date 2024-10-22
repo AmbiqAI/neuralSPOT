@@ -7,7 +7,6 @@ endif
 
 .PRECIOUS: %.o
 
-
 #### Required Executables ####
 ifeq ($(TOOLCHAIN),arm-none-eabi)
 CC = $(TOOLCHAIN)-gcc$(EXEEXT)
@@ -28,7 +27,6 @@ CP = fromelf$(EXEEXT)
 OD = fromelf$(EXEEXT)
 AR = armar$(EXEEXT)
 endif
-
 
 
 LINT = clang-tidy$(EXEEXT)
@@ -55,20 +53,38 @@ CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exception
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
 CONLY_FLAGS+= -std=c99
-# CFLAGS+= -g -O3
-CFLAGS+= -g -O0
-CFLAGS+=
+ifeq ($(GCC13_EXPERIMENTAL),1)
+CFLAGS+= -g -O2 -ffast-math
+else
+CFLAGS+= -g -O3 -ffast-math
+# CFLAGS+= -g -O0 -ffast-math
+endif
+# CFLAGS+= -g -O2 -ffast-math
+
+LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script.ld
 
 LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
 LFLAGS+= -nostartfiles -static -fno-exceptions
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
-LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
+LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
 LFLAGS+=
 
 CPFLAGS = -Obinary
 ODFLAGS = -S
 ARFLAGS = rsc
+
+
 else ifeq ($(TOOLCHAIN),arm)
+# Armlink keeps removing stuff from static libs, so have to add some objs to the linker command line
+ifeq ($(USB_PRESENT),1)
+ARMLINKER_IS_NO_BUENO := $(BINDIR)/neuralspot/ns-usb/src/overrides/usb_descriptors.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/webusb_controller.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/ns_usb_overrides.o
+endif
+
+ARMLINKER_IS_NO_BUENO := $(BINDIR)/extern/AmbiqSuite/R4.4.1/src/am_resources.o
+
+
 CONLY_FLAGS+= -xc -std=c99
 CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI) -c
 CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
@@ -84,8 +100,12 @@ CCFLAGS+= -fno-use-cxa-atexit
 # LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
 LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
 LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
-LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=vTaskSwitchContext --lto
-LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+ifeq ($(USB_PRESENT),1)
+LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=tud_vendor_control_xfer_cb
+LFLAGS+= --keep=tud_descriptor_bos_cb --keep=tud_descriptor_string_cb
+endif
+LFLAGS+= --keep=vTaskSwitchContext
+LFLAGS+= --lto --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 
 CPFLAGS = --bin --output
@@ -98,9 +118,9 @@ ASMFLAGS+= -Wa,armasm,--diag_suppress=A1950W -c
 ASMFLAGS+= -gdwarf-4
 # -IC:/Users/xbox/AppData/Local/Arm/Packs/AmbiqMicro/Apollo_DFP/1.3.2/Device/Include
 ASMFLAGS+= -Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"APOLLO4p_2048 SETA 1"
-
 endif
 
+# Defines
 ifeq ($(TOOLCHAIN),arm)
 DEFINES+= keil6
 DEFINES+= _RTE_
@@ -119,7 +139,14 @@ endif
 ifeq ($(PART),apollo4l)
 DEFINES+= AM_PART_APOLLO4L
 endif
-
+ifeq ($(PART),apollo3p)
+	DEFINES+= AM_PART_APOLLO3P
+	DEFINES+= PART_APOLLO3P
+endif
+ifeq ($(PART),apollo3)
+	DEFINES+= AM_PART_APOLLO3
+	DEFINES+= PART_APOLLO3
+endif
 
 DEFINES+= AM_PACKAGE_BGA
 DEFINES+= __FPU_PRESENT

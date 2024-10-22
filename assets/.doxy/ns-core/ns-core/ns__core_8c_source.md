@@ -88,6 +88,7 @@ uint32_t ns_core_init(ns_core_config_t *cfg) {
     g_ns_state.tempcoCurrentlyEnabled = false;
     g_ns_state.cryptoWantsToBeEnabled = true; // reset state of Crypto is 'on'
     g_ns_state.cryptoCurrentlyEnabled = true;
+    g_ns_state.ap3BurstModeInitialized = false;
     return NS_STATUS_SUCCESS;
 }
 

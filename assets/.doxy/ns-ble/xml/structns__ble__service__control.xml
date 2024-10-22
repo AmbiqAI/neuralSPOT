@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="144" column="20" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="144" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="150" column="20" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="150" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ab79bd70f3f80597c965b6aa18cf98974" prot="public" static="no" mutable="no">
         <type>bool_t</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="145" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="145" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="151" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="151" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ac9ae7e0c4ade03c806799e7bba58959b" prot="public" static="no" mutable="no">
         <type>bool_t</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="146" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="146" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="152" column="12" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="152" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ac87659b7dec09dc57d045701a7369b4d" prot="public" static="no" mutable="no">
         <type>uint8_t</type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="147" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="147" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="153" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="153" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ac54a160b086d54fdc6d309526974f8f9" prot="public" static="no" mutable="no">
         <type>uint8_t</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="148" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="148" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="154" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="154" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ac50e12ddec4972f0a42ada439e018b41" prot="public" static="no" mutable="no">
         <type><ref refid="structns__ble__connection__t" kindref="compound">ns_ble_connection_t</ref> *</type>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="149" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="149" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="155" column="25" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="155" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a24264e78dcc841e66cf4c9c968332646" prot="public" static="no" mutable="no">
         <type>attsGroup_t *</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="153" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="153" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="159" column="17" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ad5ebc885a71f2947df034719584ee1e4" prot="public" static="no" mutable="no">
         <type>attsAttr_t *</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="154" column="16" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="154" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="160" column="16" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1aa74ef224dc817f25e9f03c5eac4b95a5" prot="public" static="no" mutable="no">
         <type>attsCccSet_t *</type>
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="155" column="18" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="155" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="161" column="18" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ae99d0a984b032d72b29bf98cf4773c90" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -151,7 +151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="156" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="156" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="162" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a337cc1200910717772442c01cd18e0df" prot="public" static="no" mutable="no">
         <type>uint8_t *</type>
@@ -166,7 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="159" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="159" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="165" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="165" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a93a556ecde4ac7126d72947bd94a31be" prot="public" static="no" mutable="no">
         <type>uint8_t</type>
@@ -181,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="160" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="160" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="166" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="166" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a0669d7cba536e72a7dd52c356190c827" prot="public" static="no" mutable="no">
         <type>uint8_t *</type>
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="161" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="161" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="167" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="167" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ab9e133e32ee4e3ce5d77efa715bfedc8" prot="public" static="no" mutable="no">
         <type>uint8_t</type>
@@ -211,7 +211,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="162" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="162" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="168" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="168" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a2b898960898c8f3e5e8142dab3113885" prot="public" static="no" mutable="no">
         <type>ns_ble_service_specific_handler_cb</type>
@@ -226,7 +226,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="167" column="40" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="167" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="173" column="40" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="173" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a549a60f1913f66e99e5939f92c2b534d" prot="public" static="no" mutable="no">
         <type>ns_ble_service_specific_handler_init_cb</type>
@@ -241,7 +241,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="168" column="45" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="168" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="174" column="45" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="174" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a6dbb4dd9cd0defb1faceac0065bd848c" prot="public" static="no" mutable="no">
         <type>ns_ble_service_specific_init_cb</type>
@@ -256,7 +256,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="169" column="37" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="169" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="175" column="37" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="175" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1ac9a672b0658da8442bb6de78c86e8670" prot="public" static="no" mutable="no">
         <type>ns_ble_service_specific_procMsg_cb</type>
@@ -271,7 +271,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="170" column="40" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="170" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="176" column="40" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="176" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a6524f3a415b1e41c586f68c0323834e9" prot="public" static="no" mutable="no">
         <type>uint8_t</type>
@@ -287,7 +287,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="173" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="173" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="179" column="13" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="179" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a01255fb6f4d008ac2af9db43a378f3db" prot="public" static="no" mutable="no">
         <type>uint32_t *</type>
@@ -302,7 +302,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="174" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="174" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="180" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a6959efb114de194508cccf7e83933df5" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -317,7 +317,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="175" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="175" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="181" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="181" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a45e1acdd8306ebceba60160692bac43e" prot="public" static="no" mutable="no">
         <type>wsfBufPoolDesc_t *</type>
@@ -332,7 +332,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="177" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="177" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="183" column="9" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="183" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structns__ble__service__control_1a4c36538f7bf17f1a431212afa0c9db45" prot="public" static="no" mutable="no">
         <type>uint32_t</type>
@@ -347,7 +347,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="178" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="178" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="184" column="14" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="184" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -424,7 +424,7 @@
         <link refid="structns__ble__uuid128__t"/>
       </node>
     </collaborationgraph>
-    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="142" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="142" bodyend="179"/>
+    <location file="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" line="148" column="1" bodyfile="neuralSPOT/neuralspot/ns-ble/includes-api/ns_ble.h" bodystart="148" bodyend="185"/>
     <listofallmembers>
       <member refid="structns__ble__service__control_1a337cc1200910717772442c01cd18e0df" prot="public" virt="non-virtual"><scope>ns_ble_service_control</scope><name>advData</name></member>
       <member refid="structns__ble__service__control_1a93a556ecde4ac7126d72947bd94a31be" prot="public" virt="non-virtual"><scope>ns_ble_service_control</scope><name>advDataLen</name></member>

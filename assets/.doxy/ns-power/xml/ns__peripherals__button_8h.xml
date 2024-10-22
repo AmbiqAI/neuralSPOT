@@ -3,7 +3,11 @@
   <compounddef id="ns__peripherals__button_8h" kind="file" language="C++">
     <compoundname>ns_peripherals_button.h</compoundname>
     <includes local="yes">ns_core.h</includes>
+    <includedby refid="apollo3_2ns__button_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c</includedby>
+    <includedby refid="apollo4_2ns__button_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/apollo4/ns_button.c</includedby>
     <includedby refid="ns__button_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c</includedby>
+    <includedby refid="ns__button__tests_8c" local="yes">neuralSPOT/neuralspot/ns-peripherals/tests/ns_button_tests.c</includedby>
+    <includedby refid="ns__button__tests_8h" local="yes">neuralSPOT/neuralspot/ns-peripherals/tests/ns_button_tests.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_button.h</label>
@@ -15,6 +19,18 @@
         <label>ns_core.h</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_button.h</label>
+        <link refid="ns__peripherals__button_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-peripherals/tests/ns_button_tests.h</label>
+        <link refid="ns__button__tests_8h_source"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="structns__button__config__t" prot="public">ns_button_config_t</innerclass>
       <sectiondef kind="define">
       <memberdef kind="define" id="ns__peripherals__button_8h_1a8946e011a7407c37702af42c3c518acd" prot="public" static="no">
@@ -156,7 +172,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_button.h" line="86" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="63" bodyend="131" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_button.h" declline="86" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_button.h" line="86" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="46" bodyend="62" declfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_button.h" declline="86" declcolumn="17"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

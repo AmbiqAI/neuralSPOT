@@ -320,7 +320,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="108" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="302" bodyend="304" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="108" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="108" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="295" bodyend="297" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="108" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga6fd6abe5676f82ef051426d1760813ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -374,7 +374,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="118" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="315" bodyend="320" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="118" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="118" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="307" bodyend="312" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="118" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gaf02cf4c293cc2d57960e4f115ac9a507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -428,7 +428,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="129" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="331" bodyend="333" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="129" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="129" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="323" bodyend="325" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="129" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gae1b4f3fc724c05bd249f017725555f14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -482,7 +482,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="139" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="344" bodyend="346" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="139" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="139" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="336" bodyend="338" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="139" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gae81c5c400a231c018882f6d2a2e696f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -536,7 +536,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="150" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="357" bodyend="359" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="150" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="150" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="349" bodyend="351" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="150" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga9534a9eac204a49a1702454a6e09ab34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -590,7 +590,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="161" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="370" bodyend="381" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="161" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="161" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="362" bodyend="373" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="161" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gab3cc4df8c7ea260b837487829b9d6b46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -644,7 +644,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="171" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="392" bodyend="394" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="171" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="171" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="383" bodyend="385" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="171" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga4864812b0d314614be2092c308e21b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -686,7 +686,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="180" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="404" bodyend="406" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="180" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="180" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="394" bodyend="396" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="180" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga0d9e265c66c7b0273ac35fcfde6bf3af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -740,7 +740,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="190" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="417" bodyend="422" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="190" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="190" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="406" bodyend="411" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="190" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga9c5e55569717453367926f558ce54c8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -794,7 +794,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="200" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="433" bodyend="438" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="200" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="200" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="421" bodyend="426" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="200" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga0f87ac84c753cdeaefbdbb5d7ab94c0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -848,7 +848,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="210" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="449" bodyend="459" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="210" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="210" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="436" bodyend="446" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="210" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga886a70eb2c27921b90fa244280372aca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -914,7 +914,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="222" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="471" bodyend="475" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="222" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="222" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="457" bodyend="461" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="222" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga5f95553d66ffe02905246c77c8b3c598" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -968,7 +968,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="233" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="486" bodyend="488" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="233" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="233" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="471" bodyend="473" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="233" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gad8e8fdabfef9c497c3aeeb0b0cb4a4e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1010,7 +1010,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="242" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="498" bodyend="500" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="242" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="242" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="482" bodyend="484" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="242" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga69c978d5085bff211edb619e9b657ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1052,7 +1052,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="251" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="510" bodyend="512" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="251" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="251" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="493" bodyend="495" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="251" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga60685a3ce63c0c1d99c1ccc123ba2495" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1130,7 +1130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="263" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="525" bodyend="535" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="263" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="263" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="507" bodyend="517" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="263" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gaa2f87758cb3946067b29957635c471c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1208,7 +1208,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="277" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="548" bodyend="558" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="277" declcolumn="1"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="277" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="529" bodyend="539" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="277" declcolumn="1"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gaec7ef0ff7a3b0e38896534363b8b04e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1262,7 +1262,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="287" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="569" bodyend="574" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="287" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="287" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="549" bodyend="554" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="287" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gabd01e5373f38fe7b9316767ecaa848a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1316,7 +1316,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="297" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="585" bodyend="587" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="297" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="297" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="564" bodyend="566" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="297" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gafabe4da1079ce1bb301cc5d2f5fa1bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1370,7 +1370,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="307" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="598" bodyend="600" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="307" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="307" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="576" bodyend="578" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="307" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga2e5adc266ac375c7e57163a44e9eccf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1412,7 +1412,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="316" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="610" bodyend="616" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="316" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="316" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="587" bodyend="593" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="316" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gab4ff3e24654cef5ac81befa290eca934" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1466,7 +1466,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="326" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="627" bodyend="633" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="326" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="326" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="603" bodyend="609" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="326" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga6fa95e13a98f11d59718e5425c14502c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1508,7 +1508,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="335" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="643" bodyend="653" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="335" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="335" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="618" bodyend="628" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="335" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gadec9c371ad5ce995a6f2007000014511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1562,7 +1562,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="345" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="664" bodyend="666" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="345" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="345" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="638" bodyend="640" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="345" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga7200307da54045f6afb7ee9350a0ac73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1616,7 +1616,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="355" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="677" bodyend="682" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="355" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="355" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="650" bodyend="655" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="355" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gacfb3352925b38066b2c0030917ee6eae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1646,7 +1646,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="363" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="691" bodyend="693" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="363" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="363" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="663" bodyend="663" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="363" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gabe293988adfbefd2672c65682d908880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>float</type>
@@ -1676,7 +1676,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="371" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="702" bodyend="704" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="371" declcolumn="7"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="371" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="671" bodyend="673" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="371" declcolumn="7"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gac14b0548ec8e2b444f0417e1a79a8ad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>float</type>
@@ -1718,7 +1718,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="380" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="736" bodyend="738" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="380" declcolumn="7"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="380" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="700" bodyend="702" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="380" declcolumn="7"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gaeceacdec42871639cc2dd74ba152f2f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>float</type>
@@ -1748,7 +1748,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="388" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="747" bodyend="749" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="388" declcolumn="7"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="388" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="710" bodyend="710" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="388" declcolumn="7"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gaa998efeb9a2adcc7d100623777843c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1778,7 +1778,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="396" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="713" bodyend="715" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="396" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="396" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="681" bodyend="681" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="396" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gadb4795fdfc538f7454e64a513c28c9c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>float</type>
@@ -1808,7 +1808,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="404" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="724" bodyend="726" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="404" declcolumn="7"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="404" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="689" bodyend="691" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="404" declcolumn="7"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gab7389c070e9ea30f58f4aade2969c91e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>float</type>
@@ -1850,7 +1850,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="413" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="759" bodyend="761" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="413" declcolumn="7"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="413" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="719" bodyend="721" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="413" declcolumn="7"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga4594a05e733711f0461b15ad7dec82d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1916,7 +1916,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="424" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="773" bodyend="787" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="424" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="424" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="733" bodyend="748" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="424" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga7d9c5eaa5266f28c4c57435fb1ca3965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -1982,7 +1982,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="435" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="799" bodyend="803" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="435" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="435" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="759" bodyend="764" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="435" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1ga3ff2a549b8604e615fd4c34be92b7de2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -2096,7 +2096,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="450" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="819" bodyend="854" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="450" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="450" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="779" bodyend="815" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="450" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gae4debdf60fa0bd51c279b63f446bdabf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -2158,7 +2158,7 @@ Calibrate device offsets. Device must be still on a flat surface.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="461" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="887" bodyend="942" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="461" declcolumn="10"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="461" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="847" bodyend="902" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="461" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-_m_p_u6050_1gabdbfab0e20adca96fa04913abfec1f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint32_t</type>
@@ -2183,7 +2183,7 @@ Calibrate device offsets. Device must be still on a flat surface.</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="463" column="17" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="961" bodyend="973" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="463" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="463" column="17" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="919" bodyend="931" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="463" declcolumn="17"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="define">

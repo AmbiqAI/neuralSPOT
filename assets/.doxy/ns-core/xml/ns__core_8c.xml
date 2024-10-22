@@ -201,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/src/ns_core.c" line="81" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="81" bodyend="106"/>
+        <location file="neuralSPOT/neuralspot/ns-core/src/ns_core.c" line="81" column="10" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="81" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-core_1ga1c951a408f6460c49e0ed03bbba05666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -214,7 +214,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-core/src/ns_core.c" line="108" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="108" bodyend="111"/>
+        <location file="neuralSPOT/neuralspot/ns-core/src/ns_core.c" line="109" column="6" bodyfile="neuralSPOT/neuralspot/ns-core/src/ns_core.c" bodystart="109" bodyend="112"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -312,13 +312,14 @@
 <codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kindref="member">g_ns_state</ref>.tempcoCurrentlyEnabled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kindref="member">g_ns_state</ref>.cryptoWantsToBeEnabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>reset<sp/>state<sp/>of<sp/>Crypto<sp/>is<sp/>&apos;on&apos;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kindref="member">g_ns_state</ref>.cryptoCurrentlyEnabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
-<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_fail_loop()<sp/>{</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(1)</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;</highlight></codeline>
-<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-core_1ga29d4a85063b31b643328c98c85e3d7c9" kindref="member">g_ns_state</ref>.ap3BurstModeInitialized<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_core_fail_loop()<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(1)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-core/src/ns_core.c"/>
   </compounddef>

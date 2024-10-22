@@ -5,6 +5,8 @@
     <includes local="yes">am_bsp.h</includes>
     <includes local="yes">am_mcu_apollo.h</includes>
     <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
     <includedby refid="ns__energy__monitor_8c" local="yes">neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c</includedby>
     <incdepgraph>
       <node id="1">
@@ -16,6 +18,10 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>am_bsp.h</label>
@@ -25,6 +31,12 @@
       </node>
       <node id="4">
         <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
       </node>
     </incdepgraph>
       <sectiondef kind="define">
@@ -37,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="63" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="63" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="65" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="65" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1ga72a8433f9137d73a6c5d09124953a58f" prot="public" static="no">
         <name>NS_POWER_MONITOR_GPIO_1</name>
@@ -48,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="64" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="64" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="66" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1gaa96b5d7e278674d4afeb189712e2a3c7" prot="public" static="no">
         <name>NS_IDLE</name>
@@ -59,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="66" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="66" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="68" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1gaa8ce9c40e3e7bc0e49948f1b76d9994b" prot="public" static="no">
         <name>NS_DATA_COLLECTION</name>
@@ -70,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="67" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="67" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="69" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1gabffd5b3bdc81eb9632a4cc7f790dcca5" prot="public" static="no">
         <name>NS_FEATURE_EXTRACTION</name>
@@ -81,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="68" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="68" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="define" id="group__ns-energy-monitor_1ga70e13e17c6b6bd8aad673b992462e677" prot="public" static="no">
         <name>NS_INFERING</name>
@@ -92,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="69" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="69" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -111,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="75" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="70" bodyend="75" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="75" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="77" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="70" bodyend="75" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="77" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-energy-monitor_1ga2014c52dcb38dfd219f788172c576f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -139,7 +151,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="82" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="78" bodyend="83" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="82" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" line="84" column="13" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_energy_monitor.c" bodystart="78" bodyend="83" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h" declline="84" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -199,23 +211,25 @@
 <codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_POWER_MONITOR_GPIO_0<sp/>22</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_POWER_MONITOR_GPIO_1<sp/>23</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_IDLE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_DATA_COLLECTION<sp/>1</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_FEATURE_EXTRACTION<sp/>2</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_INFERING<sp/>3</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-energy-monitor_1gacecb7a02127f2e998c7472c1aad5550e" kindref="member">ns_init_power_monitor_state</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-energy-monitor_1ga2014c52dcb38dfd219f788172c576f53" kindref="member">ns_set_power_monitor_state</ref>(uint8_t<sp/>state);</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_ENERGY_MON</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_POWER_MONITOR_GPIO_0<sp/>22</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_POWER_MONITOR_GPIO_1<sp/>23</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_IDLE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_DATA_COLLECTION<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_FEATURE_EXTRACTION<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_INFERING<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-energy-monitor_1gacecb7a02127f2e998c7472c1aad5550e" kindref="member">ns_init_power_monitor_state</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-energy-monitor_1ga2014c52dcb38dfd219f788172c576f53" kindref="member">ns_set_power_monitor_state</ref>(uint8_t<sp/>state);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_ENERGY_MON</highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_energy_monitor.h"/>
   </compounddef>

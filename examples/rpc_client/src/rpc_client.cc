@@ -59,7 +59,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 }
 
 ns_audio_config_t audioConfig = {
-    .api = &ns_audio_V2_0_0,
+    .api = &ns_audio_V2_1_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&audioDataBuffer,
@@ -79,6 +79,13 @@ ns_audio_config_t audioConfig = {
 // -- Audio Stuff Ends ----------------------
 
 // RPC Stuff
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+    // RPC uses malloc internally, so we need to declare it here
+    #define RPCC_HEAP_SIZE (NS_RPC_MALLOC_SIZE_IN_K * 4 * 1024)
+size_t ucHeapSize = RPCC_HEAP_SIZE;
+uint8_t ucHeap[RPCC_HEAP_SIZE] __attribute__((aligned(4)));
+#endif
+
 #define MY_USB_RX_BUFSIZE 2048
 #define MY_USB_TX_BUFSIZE 2048
 static uint8_t my_cdc_rx_ff_buf[MY_USB_RX_BUFSIZE];
@@ -112,6 +119,7 @@ int main(void) {
     // -- Audio init
     int recordingWin = NUM_FRAMES;
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
+    NS_TRY(ns_start_audio(&audioConfig), "Audio Start Failed.\n");
 
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;

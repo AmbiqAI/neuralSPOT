@@ -15,6 +15,7 @@
 * **NS\_RPC\_GDO\_OLDEST\_SUPPORTED\_VERSION** ([**ns\_rpc\_generic\_data.h**](ns__rpc__generic__data_8h.md))
 * **NS\_RPC\_GDO\_V0\_0\_1** ([**ns\_rpc\_generic\_data.h**](ns__rpc__generic__data_8h.md))
 * **NS\_RPC\_GDO\_V1\_0\_0** ([**ns\_rpc\_generic\_data.h**](ns__rpc__generic__data_8h.md))
+* **NS\_RPC\_MALLOC\_SIZE\_IN\_K** ([**ns\_rpc\_generic\_data.h**](ns__rpc__generic__data_8h.md))
 * **NS\_RPC\_GENERIC\_DATA** ([**ns\_rpc\_generic\_data.c**](ns__rpc__generic__data_8c.md))
 
 

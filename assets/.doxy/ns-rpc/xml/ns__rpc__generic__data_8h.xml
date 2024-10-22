@@ -120,6 +120,17 @@
         </inbodydescription>
         <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="34" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="34" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="define" id="group__ns-rpc-generic-data_1ga64d4af6ba4d70797c022a948e013bb5f" prot="public" static="no">
+        <name>NS_RPC_MALLOC_SIZE_IN_K</name>
+        <initializer>8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="36" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
       </sectiondef>
       <sectiondef kind="enum">
       <memberdef kind="enum" id="group__ns-rpc-generic-data_1ga99b5a0f4eb7ab45fe7963d3ee14e4d61" prot="public" static="no" strong="no">
@@ -145,7 +156,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="47" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="47" bodyend="47"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="48" column="1" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="48" bodyend="48"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="typedef">
@@ -160,7 +171,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="41" column="9" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="41" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="42" column="9" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__ns-rpc-generic-data_1ga375d457d7750762a7293f0510aa38dad" prot="public" static="no">
         <type>status(*</type>
@@ -173,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="43" column="9" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="43" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="44" column="9" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="group__ns-rpc-generic-data_1gae38365cfef6aac52e61dc2f438c69fff" prot="public" static="no">
         <type>status(*</type>
@@ -186,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="45" column="9" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="45" bodyend="-1"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="46" column="9" bodyfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="var">
@@ -201,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="36" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="31" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="36" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="37" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="31" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="37" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-rpc-generic-data_1gab433193f4e4d9b050a9972407d0f2105" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -214,7 +225,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="37" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="33" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="37" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="38" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="33" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="38" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-rpc-generic-data_1ga3484286b75098e2a2036a0f657e8e862" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -227,7 +238,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="38" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="35" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="38" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="39" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="35" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="39" declcolumn="28"/>
       </memberdef>
       <memberdef kind="variable" id="group__ns-rpc-generic-data_1gaa8b68c2ad31b367ad15dcf638b87f72c" prot="public" static="no" mutable="no">
         <type>const ns_core_api_t</type>
@@ -240,7 +251,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="39" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="38" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="39" declcolumn="28"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="40" column="28" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="38" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="40" declcolumn="28"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -272,7 +283,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="72" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="105" bodyend="160" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="72" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="73" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="103" bodyend="158" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="73" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1gacfdfdcbee7e9576fcd1bacdeb586a1d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>uint16_t</type>
@@ -289,7 +300,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="74" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="180" bodyend="183" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="74" declcolumn="17"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="75" column="17" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="180" bodyend="183" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="75" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1gabb7ebcc3085dd93ceb56760352519bd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -317,7 +328,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="81" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="186" bodyend="196" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="81" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="82" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="185" bodyend="195" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="82" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga59df2d799f9f35d1f1314265e3ff40c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -345,7 +356,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="90" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="199" bodyend="202" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="90" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="91" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="197" bodyend="200" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="91" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga39e16e7f13f2fe76c69c1ad9904b6fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -373,7 +384,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="97" column="13" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="97" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="98" column="13" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="98" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga18a2f084a4d098169c3581d17a0288de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -401,7 +412,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="104" column="13" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="104" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="105" column="13" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="105" declcolumn="13"/>
       </memberdef>
       <memberdef kind="function" id="group__ns-rpc-generic-data_1ga7b88e87ecf200321fd79aad5482be7fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -429,7 +440,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="113" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="173" bodyend="177" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="113" declcolumn="13"/>
+        <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" line="114" column="13" bodyfile="neuralSPOT/neuralspot/ns-rpc/src/ns_rpc_generic_data.c" bodystart="170" bodyend="178" declfile="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h" declline="114" declcolumn="13"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -468,50 +479,51 @@
 <codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_RPC_GDO_CURRENT_VERSION<sp/>NS_RPC_GDO_V1_0_0</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_RPC_GDO_API_ID<sp/>0xCA0100</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_V0_0_1;</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_V1_0_0;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_oldest_supported_version;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_current_version;</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>status<sp/>(*ns_rpc_data_sendBlockToEVB_cb)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>status<sp/>(*ns_rpc_data_fetchBlockFromEVB_cb)(<ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>status<sp/>(*ns_rpc_data_computeOnEVB_cb)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*in_block,<sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*result_block);</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>NS_RPC_GENERICDATA_CLIENT,<sp/>NS_RPC_GENERICDATA_SERVER<sp/>}<sp/>rpcGenericDataMode_e;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="53" refid="structns__rpc__config__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="54" refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*<ref refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" kindref="member">api</ref>;<sp/><sp/></highlight></codeline>
-<codeline lineno="55" refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>rpcGenericDataMode_e<sp/><ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref>;<sp/></highlight></codeline>
-<codeline lineno="56" refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="57" refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref>;<sp/><sp/></highlight></codeline>
-<codeline lineno="58" refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="59" refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref>;<sp/><sp/></highlight></codeline>
-<codeline lineno="60" refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_handle_t<sp/><ref refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" kindref="member">usbHandle</ref>;<sp/></highlight></codeline>
-<codeline lineno="61" refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_sendBlockToEVB_cb<sp/>sendBlockToEVB_cb;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="62" refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_fetchBlockFromEVB_cb<sp/>fetchBlockFromEVB_cb;<sp/></highlight></codeline>
-<codeline lineno="63" refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_computeOnEVB_cb<sp/>computeOnEVB_cb;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="64"><highlight class="normal">}<sp/><ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref>;</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint16_t<sp/><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint16_t<sp/>ns_rpc_genericDataOperationsClient_reset(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1gabb7ebcc3085dd93ceb56760352519bd7" kindref="member">ns_rpc_genericDataOperations_printDatablock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga59df2d799f9f35d1f1314265e3ff40c5" kindref="member">ns_rpc_data_clientDoneWithBlockFromPC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
-<codeline lineno="91"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97" refid="group__ns-rpc-generic-data_1ga39e16e7f13f2fe76c69c1ad9904b6fd0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga39e16e7f13f2fe76c69c1ad9904b6fd0" kindref="member">ns_rpc_genericDataOperations_enableServerPoll</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104" refid="group__ns-rpc-generic-data_1ga18a2f084a4d098169c3581d17a0288de" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga18a2f084a4d098169c3581d17a0288de" kindref="member">ns_rpc_genericDataOperations_disableServerPoll</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga7b88e87ecf200321fd79aad5482be7fd" kindref="member">ns_rpc_genericDataOperations_pollServer</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NS_RPC_GENERIC_DATA_H<sp/>//<sp/>end<sp/>of<sp/>ns-rpc-generic-data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_RPC_MALLOC_SIZE_IN_K<sp/>8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_V0_0_1;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_V1_0_0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_oldest_supported_version;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_rpc_gdo_current_version;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>status<sp/>(*ns_rpc_data_sendBlockToEVB_cb)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>status<sp/>(*ns_rpc_data_fetchBlockFromEVB_cb)(<ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>status<sp/>(*ns_rpc_data_computeOnEVB_cb)(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*in_block,<sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*result_block);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>NS_RPC_GENERICDATA_CLIENT,<sp/>NS_RPC_GENERICDATA_SERVER<sp/>}<sp/>rpcGenericDataMode_e;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structns__rpc__config__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55" refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*<ref refid="structns__rpc__config__t_1ac63a5c82a0669cfe30b4b03e81601b19" kindref="member">api</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>rpcGenericDataMode_e<sp/><ref refid="structns__rpc__config__t_1a2b4773d87b18a3b4a4b1649f728d4fb0" kindref="member">mode</ref>;<sp/></highlight></codeline>
+<codeline lineno="57" refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__rpc__config__t_1a54bec3ba6882d1693a9e5d7b031a09c7" kindref="member">rx_buf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__rpc__config__t_1a3b98f7e772cf5a36566de76c092a44b7" kindref="member">rx_bufLength</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__rpc__config__t_1aca0c2d04105d59b1bcd895061570adbe" kindref="member">tx_buf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__rpc__config__t_1ab9e3d0dacb24eb0066364a6cdee08ff5" kindref="member">tx_bufLength</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>usb_handle_t<sp/><ref refid="structns__rpc__config__t_1a787dbfadfacbabc0790a0b868a156100" kindref="member">usbHandle</ref>;<sp/></highlight></codeline>
+<codeline lineno="62" refid="structns__rpc__config__t_1a9065c7521d9832e5c1f420f2ce563f40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_sendBlockToEVB_cb<sp/>sendBlockToEVB_cb;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structns__rpc__config__t_1a42f6d07299d38e6af34d184097b69350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_fetchBlockFromEVB_cb<sp/>fetchBlockFromEVB_cb;<sp/></highlight></codeline>
+<codeline lineno="64" refid="structns__rpc__config__t_1ae1cbc18042a142ea829d2ba919c852f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_rpc_data_computeOnEVB_cb<sp/>computeOnEVB_cb;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}<sp/><ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint16_t<sp/><ref refid="group__ns-rpc-generic-data_1ga929c27ae74e5c4832efcb2f06f7a44e8" kindref="member">ns_rpc_genericDataOperations_init</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint16_t<sp/>ns_rpc_genericDataOperationsClient_reset(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1gabb7ebcc3085dd93ceb56760352519bd7" kindref="member">ns_rpc_genericDataOperations_printDatablock</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga59df2d799f9f35d1f1314265e3ff40c5" kindref="member">ns_rpc_data_clientDoneWithBlockFromPC</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structdata_block" kindref="compound">dataBlock</ref><sp/>*block);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="group__ns-rpc-generic-data_1ga39e16e7f13f2fe76c69c1ad9904b6fd0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga39e16e7f13f2fe76c69c1ad9904b6fd0" kindref="member">ns_rpc_genericDataOperations_enableServerPoll</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="group__ns-rpc-generic-data_1ga18a2f084a4d098169c3581d17a0288de" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga18a2f084a4d098169c3581d17a0288de" kindref="member">ns_rpc_genericDataOperations_disableServerPoll</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-rpc-generic-data_1ga7b88e87ecf200321fd79aad5482be7fd" kindref="member">ns_rpc_genericDataOperations_pollServer</ref>(<ref refid="structns__rpc__config__t" kindref="compound">ns_rpc_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NS_RPC_GENERIC_DATA_H<sp/>//<sp/>end<sp/>of<sp/>ns-rpc-generic-data</highlight><highlight class="normal"></highlight></codeline>
     </programlisting>
     <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/ns_rpc_generic_data.h"/>
   </compounddef>

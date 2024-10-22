@@ -4,7 +4,7 @@
 
 ---
 
-> *Code*: [https://github.com/AmbiqAI/neuralSPOT]([https://github.com/AmbiqAI/neuralSPOT])
+> *Code*: [https://github.com/AmbiqAI/neuralSPOT](https://github.com/AmbiqAI/neuralSPOT)
 >
 > *Documentation*: [https://ambiqai.github.io/neuralSPOT](https://ambiqai.github.io/neuralSPOT)
 

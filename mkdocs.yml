@@ -48,8 +48,10 @@ nav:
     - Audio: neuralspot/ns-audio/README.md
     - Bluetooth: neuralspot/ns-ble/README.md
     - i2c: neuralspot/ns-i2c/README.md
+    - SPI: neuralspot/ns-spi/README.md
     - RPC: neuralspot/ns-rpc/README.md
     - USB: neuralspot/ns-usb/README.md
+    - Camera: neuralspot/ns-camera/README.md
     - Power: neuralspot/ns-peripherals/README.md
     - Performance Utilities: neuralspot/ns-utils/README.md
   - Code Documentation:

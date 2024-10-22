@@ -51,7 +51,8 @@ static ns_usb_config_t webUsbConfig = {
     .rx_cb = NULL,
     .tx_cb = NULL,
     .service_cb = NULL,
-    .desc_url = &vision_url};
+    .desc_url = &vision_url // Filled in at runtime
+};
 
 // USB Data sent to WebUSB client (used to communicated to webusb client)
 typedef enum {

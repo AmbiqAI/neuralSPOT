@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-import utils.schema_py_generated as schema_fb
+import neuralspot.tools.utils.schema_py_generated as schema_fb
 
 
 def TensorTypeToName(tensor_type):

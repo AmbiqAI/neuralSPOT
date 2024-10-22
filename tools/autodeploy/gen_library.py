@@ -3,13 +3,14 @@ import os
 import shutil
 
 import numpy as np
-from ns_utils import createFromTemplate, xxd_c_dump
+from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
 
 
 def generateModelLib(params, mc, md, ambiqsuite=False):
     # Get the absolute path to the script's directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
     template_directory = os.path.join(script_dir, "templates")
+    
     # Get the  base path of neuralSPOT
     script_dir = os.path.dirname(os.path.abspath(__file__))
     make_dir = os.path.abspath(os.path.join(script_dir, "../../"))

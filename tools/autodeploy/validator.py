@@ -4,12 +4,12 @@ import shutil
 import struct
 import sys
 import time
-
+import pkg_resources
 import erpc
 import numpy as np
 import tensorflow as tf
-from ns_tflite_analyze import analyze_tflite_file
-from ns_utils import (
+from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
+from neuralspot.tools.ns_utils import (
     ModelDetails,
     TensorDetails,
     createFromTemplate,
@@ -21,10 +21,10 @@ from ns_utils import (
 )
 from tabulate import tabulate
 from tqdm import tqdm
-from utils.tflite_helpers import CreateAddFromSnakeOpName
+from neuralspot.tools.utils.tflite_helpers import CreateAddFromSnakeOpName
 
-sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
-import GenericDataOperations_PcToEvb
+# sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
 modelConfigPreambleSize = 6  # number of uint32_t words
 modelStatPreambleSize = 4  # number of uint32_t words
@@ -540,9 +540,13 @@ def printStats(stats, stats_filename):
 def compile_and_deploy(params, mc, first_time=False):
     # The following 5 lines find the paths relative to the cwd
     model_path = params.working_directory + "/" + params.model_name
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
+    # make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
+
+    make_dir = params.makefile_directory
+    print('make_dir: ', make_dir)
     d = os.path.join(make_dir, model_path)
+    print('d path: ', d)
     relative_build_path = os.path.relpath(d, start=make_dir) # this line is used so that the Makefile doens't put the absolute path in the build directory
 
     # Windows sucks
@@ -629,8 +633,9 @@ def create_mut_metadata(params, tflm_dir, mc):
             mc.rv_count,
         )
     )
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    template_directory = os.path.join(script_dir, "templates")
+
+    template_directory = pkg_resources.resource_filename(__name__, "templates")
+
     createFromTemplate(
         template_directory + "/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
@@ -645,9 +650,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
     }
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    template_directory = os.path.join(script_dir, "templates")
-
+    template_directory = pkg_resources.resource_filename(__name__, "templates")
     createFromTemplate(
         template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
@@ -659,26 +662,18 @@ def create_mut_main(tflm_dir, mc):
     # make directory for tflm_validator
     os.makedirs(tflm_dir + "/src/", exist_ok=True)
 
-    
-    # Get the absolute path to the script's directory
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    template_directory = os.path.join(script_dir, "templates")
-
     # Copy template main.cc to tflm_dir
-    shutil.copyfile(
-        template_directory + "/validator/template_tflm_validator.cc",
-        f"{tflm_dir}/src/tflm_validator.cc",
-    )
-    shutil.copyfile(
-        template_directory + "/validator/template_tflm_validator.h",
-        f"{tflm_dir}/src/tflm_validator.h",
-    )
-    shutil.copyfile(
-        template_directory + "/validator/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
-    )
-    shutil.copyfile(
-        template_directory + "/common/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
-    )
+    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.cc")
+    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.cc")
+
+    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.h")
+    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
+
+    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.mk")
+    shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
+
+    template_file = pkg_resources.resource_filename(__name__, "templates/common/template_ns_model.h")
+    shutil.copyfile(template_file, f"{tflm_dir}/src/ns_model.h")
 
 
 def create_validation_binary(params, baseline, mc):

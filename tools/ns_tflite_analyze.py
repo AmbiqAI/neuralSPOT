@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-from utils.tflite_helpers import (
+from neuralspot.tools.utils.tflite_helpers import (
     CreateAddFromSnakeOpName,
     CreateDictFromFlatbuffer,
     OpCodeMapper,

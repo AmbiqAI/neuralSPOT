@@ -6,7 +6,7 @@ import msgpack
 import msgpack_numpy as m
 import numpy as np
 import zmq
-from autodeploy.measure_power import measurePower
+from neuralspot.tools.autodeploy.measure_power import measurePower
 
 m.patch()
 

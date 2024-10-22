@@ -7,9 +7,14 @@ import yaml
 import os
 import numpy as np
 import pydantic_argparse
-from autodeploy.gen_library import generateModelLib
-from autodeploy.measure_power import generatePowerBinary, measurePower
-from autodeploy.validator import (
+import sys
+# current_dir = os.path.dirname(__file__)
+# tools_dir = os.path.join(current_dir, '..')
+# print('tools_dir: ', tools_dir)
+# sys.path.insert(0, tools_dir)
+from neuralspot.tools.autodeploy.gen_library import generateModelLib
+from neuralspot.tools.autodeploy.measure_power import generatePowerBinary, measurePower
+from neuralspot.tools.autodeploy.validator import (
     ModelConfiguration,
     configModel,
     create_validation_binary,
@@ -18,7 +23,7 @@ from autodeploy.validator import (
     printStats,
     validateModel,
 )
-from ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
+from neuralspot.tools.ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
 from pathlib import Path
 

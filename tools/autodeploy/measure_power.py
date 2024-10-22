@@ -9,7 +9,7 @@ import traceback
 
 import numpy as np
 from joulescope import scan
-from ns_utils import createFromTemplate, xxd_c_dump
+from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
 
 
 def generateInputAndOutputTensors(params, mc, md):

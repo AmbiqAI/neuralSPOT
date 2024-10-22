@@ -5,9 +5,9 @@ import yaml
 import os
 import numpy as np
 import pydantic_argparse
-from autodeploy.gen_library import generateModelLib
-from autodeploy.measure_power import generatePowerBinary, measurePower
-from autodeploy.validator import (
+from neuralspot.tools.autodeploy.gen_library import generateModelLib
+from neuralspot.tools.autodeploy.measure_power import generatePowerBinary, measurePower
+from neuralspot.tools.autodeploy.validator import (
     ModelConfiguration,
     configModel,
     create_validation_binary,
@@ -16,7 +16,7 @@ from autodeploy.validator import (
     printStats,
     validateModel,
 )
-from ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
+from neuralspot.tools.ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
 from pathlib import Path
 
@@ -109,6 +109,11 @@ class Params(BaseModel):
     working_directory: str = Field(
         str(Path.cwd()),
         description="Directory where generated library will be placed",
+    )
+
+    makefile_directory: str = Field(
+        str(Path.cwd()),
+        description="Directory where neuralSPOT makefile is located"
     )
 
     # Profile Parameters
@@ -237,7 +242,7 @@ def load_yaml_config(configfile):
         except yaml.YAMLError as exc:
             print(exc)
 
-if __name__ == "__main__":
+def main():
     # parse cmd parameters
     parser = create_parser()
     cli_params = parser.parse_typed_args()
@@ -432,3 +437,6 @@ if __name__ == "__main__":
         stage += 1
 
     results.print()
+
+if __name__ == "__main__":
+    main()

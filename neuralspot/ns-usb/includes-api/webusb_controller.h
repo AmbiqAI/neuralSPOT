@@ -22,6 +22,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 typedef void (*webusb_rx_cb)(const uint8_t *buf, uint32_t buf_len, void *param);
 
 /**

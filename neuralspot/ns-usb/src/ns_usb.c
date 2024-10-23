@@ -35,7 +35,8 @@ ns_usb_config_t usb_config = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = NULL};
 
 volatile uint8_t gGotUSBRx = 0;
 
@@ -107,6 +108,7 @@ uint32_t ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
     usb_config.rx_cb = cfg->rx_cb;
     usb_config.tx_cb = cfg->tx_cb;
     usb_config.service_cb = cfg->service_cb;
+    usb_config.desc_url = cfg->desc_url;
     *h = (void *)&usb_config;
     tusb_init();
 
@@ -211,4 +213,8 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);
     // tud_cdc_write_flush();
     return bytes_tx;
+}
+
+ns_tusb_desc_webusb_url_t * ns_get_desc_url() { 
+    return usb_config.desc_url;
 }

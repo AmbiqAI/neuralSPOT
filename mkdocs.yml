@@ -25,6 +25,7 @@ nav:
     - Nests: docs/NeuralSPOT_Nests.md
   - Tools:
     - Automatic Testing, profiling, and deploying: "docs/From TF to EVB - testing, profiling, and deploying AI models.md"
+    - Profiling TFLite Models: docs/profiling_tflite.md
     - Tools Overview: tools/README.md
   - Application Notes:
     - neuralSPOT on Windows: docs/Application-Note-neuralSPOT-and-Windows.md
@@ -35,16 +36,22 @@ nav:
   - Examples:
     - Keyword Spotting: examples/basic_tf_stub/README.md
     - Human Activity Recognition: examples/har/README.md
+    - Speed Denoising BLE Microphone: examples/nnse/README.md
+    - Speaker Identification: examples/nnid/README.md
     - RPC Client: examples/rpc_client/README.md
     - RPC Server: examples/rpc_server/README.md
-    - WebBLE: examples/web_ble/README.md
+    - Image Classification: examples/ic/README.md
+    - Using a Camera: examples/vision/README.md
+    - Computing a Quaternion: examples/quaternion/README.md
     - Data Collection: examples/mpu_data_collection/README.md
   - Libraries:
     - Audio: neuralspot/ns-audio/README.md
     - Bluetooth: neuralspot/ns-ble/README.md
     - i2c: neuralspot/ns-i2c/README.md
+    - SPI: neuralspot/ns-spi/README.md
     - RPC: neuralspot/ns-rpc/README.md
-    # - USB: neuralspot/ns-usb/README.md
+    - USB: neuralspot/ns-usb/README.md
+    - Camera: neuralspot/ns-camera/README.md
     - Power: neuralspot/ns-peripherals/README.md
     - Performance Utilities: neuralspot/ns-utils/README.md
   - Code Documentation:
@@ -60,6 +67,24 @@ nav:
       - Functions: ns-ble/functions.md
       - Structs: ns-ble/annotated.md
       - Variables: ns-ble/variables.md
+    - USB:
+      - Files: ns-usb/files.md
+      - Modules: ns-usb/modules.md
+      - Functions: ns-usb/functions.md
+      - Structs: ns-usb/annotated.md
+      - Variables: ns-usb/variables.md
+    - SPI:
+      - Files: ns-spi/files.md
+      - Modules: ns-spi/modules.md
+      - Functions: ns-spi/functions.md
+      - Structs: ns-spi/annotated.md
+      - Variables: ns-spi/variables.md
+    - Camera:
+      - Files: ns-camera/files.md
+      - Modules: ns-camera/modules.md
+      - Functions: ns-camera/functions.md
+      - Structs: ns-camera/annotated.md
+      - Variables: ns-camera/variables.md
     - Remote Procedure Call:
       - Files: ns-rpc/files.md
       - Modules: ns-rpc/modules.md
@@ -186,7 +211,27 @@ plugins:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
-
+        ns-usb:
+          src-dirs: neuralSPOT/neuralspot/ns-usb
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-spi:
+          src-dirs: neuralSPOT/neuralspot/ns-spi
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No   
+        ns-camera:
+          src-dirs: neuralSPOT/neuralspot/ns-camera
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No        
 
 theme:
   name: material

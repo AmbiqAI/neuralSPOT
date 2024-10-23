@@ -4,18 +4,8 @@ import os
 import pickle
 # import sys
 import time
-
 import numpy as np
-
-
-# base_path = os.path.dirname(__file__)  # Get the directory of the current script
-# directory_to_add = os.path.abspath(os.path.join(base_path, "../neuralspot/ns-rpc/python/ns-rpc-genericdata/"))
-# # Add the directory to sys.path
-# sys.path.append(directory_to_add)
-
-
 import erpc
-# import GenericDataOperations_PcToEvb
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
 def createFromTemplate(templateFile, destinationFile, replaceMap):

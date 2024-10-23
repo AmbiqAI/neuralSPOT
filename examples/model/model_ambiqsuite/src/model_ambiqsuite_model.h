@@ -1,6 +1,0 @@
-#define LOCAL_MODEL_NAME model_ambiqsuite
-// Calculated Arena size
-#define model_ambiqsuite_COMPUTED_ARENA_SIZE 23
-
-#define model_ambiqsuite_MODEL_LOCATION NS_AD_MODEL_LOCATION
-#define model_ambiqsuite_ARENA_LOCATION NS_AD_ARENA_LOCATION

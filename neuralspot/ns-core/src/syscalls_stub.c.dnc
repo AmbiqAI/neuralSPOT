@@ -1,16 +1,16 @@
 /*
-* Copyright (c) 2023, Arm Limited. All rights reserved.
-*
-* SPDX-License-Identifier: BSD-3-Clause
-*
-*/
+ * Copyright (c) 2023, Arm Limited. All rights reserved.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ *
+ */
 
 /*
-* NOTE: When GNU Arm compiler version greater equal than *11.3.Rel1*, there is
-* a linker issue that some system calls are not implemented, such as _close,
-* _fstat and _getpid etc. So add this file including stub functions of system
-* calls to avoid the above linker issue.
-*/
+ * NOTE: When GNU Arm compiler version greater equal than *11.3.Rel1*, there is
+ * a linker issue that some system calls are not implemented, such as _close,
+ * _fstat and _getpid etc. So add this file including stub functions of system
+ * calls to avoid the above linker issue.
+ */
 
 #include <stddef.h>
 #include <stdint.h>

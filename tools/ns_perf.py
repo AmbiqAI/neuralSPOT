@@ -86,6 +86,10 @@ class Params(BaseModel):
         str(Path.cwd()),
         description="Directory where generated library will be placed",
     )
+    makefile_directory: str = Field(
+        str(Path.cwd()),
+        description="Directory where Makefile is located",
+    )
     model_location: str = Field(
         "TCM", description="Where the model is stored on the EVB (TCM, SRAM, or MRAM)"
     )
@@ -170,7 +174,7 @@ def load_yaml_config(configfile):
         except yaml.YAMLError as exc:
             print(exc)
 
-if __name__ == "__main__":
+def main():
     # parse cmd parameters
     parser = create_parser()
     cli_params = parser.parse_typed_args()
@@ -252,3 +256,6 @@ if __name__ == "__main__":
     #     print(f"*** Stage [{stage}/{total_stages}]: Generate AmbiqSuite Example")
     #     generateModelLib(params, mc, md, ambiqsuite=True)
     #     stage += 1
+
+if __name__ == "__main__":
+    main()

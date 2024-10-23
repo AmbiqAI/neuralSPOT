@@ -6,7 +6,7 @@ import shutil
 import signal
 import time
 import traceback
-
+import pkg_resources
 import numpy as np
 from joulescope import scan
 from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
@@ -52,10 +52,8 @@ def generateInputAndOutputTensors(params, mc, md):
 def generatePowerBinary(params, mc, md, cpu_mode):
     # The following 5 lines find the paths relative to the cwd
     model_path = params.working_directory + "/" + params.model_name
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    make_dir = os.path.abspath(os.path.join(script_dir, "../../"))
-    d = os.path.join(make_dir, model_path)
-    relative_build_path = os.path.relpath(d, make_dir)
+    d = os.path.join(params.makefile_directory, model_path)
+    relative_build_path = os.path.relpath(d, params.makefile_directory)
 
     n = params.model_name + "_power"
     adds, addsLen = mc.modelStructureDetails.getAddList()
@@ -92,8 +90,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     # os.system(f"mkdir -p {d}/{n}")
     # os.system(f"mkdir -p {d}/{n}/src")
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    template_directory = os.path.join(script_dir, "templates")
+    template_directory = pkg_resources.resource_filename(__name__, "templates")
     
     # Generate files from template
     createFromTemplate(
@@ -179,14 +176,14 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         mlp = ""
     if params.verbosity > 3:
         print(
-            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.makefile_directory} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd {make_dir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.makefile_directory} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd {make_dir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {params.makefile_directory} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

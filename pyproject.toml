@@ -23,6 +23,7 @@ dependencies = [
     "PyYAML>=6.0.2"
 ]
 
+<<<<<<< HEAD
 [tool.setuptools]
 packages=[
     "neuralspot",
@@ -31,8 +32,21 @@ packages=[
     "neuralspot.rpc.GenericDataOperations_PcToEvb",
     "neuralspot.tools",
 ]
+=======
+[project.urls]
+Homepage = "https://github.com/ambiqai/neuralSPOT"
+Documentation = "https://ambiqai.github.io/neuralSPOT"
+Repository = "https://github.com/ambiqai/neuralSPOT"
+>>>>>>> origin/main
 
 
+[tool.setuptools]
+packages=[
+    "neuralspot",
+    "neuralspot.rpc",
+    "neuralspot.rpc.GenericDataOperations_EvbToPc",
+    "neuralspot.rpc.GenericDataOperations_PcToEvb",
+]
 
 [tool.setuptools.package-dir]
 neuralspot = ""

@@ -1041,3 +1041,12 @@ int ns_ble_start_service(ns_ble_service_t *s) {
 
     return NS_STATUS_SUCCESS;
 }
+
+
+int ns_ble_set_tx_power(txPowerLevel_t power) {
+    // valid power level is checked in the function for both ap3 and ap4, so no need to check here
+    if(HciVscSetRfPowerLevelEx(power)) {
+        return NS_STATUS_SUCCESS;
+    }
+    else return NS_STATUS_FAILURE;
+}

@@ -10,10 +10,6 @@ rootdir := $(shell \
 )
 
 
-# Print the value of rootdir
-$(info rootdir: $(rootdir))
-
-
 # Include the necessary files
 
 include $(rootdir)/make/helpers.mk

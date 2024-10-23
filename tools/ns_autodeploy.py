@@ -113,7 +113,7 @@ class Params(BaseModel):
 
     makefile_directory: str = Field(
         str(Path.cwd()),
-        description="Directory where neuralSPOT makefile is located"
+        description="Directory where neuralSPOT makefile is located (not the Makefile itself)"
     )
 
     # Profile Parameters

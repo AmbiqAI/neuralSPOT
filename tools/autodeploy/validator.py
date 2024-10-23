@@ -22,8 +22,7 @@ from neuralspot.tools.ns_utils import (
 from tabulate import tabulate
 from tqdm import tqdm
 from neuralspot.tools.utils.tflite_helpers import CreateAddFromSnakeOpName
-
-# sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
+from pathlib import Path
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
 modelConfigPreambleSize = 6  # number of uint32_t words
@@ -542,7 +541,6 @@ def compile_and_deploy(params, mc, first_time=False):
     model_path = params.working_directory + "/" + params.model_name
     d = os.path.join(params.makefile_directory, model_path)
     relative_build_path = os.path.relpath(d, start=params.makefile_directory) # this line is used so that the Makefile doens't put the absolute path in the build directory
-
     # Windows sucks
     if os.name == "posix":
         ws3 = "/dev/null"

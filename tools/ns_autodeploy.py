@@ -23,10 +23,6 @@ from pathlib import Path
 
 class Params(BaseModel):
     # General Parameters
-    # root_directory: str = Field(
-    #     str(Path.cwd()), 
-    #     description="Root directory for ns_autodeploy to run from"
-    # )
     seed: int = Field(42, description="Random Seed")
     create_binary: bool = Field(
         True,

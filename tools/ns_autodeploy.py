@@ -102,12 +102,12 @@ class Params(BaseModel):
     model_name: str = Field(
         "model", description="Name of model to be used in generated library"
     )
-    working_directory: str = Field(
+    destination_rootdir: str = Field(
         str(Path.cwd()),
         description="Directory where generated library will be placed",
     )
 
-    makefile_directory: str = Field(
+    neuralspot_rootdir: str = Field(
         str(Path.cwd()),
         description="Directory where neuralSPOT makefile is located (not the Makefile itself)"
     )
@@ -262,10 +262,10 @@ def main():
     # create Params instance with updated values
     params = Params(**updated_params)
 
-    # check if params.working_directory is relative path. If it is, make it absolute so that measure_power.py can use it
-    if not os.path.isabs(params.working_directory):
-        params.working_directory = os.path.abspath(params.working_directory)
-
+    # check if params.destination_rootdir is relative path. If it is, make it absolute so that measure_power.py can use it
+    if not os.path.isabs(params.destination_rootdir):
+        params.destination_rootdir = os.path.abspath(params.destination_rootdir)
+    
     # set logging level
     log.basicConfig(
         level=log.DEBUG
@@ -275,6 +275,26 @@ def main():
         else log.WARNING,
         format="%(levelname)s: %(message)s",
     )    
+
+    # check if destination_rootdir is within neuralSPOT 
+    destination_path = Path(params.destination_rootdir).resolve()
+    is_subdir = any(part.name == "neuralSPOT" for part in destination_path.parents) or destination_path.name == "neuralSPOT"
+    if not is_subdir:
+        log.error("Destination rootdir cannot be outside of neuralSPOT")
+        exit("Autodeploy failed")
+
+    # check if tflite-filename was specified
+    if not os.path.exists(params.tflite_filename):
+        log.error("TFLite file not found. Please specify a valid path.")
+        exit("Autodeploy failed")
+    if not params.tflite_filename.endswith('.tflite'):
+        log.error("The specified file is not a TFLite file. Please provide a file with a .tflite extension.")
+        exit("ns_perf failed")
+
+    # check if neuralspot-rootdir is valid
+    if not os.path.exists(os.path.abspath(params.neuralspot_rootdir)):
+        log.error("NeuralSPOT directory not found. Please specify a valid path.")
+        exit("ns_autodeploy failed")
 
     results = adResults(params)
 
@@ -304,7 +324,7 @@ def main():
     #     client = rpc_connect_as_client(params)
 
 
-    pkl_dir = params.working_directory + "/" + params.model_name + "/"
+    pkl_dir = params.destination_rootdir + "/" + params.model_name + "/"
     mc_name = pkl_dir + f"{params.model_name}_mc.pkl"
     md_name = pkl_dir + f"{params.model_name}_md.pkl"
     results_name = pkl_dir + f"{params.model_name}_results.pkl"
@@ -360,7 +380,7 @@ def main():
         # Get profiling stats
         stats = getModelStats(params, client)
         stats_filename = (
-            params.working_directory
+            params.destination_rootdir
             + "/"
             + params.model_name
             + "/"

@@ -51,9 +51,9 @@ def generateInputAndOutputTensors(params, mc, md):
 
 def generatePowerBinary(params, mc, md, cpu_mode):
     # The following 5 lines find the paths relative to the cwd
-    model_path = params.working_directory + "/" + params.model_name
-    d = os.path.join(params.makefile_directory, model_path)
-    relative_build_path = os.path.relpath(d, params.makefile_directory)
+    model_path = params.destination_rootdir + "/" + params.model_name
+    d = os.path.join(params.neuralspot_rootdir, model_path)
+    relative_build_path = os.path.relpath(d, params.neuralspot_rootdir)
 
     n = params.model_name + "_power"
     adds, addsLen = mc.modelStructureDetails.getAddList()
@@ -176,14 +176,14 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         mlp = ""
     if params.verbosity > 3:
         print(
-            f"cd {params.makefile_directory} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd {params.makefile_directory} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd {params.makefile_directory} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

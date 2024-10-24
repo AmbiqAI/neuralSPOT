@@ -41,7 +41,7 @@ For EVB: both USB connections must be connected to PC
 #### Running Autodeploy
 
 ```
-python -m ns_autodeploy --model-name denoise --tflite-filename denoise.tflite
+ns_autodeploy --model-name denoise --tflite-filename denoise.tflite
 ```
 
 Autodeploy will then run for a while, generating numerous reports, source packages, and binaries.
@@ -111,7 +111,7 @@ The data scientist can now use this information to either slightly alter the neu
 If a joulescope is wired up, Autodeploy can use it to provide power and performance measurements by adding `--joulescope` to the command line
 
 ```
-python -m ns_autodeploy --model-name denoise --tflite-filename denoise.tflite --joulescope
+ns_autodeploy --model-name denoise --tflite-filename denoise.tflite --joulescope
 ```
 
 ## Case Study - Mobilenet V3 Small
@@ -127,13 +127,13 @@ The arena size is a different matter - its size is only known when the model's t
 Since we know that the model is too large to fit in TCM, let's run an experiment placing it in MRAM. Since we can guess that large models need large activation memories, we'll try putting the arena in SRAM and making it 400kB (the default is 100kB).
 
 ```
-python -m ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 400
+ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 400
 ```
 
 Spoiler: this experiment will fail. Autodeploy will detect that TFLM wasn't able to allocate and suggest that you increase the max-arena-size. Let's max out the SRAM and see what happens.
 
 ```
-python -m ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 2200
+ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 2200
 ```
 
 A minute or so later we can see that the arena size was large enough, and Autodeploy is running everything else with the detected arena size (535kB).

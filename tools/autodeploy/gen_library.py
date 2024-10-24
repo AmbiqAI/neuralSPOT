@@ -17,7 +17,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
     else:
         n = params.model_name
 
-    d = params.working_directory + "/" + params.model_name
+    d = params.destination_rootdir + "/" + params.model_name
 
     adds, addsLen = mc.modelStructureDetails.getAddList()
     # arena_size = (arena_size // 1024) + 1
@@ -60,7 +60,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
 
         # Generate a clean (no profiler) version of ns-model.a
         os.system(
-            f"cd {params.makefile_directory} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} >{ws_null} 2>&1"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} >{ws_null} 2>&1"
         )
 
         # Make destination directory
@@ -103,18 +103,18 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             template_directory + "/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
         )
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/"
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/"
         )
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/gcc/"
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/gcc/"
         )
 
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
             f"{d}/{n}/src/",
         )
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
             f"{d}/{n}/armclang/",
         )
         createFromTemplate(
@@ -156,18 +156,18 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
             template_directory + "/common/template_api.h", f"{d}/{n}/lib/{n}_api.h", rm
         )
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/"
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/gcc/startup_gcc.c", f"{d}/{n}/src/gcc/"
         )
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/armclang/startup_armclang.s",
             f"{d}/{n}/src/armclang/",
         )
         
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/src/"
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/gcc/linker_script.ld", f"{d}/{n}/src/"
         )
         shutil.copy(
-            params.makefile_directory + "/neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
+            params.neuralspot_rootdir + "/neuralspot/ns-core/src/apollo4p/armclang/linker_script.sct",
             f"{d}/{n}/src/",
         )
 

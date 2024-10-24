@@ -7,13 +7,12 @@ import struct
 import sys
 import time
 
-sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 
 import wave
 
 import erpc
-import GenericDataOperations_EvbToPc
-import GenericDataOperations_PcToEvb
+import neuralspot.rpc.GenericDataOperations_EvbToPc as GenericDataOperations_EvbToPc
+import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 import numpy as np
 import soundfile as sf
 from pyogg import OpusDecoder, OpusEncoder

@@ -2,15 +2,10 @@ import gzip
 import math
 import os
 import pickle
-import sys
 import time
-
 import numpy as np
-
-sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
 import erpc
-import GenericDataOperations_PcToEvb
-
+import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
 def createFromTemplate(templateFile, destinationFile, replaceMap):
     # print("Here %s, %s" % (templateFile, destinationFile))

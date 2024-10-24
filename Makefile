@@ -71,7 +71,6 @@ endif
 # Example (executable binary) Modules
 
 ifeq ($(AUTODEPLOY),1)
-# For tools/ns_autodeploy, we have a single module in projects/models
 # This is used for tflm_validator, genLib, and power binaries
 	modules      += $(ADPATH)/$(EXAMPLE)
 else

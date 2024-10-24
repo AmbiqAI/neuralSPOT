@@ -69,9 +69,8 @@ Two caveats:
 
 ```bash
 cd .../neuralSPOT # neuralSPOT's root directory
-python setup.py install
-cd tools
-python -m ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel # add --tty COMx for Windows
+pip install .
+ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel # add --tty COMx for Windows
 ```
 
 This one invocation will:

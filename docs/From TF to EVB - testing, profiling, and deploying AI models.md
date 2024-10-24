@@ -42,14 +42,12 @@ AutoDeploy was designed to address many common pain points:
 Using AutoDeploy is easy - just give it a TFLite model, connect an EVB, and let it go to work:
 
 ```bash
-$> cd tools
-$> python -m ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel --measure-power
+$> ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel --measure-power
 ```
 
 As part of the process, AutoDeploy generates a number of artifacts, including three ready-to-deploy binary files and the source code used to generate them:
 
 ```bash
-.../projects/autodeploy
 	./mymodel
 			./mymodel
 					./lib # minimal static library and API header
@@ -171,21 +169,21 @@ The overall procedure is:
 Using the human activity recognition model as an example, this procedure translates to something like the following steps.
 
 ```bash
-$> cd .../neuralSPOT/tools
+$> cd .../neuralSPOT
 
 # Plug in Apollo4 Plus or Blue Plus EVB
-$> vi ../make/local_overrides.mk # uncomment the BOARD:=apollo4p line, comment out all other BOARD settings in this file
+$> vi make/local_overrides.mk # uncomment the BOARD:=apollo4p line, comment out all other BOARD settings in this file
 
-$> python -m ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --no-create-library # small number of runs and skip creating the library to save time
+$> ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --no-create-library # small number of runs and skip creating the library to save time
 # Wait for successful completion of script
 
-$> ls ../projects/autodeploy/har # check for existence of har_md.pkl and har_mc.pkl
+$> ls har # check for existence of har_md.pkl and har_mc.pkl
 
 # Switch the Apollo4P EVB for the Apollo4 Lite EVB, including Joulescope GPIO cables if needed
 
-$> vi ../make/local_overrides.mk # uncomment the BOARD:=apollo4l line, comment out all other BOARD settings in this file
+$> vi make/local_overrides.mk # uncomment the BOARD:=apollo4l line, comment out all other BOARD settings in this file
 
-$> python -m ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --measure-power --no-create-binary --no-create-profile # Skip fine-tuning and profiling steps on AP4 Lite
+$> ns_autodeploy --model-name har --tflite-filename har.tflite --runs 3 --measure-power --no-create-binary --no-create-profile # Skip fine-tuning and profiling steps on AP4 Lite
 # Wait for successful completion of script
 ```
 

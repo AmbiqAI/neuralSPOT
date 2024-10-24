@@ -38,8 +38,7 @@ Briefly, the script will:
 
 Example usage:
 ```bash
-$> cd neuralSPOT/tools
-$> python -m ns_autodeploy --model-name mymodel --tflite-filename mymodel.tflite
+$> ns_autodeploy --model-name mymodel --tflite-filename mymodel.tflite --neuralspot-rootdir ./ --destination-rootdir ./
 ```
 
 This will produce output similar to:
@@ -54,11 +53,11 @@ Calling invoke on EVB 3 times.
 100%|███████████████| 3/3 [00:03<00:00,  1.05s/it]
 
 *** Stage [3/4]: Generate minimal static library
-Generating minimal library at ../projects/autodeploy/vww/vww
+Generating minimal library at neuralSPOT/mymodel/mymodel
 
 *** Stage [4/4]: Generate AmbiqSuite Example
 Generating AmbiqSuite example at ../projects/autodeploy/vww/vww_ambiqsuite
-AmbiqSuite example generated successfully at ../projects/autodeploy/vww/vww_ambiqsuite
+AmbiqSuite example generated successfully at neuralSPOT/mymodel/mymodel_ambiqsuite
 
 Characterization Report for vww:
 [Profile] Per-Layer Statistics file:         vww_stats.csv
@@ -93,7 +92,7 @@ Autodeploy is capable of showing more information via the `verbosity` command li
 ### Autodeploy Command Line Options
 
 ```bash
-python -m ns_autodeploy --help
+ns_autodeploy --help
 optional arguments:
   --seed SEED           Random Seed (default: 42)
   --no-create-binary    Create a neuralSPOT Validation EVB image based on TFlite file (default: True)

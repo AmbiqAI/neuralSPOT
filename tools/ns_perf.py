@@ -1,12 +1,16 @@
+#!/usr/bin/env python
+
 import json
 import logging as log
 import pickle
 import yaml
+import os
 import numpy as np
 import pydantic_argparse
-from autodeploy.gen_library import generateModelLib
-from autodeploy.measure_power import generatePowerBinary, measurePower
-from autodeploy.validator import (
+import sys
+from neuralspot.tools.autodeploy.gen_library import generateModelLib
+from neuralspot.tools.autodeploy.measure_power import generatePowerBinary, measurePower
+from neuralspot.tools.autodeploy.validator import (
     ModelConfiguration,
     configModel,
     create_validation_binary,
@@ -15,8 +19,9 @@ from autodeploy.validator import (
     printStats,
     validateModel,
 )
-from ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
+from neuralspot.tools.ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
 from pydantic import BaseModel, Field
+from pathlib import Path
 
 
 class Params(BaseModel):
@@ -73,9 +78,13 @@ class Params(BaseModel):
     model_name: str = Field(
         "model", description="Name of model to be used in generated library"
     )
-    working_directory: str = Field(
-        "../projects/autodeploy",
+    destination_rootdir: str = Field(
+        str(Path.cwd()),
         description="Directory where generated library will be placed",
+    )
+    neuralspot_rootdir: str = Field(
+        str(Path.cwd()),
+        description="Directory where Makefile is located",
     )
     model_location: str = Field(
         "TCM", description="Where the model is stored on the EVB (TCM, SRAM, or MRAM)"
@@ -161,7 +170,7 @@ def load_yaml_config(configfile):
         except yaml.YAMLError as exc:
             print(exc)
 
-if __name__ == "__main__":
+def main():
     # parse cmd parameters
     parser = create_parser()
     cli_params = parser.parse_typed_args()
@@ -185,6 +194,10 @@ if __name__ == "__main__":
     # create Params instance with updated values
     params = Params(**updated_params)
 
+    # check if params.destination_rootdir is relative path. If it is, make it absolute so that validator.py can use it
+    if not os.path.isabs(params.destination_rootdir):
+        params.destination_rootdir = os.path.abspath(params.destination_rootdir)
+
     results = adResults(params)
 
     print("")  # put a blank line between obnoxious TF output and our output
@@ -199,7 +212,26 @@ if __name__ == "__main__":
         format="%(levelname)s: %(message)s",
     )
 
+    # check if destination_rootdir is within neuralSPOT 
+    destination_path = Path(params.destination_rootdir).resolve()
+    is_subdir = any(part.name == "neuralSPOT" for part in destination_path.parents) or destination_path.name == "neuralSPOT"
+    if not is_subdir:
+        log.error("Destination rootdir cannot be outside of neuralSPOT")
+        exit("ns_perf failed")
+
+    # check if tflite-filename was specified
+    if not os.path.exists(params.tflite_filename):
+        log.error("TFLite file not found. Please specify a valid path.")
+        exit("ns_perf failed")
+    if not params.tflite_filename.endswith('.tflite'):
+        log.error("The specified file is not a TFLite file. Please provide a file with a .tflite extension.")
+        exit("ns_perf failed")
     interpreter = get_interpreter(params)
+
+    # check if neuralspot-rootdir is valid
+    if not os.path.exists(os.path.abspath(params.neuralspot_rootdir)):
+        log.error("NeuralSPOT directory not found. Please specify a valid path.")
+        exit("ns_perf failed")
 
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
@@ -239,3 +271,6 @@ if __name__ == "__main__":
     #     print(f"*** Stage [{stage}/{total_stages}]: Generate AmbiqSuite Example")
     #     generateModelLib(params, mc, md, ambiqsuite=True)
     #     stage += 1
+
+if __name__ == "__main__":
+    main()

@@ -6,10 +6,10 @@ import shutil
 import signal
 import time
 import traceback
-
+import pkg_resources
 import numpy as np
 from joulescope import scan
-from ns_utils import createFromTemplate, xxd_c_dump
+from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
 
 
 def generateInputAndOutputTensors(params, mc, md):
@@ -50,8 +50,12 @@ def generateInputAndOutputTensors(params, mc, md):
 
 
 def generatePowerBinary(params, mc, md, cpu_mode):
+    # The following 5 lines find the paths relative to the cwd
+    model_path = params.destination_rootdir + "/" + params.model_name
+    d = os.path.join(params.neuralspot_rootdir, model_path)
+    relative_build_path = os.path.relpath(d, params.neuralspot_rootdir)
+
     n = params.model_name + "_power"
-    d = params.working_directory + "/" + params.model_name
     adds, addsLen = mc.modelStructureDetails.getAddList()
     if params.joulescope or params.onboard_perf:
         generateInputAndOutputTensors(params, mc, md)
@@ -82,29 +86,32 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     os.makedirs(f"{d}/{n}", exist_ok=True)
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
+
     # os.system(f"mkdir -p {d}/{n}")
     # os.system(f"mkdir -p {d}/{n}/src")
 
+    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    
     # Generate files from template
     createFromTemplate(
-        "autodeploy/templates/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        template_directory + "/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
+        template_directory + "/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
+        template_directory + "/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
     )
     createFromTemplate(
-        "autodeploy/templates/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
+        template_directory + "/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
     )
     createFromTemplate(
-        "autodeploy/templates/perf/template_power.mk", f"{d}/{n}/module.mk", rm
+        template_directory + "/perf/template_power.mk", f"{d}/{n}/module.mk", rm
     )
 
     # Copy needed files
     createFromTemplate(
-        "autodeploy/templates/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+        template_directory + "/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
     )
     
     postfix = ""
@@ -142,7 +149,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     createFromTemplate(
-        "autodeploy/templates/common/template_example_tensors.h",
+        template_directory + "/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",
         rm,
     )
@@ -167,17 +174,16 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
     else:
         mlp = ""
-
     if params.verbosity > 3:
         print(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={d} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd .. {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={d}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={d} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
 
     time.sleep(5)

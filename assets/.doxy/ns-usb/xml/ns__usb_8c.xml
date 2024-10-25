@@ -25,19 +25,21 @@
       <node id="7">
         <label>webusb_controller.h</label>
         <link refid="webusb__controller_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>neuralSPOT/neuralspot/ns-usb/src/ns_usb.c</label>
         <link refid="ns__usb_8c"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
         <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -49,16 +51,19 @@
       <node id="5">
         <label>am_util.h</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>ns_ambiqsuite_harness.h</label>
       </node>
       <node id="6">
         <label>ns_core.h</label>
       </node>
-      <node id="9">
+      <node id="10">
         <label>ns_timer.h</label>
       </node>
-      <node id="10">
+      <node id="8">
+        <label>stdint.h</label>
+      </node>
+      <node id="11">
         <label>tusb.h</label>
       </node>
     </incdepgraph>

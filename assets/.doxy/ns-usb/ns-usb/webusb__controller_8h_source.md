@@ -28,6 +28,8 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 typedef void (*webusb_rx_cb)(const uint8_t *buf, uint32_t buf_len, void *param);
 
 uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize);

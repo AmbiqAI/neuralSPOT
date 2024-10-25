@@ -97,7 +97,7 @@ _Definitions for interrupt handlers, the vector table, and the stack._
 
 | Type | Name |
 | ---: | :--- |
-| define  | [**HEAP\_SIZE**](apollo4p_2gcc_2startup__gcc_8c.md#define-heap_size)  256<br> |
+| define  | [**HEAP\_SIZE**](apollo4p_2gcc_2startup__gcc_8c.md#define-heap_size)  1024<br> |
 
 ## Public Attributes Documentation
 
@@ -232,7 +232,7 @@ void am_default_isr (
 ### define HEAP\_SIZE 
 
 ```C++
-#define HEAP_SIZE 256
+#define HEAP_SIZE 1024
 ```
 
 

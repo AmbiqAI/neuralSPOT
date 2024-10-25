@@ -17,7 +17,7 @@
       <sectiondef kind="define">
       <memberdef kind="define" id="apollo4p_2gcc_2startup__gcc_8c_1a1b45302695680930829cac31d65e41e1" prot="public" static="no">
         <name>HEAP_SIZE</name>
-        <initializer>256</initializer>
+        <initializer>1024</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -335,7 +335,7 @@
 <codeline lineno="154"><highlight class="normal">__attribute__((section(</highlight><highlight class="stringliteral">&quot;.stack&quot;</highlight><highlight class="normal">)))<sp/>static<sp/>uint32_t<sp/>g_pui32Stack[STACK_SIZE];</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>HEAP_SIZE</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>HEAP_SIZE<sp/>256</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>HEAP_SIZE<sp/>1024</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="159"><highlight class="normal"></highlight></codeline>
 <codeline lineno="160"><highlight class="normal">__attribute__((section(</highlight><highlight class="stringliteral">&quot;.heap&quot;</highlight><highlight class="normal">)))<sp/>__attribute__((__used__))<sp/>static<sp/>uint32_t<sp/>g_pui32Heap[HEAP_SIZE];</highlight></codeline>

@@ -12,15 +12,13 @@
       
       
       
-        <link rel="next" href="ai_at_ambiq.html">
-      
       
       <link rel="icon" href="images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
-        <title>Home - NeuralSPOT</title>
+        <title>NeuralSPOT and Visual Studio Code - NeuralSPOT</title>
       
     
     
@@ -86,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#requirements" class="md-skip">
+        <a href="#neuralspot-and-visual-studio-code" class="md-skip">
           Skip to content
         </a>
       
@@ -121,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              NeuralSPOT and Visual Studio Code
             
           </span>
         </div>
@@ -230,27 +228,9 @@
       
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -259,52 +239,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#building-and-deploying-neuralspot" class="md-nav__link">
-    Building and Deploying NeuralSPOT
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#automatic-model-characterization-and-packaging" class="md-nav__link">
-    Automatic Model Characterization and Packaging
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#neuralspot-structure-and-directories" class="md-nav__link">
-    NeuralSPOT Structure and Directories
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3324,6 +3258,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -3332,30 +3268,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
-    Requirements
+  <a href="#in-this-document" class="md-nav__link">
+    In This Document
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#building-and-deploying-neuralspot" class="md-nav__link">
-    Building and Deploying NeuralSPOT
+  <a href="#using-vscode" class="md-nav__link">
+    Using VSCode
   </a>
+  
+    <nav class="md-nav" aria-label="Using VSCode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#devcontainers" class="md-nav__link">
+    Devcontainers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#automatic-model-characterization-and-packaging" class="md-nav__link">
-    Automatic Model Characterization and Packaging
+  <a href="#configuring-vscode" class="md-nav__link">
+    Configuring VSCode
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring VSCode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#needed-applications" class="md-nav__link">
+    Needed Applications
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#neuralspot-structure-and-directories" class="md-nav__link">
-    NeuralSPOT Structure and Directories
+        
+          <li class="md-nav__item">
+  <a href="#arm-development-extensions" class="md-nav__link">
+    Arm Development Extensions
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    Configuration Files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3377,99 +3346,103 @@
   
 
 
-  <h1>Home</h1>
-
-<p align="center">
-  <a href="https://github.com/AmbiqAI/neuralSPOT"><img src="images/banner.png" alt="neuralSPOT"></a>
-</p>
-
-<hr />
-<blockquote>
-<p><em>Code</em>: <a href="[https://github.com/AmbiqAI/neuralSPOT]">https://github.com/AmbiqAI/neuralSPOT</a></p>
-<p><em>Documentation</em>: <a href="https://amiqai.github.io/neuralSPOT">https://github.com/AmbiqAI/neuralSPOT</a></p>
-</blockquote>
-<hr />
-<p>NeuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo family of ultra-low-power SoCs. It is open-source, real-time, and OS-agnostic. It was designed with Tensorflow Lite for Microcontrollers in mind, but works with any AI runtime.</p>
-<p>NeuralSPOT is designed to help embedded AI developers in 3 important ways:</p>
-<ol>
-<li><strong>Initial development and fine-tuning of their AI model</strong>: neuralSPOT offers tools to rapidly <a href="From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.html">characterize the performance and size</a> of a TFLite model on Ambiq processors.</li>
-<li><strong>Rapid AI feature prototyping</strong>: neuralSPOT's library of easy to use drivers, feature extractors, helper functions, and communication mechanisms accelerate the development of stand-alone AI feature applications to test the model in real-world situations with real-world data and latencies.</li>
-<li><strong>AI model library export</strong>: once an AI model has been developed and refined via prototyping, neuralSPOT allows one-click deployment of a static library implementing the AI model, suitable to linking into larger embedded applications.</li>
-</ol>
-<p>NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.</p>
-<p align="center">
-<a class="glightbox" href="images/hard-stuff.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center /></a>
-</p>
-
-<h2 id="requirements">Requirements</h2>
-<blockquote>
-<p><strong>NOTE</strong> for detailed compatibility notes, see the <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md">features document</a>.</p>
-</blockquote>
+<h1 id="neuralspot-and-visual-studio-code">NeuralSPOT and Visual Studio Code</h1>
+<p>Ambiq's AI tools are CLI-based in order to be IDE and GUI-agnostic, and use freely available and/or open source toolchains where possible. This approaches meshes well the Visual Studio Code's functionality, and this is the code editor that the Ambiq AI team uses in day-to-day development.</p>
+<p>The Ambiq AI team uses Visual Studio Code (vscode) to:</p>
 <ul>
-<li><strong>Hardware</strong><ul>
-<li><a href="https://ambiq.com/apollo4/">Ambiq EVB</a>: at least one of Apollo4 Plus, Apollo4 Blue Plus, Apollo4 Lite, or Apollo4 Blue Lite</li>
-<li>Energy Measurement (optional): <a href="https://www.joulescope.com">Joulescope</a> JS110 or JS220 (only needed for automated model energy measurements)</li>
+<li>Edit and explore code and documentation</li>
+<li>Manage our <a href="https://code.visualstudio.com/docs/sourcecontrol/intro-to-git">GitHub-based version control</a></li>
+<li>Compile and flash applications</li>
+<li>Step through code running on the EVB</li>
+<li>Manage our compilation toolchain</li>
+<li><a href="https://code.visualstudio.com/docs/remote/remote-overview">Develop code remotely</a></li>
 </ul>
-</li>
-<li><strong>Software</strong><ul>
-<li><a href="https://www.segger.com/downloads/jlink/">Segger J-Link 7.88+</a></li>
-<li>Compilers: at least one of...<ul>
-<li><a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">Arm GNU Toolchain 10.3+</a></li>
-<li><a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">Armclang</a></li>
-</ul>
-</li>
-<li><a href="https://www.gnu.org/software/make/">GNU Make</a></li>
-<li><a href="https://www.python.org">Python 3.11+</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="building-and-deploying-neuralspot">Building and Deploying NeuralSPOT</h2>
-<p>NeuralSPOT makes it easy to build and deploy your first AI model on Ambiq's EVBs. Before deploying, connect an Ambiq EVB (the following example defaults to Apollo4 Plus).</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:AmbiqAI/neuralSPOT.git
-<span class="nb">cd</span><span class="w"> </span>neuralSPOT
-make<span class="w"> </span>clean
-make<span class="w"> </span>-j<span class="w"> </span><span class="c1"># makes everything</span>
-make<span class="w"> </span>deploy<span class="w"> </span><span class="c1"># flashes the default example to EVB</span>
-make<span class="w"> </span>view<span class="w"> </span><span class="c1"># connects to the Jlink SWO interface to show printf output from EVB</span>
-</code></pre></div>
-<p>The <code>make</code> systems is highly configurable and flexible - see our <a href="makefile-details.html">makefile options document</a> for more details.</p>
-<p>See our <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Application-Note-neuralSPOT-and-Windows.md">Windows application note</a> for Windows-specific considerations.</p>
-<h2 id="automatic-model-characterization-and-packaging">Automatic Model Characterization and Packaging</h2>
-<p>NeuralSPOT includes tools to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).</p>
-<p>Two caveats:</p>
-<ul>
-<li>Autodeploy for EVBs without a second USB port requires special attention - see the Apollo4 Lite section of this document.</li>
-<li>RPC uses one of the PC's serial ports - these are named differently depending on the OS. The following example defaults to Linux/Mac, see this document for finding the serial port and add <code>--tty &lt;your port&gt;</code> to use that instead.</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>.../neuralSPOT<span class="w"> </span><span class="c1"># neuralSPOT&#39;s root directory</span>
-pip<span class="w"> </span>install<span class="w"> </span>.
-ns_autodeploy<span class="w"> </span>--tflite-filename<span class="o">=</span>mymodel.tflite<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span><span class="c1"># add --tty COMx for Windows</span>
-</code></pre></div>
-<p>This one invocation will:</p>
+<p>Beyond that, our data scientists use vscode to <a href="https://marketplace.visualstudio.com/items?itemName=ms-toolsai.tensorboard">visualize AI training</a> and results, run <a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">Jupyter notebooks</a>, and <a href="https://www.altcademy.com/blog/how-to-get-matplotlib-in-visual-studio-code/">plot data</a>. </p>
+<h4 id="in-this-document">In This Document</h4>
+<p>This document covers three use cases that require neuralSPOT-specific configuration: Compiling &amp; Flashing, Debugging, and managing compilation toolchains via devcontainers.</p>
+<p>Visual Studio Code is highly configurable and extensible. See <a href="#configuring-vscode">Configuring VSCode</a>, below.</p>
+<h2 id="using-vscode">Using VSCode</h2>
+<p>Once configured, VSCode will have 3 new 'tasks' it can run: "Build Task", "Flash Firmware", and "Start Debugging". Building and Debugging are common enough that vscode has <a href="https://code.visualstudio.com/docs/getstarted/keybindings">https://code.visualstudio.com/docs/getstarted/keybindings</a> to start them. "Flash Firmware" doesn't have a key binding, but vscode lets you <a href="https://code.visualstudio.com/docs/getstarted/keybindings">create your own key bindings</a>.</p>
+<h3 id="devcontainers">Devcontainers</h3>
+<p>Installing toolchains is often a difficult and fiddly task, highly dependent on OS and toolchain versions. To alleviate some of this complexity we enable the use of <a href="https://code.visualstudio.com/docs/devcontainers/containers">devcontainers</a>. This allows the AI team to quickly set up a new development environment directly from a freshly cloned version of neuralSPOT.</p>
+<p>Devcontainers allow us to develop inside a containerized environment. This ensures consistency across different development environments and simplifies dependency management. The neuralSPOT devcontainer will automatically install all necessary dependencies. In order to enable and use devcontainers in VS Code:</p>
 <ol>
-<li><strong>Analyze the specified TFLite model</strong> file to determine needed ops, input and output tensors, etc.</li>
-<li>Convert the TFlite into a C file, wrap it in a baseline neuralSPOT application, and flash it to an EVB</li>
-<li>Perform an initial characterization over USB using RPC and use the results to <strong>fine-tune the application's memory allocation</strong>, then flash the fine-tuned version.</li>
-<li>Run invoke() both locally and on the EVB, feeding the same data to both, <strong>comparing the results and profiling the performance of the invoke() on the EVB</strong></li>
-<li><strong>Create a static library</strong> (with headers) containing the model, TFLM, and a minimal wrapper to ease integration into applications.</li>
-<li>Create a simple AmbiqSuite example suitable for copying into AmbiqSuites example directory.</li>
+<li>Install Docker here: https://www.docker.com/products/docker-desktop/</li>
+<li>Install the Dev Containers extension from Microsoft on VS Code.</li>
+<li>Type into VS Code command Palette: "Dev Containers: Rebuild and Reopen in Container." This will restart VS Code in the neuralSPOT devcontainer. </li>
+<li>Changes can be made to the devcontainer configuration in the .devcontainer folder of neuralSPOT. </li>
+<li>Note that when making changes to the devcontainer configuration, it must be rebuilt for the changes to take effect. Otherwise, you can simply reopen the container.</li>
+<li>When VS Code restarts, you will be connected to the devcontainer, as shown by the green remote indicator on the left of the Status bar.</li>
 </ol>
-<p>Autodeploy is highly configurable and also <strong>capable of automatically measuring the power</strong> used by inference (if a joulescope is available) - see the <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/tools/README.md">reference guide</a> and <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.md">application note</a> for more details.</p>
-<h2 id="neuralspot-structure-and-directories">NeuralSPOT Structure and Directories</h2>
-<p>NeuralSPOT consists of the neuralspot libraries, required external components, tools, and examples.</p>
-<p align="center">
-<a class="glightbox" href="images/image-20230727151002947.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="images/image-20230727151002947.png" alt="layer diagram" style="width:75%;" /></a>
-</p>
-<p>The directory structure reflects the code structure:</p>
-<div class="highlight"><pre><span></span><code>/neuralspot - contains all code for NeuralSPOT libraries
-    /neuralspot # neuralSPOT&#39;s libraries
-    /extern     # External dependencies, including TF and AmbiqSuite
-    /examples   # Example applications, each of which can be compiled to a deployable binary
-    /projects   # Examples of how to integrate external projects such as EdgeImpulse models
-    /make       # Makefile helpers, including neuralspot-config.mk and local_overrides.mk
-    /tools      # AutoDeploy and RPC python-based tools
-    /tests      # Simple compatibility tests
-    /docs       # introductory documents, guides, and release notes
+<h2 id="configuring-vscode">Configuring VSCode</h2>
+<h3 id="needed-applications">Needed Applications</h3>
+<ul>
+<li><a href="https://visualstudio.microsoft.com/downloads/">Visual Studio Code</a></li>
+<li><a href="https://www.segger.com/downloads/jlink/">Segger J-link</a></li>
+<li>Remote GDB debugger: we use J-link's included GDB server</li>
+<li><a href="https://docs.docker.com/engine/install/">Docker Engine</a> (optional): Enables Devcontainer-based operation. </li>
+</ul>
+<h3 id="arm-development-extensions">Arm Development Extensions</h3>
+<p>You'll need the following (install from VS Code's extensions browser):</p>
+<ul>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug">Cortex-Debug</a> (by marus25): Enables GDB-based debug from inside vscode. Can use JlinkGDB, OpenOCD, or pyOCD. We use Jlink.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=dan-c-underwood.arm">Arm Assembly</a> (by dan-c-underwood): occasionally we need to step through assembly. This extension enables a disassembly view of flashed code.</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Dev Containers</a> (by Microsoft): optional, enables the use of containerized compilation environments.</li>
+</ul>
+<h3 id="configuration-files">Configuration Files</h3>
+<p>VS Code configuration files live in a <code>.vscode</code> directory at the root of your SDK directory structure. We need to create two files: a tasks file that tells VS code how to build Ambiq binaries, and a launch file that tells it how to use Jlink to install and execute the binary on an EVB</p>
+<p>This is the <code>tasks.json</code> file. The way it is written, you have to launch the build task while the editor is 'focused' on the <code>main()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shell&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Build Project&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;make EXAMPLE=${fileBasenameNoExtension}&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;group&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;build&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;isDefault&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;problemMatcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;base&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$gcc&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;fileLocation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;relative&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;${relativeFileDirname}/.&quot;</span><span class="p">]</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shell&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Flash Firmware&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;make EXAMPLE=${fileBasenameNoExtension} TARGET=${fileBasenameNoExtension} deploy&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;group&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;build&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;isDefault&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;problemMatcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;base&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$gcc&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;fileLocation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;relative&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;${relativeFileDirname}/.&quot;</span><span class="p">]</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <code>tasks.json</code> file defines a 'launch' task. There are several hardcoded paths. There may be a clever way to make them soft paths, but I haven't bothered looking.</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;cwd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${fileDirname}&quot;</span><span class="p">,</span><span class="w">   </span>
+<span class="w">            </span><span class="nt">&quot;executable&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${workspaceRoot}/build/apollo5b_evb/arm-none-eabi/examples/${fileBasenameNoExtension}/${fileBasenameNoExtension}.axf&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Debug Microcontroller&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;launch&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cortex-debug&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;servertype&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jlink&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;serverpath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/Applications/SEGGER/JLink_V794a/JLinkGDBServer&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;armToolchainPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/Applications/ArmGNUToolchain/12.2.Rel1/arm-none-eabi/bin&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;device&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AMAP42KK-KBR&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;interface&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;swd&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;serialNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// add J-Link serial number if having multiple attached the same time.</span>
+<span class="w">            </span><span class="nt">&quot;runToEntryPoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;svdFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${workspaceRoot}/build/apollo5b_eb_revb/arm-none-eabi/board.svd&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 
 

@@ -3390,12 +3390,10 @@
 </ul>
 <h1 id="using-autodeploy">Using AutoDeploy</h1>
 <p>Using AutoDeploy is easy - just give it a TFLite model, connect an EVB, and let it go to work:</p>
-<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>tools
-$&gt;<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>ns_autodeploy<span class="w"> </span>--tflite-filename<span class="o">=</span>mymodel.tflite<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span>--measure-power
+<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span>ns_autodeploy<span class="w"> </span>--tflite-filename<span class="o">=</span>mymodel.tflite<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span>--measure-power
 </code></pre></div>
 <p>As part of the process, AutoDeploy generates a number of artifacts, including three ready-to-deploy binary files and the source code used to generate them:</p>
-<p><div class="highlight"><pre><span></span><code>.../projects/autodeploy
-<span class="w">    </span>./mymodel
+<p><div class="highlight"><pre><span></span><code><span class="w">    </span>./mymodel
 <span class="w">            </span>./mymodel
 <span class="w">                    </span>./lib<span class="w"> </span><span class="c1"># minimal static library and API header</span>
 <span class="w">                    </span>./src<span class="w"> </span><span class="c1"># tiny example that compiles the lib into an EVB image</span>
@@ -3778,21 +3776,21 @@ Notes:
 <li>Run just the library generation and/or power measurement steps on Apollo4 Lite</li>
 </ol>
 <p>Using the human activity recognition model as an example, this procedure translates to something like the following steps.</p>
-<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>.../neuralSPOT/tools
+<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>.../neuralSPOT
 
 <span class="c1"># Plug in Apollo4 Plus or Blue Plus EVB</span>
-$&gt;<span class="w"> </span>vi<span class="w"> </span>../make/local_overrides.mk<span class="w"> </span><span class="c1"># uncomment the BOARD:=apollo4p line, comment out all other BOARD settings in this file</span>
+$&gt;<span class="w"> </span>vi<span class="w"> </span>make/local_overrides.mk<span class="w"> </span><span class="c1"># uncomment the BOARD:=apollo4p line, comment out all other BOARD settings in this file</span>
 
-$&gt;<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>ns_autodeploy<span class="w"> </span>--model-name<span class="w"> </span>har<span class="w"> </span>--tflite-filename<span class="w"> </span>har.tflite<span class="w"> </span>--runs<span class="w"> </span><span class="m">3</span><span class="w"> </span>--no-create-library<span class="w"> </span><span class="c1"># small number of runs and skip creating the library to save time</span>
+$&gt;<span class="w"> </span>ns_autodeploy<span class="w"> </span>--model-name<span class="w"> </span>har<span class="w"> </span>--tflite-filename<span class="w"> </span>har.tflite<span class="w"> </span>--runs<span class="w"> </span><span class="m">3</span><span class="w"> </span>--no-create-library<span class="w"> </span><span class="c1"># small number of runs and skip creating the library to save time</span>
 <span class="c1"># Wait for successful completion of script</span>
 
-$&gt;<span class="w"> </span>ls<span class="w"> </span>../projects/autodeploy/har<span class="w"> </span><span class="c1"># check for existence of har_md.pkl and har_mc.pkl</span>
+$&gt;<span class="w"> </span>ls<span class="w"> </span>har<span class="w"> </span><span class="c1"># check for existence of har_md.pkl and har_mc.pkl</span>
 
 <span class="c1"># Switch the Apollo4P EVB for the Apollo4 Lite EVB, including Joulescope GPIO cables if needed</span>
 
-$&gt;<span class="w"> </span>vi<span class="w"> </span>../make/local_overrides.mk<span class="w"> </span><span class="c1"># uncomment the BOARD:=apollo4l line, comment out all other BOARD settings in this file</span>
+$&gt;<span class="w"> </span>vi<span class="w"> </span>make/local_overrides.mk<span class="w"> </span><span class="c1"># uncomment the BOARD:=apollo4l line, comment out all other BOARD settings in this file</span>
 
-$&gt;<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>ns_autodeploy<span class="w"> </span>--model-name<span class="w"> </span>har<span class="w"> </span>--tflite-filename<span class="w"> </span>har.tflite<span class="w"> </span>--runs<span class="w"> </span><span class="m">3</span><span class="w"> </span>--measure-power<span class="w"> </span>--no-create-binary<span class="w"> </span>--no-create-profile<span class="w"> </span><span class="c1"># Skip fine-tuning and profiling steps on AP4 Lite</span>
+$&gt;<span class="w"> </span>ns_autodeploy<span class="w"> </span>--model-name<span class="w"> </span>har<span class="w"> </span>--tflite-filename<span class="w"> </span>har.tflite<span class="w"> </span>--runs<span class="w"> </span><span class="m">3</span><span class="w"> </span>--measure-power<span class="w"> </span>--no-create-binary<span class="w"> </span>--no-create-profile<span class="w"> </span><span class="c1"># Skip fine-tuning and profiling steps on AP4 Lite</span>
 <span class="c1"># Wait for successful completion of script</span>
 </code></pre></div>
 <h2 id="anatomy-of-a-model-source-file">Anatomy of a Model Source File</h2>

@@ -3446,8 +3446,7 @@
 <li>Create a simple AmbiqSuite example suitable for copying into AmbiqSuites example directory.</li>
 </ol>
 <p>Example usage:
-<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>neuralSPOT/tools
-$&gt;<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>ns_autodeploy<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span>--tflite-filename<span class="w"> </span>mymodel.tflite
+<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span>ns_autodeploy<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span>--tflite-filename<span class="w"> </span>mymodel.tflite<span class="w"> </span>--neuralspot-rootdir<span class="w"> </span>./<span class="w"> </span>--destination-rootdir<span class="w"> </span>./
 </code></pre></div></p>
 <p>This will produce output similar to:</p>
 <div class="highlight"><pre><span></span><code>***<span class="w"> </span>Stage<span class="w"> </span><span class="o">[</span><span class="m">1</span>/4<span class="o">]</span>:<span class="w"> </span>Create<span class="w"> </span>and<span class="w"> </span>fine-tune<span class="w"> </span>EVB<span class="w"> </span>model<span class="w"> </span>characterization<span class="w"> </span>image
@@ -3459,11 +3458,11 @@ Calling<span class="w"> </span>invoke<span class="w"> </span>on<span class="w"> 
 <span class="m">100</span>%<span class="p">|</span>███████████████<span class="p">|</span><span class="w"> </span><span class="m">3</span>/3<span class="w"> </span><span class="o">[</span><span class="m">00</span>:03&lt;<span class="m">00</span>:00,<span class="w">  </span><span class="m">1</span>.05s/it<span class="o">]</span>
 
 ***<span class="w"> </span>Stage<span class="w"> </span><span class="o">[</span><span class="m">3</span>/4<span class="o">]</span>:<span class="w"> </span>Generate<span class="w"> </span>minimal<span class="w"> </span>static<span class="w"> </span>library
-Generating<span class="w"> </span>minimal<span class="w"> </span>library<span class="w"> </span>at<span class="w"> </span>../projects/autodeploy/vww/vww
+Generating<span class="w"> </span>minimal<span class="w"> </span>library<span class="w"> </span>at<span class="w"> </span>neuralSPOT/mymodel/mymodel
 
 ***<span class="w"> </span>Stage<span class="w"> </span><span class="o">[</span><span class="m">4</span>/4<span class="o">]</span>:<span class="w"> </span>Generate<span class="w"> </span>AmbiqSuite<span class="w"> </span>Example
 Generating<span class="w"> </span>AmbiqSuite<span class="w"> </span>example<span class="w"> </span>at<span class="w"> </span>../projects/autodeploy/vww/vww_ambiqsuite
-AmbiqSuite<span class="w"> </span>example<span class="w"> </span>generated<span class="w"> </span>successfully<span class="w"> </span>at<span class="w"> </span>../projects/autodeploy/vww/vww_ambiqsuite
+AmbiqSuite<span class="w"> </span>example<span class="w"> </span>generated<span class="w"> </span>successfully<span class="w"> </span>at<span class="w"> </span>neuralSPOT/mymodel/mymodel_ambiqsuite
 
 Characterization<span class="w"> </span>Report<span class="w"> </span><span class="k">for</span><span class="w"> </span>vww:
 <span class="o">[</span>Profile<span class="o">]</span><span class="w"> </span>Per-Layer<span class="w"> </span>Statistics<span class="w"> </span>file:<span class="w">         </span>vww_stats.csv
@@ -3491,7 +3490,7 @@ Notes:
 <p>Autodeploy is capable of showing more information via the <code>verbosity</code> command line option. For example, for a detailed per-layer performance analysis, use <code>--verbosity=1</code>, though this same information is always saved as a CSV.</p>
 <p><a class="glightbox" href="../docs/images/image-20230331154338838.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="image-20230331154338838" src="../docs/images/image-20230331154338838.png" /></a></p>
 <h3 id="autodeploy-command-line-options">Autodeploy Command Line Options</h3>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>ns_autodeploy<span class="w"> </span>--help
+<div class="highlight"><pre><span></span><code>ns_autodeploy<span class="w"> </span>--help
 optional<span class="w"> </span>arguments:
 <span class="w">  </span>--seed<span class="w"> </span>SEED<span class="w">           </span>Random<span class="w"> </span>Seed<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="m">42</span><span class="o">)</span>
 <span class="w">  </span>--no-create-binary<span class="w">    </span>Create<span class="w"> </span>a<span class="w"> </span>neuralSPOT<span class="w"> </span>Validation<span class="w"> </span>EVB<span class="w"> </span>image<span class="w"> </span>based<span class="w"> </span>on<span class="w"> </span>TFlite<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>True<span class="o">)</span>

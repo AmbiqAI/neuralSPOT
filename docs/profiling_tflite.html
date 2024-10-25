@@ -3601,7 +3601,7 @@ pip install .
 <p>For EBs: one USB connection needs to be connected to PC</p>
 <p>For EVB: both USB connections must be connected to PC</p>
 <h4 id="running-autodeploy">Running Autodeploy</h4>
-<div class="highlight"><pre><span></span><code>python -m ns_autodeploy --model-name denoise --tflite-filename denoise.tflite
+<div class="highlight"><pre><span></span><code>ns_autodeploy --model-name denoise --tflite-filename denoise.tflite
 </code></pre></div>
 <p>Autodeploy will then run for a while, generating numerous reports, source packages, and binaries.</p>
 <h2 id="case-study-ecg-denoiser">Case Study - ECG Denoiser</h2>
@@ -3939,7 +3939,7 @@ pip install .
 <p>The data scientist can now use this information to either slightly alter the neural architecture (using '0's between the filters, resulting in a larger model but possibly faster computation), looking into why TFLM isn't using MVE here, or re-architecting the model to not use dilation.</p>
 <h4 id="power-and-performance">Power and Performance</h4>
 <p>If a joulescope is wired up, Autodeploy can use it to provide power and performance measurements by adding <code>--joulescope</code> to the command line</p>
-<div class="highlight"><pre><span></span><code>python -m ns_autodeploy --model-name denoise --tflite-filename denoise.tflite --joulescope
+<div class="highlight"><pre><span></span><code>ns_autodeploy --model-name denoise --tflite-filename denoise.tflite --joulescope
 </code></pre></div>
 <h2 id="case-study-mobilenet-v3-small">Case Study - Mobilenet V3 Small</h2>
 <p>Mobilenet is an off-the-shelf model that is often adapted to image classification tasks. It is quite large for an edge model, so we'll use it to illustrate how to run large models.</p>
@@ -3949,10 +3949,10 @@ pip install .
 <p><strong>Note</strong> This guess is only needed the first time autodeploy is run on a model. Autodeploy will record the actual size after the first successful run, and use that for subsquent runs.</p>
 </blockquote>
 <p>Since we know that the model is too large to fit in TCM, let's run an experiment placing it in MRAM. Since we can guess that large models need large activation memories, we'll try putting the arena in SRAM and making it 400kB (the default is 100kB).</p>
-<div class="highlight"><pre><span></span><code>python -m ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 400
+<div class="highlight"><pre><span></span><code>ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 400
 </code></pre></div>
 <p>Spoiler: this experiment will fail. Autodeploy will detect that TFLM wasn't able to allocate and suggest that you increase the max-arena-size. Let's max out the SRAM and see what happens.</p>
-<div class="highlight"><pre><span></span><code>python -m ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 2200
+<div class="highlight"><pre><span></span><code>ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 2200
 </code></pre></div>
 <p>A minute or so later we can see that the arena size was large enough, and Autodeploy is running everything else with the detected arena size (535kB).</p>
 <h4 id="per-layer-profiling">Per Layer Profiling</h4>

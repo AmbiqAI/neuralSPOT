@@ -12,27 +12,29 @@
     <includes local="yes">am_util_debug.h</includes>
     <includes local="yes">ns_ambiqsuite_harness.h</includes>
     <incdepgraph>
-      <node id="7">
+      <node id="8">
         <label>ns_usb.h</label>
         <link refid="ns__usb_8h_source"/>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>usb_descriptors.h</label>
         <link refid="usb__descriptors_8h_source"/>
       </node>
       <node id="5">
         <label>webusb_controller.h</label>
         <link refid="webusb__controller_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>neuralSPOT/neuralspot/ns-usb/src/overrides/webusb_controller.c</label>
@@ -45,34 +47,37 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-      </node>
-      <node id="8">
-        <label>am_bsp.h</label>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
       <node id="9">
-        <label>am_mcu_apollo.h</label>
+        <label>am_bsp.h</label>
       </node>
       <node id="10">
-        <label>am_util.h</label>
-      </node>
-      <node id="13">
-        <label>am_util_debug.h</label>
-      </node>
-      <node id="14">
-        <label>ns_ambiqsuite_harness.h</label>
+        <label>am_mcu_apollo.h</label>
       </node>
       <node id="11">
+        <label>am_util.h</label>
+      </node>
+      <node id="14">
+        <label>am_util_debug.h</label>
+      </node>
+      <node id="15">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="12">
         <label>ns_core.h</label>
+      </node>
+      <node id="6">
+        <label>stdint.h</label>
       </node>
       <node id="3">
         <label>stdio.h</label>
@@ -83,7 +88,7 @@
       <node id="4">
         <label>string.h</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>tusb.h</label>
       </node>
     </incdepgraph>

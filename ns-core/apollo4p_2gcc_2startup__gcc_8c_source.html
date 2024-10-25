@@ -3433,7 +3433,7 @@
 <span class="n">__attribute__</span><span class="p">((</span><span class="n">section</span><span class="p">(</span><span class="s">&quot;.stack&quot;</span><span class="p">)))</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">g_pui32Stack</span><span class="p">[</span><span class="n">STACK_SIZE</span><span class="p">];</span>
 
 <span class="cp">#ifndef HEAP_SIZE</span>
-<span class="w">    </span><span class="cp">#define HEAP_SIZE 256</span>
+<span class="w">    </span><span class="cp">#define HEAP_SIZE 1024</span>
 <span class="cp">#endif</span>
 
 <span class="n">__attribute__</span><span class="p">((</span><span class="n">section</span><span class="p">(</span><span class="s">&quot;.heap&quot;</span><span class="p">)))</span><span class="w"> </span><span class="n">__attribute__</span><span class="p">((</span><span class="n">__used__</span><span class="p">))</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">g_pui32Heap</span><span class="p">[</span><span class="n">HEAP_SIZE</span><span class="p">];</span>

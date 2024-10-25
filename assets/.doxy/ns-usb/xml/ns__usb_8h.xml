@@ -30,6 +30,8 @@
       <node id="6">
         <label>webusb_controller.h</label>
         <link refid="webusb__controller_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>am_bsp.h</label>
@@ -42,6 +44,9 @@
       </node>
       <node id="5">
         <label>ns_core.h</label>
+      </node>
+      <node id="7">
+        <label>stdint.h</label>
       </node>
     </incdepgraph>
     <invincdepgraph>

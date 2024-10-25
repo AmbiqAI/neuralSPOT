@@ -4,12 +4,12 @@ import shutil
 import struct
 import sys
 import time
-
+import pkg_resources
 import erpc
 import numpy as np
 import tensorflow as tf
-from ns_tflite_analyze import analyze_tflite_file
-from ns_utils import (
+from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
+from neuralspot.tools.ns_utils import (
     ModelDetails,
     TensorDetails,
     createFromTemplate,
@@ -21,10 +21,9 @@ from ns_utils import (
 )
 from tabulate import tabulate
 from tqdm import tqdm
-from utils.tflite_helpers import CreateAddFromSnakeOpName
-
-sys.path.append("../neuralspot/ns-rpc/python/ns-rpc-genericdata/")
-import GenericDataOperations_PcToEvb
+from neuralspot.tools.utils.tflite_helpers import CreateAddFromSnakeOpName
+from pathlib import Path
+import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
 modelConfigPreambleSize = 6  # number of uint32_t words
 modelStatPreambleSize = 4  # number of uint32_t words
@@ -538,8 +537,10 @@ def printStats(stats, stats_filename):
 
 
 def compile_and_deploy(params, mc, first_time=False):
-    d = params.working_directory + "/" + params.model_name
-    d = d.replace("../", "")
+    # The following 5 lines find the paths relative to the cwd
+    model_path = params.destination_rootdir + "/" + params.model_name
+    d = os.path.join(params.neuralspot_rootdir, model_path)
+    relative_build_path = os.path.relpath(d, start=params.neuralspot_rootdir) # this line is used so that the Makefile doens't put the absolute path in the build directory
     # Windows sucks
     if os.name == "posix":
         ws3 = "/dev/null"
@@ -552,30 +553,29 @@ def compile_and_deploy(params, mc, first_time=False):
         # d = d.replace("/", "\\")
 
     if first_time:
-        makefile_result = os.system(f"cd .. {ws1} make clean >{ws3} 2>&1 ")
-
+        makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make clean >{ws3} 2>&1 ")
     if params.create_profile:
         if params.verbosity > 3:
             print(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
 
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}>{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
     else:
         if params.verbosity > 3:
 
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator {ws1} make ADPATH={d} AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
         else:
             makefile_result = os.system(
-                f"cd .. {ws1} make {ws} AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
 
     if makefile_result != 0:
@@ -625,8 +625,11 @@ def create_mut_metadata(params, tflm_dir, mc):
             mc.rv_count,
         )
     )
+
+    template_directory = pkg_resources.resource_filename(__name__, "templates")
+
     createFromTemplate(
-        "autodeploy/templates/validator/template_mut_metadata.h",
+        template_directory + "/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
         rm,
     )
@@ -639,8 +642,9 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
     }
+    template_directory = pkg_resources.resource_filename(__name__, "templates")
     createFromTemplate(
-        "autodeploy/templates/validator/template_tflm_model.cc",
+        template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
         rm,
     )
@@ -651,25 +655,21 @@ def create_mut_main(tflm_dir, mc):
     os.makedirs(tflm_dir + "/src/", exist_ok=True)
 
     # Copy template main.cc to tflm_dir
-    shutil.copyfile(
-        "autodeploy/templates/validator/template_tflm_validator.cc",
-        f"{tflm_dir}/src/tflm_validator.cc",
-    )
-    shutil.copyfile(
-        "autodeploy/templates/validator/template_tflm_validator.h",
-        f"{tflm_dir}/src/tflm_validator.h",
-    )
-    shutil.copyfile(
-        "autodeploy/templates/validator/template_tflm_validator.mk", f"{tflm_dir}/module.mk"
-    )
-    shutil.copyfile(
-        "autodeploy/templates/common/template_ns_model.h", f"{tflm_dir}/src/ns_model.h"
-    )
+    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.cc")
+    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.cc")
+
+    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.h")
+    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
+
+    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.mk")
+    shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
+
+    template_file = pkg_resources.resource_filename(__name__, "templates/common/template_ns_model.h")
+    shutil.copyfile(template_file, f"{tflm_dir}/src/ns_model.h")
 
 
 def create_validation_binary(params, baseline, mc):
-    # tflm_dir = params.tflm_src_path
-    tflm_dir = params.working_directory + "/" + params.model_name + "/tflm_validator"
+    tflm_dir = params.destination_rootdir + "/" + params.model_name + "/tflm_validator"
     create_mut_main(tflm_dir, mc)
 
     # map model location parameter to linker locations

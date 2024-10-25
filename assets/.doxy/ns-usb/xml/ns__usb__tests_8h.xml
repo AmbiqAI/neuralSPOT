@@ -21,6 +21,8 @@
       <node id="7">
         <label>webusb_controller.h</label>
         <link refid="webusb__controller_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>neuralSPOT/neuralspot/ns-usb/tests/ns_usb_tests.h</label>
@@ -39,6 +41,9 @@
       </node>
       <node id="6">
         <label>ns_core.h</label>
+      </node>
+      <node id="8">
+        <label>stdint.h</label>
       </node>
     </incdepgraph>
       <sectiondef kind="func">

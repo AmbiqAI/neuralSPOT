@@ -10,6 +10,7 @@
 
 _Connect MCU and Audio Tool via WebUSB._ 
 
+* `#include <stdint.h>`
 
 
 

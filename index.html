@@ -3376,9 +3376,8 @@ make<span class="w"> </span>view<span class="w"> </span><span class="c1"># conne
 <li>RPC uses one of the PC's serial ports - these are named differently depending on the OS. The following example defaults to Linux/Mac, see this document for finding the serial port and add <code>--tty &lt;your port&gt;</code> to use that instead.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>.../neuralSPOT<span class="w"> </span><span class="c1"># neuralSPOT&#39;s root directory</span>
-python<span class="w"> </span>setup.py<span class="w"> </span>install
-<span class="nb">cd</span><span class="w"> </span>tools
-python<span class="w"> </span>-m<span class="w"> </span>ns_autodeploy<span class="w"> </span>--tflite-filename<span class="o">=</span>mymodel.tflite<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span><span class="c1"># add --tty COMx for Windows</span>
+pip<span class="w"> </span>install<span class="w"> </span>.
+ns_autodeploy<span class="w"> </span>--tflite-filename<span class="o">=</span>mymodel.tflite<span class="w"> </span>--model-name<span class="w"> </span>mymodel<span class="w"> </span><span class="c1"># add --tty COMx for Windows</span>
 </code></pre></div>
 <p>This one invocation will:</p>
 <ol>

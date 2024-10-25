@@ -69,7 +69,7 @@ Two caveats:
 
 ```bash
 cd .../neuralSPOT # neuralSPOT's root directory
-pip install.
+pip install .
 ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel # add --tty COMx for Windows
 ```
 

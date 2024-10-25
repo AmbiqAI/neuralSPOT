@@ -32,6 +32,7 @@ nav:
     - Optimizing Using NeuralSPOT: docs/optimizing_using_neuralspot.md
     - Release Notes: docs/release_notes.md
     - Developer Notes: docs/developer_notes.md
+    - Using VSCode: docs/using_vscode.md
     - Edge Impulse Support: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
   - Examples:
     - Keyword Spotting: examples/basic_tf_stub/README.md

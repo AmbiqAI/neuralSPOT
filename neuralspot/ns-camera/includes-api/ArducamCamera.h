@@ -317,7 +317,7 @@ struct CameraOperations {
     uint8_t (*getBit)(ArducamCamera *, uint8_t, uint8_t);
     void (*setFifoBurst)(ArducamCamera *);
     void (*setCapture)(ArducamCamera *);
-    void (*waitI2cIdle)(ArducamCamera *);
+    uint32_t (*waitI2cIdle)(ArducamCamera *);
     void (*lowPowerOn)(ArducamCamera *);
     void (*lowPowerOff)(ArducamCamera *);
     void (*registerCallback)(ArducamCamera *, BUFFER_CALLBACK, uint8_t, STOP_HANDLE);
@@ -705,6 +705,11 @@ struct ClassCamera {
 uint8_t cameraReadReg(ArducamCamera *camera, uint8_t addr);
 uint32_t cameraImageAvailable(ArducamCamera *camera);
 uint32_t cameraReadFifoLength(ArducamCamera *camera);
+uint8_t getBit(ArducamCamera *camera, uint8_t addr, uint8_t bit);
+void writeReg(ArducamCamera *camera, uint8_t addr, uint8_t val);
+uint32_t waitI2cIdle(ArducamCamera *camera);
+void clearFifoFlag(ArducamCamera *camera);
+void startCapture(ArducamCamera *camera);
 
 #ifdef __cplusplus
 }

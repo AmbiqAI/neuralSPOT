@@ -9,6 +9,7 @@
  *
  */
 
+#include <stdlib.h>
 #include "ns_camera.h"
 #include "ArducamCamera.h"
 #include "arm_math.h"
@@ -93,7 +94,7 @@ void ns_camera_check_picture_completion(ns_timer_config_t *timer) {
         return;
     }
     // ns_lp_printf("Picture done\n");
-    camera.receivedLength = readFifoLength(&camera);
+    camera.receivedLength = cameraReadFifoLength(&camera);
     camera.totalLength = camera.receivedLength;
     camera.burstFirstFlag = 0;
 
@@ -253,8 +254,8 @@ uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
         waitI2cIdle(&camera); // Wait I2c Idle
     }
 
-    cameraClearFifoFlag(&camera);
-    cameraStartCapture(&camera);
+    clearFifoFlag(&camera);
+    startCapture(&camera);
     nsCameraPictureBeingTaken = true;
     return NS_STATUS_SUCCESS;
 }

@@ -449,7 +449,7 @@ CamStatus cameraSetAutoWhiteBalance(ArducamCamera *camera, uint8_t val) {
     }
     symbol |= SET_WHILEBALANCE;
     writeReg(camera, CAM_REG_EXPOSURE_GAIN_WHILEBALANCE_CONTROL,
-             symbol);    // while balance control
+             symbol);    // white balance control
     waitI2cIdle(camera); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
@@ -632,7 +632,7 @@ void cameraCsHigh(ArducamCamera *camera) { arducamSpiCsPinHigh(camera->csPin); }
 void cameraCsLow(ArducamCamera *camera) { arducamSpiCsPinLow(camera->csPin); }
 
 uint8_t cameraBusRead(ArducamCamera *camera, int address) {
-    uint8_t value[2];
+    uint8_t value[2] = {0, 0};
     arducam_spi_read(value, 2, address, 1, camera->csPin);
 
     // arducamSpiCsPinLow(camera->csPin);

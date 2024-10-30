@@ -61,6 +61,13 @@ extern const ns_core_api_t ns_core_current_version;
             ns_core_fail_loop();                                                                   \
         }
 
+    #define NS_TRY_ABORT(func, msg)                                                                \
+        if (func) {                                                                                \
+            ns_lp_printf(msg);                                                                     \
+            ns_lp_printf("\n");                                                                    \
+            return NS_STATUS_FAILURE;                                                              \
+        }
+
 /**
  * @brief Core config struct
  *

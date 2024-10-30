@@ -136,7 +136,9 @@ uint32_t ns_camera_init(ns_camera_config_t *cfg) {
         NS_TRY(ns_timer_init(&timerCfg), "Failed to init camera timer\n");
     }
 
-    begin(&camera);
+    if (begin(&camera) != CAM_ERR_SUCCESS) {
+        return NS_STATUS_INIT_FAILED;
+    }
     lowPowerOn(&camera);
     return NS_STATUS_SUCCESS;
 }
@@ -165,9 +167,9 @@ int arducam_spi_write(
     uint32_t chunkSize;
     while (bytesLeft) {
         chunkSize = bytesLeft > MAX_SPI_BUF_LEN ? MAX_SPI_BUF_LEN : bytesLeft;
-        uint32_t ret = ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
-        if (ret)
-            ns_lp_printf("spi write ret %d\n", ret);
+        ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
+        // if (ret)
+        //     ns_lp_printf("spi write ret %d\n", ret);
         bufPtr += chunkSize;
         bytesLeft -= chunkSize;
     }

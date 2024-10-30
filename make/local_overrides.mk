@@ -6,7 +6,7 @@
 # #
 # PLATFORM := apollo4p_evb
 # PLATFORM := apollo4l_blue_evb
-PLATFORM := apollo4p_blue_kxr_evb
+# PLATFORM := apollo4p_blue_kxr_evb
 # EXAMPLE := ap3
 
 # TARGET :=web_ble

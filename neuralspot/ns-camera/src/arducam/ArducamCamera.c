@@ -11,8 +11,11 @@
 #include "ArducamCamera.h"
 #include "Platform.h"
 #include "ns_camera.h"
+#include "ns_core.h"
 
 /// @cond
+
+#define NS_CAMERA_MAX_WAIT 1500
 
 #define ARDUCHIP_FRAMES 0x01
 #define ARDUCHIP_TEST1 0x00  // TEST register
@@ -147,7 +150,7 @@ uint32_t readFifoLength(ArducamCamera *camera);
 uint8_t getBit(ArducamCamera *camera, uint8_t addr, uint8_t bit);
 void setFifoBurst(ArducamCamera *camera);
 void setCapture(ArducamCamera *camera);
-void waitI2cIdle(ArducamCamera *camera);
+uint32_t waitI2cIdle(ArducamCamera *camera);
 uint32_t imageAvailable(ArducamCamera *camera);
 void flushFifo(ArducamCamera *camera);
 void startCapture(ArducamCamera *camera);
@@ -240,24 +243,24 @@ void cameraGetSensorConfig(ArducamCamera *camera) {
 CamStatus cameraBegin(ArducamCamera *camera) {
     // reset cpld and camera
     writeReg(camera, CAM_REG_SENSOR_RESET, CAM_SENSOR_RESET_ENABLE);
-    waitI2cIdle(camera); // Wait I2c Idle
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     cameraGetSensorConfig(camera);
     updateCameraInfo(camera);
     camera->verDateAndNumber[0] = readReg(camera, CAM_REG_YEAR_ID) & 0x3F; // year
-    waitI2cIdle(camera);
-    ns_lp_printf("year: %d\n", camera->verDateAndNumber[0]);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
+    // ns_lp_printf("year: %d\n", camera->verDateAndNumber[0]);
     camera->verDateAndNumber[1] = readReg(camera, CAM_REG_MONTH_ID) & 0x0F; // month
-    waitI2cIdle(camera);
-    ns_lp_printf("month: %d\n", camera->verDateAndNumber[1]);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
+    // ns_lp_printf("month: %d\n", camera->verDateAndNumber[1]);
     camera->verDateAndNumber[2] = readReg(camera, CAM_REG_DAY_ID) & 0x1F; // day
-    waitI2cIdle(camera);
-    ns_lp_printf("day: %d\n", camera->verDateAndNumber[2]);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
+    // ns_lp_printf("day: %d\n", camera->verDateAndNumber[2]);
     camera->verDateAndNumber[3] = readReg(camera, CAM_REG_FPGA_VERSION_NUMBER) & 0xFF; // day
-    waitI2cIdle(camera);
-    ns_lp_printf("fpga version: %d\n", camera->verDateAndNumber[3]);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
+    // ns_lp_printf("fpga version: %d\n", camera->verDateAndNumber[3]);
 
     writeReg(camera, CAM_REG_DEBUG_DEVICE_ADDRESS, camera->myCameraInfo.deviceAddress);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     return CAM_ERR_SUCCESS;
 }
 
@@ -275,8 +278,8 @@ void cameraSetCapture(ArducamCamera *camera) {
 uint32_t cameraImageAvailable(ArducamCamera *camera) { return camera->receivedLength; }
 
 CamStatus cameraSetAutoFocus(ArducamCamera *camera, uint8_t val) {
-    writeReg(camera, CAM_REG_AUTO_FOCUS_CONTROL, val); // auto focus control
-    waitI2cIdle(camera);                               // Wait I2c Idle
+    writeReg(camera, CAM_REG_AUTO_FOCUS_CONTROL, val);                // auto focus control
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
@@ -310,22 +313,22 @@ CamStatus cameraSetManualFocus(ArducamCamera *camera, uint16_t val) {
     register_high = (vcm_reg_H >> 8) & 0xFF;
     register_low = (vcm_reg_H)&0xFF;
     writeReg(camera, CAM_REG_DEBUG_REGISTER_HIGH, register_high);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     writeReg(camera, CAM_REG_DEBUG_REGISTER_LOW, register_low);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     writeReg(camera, CAM_REG_DEBUG_REGISTER_VALUE, code_9_4);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
 
     // step 3 wirte low register
 
     register_high = (vcm_reg_L >> 8) & 0xFF;
     register_low = (vcm_reg_L)&0xFF;
     writeReg(camera, CAM_REG_DEBUG_REGISTER_HIGH, register_high);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     writeReg(camera, CAM_REG_DEBUG_REGISTER_LOW, register_low);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     writeReg(camera, CAM_REG_DEBUG_REGISTER_VALUE, code_3_0);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
 
     return CAM_ERR_SUCCESS;
 }
@@ -334,14 +337,14 @@ CamStatus
 cameraTakePicture(ArducamCamera *camera, CAM_IMAGE_MODE mode, CAM_IMAGE_PIX_FMT pixel_format) {
     if (camera->currentPixelFormat != pixel_format) {
         camera->currentPixelFormat = pixel_format;
-        writeReg(camera, CAM_REG_FORMAT, pixel_format); // set the data format
-        waitI2cIdle(camera);                            // Wait I2c Idle
+        writeReg(camera, CAM_REG_FORMAT, pixel_format);                   // set the data format
+        NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     }
 
     if (camera->currentPictureMode != mode) {
         camera->currentPictureMode = mode;
         writeReg(camera, CAM_REG_CAPTURE_RESOLUTION, CAM_SET_CAPTURE_MODE | mode);
-        waitI2cIdle(camera); // Wait I2c Idle
+        NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     }
 
     setCapture(camera);
@@ -352,14 +355,14 @@ CamStatus cameratakeMultiPictures(
     ArducamCamera *camera, CAM_IMAGE_MODE mode, CAM_IMAGE_PIX_FMT pixel_format, uint8_t num) {
     if (camera->currentPixelFormat != pixel_format) {
         camera->currentPixelFormat = pixel_format;
-        writeReg(camera, CAM_REG_FORMAT, pixel_format); // set the data format
-        waitI2cIdle(camera);                            // Wait I2c Idle
+        writeReg(camera, CAM_REG_FORMAT, pixel_format);                   // set the data format
+        NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     }
 
     if (camera->currentPictureMode != mode) {
         camera->currentPictureMode = mode;
         writeReg(camera, CAM_REG_CAPTURE_RESOLUTION, CAM_SET_CAPTURE_MODE | mode);
-        waitI2cIdle(camera); // Wait I2c Idle
+        NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     }
 
     if (num > CAPRURE_MAX_NUM) {
@@ -385,11 +388,11 @@ CamStatus cameraStartPreview(ArducamCamera *camera, CAM_VIDEO_MODE mode) {
     if (!camera->callBackFunction) {
         return CAM_ERR_NO_CALLBACK;
     }
-    writeReg(camera, CAM_REG_FORMAT, CAM_IMAGE_PIX_FMT_JPG); // set  jpeg format
-    waitI2cIdle(camera);                                     // Wait I2c Idle
+    writeReg(camera, CAM_REG_FORMAT, CAM_IMAGE_PIX_FMT_JPG);          // set  jpeg format
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     writeReg(camera, CAM_REG_CAPTURE_RESOLUTION,
-             CAM_SET_VIDEO_MODE | mode); // set  video mode
-    waitI2cIdle(camera);                 // Wait I2c Idle
+             CAM_SET_VIDEO_MODE | mode);                              // set  video mode
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     setCapture(camera);
 
     return CAM_ERR_SUCCESS;
@@ -417,28 +420,28 @@ CamStatus cameraStopPreview(ArducamCamera *camera) {
     camera->previewMode = FALSE;
     camera->receivedLength = 0;
     camera->totalLength = 0;
-    writeReg(camera, CAM_REG_FORMAT, CAM_IMAGE_PIX_FMT_JPG); // set  jpeg format
-    waitI2cIdle(camera);                                     // Wait I2c Idle
+    writeReg(camera, CAM_REG_FORMAT, CAM_IMAGE_PIX_FMT_JPG);          // set  jpeg format
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
 CamStatus cameraSetImageQuality(ArducamCamera *camera, IMAGE_QUALITY qualtiy) {
     writeReg(camera, CAM_REG_IMAGE_QUALITY, qualtiy);
-    waitI2cIdle(camera); // Wait I2c Idle
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
 CamStatus cameraReset(ArducamCamera *camera) {
     writeReg(camera, CAM_REG_SENSOR_RESET, CAM_SENSOR_RESET_ENABLE);
-    waitI2cIdle(camera); // Wait I2c Idle
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     camera->currentPixelFormat = -1;
     camera->currentPictureMode = -1;
     return CAM_ERR_SUCCESS;
 }
 
 CamStatus cameraSetAutoWhiteBalanceMode(ArducamCamera *camera, CAM_WHITE_BALANCE mode) {
-    writeReg(camera, CAM_REG_WHILEBALANCE_MODE_CONTROL, mode); // set Light Mode
-    waitI2cIdle(camera);                                       // Wait I2c Idle
+    writeReg(camera, CAM_REG_WHILEBALANCE_MODE_CONTROL, mode);        // set Light Mode
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
@@ -449,8 +452,8 @@ CamStatus cameraSetAutoWhiteBalance(ArducamCamera *camera, uint8_t val) {
     }
     symbol |= SET_WHILEBALANCE;
     writeReg(camera, CAM_REG_EXPOSURE_GAIN_WHILEBALANCE_CONTROL,
-             symbol);    // white balance control
-    waitI2cIdle(camera); // Wait I2c Idle
+             symbol);                                                 // white balance control
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
@@ -461,8 +464,8 @@ CamStatus cameraSetAutoISOSensitive(ArducamCamera *camera, uint8_t val) {
     }
     symbol |= SET_GAIN;
     writeReg(camera, CAM_REG_EXPOSURE_GAIN_WHILEBALANCE_CONTROL,
-             symbol);    // auto gain control
-    waitI2cIdle(camera); // Wait I2c Idle
+             symbol);                                                 // auto gain control
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
@@ -472,9 +475,9 @@ CamStatus cameraSetISOSensitivity(ArducamCamera *camera, int iso_sense) {
     }
     writeReg(camera, CAM_REG_MANUAL_GAIN_BIT_9_8,
              iso_sense >> 8); // set AGC VALUE
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     writeReg(camera, CAM_REG_MANUAL_GAIN_BIT_7_0, iso_sense & 0xff);
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     return CAM_ERR_SUCCESS;
 }
 
@@ -485,54 +488,54 @@ CamStatus cameraSetAutoExposure(ArducamCamera *camera, uint8_t val) {
     }
     symbol |= SET_EXPOSURE;
     writeReg(camera, CAM_REG_EXPOSURE_GAIN_WHILEBALANCE_CONTROL,
-             symbol);    // auto EXPOSURE control
-    waitI2cIdle(camera); // Wait I2c Idle
+             symbol);                                                 // auto EXPOSURE control
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
 CamStatus cameraSetAbsoluteExposure(ArducamCamera *camera, uint32_t exposure_time) {
     // set exposure output [19:16]
     writeReg(camera, CAM_REG_MANUAL_EXPOSURE_BIT_19_16, (uint8_t)((exposure_time >> 16) & 0xff));
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     // set exposure output [15:8]
     writeReg(camera, CAM_REG_MANUAL_EXPOSURE_BIT_15_8, (uint8_t)((exposure_time >> 8) & 0xff));
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     // set exposure output [7:0]
     writeReg(camera, CAM_REG_MANUAL_EXPOSURE_BIT_7_0, (uint8_t)(exposure_time & 0xff));
-    waitI2cIdle(camera);
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed");
     return CAM_ERR_SUCCESS;
 }
 
 CamStatus cameraSetColorEffect(ArducamCamera *camera, CAM_COLOR_FX effect) {
-    writeReg(camera, CAM_REG_COLOR_EFFECT_CONTROL, effect); // set effect
-    waitI2cIdle(camera);                                    // Wait I2c Idle
+    writeReg(camera, CAM_REG_COLOR_EFFECT_CONTROL, effect);           // set effect
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 CamStatus cameraSetSaturation(ArducamCamera *camera, CAM_STAURATION_LEVEL level) {
-    writeReg(camera, CAM_REG_SATURATION_CONTROL, level); // set Saturation Level
-    waitI2cIdle(camera);                                 // Wait I2c Idle
+    writeReg(camera, CAM_REG_SATURATION_CONTROL, level);              // set Saturation Level
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 CamStatus cameraSetEV(ArducamCamera *camera, CAM_EV_LEVEL level) {
     // set Exposure  Compensation Level
     writeReg(camera, CAM_REG_EV_CONTROL, level);
-    waitI2cIdle(camera); // Wait I2c Idle
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 CamStatus cameraSetContrast(ArducamCamera *camera, CAM_CONTRAST_LEVEL level) {
-    writeReg(camera, CAM_REG_CONTRAST_CONTROL, level); // set Contrast Level
-    waitI2cIdle(camera);                               // Wait I2c Idle
+    writeReg(camera, CAM_REG_CONTRAST_CONTROL, level);                // set Contrast Level
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 CamStatus cameraSetSharpness(ArducamCamera *camera, CAM_SHARPNESS_LEVEL level) {
-    writeReg(camera, CAM_REG_SHARPNESS_CONTROL, level); // set Brightness Level
-    waitI2cIdle(camera);                                // Wait I2c Idle
+    writeReg(camera, CAM_REG_SHARPNESS_CONTROL, level);               // set Brightness Level
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 
 CamStatus cameraSetBrightness(ArducamCamera *camera, CAM_BRIGHTNESS_LEVEL level) {
-    writeReg(camera, CAM_REG_BRIGHTNESS_CONTROL, level); // set Brightness Level
-    waitI2cIdle(camera);                                 // Wait I2c Idle
+    writeReg(camera, CAM_REG_BRIGHTNESS_CONTROL, level);              // set Brightness Level
+    NS_TRY_ABORT(waitI2cIdle(camera), "Camera Wait for Idle Failed"); // Wait I2c Idle
     return CAM_ERR_SUCCESS;
 }
 void cameraFlushFifo(ArducamCamera *camera) { writeReg(camera, ARDUCHIP_FIFO_2, FIFO_CLEAR_MASK); }
@@ -643,10 +646,16 @@ uint8_t cameraBusRead(ArducamCamera *camera, int address) {
     return value[1];
 }
 
-void cameraWaitI2cIdle(ArducamCamera *camera) {
+uint32_t cameraWaitI2cIdle(ArducamCamera *camera) {
+    uint32_t count = NS_CAMERA_MAX_WAIT;
     while ((readReg(camera, CAM_REG_SENSOR_STATE) & 0X03) != CAM_REG_SENSOR_STATE_IDLE) {
-        ; // arducamDelayMs(2);
+        arducamDelayMs(2);
+        count--;
+        if (count == 0) {
+            return NS_STATUS_FAILURE;
+        }
     }
+    return NS_STATUS_SUCCESS;
 }
 
 uint8_t cameraHeartBeat(ArducamCamera *camera) {
@@ -869,7 +878,7 @@ uint8_t getBit(ArducamCamera *camera, uint8_t addr, uint8_t bit) {
 }
 void setFifoBurst(ArducamCamera *camera) { camera->arducamCameraOp->setFifoBurst(camera); }
 void setCapture(ArducamCamera *camera) { camera->arducamCameraOp->setCapture(camera); }
-void waitI2cIdle(ArducamCamera *camera) { camera->arducamCameraOp->waitI2cIdle(camera); }
+uint32_t waitI2cIdle(ArducamCamera *camera) { return camera->arducamCameraOp->waitI2cIdle(camera); }
 
 uint32_t imageAvailable(ArducamCamera *camera) {
     return camera->arducamCameraOp->imageAvailable(camera);

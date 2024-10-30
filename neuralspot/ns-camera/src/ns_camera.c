@@ -9,6 +9,7 @@
  *
  */
 
+#include <stdlib.h>
 #include "ns_camera.h"
 #include "ArducamCamera.h"
 #include "arm_math.h"
@@ -93,7 +94,7 @@ void ns_camera_check_picture_completion(ns_timer_config_t *timer) {
         return;
     }
     // ns_lp_printf("Picture done\n");
-    camera.receivedLength = readFifoLength(&camera);
+    camera.receivedLength = cameraReadFifoLength(&camera);
     camera.totalLength = camera.receivedLength;
     camera.burstFirstFlag = 0;
 
@@ -135,7 +136,9 @@ uint32_t ns_camera_init(ns_camera_config_t *cfg) {
         NS_TRY(ns_timer_init(&timerCfg), "Failed to init camera timer\n");
     }
 
-    begin(&camera);
+    if (begin(&camera) != CAM_ERR_SUCCESS) {
+        return NS_STATUS_INIT_FAILED;
+    }
     lowPowerOn(&camera);
     return NS_STATUS_SUCCESS;
 }
@@ -164,9 +167,9 @@ int arducam_spi_write(
     uint32_t chunkSize;
     while (bytesLeft) {
         chunkSize = bytesLeft > MAX_SPI_BUF_LEN ? MAX_SPI_BUF_LEN : bytesLeft;
-        uint32_t ret = ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
-        if (ret)
-            ns_lp_printf("spi write ret %d\n", ret);
+        ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
+        // if (ret)
+        //     ns_lp_printf("spi write ret %d\n", ret);
         bufPtr += chunkSize;
         bytesLeft -= chunkSize;
     }
@@ -253,8 +256,8 @@ uint32_t ns_press_shutter_button(ns_camera_config_t *cfg) {
         waitI2cIdle(&camera); // Wait I2c Idle
     }
 
-    cameraClearFifoFlag(&camera);
-    cameraStartCapture(&camera);
+    clearFifoFlag(&camera);
+    startCapture(&camera);
     nsCameraPictureBeingTaken = true;
     return NS_STATUS_SUCCESS;
 }

@@ -72,7 +72,6 @@ typedef struct usb_data {
     uint8_t buffer[MAX_WEBUSB_FRAME];
 } usb_data_t;
 
-
 //
 // Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
 //
@@ -248,11 +247,11 @@ int main(void) {
     NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
 
     // Initialize the URL descriptor
-    strcpy(vision_url.url,"ambiqai.github.io/web-ble-dashboards/vision_demo/");
+    strcpy(vision_url.url, "ambiqai.github.io/web-ble-dashboards/vision_demo/");
     vision_url.bDescriptorType = 3;
     vision_url.bScheme = 1;
     vision_url.bLength = 3 + sizeof(vision_url.url) - 1;
-    
+
     // WebUSB Setup
     webusb_register_raw_cb(msgReceived, NULL);
     webUsbConfig.rx_buffer = my_rx_ff_buf;
@@ -264,11 +263,15 @@ int main(void) {
     ns_lp_printf("USB Init Success\n");
 
     // Camera Setup
-    NS_TRY(ns_camera_init(&camera_config), "Camera Stop Failed\n");
+    if (ns_camera_init(&camera_config) != NS_STATUS_SUCCESS) {
+        ns_lp_printf(
+            "Camera Init Failed, please ensure the camera is present and connected correctly\n");
+        ns_core_fail_loop();
+    }
     ns_lp_printf("Camera Init Success\n");
     ns_stop_camera(&camera_config);
 
-    ns_lp_printf("📸 TinyVision Demo\n\n");
+    ns_lp_printf("📸 Arducam SPI Camera Demo\n\n");
     ns_lp_printf("🔌 Connect to the WebUSB client at "
                  "https://ambiqai.github.io/web-ble-dashboards/vision_demo/\n");
 
@@ -282,8 +285,6 @@ int main(void) {
 #else
     press_rgb_shutter_button(&camera_config);
 #endif
-
-    ns_lp_printf("Taking picture\n");
 
     // Note: this demo only takes JPG pictures, but the code is in here to take RGB pictures.
     // See the FOMO example for more elaborate camera use cases.

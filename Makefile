@@ -65,6 +65,7 @@ modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 
 ifeq ($(USB_PRESENT),1)
+modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 modules      += extern/erpc/$(ERPC_VERSION)
 endif
 

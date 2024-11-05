@@ -3,9 +3,6 @@
 #include "unity/unity.h"
 #include "ns_core.h"
 #include <string.h>
-#define MAX_WEBUSB_FRAME 512
-#define WEBUSB_HEADER_SIZE 2
-#define MAX_WEBUSB_CHUNK (MAX_WEBUSB_FRAME - WEBUSB_HEADER_SIZE)
 #include "crc32.h"
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
@@ -118,7 +115,7 @@ void ns_usb_test_crc() {
         calculated_second_crc = CalcCrc32(0xFFFFFFFF, sizeof(packet.first_crc) + chunk_size, (uint8_t *)&packet.first_crc);
         // delay to allow time to connect on the browser side
         ns_delay_us(200000);
-        
+
         // ns_lp_printf("calculated crc: %u", calculated_second_crc);
 
         // only check if the crc was actually copied in the cb function

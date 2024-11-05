@@ -3,7 +3,6 @@
 #include "unity/unity.h"
 #include "ns_core.h"
 #include <string.h>
-#include "crc32.h"
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
 
@@ -113,7 +112,7 @@ void ns_usb_test_crc() {
         tud_vendor_write_flush();
         // calculate second crc to see if it matches what is sent back by the browser
         calculated_second_crc = CalcCrc32(0xFFFFFFFF, sizeof(packet.first_crc) + chunk_size, (uint8_t *)&packet.first_crc);
-        // delay to allow time to connect on the browser side
+
         ns_delay_us(200000);
 
         // ns_lp_printf("calculated crc: %u", calculated_second_crc);
@@ -122,6 +121,7 @@ void ns_usb_test_crc() {
         if(crc_verified) {
             TEST_ASSERT_EQUAL(received_second_crc, calculated_second_crc);
         }
+        
     }
 
 

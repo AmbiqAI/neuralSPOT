@@ -23,7 +23,6 @@ extern "C" {
     #include "am_util.h"
     #include "ns_core.h"
     #include "webusb_controller.h"
-    #include "wsf_types.h"
     #include "crc32.h"
     #define NS_USB_V0_0_1                                                                          \
         { .major = 0, .minor = 0, .revision = 1 }

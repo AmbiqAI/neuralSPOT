@@ -38,6 +38,7 @@ const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {
 const ns_core_api_t ns_rpc_gdo_current_version = {
     .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_0_0};
 
+static ns_tusb_desc_webusb_url_t ns_rpc_url;
 ns_usb_config_t g_RpcGenericUSBHandle = {
     .api = &ns_usb_V1_0_0,
     .deviceType = NS_USB_CDC_DEVICE,
@@ -47,7 +48,8 @@ ns_usb_config_t g_RpcGenericUSBHandle = {
     .tx_bufferLength = 0,
     .rx_cb = NULL,
     .tx_cb = NULL,
-    .service_cb = NULL};
+    .service_cb = NULL,
+    .desc_url = &ns_rpc_url};
 
 ns_rpc_config_t g_RpcGenericDataConfig = {
     .api = &ns_rpc_gdo_current_version,
@@ -122,7 +124,10 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     g_RpcGenericUSBHandle.rx_bufferLength = cfg->rx_bufLength;
     g_RpcGenericUSBHandle.tx_buffer = cfg->tx_buf;
     g_RpcGenericUSBHandle.tx_bufferLength = cfg->tx_bufLength;
-
+    strcpy(ns_rpc_url.url, "github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc");
+    ns_rpc_url.bDescriptorType = 3;
+    ns_rpc_url.bScheme = 1;
+    ns_rpc_url.bLength = 3 + sizeof(ns_rpc_url.url) - 1;
     NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
 
     g_RpcGenericDataConfig.mode = cfg->mode;

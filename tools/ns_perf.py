@@ -212,13 +212,6 @@ def main():
         format="%(levelname)s: %(message)s",
     )
 
-    # check if destination_rootdir is within neuralSPOT 
-    destination_path = Path(params.destination_rootdir).resolve()
-    is_subdir = any(part.name == "neuralSPOT" for part in destination_path.parents) or destination_path.name == "neuralSPOT"
-    if not is_subdir:
-        log.error("Destination rootdir cannot be outside of neuralSPOT")
-        exit("ns_perf failed")
-
     # check if tflite-filename was specified
     if not os.path.exists(params.tflite_filename):
         log.error("TFLite file not found. Please specify a valid path.")

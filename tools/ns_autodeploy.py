@@ -265,7 +265,9 @@ def main():
     # check if params.destination_rootdir is relative path. If it is, make it absolute so that measure_power.py can use it
     if not os.path.isabs(params.destination_rootdir):
         params.destination_rootdir = os.path.abspath(params.destination_rootdir)
-    
+    if not os.path.isabs(params.neuralspot_rootdir):
+        params.neuralspot_rootdir = os.path.abspath(params.neuralspot_rootdir)
+
     # set logging level
     log.basicConfig(
         level=log.DEBUG
@@ -275,13 +277,6 @@ def main():
         else log.WARNING,
         format="%(levelname)s: %(message)s",
     )    
-
-    # check if destination_rootdir is within neuralSPOT 
-    destination_path = Path(params.destination_rootdir).resolve()
-    is_subdir = any(part.name == "neuralSPOT" for part in destination_path.parents) or destination_path.name == "neuralSPOT"
-    if not is_subdir:
-        log.error("Destination rootdir cannot be outside of neuralSPOT")
-        exit("Autodeploy failed")
 
     # check if tflite-filename was specified
     if not os.path.exists(params.tflite_filename):

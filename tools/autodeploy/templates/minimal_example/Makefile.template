@@ -1,4 +1,4 @@
-# Initialize ROOTDIR to be cwd
+# Default ROOTDIR
 ROOTDIR ?= $(shell pwd)
 
 

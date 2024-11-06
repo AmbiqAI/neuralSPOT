@@ -30,6 +30,8 @@
 #define NUM_FRAMES 100
 #define SAMPLES_IN_FRAME 480
 #define SAMPLE_RATE 16000
+// #define AUDIO_SOURCE NS_AUDIO_SOURCE_PDM
+#define AUDIO_SOURCE NS_AUDIO_SOURCE_AUDADC
 
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
@@ -63,8 +65,7 @@ ns_audio_config_t audioConfig = {
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&audioDataBuffer,
-    // .eAudioSource = NS_AUDIO_SOURCE_PDM,
-    .eAudioSource = NS_AUDIO_SOURCE_AUDADC,
+    .eAudioSource = AUDIO_SOURCE,
     .sampleBuffer = dmaBuffer,
     .workingBuffer = sLGSampleBuffer,
     .numChannels = NUM_CHANNELS,
@@ -191,8 +192,13 @@ int main(void) {
     while (1) {
         if ((g_intButtonPressed) == 1 && !g_audioRecording) {
             g_audioRecording = true;
-            ns_printf("Listening for 3 seconds.\n");
-            ns_rpc_data_remotePrintOnPC("EVB Says this: Listening for 3 seconds.\n");
+            if (audioConfig.eAudioSource == NS_AUDIO_SOURCE_PDM) {
+                ns_printf("Listening to PDM mic for 3 seconds.\n");
+                ns_rpc_data_remotePrintOnPC("EVB Says this: Listening to PDM mic for 3 seconds.\n");
+            } else {
+                ns_printf("Listening to AUDADC for 3 seconds.\n");
+                ns_rpc_data_remotePrintOnPC("EVB Says this: Listening to AUDADC for 3 seconds.\n");
+            }
 
             while (recordingWin > 0) {
                 if (g_audioReady) { // got an audio sample

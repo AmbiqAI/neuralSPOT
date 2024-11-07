@@ -19,7 +19,7 @@ dependencies = [
     "tqdm>=4.66.5",
     "PyOgg",
     "Wave~=0.0.2",
-    "erpc@git+https://github.com/ambiqai/erpc.git#egg=devewhlop&subdirectory=erpc_python",
+    "erpc@git+https://github.com/ambiqai/erpc.git#egg=develop&subdirectory=erpc_python",
     "PyYAML>=6.0.2"
 ]
 

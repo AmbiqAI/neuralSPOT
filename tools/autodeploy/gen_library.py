@@ -212,10 +212,10 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
     else:
         # Generate library and example binary
         if params.verbosity > 3:
-            makefile_result = os.system(f"cd {d}/{n} {ws_and} make {ws_j}")
+            makefile_result = os.system(f"cd {d}/{n} {ws_and} make ROOTDIR={params.neuralspot_rootdir} {ws_j}")
         else:
             makefile_result = os.system(
-                f"cd {d}/{n} {ws_and} make {ws_j} >{ws_null} 2>&1"
+                f"cd {d}/{n} {ws_and} make ROOTDIR={params.neuralspot_rootdir} {ws_j} >{ws_null} 2>&1"
             )
 
         if makefile_result != 0:

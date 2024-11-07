@@ -1,32 +1,24 @@
-# Initialize rootdir to be cwd
-rootdir := $(shell pwd)
-
-# Shell command to check if the current directory is not neuralSPOT
-rootdir := $(shell \
-    while [ "$$(basename $$PWD)" != "neuralSPOT" ]; do \
-        cd ..; \
-    done; \
-    pwd \
-)
+# Default ROOTDIR
+ROOTDIR ?= $(shell pwd)
 
 
 # Include the necessary files
 
-include $(rootdir)/make/helpers.mk
-include $(rootdir)/make/neuralspot_config.mk
-include $(rootdir)/make/local_overrides.mk
-include $(rootdir)/make/neuralspot_toolchain.mk
-include $(rootdir)/make/jlink.mk
+include $(ROOTDIR)/make/helpers.mk
+include $(ROOTDIR)/make/neuralspot_config.mk
+include $(ROOTDIR)/make/local_overrides.mk
+include $(ROOTDIR)/make/neuralspot_toolchain.mk
+include $(ROOTDIR)/make/jlink.mk
 
 build := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 includes_api :=
 pp_defines   := $(DEFINES)
 
 libraries := lib/NS_AD_NAME_lib.a
-includes_api += $(rootdir)/neuralspot/ns-model/includes-api
+includes_api += $(ROOTDIR)/neuralspot/ns-model/includes-api
 includes_api += lib
 
-include $(rootdir)/extern/tensorflow/$(TF_VERSION)/module.mk
+include $(ROOTDIR)/extern/tensorflow/$(TF_VERSION)/module.mk
 objects := $(build)/NS_AD_NAME_model.o
 objects += $(build)/NS_AD_NAME_example.o
 ifeq ($(TOOLCHAIN),arm)
@@ -70,7 +62,7 @@ $(build)/%.bin: $(build)/%.axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
-	$(Q) @cp $(rootdir)/extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(build)/board.svd
+	$(Q) @cp $(ROOTDIR)/extern/AmbiqSuite/$(AS_VERSION)/pack/svd/$(PART).svd $(build)/board.svd
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $*.size
 

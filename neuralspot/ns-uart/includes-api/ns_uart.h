@@ -22,7 +22,6 @@ extern "C" {
     #include "am_mcu_apollo.h"
     #include "am_util.h"
     #include "ns_core.h"
-    // #include "webusb_controller.h"
 
     #define NS_UART_V0_0_1                                                                          \
         { .major = 0, .minor = 0, .revision = 1 }
@@ -68,6 +67,9 @@ typedef struct
 {
     const ns_core_api_t *                 api;                            ///< API prefix
     am_hal_uart_config_t *          uart_config;                    ///< UART Configuration
+// #if defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) // The Apollo4 am_hal_uart_config_t struct does not contain the rx or tx buffers, so we declare them here
+//     uint8_t * rxBuffer; // RX buffer 
+// #endif
 }
 ns_uart_config_t;
 
@@ -86,14 +88,14 @@ extern uint32_t ns_uart_init(ns_uart_config_t * cfg);
  *
  * @param pcStr
  */
-extern void ns_uart_write(char *pcStr);
+extern void ns_uart_send_data(ns_uart_config_t * cfg, char *pcStr, uint32_t size);
 
 /**
  * @brief Read from the UART rx buffer
  *
  * @param cfg
  */
-extern void ns_uart_read(ns_uart_config_t *cfg);
+extern void ns_uart_receive_data(ns_uart_config_t *cfg);
 
 
     #ifdef __cplusplus

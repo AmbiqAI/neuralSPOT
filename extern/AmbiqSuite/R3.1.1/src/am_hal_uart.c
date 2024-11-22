@@ -1197,7 +1197,7 @@ rx_queue_update(void *pHandle)
         if (!am_hal_queue_item_add(&pState->sRxQueue, pui8Data,
                                    ui32BytesTransferred))
         {
-            ui32ErrorStatus = AM_HAL_UART_ERR_RX_QUEUE_FULL;
+            ui32ErrorStatus = AM_HAL_UART_STATUS_RX_QUEUE_FULL;
         }
     }
 

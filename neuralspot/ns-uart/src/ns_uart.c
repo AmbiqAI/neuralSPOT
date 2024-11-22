@@ -31,9 +31,17 @@ ns_uart_config_t ns_uart_config = {
     .uart_config = NULL};
 
 extern uint32_t init_uart(am_hal_uart_config_t *uart_config);
-extern void uart_write(char *pcStr, uint32_t ui32StrLen, uint32_t ui32BytesWritten);
-
-
+// #if defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4L)
+//     extern void ns_uart_blocking_write(char *pcStr);
+//     extern void ns_uart_nonblocking_write(char *pcStr);
+//     extern void ns_uart_blocking_read(ns_uart_config_t *cfg);
+//     extern void ns_uart_nonblocking_read(ns_uart_config_t *cfg);
+// #endif
+// #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+//     extern void uart_write(char *pcStr, uint32_t ui32StrLen, uint32_t ui32BytesWritten);
+// #endif
+extern void ns_uart_send_data(ns_uart_config_t * cfg, char *pcStr, uint32_t size);
+extern void ns_uart_receive_data(ns_uart_config_t *cfg);
 uint32_t ns_uart_init(ns_uart_config_t *cfg) {
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
@@ -57,33 +65,79 @@ uint32_t ns_uart_init(ns_uart_config_t *cfg) {
 // UART print string
 //
 //*****************************************************************************
-void
-ns_uart_write(char *pcStr)
-{
-    uint32_t ui32StrLen = 0;
-    uint32_t ui32BytesWritten = 0;
+// void ns_uart_send_data(char * pcStr) {
+// #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+//     uint32_t ui32StrLen = 0;
+//     uint32_t ui32BytesWritten = 0;
 
-    // Measure the length of the string.
-    while (pcStr[ui32StrLen] != 0)
-    {
-        ui32StrLen++;
-    }
+//     // Measure the length of the string.
+//     while (pcStr[ui32StrLen] != 0)
+//     {
+//         ui32StrLen++;
+//     }
+//     const am_hal_uart_transfer_t sUartWrite =
+//     {
+//         .ui32Direction = AM_HAL_UART_WRITE,
+//         .pui8Data = (uint8_t *) pcStr,
+//         .ui32NumBytes = ui32StrLen,
+//         .ui32TimeoutMs = 0,
+//         .pui32BytesTransferred = &ui32BytesWritten,
+//     };
+//     am_hal_uart_transfer(phUART, &sUartWrite);
+// #endif    
+// #if defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4L)
+//     uint32_t ui32StrLen = 0;
+//     uint32_t ui32BytesWritten = 0;
 
-    uart_write(pcStr, ui32StrLen, ui32BytesWritten);
-}
+//     // Measure the length of the string.
+//     while(pcStr[ui32StrLen] != 0) {
+//         ui32StrLen++;
+//     }
+//     const am_hal_uart_transfer_t sUartWrite =
+//     {
+//         .eType = AM_HAL_UART_BLOCKING_WRITE,
+//         .pui8Data = (uint8_t *) pcStr,
+//         .ui32NumBytes = ui32StrLen,
+//         .pui32BytesTransferred = &ui32BytesWritten,
+//         .ui32TimeoutMs = 5000, // block for 5 seconds
+//         .pfnCallback = NULL,
+//         .pvContext = NULL,
+//         .ui32ErrorStatus = 0
+//     };    
+//     am_hal_uart_transfer(phUART, &sUartWrite);
+// #endif
+// }
 
-void ns_uart_read(ns_uart_config_t *cfg) {
-    uint32_t ui32StrLen = 0;
-    uint32_t ui32BytesRead = 0;
 
-    const am_hal_uart_transfer_t sUartRead =
-    {
-        .ui32Direction = AM_HAL_UART_READ,
-        .pui8Data = (uint8_t *) cfg->uart_config->pui8RxBuffer,
-        .ui32NumBytes = ui32StrLen,
-        .ui32TimeoutMs = 0,
-    };
+// void ns_uart_receive_data(ns_uart_config_t *cfg) {
+// #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+//     uint32_t ui32StrLen = 0;
+//     uint32_t ui32BytesRead = 0;
 
-    NS_TRY(am_hal_uart_transfer(phUART, &sUartRead), "Failed to read to UART\n");
+//     const am_hal_uart_transfer_t sUartRead =
+//     {
+//         .ui32Direction = AM_HAL_UART_READ,
+//         .pui8Data = (uint8_t *)cfg->uart_config->pui8RxBuffer,
+//         .ui32NumBytes = ui32StrLen,
+//         .pui32BytesTransferred = &ui32BytesRead,
+//         .ui32TimeoutMs = 0,
+//     };
+//     NS_TRY(am_hal_uart_transfer(phUART, &sUartRead), "Failed to read to UART\n");
+// #endif
+// #if defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4L)
+//     uint32_t ui32StrLen = 0;
+//     uint32_t ui32BytesRead = 0;
 
-}
+//     const am_hal_uart_transfer_t sUartRead =
+//     {
+//         .eType = AM_HAL_UART_NONBLOCKING_READ, // uses blocking read
+//         .pui8Data = (uint8_t *) cfg->rxBuffer,
+//         .ui32NumBytes = ui32StrLen,
+//         .pui32BytesTransferred = &ui32BytesRead,
+//         .ui32TimeoutMs = 0, // 0 ms blocking
+//         .pfnCallback = &uart_done,
+//         .pvContext = NULL,
+//         .ui32ErrorStatus = &ui32LastError
+//     };#endif
+//     NS_TRY(am_hal_uart_transfer(phUART, &sUartRead), "Failed to read to UART\n");
+// }

@@ -42,6 +42,7 @@ uint8_t g_rttRecorderBuffer[RTT_BUFFER_LENGTH];
 AM_SHARED_RW int16_t g_in16SampleToRTT[AUDIO_SAMPLE_TO_RTT];
 uint32_t g_ui32SampleToRTT = 0;
 #endif
+static bool audio_initialized = false;
 
 /**
  * @brief Audio Configuration and State
@@ -262,3 +263,32 @@ void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
     }
 #endif
 }
+
+uint32_t ns_audio_set_gain(am_hal_pdm_gain_e left_gain, am_hal_pdm_gain_e right_gain) {
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+// #ifndef NS_AUDADC_PRESENT
+//         return NS_STATUS_INVALID_CONFIG;
+// #endif
+//         // deinitialize audadc first        
+//         ns_end_audio(g_ns_audio_config);
+//         g_ns_audio_config->audadc_config->left_gain = left_gain;
+        return;
+    }
+    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        // check if we have already started the audio before. 
+        if(audio_initialized) {
+            ns_end_audio(g_ns_audio_config);
+            g_ns_audio_config->pdm_config->left_gain = left_gain;
+            g_ns_audio_config->pdm_config->right_gain = right_gain;
+        }
+        else {
+            g_ns_audio_config->pdm_config = &ns_pdm_default;
+            g_ns_audio_config->pdm_config->left_gain = left_gain;
+            g_ns_audio_config->pdm_config->right_gain = right_gain;
+        }
+        pdm_init(g_ns_audio_config);
+    }
+    return NS_STATUS_INVALID_CONFIG;
+}
+
+

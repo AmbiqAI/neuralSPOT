@@ -132,6 +132,8 @@ typedef struct {
     ns_audio_pdm_clock_e clock_freq;
     ns_audio_pdm_micsel_e mic; ///< VoS Kit breakout board PDM mic slot
     uint8_t numBytes;          // size of sample word in bytes
+    uint8_t left_gain;
+    uint8_t right_gain;
 } ns_pdm_cfg_t;
 
 // Forward declaration to get around using it in cb
@@ -231,6 +233,13 @@ extern void ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len);
  */
 extern void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm);
 
+/**
+ * @brief Set gain of audio source
+ *
+ * @param left_gain - left channel gain
+ * @param right_gain - right channel gain
+ */
+extern uint32_t ns_audio_set_gain(am_hal_pdm_gain_e left_gain, am_hal_pdm_gain_e right_gain);
     #ifdef __cplusplus
 }
     #endif

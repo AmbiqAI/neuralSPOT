@@ -29,6 +29,8 @@ ns_pdm_cfg_t ns_pdm_default = {
     .clock_freq = NS_AUDIO_PDM_CLK_750KHZ,
     .mic = NS_AUDIO_PDM_MICBOARD_0,
     .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
+    .left_gain = AM_HAL_PDM_GAIN_0DB,
+    .right_gain = AM_HAL_PDM_GAIN_0DB,
 };
 
 void pdm_trigger_dma(ns_audio_config_t *config) {
@@ -60,7 +62,10 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         .bSoftMute = 0,
         .bLRSwap = 0,
     };
-
+    
+    // PDM Gain Config
+    pdmConfig.eLeftGain = cfg->left_gain;
+    pdmConfig.eRightGain = cfg->right_gain;
     // PDM Clock Config
     switch (cfg->clock) {
     case NS_CLKSEL_HFRC:

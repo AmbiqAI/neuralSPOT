@@ -125,7 +125,8 @@ int main(void) {
 #endif
     model_init();
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
-    NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Audio gain set failed.\n");
+    NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Gain set failed.\n"); // PDM gain
+    // NS_TRY(ns_audio_set_gain(24, 24), "Audio gain set failed.\n"); // AUDADC gain
 #ifdef DYNAMIC_AUDIO_SOURCE
     NS_TRY(ns_start_audio(&audio_config), "Audio start failed.\n");
 #endif

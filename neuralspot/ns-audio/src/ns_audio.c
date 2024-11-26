@@ -139,7 +139,7 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
         1, "DataLogger", g_rttRecorderBuffer, RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
     am_util_stdio_printf("RTT Control Block Address:  0x%08X\n", (uint32_t)&_SEGGER_RTT);
 #endif
-
+    audio_initialized = true;
     return AM_HAL_STATUS_SUCCESS;
 }
 
@@ -265,28 +265,44 @@ void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
 #endif
 }
 
-uint32_t ns_audio_set_gain(am_hal_pdm_gain_e left_gain, am_hal_pdm_gain_e right_gain) {
-    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
-// #ifndef NS_AUDADC_PRESENT
-//         return NS_STATUS_INVALID_CONFIG;
-// #endif
-//         // deinitialize audadc first        
-//         ns_end_audio(g_ns_audio_config);
-        return;
+uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
+    // Cannot be called before ns_audio_init. Otherwise, g_ns_audio_config will be overridden
+    if(!audio_initialized) {
+        return NS_STATUS_FAILURE;
     }
-    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
-        // check if we have already started the audio before. 
-        if(audio_initialized) {
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+        // HAL multiplies gain by 2. Since minimum gain is -12dB, we check for -6 here. Gain saturates at 33dB.
+        if(left_gain >= -6 && right_gain >= -6) {
             ns_end_audio(g_ns_audio_config);
-            g_ns_audio_config->pdm_config->left_gain = left_gain;
-            g_ns_audio_config->pdm_config->right_gain = right_gain;
+            if(g_ns_audio_config->audadc_config == NULL) {
+                g_ns_audio_config->audadc_config = &ns_audadc_default;
+            }
+            g_ns_audio_config->audadc_config->left_gain = left_gain;
+            g_ns_audio_config->audadc_config->right_gain = right_gain;
+            ns_start_audio(g_ns_audio_config);
+
         }
         else {
             return NS_STATUS_FAILURE;
         }
-        pdm_init(g_ns_audio_config);
+    }
+    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+        bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M120DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);
+        bool right_gain_valid = (right_gain >= AM_HAL_PDM_GAIN_M120DB && right_gain <= AM_HAL_PDM_GAIN_P345DB);
+        // check if gain values are valid
+        if(left_gain_valid && right_gain_valid) {
+            if (g_ns_audio_config->pdm_config == NULL) {
+                g_ns_audio_config->pdm_config = &ns_pdm_default;
+            }
+            ns_end_audio(g_ns_audio_config);
+            g_ns_audio_config->pdm_config->left_gain = left_gain;
+            g_ns_audio_config->pdm_config->right_gain = right_gain;
+            ns_start_audio(g_ns_audio_config);
+        }
+        else {
+            return NS_STATUS_FAILURE;
+        }
     }
     return NS_STATUS_SUCCESS;
 }
-
 

@@ -22,7 +22,7 @@
 #include "ns_ambiqsuite_harness.h"
 
 #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
-// // AP3TODO
+// AP3TODO
 #else
 
 /**

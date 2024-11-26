@@ -94,6 +94,8 @@ ns_audadc_cfg_t ns_audadc_default = {
     .low_power_mode = true,
     .repeating_trigger_mode = true,
     .dcmp_enable = false,
+    .left_gain = PREAMP_FULL_GAIN,
+    .right_gain = PREAMP_FULL_GAIN
 };
 
 ns_audadc_cfg_t ns_audadc_vos_default = {
@@ -175,11 +177,11 @@ static void audadc_pga_init(ns_audio_config_t *cfg) {
         am_hal_audadc_pga_powerup(3);
     }
 
-    am_hal_audadc_gain_set(0, 2 * PREAMP_FULL_GAIN);
-    am_hal_audadc_gain_set(1, 2 * PREAMP_FULL_GAIN);
+    am_hal_audadc_gain_set(0, 2 * cfg->audadc_config->left_gain);
+    am_hal_audadc_gain_set(1, 2 * cfg->audadc_config->left_gain);
     if (cfg->numChannels == 2) {
-        am_hal_audadc_gain_set(2, 2 * PREAMP_FULL_GAIN);
-        am_hal_audadc_gain_set(3, 2 * PREAMP_FULL_GAIN);
+        am_hal_audadc_gain_set(2, 2 * cfg->audadc_config->right_gain);
+        am_hal_audadc_gain_set(3, 2 * cfg->audadc_config->right_gain);
     }
 
     //  Turn on mic bias

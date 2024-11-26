@@ -111,6 +111,8 @@ typedef struct {
     bool low_power_mode;
     bool repeating_trigger_mode;
     bool dcmp_enable;
+    int left_gain;
+    int right_gain;
 } ns_audadc_cfg_t;
 
 /// @brief PDM Clock Frequency
@@ -239,7 +241,7 @@ extern void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm);
  * @param left_gain - left channel gain
  * @param right_gain - right channel gain
  */
-extern uint32_t ns_audio_set_gain(am_hal_pdm_gain_e left_gain, am_hal_pdm_gain_e right_gain);
+extern uint32_t ns_audio_set_gain(int left_gain, int right_gain);
     #ifdef __cplusplus
 }
     #endif

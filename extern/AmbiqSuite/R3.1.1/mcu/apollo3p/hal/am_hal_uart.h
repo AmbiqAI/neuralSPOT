@@ -12,39 +12,9 @@
 
 //*****************************************************************************
 //
-// Copyright (c) 2023, Ambiq Micro, Inc.
-// All rights reserved.
+// ${copyright}
 //
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice,
-// this list of conditions and the following disclaimer.
-//
-// 2. Redistributions in binary form must reproduce the above copyright
-// notice, this list of conditions and the following disclaimer in the
-// documentation and/or other materials provided with the distribution.
-//
-// 3. Neither the name of the copyright holder nor the names of its
-// contributors may be used to endorse or promote products derived from this
-// software without specific prior written permission.
-//
-// Third party software included in this distribution is subject to the
-// additional license terms as defined in the /docs/licenses directory.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-//
-// This is part of revision release_sdk_3_1_1-10cda4b5e0 of the AmbiqSuite Development Package.
+// This is part of revision ${version} of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
 #ifndef AM_HAL_UART_H
@@ -62,6 +32,26 @@ extern "C"
 //*****************************************************************************
 #define UARTn(n)    ((UART0_Type*)(UART0_BASE + (n * (UART1_BASE - UART0_BASE))))
 
+// #### INTERNAL BEGIN ####
+#if 0
+//*****************************************************************************
+//
+// UART clock speed defs
+//
+//*****************************************************************************
+typedef enum
+{
+    eUART_CLK_SPEED_DEFAULT = 0,
+    eUART_CLK_SPEED_NOCLK,
+    eUART_CLK_SPEED_3MHZ,
+    eUART_CLK_SPEED_6MHZ,
+    eUART_CLK_SPEED_12MHZ,
+    eUART_CLK_SPEED_24MHZ,
+    eUART_CLK_SPEED_X32 = 0x80000000,
+}
+am_hal_uart_clock_speed_e;
+#endif
+// #### INTERNAL END ####
 
 
 //*****************************************************************************
@@ -120,6 +110,14 @@ typedef struct
     uint32_t ui32TxBufferSize;
     uint8_t *pui8RxBuffer;
     uint32_t ui32RxBufferSize;
+// #### INTERNAL BEGIN ####
+#if 0
+    //
+    // Clock speed setting
+    //
+    am_hal_uart_clock_speed_e e32ClockSpeed;
+#endif
+// #### INTERNAL END ###
 }
 am_hal_uart_config_t;
 
@@ -319,6 +317,37 @@ am_hal_uart_transfer_t;
 //
 //*****************************************************************************
 #define AM_HAL_UART_WAIT_FOREVER            0xFFFFFFFF
+
+typedef enum
+{
+    AM_HAL_UART_STATUS_SUCCESS   = 0,
+    AM_HAL_UART_STATUS_RX_QUEUE_FULL = 0x0001,
+    AM_HAL_UART_STATUS_RX_DATA_AVAIL = 0x0002,
+    AM_HAL_UART_STATUS_TX_QUEUE_FULL = 0x0004,
+    AM_HAL_UART_STATUS_TX_COMPLETE   = 0x0008,
+    AM_HAL_UART_STATUS_TX_BUSY       = 0x0010,
+    AM_HAL_UART_STATUS_FRM_ERROR     = UART0_DR_FEDATA_Msk,
+    AM_HAL_UART_STATUS_PRTY_ERROR    = UART0_DR_PEDATA_Msk,
+    AM_HAL_UART_STATUS_BRK_ERROR     = UART0_DR_BEDATA_Msk,
+    AM_HAL_UART_STATUS_OVRN_ERROR    = UART0_DR_OEDATA_Msk,
+    AM_HAL_UART_STATUS_INTRNL_MSK    = (AM_HAL_UART_STATUS_FRM_ERROR
+                                        | AM_HAL_UART_STATUS_OVRN_ERROR
+                                        | AM_HAL_UART_STATUS_PRTY_ERROR
+                                        | AM_HAL_UART_STATUS_BRK_ERROR),
+
+    AM_HAL_UART_STATUS_x32           = 0x80000000,
+}
+am_hal_uart_status_t;
+
+typedef enum
+{
+    AM_HAL_UART_ERR_BUS_ERROR = AM_HAL_STATUS_MODULE_SPECIFIC_START,
+    AM_HAL_UART_ERR_RX_QUEUE_FULL,
+    AM_HAL_UART_ERR_CLOCK_NOT_CONFIGURED,
+    AM_HAL_UART_ERR_BAUDRATE_NOT_POSSIBLE,
+}
+am_hal_uart_errors_t;
+
 
 //*****************************************************************************
 //
@@ -731,14 +760,6 @@ extern uint32_t am_hal_uart_interrupt_status_get(void *pHandle,
                                                  uint32_t *pui32Status,
                                                  bool bEnabledOnly);
 
-typedef enum
-{
-    AM_HAL_UART_STATUS_BUS_ERROR = AM_HAL_STATUS_MODULE_SPECIFIC_START,
-    AM_HAL_UART_STATUS_RX_QUEUE_FULL,
-    AM_HAL_UART_STATUS_CLOCK_NOT_CONFIGURED,
-    AM_HAL_UART_STATUS_BAUDRATE_NOT_POSSIBLE,
-}
-am_hal_uart_errors_t;
 
 //*****************************************************************************
 //
@@ -785,6 +806,89 @@ extern uint32_t am_hal_uart_interrupt_enable_get(void *pHandle, uint32_t *pui32I
 //! @return uint32_t
 //*****************************************************************************
 extern uint32_t am_hal_uart_control(void *pHandle, am_hal_uart_control_e eControl, void *pArgs) ;
+
+//*****************************************************************************
+//
+//! @brief
+//!
+//! @param pHandle
+//! @param pui8TxBuffer
+//! @param ui32TxBufferSize
+//! @param pui8RxBuffer
+//! @param ui32RxBufferSize
+//!
+//! @return
+//
+//*****************************************************************************
+extern uint32_t am_hal_uart_buffer_configure(void *pHandle,
+                                             uint8_t *pui8TxBuffer,
+                                             uint32_t ui32TxBufferSize,
+                                             uint8_t *pui8RxBuffer,
+                                             uint32_t ui32RxBufferSize);
+
+
+//*****************************************************************************
+//
+//! @brief called from uart ISR
+//!
+//! @details this code process uart tx, txcomplete, and rx interrupts, it is
+//! designed to be used with uart fifos enabled and tx and rx queues enabled
+//! The application will add data to the tx queue with the am_hal_uart_append_tx
+//! call. The application will read data from the rx queue with the
+//! am_hal_uart_get_rx_data
+//!
+//! @param pHandle is the handle for the UART to operate on.
+//!
+//! This function should be called from the ISR and then recieve/transmit data
+//! from/to hardware FIFO.
+//!
+//! @return am_hal_uart_status_t this is a bitfield
+//
+//*****************************************************************************
+extern am_hal_uart_status_t am_hal_uart_interrupt_queue_service(void *pHandle);
+
+//*****************************************************************************
+//
+//! @brief append data to uart tx output queue
+//!
+//! @details this code is used in conjunction with am_hal_uart_interrupt_queue_service
+//! it is designed to be used with uart fifos enabled and tx and rx queues enabled
+//! It will add data to the uart tx queue and get uart tx running
+//!
+//! @note the uart fifos and tx queue must be enabled before calling this
+//!
+//! @param pHandle      - The handle for the UART to operate on.
+//! @param pui8Buff     - Pointer to data buffer
+//! @param ui32NumBytes - The Number of bytes to send
+//!
+//! @return standard hal status
+//
+//*****************************************************************************
+extern uint32_t am_hal_uart_append_tx( void *pHandle,
+                                       uint8_t *pui8Buff,
+                                       uint32_t ui32NumBytes);
+
+//*****************************************************************************
+//
+//! @brief move data from rx queue (filled via ISR) into user supplied buffer
+//!
+//! @details this code is used in conjunction with am_hal_uart_interrupt_queue_service
+//! it is designed to be used with uart fifos enabled and tx and rx queues enabled
+//! It will add data to the uart tx queue and get uart tx running
+//!
+//! @note the uart fifos and rx queue must be enabled before calling this
+//!
+//! @param pHandle              - UART handle
+//! @param pui8DestBuff         - data is moved into this buffer (user buffer)
+//! @param ui32MaxBytes         - max number of bytes that can be moved
+//!
+//! @return     - actual number of bytes loaded into user buffer
+//
+//*****************************************************************************
+extern int32_t am_hal_uart_get_rx_data( void *pHandle,
+                                        uint8_t *pui8DestBuff,
+                                        uint32_t ui32MaxBytes);
+
 
 #ifdef __cplusplus
 }

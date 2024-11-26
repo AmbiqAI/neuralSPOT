@@ -170,6 +170,7 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
             return NS_STATUS_INIT_FAILED;
         }
     }
+    audio_initialized = true;
     return NS_STATUS_SUCCESS;
 }
 
@@ -271,7 +272,6 @@ uint32_t ns_audio_set_gain(am_hal_pdm_gain_e left_gain, am_hal_pdm_gain_e right_
 // #endif
 //         // deinitialize audadc first        
 //         ns_end_audio(g_ns_audio_config);
-//         g_ns_audio_config->audadc_config->left_gain = left_gain;
         return;
     }
     else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
@@ -282,13 +282,11 @@ uint32_t ns_audio_set_gain(am_hal_pdm_gain_e left_gain, am_hal_pdm_gain_e right_
             g_ns_audio_config->pdm_config->right_gain = right_gain;
         }
         else {
-            g_ns_audio_config->pdm_config = &ns_pdm_default;
-            g_ns_audio_config->pdm_config->left_gain = left_gain;
-            g_ns_audio_config->pdm_config->right_gain = right_gain;
+            return NS_STATUS_FAILURE;
         }
         pdm_init(g_ns_audio_config);
     }
-    return NS_STATUS_INVALID_CONFIG;
+    return NS_STATUS_SUCCESS;
 }
 
 

@@ -15,10 +15,9 @@ The basic_tf_stub example is based on a speech to intent model.
 #ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
 #endif
-#define RPC_ENABLED
-// #ifndef NS_AUDADC_PRESENT
+#ifndef NS_AUDADC_PRESENT
     #define USE_PDM_MICROPHONE
-// #endif
+#endif
 // #define NS_AUDADC_PRESENT
 // Define DYNAMIC_AUDIO_SOURCE to test switching between AUDADC and PDM audio sources
 // #define DYNAMIC_AUDIO_SOURCE
@@ -126,6 +125,7 @@ int main(void) {
 #endif
     model_init();
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
+    NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Audio gain set failed.\n");
 #ifdef DYNAMIC_AUDIO_SOURCE
     NS_TRY(ns_start_audio(&audio_config), "Audio start failed.\n");
 #endif

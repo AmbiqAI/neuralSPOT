@@ -78,7 +78,6 @@ else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
 		modules      += examples/har
-		modules	     += examples/uart
 
 		ifeq ($(BLE_SUPPORTED),1)
 			modules	     += examples/nnse

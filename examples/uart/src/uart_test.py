@@ -2,7 +2,10 @@ import serial
 import time
 
 # Configure the serial port
-SERIAL_PORT = '/dev/tty.usbmodem0011600012981'  # Update this to your serial port
+# SERIAL_PORT = '/dev/tty.usbmodem0011600012981'  # Update this to your serial port
+SERIAL_PORT = '/dev/tty.usbmodem0011600007091'
+# SERIAL_PORT = '/dev/tty.usbmodem0011600002531'
+# SERIAL_PORT = '/dev/tty.usbmodem0004831355981'
 BAUD_RATE = 115200            # Update this to your baud rate
 
 def main():
@@ -25,10 +28,10 @@ def main():
 
             try:
                 if ser.in_waiting > 0:  # Check if data is available to read
-                    response = ser.read(100)
+                    response = ser.read(256)
                     if response:
-                        # print(f"Received: ", response.decode('utf-8'))
-                        print(f"Received (raw bytes): {[hex(b) for b in response]}")
+                        print(f"Received: ", response.decode('utf-8'))
+                        # print(f"Received (raw bytes): {[hex(b) for b in response]}")
 
                     else:
                         print("Received empty response.")

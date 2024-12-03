@@ -85,7 +85,7 @@ extern uint32_t ns_uart_init(ns_uart_config_t * cfg);
  *
  * @param pcStr
  */
-extern void ns_uart_send_data(ns_uart_config_t * cfg, char *pcStr, uint32_t size);
+extern void ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
 
 /**
  * @brief Read from the UART rx buffer

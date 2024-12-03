@@ -1,7 +1,6 @@
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
-#include "am_hal_global.h"
 #include "ns_uart.h"
 volatile uint32_t ui32LastError;
 bool g_bUARTdone = false;
@@ -30,23 +29,20 @@ void uart_done(uint32_t ui32ErrorStatus, void *pvContext)
 
 uint32_t init_uart(am_hal_uart_config_t *uart_config)
 {
-
     // Set the default cache configuration
     am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
     am_hal_cachectrl_enable();
+
     // Configure the board for low power operation.
-    //
     am_bsp_low_power_init();
-    //
-    // Enable the UART pins.
-    //
-    // am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_TX, g_AM_BSP_GPIO_COM_UART_TX);
-    // am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_RX, g_AM_BSP_GPIO_COM_UART_RX);
+
+#if defined(AM_PART_APOLLO4L)
+    NS_TRY(am_hal_uart_initialize(2, &phUART), "Failed to initialize the UART");
+#else
     NS_TRY(am_hal_uart_initialize(0, &phUART), "Failed to initialize the UART");
+#endif
     NS_TRY(am_hal_uart_power_control(phUART, AM_HAL_SYSCTRL_WAKE, false), "Failed to power the UART");
     NS_TRY(am_hal_uart_configure(phUART, uart_config),  "Failed to configure the UART");
-    // NS_TRY(am_hal_uart_buffer_configure(phUART, g_pui8TxBuffer, sizeof(g_pui8TxBuffer), g_pui8RxBuffer, sizeof(g_pui8RxBuffer)), "Failed to configure the UART buffers");
-    // NS_TRY(am_hal_uart_buffer_configure(phUART, uart_config->txBuffer, uart_config->tx_bufferLength, uart_config->rxBuffer, uart_config->rx_bufferLength), "Failed to configure the UART buffers");
 
     NS_TRY(am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_TX, g_AM_BSP_GPIO_COM_UART_TX), "Failed to configure UART TX pin");
     NS_TRY(am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_RX, g_AM_BSP_GPIO_COM_UART_RX), "Failed to configure UART RX pin");
@@ -58,16 +54,16 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     return AM_HAL_STATUS_SUCCESS;
 }
 
-void ns_uart_send_data(ns_uart_config_t* cfg, char * pcStr, uint32_t size) {
+void ns_uart_send_data(ns_uart_config_t* cfg, char * txBuffer, uint32_t size) {
     uint32_t ui32BytesWritten = 0;
 
     const am_hal_uart_transfer_t sUartWrite =
     {
         .eType = AM_HAL_UART_BLOCKING_WRITE,
-        .pui8Data = (uint8_t *)pcStr,
+        .pui8Data = (uint8_t *)txBuffer,
         .ui32NumBytes = size,
         .pui32BytesTransferred = &ui32BytesWritten,
-        .ui32TimeoutMs = 5000, 
+        .ui32TimeoutMs = 1000, 
         .pfnCallback = &uart_done,
         .pvContext = NULL,
         .ui32ErrorStatus = 0
@@ -92,7 +88,7 @@ void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size)
         .pui8Data = (uint8_t *)rxBuffer,
         .ui32NumBytes = size,
         .pui32BytesTransferred = &ui32BytesRead,
-        .ui32TimeoutMs = 5000,
+        .ui32TimeoutMs = 1000,
         .pfnCallback = &uart_done,
         .pvContext = NULL,
         .ui32ErrorStatus = &ui32LastError

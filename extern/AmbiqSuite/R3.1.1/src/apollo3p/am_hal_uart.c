@@ -12,9 +12,39 @@
 
 //*****************************************************************************
 //
-// ${copyright}
+// Copyright (c) 2023, Ambiq Micro, Inc.
+// All rights reserved.
 //
-// This is part of revision ${version} of the AmbiqSuite Development Package.
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice,
+// this list of conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright
+// notice, this list of conditions and the following disclaimer in the
+// documentation and/or other materials provided with the distribution.
+//
+// 3. Neither the name of the copyright holder nor the names of its
+// contributors may be used to endorse or promote products derived from this
+// software without specific prior written permission.
+//
+// Third party software included in this distribution is subject to the
+// additional license terms as defined in the /docs/licenses directory.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
+//
+// This is part of revision release_sdk_3_1_1-10cda4b5e0 of the AmbiqSuite Development Package.
 //
 //*****************************************************************************
 
@@ -88,15 +118,15 @@ typedef struct
 
     uint32_t ui32Module;
 
+    bool bEnableTxQueue;
     am_hal_queue_t sTxQueue;
+
+    bool bEnableRxQueue;
     am_hal_queue_t sRxQueue;
 
     uint32_t ui32BaudRate;
 
     am_hal_uart_clock_speed_e  eUartClockSpeed ;
-    bool bEnableTxQueue;
-    bool bEnableRxQueue;
-
 }
 am_hal_uart_state_t;
 
@@ -114,6 +144,11 @@ static am_hal_uart_state_t g_am_hal_uart_states[AM_REG_UART_NUM_MODULES];
 //*****************************************************************************
 static uint32_t config_baudrate(uint32_t ui32Module, uint32_t ui32Baudrate, uint32_t *ui32UartClkFreq);
 
+static uint32_t buffer_configure(void *pHandle,
+                                 uint8_t *pui8TxBuffer,
+                                 uint32_t ui32TxBufferSize,
+                                 uint8_t *pui8RxBuffer,
+                                 uint32_t ui32RxBufferSize);
 
 static uint32_t tx_queue_update(void *pHandle);
 static uint32_t rx_queue_update(void *pHandle);
@@ -429,11 +464,11 @@ am_hal_uart_configure(void *pHandle, const am_hal_uart_config_t *psConfig)
     //
     // Set up any buffers that might exist.
     //
-    am_hal_uart_buffer_configure(pHandle,
-                                 psConfig->pui8TxBuffer,
-                                 psConfig->ui32TxBufferSize,
-                                 psConfig->pui8RxBuffer,
-                                 psConfig->ui32RxBufferSize);
+    buffer_configure(pHandle,
+                     psConfig->pui8TxBuffer,
+                     psConfig->ui32TxBufferSize,
+                     psConfig->pui8RxBuffer,
+                     psConfig->ui32RxBufferSize);
 
     return AM_HAL_STATUS_SUCCESS;
 } // am_hal_uart_configure()
@@ -443,9 +478,9 @@ am_hal_uart_configure(void *pHandle, const am_hal_uart_config_t *psConfig)
 // Allows the UART HAL to use extra space to store TX and RX data.
 //
 //*****************************************************************************
-uint32_t
-am_hal_uart_buffer_configure(void *pHandle, uint8_t *pui8TxBuffer, uint32_t ui32TxBufferSize,
-                             uint8_t *pui8RxBuffer, uint32_t ui32RxBufferSize)
+static uint32_t
+buffer_configure(void *pHandle, uint8_t *pui8TxBuffer, uint32_t ui32TxBufferSize,
+                 uint8_t *pui8RxBuffer, uint32_t ui32RxBufferSize)
 {
     am_hal_uart_state_t *pState = (am_hal_uart_state_t *) pHandle;
     uint32_t ui32ErrorStatus;
@@ -505,7 +540,7 @@ am_hal_uart_buffer_configure(void *pHandle, uint8_t *pui8TxBuffer, uint32_t ui32
     }
 
     return AM_HAL_STATUS_SUCCESS;
-} // am_hal_uart_buffer_configure()
+} // buffer_configure()
 
 #define BAUDCLK     (16) // Number of UART clocks needed per bit.
 //*****************************************************************************
@@ -532,7 +567,7 @@ config_baudrate(uint32_t ui32Module, uint32_t ui32DesiredBaudrate, uint32_t *pui
     //
     if (ui32DesiredBaudrate > AM_HAL_UART_MAXIMUM_BAUDRATE)
     {
-      return AM_HAL_UART_ERR_BAUDRATE_NOT_POSSIBLE;
+      return AM_HAL_UART_STATUS_BAUDRATE_NOT_POSSIBLE;
     }
 
     switch ( UARTn(ui32Module)->CR_b.CLKSEL )
@@ -555,7 +590,7 @@ config_baudrate(uint32_t ui32Module, uint32_t ui32DesiredBaudrate, uint32_t *pui
 
         default:
             *pui32ActualBaud = 0;
-            return AM_HAL_UART_ERR_CLOCK_NOT_CONFIGURED;
+            return AM_HAL_UART_STATUS_CLOCK_NOT_CONFIGURED;
     }
 
     //
@@ -573,15 +608,12 @@ config_baudrate(uint32_t ui32Module, uint32_t ui32DesiredBaudrate, uint32_t *pui
     if (ui32IntegerDivisor == 0)
     {
         *pui32ActualBaud = 0;
-        return AM_HAL_UART_ERR_BAUDRATE_NOT_POSSIBLE;
+        return AM_HAL_UART_STATUS_BAUDRATE_NOT_POSSIBLE;
     }
 
     //
     // Write the UART regs.
     //
-    // #### INTERNAL BEGIN ####
-    // TODO: Is this double-write of IBRD really intended?
-    // #### INTERNAL END ####
     UARTn(ui32Module)->IBRD = ui32IntegerDivisor;
     UARTn(ui32Module)->IBRD = ui32IntegerDivisor;
     UARTn(ui32Module)->FBRD = ui32FractionDivisor;
@@ -639,7 +671,7 @@ uart_fifo_read(void *pHandle, uint8_t *pui8Data, uint32_t ui32NumBytes,
                                 _VAL2FLD(UART0_DR_PEDATA, UART0_DR_PEDATA_ERR) |
                                 _VAL2FLD(UART0_DR_FEDATA, UART0_DR_FEDATA_ERR)) )
             {
-                ui32ErrorStatus =  AM_HAL_UART_ERR_BUS_ERROR;
+                ui32ErrorStatus =  AM_HAL_UART_STATUS_BUS_ERROR;
                 break;
             }
             else
@@ -1516,368 +1548,6 @@ am_hal_uart_control(void *pHandle, am_hal_uart_control_e eControl, void *pArgs)
 
     return (uint32_t) eHalStatus ;
 }
-
-// uart asycn driver below
-
-//*****************************************************************************
-//
-// Manage UART ISR used when uart fifos and tx and rx queues are enabled
-// This is a nonblocking, non-signalling uart driver, it saves incoming rx data
-// in the rx queue, and transmits tx data from the queue.
-//
-//*****************************************************************************
-am_hal_uart_status_t
-am_hal_uart_interrupt_queue_service(void *pHandle)
-{
-    am_hal_uart_state_t *pState = pHandle;
-    volatile UART0_Type *pUart = UARTn(pState->ui32Module);
-
-    am_hal_uart_status_t ui32RetStat = AM_HAL_UART_STATUS_SUCCESS;
-
-    //
-    // manage rx fifo data
-    //
-    if (pUart->MIS & ( UART0_MIS_RTMIS_Msk | UART0_MIS_RXMIS_Msk))
-    {
-        //
-        // read the fifo data, save into the rx queue
-        //
-        am_hal_queue_t *pRxQ = &pState->sRxQueue;
-        uint32_t ui32QueSize = pRxQ->ui32Capacity;
-        uint8_t *pui8QueBuff = pRxQ->pui8Data;
-        //
-        // @note: if the output buffer is read from a higher priority isr
-        //  this next block should be in a critical section
-        //
-        {
-            uint32_t ui32WrtIdx = pRxQ->ui32WriteIndex;
-            uint32_t ui32NumInQue = pRxQ->ui32Length;
-
-            //
-            // loop while there is data in the queue
-            // and there is storage to save the incoming data
-            //
-            while (!(pUart->FR & UART0_FR_RXFE_Msk))
-            {
-                uint32_t ui32RdDr = pUart->DR;
-
-                //
-                // capture any read error flags
-                //
-                ui32RetStat |= (ui32RdDr & AM_HAL_UART_STATUS_INTRNL_MSK);
-                pui8QueBuff[ui32WrtIdx] = (uint8_t) ui32RdDr;
-                if (++ui32NumInQue > ui32QueSize)
-                {
-                    //
-                    // queue is at the limit, can't write this data
-                    //
-                    ui32NumInQue = ui32QueSize;
-                    ui32RetStat |= AM_HAL_UART_STATUS_RX_QUEUE_FULL;
-                    break;
-                }
-                if (++ui32WrtIdx >= ui32QueSize)
-                {
-                    ui32WrtIdx = 0;
-                }
-            }
-            pRxQ->ui32WriteIndex = ui32WrtIdx;
-            if (pRxQ->ui32Length != ui32NumInQue)
-            {
-                //
-                // new data has been added to the rx buffer
-                //
-                ui32RetStat |= AM_HAL_UART_STATUS_RX_DATA_AVAIL;
-                pRxQ->ui32Length = ui32NumInQue;
-            }
-
-            //
-            // Clear these Interrupts (rx fifo and rx timeout)
-            //
-            pUart->IEC = (UART0_IEC_RTIC_Msk | UART0_IEC_RXIC_Msk);
-        }
-
-    } // ui32IES_int &  (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_RX_TMOUT
-
-    //
-    // manage tx fifo data
-    //
-    if (pUart->MIS &  UART0_MIS_TXMIS_Msk)
-    {
-        //
-        // tx interrupt and the interrupt is enabled
-        //
-
-        am_hal_queue_t *pTxQ = &pState->sTxQueue;
-        //
-        // @note: This critical section is not needed if:
-        // uart send isn't called in higher priority ISRs
-        //
-        AM_CRITICAL_BEGIN
-            uint32_t ui32NumInQue = pTxQ->ui32Length;
-            if (ui32NumInQue)
-            {
-                //
-                // There is data to transmit
-                // move data from the tx queue to the tx fifo
-                //
-                uint8_t *pui8QueBuff = pTxQ->pui8Data;
-                uint32_t ui32QueSize = pTxQ->ui32Capacity;
-                uint32_t ui32RdIdx = pTxQ->ui32ReadIndex;
-                //
-                // Clear these Tx Interrupts
-                // #### INTERNAL BEGIN ####
-                // note this works better if the software doesn't have to clear tx interrupts
-                // the software should manage a driver like this by disabling the interrupt, not clearing the interrupt
-                // If the hardware sets the interrupt bit based on a fifo level,
-                // it should also clear it, at least here.
-                // #### INTERNAL END ####
-                //
-                pUart->IEC = UART0_IEC_TXCMPMIC_Msk | UART0_IEC_TXIC_Msk;
-
-                while (ui32NumInQue && !(pUart->FR & UART0_FR_TXFF_Msk))
-                {
-                    pUart->DR = pui8QueBuff[ui32RdIdx];
-                    if (++ui32RdIdx >= ui32QueSize)
-                    {
-                        ui32RdIdx = 0;
-                    }
-                    ui32NumInQue--;
-                }
-                pTxQ->ui32ReadIndex = ui32RdIdx;
-                pTxQ->ui32Length = ui32NumInQue;
-                if (ui32NumInQue == 0)
-                {
-                    //
-                    // Nothing left in queue, disable this interrupt
-                    // enable the tx compelte interrupt
-                    //
-                    pUart->IER = (pUart->IER & ~UART0_IER_TXIM_Msk) | UART0_IER_TXCMPMIM_Msk;
-                }
-                else
-                {
-                    //
-                    // There is still data in the queue,
-                    // so at least one more txim interrupt is needed
-                    // tx complete interrupt is not needed until the queue is empty
-                    //
-                    pUart->IER = (pUart->IER & ~UART0_IER_TXCMPMIM_Msk) | UART0_IER_TXIM_Msk;
-                }
-                ui32RetStat |= AM_HAL_UART_STATUS_TX_BUSY;
-            }
-            else
-            {
-                //
-                // there is nothing in the queue
-                // clear and disable this interrupt, this code should not be executed
-                // there could still be some data in the tx fifo
-                //
-                pUart->IEC = UART0_IEC_TXIC_Msk;
-                pUart->IER &= ~UART0_IER_TXIM_Msk;
-
-            }
-        AM_CRITICAL_END
-
-    } // ui32IES_int & UART0_IER_TXIM_Msk
-
-    if (pUart->MIS & UART0_MIS_TXCMPMMIS_Msk)
-    {
-        //
-        // tx complete, clear and disable this interrupt
-        //
-        pUart->IEC = UART0_IEC_TXCMPMIC_Msk;
-        //
-        // @note: This critical section is not needed if:
-        // uart send isn't called in higher priority ISRs
-        //
-        AM_CRITICAL_BEGIN
-            pUart->IER &= ~UART0_IER_TXCMPMIM_Msk;
-        AM_CRITICAL_END
-        ui32RetStat &= ~AM_HAL_UART_STATUS_TX_BUSY;
-        ui32RetStat |= AM_HAL_UART_STATUS_TX_COMPLETE;
-    }
-
-    return ui32RetStat;
-
-} // am_hal_uart_interrupt_queue_service
-//*****************************************************************************
-//
-// Append data into the uart tx output queue
-//
-//*****************************************************************************
-uint32_t
-am_hal_uart_append_tx( void *pHandle, uint8_t *pui8Buff, uint32_t ui32NumBytes )
-{
-    am_hal_uart_state_t *pState = (am_hal_uart_state_t *) pHandle;
-    uint32_t return_stat = AM_HAL_STATUS_SUCCESS;
-
-    if (pState == NULL)
-    {
-        return AM_HAL_STATUS_INVALID_HANDLE;
-    }
-
-    am_hal_queue_t *pTxQ = &pState->sTxQueue;
-    if (pTxQ == NULL || ui32NumBytes == 0)
-    {
-        //
-        // the user needs to define the queue
-        //
-        return AM_HAL_STATUS_INVALID_ARG;
-    }
-
-    volatile UART0_Type *pUart = UARTn(pState->ui32Module);
-
-    AM_CRITICAL_BEGIN
-        //
-        // clear pending tx interrupts
-        //
-        pUart->IEC = UART0_IEC_TXCMPMIC_Msk | UART0_IEC_TXIC_Msk;
-
-        uint32_t bytesInQueue = pTxQ->ui32Length;
-
-        //
-        // Only write to fifo once, before or after filling the queue:
-        // if queue is empty write buffer fifo first, then reducing
-        // (or eliminating) the need to save that data in the queue.
-        //
-        bool fifoFilled = false;
-        if (bytesInQueue == 0)
-        {
-            fifoFilled = true;
-            //
-            // nothing in queue, so start by dumping incoming data into fifo
-            // it appears the interrupt will not fire until something is written to the buffer
-            //
-            while (ui32NumBytes && !(pUart->FR & UART0_FR_TXFF_Msk))
-            {
-                pUart->DR = *pui8Buff++;
-                ui32NumBytes--;
-            }
-        }
-
-        uint8_t *txQueuBuff = pTxQ->pui8Data;
-        uint32_t ui32Wi = pTxQ->ui32WriteIndex;
-        uint32_t ui32Maxi = pTxQ->ui32Capacity;
-
-        if (ui32NumBytes)
-        {
-            //
-            // put remainder in queue
-            //
-            bytesInQueue += ui32NumBytes;
-            if (bytesInQueue > ui32Maxi)
-            {
-                return_stat = AM_HAL_STATUS_OUT_OF_RANGE;
-                goto CRITICAL_EXIT;
-            }
-
-            do
-            {
-                //
-                // fill circular buffer
-                //
-                txQueuBuff[ui32Wi] = *pui8Buff++;
-                if (++ui32Wi >= ui32Maxi)
-                {
-                    ui32Wi = 0;
-                }
-
-            } while (--ui32NumBytes);
-            pTxQ->ui32WriteIndex = ui32Wi;
-        }
-
-        if (!fifoFilled)
-        {
-            //
-            // fifo has not been filled this pass, so
-            // fill fifo with data from queue
-            //
-            uint32_t ui32RdIdx = pTxQ->ui32ReadIndex;
-
-            while (bytesInQueue && !(pUart->FR & UART0_FR_TXFF_Msk))
-            {
-                //
-                // move data from circular buffer into queue
-                //
-                pUart->DR = txQueuBuff[ui32RdIdx];
-                if (++ui32RdIdx >= ui32Maxi)
-                {
-                    ui32RdIdx = 0;
-                }
-                bytesInQueue--;
-            }
-            pTxQ->ui32ReadIndex = ui32RdIdx;
-        }
-        pTxQ->ui32Length = bytesInQueue;
-
-        if (bytesInQueue)
-        {
-            //
-            // enable the tx fifo low interrupt, that will manage fifo filling from queue
-            //
-            pUart->IER = (pUart->IER & ~UART0_IER_TXCMPMIM_Msk) | UART0_IER_TXIM_Msk;
-        }
-        else
-        {
-            //
-            // queue is empty, but fifo has data, enable transmit complete interrupt
-            //
-            pUart->IER = (pUart->IER & ~UART0_IER_TXIM_Msk) | UART0_IER_TXCMPMIM_Msk;
-        }
-CRITICAL_EXIT:
-    AM_CRITICAL_END
-
-    return return_stat;
-
-} // am_hal_uart_append_tx
-
-//*****************************************************************************
-//
-// Get Rx Data
-//
-// This function will unload data from the queue and load the data into
-// a user supplied buffer.
-//
-//*****************************************************************************
-int32_t
-am_hal_uart_get_rx_data( void *pHandle, uint8_t *pui8DestBuff, uint32_t ui32MaxBytes )
-{
-
-    am_hal_uart_state_t *pState = (am_hal_uart_state_t *) pHandle;
-
-    //
-    // If we're using an RX queue, take all of the data from the RX FIFO and add
-    // it to the internal queue.
-    //
-    if (pState->bEnableRxQueue)
-    {
-        rx_queue_update(pHandle);
-    }
-
-    uint32_t ui32DatainQueue = am_hal_queue_data_left(&pState->sRxQueue);
-
-    uint32_t ui32BytesToRead = ui32DatainQueue > ui32MaxBytes ? ui32MaxBytes : ui32DatainQueue;
-
-    if (ui32BytesToRead)
-    {
-        bool bSuccess = am_hal_queue_item_get(&pState->sRxQueue,
-                                              pui8DestBuff, ui32BytesToRead);
-
-        //
-        // We checked the amount of data we had available before reading, so
-        // the queue read really shouldn't fail. If it does anyway, we need
-        // to raise an error and abort the read.
-        //
-        if (bSuccess == false)
-        {
-            return -1;
-        }
-    }
-
-    return (int32_t) ui32BytesToRead;
-}
-
-
-
 //*****************************************************************************
 //
 // End Doxygen group.

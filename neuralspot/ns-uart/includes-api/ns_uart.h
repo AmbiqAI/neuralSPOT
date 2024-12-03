@@ -51,7 +51,7 @@ extern const ns_core_api_t ns_uart_V0_0_1;
 extern const ns_core_api_t ns_uart_oldest_supported_version;
 extern const ns_core_api_t ns_uart_current_version;
 
-typedef void *ns_uart_handle_t;
+typedef void * ns_uart_handle_t;
 extern ns_uart_handle_t phUART;
 
 // typedef void (*ns_uart_rx_cb)(ns_uart_transaction_t *);
@@ -67,9 +67,6 @@ typedef struct
 {
     const ns_core_api_t *                 api;                            ///< API prefix
     am_hal_uart_config_t *          uart_config;                    ///< UART Configuration
-// #if defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) // The Apollo4 am_hal_uart_config_t struct does not contain the rx or tx buffers, so we declare them here
-//     uint8_t * rxBuffer; // RX buffer 
-// #endif
 }
 ns_uart_config_t;
 
@@ -95,7 +92,7 @@ extern void ns_uart_send_data(ns_uart_config_t * cfg, char *pcStr, uint32_t size
  *
  * @param cfg
  */
-extern void ns_uart_receive_data(ns_uart_config_t *cfg);
+extern void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
 
 
     #ifdef __cplusplus

@@ -1,6 +1,6 @@
 # Put your local overrides in here
 
-PLATFORM := apollo4l_evb
+PLATFORM := apollo4p_evb
 # AS_VERSION := R3.1.1
 # AS_VERSION := R4.4.1
 # #

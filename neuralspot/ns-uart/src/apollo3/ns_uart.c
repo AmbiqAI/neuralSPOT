@@ -48,13 +48,13 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     return AM_HAL_STATUS_SUCCESS;
 }
 
-void ns_uart_send_data(ns_uart_config_t *cfg, char * pcStr, uint32_t size) {
+void ns_uart_send_data(ns_uart_config_t *cfg, char * txBuffer, uint32_t size) {
     uint32_t ui32BytesWritten = 0;
 
     const am_hal_uart_transfer_t sUartWrite =
     {
         .ui32Direction = AM_HAL_UART_WRITE,
-        .pui8Data = (uint8_t *)pcStr,
+        .pui8Data = (uint8_t *)txBuffer,
         .ui32NumBytes = size,
         .ui32TimeoutMs = 100,
         .pui32BytesTransferred = &ui32BytesWritten,

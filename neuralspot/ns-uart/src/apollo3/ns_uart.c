@@ -14,14 +14,10 @@ void am_uart_isr(void)
 
 uint32_t init_uart(am_hal_uart_config_t *uart_config)
 {
-    //
     // Set the clock frequency.
-    //
     am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_SYSCLK_MAX, 0);
 
-    //
     // Set the default cache configuration
-    //
     am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
     am_hal_cachectrl_enable();
 
@@ -39,9 +35,7 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_TX, g_AM_BSP_GPIO_COM_UART_TX);
     am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_RX, g_AM_BSP_GPIO_COM_UART_RX);
 
-    //
     // Enable interrupts.
-    //
     NVIC_EnableIRQ((IRQn_Type)(UART0_IRQn + AM_BSP_UART_PRINT_INST));
     am_hal_interrupt_master_enable();
 
@@ -62,9 +56,7 @@ void ns_uart_send_data(ns_uart_config_t *cfg, char * txBuffer, uint32_t size) {
     am_hal_uart_transfer(phUART, &sUartWrite);
     if (ui32BytesWritten != size)
     {
-        //
         // Couldn't send the whole string!!
-        //
         while(1);
     }
     am_hal_uart_tx_flush(phUART);

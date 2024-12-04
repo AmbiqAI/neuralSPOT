@@ -59,12 +59,7 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
     ns_itm_printf_enable();                                     // nada
-
-    // uart_config.rxBuffer = g_pui8RxBuffer;
-    // uart_config.rx_bufferLength = RX_BUFFER_SIZE;
-    // uart_config.txBuffer = g_pui8TxBuffer;
-    // uart_config.tx_bufferLength = TX_BUFFER_SIZE;
-
+    
     ns_lp_printf("UART init\n");
     NS_TRY(ns_uart_init(&uart_config), "UART init failed.\n");
     ns_interrupt_master_enable();
@@ -72,14 +67,11 @@ int main(void) {
     ns_lp_printf("UART init done\n");
     char buffer[] = "hello world";
     char rxBuffer[12];
-    for(int i = 0; i < 30; i ++) {
+    while(1) {
         // Send data over UART
-        // ns_delay_us(500000);
-        // Small delay to allow MCU to process and respond
         ns_uart_send_data(&uart_config, buffer, (uint32_t)sizeof(buffer) - 1);
-        // // Receive data over UART
+        // Receive data over UART
         ns_uart_receive_data(&uart_config, rxBuffer, (uint32_t)sizeof(rxBuffer));
-        // // ns_lp_printf("Received: %u\n", g_pui8RxBuffer);
         strcpy(buffer, (char *)rxBuffer);
         ns_delay_us(500000);
     }

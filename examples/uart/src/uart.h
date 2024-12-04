@@ -1,11 +1,11 @@
 /**
- * @file basic_tf_stub.h
- * @author Carlos Morales
+ * @file uart.h
+ * @author Evan Chen
  * @brief
  * @version 0.1
- * @date 2022-10-26
+ * @date 2024-12-04
  *
- * @copyright Copyright (c) 2022
+ * @copyright Copyright (c) 2024
  *
  */
 

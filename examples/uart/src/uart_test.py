@@ -2,10 +2,12 @@ import serial
 import time
 
 # Configure the serial port
-# SERIAL_PORT = '/dev/tty.usbmodem0011600012981'  # apollo4l serial port
-SERIAL_PORT = '/dev/tty.usbmodem0011600007091' # apollo4p serial port
+SERIAL_PORT = '/dev/tty.usbmodem0011600012981'  # apollo4l serial port
+# SERIAL_PORT = '/dev/tty.usbmodem0011600007091' # apollo4p serial port
 # SERIAL_PORT = '/dev/tty.usbmodem0011600002531' # apollo3p serial port
 # SERIAL_PORT = '/dev/tty.usbmodem0004831355981' # apollo3 serial port
+# SERIAL_PORT = '/dev/tty.usbmodem0011600015811' # apollo4 blue lite serial port
+# SERIAL_PORT = '/dev/tty.usbmodem0011600013861' # apollo4 blue plus serial port
 BAUD_RATE = 115200            # Update this to your baud rate
 
 def main():

@@ -1,16 +1,27 @@
 import serial
 import time
+import serial.tools.list_ports
 
 # Configure the serial port
-SERIAL_PORT = '/dev/tty.usbmodem0011600012981'  # apollo4l serial port
-# SERIAL_PORT = '/dev/tty.usbmodem0011600007091' # apollo4p serial port
-# SERIAL_PORT = '/dev/tty.usbmodem0011600002531' # apollo3p serial port
-# SERIAL_PORT = '/dev/tty.usbmodem0004831355981' # apollo3 serial port
-# SERIAL_PORT = '/dev/tty.usbmodem0011600015811' # apollo4 blue lite serial port
-# SERIAL_PORT = '/dev/tty.usbmodem0011600013861' # apollo4 blue plus serial port
+
+def find_tty():
+    # Find the TTY of our device by scanning serial USB devices
+    # The VID of our device is alway 0xCAFE
+    # This is a hack to find the tty of our device, it will break if there are multiple devices with the same VID
+    # or if the VID changes
+    tty = None
+    ports = serial.tools.list_ports.comports()
+    for p in ports:
+        if p.vid == 4966:
+            tty = p.device
+            break
+
+    return tty
+
 BAUD_RATE = 115200            # Update this to your baud rate
 
 def main():
+    SERIAL_PORT = find_tty()
     try:
         # Open the serial port
         ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=0.01)
@@ -18,11 +29,14 @@ def main():
 
         # Give the microcontroller some time to reset
         time.sleep(2)
-
+        count = 0
         # Continuous loop to alternately send and receive data
         while True:
             # Send a command to the microcontroller
-            command = "Hello, MCU!\n"
+            if count % 2 == 0:
+                command = "Hello, MCU!\n"
+            else:
+                command = "How are you?\n"
             ser.write(command.encode())
             print(f"Sent: {command.strip()}")
 
@@ -41,7 +55,7 @@ def main():
                     print("No response received.")
             except OSError as e:
                 print(f"Error reading from serial port: {e}")
-
+            count += 1
             # Small delay before the next iteration
             time.sleep(1)
 

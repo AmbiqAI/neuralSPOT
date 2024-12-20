@@ -31,7 +31,7 @@ extern "C" {
 extern const ns_core_api_t ns_uart_V0_0_1;
 extern const ns_core_api_t ns_uart_oldest_supported_version;
 extern const ns_core_api_t ns_uart_current_version;
-
+extern am_hal_uart_config_t g_sUartConfig;
 typedef void * ns_uart_handle_t;
 extern ns_uart_handle_t phUART;
 

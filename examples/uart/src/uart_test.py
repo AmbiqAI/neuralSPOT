@@ -28,7 +28,7 @@ def main():
         print(f"Opened serial port {SERIAL_PORT} at {BAUD_RATE} baud.")
 
         # Give the microcontroller some time to reset
-        time.sleep(2)
+        time.sleep(1)
         count = 0
         # Continuous loop to alternately send and receive data
         while True:
@@ -36,7 +36,7 @@ def main():
             if count % 2 == 0:
                 command = "Hello, MCU!\n"
             else:
-                command = "How are you?\n"
+                command = "How are you?"
             ser.write(command.encode())
             print(f"Sent: {command.strip()}")
 
@@ -57,7 +57,7 @@ def main():
                 print(f"Error reading from serial port: {e}")
             count += 1
             # Small delay before the next iteration
-            time.sleep(1)
+            time.sleep(0.5)
 
     except serial.SerialException as e:
         print(f"Error: {e}")

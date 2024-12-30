@@ -30,14 +30,41 @@ int main(void) {
     ns_interrupt_master_enable();
 
     ns_lp_printf("UART init done\n");
-    char buffer[] = "hello world";
     char rxBuffer[12];
-    while(1) {
-        // Send data over UART
-        ns_uart_send_data(&uart_config, buffer, (uint32_t)sizeof(buffer) - 1);
+    int count = 1;
+    char *txBuffer = "";
+    for(int i = 0; i < 15; i++) {
+        switch (i) {
+            case 0:
+                ns_uart_send_data(&uart_config, "Press button 0\n", 15);
+                break;
+            case 1:
+                ns_uart_send_data(&uart_config, "Press button 1\n", 15);
+                break;
+            case 2:
+                ns_uart_send_data(&uart_config, "Press button 0 and 1\n", 20);
+                break;
+            case 3:
+                ns_uart_send_data(&uart_config, "Press button 0\n", 15);
+                break;
+            case 4:
+                ns_uart_send_data(&uart_config, "Press button 1\n", 15);
+                break;
+            case 5:
+                ns_uart_send_data(&uart_config, "Press button 0 and 1\n", 20);
+                break;
+            case 6:
+                ns_uart_send_data(&uart_config, "Press button 11111111asfjlas fjasfadslfjasldf0\n", 47);
+                break;
+            case 7:
+                ns_uart_send_data(&uart_config, "P\n", 1);
+                break;
+            default:
+                ns_uart_send_data(&uart_config,rxBuffer, sizeof(rxBuffer));
+        }
         // Receive data over UART
-        ns_uart_receive_data(&uart_config, rxBuffer, (uint32_t)sizeof(rxBuffer));
-        strcpy(buffer, (char *)rxBuffer);
+        ns_uart_receive_data(&uart_config, rxBuffer, 12);
+        // strcpy(txBuffer, rxBuffer);
         ns_delay_us(500000);
     }
 }

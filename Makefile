@@ -34,7 +34,6 @@ modules      += neuralspot/ns-ipc
 modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-features
-modules 	 += neuralspot/ns-uart
 
 # ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c

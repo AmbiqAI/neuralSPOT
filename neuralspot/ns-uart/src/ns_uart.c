@@ -60,8 +60,8 @@ ns_uart_config_t ns_uart_config = {
     .uart_config = NULL};
 
 extern uint32_t init_uart(am_hal_uart_config_t *uart_config);
-extern void ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
-extern void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
+extern uint32_t ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
+extern uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
 uint32_t ns_uart_init(ns_uart_config_t *cfg) {
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {

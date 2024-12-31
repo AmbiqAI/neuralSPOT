@@ -90,22 +90,21 @@ void ns_uart_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size) {
     uint32_t ui32BytesWritten = 0;
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
-    // am_hal_uart_tx_flush(phUART);
     memset(g_pui8TxBuffer, 0, sizeof(g_pui8TxBuffer));
     while (retries > 0) {
         const am_hal_uart_transfer_t sUartWrite = {
             .ui32Direction = AM_HAL_UART_WRITE,
             .pui8Data = (uint8_t *)txBuffer,
             .ui32NumBytes = size,
-            .ui32TimeoutMs = 100,
+            .ui32TimeoutMs = 5000,
             .pui32BytesTransferred = &ui32BytesWritten,
         };
 
         status = am_hal_uart_transfer(phUART, &sUartWrite);
 
-        if (status == AM_HAL_STATUS_SUCCESS && ui32BytesWritten == size) {
+        if (status == AM_HAL_STATUS_SUCCESS) {
             // Successfully sent the whole string
-            // am_hal_uart_tx_flush(phUART);
+            am_hal_uart_tx_flush(phUART);
             return AM_HAL_STATUS_SUCCESS;
         }
         retries--;
@@ -123,8 +122,6 @@ void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size)
     uint32_t ui32BytesRead = 0;
     memset(g_pui8RxBuffer, 0, sizeof(g_pui8RxBuffer));
     while (retries > 0) {
-        // Clear Rx buffer
-        // memset(g_pui8RxBuffer, 0, size);
         const am_hal_uart_transfer_t sUartRead =
         {
             .ui32Direction = AM_HAL_UART_READ,
@@ -134,7 +131,7 @@ void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size)
             .ui32TimeoutMs = 5000,
         };
         status = am_hal_uart_transfer(phUART, &sUartRead);
-            if (status == AM_HAL_STATUS_SUCCESS && ui32BytesRead == size) {
+            if (status == AM_HAL_STATUS_SUCCESS) {
                 // Successfully read the whole string
                 return AM_HAL_STATUS_SUCCESS;
             }

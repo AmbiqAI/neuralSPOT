@@ -30,41 +30,54 @@ int main(void) {
     ns_interrupt_master_enable();
 
     ns_lp_printf("UART init done\n");
-    char rxBuffer[12];
+
+//     char buffer[256];
+//     while (1) {
+//         // Receive data over UART
+//         uint32_t status = ns_uart_receive_data(&uart_config, buffer, sizeof(buffer));
+//         if (status == AM_HAL_STATUS_SUCCESS) {
+//             ns_lp_printf("Received: %s\n", buffer);
+
+//             // Send acknowledgment to the Python script
+//             ns_uart_send_data(&uart_config, "ACK", 3);
+
+//             // Prepare a response based on the received command
+//             if (strcmp(buffer, "Hello, MCU!") == 0) {
+//                 strcpy(buffer, "Hello, Python!\n");
+//             } else if (strcmp(buffer, "How are you? A B C D E F G H I J K L M N O P Q R S T U V W X Y Z") == 0) {
+//                 strcpy(buffer, "I'm fine, thank you!\n");
+//             } else {
+//                 // Generate a random response
+//                 int response_size = rand() % 256;
+//                 for (int i = 0; i < response_size; i++) {
+//                     buffer[i] = 'A' + (rand() % 26);
+//                 }
+//                 buffer[response_size] = '\0';
+//             }
+
+//             // Send the response back to the Python script
+//             ns_uart_send_data(&uart_config, buffer, strlen(buffer));
+//         } else {
+//             ns_lp_printf("Failed to receive data over UART. Error code: %u\n", status);
+//         }
+
+//         // Small delay before the next iteration
+//         ns_delay_us(500000);
+//     }
+
+//     return 0;
+    char buffer[256];
+    char * size;
     int count = 1;
     char *txBuffer = "";
-    for(int i = 0; i < 15; i++) {
-        switch (i) {
-            case 0:
-                ns_uart_send_data(&uart_config, "Press button 0\n", 15);
-                break;
-            case 1:
-                ns_uart_send_data(&uart_config, "Press button 1\n", 15);
-                break;
-            case 2:
-                ns_uart_send_data(&uart_config, "Press button 0 and 1\n", 20);
-                break;
-            case 3:
-                ns_uart_send_data(&uart_config, "Press button 0\n", 15);
-                break;
-            case 4:
-                ns_uart_send_data(&uart_config, "Press button 1\n", 15);
-                break;
-            case 5:
-                ns_uart_send_data(&uart_config, "Press button 0 and 1\n", 20);
-                break;
-            case 6:
-                ns_uart_send_data(&uart_config, "Press button 11111111asfjlas fjasfadslfjasldf0\n", 47);
-                break;
-            case 7:
-                ns_uart_send_data(&uart_config, "P\n", 1);
-                break;
-            default:
-                ns_uart_send_data(&uart_config,rxBuffer, sizeof(rxBuffer));
-        }
+    while(1) {
         // Receive data over UART
-        ns_uart_receive_data(&uart_config, rxBuffer, 12);
+        uint32_t status = ns_uart_receive_data(&uart_config, buffer, sizeof(buffer));
+        if(status == AM_HAL_STATUS_SUCCESS) {
+            ns_uart_send_data(&uart_config, buffer, strlen(buffer)-1);
+        }
         // strcpy(txBuffer, rxBuffer);
-        ns_delay_us(500000);
+        ns_delay_us(50000);
     }
+    return 0;
 }

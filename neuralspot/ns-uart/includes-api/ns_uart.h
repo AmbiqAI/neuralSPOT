@@ -61,14 +61,14 @@ extern uint32_t ns_uart_init(ns_uart_config_t * cfg);
  *
  * @param pcStr
  */
-extern void ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
+extern uint32_t ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
 
 /**
  * @brief Read from the UART rx buffer
  *
  * @param cfg
  */
-extern void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
+extern uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
 
 
     #ifdef __cplusplus

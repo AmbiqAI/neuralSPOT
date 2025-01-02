@@ -36,7 +36,7 @@ def main():
             command_size = random.randint(1, 255)
             ser.write(f"{command_size:03}".encode())
             print(f'sending over {command_size} bytes')
-            command = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', k=command_size)) + '\0'
+            command = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', k=command_size))
             time.sleep(0.01)
             ser.write(command.encode())
             print(f"Sent: {command.strip()}")
@@ -47,6 +47,8 @@ def main():
                 if response:
                     response = response.decode('utf-8').strip()
                     print(f"Received: {response}\n\n")
+                    if response != command:
+                        print("Error: Received response does not match sent command.")
 
                 else:
                     print("Received empty response.\n\n")

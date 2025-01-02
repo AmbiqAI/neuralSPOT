@@ -37,15 +37,6 @@ void am_uart_isr(void)
 
 uint32_t init_uart(am_hal_uart_config_t *uart_config)
 {
-    // // Set the clock frequency.
-    // am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_SYSCLK_MAX, 0);
-
-    // // Set the default cache configuration
-    // am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
-    // am_hal_cachectrl_enable();
-
-    // // Configure the board for low power operation.
-    // am_bsp_low_power_init();
     NS_TRY(am_hal_uart_initialize(UART_ID, &phUART), "Failed to initialize the UART");
 
     NS_TRY(am_hal_uart_power_control(phUART, AM_HAL_SYSCTRL_WAKE, false), "Failed to power the UART");
@@ -65,62 +56,37 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     return AM_HAL_STATUS_SUCCESS;
 }
 
-// void ns_uart_send_data(ns_uart_config_t *cfg, char * txBuffer, uint32_t size) {
-//     uint32_t ui32BytesWritten = 0;
-
-//     const am_hal_uart_transfer_t sUartWrite =
-//     {
-//         .ui32Direction = AM_HAL_UART_WRITE,
-//         .pui8Data = (uint8_t *)txBuffer,
-//         .ui32NumBytes = size,
-//         .ui32TimeoutMs = 100,
-//         .pui32BytesTransferred = &ui32BytesWritten,
-//     };
-//     am_hal_uart_transfer(phUART, &sUartWrite);
-//     if (ui32BytesWritten != size)
-//     {
-//         // Couldn't send the whole string!!
-//         while(1);
-//     }
-//     am_hal_uart_tx_flush(phUART);
-// }
-
-
-void ns_uart_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size) {
+uint32_t ns_uart_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size) {
     uint32_t ui32BytesWritten = 0;
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
-    memset(g_pui8TxBuffer, 0, sizeof(g_pui8TxBuffer));
     while (retries > 0) {
         const am_hal_uart_transfer_t sUartWrite = {
             .ui32Direction = AM_HAL_UART_WRITE,
             .pui8Data = (uint8_t *)txBuffer,
             .ui32NumBytes = size,
-            .ui32TimeoutMs = 5000,
+            .ui32TimeoutMs = 1000,
             .pui32BytesTransferred = &ui32BytesWritten,
         };
 
         status = am_hal_uart_transfer(phUART, &sUartWrite);
 
-        if (status == AM_HAL_STATUS_SUCCESS) {
+        if (status == AM_HAL_STATUS_SUCCESS  && ui32BytesWritten == size) {
             // Successfully sent the whole string
             am_hal_uart_tx_flush(phUART);
             return AM_HAL_STATUS_SUCCESS;
         }
         retries--;
-        // Small delay bfore retrying
-        ns_delay_us(750);
     }
     // If we reach here, it means send operation failed all retries
     ns_lp_printf("[ERROR] ns_uart_send_data exhausted retries\n");
     return status;
 }
 
-void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
+uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
     uint32_t ui32BytesRead = 0;
-    memset(g_pui8RxBuffer, 0, sizeof(g_pui8RxBuffer));
     while (retries > 0) {
         const am_hal_uart_transfer_t sUartRead =
         {
@@ -128,17 +94,17 @@ void ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size)
             .pui8Data = rxBuffer,
             .ui32NumBytes = size,
             .pui32BytesTransferred = &ui32BytesRead,
-            .ui32TimeoutMs = 5000,
+            .ui32TimeoutMs = 1000,
         };
         status = am_hal_uart_transfer(phUART, &sUartRead);
-            if (status == AM_HAL_STATUS_SUCCESS) {
+            if (status == AM_HAL_STATUS_SUCCESS  && ui32BytesRead == size) {
                 // Successfully read the whole string
                 return AM_HAL_STATUS_SUCCESS;
             }
         retries--;
-
-        // Small delay bfore retrying
-        ns_delay_us(750);
+    }
+    if(ui32BytesRead < size) {
+        ns_lp_printf("[ERROR] RX error, asked for %d, got %d\n", size, ui32BytesRead);
     }
     // If we reach here, it means receive operation failed all retries
     ns_lp_printf("[ERROR] ns_uart_receive_data exhausted retries\n");

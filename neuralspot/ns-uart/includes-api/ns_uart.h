@@ -35,6 +35,17 @@ extern am_hal_uart_config_t g_sUartConfig;
 typedef void * ns_uart_handle_t;
 extern ns_uart_handle_t phUART;
 
+/// @brief UART Transaction Control Stucture
+typedef struct {
+    // ns_uart_handle_t handle;
+    // void *rx_buffer;
+    // void *tx_buffer;
+    uint8_t status;
+    // uint8_t itf;
+    // bool dtr;
+    // bool rts;
+} ns_uart_transaction_t;
+
 /**
  * @brief UART Configuration Struct used to configure hardware settings
  *
@@ -43,8 +54,13 @@ typedef struct
 {
     const ns_core_api_t *                 api;                            ///< API prefix
     am_hal_uart_config_t *          uart_config;                    ///< UART Configuration
+    ns_uart_rx_cb rx_cb;            ///< Callback for rx events
+    ns_uart_tx_cb tx_cb;            ///< Callback for tx events 
 }
 ns_uart_config_t;
+
+typedef void (*ns_uart_rx_cb)(ns_uart_transaction_t *);
+typedef void (*ns_uart_tx_cb)(ns_uart_transaction_t *);
 
 /**
  * @brief Initialize the UART system
@@ -55,6 +71,15 @@ ns_uart_config_t;
  */
 extern uint32_t ns_uart_init(ns_uart_config_t * cfg);
 
+
+/**
+ * @brief Register callbacks for USB events, should be called after ns_usb_init
+ *
+ * @param handle
+ * @param rx_cb
+ * @param tx_cb
+ */
+extern void ns_uart_register_callbacks(ns_uart_handle_t, ns_uart_rx_cb, ns_uart_tx_cb);
 
 /**
  * @brief Send data through UART tx buffer

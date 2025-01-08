@@ -18,8 +18,11 @@ ns_uart_config_t uart_config = {
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+    am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_SYSCLK_MAX, 0); // nada
+#endif
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
-    
+    ns_itm_printf_enable();                                     // nada
     ns_lp_printf("UART init\n");
     NS_TRY(ns_uart_init(&uart_config), "UART init failed.\n");
     ns_interrupt_master_enable();

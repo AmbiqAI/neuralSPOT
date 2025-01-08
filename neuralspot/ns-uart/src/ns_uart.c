@@ -33,6 +33,13 @@ ns_uart_config_t ns_uart_config = {
 extern uint32_t init_uart(am_hal_uart_config_t *uart_config);
 extern uint32_t ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
 extern uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
+
+
+void ns_uart_register_callbacks(ns_uart_handle_t handle, ns_uart_rx_cb rxcb, ns_uart_tx_cb txcb) {
+    ((ns_uart_config_t *)handle)->rx_cb = rxcb;
+    ((ns_uart_config_t *)handle)->tx_cb = txcb;
+}
+
 uint32_t ns_uart_init(ns_uart_config_t *cfg) {
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {

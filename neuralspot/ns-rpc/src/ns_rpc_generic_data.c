@@ -16,6 +16,7 @@
 #include "erpc_client_setup.h"
 #include "erpc_server_setup.h"
 #include "ns_usb.h"
+#include "ns_uart.h"
 
 // Common interface header files
 #include "GenericDataOperations_EvbToPc.h"
@@ -50,6 +51,12 @@ ns_usb_config_t g_RpcGenericUSBHandle = {
     .tx_cb = NULL,
     .service_cb = NULL,
     .desc_url = &ns_rpc_url};
+
+ns_uart_config_t g_RpcGenericUARTHandle = {
+    .api = &ns_uart_V0_0_1,
+    .uart_config = NULL,
+    .rx_cb = NULL,
+    .tx_cb = NULL};
 
 ns_rpc_config_t g_RpcGenericDataConfig = {
     .api = &ns_rpc_gdo_current_version,

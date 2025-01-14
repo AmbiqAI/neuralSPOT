@@ -46,6 +46,9 @@ typedef struct {
     // bool rts;
 } ns_uart_transaction_t;
 
+typedef void (*ns_uart_rx_cb)(ns_uart_transaction_t *);
+typedef void (*ns_uart_tx_cb)(ns_uart_transaction_t *);
+
 /**
  * @brief UART Configuration Struct used to configure hardware settings
  *
@@ -59,9 +62,6 @@ typedef struct
 }
 ns_uart_config_t;
 
-typedef void (*ns_uart_rx_cb)(ns_uart_transaction_t *);
-typedef void (*ns_uart_tx_cb)(ns_uart_transaction_t *);
-
 /**
  * @brief Initialize the UART system
  *
@@ -69,7 +69,7 @@ typedef void (*ns_uart_tx_cb)(ns_uart_transaction_t *);
  * @param handle
  * @return uint32_t Status
  */
-extern uint32_t ns_uart_init(ns_uart_config_t * cfg);
+extern uint32_t ns_uart_init(ns_uart_config_t * cfg, ns_uart_handle_t * h);
 
 
 /**

@@ -15,16 +15,6 @@
 #include <cstdio>
 #include <string>
 
-extern "C" {
-#ifdef _WIN32
-#include <direct.h>
-#include <io.h>
-#include <windows.h>
-#else
-#include <termios.h>
-#endif
-}
-
 using namespace erpc;
 
 ////////////////////////////////////////////////////////////////////////////////

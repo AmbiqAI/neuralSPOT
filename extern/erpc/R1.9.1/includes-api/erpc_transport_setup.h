@@ -37,7 +37,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 #include "ns_usb.h"
-
+#include "ns_uart.h"
 //! @name Transport setup
 //@{
 
@@ -354,6 +354,26 @@ void erpc_transport_tcp_close(void);
  * @return Return NULL or erpc_transport_t instance pointer.
  */
 erpc_transport_t erpc_transport_usb_cdc_init(usb_handle_t);
+//@}
+
+/*!
+ * @brief Create a UART transport.
+ *
+ * Create an UART transport instance.
+ *
+ * @param[in] serialHandle Pointer to point to a memory space of size #SERIAL_MANAGER_HANDLE_SIZE allocated by the
+ * caller, see serial manager header file.
+ * @param[in] serialConfig Pointer to user-defined configuration structure allocated by the caller, see serial manager
+ * header file.
+ * @param[in] usbCdcConfig Pointer to serial port usb config structure allocated by the caller, see serial manager
+ * header file.
+ * @param[in] usbRingBuffer Pointer to point serial manager ring buffer allocated by the caller, see serial manager
+ * header file.
+ * @param[in] usbRingBufferLength Serial manager ring buffer size.
+ *
+ * @return Return NULL or erpc_transport_t instance pointer.
+ */
+erpc_transport_t erpc_transport_uart_init(ns_uart_handle_t);
 //@}
 
 //! @name I2C transport setup

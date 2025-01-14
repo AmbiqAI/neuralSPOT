@@ -15,12 +15,6 @@
 #include <string>
 
 extern "C" {
-#ifdef _WIN32
-typedef long speed_t;
-#else
-#include <termios.h>
-#endif
-
 #include "ns_uart.h"
 }
 
@@ -68,7 +62,7 @@ public:
      * Unblocks the send function.
      */
     void tx_cb(void);
-    
+
     /*!
      * @brief Initialize Serial peripheral.
      *
@@ -104,8 +98,8 @@ private:
 
 private:
     ns_uart_handle_t m_uartHandle;     /*!< Serial handle id. */
-    const char *m_portName; /*!< Port name. */
-    speed_t m_baudRate;     /*!< Bauderate. */
+    // const char *m_portName; /*!< Port name. */
+    // speed_t m_baudRate;     /*!< Bauderate. */
 };
 
 } // namespace erpc

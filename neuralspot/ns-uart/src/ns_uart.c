@@ -40,7 +40,7 @@ void ns_uart_register_callbacks(ns_uart_handle_t handle, ns_uart_rx_cb rxcb, ns_
     ((ns_uart_config_t *)handle)->tx_cb = txcb;
 }
 
-uint32_t ns_uart_init(ns_uart_config_t *cfg) {
+uint32_t ns_uart_init(ns_uart_config_t *cfg, ns_uart_handle_t * h) {
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
@@ -53,5 +53,7 @@ uint32_t ns_uart_init(ns_uart_config_t *cfg) {
     if(cfg == NULL || cfg->uart_config == NULL) {
         return NS_STATUS_INVALID_CONFIG;
     }
+    ns_uart_config.uart_config = cfg->uart_config;
+    *h = (void *)&ns_uart_config;
     return init_uart(cfg->uart_config);
 }

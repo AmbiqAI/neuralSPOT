@@ -151,7 +151,8 @@ int main(void) {
         .tx_bufLength = MY_TX_BUFSIZE,
         .sendBlockToEVB_cb = example_sendBlockToEVB,
         .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
-        .computeOnEVB_cb = example_computeOnEVB};
+        .computeOnEVB_cb = example_computeOnEVB,
+        .transport = NS_RPC_TRANSPORT_UART};
 
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 

@@ -30,7 +30,24 @@ void am_uart_isr(void)
     am_hal_uart_interrupt_status_get(phUART, &ui32Status, true);
     am_hal_uart_interrupt_clear(phUART, ui32Status);
     am_hal_uart_interrupt_service(phUART, ui32Status);
+    // Set the data available flag if RX interrupt is set
+    if (ui32Status & AM_HAL_UART_INT_RX)
+    {
+        g_DataAvailable = true;
+    }
+}
 
+void am_uart2_isr(void) {
+    // // Service the FIFOs as necessary, and clear the interrupts.
+    uint32_t ui32Status;
+    am_hal_uart_interrupt_status_get(phUART, &ui32Status, true);
+    am_hal_uart_interrupt_clear(phUART, ui32Status);
+    am_hal_uart_interrupt_service(phUART, ui32Status);
+    // Set the data available flag if RX interrupt is set
+    if (ui32Status & AM_HAL_UART_INT_RX)
+    {
+        g_DataAvailable = true;
+    }
 }
 
 
@@ -56,7 +73,7 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     // Enable interrupts.
     NVIC_SetPriority((IRQn_Type)(UART0_IRQn + AM_BSP_UART_PRINT_INST), AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ((IRQn_Type)(UART0_IRQn + AM_BSP_UART_PRINT_INST));
-
+    am_hal_uart_interrupt_enable(phUART, (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_TX | AM_HAL_UART_INT_RX_TMOUT));
     return AM_HAL_STATUS_SUCCESS;
 }
 
@@ -108,6 +125,7 @@ uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t s
         status = am_hal_uart_transfer(phUART, &sUartRead);
         if (status == AM_HAL_STATUS_SUCCESS && ui32BytesRead == size) {
             // Successfully read the whole string
+            g_DataAvailable = false; // Clear the data available flag
             return AM_HAL_STATUS_SUCCESS;
         }
         retries--;

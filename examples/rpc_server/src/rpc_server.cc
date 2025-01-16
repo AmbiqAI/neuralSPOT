@@ -24,8 +24,9 @@
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
+#ifdef NS_USB_PRESENT
 #include "ns_usb.h"
-
+#endif
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 
 // RPC uses malloc internally, so we need to declare it here
@@ -143,7 +144,7 @@ int main(void) {
 
     // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {
-        .api = &ns_rpc_gdo_V1_0_0,
+        .api = &ns_rpc_gdo_V1_1_0,
         .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
         .rx_buf = my_cdc_rx_ff_buf,
         .rx_bufLength = MY_RX_BUFSIZE,
@@ -152,7 +153,8 @@ int main(void) {
         .sendBlockToEVB_cb = example_sendBlockToEVB,
         .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
         .computeOnEVB_cb = example_computeOnEVB,
-        .transport = NS_RPC_TRANSPORT_UART};
+        .transport = NS_RPC_TRANSPORT_USB};
+        // .transport = NS_RPC_TRANSPORT_UART};
 
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 

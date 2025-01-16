@@ -35,6 +35,7 @@ modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules      += neuralspot/ns-features
 modules 	 += neuralspot/ns-uart
+modules      += neuralspot/ns-rpc
 
 # ifeq ($(ARCH),apollo4)
 modules      += neuralspot/ns-i2c
@@ -46,7 +47,7 @@ modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
 	modules      += neuralspot/ns-usb
-	modules      += neuralspot/ns-rpc
+	# modules      += neuralspot/ns-rpc
 endif
 
 ifeq ($(BLE_SUPPORTED),1)
@@ -65,9 +66,9 @@ ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 
-ifeq ($(USB_PRESENT),1)
+# ifeq ($(USB_PRESENT),1)
 modules      += extern/erpc/$(ERPC_VERSION)
-endif
+# endif
 
 # Example (executable binary) Modules
 
@@ -79,6 +80,7 @@ else
 		modules      += examples/basic_tf_stub
 		modules      += examples/har
 		modules	     += examples/uart
+		modules      += examples/rpc_server
 
 		ifeq ($(BLE_SUPPORTED),1)
 			modules	     += examples/nnse
@@ -87,7 +89,7 @@ else
 
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
-			modules      += examples/rpc_server
+			# modules      += examples/rpc_server
 			modules      += examples/ic
 			modules      += examples/mpu_data_collection
 			modules      += examples/quaternion

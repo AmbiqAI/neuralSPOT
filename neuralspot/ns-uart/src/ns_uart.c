@@ -18,7 +18,7 @@
 
 // UART handle
 ns_uart_handle_t phUART;
-
+volatile bool g_DataAvailable = false;
 const ns_core_api_t ns_uart_V0_0_1 = {.apiId = NS_UART_API_ID, .version = NS_UART_V0_0_1};
 
 const ns_core_api_t ns_uart_oldest_supported_version = {
@@ -40,7 +40,7 @@ void ns_uart_register_callbacks(ns_uart_handle_t handle, ns_uart_rx_cb rxcb, ns_
     ((ns_uart_config_t *)handle)->tx_cb = txcb;
 }
 
-uint32_t ns_uart_init(ns_uart_config_t *cfg, ns_uart_handle_t * h) {
+uint32_t ns_uart_init(ns_uart_config_t *cfg, ns_uart_handle_t * handle) {
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
@@ -54,6 +54,11 @@ uint32_t ns_uart_init(ns_uart_config_t *cfg, ns_uart_handle_t * h) {
         return NS_STATUS_INVALID_CONFIG;
     }
     ns_uart_config.uart_config = cfg->uart_config;
-    *h = (void *)&ns_uart_config;
+    *handle = (void *)&ns_uart_config;
     return init_uart(cfg->uart_config);
+}
+
+
+bool ns_uart_data_available(void) {
+    return g_DataAvailable;;
 }

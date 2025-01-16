@@ -23,6 +23,9 @@
 extern "C" {
     #endif
     #include "ns_core.h"
+#ifdef NS_USB_PRESENT
+    #include "ns_usb.h"
+#endif
     #include "ns_uart.h"
     #define NS_RPC_GDO_V0_0_1                                                                      \
         { .major = 0, .minor = 0, .revision = 1 }
@@ -62,7 +65,9 @@ typedef struct {
     uint32_t rx_bufLength;  ///< Length of rx buffer
     uint8_t *tx_buf;        ///< Pointer to allocated buffer which USB CDC will use for tx transfers
     uint32_t tx_bufLength;  ///< Length of tx buffer
+#ifdef NS_USB_PRESENT
     usb_handle_t usbHandle; ///< USB handle
+#endif
     ns_uart_handle_t uartHandle; ///< UART handle
     ns_rpc_data_sendBlockToEVB_cb sendBlockToEVB_cb;       ///< Callback for sendBlockToEVB
     ns_rpc_data_fetchBlockFromEVB_cb fetchBlockFromEVB_cb; ///< Callback for fetchBlockFromEVB

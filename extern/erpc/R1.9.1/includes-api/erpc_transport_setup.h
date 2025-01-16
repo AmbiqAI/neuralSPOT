@@ -36,7 +36,9 @@ extern "C" {
 
 #include <stdbool.h>
 #include <stdint.h>
+#ifdef NS_USB_PRESENT
 #include "ns_usb.h"
+#endif
 #include "ns_uart.h"
 //! @name Transport setup
 //@{
@@ -333,6 +335,7 @@ erpc_transport_t erpc_transport_tcp_init(const char *host, uint16_t port, bool i
 void erpc_transport_tcp_close(void);
 //@}
 
+#ifdef NS_USB_PRESENT
 //! @name USB CDC transport setup
 //@{
 
@@ -355,7 +358,7 @@ void erpc_transport_tcp_close(void);
  */
 erpc_transport_t erpc_transport_usb_cdc_init(usb_handle_t);
 //@}
-
+#endif
 /*!
  * @brief Create a UART transport.
  *

@@ -34,6 +34,7 @@ extern const ns_core_api_t ns_uart_current_version;
 extern am_hal_uart_config_t g_sUartConfig;
 typedef void * ns_uart_handle_t;
 extern ns_uart_handle_t phUART;
+extern volatile bool g_DataAvailable; // Flag to indicate data availability
 
 /// @brief UART Transaction Control Stucture
 typedef struct {
@@ -94,6 +95,16 @@ extern uint32_t ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32
  * @param cfg
  */
 extern uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
+
+
+/**
+ * @brief Check if data is available in the UART rx buffer
+ *
+ * @param handle
+ * @return bool
+ */
+extern bool ns_uart_data_available(void);
+
 
 
     #ifdef __cplusplus

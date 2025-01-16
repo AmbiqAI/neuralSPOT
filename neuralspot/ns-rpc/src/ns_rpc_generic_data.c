@@ -15,7 +15,9 @@
 #include "ns_rpc_generic_data.h"
 #include "erpc_client_setup.h"
 #include "erpc_server_setup.h"
+#ifdef NS_USB_PRESENT
 #include "ns_usb.h"
+#endif
 #include "ns_uart.h"
 
 // Common interface header files
@@ -41,6 +43,7 @@ const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {
 const ns_core_api_t ns_rpc_gdo_current_version = {
     .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_1_0};
 
+#ifdef NS_USB_PRESENT
 static ns_tusb_desc_webusb_url_t ns_rpc_url;
 ns_usb_config_t g_RpcGenericUSBHandle = {
     .api = &ns_usb_V1_0_0,
@@ -53,7 +56,7 @@ ns_usb_config_t g_RpcGenericUSBHandle = {
     .tx_cb = NULL,
     .service_cb = NULL,
     .desc_url = &ns_rpc_url};
-
+#endif
 ns_uart_config_t g_RpcGenericUARTHandle = {
     .api = &ns_uart_V0_0_1,
     .uart_config = NULL,
@@ -67,7 +70,10 @@ ns_rpc_config_t g_RpcGenericDataConfig = {
     .rx_bufLength = 0,
     .tx_buf = NULL,
     .tx_bufLength = 0,
+#ifdef NS_USB_PRESENT
     .usbHandle = NULL,
+#endif
+    .uartHandle = NULL,
     .sendBlockToEVB_cb = NULL,
     .fetchBlockFromEVB_cb = NULL,
     .computeOnEVB_cb = NULL};
@@ -124,6 +130,7 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
     #endif
     // usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
     if(cfg->transport == NS_RPC_TRANSPORT_USB) {
+#ifdef NS_USB_PRESENT
         usb_handle_t usb_handle = NULL;
 
         // For server mode, add a service callback to USB
@@ -168,16 +175,17 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
             erpc_service_t service = create_pc_to_evb_service();
             erpc_add_service_to_server(service);
         }
+#endif
     } 
     else if(cfg->transport == NS_RPC_TRANSPORT_UART) {
         ns_uart_handle_t uart_handle = NULL;
-#ifdef AM_PART_APOLLO3 || AM_PART_APOLLO3P
+        g_RpcGenericUARTHandle.uart_config = &g_sUartConfig;
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
         g_RpcGenericUARTHandle.uart_config->pui8RxBuffer = cfg->rx_buf;
         g_RpcGenericUARTHandle.uart_config->ui32RxBufferSize = cfg->rx_bufLength;
         g_RpcGenericUARTHandle.uart_config->pui8TxBuffer = cfg->tx_buf;
         g_RpcGenericUARTHandle.uart_config->ui32TxBufferSize = cfg->tx_bufLength;
 #endif
-        g_RpcGenericUARTHandle.uart_config = &g_sUartConfig;
         ns_uart_init(&g_RpcGenericUARTHandle, &uart_handle);
 
         g_RpcGenericDataConfig.mode = cfg->mode;
@@ -224,16 +232,18 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
 
 void ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
     erpc_status_t stat;
+
     if(cfg->transport == NS_RPC_TRANSPORT_USB) {
+#ifdef NS_USB_PRESENT
         if (ns_usb_data_available(cfg->usbHandle)) {
             stat = erpc_server_poll(); // service RPC server
             if (stat != kErpcStatus_Success) {
                 ns_lp_printf("erpc_server_poll failed with status %d\n", stat);
             }
         }
+#endif
     }
     else {
-        if()
         stat = erpc_server_poll(); // service RPC server
         if (stat != kErpcStatus_Success) {
             ns_lp_printf("erpc_server_poll failed with status %d\n", stat);

@@ -47,7 +47,6 @@ modules      += neuralspot/ns-nnsp
 
 ifeq ($(USB_PRESENT),1)
 	modules      += neuralspot/ns-usb
-	# modules      += neuralspot/ns-rpc
 endif
 
 ifeq ($(BLE_SUPPORTED),1)
@@ -89,7 +88,6 @@ else
 
 		ifeq ($(USB_PRESENT),1)
 			modules      += examples/rpc_client
-			# modules      += examples/rpc_server
 			modules      += examples/ic
 			modules      += examples/mpu_data_collection
 			modules      += examples/quaternion

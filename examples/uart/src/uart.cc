@@ -14,6 +14,8 @@
 ns_uart_config_t uart_config = {
     .api=&ns_uart_V0_0_1,
     .uart_config = &g_sUartConfig,
+    .tx_blocking = true,
+    .rx_blocking = true
 };
 
 ns_uart_handle_t uart_handle = NULL;
@@ -38,14 +40,14 @@ int main(void) {
     while(1) {
         if(ns_uart_data_available()) {
             // Receive number of bytes to read
-            uint32_t status = ns_uart_receive_data(&uart_config, size, 3);
+            uint32_t status = ns_uart_blocking_receive_data(&uart_config, size, 3);
             if (status == AM_HAL_STATUS_SUCCESS) {
                 num_bytes = atoi(size); // Convert the received size to an integer
-                status = ns_uart_receive_data(&uart_config, buffer, num_bytes);
+                status = ns_uart_blocking_receive_data(&uart_config, buffer, num_bytes);
                 int buffer_size = strlen(buffer);
                 if(status == AM_HAL_STATUS_SUCCESS && num_bytes == buffer_size) {
                     memcpy(txbuffer, buffer, num_bytes);
-                    ns_uart_send_data(&uart_config, txbuffer, num_bytes);
+                    ns_uart_blocking_send_data(&uart_config, txbuffer, num_bytes);
                     memset(buffer, 0, num_bytes);
                     memset(txbuffer, 0, num_bytes);
                 }

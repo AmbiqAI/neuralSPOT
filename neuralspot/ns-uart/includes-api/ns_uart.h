@@ -60,6 +60,8 @@ typedef struct
     am_hal_uart_config_t *          uart_config;                    ///< UART Configuration
     ns_uart_rx_cb rx_cb;            ///< Callback for rx events
     ns_uart_tx_cb tx_cb;            ///< Callback for tx events 
+    bool tx_blocking;
+    bool rx_blocking;
 }
 ns_uart_config_t;
 
@@ -87,14 +89,28 @@ extern void ns_uart_register_callbacks(ns_uart_handle_t, ns_uart_rx_cb, ns_uart_
  *
  * @param pcStr
  */
-extern uint32_t ns_uart_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
+extern uint32_t ns_uart_blocking_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
+
+/**
+ * @brief Send data through UART tx buffer
+ *
+ * @param pcStr
+ */
+extern uint32_t ns_uart_nonblocking_send_data(ns_uart_config_t * cfg, char *txBuffer, uint32_t size);
 
 /**
  * @brief Read from the UART rx buffer
  *
  * @param cfg
  */
-extern uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
+extern uint32_t ns_uart_blocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
+
+/**
+ * @brief Read from the UART rx buffer
+ *
+ * @param cfg
+ */
+extern uint32_t ns_uart_nonblocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size);
 
 
 /**

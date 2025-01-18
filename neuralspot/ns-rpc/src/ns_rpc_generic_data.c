@@ -128,95 +128,105 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
         return NS_STATUS_INVALID_VERSION;
     }
     #endif
-    // usb_handle_t usb_handle = ns_usb_init(&g_RpcGenericUSBHandle);
+    // will default to usb if cfg->transport is not explicitly set
     if(cfg->transport == NS_RPC_TRANSPORT_USB) {
-#ifdef NS_USB_PRESENT
-        usb_handle_t usb_handle = NULL;
+    #ifdef NS_USB_PRESENT
+            usb_handle_t usb_handle = NULL;
 
-        // For server mode, add a service callback to USB
-        // if (cfg->mode == NS_RPC_GENERICDATA_SERVER) {
-        //     g_RpcGenericUSBHandle.service_cb = &ns_rpc_data_serverService;
-        // }
-        g_RpcGenericUSBHandle.rx_buffer = cfg->rx_buf;
-        g_RpcGenericUSBHandle.rx_bufferLength = cfg->rx_bufLength;
-        g_RpcGenericUSBHandle.tx_buffer = cfg->tx_buf;
-        g_RpcGenericUSBHandle.tx_bufferLength = cfg->tx_bufLength;
-        strcpy(ns_rpc_url.url, "github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc");
-        ns_rpc_url.bDescriptorType = 3;
-        ns_rpc_url.bScheme = 1;
-        ns_rpc_url.bLength = 3 + sizeof(ns_rpc_url.url) - 1;
-        NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
+            // For server mode, add a service callback to USB
+            // if (cfg->mode == NS_RPC_GENERICDATA_SERVER) {
+            //     g_RpcGenericUSBHandle.service_cb = &ns_rpc_data_serverService;
+            // }
+            g_RpcGenericUSBHandle.rx_buffer = cfg->rx_buf;
+            g_RpcGenericUSBHandle.rx_bufferLength = cfg->rx_bufLength;
+            g_RpcGenericUSBHandle.tx_buffer = cfg->tx_buf;
+            g_RpcGenericUSBHandle.tx_bufferLength = cfg->tx_bufLength;
+            strcpy(ns_rpc_url.url, "github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc");
+            ns_rpc_url.bDescriptorType = 3;
+            ns_rpc_url.bScheme = 1;
+            ns_rpc_url.bLength = 3 + sizeof(ns_rpc_url.url) - 1;
+            NS_TRY(ns_usb_init(&g_RpcGenericUSBHandle, &usb_handle), "USB Init Failed\n");
 
-        g_RpcGenericDataConfig.mode = cfg->mode;
-        g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
-        g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
-        g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
-        // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
-        g_RpcGenericDataConfig.rx_buf = cfg->rx_buf;
-        g_RpcGenericDataConfig.rx_bufLength = cfg->rx_bufLength;
-        g_RpcGenericDataConfig.tx_buf = cfg->tx_buf;
-        g_RpcGenericDataConfig.tx_bufLength = cfg->tx_bufLength;
-        g_RpcGenericDataConfig.transport = cfg->transport;
-        g_RpcGenericDataConfig.usbHandle = usb_handle;
+            g_RpcGenericDataConfig.mode = cfg->mode;
+            g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
+            g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
+            g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
+            // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
+            g_RpcGenericDataConfig.rx_buf = cfg->rx_buf;
+            g_RpcGenericDataConfig.rx_bufLength = cfg->rx_bufLength;
+            g_RpcGenericDataConfig.tx_buf = cfg->tx_buf;
+            g_RpcGenericDataConfig.tx_bufLength = cfg->tx_bufLength;
+            g_RpcGenericDataConfig.transport = cfg->transport;
+            g_RpcGenericDataConfig.usbHandle = usb_handle;
 
-        // Common ERPC init
-        /* USB transport layer initialization */
-        erpc_transport_t transport = erpc_transport_usb_cdc_init(usb_handle);
+            // Common ERPC init
+            /* USB transport layer initialization */
+            erpc_transport_t transport = erpc_transport_usb_cdc_init(usb_handle);
 
-        /* MessageBufferFactory initialization */
-        erpc_mbf_t message_buffer_factory = erpc_mbf_static_init();
+            /* MessageBufferFactory initialization */
+            erpc_mbf_t message_buffer_factory = erpc_mbf_static_init();
 
-        if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
-            /* Init eRPC client environment */
-            erpc_client_init(transport, message_buffer_factory);
-        } else {
-            // Initialize the server and service
-            erpc_server_init(transport, message_buffer_factory);
-            erpc_service_t service = create_pc_to_evb_service();
-            erpc_add_service_to_server(service);
+            if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
+                /* Init eRPC client environment */
+                erpc_client_init(transport, message_buffer_factory);
+            } else {
+                // Initialize the server and service
+                erpc_server_init(transport, message_buffer_factory);
+                erpc_service_t service = create_pc_to_evb_service();
+                erpc_add_service_to_server(service);
+            }
+    #endif
         }
-#endif
-    } 
-    else if(cfg->transport == NS_RPC_TRANSPORT_UART) {
-        ns_uart_handle_t uart_handle = NULL;
-        g_RpcGenericUARTHandle.uart_config = &g_sUartConfig;
-#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
-        g_RpcGenericUARTHandle.uart_config->pui8RxBuffer = cfg->rx_buf;
-        g_RpcGenericUARTHandle.uart_config->ui32RxBufferSize = cfg->rx_bufLength;
-        g_RpcGenericUARTHandle.uart_config->pui8TxBuffer = cfg->tx_buf;
-        g_RpcGenericUARTHandle.uart_config->ui32TxBufferSize = cfg->tx_bufLength;
-#endif
-        ns_uart_init(&g_RpcGenericUARTHandle, &uart_handle);
+        else if(cfg->transport == NS_RPC_TRANSPORT_UART) {
+            if(ns_core_check_api(cfg->api, &ns_rpc_gdo_oldest_supported_version, &ns_rpc_gdo_V1_0_0) == NS_STATUS_SUCCESS) {
+                ns_lp_printf("UART transport not supported in this API version\n");
+                return NS_STATUS_INVALID_CONFIG;
+            }
+            ns_uart_handle_t uart_handle = NULL;
+            if(cfg->uartHandle == NULL) {
+                ns_lp_printf("Must provide a UART handle to declare blocking or nonblocking UART transport layer\n");
+                return NS_STATUS_INVALID_CONFIG;
+            }
+            g_RpcGenericUARTHandle = *(ns_uart_config_t*)(cfg->uartHandle);
+            if(g_RpcGenericUARTHandle.uart_config == NULL) {
+                g_RpcGenericUARTHandle.uart_config = &g_sUartConfig;
+            }
+    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+            g_RpcGenericUARTHandle.uart_config->pui8RxBuffer = cfg->rx_buf;
+            g_RpcGenericUARTHandle.uart_config->ui32RxBufferSize = cfg->rx_bufLength;
+            g_RpcGenericUARTHandle.uart_config->pui8TxBuffer = cfg->tx_buf;
+            g_RpcGenericUARTHandle.uart_config->ui32TxBufferSize = cfg->tx_bufLength;
+    #endif
+            ns_uart_init(&g_RpcGenericUARTHandle, &uart_handle);
 
-        g_RpcGenericDataConfig.mode = cfg->mode;
-        g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
-        g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
-        g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
-        // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
-        g_RpcGenericDataConfig.rx_buf = cfg->rx_buf;
-        g_RpcGenericDataConfig.rx_bufLength = cfg->rx_bufLength;
-        g_RpcGenericDataConfig.tx_buf = cfg->tx_buf;
-        g_RpcGenericDataConfig.tx_bufLength = cfg->tx_bufLength;
-        g_RpcGenericDataConfig.transport = cfg->transport;
-        g_RpcGenericDataConfig.uartHandle = uart_handle;
-        // Common ERPC init
-        /* USB transport layer initialization */
-        erpc_transport_t transport = erpc_transport_uart_init(uart_handle);
+            g_RpcGenericDataConfig.mode = cfg->mode;
+            g_RpcGenericDataConfig.sendBlockToEVB_cb = cfg->sendBlockToEVB_cb;
+            g_RpcGenericDataConfig.fetchBlockFromEVB_cb = cfg->fetchBlockFromEVB_cb;
+            g_RpcGenericDataConfig.computeOnEVB_cb = cfg->computeOnEVB_cb;
+            // g_RpcGenericDataConfig.serviceServer = cfg->serviceServer;
+            g_RpcGenericDataConfig.rx_buf = cfg->rx_buf;
+            g_RpcGenericDataConfig.rx_bufLength = cfg->rx_bufLength;
+            g_RpcGenericDataConfig.tx_buf = cfg->tx_buf;
+            g_RpcGenericDataConfig.tx_bufLength = cfg->tx_bufLength;
+            g_RpcGenericDataConfig.transport = cfg->transport;
+            g_RpcGenericDataConfig.uartHandle = uart_handle;
+            // Common ERPC init
+            /* UART transport layer initialization */
+            erpc_transport_t transport = erpc_transport_uart_init(uart_handle);
 
-        /* MessageBufferFactory initialization */
-        erpc_mbf_t message_buffer_factory = erpc_mbf_static_init();
+            /* MessageBufferFactory initialization */
+            erpc_mbf_t message_buffer_factory = erpc_mbf_static_init();
 
-        if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
-            /* Init eRPC client environment */
-            erpc_client_init(transport, message_buffer_factory);
-        } else {
-            // Initialize the server and service
-            erpc_server_init(transport, message_buffer_factory);
-            erpc_service_t service = create_pc_to_evb_service();
-            erpc_add_service_to_server(service);
-        } 
+            if (cfg->mode == NS_RPC_GENERICDATA_CLIENT) {
+                /* Init eRPC client environment */
+                erpc_client_init(transport, message_buffer_factory);
+            } else {
+                // Initialize the server and service
+                erpc_server_init(transport, message_buffer_factory);
+                erpc_service_t service = create_pc_to_evb_service();
+                erpc_add_service_to_server(service);
+            } 
     }
-
     return NS_STATUS_SUCCESS;
 }
 
@@ -232,8 +242,8 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
 
 void ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
     erpc_status_t stat;
-
-    if(cfg->transport == NS_RPC_TRANSPORT_USB) {
+    // Check if the API only supports USB
+    if(ns_core_check_api(cfg->api, &ns_rpc_gdo_oldest_supported_version, &ns_rpc_gdo_V1_0_0) == NS_STATUS_SUCCESS) {
 #ifdef NS_USB_PRESENT
         if (ns_usb_data_available(cfg->usbHandle)) {
             stat = erpc_server_poll(); // service RPC server
@@ -244,9 +254,21 @@ void ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
 #endif
     }
     else {
-        stat = erpc_server_poll(); // service RPC server
-        if (stat != kErpcStatus_Success) {
-            ns_lp_printf("erpc_server_poll failed with status %d\n", stat);
+        if(cfg->transport == NS_RPC_TRANSPORT_USB) {
+    #ifdef NS_USB_PRESENT
+            if (ns_usb_data_available(cfg->usbHandle)) {
+                stat = erpc_server_poll(); // service RPC server
+                if (stat != kErpcStatus_Success) {
+                    ns_lp_printf("erpc_server_poll failed with status %d\n", stat);
+                }
+            }
+    #endif
+        }
+        else {
+            stat = erpc_server_poll(); // service RPC server
+            if (stat != kErpcStatus_Success) {
+                ns_lp_printf("erpc_server_poll failed with status %d\n", stat);
+            }
         }
     }
 }

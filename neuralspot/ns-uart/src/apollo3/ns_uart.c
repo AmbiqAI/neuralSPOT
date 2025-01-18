@@ -62,7 +62,7 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     return AM_HAL_STATUS_SUCCESS;
 }
 
-uint32_t ns_uart_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size) {
+uint32_t ns_uart_blocking_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size) {
     uint32_t ui32BytesWritten = 0;
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
@@ -89,7 +89,66 @@ uint32_t ns_uart_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size)
     return status;
 }
 
-uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
+
+uint32_t ns_uart_nonblocking_send_data(ns_uart_config_t *cfg, char *txBuffer, uint32_t size) {
+    uint32_t ui32BytesWritten = 0;
+    uint32_t retries = MAX_UART_RETRIES;
+    uint32_t status = AM_HAL_STATUS_SUCCESS;
+    while (retries > 0) {
+        const am_hal_uart_transfer_t sUartWrite = {
+            .ui32Direction = AM_HAL_UART_WRITE,
+            .pui8Data = (uint8_t *)txBuffer,
+            .ui32NumBytes = size,
+            .ui32TimeoutMs = 0,
+            .pui32BytesTransferred = &ui32BytesWritten,
+        };
+
+        status = am_hal_uart_transfer(phUART, &sUartWrite);
+
+        if (status == AM_HAL_STATUS_SUCCESS  && ui32BytesWritten == size) {
+            // Successfully sent the whole string
+            am_hal_uart_tx_flush(phUART);
+            return AM_HAL_STATUS_SUCCESS;
+        }
+        retries--;
+    }
+    // If we reach here, it means send operation failed all retries
+    ns_lp_printf("[ERROR] ns_uart_send_data exhausted retries\n");
+    return status;
+}
+
+uint32_t ns_uart_blocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
+    uint32_t retries = MAX_UART_RETRIES;
+    uint32_t status = AM_HAL_STATUS_SUCCESS;
+    uint32_t ui32BytesRead = 0;
+    while (retries > 0) {
+        const am_hal_uart_transfer_t sUartRead =
+        {
+            .ui32Direction = AM_HAL_UART_READ,
+            .pui8Data = rxBuffer,
+            .ui32NumBytes = size,
+            .pui32BytesTransferred = &ui32BytesRead,
+            .ui32TimeoutMs = 1000,
+        };
+        status = am_hal_uart_transfer(phUART, &sUartRead);
+            if (status == AM_HAL_STATUS_SUCCESS  && ui32BytesRead == size) {
+                // Successfully read the whole string
+                g_DataAvailable = false;
+                return AM_HAL_STATUS_SUCCESS;
+            }
+        retries--;
+    }
+    if(ui32BytesRead < size) {
+        ns_lp_printf("[ERROR] RX error, asked for %d, got %d\n", size, ui32BytesRead);
+    }
+    // If we reach here, it means receive operation failed all retries
+    ns_lp_printf("[ERROR] ns_uart_receive_data exhausted retries\n");
+    return status;
+}
+
+
+
+uint32_t ns_uart_nonblocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
     uint32_t ui32BytesRead = 0;

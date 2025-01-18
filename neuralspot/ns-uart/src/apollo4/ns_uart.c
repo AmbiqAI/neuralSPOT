@@ -6,15 +6,11 @@
 volatile uint32_t ui32LastError;
 bool g_bUARTdone = false;
 #define MAX_UART_RETRIES 10 // Maximum number of retries
-#define RX_BUFFER_SIZE 256
-#define TX_BUFFER_SIZE 256
-AM_SHARED_RW uint8_t g_pui8TxBuffer[TX_BUFFER_SIZE]__attribute__((aligned(32)));
-AM_SHARED_RW uint8_t g_pui8RxBuffer[RX_BUFFER_SIZE]__attribute__((aligned(32)));
 
 am_hal_uart_config_t g_sUartConfig =
 {
     // Standard UART settings: 115200-8-N-1
-    .ui32BaudRate = 115200,
+    .ui32BaudRate = 500000,
     .eDataBits = AM_HAL_UART_DATA_BITS_8,
     .eParity = AM_HAL_UART_PARITY_NONE,
     .eStopBits = AM_HAL_UART_ONE_STOP_BIT,
@@ -77,7 +73,7 @@ uint32_t init_uart(am_hal_uart_config_t *uart_config)
     return AM_HAL_STATUS_SUCCESS;
 }
 
-uint32_t ns_uart_send_data(ns_uart_config_t* cfg, char * txBuffer, uint32_t size) {
+uint32_t ns_uart_blocking_send_data(ns_uart_config_t* cfg, char * txBuffer, uint32_t size) {
     uint32_t ui32BytesWritten = 0;
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
@@ -104,9 +100,40 @@ uint32_t ns_uart_send_data(ns_uart_config_t* cfg, char * txBuffer, uint32_t size
     // If we reach here, it means send operation failed all retries
     ns_lp_printf("[ERROR] ns_uart_send_data exhausted retries\n");
     return status;
-    }
+}
 
-uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
+
+uint32_t ns_uart_nonblocking_send_data(ns_uart_config_t* cfg, char * txBuffer, uint32_t size) {
+    uint32_t ui32BytesWritten = 0;
+    uint32_t retries = MAX_UART_RETRIES;
+    uint32_t status = AM_HAL_STATUS_SUCCESS;
+    while(retries > 0) {
+        const am_hal_uart_transfer_t sUartWrite =
+        {
+            .eType = AM_HAL_UART_NONBLOCKING_WRITE,
+            .pui8Data = (uint8_t *)txBuffer,
+            .ui32NumBytes = size,
+            .pui32BytesTransferred = &ui32BytesWritten,
+            .ui32TimeoutMs = 0,
+            .pfnCallback = &uart_done,
+            .pvContext = NULL,
+            .ui32ErrorStatus = 0
+        };    
+        status = am_hal_uart_transfer(phUART, &sUartWrite);
+        if (status == AM_HAL_STATUS_SUCCESS && ui32BytesWritten == size) {
+            // Successfully sent the whole string
+            am_hal_uart_tx_flush(phUART);
+            return AM_HAL_STATUS_SUCCESS;
+        }
+        retries--;
+    }
+    // If we reach here, it means send operation failed all retries
+    ns_lp_printf("[ERROR] ns_uart_send_data exhausted retries\n");
+    return status;
+}
+
+
+uint32_t ns_uart_blocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
     uint32_t retries = MAX_UART_RETRIES;
     uint32_t status = AM_HAL_STATUS_SUCCESS;
     uint32_t ui32BytesRead = 0;
@@ -118,6 +145,40 @@ uint32_t ns_uart_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t s
             .ui32NumBytes = size,
             .pui32BytesTransferred = &ui32BytesRead,
             .ui32TimeoutMs = 1000,
+            .pfnCallback = &uart_done,
+            .pvContext = NULL,
+            .ui32ErrorStatus = &ui32LastError
+        };
+        status = am_hal_uart_transfer(phUART, &sUartRead);
+        if (status == AM_HAL_STATUS_SUCCESS && ui32BytesRead == size) {
+            // Successfully read the whole string
+            g_DataAvailable = false; // Clear the data available flag
+            return AM_HAL_STATUS_SUCCESS;
+        }
+        retries--;
+    }
+    if(ui32BytesRead < size) {
+        ns_lp_printf("[ERROR] RX error, asked for %d, got %d\n", size, ui32BytesRead);
+    }
+    // If we reach here, it means receive operation failed all retries
+    ns_lp_printf("[ERROR] ns_uart_receive_data exhausted retries\n");
+    return status;
+}
+
+
+
+uint32_t ns_uart_nonblocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, uint32_t size) {
+    uint32_t retries = MAX_UART_RETRIES;
+    uint32_t status = AM_HAL_STATUS_SUCCESS;
+    uint32_t ui32BytesRead = 0;
+    while (retries > 0) {
+        const am_hal_uart_transfer_t sUartRead =
+        {
+            .eType = AM_HAL_UART_NONBLOCKING_READ, // uses blocking read
+            .pui8Data = (uint8_t *)rxBuffer,
+            .ui32NumBytes = size,
+            .pui32BytesTransferred = &ui32BytesRead,
+            .ui32TimeoutMs = 0,
             .pfnCallback = &uart_done,
             .pvContext = NULL,
             .ui32ErrorStatus = &ui32LastError

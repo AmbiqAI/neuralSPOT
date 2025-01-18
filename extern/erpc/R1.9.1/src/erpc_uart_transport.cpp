@@ -107,14 +107,26 @@ erpc_status_t UartTransport::init(void)
 }
 
 erpc_status_t UartTransport::underlyingSend(const uint8_t *data, uint32_t size)
-{
-    uint32_t status = ns_uart_send_data(((ns_uart_config_t*)m_uartHandle), (char *)data, size);
-
-    return (status != AM_HAL_STATUS_SUCCESS) ? kErpcStatus_SendFailed : kErpcStatus_Success;
+{   
+    if(((ns_uart_config_t*)m_uartHandle)->tx_blocking)
+    {
+        uint32_t status = ns_uart_blocking_send_data(((ns_uart_config_t*)m_uartHandle), (char *)data, size);
+        return (status != AM_HAL_STATUS_SUCCESS) ? kErpcStatus_SendFailed : kErpcStatus_Success;
+    }
+    else {
+        uint32_t status = ns_uart_nonblocking_send_data(((ns_uart_config_t*)m_uartHandle), (char *)data, size);
+        return (status != AM_HAL_STATUS_SUCCESS) ? kErpcStatus_SendFailed : kErpcStatus_Success;
+    }
 }
 erpc_status_t UartTransport::underlyingReceive(uint8_t *data, uint32_t size)
 {
-    uint32_t status = ns_uart_receive_data(((ns_uart_config_t*)m_uartHandle), (char *)data, size);
-
-    return (status != AM_HAL_STATUS_SUCCESS) ? kErpcStatus_ReceiveFailed : kErpcStatus_Success;
+    if(((ns_uart_config_t*)m_uartHandle)->rx_blocking)
+    {
+        uint32_t status = ns_uart_blocking_receive_data(((ns_uart_config_t*)m_uartHandle), (char *)data, size);
+        return (status != AM_HAL_STATUS_SUCCESS) ? kErpcStatus_ReceiveFailed : kErpcStatus_Success;
+    }
+    else {
+        uint32_t status = ns_uart_nonblocking_receive_data(((ns_uart_config_t*)m_uartHandle), (char *)data, size);
+        return (status != AM_HAL_STATUS_SUCCESS) ? kErpcStatus_ReceiveFailed : kErpcStatus_Success;
+    }
 }

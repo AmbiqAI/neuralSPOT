@@ -65,9 +65,7 @@ ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 
-# ifeq ($(USB_PRESENT),1)
 modules      += extern/erpc/$(ERPC_VERSION)
-# endif
 
 # Example (executable binary) Modules
 
@@ -81,13 +79,15 @@ else
 		modules	     += examples/uart
 		modules      += examples/rpc_server
 
+		ifeq ($(BOARD),apollo4p)
+			modules      += examples/rpc_client
+		endif
 		ifeq ($(BLE_SUPPORTED),1)
 			modules	     += examples/nnse
 			modules	     += examples/nnid
 		endif
 
 		ifeq ($(USB_PRESENT),1)
-			modules      += examples/rpc_client
 			modules      += examples/ic
 			modules      += examples/mpu_data_collection
 			modules      += examples/quaternion

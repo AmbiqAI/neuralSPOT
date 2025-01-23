@@ -151,7 +151,7 @@ int main(void) {
         .description = msg_compute,
         .cmd = extract_cmd,
         .buffer = binaryBlock};
-
+#ifndef NS_USB_PRESENT
     ns_uart_config_t rpcGenericUARTHandle = {
         .api = &ns_uart_V0_0_1,
         .uart_config = NULL,
@@ -159,7 +159,7 @@ int main(void) {
         .tx_cb = NULL,
         .tx_blocking = true,
         .rx_blocking = false};
-
+#endif
     ns_rpc_config_t rpcConfig = {
         .api = &ns_rpc_gdo_V1_1_0,
         .mode = NS_RPC_GENERICDATA_CLIENT,
@@ -167,13 +167,17 @@ int main(void) {
         .rx_bufLength = MY_USB_RX_BUFSIZE,
         .tx_buf = my_cdc_tx_ff_buf,
         .tx_bufLength = MY_USB_TX_BUFSIZE,
+#ifndef NS_USB_PRESENT
         .uartHandle = (ns_uart_handle_t)&rpcGenericUARTHandle, // we temporarily set the uartHandle here to allow the user to set the blocking/nonblocking send/receive in the uart transport layer
+#endif        
         .sendBlockToEVB_cb = NULL,
         .fetchBlockFromEVB_cb = NULL,
         .computeOnEVB_cb = NULL,
-        // .transport = NS_RPC_TRANSPORT_USB};
+#ifdef NS_USB_PRESENT
+        .transport = NS_RPC_TRANSPORT_USB};
+#else
         .transport = NS_RPC_TRANSPORT_UART};
-
+#endif
     // Result of computation
     dataBlock resultBlock;
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB

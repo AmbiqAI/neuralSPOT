@@ -18,6 +18,8 @@
     #ifdef __cplusplus
 extern "C" {
     #endif
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
     #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
         #define am_hal_gpio_pincfg_output g_AM_HAL_GPIO_OUTPUT

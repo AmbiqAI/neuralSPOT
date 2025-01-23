@@ -10,7 +10,7 @@ bool g_bUARTdone = false;
 am_hal_uart_config_t g_sUartConfig =
 {
     // Standard UART settings: 115200-8-N-1
-    .ui32BaudRate = 500000,
+    .ui32BaudRate = 115200,
     .eDataBits = AM_HAL_UART_DATA_BITS_8,
     .eParity = AM_HAL_UART_PARITY_NONE,
     .eStopBits = AM_HAL_UART_ONE_STOP_BIT,

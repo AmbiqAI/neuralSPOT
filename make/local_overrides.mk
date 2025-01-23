@@ -7,7 +7,7 @@
 
 
 # PLATFORM := apollo3p_evb
-# PLATFORM := apollo4l_blue_evb
+# PLATFORM := apollo4l_evb
 # PLATFORM := apollo4p_blue_kxr_evb
 # EXAMPLE := ap3
 

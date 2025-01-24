@@ -198,9 +198,14 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
 
 uint32_t ns_end_audio(ns_audio_config_t *cfg) {
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef NS_AUDADC_PRESENT
        audadc_deinit(cfg);
        audio_started = false;
        return NS_STATUS_SUCCESS;
+#else
+        ns_lp_printf("Error - Trying to deinit non-existent AUDADC\n");
+        return NS_STATUS_FAILURE;
+#endif
     } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         pdm_deinit(cfg);
         audio_started = false;
@@ -291,6 +296,7 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
         return NS_STATUS_FAILURE;
     }
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef NS_AUDADC_PRESENT
         // HAL multiplies gain by 2. Since minimum gain is -12dB, we check for -6 here. Gain saturates at 33dB.
         if(left_gain >= -6 && right_gain >= -6) {
             if(audio_started) {
@@ -307,6 +313,10 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
         else {
             return NS_STATUS_FAILURE;
         }
+#else
+        ns_lp_printf("Error - Trying to set gain on non-existent AUDADC\n");
+        return NS_STATUS_FAILURE;
+#endif
     }
     else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
             bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M120DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);

@@ -1,11 +1,13 @@
 # Put your local overrides in here
 
-# PLATFORM := apollo3_evb
+# PLATFORM := apollo4p_evb
 # AS_VERSION := R3.1.1
 # AS_VERSION := R4.4.1
 # #
-# PLATFORM := apollo4p_evb
-# PLATFORM := apollo4l_blue_evb
+
+
+# PLATFORM := apollo3p_evb
+# PLATFORM := apollo4l_evb
 # PLATFORM := apollo4p_blue_kxr_evb
 # EXAMPLE := ap3
 

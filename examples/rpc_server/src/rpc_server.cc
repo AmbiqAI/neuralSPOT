@@ -24,8 +24,9 @@
 #include "ns_peripherals_button.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
+#ifdef NS_USB_PRESENT
 #include "ns_usb.h"
-
+#endif
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 
 // RPC uses malloc internally, so we need to declare it here
@@ -140,19 +141,35 @@ int main(void) {
         .button_0_flag = &g_intButtonPressed,
         .button_1_flag = NULL};
     NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
+#ifndef NS_USB_PRESENT    
+    ns_uart_config_t rpcGenericUARTHandle = {
+        .api = &ns_uart_V0_0_1,
+        .uart_config = NULL,
+        .rx_cb = NULL,
+        .tx_cb = NULL,
+        .tx_blocking = true,
+        .rx_blocking = true};
+#endif
 
     // Add callbacks to handle incoming requests
     ns_rpc_config_t rpcConfig = {
-        .api = &ns_rpc_gdo_V1_0_0,
+        .api = &ns_rpc_gdo_V1_1_0,
         .mode = NS_RPC_GENERICDATA_SERVER, // Puts EVB in RPC server mode
         .rx_buf = my_cdc_rx_ff_buf,
         .rx_bufLength = MY_RX_BUFSIZE,
         .tx_buf = my_cdc_tx_ff_buf,
         .tx_bufLength = MY_TX_BUFSIZE,
+#ifndef NS_USB_PRESENT
+        .uartHandle = (ns_uart_handle_t)&rpcGenericUARTHandle, // we temporarily set the uartHandle here to allow the user to set the blocking/nonblocking send/receive in the uart transport layer
+#endif                
         .sendBlockToEVB_cb = example_sendBlockToEVB,
         .fetchBlockFromEVB_cb = example_fetchBlockFromEVB,
-        .computeOnEVB_cb = example_computeOnEVB};
-
+        .computeOnEVB_cb = example_computeOnEVB,
+#ifdef NS_USB_PRESENT
+        .transport = NS_RPC_TRANSPORT_USB};
+#else
+        .transport = NS_RPC_TRANSPORT_UART};
+#endif
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
     ns_lp_printf("Ready to receive RPC Calls\n");

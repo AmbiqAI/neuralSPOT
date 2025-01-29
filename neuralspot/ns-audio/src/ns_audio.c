@@ -42,6 +42,8 @@ uint8_t g_rttRecorderBuffer[RTT_BUFFER_LENGTH];
 AM_SHARED_RW int16_t g_in16SampleToRTT[AUDIO_SAMPLE_TO_RTT];
 uint32_t g_ui32SampleToRTT = 0;
 #endif
+static bool audio_initialized = false;
+static bool audio_started = false;
 
 /**
  * @brief Audio Configuration and State
@@ -117,7 +119,15 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
             if(ns_start_audio(g_ns_audio_config) != NS_STATUS_SUCCESS) {
                 return NS_STATUS_INIT_FAILED;
             }
+            audio_started = true;
         }
+#ifdef NS_AUDADC_PRESENT
+        else {
+            if (g_ns_audio_config->audadc_config == NULL) {
+                g_ns_audio_config->audadc_config = &ns_audadc_default;
+            }
+        }
+#endif
     }
     else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         // If api doesn't support dynamic audio source, initialize pdm here
@@ -125,6 +135,12 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
             // initialize pdm
             if(ns_start_audio(g_ns_audio_config) != NS_STATUS_SUCCESS) {
                 return NS_STATUS_INIT_FAILED;
+            }
+            audio_started = true;
+        }
+        else {
+            if (g_ns_audio_config->pdm_config == NULL) {
+                g_ns_audio_config->pdm_config = &ns_pdm_default;
             }
         }
     }
@@ -138,16 +154,23 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
         1, "DataLogger", g_rttRecorderBuffer, RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
     am_util_stdio_printf("RTT Control Block Address:  0x%08X\n", (uint32_t)&_SEGGER_RTT);
 #endif
-
+    audio_initialized = true;
     return AM_HAL_STATUS_SUCCESS;
 }
 
 uint32_t ns_start_audio(ns_audio_config_t *cfg) {
+    if (cfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+    if (g_ns_audio_config == NULL) {
+        return NS_STATUS_INVALID_CONFIG;
+    }
+    // check if audio is already started (could have already been started by set_gain)
+    if(audio_started) {
+        return NS_STATUS_SUCCESS;
+    }
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
 #ifdef NS_AUDADC_PRESENT
-        if (g_ns_audio_config->audadc_config == NULL) {
-            g_ns_audio_config->audadc_config = &ns_audadc_default;
-        }
         if (audadc_init(cfg)) {
             return NS_STATUS_INIT_FAILED;
         }
@@ -169,15 +192,23 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
             return NS_STATUS_INIT_FAILED;
         }
     }
+    audio_started = true; // set audio started flag
     return NS_STATUS_SUCCESS;
 }
 
 uint32_t ns_end_audio(ns_audio_config_t *cfg) {
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef NS_AUDADC_PRESENT
        audadc_deinit(cfg);
+       audio_started = false;
        return NS_STATUS_SUCCESS;
+#else
+        ns_lp_printf("Error - Trying to deinit non-existent AUDADC\n");
+        return NS_STATUS_FAILURE;
+#endif
     } else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         pdm_deinit(cfg);
+        audio_started = false;
         return NS_STATUS_SUCCESS;
     }
     return NS_STATUS_INVALID_CONFIG;
@@ -253,12 +284,59 @@ void ns_audio_getPCM_v2(ns_audio_config_t *config, void *pcm) {
         }
     } else if (config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         // ISR current does the work, do nothing here
-        // uint8_t *pcm8 = (uint8_t *)pcm;
-
-        // for ( uint32_t i = 0; i < ui32PcmSampleCnt; i++ ){
-        //     pcm8[2 * i] = (config->sampleBuffer[i] & 0xFF00) >> 8U;
-        //     pcm8[2 * i + 1] = (config->sampleBuffer[i] & 0xFF0000) >> 16U;
-        // }
     }
 #endif
 }
+
+uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
+    if (g_ns_audio_config == NULL) {
+        return NS_STATUS_FAILURE;
+    }
+    if (audio_initialized == false) {
+        return NS_STATUS_FAILURE;
+    }
+    if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
+#ifdef NS_AUDADC_PRESENT
+        // HAL multiplies gain by 2. Since minimum gain is -12dB, we check for -6 here. Gain saturates at 33dB.
+        if(left_gain >= -6 && right_gain >= -6) {
+            if(audio_started) {
+                ns_end_audio(g_ns_audio_config);
+            }
+            if(g_ns_audio_config->audadc_config == NULL) {
+                g_ns_audio_config->audadc_config = &ns_audadc_default;
+            }
+            g_ns_audio_config->audadc_config->left_gain = left_gain;
+            g_ns_audio_config->audadc_config->right_gain = right_gain;
+            ns_start_audio(g_ns_audio_config);
+
+        }
+        else {
+            return NS_STATUS_FAILURE;
+        }
+#else
+        ns_lp_printf("Error - Trying to set gain on non-existent AUDADC\n");
+        return NS_STATUS_FAILURE;
+#endif
+    }
+    else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
+            bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M120DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);
+            bool right_gain_valid = (right_gain >= AM_HAL_PDM_GAIN_M120DB && right_gain <= AM_HAL_PDM_GAIN_P345DB);
+            // check if gain values are valid
+            if(left_gain_valid && right_gain_valid) {
+                if (g_ns_audio_config->pdm_config == NULL) {
+                    g_ns_audio_config->pdm_config = &ns_pdm_default;
+                }
+                if(audio_started) {
+                    ns_end_audio(g_ns_audio_config);
+                }
+                g_ns_audio_config->pdm_config->left_gain = left_gain;
+                g_ns_audio_config->pdm_config->right_gain = right_gain;
+                ns_start_audio(g_ns_audio_config);
+            }
+        else {
+            return NS_STATUS_FAILURE;
+        }
+    }
+    return NS_STATUS_SUCCESS;
+}
+

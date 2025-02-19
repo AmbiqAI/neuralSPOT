@@ -1,0 +1,22 @@
+#ifndef __PARAMS_FEAT_H__
+#define __PARAMS_FEAT_H__
+#define FFT_SIZE 2048
+#define FFT_WIN_SIZE 1600
+#define SIGNAL_LEN 16000
+#define HOPSIZ 160
+#define NUM_FRAMES (1+((SIGNAL_LEN-FFT_WIN_SIZE)/HOPSIZ))
+#define NUM_MEL_BINS 256
+
+#define DIM_TARGETS 10
+
+// #define AIRPORT_CLASS
+#define PUBLIC_SQUARE_CLASS 
+// #define SHOPPING_MALL_CLASS
+// #define BUS_CLASS
+// #define STREET_TRAFFIC_CLASS
+// #define METRO_CLASS
+// #define METRO_STATION_CLASS
+// #define PARK_CLASS
+// #define TRAM_CLASS
+// #define STREET_PEDESTRIAN_CLASS
+#endif // __PARAMS_FEAT_H__

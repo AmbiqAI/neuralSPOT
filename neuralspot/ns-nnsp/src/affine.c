@@ -8,10 +8,322 @@
 #include "affine.h"
 #if ARM_OPTIMIZED == 1
     #include <cmsis_gcc.h>
+#elif ARM_OPTIMIZED == 3
+    // #include <cmsis_gcc.h>
+    #include <arm_math.h>
+    #include <arm_mve.h>
 #endif
 int64_t accumulators[4] = {0, 0, 0, 0};
 // #if ARM_OPTIMIZED == 1
-#if ARM_OPTIMIZED == 1
+
+#if ARM_OPTIMIZED == 3
+int affine_Krows_8x16(
+	int16_t dim_output,
+	int16_t** pp_output,
+	int8_t** pp_kernel,
+	int16_t** pp_bias,
+	int16_t* input,
+	int16_t dim_input,
+	int16_t qbit_kernel,
+	int16_t qbit_bias,
+	int16_t qbit_input,
+	int64_t* pt_accum,
+	int8_t is_out,
+	void* (*act)(void*, int32_t*, int))
+{
+	/*
+		"affine_Krows_8x16" is an affine (matrix*vec+bias) op.
+        8-bit for weight table
+        16-bit for input vector
+		See "affine.h" for more detail
+	*/
+	int8_t* p_kernel = *pp_kernel;
+
+	int16_t* p_bias = *pp_bias;
+	int16_t* po = *pp_output;
+	int16_t* pi = input;
+
+	int16x8_t in;
+    int16x8_t w;
+
+    int32_t acc32[4];
+	int64_t sum0 = 0;
+    int64_t sum1 = 0;
+    int64_t sum2 = 0;
+    int64_t sum3 = 0;
+    int16_t num = dim_input >> 3;
+    int16_t rem = dim_input & 0x7;
+	int i;
+	int lshift;
+	int qbit_s;
+
+	if (dim_output == 4)
+	{
+		sum0 = pt_accum[0];
+		sum1 = pt_accum[1];
+		sum2 = pt_accum[2];
+		sum3 = pt_accum[3];
+	}
+	else if (dim_output == 3)
+	{
+		sum0 = pt_accum[0];
+		sum1 = pt_accum[1];
+		sum2 = pt_accum[2];
+	}
+	else if (dim_output == 2)
+	{
+		sum0 = pt_accum[0];
+		sum1 = pt_accum[1];
+	}
+	else // if (dim_output==1)
+	{
+		sum0 = pt_accum[0];
+	}
+
+	if (p_bias == 0)
+		qbit_s = qbit_input + qbit_kernel;
+	else
+		qbit_s = MAX(15, qbit_input + qbit_kernel);
+
+    if (dim_output == 4)
+    {
+        for (int i=0; i< num; i++)
+        {
+            in = vldrhq_s16(pi);
+            pi += 8;
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum1 = vmlaldavaq_s16(sum1, in, w);
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum2 = vmlaldavaq_s16(sum2, in, w);
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum3 = vmlaldavaq_s16(sum3, in, w);
+        }
+    }
+    else if (dim_output == 3)
+    {
+        for (int i=0; i< num; i++)
+        {
+            in = vldrhq_s16(pi);
+            pi += 8;
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum1 = vmlaldavaq_s16(sum1, in, w);
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum2 = vmlaldavaq_s16(sum2, in, w);
+        }
+    }
+    else if (dim_output == 2)
+    {
+        for (int i=0; i< num; i++)
+        {
+            in = vldrhq_s16(pi);
+            pi += 8;
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum1 = vmlaldavaq_s16(sum1, in, w);
+        }
+    }
+    else // (dim_output == 1)
+    {
+        for (int i=0; i< num; i++)
+        {
+            in = vldrhq_s16(pi);
+            pi += 8;
+
+            w = vldrbq_s16(p_kernel);
+            p_kernel += 8;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+        }
+    }
+	/*  ________________________
+		|			   |1|2|3|4|
+		|              |5|6|7|8|
+		|______________|9|x|x|x|
+	*/     
+    if (rem)
+    {
+        mve_pred16_t mask = vctp16q((uint32_t) rem);
+        in = vldrhq_z_s16(pi, mask);
+        pi += rem;
+        if (dim_output==4)
+        {
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum1 = vmlaldavaq_s16(sum1, in, w);
+
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum2 = vmlaldavaq_s16(sum2, in, w);
+
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum3 = vmlaldavaq_s16(sum3, in, w);
+        }
+        else if (dim_output==3)
+        {
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum1 = vmlaldavaq_s16(sum1, in, w);
+
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum2 = vmlaldavaq_s16(sum2, in, w);
+        }
+        else if (dim_output==2)
+        {
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum1 = vmlaldavaq_s16(sum1, in, w);
+        }
+        else // if (dim_output==1)
+        {
+            w = vldrbq_z_s16(p_kernel, mask);
+            p_kernel += rem;
+            sum0 = vmlaldavaq_s16(sum0, in, w);
+        }
+    }             
+    lshift = (qbit_input + qbit_kernel) - qbit_s;
+	if (dim_output == 4)
+	{
+        if (lshift == 0)
+        {
+            pt_accum[0] = sum0;
+            pt_accum[1] = sum1;
+            pt_accum[2] = sum2;
+            pt_accum[3] = sum3;
+        }
+        else
+        {
+            pt_accum[0] = sqrshrl(sum0, lshift);
+            pt_accum[1] = sqrshrl(sum1, lshift);
+            pt_accum[2] = sqrshrl(sum2, lshift);
+            pt_accum[3] = sqrshrl(sum3, lshift);
+        }
+	}
+	else if (dim_output == 3)
+	{
+		if (lshift == 0)
+        {
+            pt_accum[0] = sum0;
+            pt_accum[1] = sum1;
+            pt_accum[2] = sum2;
+         
+        }
+        else
+        {
+            pt_accum[0] = sqrshrl(sum0, lshift);
+            pt_accum[1] = sqrshrl(sum1, lshift);
+            pt_accum[2] = sqrshrl(sum2, lshift);
+        }
+	}
+	else if (dim_output == 2)
+	{
+		if (lshift == 0)
+        {
+            pt_accum[0] = sum0;
+            pt_accum[1] = sum1;
+        }
+        else
+        {
+            pt_accum[0] = sqrshrl(sum0, lshift);
+            pt_accum[1] = sqrshrl(sum1, lshift);
+         
+        }
+	}
+	else if (dim_output == 1)
+	{
+		if (lshift == 0)
+        {
+            pt_accum[0] = sum0;
+        }
+        else
+        {
+            pt_accum[0] = sqrshrl(sum0, lshift);
+        }
+	}
+
+    // add bias
+	if (p_bias != 0)
+	{
+		lshift = qbit_bias - qbit_s;
+		// align w to acc & add
+		if (lshift == 0)
+        {
+            for (i = 0; i < dim_output; i++)
+            {
+                pt_accum[i] += (int64_t) *p_bias++;
+            }
+        }
+        else
+        {
+            for (i = 0; i < dim_output; i++)
+            {
+                pt_accum[i] += sqrshrl((int64_t) *p_bias++, lshift);
+            }
+        }
+	}
+
+	if (is_out)
+	{
+		lshift = qbit_s - 15 ;
+        if (lshift != 0)
+        {
+            for (i = 0; i < dim_output; i++)
+            {
+                pt_accum[i] = sqrshrl(pt_accum[i], lshift);
+            }
+        }
+
+		for (i = 0; i < dim_output; i++)
+		{
+			acc32[i] = (int32_t)MIN(MAX(pt_accum[i], MIN_INT32_T), MAX_INT32_T);
+		}
+
+		po = *pp_output;
+		po = (int16_t*)(*act)(po, acc32, dim_output);
+		*pp_output = po;
+
+	}
+    *pp_kernel = p_kernel;
+	*pp_bias = p_bias;
+
+	return 0;
+}
+#elif ARM_OPTIMIZED == 1
 int affine_Krows_8x16(
     int16_t dim_output, int16_t **pp_output, int8_t **pp_kernel, int16_t **pp_bias, int16_t *input,
     int16_t dim_input, int16_t qbit_kernel, int16_t qbit_bias, int16_t qbit_input,
@@ -212,7 +524,7 @@ int affine_Krows_8x16(
     int16_t *p_bias = *pp_bias;
     int16_t *po = *pp_output;
     int16_t *pi = input;
-    int32_t *pi_32b = (int32_t *)input;
+    int32_t *pi_32b = (int32_t *) input;
     int16_t in;
     int32_t in_32b;
     int32_t acc32[4];

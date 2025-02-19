@@ -44,7 +44,11 @@ bool nsCameraPictureBeingTaken = false;
 
 // DMA read state
 // SPI DMA max xfer size is 4095 on AP4, so we have to chunk it
+#ifdef apollo510_evb
+#define MAX_SPI_DMA_LEN 2048
+#else
 #define MAX_SPI_DMA_LEN 4095
+#endif
 static uint32_t dma_total_requested_length;
 static uint32_t dma_current_chunk_length;
 static uint32_t dma_offset;
@@ -124,7 +128,13 @@ uint32_t ns_camera_init(ns_camera_config_t *cfg) {
     cfg->spiConfig.cb = ns_camera_buff_read_done;
     memcpy(&ns_camera_config, cfg, sizeof(ns_camera_config_t));
 
-    am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM1);
+    if (cfg->spiConfig.iom == 1)
+        am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM1);
+    else if (cfg->spiConfig.iom == 2)
+        am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM2);
+    else
+        return NS_STATUS_INVALID_CONFIG;
+        
     if (ns_spi_interface_init(&cfg->spiConfig, cfg->spiSpeed, AM_HAL_IOM_SPI_MODE_0)) {
         return NS_STATUS_INIT_FAILED;
     }

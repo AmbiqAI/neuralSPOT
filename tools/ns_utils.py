@@ -2,10 +2,17 @@ import gzip
 import math
 import os
 import pickle
+import sys
 import time
+import serial.tools.list_ports
+import pkg_resources
+import yaml
 import numpy as np
+import logging as log
+
 import erpc
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
+
 
 def createFromTemplate(templateFile, destinationFile, replaceMap):
     # print("Here %s, %s" % (templateFile, destinationFile))
@@ -50,15 +57,16 @@ def xxd_c_dump(
     chunk_len: int = 12,
     is_header: bool = True,
     loc: str = "const",
-
 ):
     """Generate C like char array of hex values from binary source. Equivalent to `xxd -i src_path > dst_path`
         but with added features to provide # columns and variable name.
     Args:
         src_path (str): Binary file source path
         dst_path (str): C file destination path
-        var_name (str, optional): C variable name. Defaults to 'g_model'.
+        var_name (str, optional): C variable name. Defaults to 'mut_model'.
         chunk_len (int, optional): # of elements per row. Defaults to 12.
+        is_header (bool, optional): Generate header file. Defaults to True.
+
     """
     var_len = 0
     with open(src_path, "rb", encoding=None) as rfp, open(
@@ -72,9 +80,9 @@ def xxd_c_dump(
             prefix = "const"
         elif loc == "sram":
             prefix = "AM_SHARED_RW"
-        else: # linker's default location, usually TCM
-            prefix = ""
-        
+        else: # TCM
+            prefix = "NS_PUT_IN_TCM"
+
         wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
@@ -83,7 +91,8 @@ def xxd_c_dump(
             var_len += len(chunk)
         wfp.write(f"}};{os.linesep}")
 
-        wfp.write(f"const unsigned int {var_name}_len = {var_len};{os.linesep}")
+        # print("location of model is %s" % prefix)
+        wfp.write(f"unsigned int {var_name}_len = {var_len};{os.linesep}")
         wfp.write(f"#define {var_name}_LEN {var_len} {os.linesep}")
         if is_header:
             wfp.write(f"#endif // __{var_name.upper()}_H{os.linesep}")
@@ -144,12 +153,33 @@ class ModelDetails:
             # + str(self.outputTensors)
         )
 
+def read_pmu_definitions(params):
+    if params.platform not in ["apollo510_eb", "apollo510_evb"] and params.pmu_config_file != "default":
+        print("[WARNING] PMU definitions are only available for Apollo3")
+        return None
+    
+    if params.pmu_config_file == "default":
+        # Read PMU definitions from yaml file
+        yaml_path = pkg_resources.resource_filename(__name__, 'autodeploy/profiles/ns_pmu_default.yaml')
+    else:
+        yaml_path = params.pmu_config_file    
+
+    # Read PMU definitions from yaml file
+    # yaml_path = pkg_resources.resource_filename(__name__, 'ns_pmu.yaml')
+
+    with open(yaml_path, "r") as stream:
+        try:
+            pmu_defs = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+            exit("Error reading PMU definitions")
+    return pmu_defs
 
 def next_power_of_2(x):
     return 1 if x == 0 else 2 ** math.ceil(math.log2(x))
 
 
-def reset_dut():
+def reset_dut(params):
     # Windows sucks
     if os.name == "posix":
         ws3 = "/dev/null"
@@ -160,17 +190,63 @@ def reset_dut():
         ws = ""
         ws1 = "&"
         # d = d.replace("/", "\\")
-    makefile_result = os.system(f"cd .. {ws1} make reset >{ws3} 2>&1")
+    ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+
+    makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ps} {ws1} make reset >{ws3} 2>&1")
     time.sleep(2)  # give jlink a chance to settle
 
+tty = None
+
+def find_tty(params):
+    # Find the TTY of our device by scanning serial USB or UART devices
+    # The VID of our device is alway 0xCAFE
+    # This is a hack to find the tty of our device, it will break if there are multiple devices with the same VID
+    # or if the VID changes
+    tty = None
+    ports = serial.tools.list_ports.comports()
+
+    if params.transport is 'USB':
+        # Look for USB CDC
+        for p in ports:
+            # print(p)
+            # print(p.vid)
+            if p.vid == 51966:
+                tty = p.device
+                log.info("Found USB CDC device %s" % tty)
+                break
+    else:
+        # Look for UART
+        for p in ports:
+            # print(p)
+            # print(p.vid)
+            if p.vid == 4966:
+                tty = p.device
+                log.info("Found UART device %s" % tty)
+                break
+
+    return tty
 
 def rpc_connect_as_client(params):
     try:
-        transport = erpc.transport.SerialTransport(params.tty, int(params.baud))
+        # Find the TTY of our device by scanning serial USB devices
+        # The VID of our device is alway 0xCAFE
+        if params.tty is 'auto':
+            tty = find_tty(params)
+            if tty is None:
+                print(f"Couldn't find tty device on {params.transport}, trying a reset")
+                # reset pyserial
+                
+                reset_dut(params)
+                tty = find_tty(params)
+                if tty is None:
+                    print("Couldn't find tty device after reset")
+                    exit(1)
+
+        transport = erpc.transport.SerialTransport(tty, 115200)
         clientManager = erpc.client.ClientManager(
             transport, erpc.basic_codec.BasicCodec
         )
         client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
         return client
     except:
-        print("Couldn't establish RPC connection EVB USB device %s" % params.tty)
+        print("Couldn't establish RPC connection EVB USB device %s" % tty)

@@ -154,7 +154,7 @@ extern int main(void);
 __attribute__((section(".stack"))) static uint32_t g_pui32Stack[STACK_SIZE];
 
 #ifndef HEAP_SIZE
-    #define HEAP_SIZE 0
+    #define HEAP_SIZE 1024
 #endif
 
 __attribute__((section(".heap"))) __attribute__((__used__)) static uint32_t g_pui32Heap[HEAP_SIZE];

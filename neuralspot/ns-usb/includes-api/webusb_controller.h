@@ -17,12 +17,9 @@
 #ifndef WEBUSB_CONTROLLER_H
 #define WEBUSB_CONTROLLER_H
 
-
 #if defined __cplusplus
 extern "C" {
 #endif
-
-#include <stdint.h>
 
 typedef void (*webusb_rx_cb)(const uint8_t *buf, uint32_t buf_len, void *param);
 
@@ -65,8 +62,12 @@ void webusb_register_msg_cb(webusb_rx_cb cb, void *param);
  */
 void webusb_register_raw_cb(webusb_rx_cb cb, void *param);
 
-
-
+/**
+ * @brief Check if USB is connected
+ *
+ * @return uint32_t 1 if connected, 0 if not
+ */
+uint32_t webusb_is_connected(void);
 
 #if defined __cplusplus
 }

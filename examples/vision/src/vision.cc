@@ -31,6 +31,53 @@
 #include "ns_camera.h"
 #include "vision.h"
 
+// // Audio init in order to reproduce EI problem
+// #include "ns_audio.h"
+// #define NUM_CHANNELS 1
+// #define NUM_FRAMES 100
+// #define SAMPLES_IN_FRAME 480
+// #define SAMPLE_RATE 16000
+// #define AUDIO_SOURCE NS_AUDIO_SOURCE_PDM
+
+// volatile bool static g_audioReady = false;
+// volatile bool static g_audioRecording = false;
+
+// #if NUM_CHANNELS == 1
+// int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
+// #else
+// int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
+// #endif
+
+// alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];     // DMA target
+// am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+//                                                                                 // used by AUDADC
+
+// void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
+//     if (g_audioRecording) {
+//         if (g_audioReady) {
+//             ns_lp_printf("Overflow!\n");
+//         }
+//         ns_audio_getPCM_v2(config, audioDataBuffer);
+//         g_audioReady = true;
+//     }
+// }
+
+// ns_audio_config_t audioConfig = {
+//     .api = &ns_audio_V2_1_0,
+//     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
+//     .callback = audio_frame_callback,
+//     .audioBuffer = (void *)&audioDataBuffer,
+//     .eAudioSource = AUDIO_SOURCE,
+//     .sampleBuffer = dmaBuffer,
+//     .workingBuffer = sLGSampleBuffer,
+//     .numChannels = NUM_CHANNELS,
+//     .numSamples = SAMPLES_IN_FRAME,
+//     .sampleRate = SAMPLE_RATE,
+//     .audioSystemHandle = NULL, // filled in by init
+//     .bufferHandle = NULL,      // only for ringbuffer mode
+// };
+
+
 //
 // WebUSB Configuration and Datatypes
 //
@@ -76,8 +123,11 @@ typedef struct usb_data {
 // Camera Configuration - put jpgBuffer in SRAM because it's too big for TCM
 //
 #define JPG_MODE
+#ifndef JPG_MODE
 static uint8_t rgbBuffer[RGB_BUFF_SIZE] __attribute__((aligned(16)));
+#else
 static uint8_t jpgBuffer[JPG_BUFF_SIZE] __attribute__((aligned(16)));
+#endif
 void picture_dma_complete(ns_camera_config_t *cfg);
 void picture_taken_complete(ns_camera_config_t *cfg);
 
@@ -92,7 +142,7 @@ ns_camera_config_t camera_config = {
     .imageMode = NS_CAM_IMAGE_MODE_96X96,
     .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
 #endif
-    .spiConfig = {.iom = CAM_SPI_IOM}, // Only IOM1 is currently supported
+    .spiConfig = {.iom = CAM_SPI_IOM}, // Only IOM1 or 2 is currently supported
     .dmaCompleteCb = picture_dma_complete,
     .pictureTakenCb = picture_taken_complete,
 };
@@ -159,15 +209,17 @@ void press_rgb_shutter_button(ns_camera_config_t *cfg) {
     ns_press_shutter_button(cfg);
 }
 
+#ifndef JPG_MODE
 static uint32_t start_rgb_dma() {
     uint32_t camLength = ns_start_dma_read(&camera_config, rgbBuffer, &bufferOffset, RGB_BUFF_SIZE);
     return camLength;
 }
-
+#else // JPG_MODE
 static uint32_t start_jpg_dma() {
     uint32_t camLength = ns_start_dma_read(&camera_config, jpgBuffer, &bufferOffset, JPG_BUFF_SIZE);
     return camLength;
 }
+#endif
 
 /**
  * @brief Sends the image to the WebUSB client in chunks
@@ -219,7 +271,10 @@ static void render_image(uint32_t camLength, uint8_t *buff) {
         }
         ns_delay_us(400);
     }
+    // Only if Ambiqsuite 4.5.0+ or 5.2.0+ is used
+    #if defined(NS_AMBIQSUITE_VERSION_R4_5_0) or defined(NS_AMBIQSUITE_VERSION_R5_2_0)
     tud_vendor_write_flush();
+    #endif
 }
 
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
@@ -244,7 +299,10 @@ int main(void) {
 
     elapsedTime = 0;
 
-    NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
+    // NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
+    // NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
+    // NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Gain set failed.\n");
+    // NS_TRY(ns_start_audio(&audioConfig), "Audio Start Failed.\n");
 
     // Initialize the URL descriptor
     strcpy(vision_url.url, "ambiqai.github.io/web-ble-dashboards/vision_demo/");
@@ -273,7 +331,7 @@ int main(void) {
 
     ns_lp_printf("📸 Arducam SPI Camera Demo\n\n");
     ns_lp_printf("🔌 Connect to the WebUSB client at "
-                 "https://ambiqai.github.io/web-ble-dashboards/vision_demo/\n");
+                 "https://ambiqai.github.io/web-ble-dashboards/vision_demo\n");
 
     // Send camera images to webusb clients
     ns_start_camera(&camera_config);
@@ -306,7 +364,7 @@ int main(void) {
 
     // Now sit in a loop triggering pics and DMA, then sending them to the WebUSB client
     while (1) {
-        ns_delay_us(1000);
+        // ns_delay_us(1000);
         if (pictureTaken) {
             // ns_lp_printf("Picture taken\n");
             tic();
@@ -337,6 +395,6 @@ int main(void) {
 #endif
             dmaComplete = false;
         }
-        ns_deep_sleep();
+        // ns_deep_sleep();
     }
 }

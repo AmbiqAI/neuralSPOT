@@ -16,8 +16,8 @@ endif
 # Compilation tools
 
 ifeq ($(TOOLCHAIN),arm-none-eabi)
-CC := arm-none-eabi-gcc.exe
-ARMAR :=  arm-none-eabi-ar.exe
+CC := arm-none-eabi-gcc
+ARMAR :=  arm-none-eabi-ar
 OFLAG := -O3
 TFLAG :=
 else ifeq ($(TOOLCHAIN),arm)
@@ -35,6 +35,7 @@ CFLAGS := -mcpu=$(MCPU) $(MFPUFLAG) $(TFLAG) \
  -DNDEBUG \
  -Wall -Wextra  -Werror \
  -mfloat-abi=hard -gdwarf-4 -g \
+ -fshort-enums \
  -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exceptions 
 
 

@@ -4,7 +4,6 @@
     #include <arm_math.h>
     #include "fft_arm.h"
     #include "ambiq_nnsp_const.h"
-
 void arm_fft_init(void *p_fft_st_t, uint32_t is_ifft, int16_t fftsize) {
     arm_rfft_instance_q31 *p_fft_st = (arm_rfft_instance_q31 *)p_fft_st_t;
     uint32_t bitReverseFlag = 1;

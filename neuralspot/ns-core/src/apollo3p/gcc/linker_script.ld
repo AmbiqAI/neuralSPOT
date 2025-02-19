@@ -62,7 +62,7 @@ SECTIONS
         KEEP (*(.fini_array*))
         PROVIDE_HIDDEN (__fini_array_end = .);
     } > ROMEM
-    
+
     .data :
     {
         . = ALIGN(4);
@@ -98,12 +98,14 @@ SECTIONS
         . = ALIGN(8);
     } > STACKMEM
 
-    .heap : {
+    .heap (NOLOAD): {
         __heap_start__ = .;
         end = __heap_start__;
         _end = end;
         __end = end;
+        /* . = ALIGN(8); */
         KEEP(*(.heap))
+        /* . = ALIGN(8); */
         __heap_end__ = .;
         __HeapLimit = __heap_end__;
     } > STACKMEM

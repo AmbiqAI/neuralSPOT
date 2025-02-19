@@ -25,6 +25,10 @@
     #include <stdio.h>
 #endif
 #include "iir.h"
+#if ARM_OPTIMIZED == 3
+    #include <arm_mve.h>
+    #include "basic_mve.h"
+#endif
 int16_t glob_se_out[160];
 IIR_CLASS inst_dcrm;
 int16_t input_tmp[160];
@@ -127,9 +131,19 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
 #endif
     int16_t *pt_inputs;
     if (pt_inst->nn_id == se_id) {
+
+#if ARM_OPTIMIZED == 3
+        int16x8_t *pt_rawPCM = (int16x8_t *)rawPCM;
+        for (int i = 0; i < (160 >> 3); i++) {
+            int16x8_t val = (*pt_rawPCM * pt_inst->pt_params->pre_gain_q1) >> 1;
+            *pt_rawPCM = val;
+            pt_rawPCM++;
+        }
+#else
         for (int i = 0; i < 160; i++) {
             rawPCM[i] = (rawPCM[i] * (int16_t)pt_inst->pt_params->pre_gain_q1) >> 1;
         }
+#endif
         if (pt_inst->pt_params->is_dcrm) {
             IIR_CLASS_exec(pt_inst->pt_dcrm, input_tmp, rawPCM, 160);
             pt_inputs = input_tmp;
@@ -218,11 +232,11 @@ void se_post_proc(NNSPClass *pt_inst, int16_t *pt_nn_est, int16_t *pt_se_out) {
     int start_bin = pt_inst->pt_params->start_bin;
     NeuralNetClass *pt_net = (NeuralNetClass *)pt_inst->pt_net;
     int dim_out = pt_net->size_layer[pt_net->numlayers];
+
     for (int i = 0; i < start_bin; i++) {
         spec[2 * i] = 0;
         spec[2 * i + 1] = 0;
     }
-
     for (int i = start_bin; i < start_bin + dim_out; i++) { // TODO: check
         tmp = (int64_t)pt_nn_est[i] * (int64_t)spec[2 * i];
         tmp >>= 15;

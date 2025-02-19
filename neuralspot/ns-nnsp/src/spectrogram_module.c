@@ -3,11 +3,13 @@
 #include "ambiq_nnsp_const.h"
 #include "ambiq_nnsp_debug.h"
 #include "minmax.h"
+
 #if ARM_FFT == 0
     #include "fft.h"
 #else
     #include "fft_arm.h"
 #endif
+
 int16_t dataBuffer[LEN_FFT_NNSP];
 int32_t odataBuffer[LEN_FFT_NNSP];
 int32_t glob_spec[1026];
@@ -73,6 +75,11 @@ int stftModule_analyze(stftModule *ps, int16_t *x, int32_t *y) {
     return 0;
 }
 #else
+/*
+        stftModule_analyze_arm: stft analysis
+        overlap-and-add approach
+*/
+#if ARM_OPTIMIZED == 1
 void spec2pspec_arm(
     int32_t *pspec, // q15
     int32_t *spec,  // q21
@@ -91,11 +98,6 @@ void spec2pspec_arm(
         pspec[i] = (int32_t)MIN(MAX(acc >> rshift, INT32_MIN), INT32_MAX);
     }
 }
-
-/*
-        stftModule_analyze_arm: stft analysis
-        overlap-and-add approach
-*/
 int stftModule_analyze_arm(
     void *ps_t,
     int16_t *fft_in_q16, // q15
@@ -124,7 +126,107 @@ int stftModule_analyze_arm(
     arm_fft_exec(
         &ps->fft_st,
         spec,          // fft_out, Q21
+        glob_fft_buf); // fft_in,  Q30    
+
+    if (fftsize == 512)
+        *pt_qbit_out = 21;
+    else
+        *pt_qbit_out = 22;
+    return 0;
+}
+
+/*
+        stftModule_synthesize_arm: inverse stft synthesization
+        overlap-and-add approach
+*/
+int stftModule_synthesize_arm(
+    void *ps_t,
+    int32_t *spec,   // Q21
+    int16_t *output) // Q15
+{
+    int i;
+    int64_t tmp64;
+    stftModule *ps = (stftModule *)ps_t;
+    int32_t *pt_out;
+
+    arm_rfft_q31(
+        &ps->ifft_st,
+        spec,          // Q21
+        glob_fft_buf); // Q21
+
+    for (i = 0; i < ps->len_win; i++) {
+        tmp64 = ((int64_t)ps->window[i]) * (int64_t)glob_fft_buf[i];
+        tmp64 >>= 21;
+        tmp64 = (int64_t)ps->odataBuffer[i] + (int64_t)tmp64;
+        tmp64 = MIN(MAX(tmp64, INT32_MIN), INT32_MAX);
+        ps->odataBuffer[i] = (int32_t)tmp64;
+    }
+
+    for (i = 0; i < ps->hop; i++)
+        output[i] = (int16_t)MIN(MAX(ps->odataBuffer[i], INT16_MIN), INT16_MAX);
+
+    for (i = 0; i < ps->len_win - ps->hop; i++) {
+        ps->odataBuffer[i] = ps->odataBuffer[i + ps->hop];
+    }
+
+    pt_out = ps->odataBuffer + ps->len_win - ps->hop;
+    for (i = 0; i < ps->hop; i++) {
+        pt_out[i] = 0;
+    }
+
+    return 0;
+}
+#elif ARM_OPTIMIZED == 3
+#include "basic_mve.h"
+#include <arm_mve.h>
+void spec2pspec_arm(
+    int32_t *pspec, // q15
+    int32_t *spec,  // q21
+    int len, int16_t qbit_in) {
+    int i;
+    int64_t acc; //, tmp_t;
+    int32_t *pt_spec = spec;
+    int rshift = (qbit_in << 1) - 15;
+    int32x4_t m1;
+    for (i = 0; i < len; i++) {
+        m1 = vldrwq_z_s32(pt_spec, 17); // 17= (1 << 4) + (1 << 0)
+        pt_spec += 2;
+        acc= vmlaldavq_s32(m1, m1);
+        pspec[i] = (int32_t)MIN(MAX(acc >> rshift, INT32_MIN), INT32_MAX);
+    }
+}
+int stftModule_analyze_arm(
+    void *ps_t,
+    int16_t *fft_in_q16, // q15
+    int32_t *spec,       // q21
+    int16_t fftsize, int16_t *pt_qbit_out) {
+    stftModule *ps = (stftModule *)ps_t;
+
+    move_data_16b(
+        ps->dataBuffer+ps->hop,
+        ps->dataBuffer,
+        ps->len_win - ps->hop);
+
+    move_data_16b(
+        fft_in_q16,
+        ps->dataBuffer+ps->len_win - ps->hop,
+        ps->hop);
+
+    vec16_vec16_mul_32b(
+        glob_fft_buf,
+        (int16_t*) ps->window,
+        ps->dataBuffer,
+        ps->len_win);
+
+    set_zero_32b(
+        glob_fft_buf+ps->len_win,
+        ps->len_fft - ps->len_win);
+
+    arm_fft_exec(
+        &ps->fft_st,
+        spec,          // fft_out, Q21
         glob_fft_buf); // fft_in,  Q30
+
     if (fftsize == 512)
         *pt_qbit_out = 21;
     else
@@ -158,19 +260,35 @@ int stftModule_synthesize_arm(
         ps->odataBuffer[i] = (int32_t)tmp64;
     }
 
-    for (i = 0; i < ps->hop; i++)
-        output[i] = (int16_t)MIN(MAX(ps->odataBuffer[i], INT16_MIN), INT16_MAX);
-    ;
-
-    for (i = 0; i < ps->len_win - ps->hop; i++) {
-        ps->odataBuffer[i] = ps->odataBuffer[i + ps->hop];
+    // for (i = 0; i < ps->hop; i++)
+    //     output[i] = (int16_t)MIN(MAX(ps->odataBuffer[i], INT16_MIN), INT16_MAX);
+    int32x4_t *pt_tt = (int32x4_t*) ps->odataBuffer;
+    int32x4_t Mv = {INT16_MAX,INT16_MAX,INT16_MAX,INT16_MAX};
+    int32x4_t mv = {INT16_MIN,INT16_MIN,INT16_MIN,INT16_MIN};
+    for (i= 0; i < ps->hop >> 2; i++)
+    {
+        int32x4_t tt = *pt_tt;
+        pt_tt+=1;
+        tt = vminq_s32(Mv, vmaxq_s32(mv, tt));
+        vstrhq_s32(output, tt);
+        output+=4;
     }
+
+    // for (i = 0; i < ps->len_win - ps->hop; i++) {
+    //     ps->odataBuffer[i] = ps->odataBuffer[i + ps->hop];
+    // }
+    move_data_16b(
+        (int16_t*) ps->odataBuffer + ps->hop,
+        (int16_t*) ps->odataBuffer,
+        (ps->len_win - ps->hop) << 1 );
 
     pt_out = ps->odataBuffer + ps->len_win - ps->hop;
-    for (i = 0; i < ps->hop; i++) {
-        pt_out[i] = 0;
-    }
-
+    // for (i = 0; i < ps->hop; i++) {
+    //     pt_out[i] = 0;
+    // }
+    set_zero_32b(pt_out, ps->hop);
     return 0;
 }
+#endif
+
 #endif

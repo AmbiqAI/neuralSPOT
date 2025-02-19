@@ -15,6 +15,7 @@ The basic_tf_stub example is based on a speech to intent model.
 #ifdef NS_USB1_PRESENT
 // #define RPC_ENABLED
 #endif
+
 #ifndef NS_AUDADC_PRESENT
     #define USE_PDM_MICROPHONE
 #endif
@@ -259,10 +260,12 @@ int main(void) {
             if(audio_config.eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
                 audio_config.eAudioSource = NS_AUDIO_SOURCE_PDM;
                 ns_start_audio(&audio_config);
+                ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB);
             }
             else {
                 audio_config.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
                 ns_start_audio(&audio_config);
+                ns_audio_set_gain(24, 24);
             }
 #endif
             buttonPressed = false; // thoroughly debounce the button

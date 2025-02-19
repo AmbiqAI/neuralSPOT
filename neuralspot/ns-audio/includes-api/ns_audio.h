@@ -60,6 +60,7 @@ extern "C" {
     #include "am_util.h"
     #include "ns_core.h"
     #include "ns_ipc_ring_buffer.h"
+
     #define NS_AUDIO_V0_0_1                                                                        \
         { .major = 0, .minor = 0, .revision = 1 }
     #define NS_AUDIO_V1_0_0                                                                        \
@@ -102,7 +103,8 @@ typedef enum {
     NS_CLKSEL_HFXTAL,
     NS_CLKSEL_HFRC,
     NS_CLKSEL_HFRC2,
-    NS_CLKSEL_HFRC2_ADJ
+    NS_CLKSEL_HFRC2_ADJ,
+    NS_CLKSEL_PLL, // ap5b only
 } ns_audio_clksel_e;
 
 /// @brief AUDADC Configuration
@@ -134,8 +136,8 @@ typedef struct {
     ns_audio_pdm_clock_e clock_freq;
     ns_audio_pdm_micsel_e mic; ///< VoS Kit breakout board PDM mic slot
     uint8_t numBytes;          // size of sample word in bytes
-    uint8_t left_gain;
-    uint8_t right_gain;
+    am_hal_pdm_gain_e left_gain;
+    am_hal_pdm_gain_e right_gain;
 } ns_pdm_cfg_t;
 
 // Forward declaration to get around using it in cb
@@ -201,7 +203,6 @@ extern ns_audio_config_t *g_ns_audio_config;
  */
 extern uint32_t ns_audio_init(ns_audio_config_t *);
 
-
 /**
  * @brief Start audio capture, must be called after ns_audio_init
  *
@@ -209,14 +210,12 @@ extern uint32_t ns_audio_init(ns_audio_config_t *);
  */
 extern uint32_t ns_start_audio(ns_audio_config_t *);
 
-
 /**
  * @brief Stop audio capture
  *
  * @param cfg : desired configuration
  */
 extern uint32_t ns_end_audio(ns_audio_config_t *);
-
 
 /**
  * @brief Extract int16 PCM from data collected by ADC

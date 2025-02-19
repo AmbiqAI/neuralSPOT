@@ -24,6 +24,7 @@ extern "C" {
     #include "ns_core.h"
     #include "webusb_controller.h"
     #include "crc32.h"
+
     #define NS_USB_V0_0_1                                                                          \
         { .major = 0, .minor = 0, .revision = 1 }
     #define NS_USB_V1_0_0                                                                          \
@@ -38,13 +39,14 @@ extern const ns_core_api_t ns_usb_V0_0_1;
 extern const ns_core_api_t ns_usb_V1_0_0;
 extern const ns_core_api_t ns_usb_oldest_supported_version;
 extern const ns_core_api_t ns_usb_current_version;
+
 typedef void *usb_handle_t;
 
 /// @brief USB Device Type
 typedef enum {
-    NS_USB_CDC_DEVICE,   ///< CDC (uart-like) device
-    NS_USB_HID_DEVICE,   ///< Human Interface Device (not supported)
-    NS_USB_MSC_DEVICE,   ///< Mass Storage Device (not supported)
+    NS_USB_CDC_DEVICE, ///< CDC (uart-like) device
+    NS_USB_HID_DEVICE, ///< Human Interface Device (not supported)
+    NS_USB_MSC_DEVICE, ///< Mass Storage Device (not supported)
     NS_USB_VENDOR_DEVICE ///< Vendor Device (e.g. for WebUSB)
 } ns_usb_device_type_e;
 
@@ -67,8 +69,6 @@ typedef struct TU_ATTR_PACKED
   uint8_t bScheme;
   char    url[MAX_URL_LENGTH];
 } ns_tusb_desc_webusb_url_t;
-
-
 typedef void (*ns_usb_rx_cb)(ns_usb_transaction_t *);
 typedef void (*ns_usb_tx_cb)(ns_usb_transaction_t *);
 typedef void (*ns_usb_service_cb)(uint8_t);
@@ -88,8 +88,8 @@ typedef struct {
     ns_usb_tx_cb tx_cb;           ///< Callback for tx events
     ns_usb_service_cb service_cb; ///< Callback for service events
     ns_tusb_desc_webusb_url_t *desc_url; ///< WebUSB URL descriptor
-} ns_usb_config_t;
 
+} ns_usb_config_t;
 
 /**
  * @brief Initialize the USB system

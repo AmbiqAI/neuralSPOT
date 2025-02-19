@@ -332,7 +332,8 @@ extern uint32_t _ebss;
 // Stub out some CPP init-related functions
 extern void _init(void) { ; }
 extern void _fini(void) { ; }
-extern void *__dso_handle = 0;
+void *__dso_handle = 0;
+extern void __libc_init_array(void);
 
 void Reset_Handler(void) {
     //
@@ -388,7 +389,7 @@ void Reset_Handler(void) {
           "        it      lt\n"
           "        strlt   r2, [r0], #4\n"
           "        blt     zero_loop");
-
+          
     // Call CPP constructor init
     __libc_init_array();
 

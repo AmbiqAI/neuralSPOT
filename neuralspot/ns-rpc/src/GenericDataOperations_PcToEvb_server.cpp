@@ -10,6 +10,7 @@
 #endif
 #include "erpc_manually_constructed.hpp"
 #include "erpc_port.h"
+#include "ns_ambiqsuite_harness.h"
 
 #if 10901 != ERPC_VERSION_NUMBER
     #error "The generated shim code version is different to the rest of eRPC code."
@@ -233,12 +234,10 @@ pc_to_evb_service::ns_rpc_data_fetchBlockFromEVB_shim(Codec *codec,
     status result;
 
     // startReadMessage() was already called before this shim was invoked.
-
     block = (dataBlock *)erpc_malloc(sizeof(dataBlock));
     if (block == NULL) {
         codec->updateStatus(kErpcStatus_MemoryError);
     }
-
     err = codec->getStatus();
     if (err == kErpcStatus_Success) {
         // Invoke the actual served function.
@@ -249,7 +248,6 @@ pc_to_evb_service::ns_rpc_data_fetchBlockFromEVB_shim(Codec *codec,
 #if ERPC_NESTED_CALLS_DETECTION
         nestingDetection = false;
 #endif
-
         // preparing MessageBuffer for serializing data
         err = messageFactory->prepareServerBufferForSend(codec->getBuffer());
     }
@@ -263,7 +261,7 @@ pc_to_evb_service::ns_rpc_data_fetchBlockFromEVB_shim(Codec *codec,
                                  kpc_to_evb_ns_rpc_data_fetchBlockFromEVB_id, sequence);
 
         write_dataBlock_struct(codec, block);
-
+        
         codec->write(static_cast<int32_t>(result));
 
         err = codec->getStatus();

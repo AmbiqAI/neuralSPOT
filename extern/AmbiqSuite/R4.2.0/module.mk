@@ -28,13 +28,13 @@ includes_api += $(subdirectory)/third_party/tinyusb/src
 includes_api += $(subdirectory)/third_party/tinyusb/src/common
 includes_api += $(subdirectory)/third_party/tinyusb/src/osal
 includes_api += $(subdirectory)/third_party/tinyusb/src/class/cdc
-includes_api += $(subdirectory)/third_party/tinyusb/src/class/vendor
 includes_api += $(subdirectory)/third_party/tinyusb/src/device
 
 
 local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)
 
+LINKER_FILE := $(subdirectory)/src/linker_script.ld
 STARTUP_FILE := ./startup_$(COMPILERNAME).c
 
 $(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))

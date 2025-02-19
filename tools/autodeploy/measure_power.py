@@ -9,7 +9,8 @@ import traceback
 import pkg_resources
 import numpy as np
 from joulescope import scan
-from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
+from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions
+import yaml
 
 
 def generateInputAndOutputTensors(params, mc, md):
@@ -54,11 +55,29 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     model_path = params.destination_rootdir + "/" + params.model_name
     d = os.path.join(params.neuralspot_rootdir, model_path)
     relative_build_path = os.path.relpath(d, params.neuralspot_rootdir)
-
     n = params.model_name + "_power"
     adds, addsLen = mc.modelStructureDetails.getAddList()
     if params.joulescope or params.onboard_perf:
         generateInputAndOutputTensors(params, mc, md)
+    ns_cpu_mode = ""
+    if cpu_mode == "LP":
+        ns_cpu_mode = "NS_MINIMUM_PERF"
+    elif cpu_mode == "HP":
+        ns_cpu_mode = "NS_MAXIMUM_PERF"
+
+    # If Apollo5, load PMU definitions
+    if params.platform in ["apollo510_eb", "apollo510_evb"] :
+        pmu_defs = read_pmu_definitions(params)
+        ev0 = pmu_defs["PMU_EVENT0"]["name"]
+        ev1 = pmu_defs["PMU_EVENT1"]["name"]
+        ev2 = pmu_defs["PMU_EVENT2"]["name"]
+        ev3 = pmu_defs["PMU_EVENT3"]["name"]
+    else:
+        pmu_defs = None
+        ev0 = "PMU_EVENT0_NA"
+        ev1 = "PMU_EVENT1_NA"
+        ev2 = "PMU_EVENT2_NA"
+        ev3 = "PMU_EVENT3_NA"
 
     rm = {
         "NS_AD_NAME": n,
@@ -69,7 +88,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_NUM_OPS": addsLen,
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_POWER_RUNS": params.runs_power,
-        "NS_AD_CPU_MODE": cpu_mode,
+        "NS_AD_CPU_MODE": ns_cpu_mode,
         "NS_AD_JS_PRESENT": "1" if params.joulescope else "0",
         "NS_AD_NUM_INPUT_VECTORS": md.numInputs,
         "NS_AD_NUM_OUTPUT_VECTORS": md.numOutputs,
@@ -77,21 +96,26 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
         .replace("[", "")
         .replace("]", ""),
+        "NS_AD_PMU_EVENT_0": ev0,
+        "NS_AD_PMU_EVENT_1": ev1,
+        "NS_AD_PMU_EVENT_2": ev2,
+        "NS_AD_PMU_EVENT_3": ev3,
+        "NS_AD_PERF_NAME": params.model_name,
+        "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
     }
     print(
-        f"Compiling, deploying, and measuring {cpu_mode} power with binary at {d}/{n}"
+        f"[NS] Compiling, deploying, and measuring {cpu_mode} power, model location = {params.model_location}, arena location = {params.arena_location}."
     )
 
     # Make destination directory
     os.makedirs(f"{d}/{n}", exist_ok=True)
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
-
     # os.system(f"mkdir -p {d}/{n}")
     # os.system(f"mkdir -p {d}/{n}/src")
 
     template_directory = pkg_resources.resource_filename(__name__, "templates")
-    
+
     # Generate files from template
     createFromTemplate(
         template_directory + "/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
@@ -113,15 +137,18 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     createFromTemplate(
         template_directory + "/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
     )
-    
+
     postfix = ""
     if params.model_location == "SRAM":
         loc = "const" # will be compied over to SRAM
         postfix = "_for_sram"
     elif params.model_location == "MRAM":
         loc = "const"
+    elif params.model_location == "PSRAM":
+        loc = "const" # needs to be copied to PSRAM from MRAM
     else:
         loc = ""
+
     # Generate model weight file
     xxd_c_dump(
         src_path=params.tflite_filename,
@@ -129,7 +156,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         var_name=f"{n}_model{postfix}",
         chunk_len=12,
         is_header=True,
-        loc = loc,
+        loc=loc,
     )
 
     # Generate input/output tensor example data
@@ -142,7 +169,7 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     inputs = str(flatInput).replace("[", "{").replace("]", "}")
     outputs = str(flatOutput).replace("[", "{").replace("]", "}")
 
-    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.int16'>": "int16_t"}
+    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
 
     rm["NS_AD_INPUT_TENSORS"] = inputs
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
@@ -168,29 +195,36 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         ws_j = "-j"
         ws_and = "&&"
         ws_p = ""
+        relative_build_path = relative_build_path.replace("\\", "/")
+
+    # Platform Settings
+    ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
 
     # Generate library and example binary
     if params.onboard_perf:
-        mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
+        mlp = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} TFLM_VALIDATOR=1"
     else:
         mlp = ""
+
     if params.verbosity > 3:
         print(
-            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
         )
-
-    time.sleep(5)
 
     if makefile_result != 0:
         log.error("Makefile failed to build power measurement binary")
         exit("Makefile failed to build power measurement binary")
+    # else:
+    #     print("Makefile successfully built power measurement binary")
+
+    time.sleep(5)
 
 
 # Joulescope-specific Code
@@ -250,7 +284,7 @@ def handle_queue(q):
             return  # no more data
 
 
-def measurePower():
+def measurePower(params):
     global state
     _quit = False
     statistics_queue = queue.Queue()  # resynchronize to main thread
@@ -261,6 +295,13 @@ def measurePower():
         nonlocal _quit
         _quit = True
 
+    # if params.platform in ["apollo3p_evb", "apollo_evb"]:
+    #     # AP3 needs 3.3v GPIO
+    #     print("Setting GPIO to 3.3V")
+    #     gpioVolts = "3.3V"
+    # else:
+    #     gpioVolts = "1.8V"
+
     signal.signal(signal.SIGINT, stop_fn)  # also quit on CTRL-C
     devices = scan(config="auto")
     try:
@@ -270,7 +311,10 @@ def measurePower():
             device.close()
             device.open()
             device.parameter_set("reduction_frequency", "50 Hz")
-            device.parameter_set("io_voltage", "3.3V")
+            if params.platform in ["apollo3p_evb", "apollo_evb"]:
+                device.parameter_set("io_voltage", "3.3V")
+            else:
+                device.parameter_set("io_voltage", "1.8V")
             device.parameter_set("sensor_power", "on")
             device.parameter_set("i_range", "auto")
             device.parameter_set("v_range", "15V")
@@ -283,12 +327,12 @@ def measurePower():
                     if gpi == 3:
                         device.parameter_set("gpo0", "0")  # clear trigger to EVB
                         state = "getting_ready"
-                        log.info("Waiting for trigger to be acknowledged")
+                        # print("Waiting for trigger to be acknowledged...", end="")
                 elif state == "getting_ready":
                     if gpi == 0:
                         state = "collecting"
                         device.statistics_accumulators_clear()
-                        log.info("Collecting")
+                        # print("Collecting...", end="")
                         startTime = datetime.datetime.now()
                 elif state == "collecting":
                     if gpi != 0:
@@ -296,7 +340,7 @@ def measurePower():
                         # print ("Elapsed inference time: %d" % (stopTime - startTime))
                         td = stopTime - startTime
                         state = "reporting"
-                        log.info("Done collecting")
+                        # print("Done collecting.")
 
                 elif state == "quit":
                     state = "start"

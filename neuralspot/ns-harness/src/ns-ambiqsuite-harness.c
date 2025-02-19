@@ -21,7 +21,7 @@
 #include "am_util.h"
 #include "ns_ambiqsuite_harness.h"
 
-#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)  || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
 // AP3TODO
 #else
 
@@ -98,7 +98,6 @@ int32_t ns_cryptoless_itm_printf_disable(void) {
  */
 void ns_lp_printf(const char *format, ...) {
     va_list myargs;
-
     if ((g_ns_state.uartPrintWantsToBeEnabled == false) &&
         (g_ns_state.itmPrintWantsToBeEnabled == false)) {
         // No print interface has been enabled, ns_lp_printf is a no-op

@@ -7,6 +7,10 @@
 #include "neural_nets.h"
 #include "lstm.h"
 #include "affine.h"
+#include "ambiq_nnsp_debug.h"
+#if ARM_OPTIMIZED == 3
+    #include "basic_mve.h"
+#endif
 int16_t input0[MAX_SIZE_FEATURE * NUM_FEATURE_CONTEXT];
 int16_t input1[MAX_SIZE_FEATURE * NUM_FEATURE_CONTEXT];
 
@@ -38,7 +42,7 @@ void NeuralNetClass_exe(
     int8_t debug_layer) // 0, 1, ..., num_layers-1
 {
     int16_t dim_output, dim_input;
-    int i, j;
+    int i; //, j;
     int16_t *pt0, *pt1;
     int8_t qbit_kernel;
     int8_t qbit_input;
@@ -82,11 +86,16 @@ void NeuralNetClass_exe(
 
     pt0 = (int16_t *)input0;
     pt1 = (int16_t *)input1;
-
+#if ARM_OPTIMIZED==3
+    move_data_16b(
+        input,
+        pt0,
+        pt_inst->size_layer[0]);
+#else
     for (i = 0; i < pt_inst->size_layer[0]; i++) {
         pt0[i] = input[i];
     }
-
+#endif
     for (i = 0; i < numlayers; i++) {
 
         dim_input = pt_inst->size_layer[i];
@@ -115,13 +124,27 @@ void NeuralNetClass_exe(
 
     if (pt_inst->activation_type[numlayers - 1] == linear) {
         pt32 = (int32_t *)pt0;
-        for (j = 0; j < pt_inst->size_layer[numlayers]; j++) {
+#if ARM_OPTIMIZED==3
+        move_data_16b(
+            (int16_t*) pt32,
+            (int16_t*) output,
+            pt_inst->size_layer[numlayers] << 1 // double the size
+            );
+#else
+        for (int j = 0; j < pt_inst->size_layer[numlayers]; j++) {
             output[j] = pt32[j];
         }
+#endif
     } else {
         pt16 = (int16_t *)output;
-        for (j = 0; j < pt_inst->size_layer[numlayers]; j++) {
+        
+#if ARM_OPTIMIZED==3
+        move_data_16b(
+            pt0, pt16, pt_inst->size_layer[numlayers]);
+#else
+        for (int j = 0; j < pt_inst->size_layer[numlayers]; j++) {
             pt16[j] = pt0[j];
         }
+#endif
     }
 }

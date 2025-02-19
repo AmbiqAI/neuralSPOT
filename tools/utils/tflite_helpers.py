@@ -111,6 +111,9 @@ def CreateDictFromFlatbuffer(buffer_data):
 
 
 def CreateAddFromSnakeOpName(snake):
+    # print(snake)
+    if snake == "TFLite_Detection_PostProcess":
+        snake = "Detection_Postprocess"
     components = snake.split("_")
     addName = "Add"
     for s in components:

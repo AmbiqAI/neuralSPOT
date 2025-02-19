@@ -50,14 +50,18 @@ ns_model_init(ns_model_state_t *ms) {
     static tflite::MicroProfiler micro_profiler;
     ms->profiler = &micro_profiler;
 
-    // #ifdef NS_MODEL_ANALYSIS
-    ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
-    // #else
-    // ns_TFDebugLogInit(ms->tickTimer, NULL);
-    // #endif
+    // Create the config struct for the debug log
+    ns_debug_log_init_t cfg = {
+        .t = ms->tickTimer,
+        .m = ms->mac_estimates,
+        #ifdef AM_PART_APOLLO5B
+        .pmu = ms->pmu,
+        #endif
+    };
+    ns_TFDebugLogInit(&cfg);
 #else
     #ifdef NS_MLDEBUG
-    ns_TFDebugLogInit(NULL, NULL);
+    ns_TFDebugLogInit(NULL);
     #endif
 #endif
 

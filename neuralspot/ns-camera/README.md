@@ -65,7 +65,7 @@ int main(void) {
         ns_deep_sleep();
     }
 
-    // Do something with the picture...
+    // Do something with the picture!
 }
 ```
 
@@ -83,20 +83,18 @@ The ns-camera component (currently) only supports SPI-base Arducam Mega 5MP (may
 
 To connect the Arducam to an Apollo4 EVB's IOM1 interface, make the following connections:
 
-- Camera GND to any EVB GND
-- Camera 5V/VDD to any EVB 5V pin
-- Camera SCK to EVB Pin 8
-- Camera MISO to EVB Pin 10
-- Camera MOSI to EVB 9
-- Camera CS to EVB 11
+1. Camera GND to any EVB GND
+2. Camera 5V/VDD to any EVB 5V pin
+3. Camera SCK to EVB Pin 8
+4. Camera MISO to EVB Pin 10
+5. Camera MOSI to EVB 9
+6. Camera CS to EVB 11
 
-The Apollo5EB has similar pin assignments, except the CS goes to pin 92.
+To connect the Arducam to an Apollo5 EVB's IOM2 interface, make the following connections:
 
-To connect the Arducam to an Apollo510 EVB's IOM2 interface, make the following connections:
-
-- Camera GND to any EVB GND
-- Camera 5V/VDD to any EVB 5V pin
-- Camera SCK to EVB Pin 25
-- Camera MISO to EVB Pin 27
-- Camera MOSI to EVB 26
-- Camera CS to EVB 29
+1. Camera GND to any EVB GND
+2. Camera 5V/VDD to any EVB 5V pin
+3. Camera SCK to EVB Pin 25
+4. Camera MISO to EVB Pin 27
+5. Camera MOSI to EVB 26
+6. Camera CS to EVB 29

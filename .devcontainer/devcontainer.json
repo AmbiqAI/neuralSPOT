@@ -15,6 +15,6 @@
             }
         }
     },
-    "postCreateCommand": "chmod +x .devcontainer/install.sh && ./.devcontainer/install.sh"
+    "postCreateCommand": "chmod +x /workspaces/neuralSPOT/tools/ns_perf.py && chmod +x /workspaces/neuralSPOT/tools/ns_autodeploy.py && chmod +x .devcontainer/install.sh && ./.devcontainer/install.sh"
 
 }

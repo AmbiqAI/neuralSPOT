@@ -62,10 +62,10 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         .bSoftMute = 0,
         .bLRSwap = 0,
     };
-    
     // PDM Gain Config
     pdmConfig.eLeftGain = cfg->left_gain;
     pdmConfig.eRightGain = cfg->right_gain;
+
     // PDM Clock Config
     switch (cfg->clock) {
     case NS_CLKSEL_HFRC:
@@ -89,6 +89,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         break;
     case NS_CLKSEL_XTHS:
     case NS_CLKSEL_HFRC2:
+    case NS_CLKSEL_PLL:
         ns_lp_printf("Clock not supported by PDM\n");
         return NS_STATUS_INVALID_CONFIG;
     }

@@ -25,13 +25,10 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
-#include <cstdio>
 #include "ns_timer.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_malloc.h"
 #include <cstring>
-
-// #include "peripheral/usb/ei_usb.h"
 
 #define EI_WEAK_FN __attribute__((weak))
 
@@ -59,16 +56,10 @@ uint64_t ei_read_timer_us() {
 }
 
 __attribute__((weak)) void ei_printf(const char *format, ...) {
-    char buffer[1024] = {0};
-    int length;
     va_list myargs;
     va_start(myargs, format);
-    length = vsnprintf(buffer, sizeof(buffer), format, myargs);
+    am_util_stdio_vprintf(format, myargs);
     va_end(myargs);
-
-    if (length > 0) {
-        //ei_usb_send((uint8_t *)buffer, length);
-    }
 }
 
 __attribute__((weak)) void ei_printf_float(float f) {
@@ -77,12 +68,18 @@ __attribute__((weak)) void ei_printf_float(float f) {
 
 __attribute__((weak)) void *ei_malloc(size_t size) {
     void *p = ns_malloc(size);
+    // ns_lp_printf("malloc 0x%x @ 0x%x\n",size,p);
+    // if (p == NULL)
+    //     while(1);
     return p;
 }
 
 __attribute__((weak)) void *ei_calloc(size_t nitems, size_t size) {
     void *ret = ns_malloc(nitems*size);
     memset(ret, 0, nitems*size);
+    // ns_lp_printf("calloc 0x%x @ 0x%x\n",nitems*size,ret);
+    // if (ret == NULL)
+    //     while(1);
     return ret;
 }
 

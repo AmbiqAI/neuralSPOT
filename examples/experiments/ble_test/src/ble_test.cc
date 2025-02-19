@@ -52,8 +52,7 @@ const ns_power_config_t ns_power_ble = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = false,
-    .bNeedXtal = true};
+    .bNeedITM = false};
 
 // FreeRTOS Tasks
 TaskHandle_t radio_task_handle;  // Services WSF for BLE
@@ -133,7 +132,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 }
 
 ns_audio_config_t audio_config = {
-    .api = &ns_audio_V2_1_0,
+    .api = &ns_audio_V2_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&g_in16AudioDataBuffer,
@@ -175,7 +174,6 @@ int main(void) {
     // Only turn HP while doing codec and AI
     NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed. ");
     ns_audio_init(&audio_config);
-    ns_start_audio(&audio_config);
     audio_enc_init(0);
 
     // non-zero test pattern

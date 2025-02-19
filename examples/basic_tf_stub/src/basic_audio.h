@@ -36,17 +36,17 @@ static uint8_t pui8AudioBuff[SAMPLES_IN_FRAME * 2 * NUM_CHANNELS]; // 2 bytes/en
 
 // Audio buffers for application
 #ifdef AUDIO_LEGACY
-int16_t static audioDataBuffer[SAMPLES_IN_FRAME * 2];
-uint32_t static dmaBuffer[SAMPLES_IN_FRAME * 2 + 3];
+alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME * 2];
+alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * 2 + 3];
 #else
     #if NUM_CHANNELS == 1
-int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
+alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
     #else
-int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
+alignas(16) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
     #endif
 alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
     #ifndef USE_PDM_MICROPHONE
-am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used
+alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used
                                                                               // by AUDADC
     #endif // USE_PDM_MICROPHONE
 #endif     // AUDIO_LEGACY

@@ -18,8 +18,6 @@
     #ifdef __cplusplus
 extern "C" {
     #endif
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
 
     #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
         #define am_hal_gpio_pincfg_output g_AM_HAL_GPIO_OUTPUT
@@ -43,13 +41,17 @@ extern "C" {
 
     #define ns_printf ns_lp_printf
 
-    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
         #define ns_itm_printf_enable am_bsp_itm_printf_enable
         #define ns_lp_printf am_util_stdio_printf
         #define ns_delay_us am_util_delay_us
         // SRAM is default for AP3
-        #define NS_PUT_IN_TCM __attribute__((section(".tcm")))
-
+        #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
+            #define NS_PUT_IN_TCM __attribute__((section(".tcm")))
+            #define AM_SHARED_RW
+        #else // AM_PART_APOLLO3
+            #define NS_PUT_IN_TCM
+        #endif
     #else
         #define ns_delay_us am_hal_delay_us
         // TCM is default for AP4
@@ -69,7 +71,7 @@ extern void ns_itm_printf_enable(void);
  */
 extern void ns_lp_printf(const char *format, ...);
 
-    #endif
+    #endif // not AM_PART_APOLLO3, etc
 /**
  * @brief Enable UART prints in power-sensitive way
  *
@@ -85,6 +87,7 @@ extern int32_t ns_cryptoless_itm_printf_disable(void);
 
     #ifdef __cplusplus
 }
-    #endif
-#endif
+    #endif // __cplusplus
+#endif // NS_AMBIQSUITE_HARNESS_H
+    /** @} */
 /** @} */

@@ -71,4 +71,34 @@ cp extern/AmbiqSuite/R4.1.0/third_party/FreeRTOSv10.1.1/Source/include/portable.
 
 # Patch the pesky compile warning (usually in this file)
 diff extern/AmbiqSuite/R4.2.0/mcu/apollo4p/hal/mcu/am_hal_card.h extern/AmbiqSuite/R4.3.0/mcu/apollo4p/hal/mcu/am_hal_card.h
-``````
+```
+
+# NEW INSTRUCTIONS
+1. copy the new version into extern/AmbiqSuite
+2. Run porthelper - this will attempt to heuristically copy files into src (when they didn't change between versions) and alert you to exceptions.
+3. Handle the exceptions
+4. Copy libs
+5. Copy a bunch of other files that aren't in src or libs (headers)
+6. cdc_device.c is a pain right now - until that is fixed, compare versions and if they're not too far apart, use cdc_device_ns.c
+
+
+```bash
+sh porthelper.sh /Users/carlosmorales/dev/ns-mirror/extern/AmbiqSuite/Apollo5B_SDK2_2024_07_02 /Users/carlosmorales/dev/ns-mirror/extern/AmbiqSuite/ambiqsuite-b36aab438d0f
+
+ cp Aug_23_2024_c01ca97f/module.mk Oct_08_2024_e86d97b6
+ cp ./Apollo5B_SDK2_2024_07_02/third_party/tinyusb/source/src/tusb_config.h ./Apollo510_SDK3_2024_09_14/third_party/tinyusb/source/src/tusb_config.h
+ cp ./Apollo5B_SDK2_2024_07_02/third_party/tinyusb/source/src/tusb_option.h ./Apollo510_SDK3_2024_09_14/third_party/tinyusb/source/src/tusb_option.h
+ cp ../Apollo5B_SDK2_2024_07_02/./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/FreeRTOSConfig.h ./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/FreeRTOSConfig.h
+ cp ../Apollo5B_SDK2_2024_07_02/./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/rtos.h  ./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/rtos.h
+ cp ./mcu/apollo5b/hal/mcu/gcc/bin/libam_hal.a lib/apollo5b
+ cp ./mcu/apollo5b/hal/mcu/keil6/bin/libam_hal.lib lib/apollo5b
+ cp ./boards/apollo5b_eb_revb/bsp/gcc/bin/libam_bsp.a lib/apollo5b/eb_revb
+ cp ./boards/apollo5b_eb_revb/bsp/keil6/bin/libam_bsp.lib lib/apollo5b/eb_revb
+ cp ../Apollo5B_SDK2_2024_07_02/src/usb/cdc_device_ns.c src/usb
+ cp src/port.c ../Apollo510_SDK3_2024_09_14/src
+ ```
+
+Also, there are several 'outliers':
+- FreeRTOSConfig.h and rtos.h - needs to be copied: cp ./extern/AmbiqSuite/ambiqsuite_b36aab438d0f/third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/FreeRTOSConfig.h extern/AmbiqSuite/R5.2.0/third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5
+
+- am_mcu_apollo.h : get rid of arm_mve.h include

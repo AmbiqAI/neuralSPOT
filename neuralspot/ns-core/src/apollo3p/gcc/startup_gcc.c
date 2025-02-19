@@ -111,11 +111,12 @@ extern int main(void);
 // Reserve space for the system stack.
 //
 //*****************************************************************************
-__attribute__((section(".stack"))) static uint32_t g_pui32Stack[STACK_SIZE];
 
 #ifndef HEAP_SIZE
-    #define HEAP_SIZE 0
+    #define HEAP_SIZE 512
 #endif
+__attribute__((section(".stack"))) static uint32_t g_pui32Stack[STACK_SIZE - HEAP_SIZE]; // AP3 shares heap and stack
+
 
 __attribute__((section(".heap"))) __attribute__((__used__)) static uint32_t g_pui32Heap[HEAP_SIZE];
 
@@ -244,7 +245,8 @@ extern uint32_t _ebss;
 // Stub out some CPP init-related functions
 extern void _init(void) { ; }
 extern void _fini(void) { ; }
-extern void *__dso_handle = 0;
+void *__dso_handle = 0;
+extern void __libc_init_array(void);
 
 void Reset_Handler(void) {
     //
@@ -307,7 +309,7 @@ void Reset_Handler(void) {
 
     // Call CPP constructor init
     __libc_init_array();
-
+    
     //
     // Call the application's entry point.
     //

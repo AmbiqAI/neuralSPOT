@@ -116,7 +116,7 @@ def serial_wire_viewer(jlink, jlink_serial, part, swo_queue):
     # Halt the CPU before reading its clock speed
     jlink.reset()
     jlink.halt()
-    cpu_speed = jlink.cpu_speed() 
+    cpu_speed = jlink.cpu_speed()
     swo_speed = 1000000
     print("CPU SPEED: ", cpu_speed)
     print("SWO SPEED: ", swo_speed)
@@ -425,6 +425,7 @@ def generateAndFlashTestRunner(params, test_config, swo_queue):
         test_result = check_results(swo_log_file)
         test_result.duration = duration
         test_result.add_swo(swo_log_file)
+
         if test_complete is False:
             test_result.timeout = True
 
@@ -452,7 +453,13 @@ def generateAndFlashTestRunner(params, test_config, swo_queue):
 def runTests(params, test_config):
     platform = params.platform
     working_directory = params.working_directory
-    part = "AMAP42KP-KBR" if '4' in params.platform else "AMA3B2KK-KBR"
+    # part = "AMAP42KP-KBR" if '4' in params.platform else "AMA3B2KK-KBR"
+    if '5' in platform:
+        part = 'AP510NFA-CBR'
+    elif '4' in platform:
+        part = 'AMAP42KP-KBR'
+    else:
+        part = 'AMA3B2KK-KBR'
     # Get list of test suites, create bin for each one via generateTestRunner
     test_suite_list = test_config.sections()
     print(test_suite_list)
@@ -460,7 +467,9 @@ def runTests(params, test_config):
     jlink.open()
     jlink.set_tif(pylink.enums.JLinkInterfaces.SWD)
     jlink.connect(part, verbose=True)
+
     swo_queue = queue.Queue()
+
     try:
         swo_thread = threading.Thread(
             target=serial_wire_viewer, args=(jlink, None, part, swo_queue)

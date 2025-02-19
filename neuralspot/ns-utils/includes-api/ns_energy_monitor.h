@@ -3,8 +3,6 @@
 //! @file ns_energ_monitor.c
 //!
 //! @brief Simple tool to expose application state to external monitor via GPIO
-//! By default, it sets GPIO 22 and 23 to indicate a state so that it can
-//! be monitored by an external power monitor such as Joulescope.
 //!
 //! @addtogroup ns-energy-monitor
 //! @{
@@ -62,8 +60,20 @@ extern "C" {
     #include "ns_core.h"
     #include "ns_ambiqsuite_harness.h"
 
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
     #define NS_POWER_MONITOR_GPIO_0 22
     #define NS_POWER_MONITOR_GPIO_1 23
+#elif defined(AM_PART_APOLLO4) || defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P)
+    #define NS_POWER_MONITOR_GPIO_0 22
+    #define NS_POWER_MONITOR_GPIO_1 23
+#elif defined(AM_PART_APOLLO4L)
+    #define NS_POWER_MONITOR_GPIO_0 61
+    #define NS_POWER_MONITOR_GPIO_1 23
+#elif defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+    #define NS_POWER_MONITOR_GPIO_0 29
+    #define NS_POWER_MONITOR_GPIO_1 36
+#endif
+
 
     #define NS_IDLE 0
     #define NS_DATA_COLLECTION 1

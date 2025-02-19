@@ -1,0 +1,360 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include "arm_nnfunctions.h"   // CMSIS-NN functions
+#include "arm_math.h"          // CMSIS-DSP/MVE intrinsics if needed
+#include "ds_cnn_data.h"       // Declarations for weights, biases, and quant params
+
+//------------------------------------------------------------------------------
+// Utility functions: BatchNorm and ReLU (applied in standalone BN layers)
+//------------------------------------------------------------------------------
+void batch_norm_layer(int8_t *data, int total_elements, const int32_t *multiplier, const int32_t *shift, int channels) {
+    for (int i = 0; i < total_elements; i++) {
+        int c = i % channels;
+        int32_t x = data[i];
+        // A simple quantized BN: multiply and shift
+        int32_t y = (x * multiplier[c]) >> shift[c];
+        if (y > 127) y = 127;
+        else if (y < -128) y = -128;
+        data[i] = (int8_t)y;
+    }
+}
+
+void relu_layer(int8_t *data, int total_elements) {
+    for (int i = 0; i < total_elements; i++) {
+        if (data[i] < 0)
+            data[i] = 0;
+    }
+}
+
+//------------------------------------------------------------------------------
+// conv1_layer: Standard 2D convolution layer using CMSIS-NN
+//   - Kernel size: 10x4, stride: 2x2, “same” padding.
+//   - Followed by a separate BN and ReLU (activation)
+//------------------------------------------------------------------------------
+void conv1_layer(const int8_t *input, int8_t *output) {
+    cmsis_nn_context ctx;  // No scratch needed for this example
+    cmsis_nn_dims input_dims  = { .n = 1, .h = INPUT_HEIGHT, .w = INPUT_WIDTH, .c = 1 };
+    cmsis_nn_dims filter_dims = { .h = CONV1_KERNEL_H, .w = CONV1_KERNEL_W, .c = 1 }; 
+    cmsis_nn_dims bias_dims   = { .n = 0, .h = 0, .w = 0, .c = CONV1_OUT_CH };
+    cmsis_nn_dims output_dims = { .n = 1, .h = CONV1_OUT_HEIGHT, .w = CONV1_OUT_WIDTH, .c = CONV1_OUT_CH };
+
+    cmsis_nn_conv_params conv_params = {
+        .padding = { CONV1_PAD_H, CONV1_PAD_W },
+        .stride  = { CONV1_STRIDE_H, CONV1_STRIDE_W },
+        .dilation = { 1, 1 },
+        .input_offset = 0,
+        .output_offset = 0,
+        .activation = { .min = -128, .max = 127 }
+    };
+
+    cmsis_nn_per_channel_quant_params quant_params = {
+        .multiplier = conv1_multiplier,  // from generated data
+        .shift      = conv1_shift,
+        // .n = CONV1_OUT_CH
+    };
+
+    // Call CMSIS-NN’s conv2d function
+    arm_convolve_s8(&ctx, &conv_params, &quant_params,
+                    &input_dims, input,
+                    &filter_dims, conv1_weights,
+                    &bias_dims, conv1_bias,
+                    &output_dims, output);
+
+    // Apply standalone batch normalization and ReLU (activation)
+    int total_elements = CONV1_OUT_HEIGHT * CONV1_OUT_WIDTH * CONV1_OUT_CH;
+    batch_norm_layer(output, total_elements, conv1_bn_multiplier, conv1_bn_shift, CONV1_OUT_CH);
+    relu_layer(output, total_elements);
+}
+
+//------------------------------------------------------------------------------
+// Depthwise and Pointwise Convolution wrappers for separable blocks
+//------------------------------------------------------------------------------
+void depthwise_conv_layer(const int8_t *input, int8_t *output,
+                          const int8_t *dw_weights, const int32_t *dw_bias,
+                          const int32_t *bn_multiplier, const int32_t *bn_shift,
+                          int in_h, int in_w, int in_ch,
+                          int kernel_h, int kernel_w,
+                          int stride_h, int stride_w,
+                          int pad_h, int pad_w,
+                          int out_h, int out_w) {
+    cmsis_nn_context ctx;
+    cmsis_nn_dims input_dims  = { .n = 1, .h = in_h, .w = in_w, .c = in_ch };
+    cmsis_nn_dims filter_dims = { .h = kernel_h, .w = kernel_w, .c = in_ch };  // depth_multiplier=1
+    cmsis_nn_dims bias_dims   = { .n = 0, .h = 0, .w = 0, .c = in_ch };
+    cmsis_nn_dims output_dims = { .n = 1, .h = out_h, .w = out_w, .c = in_ch };
+
+    cmsis_nn_dw_conv_params dw_conv_params = {
+        .padding = { pad_h, pad_w },
+        .stride  = { stride_h, stride_w },
+        .dilation = { 1, 1 },
+        .input_offset = 0,
+        .output_offset = 0,
+        .activation = { .min = -128, .max = 127 }
+    };
+
+    cmsis_nn_per_channel_quant_params quant_params = {
+        .multiplier = dw_conv_multiplier, // common for each depthwise op (from generated data)
+        .shift      = dw_conv_shift,
+        // .n = in_ch
+    };
+
+    arm_depthwise_conv_s8(&ctx, &dw_conv_params, &quant_params,
+                          &input_dims, input,
+                          &filter_dims, dw_weights,
+                          &bias_dims, dw_bias,
+                          &output_dims, output);
+
+    int total_elements = out_h * out_w * in_ch;
+    batch_norm_layer(output, total_elements, bn_multiplier, bn_shift, in_ch);
+    relu_layer(output, total_elements);
+}
+
+void pointwise_conv_layer(const int8_t *input, int8_t *output,
+                          const int8_t *pw_weights, const int32_t *pw_bias,
+                          const int32_t *bn_multiplier, const int32_t *bn_shift,
+                          int in_h, int in_w, int in_ch, int out_ch) {
+    cmsis_nn_context ctx;
+    cmsis_nn_dims input_dims  = { .n = 1, .h = in_h, .w = in_w, .c = in_ch };
+    cmsis_nn_dims filter_dims = { .h = 1, .w = 1, .c = in_ch };
+    cmsis_nn_dims bias_dims   = { .n = 0, .h = 0, .w = 0, .c = out_ch };
+    cmsis_nn_dims output_dims = { .n = 1, .h = in_h, .w = in_w, .c = out_ch };
+
+    cmsis_nn_conv_params conv_params = {
+        .padding = { 0, 0 },
+        .stride  = { 1, 1 },
+        .dilation = { 1, 1 },
+        .input_offset = 0,
+        .output_offset = 0,
+        .activation = { .min = -128, .max = 127 }
+    };
+
+    cmsis_nn_per_channel_quant_params quant_params = {
+        .multiplier = pw_conv_multiplier, // from generated data
+        .shift      = pw_conv_shift,
+        // .n = out_ch
+    };
+
+    arm_convolve_s8(&ctx, &conv_params, &quant_params,
+                    &input_dims, input,
+                    &filter_dims, pw_weights,
+                    &bias_dims, pw_bias,
+                    &output_dims, output);
+
+    int total_elements = in_h * in_w * out_ch;
+    batch_norm_layer(output, total_elements, bn_multiplier, bn_shift, out_ch);
+    relu_layer(output, total_elements);
+}
+
+//------------------------------------------------------------------------------
+// separable_block: Implements one separable block that consists of
+//  (a) depthwise conv (3x3, stride 1, same padding) and
+//  (b) pointwise conv (1x1) to produce 64 channels.
+//  Block-specific weight pointers and BN parameters are used.
+//------------------------------------------------------------------------------
+void separable_block(int block_num, const int8_t *input, int8_t *output,
+                     int in_h, int in_w, int channels) {
+    // The output dimensions of the depthwise conv remain the same.
+    int out_h = in_h;
+    int out_w = in_w;
+    // Temporary buffer for depthwise conv output.
+    int8_t *dw_output = malloc(out_h * out_w * channels * sizeof(int8_t));
+    if(dw_output == NULL) {
+        ns_lp_printf("Memory allocation error\n");
+        exit(1);
+    }
+
+    // Select weight and BN parameter pointers based on block number.
+    const int8_t *dw_weights;
+    const int32_t *dw_bias;
+    const int32_t *dw_bn_multiplier;
+    const int32_t *dw_bn_shift;
+    const int8_t *pw_weights;
+    const int32_t *pw_bias;
+    const int32_t *pw_bn_multiplier;
+    const int32_t *pw_bn_shift;
+
+    switch(block_num) {
+        case 1:
+            dw_weights    = block1_dw_weights;
+            dw_bias       = block1_dw_bias;
+            dw_bn_multiplier = block1_dw_bn_multiplier;
+            dw_bn_shift      = block1_dw_bn_shift;
+            pw_weights    = block1_pw_weights;
+            pw_bias       = block1_pw_bias;
+            pw_bn_multiplier = block1_pw_bn_multiplier;
+            pw_bn_shift      = block1_pw_bn_shift;
+            break;
+        case 2:
+            dw_weights    = block2_dw_weights;
+            dw_bias       = block2_dw_bias;
+            dw_bn_multiplier = block2_dw_bn_multiplier;
+            dw_bn_shift      = block2_dw_bn_shift;
+            pw_weights    = block2_pw_weights;
+            pw_bias       = block2_pw_bias;
+            pw_bn_multiplier = block2_pw_bn_multiplier;
+            pw_bn_shift      = block2_pw_bn_shift;
+            break;
+        case 3:
+            dw_weights    = block3_dw_weights;
+            dw_bias       = block3_dw_bias;
+            dw_bn_multiplier = block3_dw_bn_multiplier;
+            dw_bn_shift      = block3_dw_bn_shift;
+            pw_weights    = block3_pw_weights;
+            pw_bias       = block3_pw_bias;
+            pw_bn_multiplier = block3_pw_bn_multiplier;
+            pw_bn_shift      = block3_pw_bn_shift;
+            break;
+        case 4:
+            dw_weights    = block4_dw_weights;
+            dw_bias       = block4_dw_bias;
+            dw_bn_multiplier = block4_dw_bn_multiplier;
+            dw_bn_shift      = block4_dw_bn_shift;
+            pw_weights    = block4_pw_weights;
+            pw_bias       = block4_pw_bias;
+            pw_bn_multiplier = block4_pw_bn_multiplier;
+            pw_bn_shift      = block4_pw_bn_shift;
+            break;
+        default:
+            ns_lp_printf("Invalid block number\n");
+            exit(1);
+    }
+
+    // (a) Depthwise convolution: 3x3, stride 1, same padding (pad=1)
+    depthwise_conv_layer(input, dw_output, dw_weights, dw_bias,
+                         dw_bn_multiplier, dw_bn_shift,
+                         in_h, in_w, channels,
+                         3, 3, 1, 1, 1, 1, out_h, out_w);
+    
+    // (b) Pointwise convolution: 1x1 conv converting channels to 64 (same as input channels)
+    pointwise_conv_layer(dw_output, output, pw_weights, pw_bias,
+                         pw_bn_multiplier, pw_bn_shift,
+                         out_h, out_w, channels, channels);
+    
+    free(dw_output);
+}
+
+//------------------------------------------------------------------------------
+// avg_pool_layer: Applies average pooling over the entire spatial dimensions.
+// In our ds_cnn model, pool size is computed from the original input dims.
+//------------------------------------------------------------------------------
+void avg_pool_layer(const int8_t *input, int8_t *output,
+                    int in_h, int in_w, int channels, int pool_h, int pool_w) {
+    cmsis_nn_context ctx;
+    cmsis_nn_dims input_dims  = { .n = 1, .h = in_h, .w = in_w, .c = channels };
+    cmsis_nn_dims filter_dims = { .n = 0, .h = pool_h, .w = pool_w, .c = channels };
+    cmsis_nn_dims output_dims = { .n = 1, .h = 1, .w = 1, .c = channels };
+    cmsis_nn_pool_params pool_params = {
+        .stride = { pool_h, pool_w },
+        .padding = { 0, 0 },
+        .activation = { .min = -128, .max = 127 }
+    };
+
+    arm_avgpool_s8(&ctx, &pool_params, &input_dims, input, &filter_dims, &output_dims, output);
+}
+
+
+//------------------------------------------------------------------------------
+// fully_connected_layer: Implements the final Dense layer.
+// Uses CMSIS-NN arm_fully_connected_s8 and then outputs int8 logits.
+//------------------------------------------------------------------------------
+#include "arm_nnfunctions.h"   // Ensure this includes the definitions of both cmsis_nn_fc_params and cmsis_nn_per_tensor_quant_params
+
+void fully_connected_layer(const int8_t *input, int8_t *output) {
+    cmsis_nn_context ctx;
+    cmsis_nn_dims input_dims  = { .n = 1, .h = 1, .w = 1, .c = FC_IN_FEATURES };
+    cmsis_nn_dims filter_dims = { .n = 1, .h = 1, .w = 1, .c = FC_IN_FEATURES };
+    cmsis_nn_dims bias_dims   = { .n = 0, .h = 0, .w = 0, .c = FC_OUT_FEATURES };
+    cmsis_nn_dims output_dims = { .n = 1, .h = 1, .w = 1, .c = FC_OUT_FEATURES };
+
+    // Initialize fully connected parameters. Note that CMSIS-NN for fully connected layers uses a single 'activation' field.
+    cmsis_nn_fc_params fc_params = {
+        .input_offset  = 0,
+        .filter_offset = 0,
+        .output_offset = 0,
+        .activation    = 0
+    };
+
+    // Create a per-tensor quantization parameter structure from the fc_multiplier and fc_shift arrays.
+    // These arrays should have been generated with one element for per-tensor quantization.
+    cmsis_nn_per_tensor_quant_params fc_quant_params_local = {
+        .multiplier = fc_multiplier[0],
+        .shift = fc_shift[0]
+    };
+
+    // Call the fully connected function using the per-tensor quantization parameters.
+    arm_fully_connected_s8(&ctx, &fc_params, &fc_quant_params_local,
+                           &input_dims, input,
+                           &filter_dims, fc_weights,
+                           &bias_dims, fc_bias,
+                           &output_dims, output);
+}
+
+
+//------------------------------------------------------------------------------
+// ds_cnn_infer: Implements the full ds_cnn inference pipeline.
+// The data flows as follows:
+//   input -> conv1 -> 4 separable blocks -> (dropout bypassed) -> average pool ->
+//   fully connected -> softmax
+//------------------------------------------------------------------------------
+void ds_cnn_infer(const int8_t *input, int8_t *output) {
+    // Buffer for conv1 output
+    int8_t conv1_out[CONV1_OUT_HEIGHT * CONV1_OUT_WIDTH * CONV1_OUT_CH];
+    conv1_layer(input, conv1_out);
+
+    // The separable blocks retain the same spatial dimensions and channels.
+    int block_h = CONV1_OUT_HEIGHT;
+    int block_w = CONV1_OUT_WIDTH;
+    int channels = CONV1_OUT_CH; // 64
+
+    int8_t block1_out[block_h * block_w * channels];
+    separable_block(1, conv1_out, block1_out, block_h, block_w, channels);
+
+    int8_t block2_out[block_h * block_w * channels];
+    separable_block(2, block1_out, block2_out, block_h, block_w, channels);
+
+    int8_t block3_out[block_h * block_w * channels];
+    separable_block(3, block2_out, block3_out, block_h, block_w, channels);
+
+    int8_t block4_out[block_h * block_w * channels];
+    separable_block(4, block3_out, block4_out, block_h, block_w, channels);
+
+    // Dropout layers are bypassed in inference.
+    // Apply average pooling over the entire spatial dims to obtain a 1x1x64 tensor.
+    int8_t avg_pool_out[FC_IN_FEATURES];
+    avg_pool_layer(block4_out, avg_pool_out, block_h, block_w, channels, block_h, block_w);
+
+    // Fully connected layer produces int8 logits for 12 classes.
+    int8_t fc_out[FC_OUT_FEATURES];
+    fully_connected_layer(avg_pool_out, fc_out);
+
+    // Finally, apply softmax to produce output probabilities.
+    cmsis_nn_softmax_params softmax_params = {
+        .beta = 1.0f
+    };
+    cmsis_nn_dims fc_out_dims = { .n = 1, .h = 1, .w = 1, .c = FC_OUT_FEATURES };
+    arm_softmax_s8(fc_out, &softmax_params, &fc_out_dims, output);
+}
+
+//------------------------------------------------------------------------------
+// Unit test: main() invokes the inference function on a pre-generated input tensor
+// and compares the output against expected results (both generated by the Python script).
+//------------------------------------------------------------------------------
+int proposed_main(void) {
+    int8_t output[FC_OUT_FEATURES];
+    ds_cnn_infer(test_input, output);
+
+    // Compare against expected output.
+    int pass = 1;
+    for (int i = 0; i < FC_OUT_FEATURES; i++) {
+        if (output[i] != expected_output[i]) {
+            pass = 0;
+            ns_lp_printf("Mismatch at index %d: expected %d, got %d\n", i, expected_output[i], output[i]);
+        }
+    }
+    if (pass)
+        ns_lp_printf("Unit test passed.\n");
+    else
+        ns_lp_printf("Unit test failed.\n");
+    return 0;
+}

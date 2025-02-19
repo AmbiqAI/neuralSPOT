@@ -335,10 +335,9 @@ erpc_transport_t erpc_transport_tcp_init(const char *host, uint16_t port, bool i
 void erpc_transport_tcp_close(void);
 //@}
 
-#ifdef NS_USB_PRESENT
 //! @name USB CDC transport setup
 //@{
-
+#ifdef NS_USB_PRESENT
 /*!
  * @brief Create an USB CDC transport.
  *
@@ -357,8 +356,8 @@ void erpc_transport_tcp_close(void);
  * @return Return NULL or erpc_transport_t instance pointer.
  */
 erpc_transport_t erpc_transport_usb_cdc_init(usb_handle_t);
-//@}
 #endif
+//@}
 /*!
  * @brief Create a UART transport.
  *
@@ -377,8 +376,6 @@ erpc_transport_t erpc_transport_usb_cdc_init(usb_handle_t);
  * @return Return NULL or erpc_transport_t instance pointer.
  */
 erpc_transport_t erpc_transport_uart_init(ns_uart_handle_t);
-//@}
-
 //! @name I2C transport setup
 //@{
 

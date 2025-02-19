@@ -46,13 +46,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "webusb_controller.h"
-#include "usb_descriptors.h"
+
+// #include "am_util_debug.h"
 #include "ns_usb.h"
+#include "ns_ambiqsuite_harness.h"
 #include "tusb.h"
 
-#include "am_util_debug.h"
-#include "ns_ambiqsuite_harness.h"
+#include "usb_descriptors.h"
+#include "webusb_controller.h"
+
 //--------------------------------------------------------------------+
 // Structure definitions
 //--------------------------------------------------------------------+
@@ -79,7 +81,6 @@ typedef struct {
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
 #define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
-
 
 // The max of USB2.0 bulk type packet size is 512 in High Speed.
 static uint8_t rx_buf[512];
@@ -192,10 +193,13 @@ bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
     ns_tusb_desc_webusb_url_t * desc_url = ns_get_desc_url();
     // nothing to with DATA & ACK stage
+    // ns_lp_printf("tud_vendor_control_xfer_cb: %d\n", stage);
     if (stage != CONTROL_STAGE_SETUP)
         return true;
+    // ns_lp_printf("here: %d\n", stage);
     switch (request->bmRequestType_bit.type) {
     case TUSB_REQ_TYPE_VENDOR:
+        // ns_lp_printf("TUSB_REQ_TYPE_VENDOR: \n");
         switch (request->bRequest) {
         case VENDOR_REQUEST_WEBUSB:
             // match vendor request in BOS descriptor
@@ -204,6 +208,7 @@ bool tud_vendor_control_xfer_cb(
                 rhport, request, (void *)(uintptr_t)desc_url, desc_url->bLength);
 
         case VENDOR_REQUEST_MICROSOFT:
+            // ns_lp_printf("VENDOR_REQUEST_MICROSOFT: \n");
             if (request->wIndex == DESC_MS_OS_20) {
                 // Get Microsoft OS 2.0 compatible descriptor
                 uint16_t total_len;
@@ -221,11 +226,14 @@ bool tud_vendor_control_xfer_cb(
         break;
 
     case TUSB_REQ_TYPE_CLASS:
+        // ns_lp_printf("TUSB_REQ_TYPE_CLASS: \n");
 
         if (request->bRequest == WEBUSB_REQUEST_SET_CONTROL_LINE_STATE) {
             // Receive the webusb line state
+            // ns_lp_printf("WEBUSB_REQUEST_SET_CONTROL_LINE_STATE: \n");
             if (request->wValue != 0) {
                 webusb_connected = true;
+                // ns_lp_printf("WebUSB interface connected\r\n");
             } else {
                 webusb_connected = false;
             }
@@ -247,13 +255,6 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     uint32_t bytes_tx = 0;
     uint32_t bufremain = bufsize;
 
-    // Print first 20 bytes of buffer
-    // ns_lp_printf("Sending %d bytes: ", bufsize);
-    // for (int i = 0; i < 5; i++) {
-    //     ns_lp_printf("0x%02x ", buf[i]);
-    // }
-    // ns_lp_printf("\n");
-
     if (webusb_connected && buf) {
         int i = 0;
         do {
@@ -267,8 +268,7 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
 
             // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
             bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
-            // tud_vendor_write_flush();
-            // ns_lp_printf("Sent %d of %d bytes\n", bytes_tx, bufsize);
+            // ns_lp_printf("bytes_tx: %d\n", bytes_tx);
             bufremain -= bytes_tx;
 
             i++;
@@ -297,4 +297,9 @@ void webusb_register_msg_cb(webusb_rx_cb cb, void *param) {
 void webusb_register_raw_cb(webusb_rx_cb cb, void *param) {
     webusb_parameter.rx_raw_cb = cb;
     webusb_parameter.rx_raw_param = param;
+}
+
+uint32_t webusb_is_connected(void)
+{
+    return webusb_connected;
 }

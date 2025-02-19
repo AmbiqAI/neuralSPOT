@@ -58,9 +58,15 @@ typedef struct {
     #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;       ///< Optional, from tflm_profiler tool
     ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
+    #ifdef AM_PART_APOLLO5B
+    ns_pmu_config_t *pmu;
+    #else
+    void *pmu;
+    #endif
     #else
     void *tickTimer;
     void *mac_estimate;
+    void *pmu;
     #endif
     // State (init by baseline code)
     const tflite::Model *model;                        ///< Model structure, initialized during init

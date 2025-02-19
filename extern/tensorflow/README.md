@@ -87,7 +87,7 @@ First, cortex_m_generic_makefile.inc:
 <     -fshort-wchar \
 ```
 
-Also
+Also (see below, this no longer works on latest)
 ```
 diff --git a/tensorflow/lite/micro/tools/make/Makefile b/tensorflow/lite/micro/tools/make/Makefile
 index 08eb057e..816de78d 100644
@@ -119,3 +119,30 @@ Finally, the command to make is a bit different:
 ```
 
 > *NOTE*: setting -Omax causes all kinds of trouble. Don't do it.
+
+
+# A few updates
+Optimizations: modify the optimization levels in Makefile:
+```
+ifeq ($(TOOLCHAIN), armclang)
+  CORE_OPTIMIZATION_LEVEL := -Ofast
+  KERNEL_OPTIMIZATION_LEVEL := -Ofast
+  THIRD_PARTY_KERNEL_OPTIMIZATION_LEVEL := -Ofast
+else
+  CORE_OPTIMIZATION_LEVEL := -Os
+  KERNEL_OPTIMIZATION_LEVEL := -O2
+  THIRD_PARTY_KERNEL_OPTIMIZATION_LEVEL := -O2
+endif
+```
+
+A better AR patch (note that the first AR includes two lists instead of just one. This is because they both contain kernel_utils.o (different files in different paths, but same name), and ARing each separately was causing AR to replace rather than append)
+```
+# Windows Sucks, specifically the 5000 character limit on command line arguments
+# Gathers together all the objects we've compiled into a single '.a' archive.
+$(MICROLITE_LIB_PATH): $(MICROLITE_LIB_OBJS) $(MICROLITE_KERNEL_OBJS) $(MICROLITE_THIRD_PARTY_OBJS) $(MICROLITE_THIRD_PARTY_KERNEL_OBJS) $(MICROLITE_CUSTOM_OP_OBJS)
+	@mkdir -p $(dir $@)
+	$(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_KERNEL_OBJS) $(MICROLITE_LIB_OBJS)
+	$(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_THIRD_PARTY_OBJS)
+	$(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_THIRD_PARTY_KERNEL_OBJS)
+	$(AR) $(ARFLAGS) $(MICROLITE_LIB_PATH) $(MICROLITE_CUSTOM_OP_OBJS)
+```

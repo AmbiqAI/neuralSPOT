@@ -4,11 +4,7 @@
 
 ---
 
-> *Code*: [https://github.com/AmbiqAI/neuralSPOT](https://github.com/AmbiqAI/neuralSPOT)
->
-> *Documentation*: [https://ambiqai.github.io/neuralSPOT](https://ambiqai.github.io/neuralSPOT)
-
----
+> **NOTE** `ns-mirror` (this repo) is a private mirror of neuralSPOT with Apollo510 support. It includes unreleased pre-alpha SW components, and may be behind the official neuralSPOT repo by a few feature checkins. ns-mirror includes support for Apollo5a and Apollo5b EBs, and Apollo5b EVBs. See [the AP510 quick guide](./docs/apollo51evb_quick_guide.md) for details.
 
 NeuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo family of ultra-low-power SoCs. It is open-source, real-time, and OS-agnostic. It was designed with Tensorflow Lite for Microcontrollers in mind, but works with any AI runtime.
 

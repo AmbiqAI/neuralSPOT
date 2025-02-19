@@ -1,13 +1,6 @@
-# Initialize rootdir to be cwd
-rootdir := $(shell pwd)
+# Default ROOTDIR
+ROOTDIR ?= $(shell pwd)
 
-# Shell command to check if the current directory is not neuralSPOT
-rootdir := $(shell \
-    while [ "$$(basename $$PWD)" != "neuralSPOT" ]; do \
-        cd ..; \
-    done; \
-    pwd \
-)
 build := bin
 BINDIR := $(build)
 TOOLCHAIN := NS_AD_TOOLCHAIN
@@ -15,22 +8,22 @@ app_name := NS_AD_NAME
 
 deploy_target := $(build)/$(app_name)_example.bin
 
-include $(rootdir)/make/helpers.mk
-include $(rootdir)/make/neuralspot_config.mk
-include $(rootdir)/make/local_overrides.mk
-include $(rootdir)/make/neuralspot_toolchain.mk
-include $(rootdir)/make/jlink.mk
+include $(ROOTDIR)/make/helpers.mk
+include $(ROOTDIR)/make/neuralspot_config.mk
+include $(ROOTDIR)/make/local_overrides.mk
+include $(ROOTDIR)/make/neuralspot_toolchain.mk
+include $(ROOTDIR)/make/jlink.mk
 
 includes_api := .
 pp_defines   := $(DEFINES)
 
-includes_api += $(rootdir)/neuralspot/ns-model/includes-api
+includes_api += $(ROOTDIR)/neuralspot/ns-model/includes-api
 includes_api += lib
 
-include $(rootdir)/src/tensorflow_headers/module.mk
+include $(ROOTDIR)/src/tensorflow_headers/module.mk
 
 # AmbiqSuite Headers and Util sources
-as_base = ($rootdir)/extern/AmbiqSuite/$(AS_VERSION)
+as_base = ($ROOTDIR)/extern/AmbiqSuite/$(AS_VERSION)
 includes_api += $(as_base)/boards/$(BOARD)_$(EVB)/bsp
 includes_api += $(as_base)/CMSIS/ARM/Include
 includes_api += $(as_base)/CMSIS/AmbiqMicro/Include
@@ -60,7 +53,7 @@ lib_prebuilt += $(as_base)/mcu/apollo4p/hal/mcu/gcc/bin/libam_hal.a
 lib_prebuilt += $(as_base)/boards/$(PART)_$(EVB)/bsp/gcc/bin/libam_bsp.a
 endif
 
-VPATH = $(rootdir)/src
+VPATH = $(ROOTDIR)/src
 VPATH += $(as_base)/utils
 
 

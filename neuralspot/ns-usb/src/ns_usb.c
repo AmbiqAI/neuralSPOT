@@ -73,7 +73,7 @@ static void ns_usb_service_callback(ns_timer_config_t *c) {
     tud_task();
     if (usb_config.service_cb != NULL) {
         usb_config.service_cb(gGotUSBRx);
-        // ns_lp_printf("got usb rx %d\n", gGotUSBRx);
+        ns_lp_printf("got usb rx %d\n", gGotUSBRx);
     }
 }
 
@@ -134,8 +134,8 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     uint32_t block_retries = 15; // number of rx blocks we'll retry
 
     // if (gGotUSBRx == 0)
-    //     ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
-    //             gGotUSBRx);
+        // ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
+        //         gGotUSBRx);
     // uint32_t before = tud_cdc_available();
     // uint8_t before_sem = gGotUSBRx;
     // ns_delay_us(10);
@@ -175,12 +175,11 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     gGotUSBRx = 0;
     bytes_rx = tud_cdc_read((void *)buffer, bufsize);
     // if (retries != 10000)
-    //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem:
-    //     %d, %d, af2 cnt,sem: %d, %d\n",
+    //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem: %d, %d, af2 cnt,sem: %d, %d\n",
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
     // ns_lp_printf("Got bytes %d\n", bytes_rx);
-    ns_delay_us(200);
+     ns_delay_us(200);
 
     // dontoptimizeme = after + after_sem + before + before_sem + after2 + after2_sem;
     if (bytes_rx != bufsize) {

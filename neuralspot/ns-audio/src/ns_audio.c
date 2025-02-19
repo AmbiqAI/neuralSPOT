@@ -20,7 +20,11 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
-#include "ns_audadc.h"
+
+#ifdef NS_AUDADC_PRESENT
+    #include "ns_audadc.h"
+#endif
+
 #include "ns_ipc_ring_buffer.h"
 #include "ns_pdm.h"
 
@@ -42,9 +46,9 @@ uint8_t g_rttRecorderBuffer[RTT_BUFFER_LENGTH];
 AM_SHARED_RW int16_t g_in16SampleToRTT[AUDIO_SAMPLE_TO_RTT];
 uint32_t g_ui32SampleToRTT = 0;
 #endif
+
 static bool audio_initialized = false;
 static bool audio_started = false;
-
 /**
  * @brief Audio Configuration and State
  *
@@ -154,7 +158,7 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
         1, "DataLogger", g_rttRecorderBuffer, RTT_BUFFER_LENGTH, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
     am_util_stdio_printf("RTT Control Block Address:  0x%08X\n", (uint32_t)&_SEGGER_RTT);
 #endif
-    audio_initialized = true;
+    audio_initialized = true; // set audio initialized flag
     return AM_HAL_STATUS_SUCCESS;
 }
 
@@ -214,22 +218,6 @@ uint32_t ns_end_audio(ns_audio_config_t *cfg) {
     return NS_STATUS_INVALID_CONFIG;
 }
 
-
-
-
-
-// static uint32_t synthData = 0;
-// static void
-// gen_synthetic_audadc(ns_audio_config_t *config, uint32_t cnt) {
-//     uint8_t channel = 0;
-//     for (int i = 0; i < cnt; i++) {
-//         // Generate synthetic ADC data
-//         config->sampleBuffer[i] = (synthData & 0xFFF) << 4;
-//         config->sampleBuffer[i] |= channel << 19;
-//         synthData++;
-//         channel = (channel + 1) % 2;
-//     }
-// }
 
 void ns_audio_getPCM(int16_t *pcm, uint32_t *raw, int16_t len) {
     if (g_ns_audio_config->api->version.major < 2) {
@@ -295,6 +283,7 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
     if (audio_initialized == false) {
         return NS_STATUS_FAILURE;
     }
+
     if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_AUDADC) {
 #ifdef NS_AUDADC_PRESENT
         // HAL multiplies gain by 2. Since minimum gain is -12dB, we check for -6 here. Gain saturates at 33dB.
@@ -308,7 +297,6 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
             g_ns_audio_config->audadc_config->left_gain = left_gain;
             g_ns_audio_config->audadc_config->right_gain = right_gain;
             ns_start_audio(g_ns_audio_config);
-
         }
         else {
             return NS_STATUS_FAILURE;
@@ -316,23 +304,28 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
 #else
         ns_lp_printf("Error - Trying to set gain on non-existent AUDADC\n");
         return NS_STATUS_FAILURE;
-#endif
+#endif    
     }
     else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
-            bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M120DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);
-            bool right_gain_valid = (right_gain >= AM_HAL_PDM_GAIN_M120DB && right_gain <= AM_HAL_PDM_GAIN_P345DB);
-            // check if gain values are valid
-            if(left_gain_valid && right_gain_valid) {
-                if (g_ns_audio_config->pdm_config == NULL) {
-                    g_ns_audio_config->pdm_config = &ns_pdm_default;
-                }
-                if(audio_started) {
-                    ns_end_audio(g_ns_audio_config);
-                }
-                g_ns_audio_config->pdm_config->left_gain = left_gain;
-                g_ns_audio_config->pdm_config->right_gain = right_gain;
-                ns_start_audio(g_ns_audio_config);
+        #if defined (AM_PART_APOLLO3P) || (AM_PART_APOLLO3)
+        bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M60DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);
+        bool right_gain_valid = (right_gain >= AM_HAL_PDM_GAIN_M60DB && right_gain <= AM_HAL_PDM_GAIN_P345DB);
+        #else
+        bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M120DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);
+        bool right_gain_valid = (right_gain >= AM_HAL_PDM_GAIN_M120DB && right_gain <= AM_HAL_PDM_GAIN_P345DB);
+        #endif      
+        // check if gain values are valid
+        if(left_gain_valid && right_gain_valid) {
+            if (g_ns_audio_config->pdm_config == NULL) {
+                g_ns_audio_config->pdm_config = &ns_pdm_default;
             }
+            if(audio_started) {
+                ns_end_audio(g_ns_audio_config);
+            }
+            g_ns_audio_config->pdm_config->left_gain = left_gain;
+            g_ns_audio_config->pdm_config->right_gain = right_gain;
+            ns_start_audio(g_ns_audio_config);
+        }
         else {
             return NS_STATUS_FAILURE;
         }

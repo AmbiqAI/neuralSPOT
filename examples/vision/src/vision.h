@@ -15,9 +15,9 @@
 // Camera interface
 
 #ifdef apollo510_evb
-    #define CAM_SPI_IOM 2
+#define CAM_SPI_IOM 2
 #else
-    #define CAM_SPI_IOM 1
+#define CAM_SPI_IOM 1
 #endif
 #define CAM_SPI_SPEED AM_HAL_IOM_8MHZ
 

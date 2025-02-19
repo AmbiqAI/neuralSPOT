@@ -438,8 +438,10 @@ void ns_ble_generic_init(
     bool useDefault, ns_ble_control_t *generic_cfg, ns_ble_service_control_t *service_cfg) {
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
+
     // Boot the radio.
     HciDrvRadioBoot(1);
+
     // Initialize the control block.
     if (useDefault) {
         memset(&g_ns_ble_control, 0, sizeof(g_ns_ble_control));
@@ -792,7 +794,6 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     if (service->attributes == NULL) {
         return NS_STATUS_FAILURE;
     }
-
     // *** Service Attributes
     // Add primary service declaration
     memcpy(&(service->attributes[0]), &(service->primaryAttribute), sizeof(attsAttr_t));
@@ -837,9 +838,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     // The number of CCC attributes can be calculated from numCharacteristics and numAttributes
     // There are always at least 2 attributes (declaration and value). Characteristics
     // with CCC will have a 3rd attribute (CCC).
-
     uint16_t numCccAttributes = incomingNumAttributes - service->numCharacteristics * 2;
-
     service->cccSet =
         ns_malloc(sizeof(attsCccSet_t) * (numCccAttributes + 1)); // add one for GAT_SC
     if (service->cccSet == NULL) {
@@ -874,6 +873,7 @@ int ns_ble_create_service(ns_ble_service_t *service) {
     service->control->handler_init_cb = &ns_ble_new_handler_init;
     service->control->handler_cb = &ns_ble_new_handler;
     service->control->procMsg_cb = &ns_ble_new_proc_msg;
+
     // Generic_init will fill in g_ns_ble_control with handlerIds
     // (after initializing the cordio stack.)
     ns_ble_generic_init(TRUE, &g_ns_ble_control, service->control);
@@ -1042,9 +1042,8 @@ int ns_ble_start_service(ns_ble_service_t *s) {
     return NS_STATUS_SUCCESS;
 }
 
-
 int ns_ble_set_tx_power(txPowerLevel_t power) {
-    // valid power level is checked in the function for both ap3 and ap4, so no need to check here
+    // valid power level is checked in HciVscSetRfPowerLevelEx(power), so no need to check here
     if(HciVscSetRfPowerLevelEx(power)) {
         return NS_STATUS_SUCCESS;
     }

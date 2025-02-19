@@ -41,7 +41,7 @@ CFLAGS     += $(addprefix -I includes/,$(INCLUDES))
 ifeq ($(TOOLCHAIN),arm)
 LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script.sct
 else ifeq ($(TOOLCHAIN),arm-none-eabi)
-LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script.ld
+LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script_$(BOOTLOADER).ld
 endif
 
 all: $(BINDIR) $(objects) $(targets)

@@ -9,7 +9,12 @@
  *
  */
 #include "ns_core.h"
-
+#ifdef gcc
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <reent.h>
+#endif
 ns_desired_state_t g_ns_state;
 
 //*** API Versions
@@ -59,6 +64,8 @@ static int semver_compare(const ns_semver_t *c, const ns_semver_t *n) {
 extern uint32_t ns_core_check_api(
     const ns_core_api_t *submitted, const ns_core_api_t *oldest, const ns_core_api_t *newest) {
 
+    // ns_lp_printf("submitted->apiId: %x\n", submitted->apiId);
+    // ns_lp_printf("newest->apiId: %x\n", newest->apiId);
     if (submitted->apiId != newest->apiId) {
         return NS_STATUS_INVALID_VERSION;
     }
@@ -109,4 +116,60 @@ uint32_t ns_core_init(ns_core_config_t *cfg) {
 void ns_core_fail_loop() {
     while (1)
         ;
+}
+
+
+int __wrap__write_r(struct _reent *r, int fd, const void *ptr, size_t len) {
+    // For example, write each byte to UART here.
+    // If fd is STDOUT_FILENO or STDERR_FILENO, you might send it to a debug console.
+    // Otherwise, return an error.
+    return len;  // Or an appropriate value.
+}
+
+int __wrap__read_r(struct _reent *r, int fd, void *ptr, size_t len) {
+    // For example, read each byte from UART here.
+    // If fd is STDIN_FILENO, you might read from a UART.
+    // Otherwise, return an error.
+    return len;  // Or an appropriate value.
+}
+
+int __wrap__close_r(struct _reent *r, int fd) {
+    // For example, close a file descriptor.
+    // If fd is a file descriptor, you might close the file.
+    // Otherwise, return an error.
+    return 0;  // Or an appropriate value.
+}
+
+int __wrap__lseek_r(struct _reent *r, int fd, int ptr, int dir) {
+    // For example, seek to a position in a file.
+    // If fd is a file descriptor, you might seek in the file.
+    // Otherwise, return an error.
+    return 0;  // Or an appropriate value.
+}
+
+int __wrap__kill_r(struct _reent *r, int pid, int sig) {
+    // For example, send a signal to a process.
+    // If pid is a process ID, you might send a signal to the process.
+    // Otherwise, return an error.
+    return 0;  // Or an appropriate value.
+}
+
+int __wrap__getpid_r(struct _reent *r) {
+    // For example, return the process ID.
+    // You might return a unique identifier for the process.
+    return 0;  // Or an appropriate value.
+}
+
+int __wrap__isatty_r(struct _reent *r, int fd) {
+    // For example, check if a file descriptor is a TTY.
+    // If fd is a file descriptor, you might check if it is a TTY.
+    // Otherwise, return an error.
+    return 1;  // Or an appropriate value.
+}
+
+int __wrap__fstat_r(struct _reent *r, int fd, struct stat *st) {
+    // For example, get information about a file descriptor.
+    // If fd is a file descriptor, you might get information about the file.
+    // Otherwise, return an error.
+    return 0;  // Or an appropriate value.
 }

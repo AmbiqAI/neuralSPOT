@@ -12,6 +12,7 @@
  * @copyright Copyright (c) 2022
  *
  */
+#include <string.h>
 #include "ns_rpc_generic_data.h"
 #include "erpc_client_setup.h"
 #include "erpc_server_setup.h"
@@ -37,8 +38,8 @@ const ns_core_api_t ns_rpc_gdo_V1_0_0 = {.apiId = NS_RPC_GDO_API_ID, .version = 
 
 const ns_core_api_t ns_rpc_gdo_V1_1_0 = {.apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_1_0};
 
-const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {
-    .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V0_0_1};
+const ns_core_api_t ns_rpc_gdo_oldest_supported_version = {.apiId = NS_RPC_GDO_API_ID,
+                                                           .version = NS_RPC_GDO_V0_0_1};
 
 const ns_core_api_t ns_rpc_gdo_current_version = {
     .apiId = NS_RPC_GDO_API_ID, .version = NS_RPC_GDO_V1_1_0};
@@ -78,10 +79,12 @@ ns_rpc_config_t g_RpcGenericDataConfig = {
     .fetchBlockFromEVB_cb = NULL,
     .computeOnEVB_cb = NULL};
 
+
 // GenericDataOperations implements 3 function calls that service
 // remote calls from a PC. They must be instantiated to enable them.
 // Datatypes, function prototypes, etc, are defined in the RPC's include files
-status ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
+status
+ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
     // ns_lp_printf("Received call to sendBlockToEVB\n");
 
     if (g_RpcGenericDataConfig.sendBlockToEVB_cb != NULL) {
@@ -91,7 +94,8 @@ status ns_rpc_data_sendBlockToEVB(const dataBlock *block) {
     }
 }
 
-status ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
+status
+ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
     // ns_lp_printf("Received call to fetchBlockFromEVB\n");
 
     if (g_RpcGenericDataConfig.fetchBlockFromEVB_cb != NULL) {
@@ -101,7 +105,8 @@ status ns_rpc_data_fetchBlockFromEVB(dataBlock *block) {
     }
 }
 
-status ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
+status
+ns_rpc_data_computeOnEVB(const dataBlock *in_block, dataBlock *result_block) {
     // ns_lp_printf("Received call to computeOnEVB\n");
 
     if (g_RpcGenericDataConfig.computeOnEVB_cb != NULL) {
@@ -273,12 +278,14 @@ void ns_rpc_genericDataOperations_pollServer(ns_rpc_config_t *cfg) {
     }
 }
 
-uint16_t ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
+uint16_t
+ns_rpc_genericDataOperationsClient_reset(ns_rpc_config_t *cfg) {
     erpc_client_deinit();
     return ns_rpc_genericDataOperations_init(cfg);
 }
 
-void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
+void
+ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     uint32_t i = 0;
     ns_lp_printf("Descriptor: %s\n", block->description);
     ns_lp_printf("Length: %d\n", block->length);
@@ -290,11 +297,15 @@ void ns_rpc_genericDataOperations_printDatablock(const dataBlock *block) {
     ns_lp_printf("\n");
 }
 
-void ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
+void
+ns_rpc_data_clientDoneWithBlockFromPC(const dataBlock *block) {
     ns_free(block->description);
     ns_free(block->buffer.data);
 }
 
 #else
-uint16_t ns_rpc_genericDataOperations_init() { return 1; }
+uint16_t
+ns_rpc_genericDataOperations_init() {
+    return 1;
+}
 #endif

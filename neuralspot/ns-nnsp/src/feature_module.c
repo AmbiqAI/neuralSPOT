@@ -6,7 +6,9 @@
 #include "melSpecProc.h"
 #include "fixlog10.h"
 #include "ambiq_nnsp_debug.h"
-
+#if ARM_OPTIMIZED == 3
+#include "basic_mve.h"
+#endif
 #if AMBIQ_NNSP_DEBUG == 1
     #include "debug_files.h"
 #endif
@@ -61,10 +63,17 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     int shift = (ps->num_context - 1) * ps->dim_feat;
     int i;
     int64_t tmp;
+
+#if ARM_OPTIMIZED == 3
+    move_data_16b(
+        ps->normFeatContext+ps->dim_feat, 
+        ps->normFeatContext,
+        shift);
+#else
     for (i = 0; i < shift; i++) {
         ps->normFeatContext[i] = ps->normFeatContext[i + ps->dim_feat];
     }
-
+#endif
 #if ARM_FFT == 0
     stftModule_analyze(&ps->state_stftModule, input, spec);
     #if AMBIQ_NNSP_DEBUG == 1
@@ -103,6 +112,22 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     }
     fprintf(file_feat_c, "\n");
 #endif
+    // uint16_t mask = 0;
+    // for (int i = 0; i < 2; i++)
+    // {
+    //     mask = (mask << 4) | 1;
+    // }
+    // for (i = 0; i < (ps->dim_feat) >> 1; i++)
+    // {   
+    //     int32x4_t feat0 = vld1q_z_s32(ps->feature, mask);
+    //     int32x4_t mean0 = vld1q_z_s32(ps->pt_norm_mean, mask);
+    //     int32x4_t inv_s = vld1q_z_s32(ps->pt_norm_stdR, mask);
+    //     feat0 = feat0 - mean0;
+    //     int64x2_t out = vmullbq_int_s32(feat0, inv_s) >> (30 - ps->qbit_output);
+    //     feat0 = vreinterpretq_s32_s64(out);
+    //     feat0 = vminq_s32(MAX_INT16_T, vmaxvq_s32(MIN_INT16_T, feat0));
+    // }
+
     for (i = 0; i < ps->dim_feat; i++) {
         tmp = (int64_t)ps->feature[i] - (int64_t)ps->pt_norm_mean[i];
         tmp = (tmp * ((int64_t)ps->pt_norm_stdR[i])) >>

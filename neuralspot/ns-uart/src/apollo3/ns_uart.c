@@ -125,7 +125,7 @@ uint32_t ns_uart_blocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, u
         const am_hal_uart_transfer_t sUartRead =
         {
             .ui32Direction = AM_HAL_UART_READ,
-            .pui8Data = rxBuffer,
+            .pui8Data = (uint8_t *)rxBuffer,
             .ui32NumBytes = size,
             .pui32BytesTransferred = &ui32BytesRead,
             .ui32TimeoutMs = 1000,
@@ -156,7 +156,7 @@ uint32_t ns_uart_nonblocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer
         const am_hal_uart_transfer_t sUartRead =
         {
             .ui32Direction = AM_HAL_UART_READ,
-            .pui8Data = rxBuffer,
+            .pui8Data = (uint8_t *)rxBuffer,
             .ui32NumBytes = size,
             .pui32BytesTransferred = &ui32BytesRead,
             .ui32TimeoutMs = 1000,

@@ -14,6 +14,11 @@
 #include "NS_AD_NAME_example_tensors.h"
 #include "ns_model.h"
 
+#if defined(keil6)
+// Make scatterfile happy
+__attribute__((section("RESOURCE_TABLE"))) __attribute__((used)) const uint8_t dummy_resource_table[1] = {0};
+#endif
+
 /*
 Notes:
 - This example is compiled along with startup_gcc and linker_script to generate an

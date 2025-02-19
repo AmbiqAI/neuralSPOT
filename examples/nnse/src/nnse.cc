@@ -48,10 +48,10 @@ ns_button_config_t button_config_nnsp = {
 /// Audio Config
 bool volatile static g_audioRecording = false;
 bool volatile static g_audioReady = false;
-int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
-uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
+alignas(16) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
+alignas(16) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
 #ifdef USE_AUDADC
-am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
                                                                               // used by AUDADC
 #endif
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -70,7 +70,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 }
 
 ns_audio_config_t audio_config = {
-    .api = &ns_audio_V2_1_0,
+    .api = &ns_audio_V2_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&g_in16AudioDataBuffer,
@@ -80,7 +80,7 @@ ns_audio_config_t audio_config = {
     .eAudioSource = NS_AUDIO_SOURCE_PDM,
 #endif
     .sampleBuffer = audadcSampleBuffer,
-#if USE_AUDADC
+#ifdef USE_AUDADC
     .workingBuffer = workingBuffer,
 #else
     .workingBuffer = NULL,
@@ -254,7 +254,6 @@ int main(void) {
     // ns_itm_printf_enable();
 
     ns_audio_init(&audio_config);
-    ns_start_audio(&audio_config);
     ns_peripheral_button_init(&button_config_nnsp);
     ns_init_perf_profiler();
     ns_start_perf_profiler();

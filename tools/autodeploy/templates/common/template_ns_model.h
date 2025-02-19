@@ -28,8 +28,10 @@
 
 // Memory locations for model and arena
 #define NS_AD_TCM   0
+#define NS_AD_PSRAM 1
 #define NS_AD_SRAM  2
 #define NS_AD_MRAM  3
+
 extern "C" {
 #endif
 
@@ -41,8 +43,8 @@ extern "C" {
 typedef enum { READY, NOT_READY, ERROR } ns_model_states_e;
 typedef enum { TFLM } ns_model_runtime_e;
 
-#define NS_MAX_INPUT_TENSORS 8
-#define NS_MAX_OUTPUT_TENSORS 5
+#define NS_MAX_INPUT_TENSORS 10
+#define NS_MAX_OUTPUT_TENSORS 10
 
 typedef struct {
     ns_model_states_e state;
@@ -60,10 +62,16 @@ typedef struct {
 
 #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
-    ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
+    const ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
+    #ifdef AM_PART_APOLLO5B
+    ns_pmu_config_t *pmu;
+    #else
+    void *pmu;
+    #endif
 #else
     void *tickTimer;
     void *mac_estimates; ///< Optional, from tflm_profiler tool
+    void *pmu;
 #endif
     // State (init by baseline code)
     const tflite::Model *model;

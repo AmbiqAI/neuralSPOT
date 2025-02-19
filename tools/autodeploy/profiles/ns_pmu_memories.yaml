@@ -1,0 +1,21 @@
+# Definition of 4 desired PMU event counters to be monitored
+
+# PMU event counter 0
+PMU_EVENT0:
+  name: ARM_PMU_MVE_LDST_RETIRED
+  size: 32
+
+# PMU event counter 1
+PMU_EVENT1:
+  name: ARM_PMU_MVE_LDST_CONTIG_RETIRED
+  size: 32
+
+# PMU event counter 2
+PMU_EVENT2:
+  name: ARM_PMU_MVE_LDST_NONCONTIG_RETIRED
+  size: 32
+
+# PMU event counter 3
+PMU_EVENT3:
+  name: ARM_PMU_MVE_LDST_MULTI_RETIRED
+  size: 32

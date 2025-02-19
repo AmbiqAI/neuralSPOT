@@ -68,7 +68,6 @@ uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
         return am_hal_burst_mode_disable(&eBurstMode);
     else 
         return NS_STATUS_FAILURE;
-    
 }
 
 //*****************************************************************************
@@ -83,9 +82,7 @@ uint32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
 
     am_bsp_low_power_init();
-    if(ns_set_performance_mode(pCfg->eAIPowerMode) != NS_STATUS_SUCCESS) {
-        return NS_STATUS_INVALID_CONFIG;
-    }
+    NS_TRY(ns_set_performance_mode(pCfg->eAIPowerMode), "Set CPU Perf mode failed.");
     am_hal_cachectrl_config(&am_hal_cachectrl_defaults);
     am_hal_cachectrl_enable();
 

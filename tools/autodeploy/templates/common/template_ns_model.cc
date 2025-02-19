@@ -9,13 +9,23 @@
  *
  */
 
-#include "ns_model.h"
-#include "ns_ambiqsuite_harness.h"
-#include "ns_debug_log.h"
+#ifdef AM_PART_APOLLO5B
+#define NS_PROFILER_PMU_EVENT_0 ARM_PMU_MVE_LDST_MULTI_RETIRED
+#define NS_PROFILER_PMU_EVENT_1 ARM_PMU_MVE_INT_MAC_RETIRED
+#define NS_PROFILER_PMU_EVENT_2 ARM_PMU_INST_RETIRED
+#define NS_PROFILER_PMU_EVENT_3 ARM_PMU_MVE_LD_CONTIG_RETIRED
+#endif
+
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_model.h"
-#include "NS_AD_NAME_model_data.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_core.h"
+#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_PSRAM)
+    #include "ns_peripherals_psram.h"
+#endif
+#include "NS_AD_NAME_model_data.h"
+#include "ns_model.h"
+
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 // #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
@@ -34,20 +44,31 @@
 // static constexpr int NS_AD_NAME_tensor_arena_size = 1024 * NS_AD_NAME_COMPUTED_ARENA_SIZE;
 
 
-
-#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_SRAM)
+#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_PSRAM)
+    unsigned char *NS_AD_NAME_model_psram;
+#elif (NS_AD_NAME_MODEL_LOCATION == NS_AD_SRAM)
     AM_SHARED_RW alignas(16) static unsigned char NS_AD_NAME_model[NS_AD_NAME_model_for_sram_LEN];
 #endif
 
-static constexpr int NS_AD_NAME_tensor_arena_size = 1024 * NS_AD_NAME_COMPUTED_ARENA_SIZE;
-#ifdef AM_PART_APOLLO3
-    // Apollo3 doesn't have AM_SHARED_RW
-    alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
-#else // not AM_PART_APOLLO3
-    #if (NS_AD_NAME_ARENA_LOCATION == NS_AD_SRAM)
-        AM_SHARED_RW alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
-    #else
+#if (NS_AD_NAME_ARENA_LOCATION == NS_AD_PSRAM)
+    static uint8_t *NS_AD_NAME_tensor_arena;
+    static constexpr int NS_AD_NAME_tensor_arena_size = 1024 * 1024 * 10; // 10MB
+#else
+    static constexpr int NS_AD_NAME_tensor_arena_size = 1024 * NS_AD_NAME_COMPUTED_ARENA_SIZE;
+    #ifdef AM_PART_APOLLO3
+        // Apollo3 doesn't have AM_SHARED_RW
         alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+    #else // not AM_PART_APOLLO3
+        #if (NS_AD_NAME_ARENA_LOCATION == NS_AD_SRAM)
+            #ifdef keil6
+            // Align to 16 bytes
+            AM_SHARED_RW __attribute__((aligned(16))) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+            #else
+            AM_SHARED_RW alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+            #endif
+        #else
+            alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+        #endif
     #endif
 #endif
 
@@ -67,12 +88,37 @@ ns_timer_config_t basic_tickTimer = {
 };
 uint32_t NS_AD_NAME_mac_estimates[NS_AD_MAC_ESTIMATE_COUNT] = {NS_AD_MAC_ESTIMATE_LIST};
 
+NS_AD_LAYER_METADATA_CODE
+ns_perf_mac_count_t basic_mac = {
+    .number_of_layers = NS_AD_MAC_ESTIMATE_COUNT, 
+    .mac_count_map = NS_AD_NAME_mac_estimates,
+    .output_magnitudes = (uint32_t *)NS_AD_PERF_NAME_output_magnitudes,
+    .stride_h = (uint32_t *)NS_AD_PERF_NAME_stride_h,
+    .stride_w = (uint32_t *)NS_AD_PERF_NAME_stride_w,
+    .dilation_h = (uint32_t *)NS_AD_PERF_NAME_dilation_h,
+    .dilation_w = (uint32_t *)NS_AD_PERF_NAME_dilation_w,
+    .mac_compute_string = (const char **)NS_AD_PERF_NAME_mac_strings,
+    .output_shapes = (const char **)NS_AD_PERF_NAME_output_shapes,
+    .filter_shapes = (const char **)NS_AD_PERF_NAME_mac_filter_shapes
+};
+
+#ifdef AM_PART_APOLLO5B
+ns_pmu_config_t basic_pmu_cfg;
+#endif
+
+#endif
+
+#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_NAME_ARENA_LOCATION == NS_AD_PSRAM)
+extern ns_psram_config_t psram_cfg;
 #endif
 
 int NS_AD_NAME_init(ns_model_state_t *ms);
 
 int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
 
+#if (NS_AD_NAME_ARENA_LOCATION == NS_AD_PSRAM)
+    NS_AD_NAME_tensor_arena = (uint8_t *)(psram_cfg.psram_base_address + 20*1024*1024);
+#endif
     ms->runtime = TFLM;
     // ms->model_array = NS_AD_NAME_model;
     ms->arena = NS_AD_NAME_tensor_arena;
@@ -83,7 +129,12 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
     ms->numInputTensors = NS_AD_NUM_INPUT_VECTORS;
     ms->numOutputTensors = NS_AD_NUM_OUTPUT_VECTORS;
 
-#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_SRAM)
+#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_PSRAM)
+    // Copy model to PSRAM
+    NS_AD_NAME_model_psram = (unsigned char *)(psram_cfg.psram_base_address);
+    memcpy((unsigned char *)(psram_cfg.psram_base_address), NS_AD_NAME_model, NS_AD_NAME_model_len);
+    ms->model_array = NS_AD_NAME_model_psram;
+#elif (NS_AD_NAME_MODEL_LOCATION == NS_AD_SRAM)
     // Copy to SRAM
     memcpy(NS_AD_NAME_model, NS_AD_NAME_model_for_sram, NS_AD_NAME_model_for_sram_len);
     ms->model_array = NS_AD_NAME_model;
@@ -92,14 +143,31 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
 #endif
 
 #ifdef NS_MLPROFILE
-    ns_perf_mac_count_t basic_mac = {
-        .number_of_layers = NS_AD_MAC_ESTIMATE_COUNT, .mac_count_map = NS_AD_NAME_mac_estimates};
+
     ms->tickTimer = &basic_tickTimer;
     ms->mac_estimates = &basic_mac;
+    #ifdef AM_PART_APOLLO5B
+
+    // PMU config for profiling
+    basic_pmu_cfg.api = &ns_pmu_V1_0_0;
+    ns_pmu_reset_config(&basic_pmu_cfg);
+
+    // Add events
+    ns_pmu_event_create(&basic_pmu_cfg.events[0], NS_PROFILER_PMU_EVENT_0, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&basic_pmu_cfg.events[1], NS_PROFILER_PMU_EVENT_1, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&basic_pmu_cfg.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&basic_pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);   
+    ns_pmu_init(&basic_pmu_cfg); // PMU config passed to model init, which passes it to debugLogInit
+    ms->pmu = &basic_pmu_cfg;
+    #endif
 #else
     ms->tickTimer = NULL;
     ms->mac_estimates = NULL;
+    #ifdef AM_PART_APOLLO5B
+    ms->pmu = NULL;
+    #endif
 #endif
+
     int status = NS_AD_NAME_init(ms);
     return status;
 }
@@ -115,10 +183,19 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     NS_TRY(ns_timer_init(ms->tickTimer), "Timer init failed.\n");
     static tflite::MicroProfiler micro_profiler;
     ms->profiler = &micro_profiler;
-    ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
+    // Create the config struct for the debug log
+    ns_debug_log_init_t cfg = {
+        .t = ms->tickTimer,
+        .m = ms->mac_estimates,
+        #ifdef AM_PART_APOLLO5B
+        .pmu = ms->pmu,
+        #endif
+    };
+    ns_TFDebugLogInit(&cfg);
+
 #else
     #ifdef NS_MLDEBUG
-    ns_TFDebugLogInit(NULL, NULL);
+    ns_TFDebugLogInit(NULL);
     #endif
 #endif
 

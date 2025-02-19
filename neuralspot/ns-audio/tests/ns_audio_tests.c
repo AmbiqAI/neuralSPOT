@@ -51,6 +51,7 @@ void ns_audio_tests_post_test_hook() {
 
 
 void ns_switch_audio_test() {
+#ifdef NS_AUDADC_PRESENT
     initialize_audio_config();
     int status = ns_audio_init(&audioConfig);
     status = ns_start_audio(&audioConfig);
@@ -59,6 +60,7 @@ void ns_switch_audio_test() {
     audioConfig.eAudioSource = NS_AUDIO_SOURCE_AUDADC;
     status = ns_start_audio(&audioConfig);
     TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS, status);
+#endif
 }
 // Basic init test
 void ns_audio_init_test() {

@@ -10,6 +10,7 @@
 
 #include "erpc_message_buffer.hpp"
 #include "erpc_config_internal.h"
+#include "ns_ambiqsuite_harness.h"
 
 #include <cstring>
 
@@ -30,7 +31,7 @@ void MessageBuffer::setUsed(uint16_t used)
 erpc_status_t MessageBuffer::read(uint16_t offset, void *data, uint32_t length)
 {
     erpc_status_t err = kErpcStatus_Success;
-
+    // ns_lp_printf("read\n");
     if (length > 0U)
     {
         if (data == NULL)
@@ -53,7 +54,7 @@ erpc_status_t MessageBuffer::read(uint16_t offset, void *data, uint32_t length)
 erpc_status_t MessageBuffer::write(uint16_t offset, const void *data, uint32_t length)
 {
     erpc_status_t err = kErpcStatus_Success;
-
+    // ns_lp_printf("write\n");
     if (length > 0U)
     {
         if (data == NULL)
@@ -62,6 +63,7 @@ erpc_status_t MessageBuffer::write(uint16_t offset, const void *data, uint32_t l
         }
         else if ((offset + length) > m_len || (offset + length) < offset)
         {
+            ns_lp_printf("sizeof $d offset: %d, length: %d, m_len: %d\n", sizeof(m_buf), offset, length, m_len);
             err = kErpcStatus_BufferOverrun;
         }
         else
@@ -69,7 +71,7 @@ erpc_status_t MessageBuffer::write(uint16_t offset, const void *data, uint32_t l
             (void)memcpy(&m_buf[offset], data, length);
         }
     }
-
+    // ns_lp_printf("write err %d, %d", err, kErpcStatus_BufferOverrun);
     return err;
 }
 
@@ -197,7 +199,7 @@ erpc_status_t MessageBuffer::Cursor::write(const void *data, uint32_t length)
     erpc_assert(m_pos == (m_buffer->get() + m_buffer->getUsed()));
 
     erpc_status_t err = kErpcStatus_Success;
-
+    // ns_lp_printf("Cursor write length %d, getr %d\n", length,getRemaining() );
     if (length > 0U)
     {
         if (data == NULL)
@@ -207,6 +209,7 @@ erpc_status_t MessageBuffer::Cursor::write(const void *data, uint32_t length)
         else if (length > getRemaining())
         {
             err = kErpcStatus_BufferOverrun;
+            ns_lp_printf("length %d, getr %d\n", length,getRemaining() );
         }
         else
         {

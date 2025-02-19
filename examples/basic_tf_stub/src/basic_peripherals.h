@@ -20,5 +20,7 @@ static int volatile buttonPressed = 0;
 ns_button_config_t button_config = {.api = &ns_button_V1_0_0,
                                     .button_0_enable = true,
                                     .button_1_enable = false,
+                                    .joulescope_trigger_enable = false,
                                     .button_0_flag = &buttonPressed,
-                                    .button_1_flag = NULL};
+                                    .button_1_flag = NULL,
+                                    .joulescope_trigger_flag = NULL};

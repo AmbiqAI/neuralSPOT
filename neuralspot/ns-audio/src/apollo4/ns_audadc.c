@@ -246,6 +246,7 @@ uint32_t audadc_config(ns_audadc_cfg_t *cfg) {
         AUDADCIrttConfig.ui32IrttCountMax = 93;
         break;
     case NS_CLKSEL_HFXTAL:
+    case NS_CLKSEL_PLL:
         // Not allowed for AUDADC
         return NS_STATUS_INVALID_CONFIG;
     }

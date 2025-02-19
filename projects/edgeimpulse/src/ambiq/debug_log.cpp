@@ -21,11 +21,10 @@
  */
 
 #include "../ei_classifier_porting.h"
-
+#include "ns_ambiqsuite_harness.h"
 
 #if EI_PORTING_AMBIQ == 1
 
-#include "ns_ambiqsuite_harness.h"
 #include "edge-impulse-sdk/tensorflow/lite/micro/debug_log.h"
 #include <stdio.h>
 #include <stdarg.h>
@@ -35,7 +34,7 @@
 extern "C"
 #endif // defined(__cplusplus) && EI_C_LINKAGE == 1
 void DebugLog(const char* s) {
-    ns_lp_printf("%s", s);
+    ns_printf("%s", s);
 }
 
 #endif // EI_PORTING_AMBIQ == 1

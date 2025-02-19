@@ -30,7 +30,21 @@
 #endif
 
 static constexpr int NS_AD_NAME_tensor_arena_size = 1024 * NS_AD_NAME_COMPUTED_ARENA_SIZE;
-alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+#ifdef AM_PART_APOLLO3
+    // Apollo3 doesn't have AM_SHARED_RW
+    alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+#else // not AM_PART_APOLLO3
+    #if (NS_AD_NAME_ARENA_LOCATION == NS_AD_SRAM)
+        #ifdef keil6
+        // Align to 16 bytes
+        __attribute__((section("SHARED_RW"))) __attribute__((used)) __attribute__((aligned(16))) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+        #else
+        __attribute__((section(".shared"))) alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+        #endif
+    #else
+        alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+    #endif
+#endif
 
 // Resource Variable Arena
 static constexpr int NS_AD_NAME_resource_var_arena_size =
@@ -86,10 +100,19 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     NS_TRY(ns_timer_init(ms->tickTimer), "Timer init failed.\n");
     static tflite::MicroProfiler micro_profiler;
     ms->profiler = &micro_profiler;
-    ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
+    // Create the config struct for the debug log
+    ns_debug_log_init_t cfg = {
+        .t = ms->tickTimer,
+        .m = ms->mac_estimates,
+        #ifdef AM_PART_APOLLO5B
+        .pmu = ms->pmu,
+        #endif
+    };
+    ns_TFDebugLogInit(&cfg);
+
 #else
     #ifdef NS_MLDEBUG
-    ns_TFDebugLogInit(NULL, NULL);
+    ns_TFDebugLogInit(NULL);
     #endif
 #endif
 

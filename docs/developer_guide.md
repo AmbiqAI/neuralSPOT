@@ -326,17 +326,3 @@ Your new interface will need a PC-side application (server or client, depending 
 #### Modifying an Existing Interface
 
 Modifying an interface involves changing the existing interface's eRPC file, generating new interface files, and modifying the wrappers to accomodate those changes.
-
-# Generating Documentation
-neuralSPOT usings `mkdocs` to generate documentation. Due to some wierdness in how documents are laid out in the repo, along with some limitations of mkdocs itself, generating docs is a bit of a hack, involving
-1. Copy mkdocs.yaml to a directory just outside neuralSPOT
-2. running `mkdocs`
-3. Checkout out the documentation branch of neuralspot
-4. Removing existing docs, overwriting with newly generated docs,
-5. Checking that in
-
-```
-git clone git@github.com:AmbiqAI/neuralSPOT.git
-cp neuralSPOT/mkdocs.yml .
-mkdocs build -d foo
-```

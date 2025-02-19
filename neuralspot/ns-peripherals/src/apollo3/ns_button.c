@@ -28,6 +28,7 @@ extern int volatile *g_ns_peripheral_button1;
 extern int volatile *g_ns_peripheral_joulescope_trigger;
 extern void ns_button_0_handler(void *pArg);
 extern void ns_button_1_handler(void *pArg);
+extern void ns_joulescope_trigger_handler(void *pArg);
 
 /**
  * @brief GPIO Button0 ISR handler
@@ -54,7 +55,7 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
     // uint32_t ui32IntStatus;
     // uint32_t ui32BUTTON0GpioNum = AM_BSP_GPIO_BUTTON0;
     // uint32_t ui32BUTTON1GpioNum = AM_BSP_GPIO_BUTTON1;
-    // uint32_t ui32JoulescopeTriggerGpioNum = 24;
+    uint32_t ui32JoulescopeTriggerGpioNum = 24;
 
     // Configure the button pin.
     if (cfg->button_0_enable) {
@@ -71,10 +72,14 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
         am_hal_gpio_pinconfig(AM_BSP_GPIO_BUTTON1, g_AM_BSP_GPIO_BUTTON1);
         g_ns_peripheral_button1 = cfg->button_1_flag;
     }
-    // if (cfg->joulescope_trigger_enable) {
-    //     am_hal_gpio_pinconfig(24, am_hal_gpio_pincfg_input);
-    //     g_ns_peripheral_joulescope_trigger = cfg->joulescope_trigger_flag;
-    // }
+
+    if (cfg->joulescope_trigger_enable) {
+        if (cfg->joulescope_trigger_flag == NULL) {
+            return NS_STATUS_INVALID_HANDLE;
+        }
+        am_hal_gpio_pinconfig(ui32JoulescopeTriggerGpioNum, g_AM_HAL_GPIO_INPUT);
+        g_ns_peripheral_joulescope_trigger = cfg->joulescope_trigger_flag;
+    }
 
     // Register interrupt handlers
     if (cfg->button_0_enable) {
@@ -91,14 +96,16 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
         am_hal_gpio_interrupt_clear(AM_HAL_GPIO_MASKBIT(pGpioIntMask1, AM_BSP_GPIO_BUTTON1));
         am_hal_gpio_interrupt_enable(AM_HAL_GPIO_MASKBIT(pGpioIntMask1, AM_BSP_GPIO_BUTTON1));
     }
-    // if (cfg->joulescope_trigger_enable) {
-    //     am_hal_gpio_interrupt_register(
-    //         AM_HAL_GPIO_INT_CHANNEL_0, 24, (am_hal_gpio_handler_t)ns_joulescope_trigger_handler,
-    //         NULL);
-    //     am_hal_gpio_interrupt_control(
-    //         AM_HAL_GPIO_INT_CHANNEL_0, AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
-    //         (void *)&ui32JoulescopeTriggerGpioNum);
-    // }
+    if (cfg->joulescope_trigger_enable) {
+        AM_HAL_GPIO_MASKCREATE(GpioIntMask2);
+        am_hal_gpio_interrupt_register(
+            ui32JoulescopeTriggerGpioNum, (am_hal_gpio_handler_t)ns_joulescope_trigger_handler);
+        am_hal_gpio_interrupt_clear(AM_HAL_GPIO_MASKBIT(pGpioIntMask2, 24));
+        am_hal_gpio_interrupt_enable(AM_HAL_GPIO_MASKBIT(pGpioIntMask2, 24));
+        // am_hal_gpio_interrupt_control(
+        //     AM_HAL_GPIO_INT_CHANNEL_0, AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
+        //     (void *)&ui32JoulescopeTriggerGpioNum);
+    }
 
     NVIC_EnableIRQ(GPIO_IRQn);
 

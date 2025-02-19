@@ -9,10 +9,12 @@
  *
  */
 
+#include "mut_model_metadata.h"
+
 // NS includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
-#include "ns_model.h"
+#include "tflm_ns_model.h"
 
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 // #include "tensorflow/lite/micro/all_ops_resolver.h"
@@ -49,11 +51,19 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     AM_SHARED_RW static tflite::MicroProfiler micro_profiler;
     ms->profiler = &micro_profiler;
 
-    ns_TFDebugLogInit(ms->tickTimer, ms->mac_estimates);
+    // Create the config struct for the debug log
+    ns_debug_log_init_t cfg = {
+        .t = ms->tickTimer,
+        .m = ms->mac_estimates,
+        #ifdef AM_PART_APOLLO5B
+        .pmu = ms->pmu,
+        #endif
+    };
+    ns_TFDebugLogInit(&cfg);
 
 #else
     #ifdef NS_MLDEBUG
-    ns_TFDebugLogInit(NULL, NULL);
+    ns_TFDebugLogInit(NULL);
     #endif
 #endif
     ns_lp_printf("Initializing model...\n");
@@ -81,7 +91,7 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     // Allocate ResourceVariable stuff if needed
     tflite::MicroResourceVariables *resource_variables;
     tflite::MicroAllocator *var_allocator;
-    ns_lp_printf("Allocating resource variables...\n");
+    ns_lp_printf("Allocating %d resource variables...\n", ms->rv_count);
     if (ms->rv_count != 0) {
         var_allocator = tflite::MicroAllocator::Create(ms->rv_arena, ms->rv_arena_size, nullptr);
         resource_variables = tflite::MicroResourceVariables::Create(var_allocator, ms->rv_count);
@@ -105,6 +115,8 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     ns_lp_printf("Tensors allocated.\n");
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
+        ns_lp_printf("AllocateTensors() failed. Error code %d, arena size %d\n", allocate_status,
+                     ms->interpreter->arena_used_bytes());
         ms->computed_arena_size = 0xDEADBEEF;
         return NS_STATUS_FAILURE;
     }

@@ -24,8 +24,6 @@ sequenceDiagram
     EVB->>-PC: ns_rpc_data_success
 ```
 
-
-
 We demonstrate the following EVB->PC procedure calls:
 
 - `ns_rpc_data_sendBlockToEVB(&outBlock)`: Passes a generic dataBlock to the EVB server. `dataBlock_t` is defined as part of the GenericDataOperations RPC interface. The example server simply prints the this block.
@@ -39,7 +37,6 @@ It's a client/server system needing some careful staging, described below.
 
    > *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
 
-You'll also need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)).
 
 ## Running the RPC-server example
 Running RPC requires a bit of staging. The PC-side server cant start until the USB TTY interface

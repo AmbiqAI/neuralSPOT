@@ -57,6 +57,7 @@
 #include "am_bsp.h"
 #include "am_mcu_apollo.h"
 #include "am_util.h"
+#include "ns_ambiqsuite_harness.h"
 
 //*****************************************************************************
 // Power Monitor State Signalling

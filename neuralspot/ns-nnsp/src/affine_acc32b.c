@@ -219,7 +219,7 @@ int affine_Krows_8x16_acc32b(
     int16_t *p_bias = *pp_bias;
     int16_t *po = *pp_output;
     int16_t *pi = input;
-    int32_t nbit_out = 32;
+    // int32_t nbit_out = 32;
     int16_t in[2];
     int32_t acc32[4];
     int i, j;

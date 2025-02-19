@@ -94,7 +94,7 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
 }
 
 ns_audio_config_t audioConfig = {
-    .api = &ns_audio_V2_1_0,
+    .api = &ns_audio_V2_0_0,
     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
     .callback = audio_frame_callback,
     .audioBuffer = (void *)&audioDataBuffer,
@@ -185,8 +185,7 @@ const ns_power_config_t ns_power_ble = {
     .bNeedAlternativeUART = false,
     .b128kTCM = false,
     .bEnableTempCo = false,
-    .bNeedITM = true,
-    .bNeedXtal = true};
+    .bNeedITM = true};
 #endif // AC_RPC_MODE
 
 int main(void) {
@@ -201,7 +200,7 @@ int main(void) {
     // am_bsp_low_power_init();
     // NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
-    NS_TRY(ns_start_audio(&audioConfig), "Audio Start Failed.\n");
+
     // Initialize the Opus encoder
     audio_enc_init(0);
 

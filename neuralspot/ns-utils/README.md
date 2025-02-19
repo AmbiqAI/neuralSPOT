@@ -9,6 +9,8 @@ The ns-utils library is a assorted collection of utilities to help with various 
 | ns_timer          | Implements various clocks and timers                         |
 | ns_malloc         | RTOS-friendly malloc() and free()                            |
 
+
+
 ## Energy Monitor
 
 This simple library allows you to control two GPIO pins which can be monitored by some external energy monitor tools to mark 'regions of interest' (e.g. feature extraction vs. inference). For example, Joulescopes have two inputs which can be displayed along with the energy waveforms - in the diagram below, `in0` and `in1` distinguish between audio capture (in0 = 1 and in1=0), feature extraction (in0 = 1 and in1 = 0), inference (both 1) and idle (both 0).

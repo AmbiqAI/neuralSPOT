@@ -5,6 +5,15 @@
 // Also integrated and tested changes from Chris Phoenix <cphoenix@gmail.com>.
 //------------------------------------------------------------------------------
 #include "picojpeg.h"
+
+#ifdef __GNUC__
+// Disable all GCC warnings for this file, as it's just too noisy.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wsequence-point"
+#endif
 //------------------------------------------------------------------------------
 // Set to 1 if right shifts on signed ints are always unsigned (logical) shifts
 // When 1, arithmetic right shifts will be emulated by using a logical shift
@@ -2164,3 +2173,7 @@ unsigned char pjpeg_decode_init(
 
     return 0;
 }
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif

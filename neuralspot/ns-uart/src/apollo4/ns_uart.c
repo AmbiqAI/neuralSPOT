@@ -147,7 +147,7 @@ uint32_t ns_uart_blocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer, u
             .ui32TimeoutMs = 1000,
             .pfnCallback = &uart_done,
             .pvContext = NULL,
-            .ui32ErrorStatus = &ui32LastError
+            .ui32ErrorStatus = ui32LastError
         };
         status = am_hal_uart_transfer(phUART, &sUartRead);
         if (status == AM_HAL_STATUS_SUCCESS && ui32BytesRead == size) {
@@ -181,7 +181,7 @@ uint32_t ns_uart_nonblocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer
             .ui32TimeoutMs = 0,
             .pfnCallback = &uart_done,
             .pvContext = NULL,
-            .ui32ErrorStatus = &ui32LastError
+            .ui32ErrorStatus = ui32LastError
         };
         status = am_hal_uart_transfer(phUART, &sUartRead);
         if (status == AM_HAL_STATUS_SUCCESS && ui32BytesRead == size) {

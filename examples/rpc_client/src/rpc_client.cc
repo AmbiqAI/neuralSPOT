@@ -30,8 +30,8 @@
 #define NUM_FRAMES 100
 #define SAMPLES_IN_FRAME 480
 #define SAMPLE_RATE 16000
-// #define AUDIO_SOURCE NS_AUDIO_SOURCE_PDM
-#define AUDIO_SOURCE NS_AUDIO_SOURCE_AUDADC
+#define AUDIO_SOURCE NS_AUDIO_SOURCE_PDM
+// #define AUDIO_SOURCE NS_AUDIO_SOURCE_AUDADC
 
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
@@ -120,6 +120,8 @@ int main(void) {
     // -- Audio init
     int recordingWin = NUM_FRAMES;
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
+    NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Gain set failed.\n");
+    // NS_TRY(ns_audio_set_gain(24, 24), "Audio gain set failed.\n"); // AUDADC gain
     NS_TRY(ns_start_audio(&audioConfig), "Audio Start Failed.\n");
 
     // Vars and init the RPC system - note this also inits the USB interface

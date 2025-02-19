@@ -48,7 +48,7 @@ DOX = doxygen$(EXEEXT)
 # else
 
 ifeq ($(TOOLCHAIN),arm-none-eabi)
-CFLAGS+= -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
+CFLAGS+= -mthumb -mcpu=$(CPU) $(FPU_FLAG) -mfloat-abi=$(FABI)
 CFLAGS+= -ffunction-sections -fdata-sections -fomit-frame-pointer -fno-exceptions
 CCFLAGS+= -fno-use-cxa-atexit
 CFLAGS+= -MMD -MP -Wall
@@ -61,10 +61,18 @@ CFLAGS+= -g -O3 -ffast-math
 endif
 # CFLAGS+= -g -O2 -ffast-math
 
+ifeq ($(ARCH),apollo5)
+LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script_$(BOOTLOADER).ld
+else
 LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script.ld
+endif
 
-LFLAGS = -mthumb -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI)
-LFLAGS+= -nostartfiles -static -fno-exceptions
+LFLAGS = -mthumb -mcpu=$(CPU) $(FPU_FLAG) -mfloat-abi=$(FABI)
+LFLAGS+= -nostartfiles -static -fno-exceptions -fdiagnostics-show-option
+ifeq ($(GCC14),1)
+LFLAGS+= -Wl,--no-warn-rwx-segments
+endif
+LFLAGS+= -Wl,--wrap=_write_r -Wl,--wrap=_close_r -Wl,--wrap=_lseek_r -Wl,--wrap=_read_r -Wl,--wrap=_kill_r -Wl,--wrap=_getpid_r -Wl,--wrap=_fstat_r -Wl,--wrap=_isatty_r
 LFLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
 LFLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ -Wl,--end-group
 LFLAGS+=
@@ -81,14 +89,20 @@ ARMLINKER_IS_NO_BUENO := $(BINDIR)/neuralspot/ns-usb/src/overrides/usb_descripto
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/webusb_controller.o
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/ns_usb_overrides.o
 endif
-
-ARMLINKER_IS_NO_BUENO := $(BINDIR)/extern/AmbiqSuite/R4.4.1/src/am_resources.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_resources.o
+ifeq ($(ARCH),apollo5)
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-core/src/$(BOARD)/armclang/startup_keil6.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_utils.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_pwrctrl.o
+ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_dcu.o
+endif
 
 
 CONLY_FLAGS+= -xc -std=c99
-CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) -mfpu=$(FPU) -mfloat-abi=$(FABI) -c
+CFLAGS+= --target=arm-arm-none-eabi -mcpu=$(CPU) $(FPU_FLAG)  -mfloat-abi=$(FABI) -c
 CFLAGS+= -fno-rtti -funsigned-char -fshort-enums -fshort-wchar
 CFLAGS+= -gdwarf-4 -Ofast
+# CFLAGS+= -gdwarf-4
 CFLAGS+= -ffunction-sections -Wno-packed -Wno-missing-variable-declarations
 CFLAGS+= -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-typedef-redefinition
 CFLAGS+= -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros
@@ -97,15 +111,21 @@ CFLAGS+= -Wno-parentheses-equality -Wno-reserved-identifier
 CFLAGS+= -MMD -MP
 CCFLAGS+= -fno-use-cxa-atexit
 
-# LFLAGS+=  --cpu=$(CPU) --fpu=FPv4-SP
-LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
-LFLAGS+= --strict --scatter "neuralspot/ns-core/src/armclang/linker_script.sct" --undefined=__scatterload_copy
+# LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
+LFLAGS+= --cpu=$(ARMLINK_CPU) --output_float_abi=hard --fpu=$(ARMLINK_FPU)
+ifeq ($(ARCH),apollo5)
+LFLAGS+= --strict --scatter "neuralspot/ns-core/src/$(BOARD)/armclang/linker_script_$(BOOTLOADER).sct" --undefined=__scatterload_copy
+else
+LFLAGS+= --strict --scatter "neuralspot/ns-core/src/$(BOARD)/armclang/linker_script.sct" --undefined=__scatterload_copy
+endif
+
 ifeq ($(USB_PRESENT),1)
 LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=tud_vendor_control_xfer_cb
 LFLAGS+= --keep=tud_descriptor_bos_cb --keep=tud_descriptor_string_cb
 endif
 LFLAGS+= --keep=vTaskSwitchContext
-LFLAGS+= --lto --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+# LFLAGS+= --lto --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+LFLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 LFLAGS+= --info sizes --info totals --info unused --info veneers --debug
 
 CPFLAGS = --bin --output
@@ -120,15 +140,10 @@ ASMFLAGS+= -gdwarf-4
 ASMFLAGS+= -Wa,armasm,--pd,"__UVISION_VERSION SETA 538" -Wa,armasm,--pd,"APOLLO4p_2048 SETA 1"
 endif
 
-# Defines
-ifeq ($(TOOLCHAIN),arm)
-DEFINES+= keil6
-DEFINES+= _RTE_
-endif
-
-$(info Running makefile for $(PART)_$(EVB))
+$(info Running makefile for $(PLATFORM))
 DEFINES+= NEURALSPOT
-DEFINES+= $(PART)_$(EVB)
+
+DEFINES+= $(PLATFORM)
 DEFINES+= PART_$(PART)
 ifeq ($(PART),apollo4b)
 DEFINES+= AM_PART_APOLLO4B
@@ -138,6 +153,7 @@ DEFINES+= AM_PART_APOLLO4P
 endif
 ifeq ($(PART),apollo4l)
 DEFINES+= AM_PART_APOLLO4L
+DEFINES+= APOLLO4L_PRE_SDK
 endif
 ifeq ($(PART),apollo3p)
 	DEFINES+= AM_PART_APOLLO3P
@@ -147,10 +163,39 @@ ifeq ($(PART),apollo3)
 	DEFINES+= AM_PART_APOLLO3
 	DEFINES+= PART_APOLLO3
 endif
+ifeq ($(PART),apollo5a)
+DEFINES+= AM_PART_APOLLO5A
+ifeq ($(EVB),eb)
+DEFINES+= apollo5_eb
+else
+DEFINES+= apollo5_eb_revb
+endif
+endif
+ifeq ($(PART),apollo5b)
+DEFINES+= AM_PART_APOLLO5B
+ifeq ($(EVB),eb)
+DEFINES+= apollo5_eb
+else 
+ifeq ($(EVB),eb_revb)
+DEFINES+= apollo5_eb_revb
+else
+DEFINES+= apollo510_evb
+endif
+endif
+endif
+
 
 DEFINES+= AM_PACKAGE_BGA
 DEFINES+= __FPU_PRESENT
+
+ifeq ($(TOOLCHAIN), arm)
+DEFINES+= __UVISION_VERSION="538"
+DEFINES+= _RTE_
+DEFINES+= keil6
+else
 DEFINES+= gcc
+endif
+
 DEFINES+= TF_LITE_STATIC_MEMORY
 
 # Enable ML Debug and Symbols with 'make MLDEBUG=1'

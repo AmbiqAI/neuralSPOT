@@ -49,6 +49,9 @@ ns_timer_config_t basic_tickTimer = {
     .timer = NS_TIMER_COUNTER,
     .enableInterrupt = false,
 };
+#ifdef AM_PART_APOLLO5B
+ns_pmu_config_t pmu_cfg;
+#endif
 #endif
 
 /**
@@ -69,10 +72,35 @@ model_init(void) {
     profiler = &micro_profiler;
     // ns_perf_mac_count_t basic_mac = {.number_of_layers = kws_ref_model_number_of_estimates,
     //                                  .mac_count_map = kws_ref_model_mac_estimates};
-    ns_TFDebugLogInit(&basic_tickTimer, NULL);
-#elif NS_MLDEBUG
-    ns_TFDebugLogInit(NULL, NULL);
+    // Create the config struct for the debug log
+
+    // Init the PMU config
+    #ifdef AM_PART_APOLLO5B
+    pmu_cfg.api = &ns_pmu_V1_0_0;
+    ns_pmu_reset_config(&pmu_cfg);
+    ns_pmu_event_create(&pmu_cfg.events[0], NS_PROFILER_PMU_EVENT_0, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&pmu_cfg.events[1], NS_PROFILER_PMU_EVENT_1, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&pmu_cfg.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);  
+    ns_pmu_init(&pmu_cfg);
+    #endif
+    ns_debug_log_init_t cfg = {
+        .t = &basic_tickTimer,
+        .m = NULL,
+        #ifdef AM_PART_APOLLO5B
+        .pmu = &pmu_cfg,
+        #endif
+    };
+    ns_TFDebugLogInit(&cfg);
+#else
+    #ifdef NS_MLDEBUG
+    ns_TFDebugLogInit(NULL);
+    #endif
 #endif
+
+
+
+
 
     tflite::InitializeTarget();
 

@@ -8,8 +8,8 @@ ENTRY(Reset_Handler)
 MEMORY
 {
     MCU_MRAM     (rx)  : ORIGIN = 0x00018000, LENGTH = 1998848
-    MCU_TCM      (rwx) : ORIGIN = 0x10000000, LENGTH = 393216
-    SHARED_SRAM  (rwx) : ORIGIN = 0x10060000, LENGTH = 1048576
+    MCU_TCM      (rw) : ORIGIN = 0x10000000, LENGTH = 393216
+    SHARED_SRAM  (rw) : ORIGIN = 0x10060000, LENGTH = 1048576
 }
 
 SECTIONS
@@ -117,5 +117,4 @@ SECTIONS
         _sedata = .;
     } > SHARED_SRAM AT>MCU_MRAM
     _init_data_sram = LOADADDR(.shared);
-
 }

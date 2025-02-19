@@ -7,7 +7,6 @@ import yaml
 import os
 import numpy as np
 import pydantic_argparse
-import sys
 from neuralspot.tools.autodeploy.gen_library import generateModelLib
 from neuralspot.tools.autodeploy.measure_power import generatePowerBinary, measurePower
 from neuralspot.tools.autodeploy.validator import (
@@ -35,7 +34,7 @@ class Params(BaseModel):
         True, description="Capture and print performance measurements on EVB"
     )
     cpu_mode: str = Field(
-        "NS_MAXIMUM_PERF", description="CPU mode to use for performance measurements"
+        "HP", description="CPU mode to use for performance measurements"
     )
     joulescope: bool = Field(False, description="Use Joulescope for power measurements")
     create_ambiqsuite_example: bool = Field(
@@ -154,7 +153,7 @@ Notes:
         )
 
     def setPower(self, cpu_mode, mSeconds, uJoules, mWatts):
-        if cpu_mode == "NS_MINIMUM_PERF":
+        if cpu_mode == "LP":
             self.powerMinPerfInferenceTime = mSeconds
             self.powerMinPerfJoules = uJoules
             self.powerMinPerfWatts = mWatts
@@ -197,6 +196,8 @@ def main():
     # check if params.destination_rootdir is relative path. If it is, make it absolute so that validator.py can use it
     if not os.path.isabs(params.destination_rootdir):
         params.destination_rootdir = os.path.abspath(params.destination_rootdir)
+    if not os.path.isabs(params.neuralspot_rootdir):
+        params.neuralspot_rootdir = os.path.abspath(params.neuralspot_rootdir)
 
     results = adResults(params)
 
@@ -211,7 +212,6 @@ def main():
         else log.WARNING,
         format="%(levelname)s: %(message)s",
     )
-
     # check if tflite-filename was specified
     if not os.path.exists(params.tflite_filename):
         log.error("TFLite file not found. Please specify a valid path.")
@@ -232,16 +232,17 @@ def main():
     print(mc.modelStructureDetails.overallMacEstimates)
 
     print("")
-    print(f"*** Characterize inference energy consumption on EVB using Joulescope")
 
     if params.onboard_perf:
+        print(f"*** Characterize inference per-layer performance on EVB using TFLM MicroProfiler")
         generatePowerBinary(params, mc, md, params.cpu_mode)
         print(
             f"{params.cpu_mode} Performance code flashed to EVB - connect to SWO and press reset to see results."
         )
 
     if params.joulescope:
-        for cpu_mode in ["NS_MINIMUM_PERF", "NS_MAXIMUM_PERF"]:
+        print(f"*** Characterize inference energy consumption on EVB using Joulescope")
+        for cpu_mode in ["LP", "HP"]:
             generatePowerBinary(params, mc, md, cpu_mode)
             td, i, v, p, c, e = measurePower()
             energy = (e["value"] / params.runs_power) * 1000000  # Joules

@@ -28,17 +28,27 @@
 # local_src += $(wildcard $(subdirectory)/CMSIS/DSP/Source/TransformFunctions/*.c)
 
 # Includes
-# includes_api += $(subdirectory)/CMSIS/Core/Include
+includes_api += $(subdirectory)/CoreInclude
 # includes_api += $(subdirectory)/CMSIS/NN/Include
 includes_api += $(subdirectory)/Include
 includes_api += $(subdirectory)/PrivateInclude
 
-ifeq ($(TOOLCHAIN),arm)
-lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-m4-armclang.a
+ifeq ($(ARCH),apollo5)
+	CMSISP := m55
 else
-lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-m4-gcc.a
+	CMSISP := m4
 endif
-# lib_prebuilt += $(subdirectory)/lib/libcmsis-nn.a
+
+ifeq ($(TOOLCHAIN),arm)
+lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-$(CMSISP)-armclang.a
+else
+ifeq ($(GCC13_EXPERIMENTAL),1)
+lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-$(CMSISP)-gcc13.a
+else
+lib_prebuilt += $(subdirectory)/lib/libCMSISDSP-$(CMSISP)-gcc.a
+endif
+endif
+# lib_prebuilt += $(subdirectory)/lib/libCMSISDSP.a
 
 local_bin := $(BINDIR)/$(subdirectory)
 bindirs   += $(local_bin)

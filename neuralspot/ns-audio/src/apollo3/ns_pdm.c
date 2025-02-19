@@ -101,7 +101,6 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     return NS_STATUS_SUCCESS;
 }
 
-
 void pdm_deinit(ns_audio_config_t *config) {
     ns_pdm_cfg_t * cfg = config->pdm_config;
     am_hal_pdm_interrupt_clear(cfg, (AM_HAL_PDM_INT_DERR  |\
@@ -121,11 +120,6 @@ void pdm_deinit(ns_audio_config_t *config) {
     am_hal_pdm_power_control(cfg, AM_HAL_PDM_POWER_OFF, false);
     am_hal_pdm_deinitialize(cfg);
 }
-
-
-
-
-
 
 // PDM Interrupt Service Routine (ISR)
 void am_pdm0_isr(void) {

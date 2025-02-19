@@ -40,6 +40,9 @@ extern "C"
 
 #if defined(ARM_FLOAT16_SUPPORTED)
 
+/**
+ * @brief Instance structure for the half floating-point Linear Interpolate function.
+ */
 typedef struct
 {
     uint32_t  nValues;        /**< nValues */
@@ -68,10 +71,9 @@ typedef struct
    * @param[in,out] S  is an instance of the floating-point Linear Interpolation structure
    * @param[in]     x  input sample to process
    * @return y processed output sample.
-   *
    */
   float16_t arm_linear_interp_f16(
-  arm_linear_interp_instance_f16 * S,
+  const arm_linear_interp_instance_f16 * S,
   float16_t x);
 
     /**

@@ -38,8 +38,7 @@ SECTIONS
         *(.ARM.exidx* .gnu.linkonce.armexidx.*)
     } > ROMEM
     __exidx_end = .;
-
-    .preinit_array :
+   .preinit_array :
     {
         PROVIDE_HIDDEN (__preinit_array_start = .);
         KEEP (*(.preinit_array*))
@@ -61,7 +60,7 @@ SECTIONS
         KEEP (*(.fini_array*))
         PROVIDE_HIDDEN (__fini_array_end = .);
     } > ROMEM
-
+    
     /* User stack section initialized by startup code. */
     .stack (NOLOAD):
     {

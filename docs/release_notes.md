@@ -89,3 +89,19 @@
   - Better Windows support
   - Adds AmbiqSuite example export to Autodeploy 
   - removes unneeded files
+
+- Autodeploy Update 11/5/2024
+1. The target platform must be specified on the command line (previously this was derived from local_overrides, which is an undesired hidden behavior).
+1. Several CLI parameters can now be set to 'auto' - the script will automatically determine good values for these parameters.
+  1. model_location: chosen based on computed model size
+  1. arena_location: chosen based on arena size (max for first iteration, computed for rest)
+  1. max_arena_size: chosen based on platform's largest SRAM. If arena exceeds SRAM size (resulting in compile error) please set it manually to 8000 and set arena_location manually to PSRAM
+  1. ambiqsuite version: latest for platform
+  1. tensorflow version: latest compiled for platform
+1. Enhanced error checking
+  1. Checks in memories (arena and model size) exceed a platform's capabilities
+  1. Ensures that perf and example stages are not run unless the model fits in MRAM (larger models require USB, and perf/examples do not include USB)
+  1. If user elects to skip profiling steps, check the existence of previous pkl files and error if they don't exist
+1. Automatic detection of USB serial port: previously, the port and baud rate was set via `--tty` and `--baud`. These parameters are now auto-detected.
+
+Platform capabilities are specified in a separate yaml file (ns_platform.yaml) for easy updating.

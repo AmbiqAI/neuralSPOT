@@ -285,7 +285,6 @@ void Reset_Handler(void) {
 
     // Call CPP constructor init
     __libc_init_array();
-    
     //
     // Call the application's entry point.
     //

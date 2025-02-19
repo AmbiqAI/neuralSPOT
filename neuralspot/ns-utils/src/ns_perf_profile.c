@@ -24,6 +24,10 @@
  */
 uint8_t ns_cache_profiler_init(ns_cache_config_t *cfg) {
     uint8_t status = AM_HAL_STATUS_SUCCESS;
+
+// RX doesnt have cachectrl yet.
+// #ifndef AM_PART_APOLLO5A
+#if !defined(AM_PART_APOLLO5A) && !defined(AM_PART_APOLLO5B)
     char dummy = 0;
 
     if (cfg->enable) {
@@ -31,6 +35,7 @@ uint8_t ns_cache_profiler_init(ns_cache_config_t *cfg) {
     } else {
         am_hal_cachectrl_control(AM_HAL_CACHECTRL_CONTROL_MONITOR_DISABLE, (void *)&dummy);
     }
+#endif
 
     return status;
 }
@@ -50,7 +55,7 @@ void ns_capture_cache_stats(ns_cache_dump_t *dump) {
     dump->itaglookup = CACHECTRL->IMON1;
     dump->ihitslookup = CACHECTRL->IMON2;
     dump->ihitsline = CACHECTRL->IMON3;
-#else
+#elif defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L)
 
     dump->daccess = CPU->DMON0;
     dump->dtaglookup = CPU->DMON1;
@@ -143,7 +148,6 @@ void ns_init_perf_profiler(void) {
 void ns_start_perf_profiler(void) {
     am_hal_itm_enable();
     // DWT->CTRL = 1;
-    ns_delay_us(10000);
     DWT->CTRL = _VAL2FLD(DWT_CTRL_CYCCNTENA, 1) | _VAL2FLD(DWT_CTRL_CPIEVTENA, 1) |
                 _VAL2FLD(DWT_CTRL_EXCEVTENA, 1) | _VAL2FLD(DWT_CTRL_SLEEPEVTENA, 1) |
                 _VAL2FLD(DWT_CTRL_LSUEVTENA, 1) | _VAL2FLD(DWT_CTRL_FOLDEVTENA, 1) |

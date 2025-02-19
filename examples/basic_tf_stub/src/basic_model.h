@@ -41,7 +41,7 @@ static TfLiteTensor *model_input = nullptr;
 static TfLiteTensor *model_output = nullptr;
 static tflite::MicroProfiler *profiler = nullptr;
 
-static constexpr int kTensorArenaSize = 1024 * 24;
+static constexpr int kTensorArenaSize = 1024 * 27;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
 #ifdef NS_MLPROFILE
@@ -51,6 +51,11 @@ ns_timer_config_t basic_tickTimer = {
     .timer = NS_TIMER_COUNTER,
     .enableInterrupt = false,
 };
+
+#ifdef AM_PART_APOLLO5B
+ns_pmu_config_t pmu_cfg;
+#endif
+
 #endif
 
 /**
@@ -71,9 +76,29 @@ model_init(void) {
     profiler = &micro_profiler;
     ns_perf_mac_count_t basic_mac = {.number_of_layers = kws_ref_model_number_of_estimates,
                                      .mac_count_map = kws_ref_model_mac_estimates};
-    ns_TFDebugLogInit(&basic_tickTimer, &basic_mac);
+
+    // Init the PMU config
+    #ifdef AM_PART_APOLLO5B
+    pmu_cfg.api = &ns_pmu_V1_0_0;
+    ns_pmu_reset_config(&pmu_cfg);
+    ns_pmu_event_create(&pmu_cfg.events[0], NS_PROFILER_PMU_EVENT_0, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&pmu_cfg.events[1], NS_PROFILER_PMU_EVENT_1, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&pmu_cfg.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
+    ns_pmu_event_create(&pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);  
+    ns_pmu_init(&pmu_cfg);
+    #endif
+    // Create the config struct for the debug log
+    ns_debug_log_init_t cfg = {
+        .t = &basic_tickTimer,
+        .m = &basic_mac,
+        #ifdef AM_PART_APOLLO5B
+        .pmu = &pmu_cfg,
+        #endif
+    };
+
+    ns_TFDebugLogInit(&cfg);
 #elif NS_MLDEBUG
-    ns_TFDebugLogInit(NULL, NULL);
+    ns_TFDebugLogInit(NULL);
 #endif
 
     tflite::InitializeTarget();
@@ -117,10 +142,12 @@ model_init(void) {
     // Allocate memory from the tensor_arena for the model's tensors.
     TfLiteStatus allocate_status = interpreter->AllocateTensors();
     if (allocate_status != kTfLiteOk) {
-        TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed");
-        ns_printf("AllocateTensors() failed");
+        TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed\n");
+        ns_lp_printf("AllocateTensors() failed with status %d\n", allocate_status);
         return;
     }
+
+    ns_lp_printf("Arena size computed: %d\n", interpreter->arena_used_bytes());
 
     // Obtain pointers to the model's input and output tensors.
     model_input = interpreter->input(0);

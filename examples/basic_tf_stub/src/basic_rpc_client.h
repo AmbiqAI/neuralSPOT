@@ -39,7 +39,7 @@ static dataBlock outBlock = {
         .dataLength = SAMPLES_IN_FRAME * sizeof(int16_t)}};
 
 static ns_rpc_config_t rpcConfig = {
-    .api = &ns_rpc_gdo_V1_0_0,
+    .api = &ns_rpc_gdo_V1_1_0,
     .mode = NS_RPC_GENERICDATA_CLIENT,
     .rx_buf = my_cdc_rx_ff_buf,
     .rx_bufLength = MY_USB_RX_BUFSIZE,
@@ -47,4 +47,5 @@ static ns_rpc_config_t rpcConfig = {
     .tx_bufLength = MY_USB_TX_BUFSIZE,
     .sendBlockToEVB_cb = NULL,
     .fetchBlockFromEVB_cb = NULL,
-    .computeOnEVB_cb = NULL};
+    .computeOnEVB_cb = NULL,
+    .transport = NS_RPC_TRANSPORT_USB};

@@ -1,0 +1,68 @@
+// Interface proposal for bulk data transfer
+
+program GenericDataOperations
+
+enum status {
+    ns_rpc_data_success = 0,
+    ns_rpc_data_failure = 1,
+    ns_rpc_data_blockTooLarge = 2
+}
+
+/// These are the possible data types for the contents of dataBlock.buffer
+/// They don't have any implicit functionality, serving merely as guides
+/// to the consumer of the block for how to unpack the buffer.
+enum dataType {
+    uint8_e,
+    uint16_e,
+    uint32_e,
+    int8_e,
+    int16_e,
+    int32_e,
+    float32_e,
+    float64_e
+}
+
+/// These are the possible commands. Again, they don't have any implicit functionality,
+/// serving merely as guides for what to do with the dataBlock
+enum command {
+    generic_cmd,    //!< The sender doesn't have an opinion about what to do with data
+    visualize_cmd,  //!< Block intended for visualization
+    infer_cmd,      //!< Compute inference for block
+    extract_cmd,    //!< Compute feature from block
+    write_cmd,      //!< Block intended for writing to a file
+    read_cmd        //!< Fetch block from a file
+}
+
+// Datablocks are nominally of one single dataType, but this is more of a hint
+// If both sides know how to unpack the block, they can represent anything
+struct dataBlock {
+    uint32 length;      //!< In bytes
+    dataType dType;      //!< Type of data in block
+    string description; //!< Textual description/metadata
+    command cmd;        //!< Suggestion of what to do with data
+    binary buffer;      //!< The data
+}
+
+// Using groups to distinguish between outgoing and incoming services
+// generates two sets of C and Python code, allowing us to only link in the
+// code corresponding to the direction we need. Note that it will generate both the
+// server and client code for each group - you'll have to choose which to use for your
+// application.
+
+// In the following definitions we use 'in' and 'out' to distinguish how the code
+// is intended to be modified. 'in' parameters generate 'const' parameters in C.
+
+@group("EvbToPc")
+interface evb_to_pc {
+    ns_rpc_data_sendBlockToPC(in dataBlock block) -> status
+    ns_rpc_data_fetchBlockFromPC(out dataBlock block) -> status
+    ns_rpc_data_computeOnPC(in dataBlock in_block, out dataBlock result_block) -> status
+    ns_rpc_data_remotePrintOnPC(string msg) -> status
+}
+
+@group("PcToEvb")
+interface pc_to_evb {
+    ns_rpc_data_sendBlockToEVB(in dataBlock block) -> status
+    ns_rpc_data_fetchBlockFromEVB(out dataBlock block) -> status
+    ns_rpc_data_computeOnEVB(in dataBlock in_block, out dataBlock result_block) -> status
+}

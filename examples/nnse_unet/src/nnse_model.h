@@ -2,7 +2,7 @@
 #define __NNSE_MODEL_H__
 #define LOCAL_MODEL_NAME nnaedrelunopad
 // Calculated Arena size
-#define NNSE_COMPUTED_ARENA_SIZE 600
+#define NNSE_COMPUTED_ARENA_SIZE 800
 
 #define nnaedrelunopad_MODEL_LOCATION NS_AD_TCM
 #define nnaedrelunopad_ARENA_LOCATION NS_AD_TCM

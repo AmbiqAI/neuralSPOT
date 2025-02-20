@@ -128,13 +128,19 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
                         # print (tensor["outputs"])
                         if tensor["inputs"]:
                             inputs = ta([tensor["inputs"][0]])
+                            if not inputs["shape"]:
+                                inputs["shape"] = [0, 0, 0, 0]
                         else:
                             inputs = {"shape": [0, 0, 0, 0]}
                         # inputs = ta([tensor["inputs"][0]])
                         if tensor["outputs"]:
                             outputs = ta([tensor["outputs"][0]])
+                            # Some output shapes are scalar, make it an empty list
+                            if not outputs["shape"]:
+                                outputs["shape"] = [0, 0, 0, 0]
                         else:
                             outputs = {"shape": [0, 0, 0, 0]}
+
 
                         # outputs = ta([tensor["outputs"][0]])
                         dilation_h = 0

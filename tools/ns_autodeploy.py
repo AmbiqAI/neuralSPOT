@@ -453,6 +453,22 @@ def main():
     mc = ModelConfiguration(params)
     md = ModelDetails(interpreter)
 
+    # If a model is too large to capture all PMU events in a full_capture, print
+    # a warning and say how many events will be captured per layer
+    if params.full_pmu_capture:
+        layers = mc.modelStructureDetails.layers
+        # Each run captures 4 events, and there are 71 total.
+        total_runs_needed = 71 / 4
+        if total_runs_needed*layers >= 4096:
+            total_runs_possble = 4096 / layers
+            total_pmu_events = total_runs_possble * 4
+            # round down to nearest int
+            total_runs_needed = int(total_runs_possble)
+            total_pmu_events = int(total_pmu_events)
+            print(f"[NS] WARNING: Full PMU Capture will require {total_runs_needed*layers} runs, "
+                   "which exceeds the maximum of 4096. Some events at the end of each layer will be 'garbage'.",
+                   f"PMU capture will be limited to {total_pmu_events} PMU events per layer.")
+
     # Pickle the model details for later use
     # mc_file = open("model_config.pkl", "wb")
     # pickle.dump(mc, mc_file)
@@ -547,6 +563,21 @@ def main():
             md_file.close()
             print(md)
             print(mc)
+
+            # We now know RPC buffer sizes and Arena size, create new metadata file and recompile
+            params.arena_location = stash_arena_location
+
+            # If auto, find the best arena location
+            if params.arena_location == "auto":
+                params.arena_location = pc.GetArenaLocation(mc.arena_size_k, params.arena_location)
+
+            # Check computed arena size against desired arena location
+            arena_size = mc.arena_size_k + params.arena_size_scratch_buffer_padding
+            if not pc.CheckArenaSize(arena_size, params.arena_location):
+                raise ValueError(
+                    f"Model size {model_size}KB exceeds available memory for platform {params.platform}"
+                )
+  
             if params.model_location == "TCM" and params.arena_location == "TCM":
                 if model_size + mc.arena_size_k > pc.GetDTCMSize():
                     print(f"[NS] Model plus Arena do not fit in Data TCM. Moving model to MRAM.")

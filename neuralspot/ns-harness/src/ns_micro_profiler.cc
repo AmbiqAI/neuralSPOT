@@ -56,7 +56,8 @@ MicroProfiler::BeginEvent(const char *tag) {
         //              kMaxEvents);
         // num_events_ = 0;
         // return num_events_;
-        TFLITE_ASSERT_FALSE;
+        num_events_ = NS_PROFILER_MAX_EVENTS - 1;
+        // TFLITE_ASSERT_FALSE;
     }
 
     // real_event++;

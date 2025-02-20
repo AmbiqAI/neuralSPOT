@@ -298,7 +298,7 @@ def configModel(params, client, md):
             "[ERROR] which has a bug where it does not account for scratch buffer padding."
         )
         print(
-            "[ERROR] To manually add a padding for scratch buffers, use the --arena_size_scratch_buffer_padding option."
+            "[ERROR] To manually add a padding for scratch buffers, use the --arena-size-scratch-buffer-padding option."
         )
         exit("Model Configuration Failed")
     else:

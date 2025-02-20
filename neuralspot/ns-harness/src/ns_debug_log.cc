@@ -104,16 +104,16 @@ uint32_t ns_characterize_model(invoke_fp func) {
                 // ns_lp_printf("Ran out of PMU events at %d, initializing event %d with event 0\n", map_index, i);
                 ns_pmu_event_create(&(ns_microProfilerPMU.events[i]), ns_pmu_map[0].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
             } else {
-                // ns_lp_printf("Creating event %d\n", map_index);
+                // ns_lp_printf("Creating event %d at %d\n", map_index, i);
                 ns_pmu_event_create(&(ns_microProfilerPMU.events[i]), ns_pmu_map[map_index + i].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
             }
         }
-        
+        // ns_lp_printf("PMU event %d: %s, %s, %s, %s\n", map_index, ns_pmu_map[map_index].regname, ns_pmu_map[map_index + 1].regname, ns_pmu_map[map_index + 2].regname, ns_pmu_map[map_index + 3].regname);
         ns_pmu_init(&ns_microProfilerPMU);
-
+        // ns_lp_printf("PMU initialized\n");
         // Run the model
         func();
-
+        // ns_lp_printf("Model run complete\n");
         ns_lp_printf(".");
     }
 #endif

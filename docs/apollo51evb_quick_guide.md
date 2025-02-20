@@ -1,4 +1,4 @@
-# Apollo510 EVB Usage Notes
+# DEPRECATED Apollo510 EVB Usage Notes
 
 The current Apollo510 EVB is a prototype of the production version due later this year. Features include:
 

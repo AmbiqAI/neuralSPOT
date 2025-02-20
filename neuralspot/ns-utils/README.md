@@ -5,6 +5,7 @@ The ns-utils library is a assorted collection of utilities to help with various 
 | ----------------- | ------------------------------------------------------------ |
 | ns_energy_monitor | Tools to help mark 'regions of interest' for external energy monitors via GPIO |
 | ns_perf_profile   | Tools to capture, analyze, and display cache and instruction performance counters |
+| ns_pmu_utils      | Set of utilities for setting up, capturing, and parsing PMU event counters |
 | ns_power_profile  | Prints out Ambiq configuration registers impacting power - useful for interacting with Ambiq FAEs |
 | ns_timer          | Implements various clocks and timers                         |
 | ns_malloc         | RTOS-friendly malloc() and free()                            |
@@ -17,7 +18,17 @@ This simple library allows you to control two GPIO pins which can be monitored b
 
 ![image-20221209110633653](../../docs/images/image-20221209110633653.png)
 
-Using this requires connecting GPIO pins 22 and 23 to the energy monitor, and the following code:
+Using this requires connecting the following pins to the energy monitor:
+
+| Platform | Joulescope In 0 | Joulescope In 1 |
+| -------- | --------------- | --------------- |
+| Apollo4 Plus | 22 | 23 |
+| Apollo4 Lite | 61 | 23 |
+| Apollo3  | 22  | 23  |
+| Apollo5 EB | GP74 | GP75 |
+| Apollo5 EVB | 29 | 36 |
+
+And the following code:
 
 ```c
     ns_init_power_monitor_state(); // Initialize the monitor

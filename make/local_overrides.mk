@@ -1,8 +1,8 @@
 # Put your local overrides in here
 
 # *** Apollo3 Plus Blue EVB
-# PLATFORM := apollo3p_evb
-# AS_VERSION := R3.1.1
+PLATFORM := apollo3p_evb
+AS_VERSION := R3.1.1
 
 # *** Apollo4 Plus
 # PLATFORM := apollo4l

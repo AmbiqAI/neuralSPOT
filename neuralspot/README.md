@@ -1,0 +1,29 @@
+# Libraries
+
+| Library                | Location       | Description                                                  | AP3  | AP4  | AP5  | Usage Guide                                                  |
+| ---------------------- | -------------- | ------------------------------------------------------------ | ---- | ---- | ---- | ------------------------------------------------------------ |
+| ns_audio               | ns-audio       | AUDADC (low power analog audio input) and PDM configuration and audio sampling. | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
+| ns_audio_mfcc          | ns-audio       | Mel Spectrogram Feature Extraction                           | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-audio) |
+| ns_malloc              | ns-utils       | malloc/free implementation                                   | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_timer               | ns-utils       | Reading clocks and setting periodic interrupts               | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_power_profile       | ns-utils       | Prints power-relevant register configuration for expert analysis | N    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_energy_monitor      | ns-utils       | Utility for marking regions of interest for external power monitors | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_cache_profile       | ns-utils       | Tools to capture and analyze cache utilization statistics    | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_perf_profile        | ns-utils       | Tools to capture and analyze CPU perf utilization registers  | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_peripherals_power   | ns-peripherals | Optimized, customizable Apollo4 power configuration for common AI applications. | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
+| ns_peripherals_button  | ns-peripherals | Utility for reading EVB buttons via ISRs                     | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) |
+| ns_i2c_register_driver | ns-i2c         | Generic Apollo4 i2c driver                                   | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
+| ns_mpu6050_i2c_driver  | ns-i2c         | Minimal MPU6050 driver                                       | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
+| ns_max86150_i2c_driver | ns-i2c         | MAX86150 driver                                              | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-i2c) |
+| ns_camera              | ns_camera      | Arducam driver and JPG utilities                             | N    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-camera) |
+| ns_rpc_generic_data    | ns-rpc         | A generic data RPC implementation offering both client and server modes for sending blocks of data, computing on a block a data and getting a result, and printing remote message. | N    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc) |
+| ns_ambiqsuite_harness  | ns-harness     | Wrappers for common AmbiqSuite operations such as printing, deep-sleep compatible printing, adding delays, etc. | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_micro_profiler      | ns-harness     | Tools for per-layer performance profiling                    | N    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_debug_log           | ns-harness     | Implementation of printf for Tensorflow debug prints         | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-harness) |
+| ns_usb                 | ns-usb         | TinyUSB CDC (TTY) driver for USB port 1.                     | N    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-usb) |
+| ns_ble                 | ns-ble         | Simple BLE library for creating BLE peripheral servers.      | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ble) |
+| ns_spi                 | ns_spi         | Easy to use SPI library                                      | N    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-spi) |
+| ns_pmu                 | ns-utils       | Utilities for using M55 PMU event counters                   | N    | N    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-utils) |
+| ns_uart                | ns_uart        | Easy to use UART library                                     | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-uart) |
+| ns_nnsp                | ns_nnsp        | Neural Network Speech Processing: a collection of neural network and feature extraction functions | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-nnsp) |
+| ns_ipc_ring_buffer     | ns-ipc         | Ring buffer IPC mechanism for getting peripheral data into AI applications | Y    | Y    | Y    | [Here](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-ipc) |

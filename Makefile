@@ -75,8 +75,8 @@ ifeq ($(AUTODEPLOY),1)
 else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
-		modules      += examples/har
 		modules      += examples/nnse_unet
+		modules      += examples/har
 # modules      += examples/nnse2
 		modules	     += examples/uart
 		modules      += examples/rpc_server
@@ -291,6 +291,8 @@ $(JLINK_CF):
 # $(Q) echo "LoadFile $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 # $(Q) echo "Exit" >> $@
 	$(Q) echo "connect" >> $@
+	$(Q) echo "h" >> $@
+	$(Q) echo "r" >> $@
 	$(Q) echo "loadbin $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 	$(Q) echo "sleep 250" >> $@
 # $(Q) echo "r" >> $@

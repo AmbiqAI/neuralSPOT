@@ -78,7 +78,7 @@ main(void) {
 #endif
     // static float32_t inputs_nn[NUM_MEL_BINS * NUM_FRAMES]; // features in one second of audio
 
-    featClass_init(&feat_inst);
+    // featClass_init(&feat_inst);
 
     // Initialize the model, get handle if successful
     int status = nnse_minimal_init(&model); // model init with minimal defaults
@@ -154,9 +154,9 @@ main(void) {
     // Execute the model
 
     ns_lp_printf("MCPS estimation\n");
-    ns_init_perf_profiler();
-    ns_reset_perf_counters();
-    ns_start_perf_profiler();
+    // ns_init_perf_profiler();
+    // ns_reset_perf_counters();
+    // ns_start_perf_profiler();
 
     TfLiteStatus invoke_status = model.interpreter->Invoke(); 
     if (invoke_status != kTfLiteOk) {
@@ -167,9 +167,9 @@ main(void) {
     }
     
     
-    ns_stop_perf_profiler();
-    ns_capture_perf_profiler(&pp);
-    ns_print_perf_profile(&pp);
+    // ns_stop_perf_profiler();
+    // ns_capture_perf_profiler(&pp);
+    // ns_print_perf_profile(&pp);
     ns_lp_printf("cpu freq=%d\n", g_ui32TrimVer);
 #if NURALSPOT==1
     ns_lp_printf("Model execution completed\n");
@@ -178,16 +178,21 @@ main(void) {
     
     float output_scale = model.model_output[0]->params.scale;
     int output_zero_point = model.model_output[0]->params.zero_point;
-    
+    int32_t err;
+    int32_t max_err=0;
     if (nbit==16)
     {
-        int32_t err=0;
         for (int i = 0; i < output_dim; i++) {
-            if (abs(model.model_output[0]->data.i16[i]-outputs[i]) !=0)
-                ns_lp_printf("output[%d]=%d, %d\n", i, model.model_output[0]->data.i16[i], outputs[i]);
-            err=MAX(err,abs((int32_t) model.model_output[0]->data.i16[i]-(int32_t)outputs[i]));
+            err = abs((int32_t) model.model_output[0]->data.i16[i] - (int32_t) outputs[i]);
+            if (err !=0)
+                ns_lp_printf(
+                    "output[%d]=%d, %d\n",
+                    i,
+                    model.model_output[0]->data.i16[i],
+                    outputs[i]);
+            max_err=MAX(err, max_err);
         }
-        ns_lp_printf("Max err=%d\n", err);
+        ns_lp_printf("Max err=%d\n", max_err);
         // for (int i = 0; i < output_dim; i++) {
         //     float32_t out; 
         //     out = (float32_t) (model.model_output[0]->data.i16[i] - output_zero_point);
@@ -198,12 +203,13 @@ main(void) {
     }
     else
     {
-        int8_t err=0;
         for (int i = 0; i < output_dim; i++) {
-            ns_lp_printf("output[%d]=%d, %d\n", i, model.model_output[0]->data.int8[i], outputs[i]);
-            err = MAX(err,abs(model.model_output[0]->data.int8[i]-outputs[i]));
+            err = abs((int32_t) model.model_output[0]->data.int8[i] - (int32_t) outputs[i]);
+            if (err !=0)
+                ns_lp_printf("output[%d]=%d, %d\n", i, model.model_output[0]->data.int8[i], outputs[i]);
+            max_err = MAX(max_err,err);
         }
-        ns_lp_printf("Max err=%d\n", err);
+        ns_lp_printf("Max err=%d\n", max_err);
         // for (int i = 0; i < output_dim; i++) {
         //     float32_t out; 
         //     out = (float32_t) (model.model_output[0]->data.int8[i] - output_zero_point);

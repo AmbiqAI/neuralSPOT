@@ -47,8 +47,8 @@ static constexpr int nnse_tensor_arena_size = 1024 * NNSE_COMPUTED_ARENA_SIZE;
 // Resource Variable Arena
 // static constexpr int nnse_resource_var_arena_size =
     // 4 * (0 + 1) * sizeof(tflite::MicroResourceVariables);
-static constexpr int nnse_resource_var_arena_size = 4096 << 4; // 11293
-alignas(16) static uint8_t nnse_var_arena[nnse_resource_var_arena_size];
+static constexpr int nnse_resource_var_arena_size = 4096; // 11293
+AM_SHARED_RW alignas(16) static uint8_t nnse_var_arena[nnse_resource_var_arena_size];
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
 ns_timer_config_t basic_tickTimer = {

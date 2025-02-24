@@ -5,12 +5,12 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
 COMPILERNAME := gcc
 
 # Detect GCC version and set flags accordingly
-GCC_VER := $(shell arm-none-eabi-gcc --version | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')
+# GCC_VER := $(shell arm-none-eabi-gcc --version | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')
 # GCC_VER := $(shell arm-none-eabi-gcc --version 2>&1 | sed -n 's/.* \([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')
 # $(info GCC_VERSION: $(GCC_VER))
-ifeq ($(shell expr $(GCC_VER) \>= 14),1)
+# ifeq ($(shell expr $(GCC_VER) \>= 14),1)
 GCC14 := 1
-endif
+# endif
 else ifeq ($(TOOLCHAIN),arm)
 COMPILERNAME := clang
 else ifeq ($(TOOLCHAIN),llvm)

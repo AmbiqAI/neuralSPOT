@@ -291,8 +291,6 @@ $(JLINK_CF):
 # $(Q) echo "LoadFile $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 # $(Q) echo "Exit" >> $@
 	$(Q) echo "connect" >> $@
-	$(Q) echo "h" >> $@
-	$(Q) echo "r" >> $@
 	$(Q) echo "loadbin $(deploy_target), $(JLINK_PF_ADDR)" >> $@
 	$(Q) echo "sleep 250" >> $@
 # $(Q) echo "r" >> $@

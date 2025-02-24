@@ -100,7 +100,20 @@ main(void) {
     // Get data about input and output tensors
     int numInputs = model.numInputTensors;
     int numOutputs = model.numOutputTensors;
-    
+    int8_t base[]={0,1,2,3,4,5,6,7,8};
+    int32x4_t v;
+    uint32x4_t offset = {
+        (uint32_t) 1, 
+        (uint32_t)2, 
+        (uint32_t)3, 
+        (uint32_t)5};
+    v = vldrbq_gather_offset_s32(
+        base,
+        offset);
+    ns_lp_printf("v[0]=%d\n", v[0]);
+    ns_lp_printf("v[1]=%d\n", v[1]);
+    ns_lp_printf("v[2]=%d\n", v[2]);
+    ns_lp_printf("v[3]=%d\n", v[3]);
     #if NURALSPOT==1
     ns_lp_printf("Model has %d inputs and %d outputs\n", numInputs, numOutputs);
     ns_lp_printf("Input tensor 0 has %d bytes\n", model.model_input[0]->bytes);
@@ -228,17 +241,7 @@ main(void) {
     //     (uint32_t) 4,
     //     (uint32_t) 6};
 
-    // int32_t a[4];
-    // int32_t b[4];
-    // int32_t c[4];   
-    // int32_t d[4];
-    // int offset1 = 2;
-    // uint32x4_t addr = {(uint32_t) a, (uint32_t)b, (uint32_t)c, (uint32_t)d};
-    // vstrwq_scatter_base_s32(addr, offset1 << 2, value);
-    // ns_lp_printf("out=%d\n", a[offset1]);
-    // ns_lp_printf("out=%d\n", b[offset1]);
-    // ns_lp_printf("out=%d\n", c[offset1]);
-    // ns_lp_printf("out=%d\n", d[offset1]);
+    
 #if 0
     vldrhp_gather
     char *output_class = argmax_func(

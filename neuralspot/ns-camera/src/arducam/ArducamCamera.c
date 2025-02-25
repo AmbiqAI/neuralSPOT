@@ -636,7 +636,8 @@ void cameraCsLow(ArducamCamera *camera) { arducamSpiCsPinLow(camera->csPin); }
 
 uint8_t cameraBusRead(ArducamCamera *camera, int address) {
     uint8_t value[2] = {0, 0};
-    arducam_spi_read(value, 2, address, 1, camera->csPin);
+    uint64_t long_address = address;
+    arducam_spi_read(value, 2, long_address, 1, camera->csPin);
 
     // arducamSpiCsPinLow(camera->csPin);
     // arducamSpiTransfer(address);

@@ -14,8 +14,10 @@
 // #include "ns_camera_constants.h"
 // Camera interface
 
-#ifdef apollo510_evb
+#ifdef apollo510_evb_rev0
 #define CAM_SPI_IOM 2
+#elif defined(apollo510_evb)
+#define CAM_SPI_IOM 5
 #else
 #define CAM_SPI_IOM 1
 #endif

@@ -90,7 +90,7 @@ To connect the Arducam to an Apollo4 EVB's IOM1 interface, make the following co
 5. Camera MOSI to EVB 9
 6. Camera CS to EVB 11
 
-To connect the Arducam to an Apollo5 EVB's IOM2 interface, make the following connections:
+To connect the Arducam to an Apollo5 Rev0 EVB's IOM2 interface, make the following connections:
 
 1. Camera GND to any EVB GND
 2. Camera 5V/VDD to any EVB 5V pin
@@ -98,3 +98,12 @@ To connect the Arducam to an Apollo5 EVB's IOM2 interface, make the following co
 4. Camera MISO to EVB Pin 27
 5. Camera MOSI to EVB 26
 6. Camera CS to EVB 29
+
+To connect the Arducam to an Apollo5 Rev0 EVB's IOM5 interface, make the following connections:
+
+1. Camera GND to any EVB GND
+2. Camera 5V/VDD to any EVB 5V pin
+3. Camera SCK to EVB Pin 47
+4. Camera MISO to EVB Pin 49
+5. Camera MOSI to EVB 48
+6. Camera CS to EVB 60

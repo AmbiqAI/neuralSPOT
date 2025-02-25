@@ -128,7 +128,7 @@ static uint8_t rgbBuffer[RGB_BUFF_SIZE] __attribute__((aligned(16)));
 #else
 static uint8_t jpgBuffer[JPG_BUFF_SIZE] __attribute__((aligned(16)));
 #endif
-void picture_dma_complete(ns_camera_config_t *cfg);
+void picture_dma_complete(ns_camera_config_t *cfg); 
 void picture_taken_complete(ns_camera_config_t *cfg);
 
 ns_camera_config_t camera_config = {
@@ -142,7 +142,7 @@ ns_camera_config_t camera_config = {
     .imageMode = NS_CAM_IMAGE_MODE_96X96,
     .imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565,
 #endif
-    .spiConfig = {.iom = CAM_SPI_IOM}, // Only IOM1 or 2 is currently supported
+    .spiConfig = {.iom = CAM_SPI_IOM}, 
     .dmaCompleteCb = picture_dma_complete,
     .pictureTakenCb = picture_taken_complete,
 };
@@ -175,13 +175,13 @@ uint32_t buffer_length = 0;         // set when DMA is started
 static uint32_t bufferOffset = 0;   // set when DMA is started
 
 void picture_dma_complete(ns_camera_config_t *cfg) {
-    // ns_lp_printf("DMA Complete CB\n");
+    ns_lp_printf("DMA Complete CB\n");
     dmaComplete = true;
 }
 
 void picture_taken_complete(ns_camera_config_t *cfg) {
     pictureTaken = true;
-    // ns_lp_printf("Picture taken CB\n");
+    ns_lp_printf("Picture taken CB\n");
 }
 
 // Helper Functions
@@ -200,12 +200,14 @@ uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 void press_jpg_shutter_button(ns_camera_config_t *cfg) {
     camera_config.imageMode = NS_CAM_IMAGE_MODE_320X320;
     camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG;
+    ns_lp_printf("Taking JPG picture\n");
     ns_press_shutter_button(cfg);
 }
 
 void press_rgb_shutter_button(ns_camera_config_t *cfg) {
     camera_config.imageMode = NS_CAM_IMAGE_MODE_96X96;
     camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565;
+    ns_lp_printf("Taking RGB picture\n");
     ns_press_shutter_button(cfg);
 }
 

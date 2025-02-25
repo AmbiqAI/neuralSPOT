@@ -128,16 +128,20 @@ uint32_t ns_camera_init(ns_camera_config_t *cfg) {
     cfg->spiConfig.cb = ns_camera_buff_read_done;
     memcpy(&ns_camera_config, cfg, sizeof(ns_camera_config_t));
 
-    if (cfg->spiConfig.iom == 1)
+    if (cfg->spiConfig.iom == 1) {
         am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM1);
-    else if (cfg->spiConfig.iom == 2)
+    } else if (cfg->spiConfig.iom == 5) {
+        am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM5);
+    } else if (cfg->spiConfig.iom == 2) {
         am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM2);
-    else
+    } else {
         return NS_STATUS_INVALID_CONFIG;
+    }
         
     if (ns_spi_interface_init(&cfg->spiConfig, cfg->spiSpeed, AM_HAL_IOM_SPI_MODE_0)) {
         return NS_STATUS_INIT_FAILED;
     }
+
     createArducamCamera(AM_BSP_IOM1_CS_CHNL); // inits camera global, other stuff
 
     // Start a polling timer is needed
@@ -161,6 +165,7 @@ int arducam_spi_read(
     uint8_t *bufPtr = (uint8_t *)buf;
     uint32_t bytesLeft = bufLen;
     uint32_t chunkSize;
+    // ns_lp_printf("arducam_spi_read: SPI read of address %lld\n", reg);
     while (bytesLeft) {
         chunkSize = bytesLeft > MAX_SPI_BUF_LEN ? MAX_SPI_BUF_LEN : bytesLeft;
         err = ns_spi_read(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);
@@ -175,6 +180,7 @@ int arducam_spi_write(
     uint8_t *bufPtr = (uint8_t *)buf;
     uint32_t bytesLeft = bufLen;
     uint32_t chunkSize;
+    // ns_lp_printf("arducam_spi_write: SPI write of address 0x%x\n", reg);
     while (bytesLeft) {
         chunkSize = bytesLeft > MAX_SPI_BUF_LEN ? MAX_SPI_BUF_LEN : bytesLeft;
         ns_spi_write(spiHandle, bufPtr, chunkSize, reg, regLen, csPin);

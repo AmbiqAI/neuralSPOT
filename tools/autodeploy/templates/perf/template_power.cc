@@ -107,7 +107,10 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
         // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
 
+#if NS_AD_JS_PRESENT == 0
     ns_itm_printf_enable();
+#endif // NS_AD_JS_PRESENT == 0
+
     // am_bsp_itm_printf_enable();
 
     ns_interrupt_master_enable();

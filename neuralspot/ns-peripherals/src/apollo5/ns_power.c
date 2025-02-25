@@ -87,152 +87,11 @@ void ns_power_down_peripherals(const ns_power_config_t *pCfg) {
     //
     VCOMP->PWDKEY = _VAL2FLD(VCOMP_PWDKEY_PWDKEY, VCOMP_PWDKEY_PWDKEY_Key);
 
-// return; ok
-#ifdef AM_DEVICES_BLECTRLR_RESET_PIN
-    if (pCfg->bNeedBluetooth == false) {
-        //
-        // For SiP packages, put the BLE Controller in reset.
-        //
-        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
-        am_hal_gpio_pinconfig(AM_DEVICES_BLECTRLR_RESET_PIN, am_hal_gpio_pincfg_output);
-        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_SET);
-        am_hal_gpio_state_write(AM_DEVICES_BLECTRLR_RESET_PIN, AM_HAL_GPIO_OUTPUT_CLEAR);
-    }
-#endif // AM_DEVICES_BLECTRLR_RESET_PIN
-       // return; ok
 
-#if 0
-    //
-    // Disable all peripherals
-    //
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOS);
-
-    if (pCfg->bNeedIOM == false) {
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM0);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM1);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM2);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM3);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM4);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM5);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM6);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_IOM7);
-    };
-
-    if (pCfg->bNeedAlternativeUART == false) {
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_UART0);
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_UART3);
-    }
-
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_UART1);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_UART2);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_ADC);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_MSPI0);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_MSPI1);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_MSPI2);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_GFX);
-
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DISP);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DISPPHY);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_USB);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_USBPHY);
-#ifdef NS_PDM1TO3_PRESENT
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM1);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM2);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM3);
-#endif
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_I2S1);
-
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_SDIO0);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_SDIO1);
-
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DEBUG);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDREC);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDPB);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_PDM0);
-    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_I2S0);
-// return;
-
-    if (pCfg->bNeedAudAdc == false) {
-        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);
-    }
-
-    if (pCfg->bNeedCrypto == false) {
-        // Power down Crypto.
-        am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_CRYPTO_POWERDOWN, 0);
-    }
-    // return;
-    if (pCfg->bNeedBluetooth == false) {
-        // TODO: setting this pwrctl mode kills FreeRTOS tasks
-        // vTaskScheduler works after a power cycle, but not after resets.
-        // Since the only neuralSPOT examples needing freertos involve bluetooth,
-        // use that flag for now.
-        // XTAL powerdown
-        am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
-    }
-#endif
 }
 
-
-int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
-    uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
-
-#ifndef NS_DISABLE_API_VALIDATION
-    if (pCfg == NULL) {
-        return NS_STATUS_INVALID_HANDLE;
-    }
-
-    if (ns_core_check_api(
-            pCfg->api, &ns_power_oldest_supported_version, &ns_power_current_version)) {
-        return NS_STATUS_INVALID_VERSION;
-    }
-
-    if (!ns_core_initialized()) {
-        // Power needs ns_core to be initialized first
-        return NS_STATUS_INIT_FAILED;
-    }
-#endif
-
-    am_bsp_low_power_init();
-
-    #ifdef apollo510_evb
-    // PATCH USB for EVB
-    am_hal_clkmgr_board_info_t sClkmgrBoardInfo =
-    {
-        .sXtalHs.eXtalHsMode    = AM_BSP_XTAL_HS_MODE,
-        .sXtalHs.ui32XtalHsFreq = AM_BSP_XTAL_HS_FREQ_HZ,
-        .sXtalLs.eXtalLsMode    = AM_BSP_XTAL_LS_MODE,
-        .sXtalLs.ui32XtalLsFreq = AM_BSP_XTAL_LS_FREQ_HZ,
-        .ui32ExtRefClkFreq      = AM_BSP_EXTREF_CLK_FREQ_HZ
-    };
-    am_hal_clkmgr_board_info_set(&sClkmgrBoardInfo);
-
-    // Default the config for HFRC and HFRC2 as Free Run clock.
-    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC, AM_HAL_CLKMGR_HFRC_FREQ_FREE_RUN_APPROX_48MHZ, NULL);
-    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC2, AM_HAL_CLKMGR_HFRC2_FREQ_FREE_RUN_APPROX_250MHZ, NULL);
-    #endif
-
+void ns_power_memory_config(const ns_power_config_t *pCfg) {
     // configure SRAM & other memories
-    // if (pCfg->bNeedSharedSRAM == false) {
-    //     am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
-    //         .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
-    //         .eActiveWithMCU  = AM_HAL_PWRCTRL_SRAM_NONE,
-    //         .eActiveWithGFX  = AM_HAL_PWRCTRL_SRAM_NONE,
-    //         .eActiveWithDISP = AM_HAL_PWRCTRL_SRAM_NONE,          
-    //         .eSRAMRetain     = AM_HAL_PWRCTRL_SRAM_NONE
-    //     };
-    //     am_hal_pwrctrl_sram_config(&SRAMMemCfg);
-
-    // } else {
-    //      am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
-    //         .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_3M,
-    //         .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_NONE,
-    //         .eActiveWithGFX   = AM_HAL_PWRCTRL_SRAM_NONE,
-    //         .eActiveWithDISP  = AM_HAL_PWRCTRL_SRAM_NONE,          
-    //         .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_3M
-    //     };       
-    //     am_hal_pwrctrl_sram_config(&SRAMMemCfg);
-
-    // }
     #define ALL_RETAIN 1
     am_hal_pwrctrl_mcu_memory_config_t McuMemCfg =
     {
@@ -260,29 +119,105 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
         #if defined(AM_PART_APOLLO5A)
                 .bEnableNVM     = true,
         #else
-                .eNVMCfg        = AM_HAL_PWRCTRL_NVM0_AND_NVM1,
+        .eNVMCfg        = AM_HAL_PWRCTRL_NVM0_AND_NVM1,
+        // .eNVMCfg        = AM_HAL_PWRCTRL_NVM0_ONLY,
         #endif
-//         .bEnableNVM     = true,
-//         // .bRetainNVM     = true 
-        .bKeepNVMOnInDeepSleep     = true 
+        .bKeepNVMOnInDeepSleep     = false 
     };
 
     am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
 
+#if defined(AM_PART_APOLLO5A)
+    MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
+    MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
+    MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
+#else
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
+#endif
+
+    if (pCfg->bNeedSharedSRAM == false) {
+        am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
+            .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithMCU  = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithGFX  = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithDISP = AM_HAL_PWRCTRL_SRAM_NONE,          
+            .eSRAMRetain     = AM_HAL_PWRCTRL_SRAM_NONE
+        };
+        am_hal_pwrctrl_sram_config(&SRAMMemCfg);
+
+    } else {
+         am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
+            .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_3M,
+            .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithGFX   = AM_HAL_PWRCTRL_SRAM_NONE,
+            .eActiveWithDISP  = AM_HAL_PWRCTRL_SRAM_NONE,          
+            .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_3M
+        };       
+        am_hal_pwrctrl_sram_config(&SRAMMemCfg);
+    };
+}
+
+
+int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
+    uint32_t ui32ReturnStatus = AM_HAL_STATUS_SUCCESS;
+
+#ifndef NS_DISABLE_API_VALIDATION
+    if (pCfg == NULL) {
+        return NS_STATUS_INVALID_HANDLE;
+    }
+
+    if (ns_core_check_api(
+            pCfg->api, &ns_power_oldest_supported_version, &ns_power_current_version)) {
+        return NS_STATUS_INVALID_VERSION;
+    }
+
+    if (!ns_core_initialized()) {
+        // Power needs ns_core to be initialized first
+        return NS_STATUS_INIT_FAILED;
+    }
+#endif
+
+    am_bsp_low_power_init();
+
+    #ifdef apollo510_evb_neverever
+    // PATCH USB for EVB
+    am_hal_clkmgr_board_info_t sClkmgrBoardInfo =
+    {
+        .sXtalHs.eXtalHsMode    = AM_BSP_XTAL_HS_MODE,
+        .sXtalHs.ui32XtalHsFreq = AM_BSP_XTAL_HS_FREQ_HZ,
+        .sXtalLs.eXtalLsMode    = AM_BSP_XTAL_LS_MODE,
+        .sXtalLs.ui32XtalLsFreq = AM_BSP_XTAL_LS_FREQ_HZ,
+        .ui32ExtRefClkFreq      = AM_BSP_EXTREF_CLK_FREQ_HZ
+    };
+    am_hal_clkmgr_board_info_set(&sClkmgrBoardInfo);
+
+    // Default the config for HFRC and HFRC2 as Free Run clock.
+    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC, AM_HAL_CLKMGR_HFRC_FREQ_FREE_RUN_APPROX_48MHZ, NULL);
+    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC2, AM_HAL_CLKMGR_HFRC2_FREQ_FREE_RUN_APPROX_250MHZ, NULL);
+    #endif
+
+
+
     // Configure the cache, Enable the I-Cache and D-Cache.
-    am_hal_cachectrl_icache_enable();
-    am_hal_cachectrl_dcache_enable(true);
+    // am_hal_cachectrl_icache_enable();
+    // am_hal_cachectrl_dcache_enable(true);
 
     // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_DIS_PERIPHS_ALL, 0);
     // MCUCTRL->XTALCTRL = 0;
     // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
-    // am_hal_rtc_osc_disable();
-    // VCOMP->PWDKEY = VCOMP_PWDKEY_PWDKEY_Key;
-    // MCUCTRL->DBGCTRL = 0;
-    // // Powering down various peripheral power domains
-    // am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DEBUG);
-    // am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
-    // am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_OTP); 
+    am_hal_rtc_osc_select(AM_HAL_RTC_OSC_LFRC); // Use LFRC instead of XT
+    am_hal_rtc_osc_disable();
+    VCOMP->PWDKEY = VCOMP_PWDKEY_PWDKEY_Key;
+    MCUCTRL->DBGCTRL = 0;
+    // Powering down various peripheral power domains
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_DEBUG);
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
+    am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_OTP);
+
+    ns_power_memory_config(pCfg);
+
     am_hal_sysctrl_fpu_enable();
     am_hal_sysctrl_fpu_stacking_enable(true);
 
@@ -292,6 +227,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     // Configure power mode
     ns_delay_us(10000);
     NS_TRY(ns_set_performance_mode(pCfg->eAIPowerMode), "Set CPU Perf mode failed.");
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.CRYPTOCLKGATEN = 1;
 
     if (pCfg->bEnableTempCo) {
         ns_lp_printf("WARNING TempCo not supported.\n");
@@ -302,10 +238,6 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 
     return ui32ReturnStatus;
 }
-
-
-
-
 
 // Main function for power configuration
 uint32_t ns_power_platform_config_old(const ns_power_config_t *pCfg) {

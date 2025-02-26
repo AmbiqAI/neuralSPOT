@@ -24,6 +24,7 @@ typedef enum { NS_SPI_STATUS_SUCCESS = 0, NS_SPI_STATUS_ERROR = 1 } ns_spi_statu
 struct ns_spi_cfg;
 typedef void (*ns_spi_cb)(struct ns_spi_cfg *);
 
+
 // SPI Driver Configuration
 typedef struct ns_spi_cfg {
     int8_t iom; // Apollo4 IOM port
@@ -32,6 +33,9 @@ typedef struct ns_spi_cfg {
     am_hal_iom_config_t sIomCfg; //  AmbiqSuite IOM config
     ns_spi_cb cb;                // Callback
 } ns_spi_config_t;
+
+// ISR Handler
+void ns_spi_handle_iom_isr (void);
 
 /**
  * @brief Initialize the SPI interface

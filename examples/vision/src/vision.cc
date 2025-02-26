@@ -131,6 +131,14 @@ static uint8_t jpgBuffer[JPG_BUFF_SIZE] __attribute__((aligned(16)));
 void picture_dma_complete(ns_camera_config_t *cfg); 
 void picture_taken_complete(ns_camera_config_t *cfg);
 
+// Camera needs to handle interrupt from the corrent ISR
+#define iom_isr am_iom_isrx(CAM_SPI_IOM)
+#define am_iom_isrx(n) am_iom_isr(n)
+#define am_iom_isr(n) am_iomaster##n##_isr
+extern "C" void iom_isr(void) {
+    ns_spi_handle_iom_isr();
+}
+
 ns_camera_config_t camera_config = {
     .api = &ns_camera_V1_0_0,
     .spiSpeed = CAM_SPI_SPEED,
@@ -175,13 +183,13 @@ uint32_t buffer_length = 0;         // set when DMA is started
 static uint32_t bufferOffset = 0;   // set when DMA is started
 
 void picture_dma_complete(ns_camera_config_t *cfg) {
-    ns_lp_printf("DMA Complete CB\n");
+    // ns_lp_printf("DMA Complete CB\n");
     dmaComplete = true;
 }
 
 void picture_taken_complete(ns_camera_config_t *cfg) {
     pictureTaken = true;
-    ns_lp_printf("Picture taken CB\n");
+    // ns_lp_printf("Picture taken CB\n");
 }
 
 // Helper Functions
@@ -200,14 +208,14 @@ uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 void press_jpg_shutter_button(ns_camera_config_t *cfg) {
     camera_config.imageMode = NS_CAM_IMAGE_MODE_320X320;
     camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_JPEG;
-    ns_lp_printf("Taking JPG picture\n");
+    // ns_lp_printf("Taking JPG picture\n");
     ns_press_shutter_button(cfg);
 }
 
 void press_rgb_shutter_button(ns_camera_config_t *cfg) {
     camera_config.imageMode = NS_CAM_IMAGE_MODE_96X96;
     camera_config.imagePixFmt = NS_CAM_IMAGE_PIX_FMT_RGB565;
-    ns_lp_printf("Taking RGB picture\n");
+    // ns_lp_printf("Taking RGB picture\n");
     ns_press_shutter_button(cfg);
 }
 

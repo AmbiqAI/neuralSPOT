@@ -157,12 +157,12 @@ def read_pmu_definitions(params):
     if params.platform not in ["apollo510_eb", "apollo510_evb"] and params.pmu_config_file != "default":
         print("[WARNING] PMU definitions are only available for Apollo3")
         return None
-    
+
     if params.pmu_config_file == "default":
         # Read PMU definitions from yaml file
         yaml_path = pkg_resources.resource_filename(__name__, 'autodeploy/profiles/ns_pmu_default.yaml')
     else:
-        yaml_path = params.pmu_config_file    
+        yaml_path = params.pmu_config_file
 
     # Read PMU definitions from yaml file
     # yaml_path = pkg_resources.resource_filename(__name__, 'ns_pmu.yaml')
@@ -205,7 +205,7 @@ def find_tty(params):
     tty = None
     ports = serial.tools.list_ports.comports()
 
-    if params.transport is 'USB':
+    if params.transport == 'USB':
         # Look for USB CDC
         for p in ports:
             # print(p)
@@ -230,17 +230,19 @@ def rpc_connect_as_client(params):
     try:
         # Find the TTY of our device by scanning serial USB devices
         # The VID of our device is alway 0xCAFE
-        if params.tty is 'auto':
+        if params.tty == 'auto':
             tty = find_tty(params)
             if tty is None:
                 print(f"Couldn't find tty device on {params.transport}, trying a reset")
                 # reset pyserial
-                
+
                 reset_dut(params)
                 tty = find_tty(params)
                 if tty is None:
                     print("Couldn't find tty device after reset")
                     exit(1)
+        else:
+            tty = params.tty
 
         transport = erpc.transport.SerialTransport(tty, 115200)
         clientManager = erpc.client.ClientManager(

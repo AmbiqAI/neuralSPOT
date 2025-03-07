@@ -198,7 +198,11 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         relative_build_path = relative_build_path.replace("\\", "/")
 
     # Platform Settings
-    ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+    if params.toolchain == "arm":
+        ps = f"PLATFORM={params.platform} TOOLCHAIN={params.toolchain} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+    else:
+        # toolchain is gcc, which is default
+        ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
 
     # Generate library and example binary
     if params.onboard_perf:

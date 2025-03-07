@@ -214,8 +214,6 @@ else
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 endif
 
 # %.size: %.axf

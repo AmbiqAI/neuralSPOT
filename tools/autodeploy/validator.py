@@ -797,13 +797,17 @@ def compile_and_deploy(params, mc, first_time=False):
         ws1 = "&&"
     else:
         ws3 = "NUL"
-        ws = "-j"
+        ws = "-j4"
         ws1 = "&"
         # d = d.replace("/", "\\")
         relative_build_path = relative_build_path.replace("\\", "/")
 
     # Platform Settings
-    ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+    if params.toolchain == "arm":
+        ps = f"PLATFORM={params.platform} TOOLCHAIN={params.toolchain} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+    else:
+        # toolchain is gcc, which is default
+        ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
 
     if first_time:
         makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make clean >{ws3} 2>&1 ")

@@ -241,6 +241,8 @@ def rpc_connect_as_client(params):
                 if tty is None:
                     print("Couldn't find tty device after reset")
                     exit(1)
+        else:
+            tty = params.tty
 
         transport = erpc.transport.SerialTransport(tty, 115200)
         clientManager = erpc.client.ClientManager(

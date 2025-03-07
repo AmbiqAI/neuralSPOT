@@ -13,6 +13,7 @@
 #include "ns_pmu_map.h"
 #include "ns_pmu_utils.h"
 #include <string.h>
+#include <stdio.h>
 
 static am_util_pmu_config_t ns_am_pmu_config;
 // static am_util_pmu_profiling_t ns_am_pmu_profiling;
@@ -91,10 +92,10 @@ uint32_t ns_pmu_init(ns_pmu_config_t *cfg) {
     }
 
     // Check API
-    if (ns_core_check_api(cfg->api, &ns_pmu_oldest_supported_version, &ns_pmu_current_version) != NS_STATUS_SUCCESS) {
-        ns_lp_printf("Invalid API version\n");
-        return NS_STATUS_INVALID_VERSION;
-    }
+    //if (ns_core_check_api(cfg->api, &ns_pmu_oldest_supported_version, &ns_pmu_current_version) != NS_STATUS_SUCCESS) {
+    //    ns_lp_printf("Invalid API version\n");
+    //    return NS_STATUS_INVALID_VERSION;
+    //}
 
     // Check that the total number of counters fits in the PMU
     for (int i = 0; i < 8; i++) {
@@ -217,17 +218,22 @@ void ns_delta_pmu(ns_pmu_counters_t *s, ns_pmu_counters_t *e, ns_pmu_counters_t 
     }
 }
 
-uint32_t ns_pmu_print_counters(ns_pmu_config_t *cfg) {
+uint32_t ns_pmu_print_counters(ns_pmu_config_t *cfg, char** names, uint32_t** values) {
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
     }
 
+    uint32_t size = 0;
     for (int i = 0; i < 8; i++) {
         if (cfg->events[i].enabled) {
             uint32_t mapIndex = cfg->counter[i].mapIndex;
             // ns_lp_printf("Counter %s (%s): 0x%x\n", ns_pmu_map[mapIndex].regname, ns_pmu_map[mapIndex].description, cfg->counter[i].counterValue);
-            ns_lp_printf("%d, \t%s, \t \"%s\"\n", cfg->counter[i].counterValue, ns_pmu_map[mapIndex].regname, ns_pmu_map[mapIndex].description);
-
+            //ns_lp_printf("%d, \t%s, \t \"%s\"\n", cfg->counter[i].counterValue, ns_pmu_map[mapIndex].regname, ns_pmu_map[mapIndex].description);
+            //
+            size = sprintf(*names, "%s, ", ns_pmu_map[mapIndex].regname);
+            *names += size;
+            **values = cfg->counter[i].counterValue;
+            *values += 1;
         }
     }
     return NS_STATUS_SUCCESS;
@@ -268,20 +274,34 @@ void ns_pmu_event_create(ns_pmu_event_t *event, uint32_t eventId, ns_pmu_event_c
 
 // Characterize a function by repeatedly calling it and checking different PMU counters every time
 
-void ns_pmu_characterize_function(invoke_fp func, ns_pmu_config_t *cfg) {
+void ns_pmu_characterize_function(invoke_fp func, ns_pmu_config_t *cfg, char* names, uint32_t* values) {
 
     // Walk through every event counter in PMU map
-    for (int map_index = 0; map_index < NS_PMU_MAP_SIZE; map_index++) {
+    for (int map_index = 0; map_index < NS_PMU_MAP_SIZE; map_index) {
+        ns_pmu_reset_config(cfg);
         // We can do 4 32b counters at a time
-        ns_pmu_event_create(&(cfg->events[0]), ns_pmu_map[map_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
-        ns_pmu_event_create(&(cfg->events[1]), ns_pmu_map[(++map_index)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
-        ns_pmu_event_create(&(cfg->events[2]), ns_pmu_map[(++map_index)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
-        ns_pmu_event_create(&(cfg->events[3]), ns_pmu_map[(++map_index)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        ns_pmu_event_create(&(cfg->events[0]), ns_pmu_map[map_index++].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        if(map_index >= NS_PMU_MAP_SIZE) goto profile;
 
+        ns_pmu_event_create(&(cfg->events[1]), ns_pmu_map[(map_index++)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        if(map_index >= NS_PMU_MAP_SIZE) goto profile;
+
+        ns_pmu_event_create(&(cfg->events[2]), ns_pmu_map[(map_index++)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        if(map_index >= NS_PMU_MAP_SIZE) goto profile;
+
+        ns_pmu_event_create(&(cfg->events[3]), ns_pmu_map[(map_index++)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        if(map_index >= NS_PMU_MAP_SIZE) goto profile;
+
+        profile:
         ns_pmu_init(cfg);
         // Call the function
         func();
-        ns_pmu_get_counters(cfg);
-        ns_pmu_print_counters(cfg);
+        uint32_t result = ns_pmu_get_counters(cfg);
+        if (result == NS_STATUS_INIT_FAILED) {
+            break;
+        }
+
+        ns_pmu_print_counters(cfg, &names, &values);
     }
+    //*names = '\0';
 }

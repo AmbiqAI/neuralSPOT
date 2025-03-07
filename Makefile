@@ -174,7 +174,7 @@ doc_sources += $(addprefix ../../,$(includes_api))
 deploy_target = $(filter %$(TARGET).bin, $(examples))
 # $(info deploy_target: $(deploy_target))
 # $(info TARGET: $(TARGET))
-# $(info examples: $(examples))
+$(info examples: $(examples))
 
 $(bindirs):
 	$(Q) $(MKD) -p $@

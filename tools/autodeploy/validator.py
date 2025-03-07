@@ -735,8 +735,8 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         table.append(row)
         offset = offset + computed_stat_per_event_size
 
+    totalMacs += 1
     log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
-
     if platform == 5:
         log.info(
             f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"

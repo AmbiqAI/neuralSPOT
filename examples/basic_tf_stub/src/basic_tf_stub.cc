@@ -105,7 +105,10 @@ int main(void) {
 #else
     // Pick either ns_uart_printf_enable or ns_itm_printf_enable dependin on your needs
     // ns_uart_printf_enable(); // use uart to print, uses less power
+    // eeee
     ns_itm_printf_enable();
+    //am_hal_itm_parameters_set(AM_HAL_TPIU_BAUD_1M);
+
     /* A note about printf and low power: printing over ITM impacts low power in two
         ways:
         1) enabling ITM prevents SoC from entering deep sleep, and

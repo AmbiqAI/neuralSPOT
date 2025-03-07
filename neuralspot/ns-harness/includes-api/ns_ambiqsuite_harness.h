@@ -25,6 +25,7 @@ extern "C" {
 
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
+    #include "am_hal_itm.h"
     #include "am_util.h"
     #include "ns_core.h"
     #include "ns_timer.h"

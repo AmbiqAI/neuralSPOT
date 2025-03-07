@@ -207,6 +207,10 @@ am_util_pmu_init(am_util_pmu_config_t *pPMUConfig)
         return AM_HAL_STATUS_OUT_OF_RANGE;
     }
 
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    PMU->CTRL |= 1;
+    DWT->CTRL |= 1;
+
     //
     // Configure for general debug i.e. DBG power, tracing, TPIU, etc.
     //
@@ -270,7 +274,6 @@ am_util_pmu_init(am_util_pmu_config_t *pPMUConfig)
     // Enable Cycle Counter and Event Counters
     //
     cntr_enable(pPMUConfig->ui32Counters);
-
     return AM_HAL_STATUS_SUCCESS;
 } // am_util_pmu_init()
 

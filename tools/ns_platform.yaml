@@ -138,7 +138,17 @@ apollo510_evb:
   clock_lp: 96
   clock_hp: 250
   as_version: R5.2.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: bdeb84
+  #tflm_version: b6fa6d9
+  #tflm_version: 4c512e3
+  #tflm_version: a4e31ed
+  #tflm_version: 3fdfb4f
+  #tflm_version: a465a8c
+  #tflm_version: 996cb6
+  #tflm_version: 8f6ff949
+  #
+
+
   features:
     - mcu
     - usb

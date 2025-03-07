@@ -152,5 +152,5 @@ const ns_pmu_map_t ns_pmu_map[] = {
     // {0x401B,"ARM_PMU_CTI_TRIGOUT7","Cross-trigger Interface output trigger 7"}
 };
 
-#define NS_PMU_MAP_SIZE sizeof(ns_pmu_map) / sizeof(ns_pmu_map_t)
+#define NS_PMU_MAP_SIZE (sizeof(ns_pmu_map) / sizeof(ns_pmu_map_t))
 #endif // NS_PMU_MAP_H

@@ -261,13 +261,13 @@ MicroProfiler::LogTicksPerTagCsv() {
         TFLITE_DCHECK(tags_[i] != nullptr);
         int position = FindExistingOrNextPosition(tags_[i]);
         TFLITE_DCHECK(position >= 0);
-        total_ticks_per_tag[position].tag = tags_[i];
-        total_ticks_per_tag[position].ticks = total_ticks_per_tag[position].ticks + ticks;
+        total_ticks_per_tag_[position].tag = tags_[i];
+        total_ticks_per_tag_[position].ticks = total_ticks_per_tag_[position].ticks + ticks;
         total_ticks += ticks;
     }
 
     for (int i = 0; i < num_events_; ++i) {
-        TicksPerTag each_tag_entry = total_ticks_per_tag[i];
+        TicksPerTag each_tag_entry = total_ticks_per_tag_[i];
         if (each_tag_entry.tag == nullptr) {
             break;
         }
@@ -286,7 +286,7 @@ int
 MicroProfiler::FindExistingOrNextPosition(const char *tag_name) {
     int pos = 0;
     for (; pos < num_events_; pos++) {
-        TicksPerTag each_tag_entry = total_ticks_per_tag[pos];
+        TicksPerTag each_tag_entry = total_ticks_per_tag_[pos];
         if (each_tag_entry.tag == nullptr || strcmp(each_tag_entry.tag, tag_name) == 0) {
             return pos;
         }

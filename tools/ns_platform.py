@@ -32,7 +32,7 @@ class AmbiqPlatform:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8) - 70) # 70K holdback
         else:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8))
-        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] * .65))
+        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 50)) # 50K holdback
         self.platform_config["mram"] = int(math.ceil(self.platform_config["mram"] * .8))
 
     def GetSupportsUsb(self):

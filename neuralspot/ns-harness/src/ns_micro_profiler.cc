@@ -13,6 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
+// Recent versions of TFLM changed the name of some internals
+// #define NS_TFLM_NEW_MICRO_PROFILER
+#ifdef NS_TFLM_NEW_MICRO_PROFILER
+#define NS_TOTAL_TICKS total_ticks_per_tag_
+#else
+#define NS_TOTAL_TICKS total_ticks_per_tag
+#endif
+
 #if defined(NS_MLPROFILE)
 
     #include "ns_debug_log.h"
@@ -261,13 +269,13 @@ MicroProfiler::LogTicksPerTagCsv() {
         TFLITE_DCHECK(tags_[i] != nullptr);
         int position = FindExistingOrNextPosition(tags_[i]);
         TFLITE_DCHECK(position >= 0);
-        total_ticks_per_tag[position].tag = tags_[i];
-        total_ticks_per_tag[position].ticks = total_ticks_per_tag[position].ticks + ticks;
+        NS_TOTAL_TICKS[position].tag = tags_[i];
+        NS_TOTAL_TICKS[position].ticks = NS_TOTAL_TICKS[position].ticks + ticks;
         total_ticks += ticks;
     }
 
     for (int i = 0; i < num_events_; ++i) {
-        TicksPerTag each_tag_entry = total_ticks_per_tag[i];
+        TicksPerTag each_tag_entry = NS_TOTAL_TICKS[i];
         if (each_tag_entry.tag == nullptr) {
             break;
         }
@@ -286,7 +294,7 @@ int
 MicroProfiler::FindExistingOrNextPosition(const char *tag_name) {
     int pos = 0;
     for (; pos < num_events_; pos++) {
-        TicksPerTag each_tag_entry = total_ticks_per_tag[pos];
+        TicksPerTag each_tag_entry = NS_TOTAL_TICKS[pos];
         if (each_tag_entry.tag == nullptr || strcmp(each_tag_entry.tag, tag_name) == 0) {
             return pos;
         }

@@ -7,6 +7,9 @@ DEFINES+= NS_TFSTRUCTURE_RECENT
 
 ifeq ($(ARCH),apollo5)
 	TFP := cm55
+	ifeq ($(GCC14),1)
+		GCC_VERSION +=14
+	endif
 else
 	TFP := cm4
 endif

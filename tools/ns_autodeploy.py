@@ -183,6 +183,7 @@ class adResults:
         self.model_name = p.model_name
         self.p = p
         self.model_size = 0
+        self.arena_size = 0
 
     def print(self):
         print("")
@@ -265,7 +266,7 @@ Notes:
                     )
             with open(self.p.resultlog_file, "a") as f:
                 f.write(
-                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.p.max_arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.p.ambiqsuite_version},{d1}\n"
+                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.p.ambiqsuite_version},{d1}\n"
                 )
 
 
@@ -294,6 +295,9 @@ Notes:
 
     def setModelSize(self, model_size):
         self.model_size = model_size
+
+    def setArenaSize(self, arena_size):
+        self.arena_size = arena_size
 
 def load_yaml_config(configfile):
     with open(configfile, "r") as f:
@@ -723,6 +727,7 @@ def main():
         generateModelLib(params, mc, md, ambiqsuite=True)
         stage += 1
 
+    results.setArenaSize(mc.arena_size_k)
     results.print()
 
 if __name__ == "__main__":

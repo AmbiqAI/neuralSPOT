@@ -32,6 +32,9 @@ def build_command(model, args):
     cmd.extend(["--resultlog-file", args.resultlog_file])
     cmd.extend(["--profile-results-path", args.profile_results_path])
 
+    if args.tflm_version != "auto":
+        cmd.extend(["--tensorflow-version", args.tflm_version])
+
     # Enable joulescope if specified.
     if args.joulescope:
         cmd.append("--joulescope")
@@ -44,7 +47,7 @@ def build_command(model, args):
     if "tflite_filename" not in model:
         print("Error: Each model must specify a 'tflite_filename' in the YAML file.")
         sys.exit(1)
-    cmd.extend(["--tflite-filename", model["tflite_filename"]])
+    cmd.extend(["--tflite-filename", "../"+model["tflite_filename"]])
 
     # Optionally set model name.
     if "model_name" in model:
@@ -75,6 +78,13 @@ def main():
         "--toolchain",
         type=str,
         required=True,
+        help="Target toolchain (e.g. gcc, arm)."
+    )
+    parser.add_argument(
+        "--tflm-version",
+        type=str,
+        required=False,
+        default="auto",
         help="Target toolchain (e.g. gcc, arm)."
     )
     parser.add_argument(

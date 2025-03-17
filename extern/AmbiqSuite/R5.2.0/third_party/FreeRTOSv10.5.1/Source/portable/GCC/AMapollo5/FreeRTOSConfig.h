@@ -60,7 +60,7 @@ extern uint32_t SystemCoreClock;
 #define configENABLE_MPU                                0
 #define configENABLE_FPU                                1
 #define configENABLE_TRUSTZONE                          0
-#define configENABLE_MVE                                0
+#define configENABLE_MVE                                1
 
 /* This part has 16 MPU regions. */
 #define configTOTAL_MPU_REGIONS                         16
@@ -83,15 +83,15 @@ extern uint32_t SystemCoreClock;
     #define configCPU_CLOCK_HZ                          SystemCoreClock
 #endif
 // #if defined(APOLLO5_FPGA)
-//   #if ENABLE_CPU_HP_250  
+//   #if ENABLE_CPU_HP_250
 // 	#define configCPU_CLOCK_HZ                          (20*1000000UL)  //set to 20 to measure actual time, since FPGA is running at 20MHz emulating 250MHz
-//   #else	
-// 	#define configCPU_CLOCK_HZ                          (8*1000000UL)  //set to 8 to measure actual time, since FPGA is running at 8MHz emulating 96MHz	
+//   #else
+// 	#define configCPU_CLOCK_HZ                          (8*1000000UL)  //set to 8 to measure actual time, since FPGA is running at 8MHz emulating 96MHz
 //   #endif
 // #else
-//   #if ENABLE_CPU_HP_250  
+//   #if ENABLE_CPU_HP_250
 // 	#define configCPU_CLOCK_HZ                          (250*1000000UL)
-//   #else	
+//   #else
 // 	#define configCPU_CLOCK_HZ                          (96*1000000UL)
 //   #endif
 // #endif
@@ -114,7 +114,7 @@ extern uint32_t SystemCoreClock;
 #define configUSE_RECURSIVE_MUTEXES                     1
 #define configUSE_QUEUE_SETS                            0
 #define configUSE_TASK_NOTIFICATIONS                    1
-#define configUSE_TRACE_FACILITY                        0
+#define configUSE_TRACE_FACILITY                        1
 
 /* Constants that define which hook (callback) functions should be used. */
 #define configUSE_IDLE_HOOK                             0
@@ -143,7 +143,7 @@ extern uint32_t SystemCoreClock;
 #define INCLUDE_vTaskSuspend                            1
 #define INCLUDE_vTaskDelayUntil                         1
 #define INCLUDE_vTaskDelay                              1
-#define INCLUDE_uxTaskGetStackHighWaterMark             0
+#define INCLUDE_uxTaskGetStackHighWaterMark             1
 #define INCLUDE_xTaskGetIdleTaskHandle                  1
 #define INCLUDE_eTaskGetState                           1
 #define INCLUDE_xTaskResumeFromISR                      0
@@ -181,10 +181,14 @@ extern uint32_t SystemCoreClock;
 
 /* Constants related to the generation of run time stats. */
 #define configGENERATE_RUN_TIME_STATS                   1
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
-#define portGET_RUN_TIME_COUNTER_VALUE()                xTaskGetTickCount()
 #define configTICK_RATE_HZ                              ( ( TickType_t ) 1000 )
 
+// #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
+// #define portGET_RUN_TIME_COUNTER_VALUE()                xTaskGetTickCount()
+extern void RTOS_AppConfigureTimerForRuntimeStats(void);
+extern uint32_t RTOS_AppGetRuntimeCounterValueFromISR(void);
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() RTOS_AppConfigureTimerForRuntimeStats()
+#define portGET_RUN_TIME_COUNTER_VALUE() RTOS_AppGetRuntimeCounterValueFromISR()
 
 /* Allow RTOS objects to be created using RAM provided by the application writer. */
 #define configSUPPORT_STATIC_ALLOCATION         1

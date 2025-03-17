@@ -234,10 +234,13 @@ portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
 }
 /*-----------------------------------------------------------*/
 
+extern void RTOS_AppConfigureTimerForRuntimeStats(void);
+extern uint32_t RTOS_AppGetRuntimeCounterValueFromISR(void);
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() RTOS_AppConfigureTimerForRuntimeStats()
+#define portGET_RUN_TIME_COUNTER_VALUE() RTOS_AppGetRuntimeCounterValueFromISR()
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* PORTMACRO_H */
-

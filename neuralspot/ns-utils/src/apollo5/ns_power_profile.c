@@ -51,6 +51,8 @@
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_power_profile.h"
+// #include "ns_pp.h"
+#include "am_util_debug.h"
 #include "am_bsp.h"
 #include "ns_ambiqsuite_harness.h"
 
@@ -69,1487 +71,489 @@
     (((am_hal_handle_prefix_t *)(h))->s.magic == AM_HAL_MAGIC_PDM))
 #endif
 
-#define AM_VOS_SNAPSHOP_NUMS_STAGES     1
+/****************************************************************************
+ * Example: regmap.c
+ *
+ * This file demonstrates:
+ *   1) A const array `regmap[]` listing all registers-of-interest.
+ *   2) A snapshot buffer for storing up to 5 snapshots of those registers.
+ *   3) Two functions:
+ *       - capture_snapshot(...)  (captures the register values)
+ *       - print_snapshot(...)    (prints in JSON or CSV)
+ *
+ * Include this file in your project, along with the proper CMSIS and board
+ * support headers that define PWRCTRL, MCUCTRL, FPIO, etc. 
+ ****************************************************************************/
 
-//This is the data structure we need to fill up
-am_bsp_pp_b1_t am_bsp_pp1[AM_VOS_SNAPSHOP_NUMS_STAGES]; 
-am_bsp_pp_b2_t am_bsp_pp2[AM_VOS_SNAPSHOP_NUMS_STAGES]; 
-am_bsp_pp_b3_t am_bsp_pp3[AM_VOS_SNAPSHOP_NUMS_STAGES]; 
-am_bsp_pp_b4_t am_bsp_pp4[AM_VOS_SNAPSHOP_NUMS_STAGES]; 
-am_bsp_pp_b5_t am_bsp_pp5[AM_VOS_SNAPSHOP_NUMS_STAGES];
+ 
+ //*****************************************************************************
+ // Our regmap structure as requested.
+ //*****************************************************************************
+ typedef struct {
+     // We store the "address" in a uintptr_t for clarity. 
+     // Alternatively, you could store as `volatile uint32_t *addr;`.
+     uintptr_t          addr; 
+     const char         regname[64];
+     const char         description[128];
+ } regmap_t;
+ 
+#define MCUCTRL_HFRC            (*(volatile uint32_t*)0x400200C0)
+#define MCUCTRL_HFRC2           (*(volatile uint32_t*)0x400200C4)
+#define MCUCTRL_VREFGEN         (*(volatile uint32_t*)0x40020040)
+#define MCUCTRL_VREFGEN3        (*(volatile uint32_t*)0x40020048)
+#define MCUCTRL_VREFGEN5        (*(volatile uint32_t*)0x40020050)
+#define MCUCTRL_MISCPWRCTRL     (*(volatile uint32_t*)0x40020198)
+#define MCUCTRL_SRAMTRIMHP     (*(volatile uint32_t*)0x40020330)
+#define MCUCTRL_SRAMTRIM       (*(volatile uint32_t*)0x40020334)
+#define MCUCTRL_CPUICACHETRIM   (*(volatile uint32_t*)0x40020424)
+#define MCUCTRL_CPUDCACHETRIM   (*(volatile uint32_t*)0x40020428)
+#define MCUCTRL_SSRAMTRIM       (*(volatile uint32_t*)0x4002042C)
+ //*****************************************************************************
+ // The master list of registers-of-interest.
+ // In real code, fill in the 'description' from apollo5b.h or other docs.
+ //*****************************************************************************
+ static const regmap_t g_regmap[] =
+ {
+     // Example PWRCTRL registers
+     { (uintptr_t)&PWRCTRL->MCUPERFREQ,      "PWRCTRL->MCUPERFREQ",      "MCU performance frequency configuration." },
+     { (uintptr_t)&PWRCTRL->DEVPWREN,        "PWRCTRL->DEVPWREN",        "Device power enable." },
+     { (uintptr_t)&PWRCTRL->DEVPWRSTATUS,    "PWRCTRL->DEVPWRSTATUS",    "Device power status." },
+     { (uintptr_t)&PWRCTRL->AUDSSPWREN,      "PWRCTRL->AUDSSPWREN",      "Audio subsystem power enable." },
+     { (uintptr_t)&PWRCTRL->AUDSSPWRSTATUS,  "PWRCTRL->AUDSSPWRSTATUS",  "Audio subsystem power status." },
+     { (uintptr_t)&PWRCTRL->MEMPWREN,        "PWRCTRL->MEMPWREN",        "Memory power enable." },
+     { (uintptr_t)&PWRCTRL->MEMPWRSTATUS,    "PWRCTRL->MEMPWRSTATUS",    "Memory power status." },
+     { (uintptr_t)&PWRCTRL->MEMRETCFG,       "PWRCTRL->MEMRETCFG",       "Memory retention configuration." },
+     { (uintptr_t)&PWRCTRL->SYSPWRSTATUS,    "PWRCTRL->SYSPWRSTATUS",    "System power status." },
+     { (uintptr_t)&PWRCTRL->SSRAMPWREN,      "PWRCTRL->SSRAMPWREN",      "SSRAMP power enable bits." },
+     { (uintptr_t)&PWRCTRL->SSRAMPWRST,      "PWRCTRL->SSRAMPWRST",      "SSRAMP power status." },
+     { (uintptr_t)&PWRCTRL->SSRAMRETCFG,     "PWRCTRL->SSRAMRETCFG",     "SSRAMP retention configuration." },
+     { (uintptr_t)&PWRCTRL->DEVPWREVENTEN,   "PWRCTRL->DEVPWREVENTEN",   "Device power event enable." },
+     { (uintptr_t)&PWRCTRL->MEMPWREVENTEN,   "PWRCTRL->MEMPWREVENTEN",   "Memory power event enable." },
+     { (uintptr_t)&PWRCTRL->MMSOVERRIDE,     "PWRCTRL->MMSOVERRIDE",     "Misc. override bits." },
+     { (uintptr_t)&PWRCTRL->CPUPWRCTRL,      "PWRCTRL->CPUPWRCTRL",      "CPU power control." },
+     { (uintptr_t)&PWRCTRL->PWRCTRLMODESTATUS,"PWRCTRL->PWRCTRLMODESTATUS","PWRCTRL mode status." },
+     { (uintptr_t)&PWRCTRL->CPUPWRSTATUS,    "PWRCTRL->CPUPWRSTATUS",    "CPU power status." },
+     { (uintptr_t)&PWRCTRL->PWRACKOVR,       "PWRCTRL->PWRACKOVR",       "Power-ack override." },
+     { (uintptr_t)&PWRCTRL->PWRCNTDEFVAL,    "PWRCTRL->PWRCNTDEFVAL",    "Power count default value." },
+     { (uintptr_t)&PWRCTRL->GFXPERFREQ,      "PWRCTRL->GFXPERFREQ",      "Graphics performance frequency configuration." },
+     { (uintptr_t)&PWRCTRL->GFXPWRSWSEL,     "PWRCTRL->GFXPWRSWSEL",     "Graphics power switch select." },
+     { (uintptr_t)&PWRCTRL->EPURETCFG,       "PWRCTRL->EPURETCFG",       "EPU retention configuration." },
+     { (uintptr_t)&PWRCTRL->VRCTRL,          "PWRCTRL->VRCTRL",          "Voltage regulator control." },
+     { (uintptr_t)&PWRCTRL->LEGACYVRLPOVR,   "PWRCTRL->LEGACYVRLPOVR",   "Legacy VR low-power override." },
+     { (uintptr_t)&PWRCTRL->VRSTATUS,        "PWRCTRL->VRSTATUS",        "Voltage regulator status." },
+     { (uintptr_t)&PWRCTRL->SRAMCTRL,        "PWRCTRL->SRAMCTRL",        "SRAM control." },
+     { (uintptr_t)&PWRCTRL->ADCSTATUS,       "PWRCTRL->ADCSTATUS",       "ADC power status." },
+     { (uintptr_t)&PWRCTRL->AUDADCSTATUS,    "PWRCTRL->AUDADCSTATUS",    "Audio ADC status." },
+     { (uintptr_t)&PWRCTRL->TONCNTRCTRL,     "PWRCTRL->TONCNTRCTRL",     "TON counter control." },
+     { (uintptr_t)&PWRCTRL->LPOVRTHRESHVDDS, "PWRCTRL->LPOVRTHRESHVDDS", "LPO override threshold VDDS." },
+     { (uintptr_t)&PWRCTRL->LPOVRHYSTCNT,    "PWRCTRL->LPOVRHYSTCNT",    "LPO override hysteresis count." },
+     { (uintptr_t)&PWRCTRL->LPOVRTHRESHVDDF, "PWRCTRL->LPOVRTHRESHVDDF", "LPO override threshold VDDF." },
+     { (uintptr_t)&PWRCTRL->LPOVRTHRESHVDDC, "PWRCTRL->LPOVRTHRESHVDDC", "LPO override threshold VDDC." },
+     { (uintptr_t)&PWRCTRL->LPOVRTHRESHVDDCLV,"PWRCTRL->LPOVRTHRESHVDDCLV","LPO override threshold VDDCLV." },
+     { (uintptr_t)&PWRCTRL->LPOVRSTAT,       "PWRCTRL->LPOVRSTAT",       "LPO override status." },
+     { (uintptr_t)&PWRCTRL->MRAMEXTCTRL,     "PWRCTRL->MRAMEXTCTRL",     "MRAM external control." },
+     { (uintptr_t)&PWRCTRL->EMONCTRL,        "PWRCTRL->EMONCTRL",        "Energy monitor control." },
+     { (uintptr_t)&PWRCTRL->EMONCFG0,        "PWRCTRL->EMONCFG0",        "Energy monitor config 0." },
+     { (uintptr_t)&PWRCTRL->EMONCFG1,        "PWRCTRL->EMONCFG1",        "Energy monitor config 1." },
+     { (uintptr_t)&PWRCTRL->EMONCFG2,        "PWRCTRL->EMONCFG2",        "Energy monitor config 2." },
+     { (uintptr_t)&PWRCTRL->EMONCFG3,        "PWRCTRL->EMONCFG3",        "Energy monitor config 3." },
+     { (uintptr_t)&PWRCTRL->EMONCFG4,        "PWRCTRL->EMONCFG4",        "Energy monitor config 4." },
+     { (uintptr_t)&PWRCTRL->EMONCFG5,        "PWRCTRL->EMONCFG5",        "Energy monitor config 5." },
+     { (uintptr_t)&PWRCTRL->EMONCFG6,        "PWRCTRL->EMONCFG6",        "Energy monitor config 6." },
+     { (uintptr_t)&PWRCTRL->EMONCFG7,        "PWRCTRL->EMONCFG7",        "Energy monitor config 7." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT0,      "PWRCTRL->EMONCOUNT0",      "Energy monitor count 0." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT1,      "PWRCTRL->EMONCOUNT1",      "Energy monitor count 1." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT2,      "PWRCTRL->EMONCOUNT2",      "Energy monitor count 2." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT3,      "PWRCTRL->EMONCOUNT3",      "Energy monitor count 3." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT4,      "PWRCTRL->EMONCOUNT4",      "Energy monitor count 4." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT5,      "PWRCTRL->EMONCOUNT5",      "Energy monitor count 5." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT6,      "PWRCTRL->EMONCOUNT6",      "Energy monitor count 6." },
+     { (uintptr_t)&PWRCTRL->EMONCOUNT7,      "PWRCTRL->EMONCOUNT7",      "Energy monitor count 7." },
+     { (uintptr_t)&PWRCTRL->EMONSTATUS,      "PWRCTRL->EMONSTATUS",      "Energy monitor status." },
+ 
+     // FPIO
+     { (uintptr_t)&FPIO->EN0,                "FPIO->EN0",                "FPIO enable0." },
+     { (uintptr_t)&FPIO->EN1,                "FPIO->EN1",                "FPIO enable1." },
+     { (uintptr_t)&FPIO->EN2,                "FPIO->EN2",                "FPIO enable2." },
+ 
+     // MCUCTRL
+     { (uintptr_t)&MCUCTRL->CHIPPN,          "MCUCTRL->CHIPPN",          "Chip part number." },
+     { (uintptr_t)&MCUCTRL->CHIPID0,         "MCUCTRL->CHIPID0",         "Chip ID0." },
+     { (uintptr_t)&MCUCTRL->CHIPID1,         "MCUCTRL->CHIPID1",         "Chip ID1." },
+     { (uintptr_t)&MCUCTRL->CHIPREV,         "MCUCTRL->CHIPREV",         "Chip revision." },
+     { (uintptr_t)&MCUCTRL->VENDORID,        "MCUCTRL->VENDORID",        "Vendor ID." },
+     { (uintptr_t)&MCUCTRL->SKU,             "MCUCTRL->SKU",             "SKU bits." },
+     { (uintptr_t)&MCUCTRL->SKUOVERRIDE,     "MCUCTRL->SKUOVERRIDE",     "Override SKU." },
+     { (uintptr_t)&MCUCTRL->DEBUGGER,        "MCUCTRL->DEBUGGER",        "Debugger control." },
+     { (uintptr_t)&MCUCTRL->ACRG,            "MCUCTRL->ACRG",            "ACRG config." },
+     { (uintptr_t)&MCUCTRL_VREFGEN,         "MCUCTRL_VREFGEN",         "VREF generator control." },
+     { (uintptr_t)&MCUCTRL->VREFGEN2,        "MCUCTRL->VREFGEN2",        "VREF generator control 2." },
+     { (uintptr_t)&MCUCTRL_VREFGEN3,        "MCUCTRL->VREFGEN3",        "VREF generator control 3." },
+     { (uintptr_t)&MCUCTRL->VREFGEN4,        "MCUCTRL->VREFGEN4",        "VREF generator control 4." },
+     { (uintptr_t)&MCUCTRL_VREFGEN5,        "MCUCTRL->VREFGEN5",        "VREF generator control 5." },
+     { (uintptr_t)&MCUCTRL->VREFBUF,         "MCUCTRL->VREFBUF",         "VREF buffer config." },
+     { (uintptr_t)&MCUCTRL->VRCTRL,          "MCUCTRL->VRCTRL",          "Voltage regulator control." },
+     { (uintptr_t)&MCUCTRL->LDOREG1,         "MCUCTRL->LDOREG1",         "LDO regulator1." },
+     { (uintptr_t)&MCUCTRL->LDOREG2,         "MCUCTRL->LDOREG2",         "LDO regulator2." },
+     { (uintptr_t)&MCUCTRL_HFRC,            "MCUCTRL->HFRC",            "HFRC trim." },
+     { (uintptr_t)&MCUCTRL_HFRC2,           "MCUCTRL->HFRC2",           "HFRC2 trim." },
+     { (uintptr_t)&MCUCTRL->LFRC,            "MCUCTRL->LFRC",            "LFRC control." },
+     { (uintptr_t)&MCUCTRL->BODCTRL,         "MCUCTRL->BODCTRL",         "Brownout detect control." },
+     { (uintptr_t)&MCUCTRL->ADCPWRCTRL,      "MCUCTRL->ADCPWRCTRL",      "ADC power control." },
+     { (uintptr_t)&MCUCTRL->ADCCAL,          "MCUCTRL->ADCCAL",          "ADC calibration." },
+     { (uintptr_t)&MCUCTRL->ADCBATTLOAD,     "MCUCTRL->ADCBATTLOAD",     "ADC battery load." },
+     { (uintptr_t)&MCUCTRL->XTALCTRL,        "MCUCTRL->XTALCTRL",        "XTAL control." },
+     { (uintptr_t)&MCUCTRL->XTALGENCTRL,     "MCUCTRL->XTALGENCTRL",     "XTAL gen control." },
+     { (uintptr_t)&MCUCTRL->XTALHSTRIMS,     "MCUCTRL->XTALHSTRIMS",     "XTAL HS trims." },
+     { (uintptr_t)&MCUCTRL->XTALHSCTRL,      "MCUCTRL->XTALHSCTRL",      "XTAL HS control." },
+     { (uintptr_t)&MCUCTRL->BGTLPCTRL,       "MCUCTRL->BGTLPCTRL",       "Bandgap LP control." },
+     { (uintptr_t)&MCUCTRL->MRAMCRYPTOPWRCTRL,"MCUCTRL->MRAMCRYPTOPWRCTRL","MRAM crypto pwr ctrl." },
+     { (uintptr_t)&MCUCTRL_MISCPWRCTRL,     "MCUCTRL->MISCPWRCTRL",     "Misc power control." },
+     { (uintptr_t)&MCUCTRL->BODISABLE,       "MCUCTRL->BODISABLE",       "BOD disable." },
+     { (uintptr_t)&MCUCTRL->D2ASPARE,        "MCUCTRL->D2ASPARE",        "Spare bits." },
+     { (uintptr_t)&MCUCTRL->BOOTLOADER,      "MCUCTRL->BOOTLOADER",      "Bootloader config." },
+     { (uintptr_t)&MCUCTRL->SHADOWVALID,     "MCUCTRL->SHADOWVALID",     "Shadow registers valid." },
+     { (uintptr_t)&MCUCTRL->SCRATCH0,        "MCUCTRL->SCRATCH0",        "Scratch register 0." },
+     { (uintptr_t)&MCUCTRL->SCRATCH1,        "MCUCTRL->SCRATCH1",        "Scratch register 1." },
+     { (uintptr_t)&MCUCTRL->DBGR1,           "MCUCTRL->DBGR1",           "Debug register 1." },
+     { (uintptr_t)&MCUCTRL->DBGR2,           "MCUCTRL->DBGR2",           "Debug register 2." },
+     { (uintptr_t)&MCUCTRL->WICCONTROL,      "MCUCTRL->WICCONTROL",      "WIC control." },
+     { (uintptr_t)&MCUCTRL->DBGCTRL,         "MCUCTRL->DBGCTRL",         "Debug control." },
+     { (uintptr_t)&MCUCTRL->OTAPOINTER,      "MCUCTRL->OTAPOINTER",      "OTA pointer." },
+     { (uintptr_t)&MCUCTRL->APBDMACTRL,      "MCUCTRL->APBDMACTRL",      "APBDMA control." },
+     { (uintptr_t)&MCUCTRL->FORCEAXICLKEN,   "MCUCTRL->FORCEAXICLKEN",   "Force AXI clock enable." },
+     { (uintptr_t)&MCUCTRL_SRAMTRIMHP,      "MCUCTRL->SRAMTRIMHP",      "SRAM HP trim." },
+     { (uintptr_t)&MCUCTRL_SRAMTRIM,        "MCUCTRL->SRAMTRIM",        "SRAM trim." },
+     { (uintptr_t)&MCUCTRL->KEXTCLKSEL,      "MCUCTRL->KEXTCLKSEL",      "Kext clock select." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK0,       "MCUCTRL->SIMOBUCK0",       "SIMO buck config 0." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK1,       "MCUCTRL->SIMOBUCK1",       "SIMO buck config 1." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK2,       "MCUCTRL->SIMOBUCK2",       "SIMO buck config 2." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK3,       "MCUCTRL->SIMOBUCK3",       "SIMO buck config 3." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK4,       "MCUCTRL->SIMOBUCK4",       "SIMO buck config 4." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK5,       "MCUCTRL->SIMOBUCK5",       "SIMO buck config 5." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK6,       "MCUCTRL->SIMOBUCK6",       "SIMO buck config 6." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK7,       "MCUCTRL->SIMOBUCK7",       "SIMO buck config 7." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK8,       "MCUCTRL->SIMOBUCK8",       "SIMO buck config 8." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK9,       "MCUCTRL->SIMOBUCK9",       "SIMO buck config 9." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK10,      "MCUCTRL->SIMOBUCK10",      "SIMO buck config 10." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK11,      "MCUCTRL->SIMOBUCK11",      "SIMO buck config 11." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK12,      "MCUCTRL->SIMOBUCK12",      "SIMO buck config 12." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK13,      "MCUCTRL->SIMOBUCK13",      "SIMO buck config 13." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK14,      "MCUCTRL->SIMOBUCK14",      "SIMO buck config 14." },
+     { (uintptr_t)&MCUCTRL->SIMOBUCK15,      "MCUCTRL->SIMOBUCK15",      "SIMO buck config 15." },
+     { (uintptr_t)&MCUCTRL->PWRSW0,          "MCUCTRL->PWRSW0",          "Power switch 0." },
+     { (uintptr_t)&MCUCTRL->PWRSW1,          "MCUCTRL->PWRSW1",          "Power switch 1." },
+     { (uintptr_t)&MCUCTRL->USBRSTCTRL,      "MCUCTRL->USBRSTCTRL",      "USB reset ctrl." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT0,     "MCUCTRL->FLASHWPROT0",     "Flash write protect 0." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT1,     "MCUCTRL->FLASHWPROT1",     "Flash write protect 1." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT2,     "MCUCTRL->FLASHWPROT2",     "Flash write protect 2." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT3,     "MCUCTRL->FLASHWPROT3",     "Flash write protect 3." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT0,     "MCUCTRL->FLASHRPROT0",     "Flash read protect 0." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT1,     "MCUCTRL->FLASHRPROT1",     "Flash read protect 1." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT2,     "MCUCTRL->FLASHRPROT2",     "Flash read protect 2." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT3,     "MCUCTRL->FLASHRPROT3",     "Flash read protect 3." },
+     { (uintptr_t)&MCUCTRL->SRAMWPROT0,      "MCUCTRL->SRAMWPROT0",      "SRAM write protect 0." },
+     { (uintptr_t)&MCUCTRL->SRAMWPROT1,      "MCUCTRL->SRAMWPROT1",      "SRAM write protect 1." },
+     { (uintptr_t)&MCUCTRL->SRAMWPROT2,      "MCUCTRL->SRAMWPROT2",      "SRAM write protect 2." },
+     { (uintptr_t)&MCUCTRL->SRAMWPROT3,      "MCUCTRL->SRAMWPROT3",      "SRAM write protect 3." },
+     { (uintptr_t)&MCUCTRL->SRAMWPROT4,      "MCUCTRL->SRAMWPROT4",      "SRAM write protect 4." },
+     { (uintptr_t)&MCUCTRL->SRAMWPROT5,      "MCUCTRL->SRAMWPROT5",      "SRAM write protect 5." },
+     { (uintptr_t)&MCUCTRL->SRAMRPROT0,      "MCUCTRL->SRAMRPROT0",      "SRAM read protect 0." },
+     { (uintptr_t)&MCUCTRL->SRAMRPROT1,      "MCUCTRL->SRAMRPROT1",      "SRAM read protect 1." },
+     { (uintptr_t)&MCUCTRL->SRAMRPROT2,      "MCUCTRL->SRAMRPROT2",      "SRAM read protect 2." },
+     { (uintptr_t)&MCUCTRL->SRAMRPROT3,      "MCUCTRL->SRAMRPROT3",      "SRAM read protect 3." },
+     { (uintptr_t)&MCUCTRL->SRAMRPROT4,      "MCUCTRL->SRAMRPROT4",      "SRAM read protect 4." },
+     { (uintptr_t)&MCUCTRL->SRAMRPROT5,      "MCUCTRL->SRAMRPROT5",      "SRAM read protect 5." },
+     { (uintptr_t)&MCUCTRL_CPUICACHETRIM,   "MCUCTRL->CPUICACHETRIM",   "CPU Icache trim." },
+     { (uintptr_t)&MCUCTRL_CPUDCACHETRIM,   "MCUCTRL->CPUDCACHETRIM",   "CPU Dcache trim." },
+     { (uintptr_t)&MCUCTRL_SSRAMTRIM,       "MCUCTRL->SSRAMTRIM",       "SSRAM trim." },
+     { (uintptr_t)&MCUCTRL->AUDADCPWRCTRL,   "MCUCTRL->AUDADCPWRCTRL",   "Audio ADC power ctrl." },
+     { (uintptr_t)&MCUCTRL->AUDIO1,          "MCUCTRL->AUDIO1",          "Audio config register 1." },
+     { (uintptr_t)&MCUCTRL->PGAADCIFCTRL,    "MCUCTRL->PGAADCIFCTRL",    "PGA ADC IF ctrl." },
+     { (uintptr_t)&MCUCTRL->PGACTRL1,        "MCUCTRL->PGACTRL1",        "PGA control1." },
+     { (uintptr_t)&MCUCTRL->PGACTRL2,        "MCUCTRL->PGACTRL2",        "PGA control2." },
+     { (uintptr_t)&MCUCTRL->AUDADCPWRDLY,    "MCUCTRL->AUDADCPWRDLY",    "Audio ADC power delay." },
+     { (uintptr_t)&MCUCTRL->SDIO0CTRL,       "MCUCTRL->SDIO0CTRL",       "SDIO 0 control." },
+     { (uintptr_t)&MCUCTRL->SDIO1CTRL,       "MCUCTRL->SDIO1CTRL",       "SDIO 1 control." },
+     { (uintptr_t)&MCUCTRL->PDMCTRL,         "MCUCTRL->PDMCTRL",         "PDM control." },
+     { (uintptr_t)&MCUCTRL->MMSMISCCTRL,     "MCUCTRL->MMSMISCCTRL",     "MMS misc control." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT4,     "MCUCTRL->FLASHWPROT4",     "Flash write protect 4." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT5,     "MCUCTRL->FLASHWPROT5",     "Flash write protect 5." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT6,     "MCUCTRL->FLASHWPROT6",     "Flash write protect 6." },
+     { (uintptr_t)&MCUCTRL->FLASHWPROT7,     "MCUCTRL->FLASHWPROT7",     "Flash write protect 7." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT4,     "MCUCTRL->FLASHRPROT4",     "Flash read protect 4." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT5,     "MCUCTRL->FLASHRPROT5",     "Flash read protect 5." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT6,     "MCUCTRL->FLASHRPROT6",     "Flash read protect 6." },
+     { (uintptr_t)&MCUCTRL->FLASHRPROT7,     "MCUCTRL->FLASHRPROT7",     "Flash read protect 7." },
+     { (uintptr_t)&MCUCTRL->PWRSW2,          "MCUCTRL->PWRSW2",          "Power switch 2." },
+     { (uintptr_t)&MCUCTRL->CPUCFG,          "MCUCTRL->CPUCFG",          "CPU config." },
+     { (uintptr_t)&MCUCTRL->PLLCTL0,         "MCUCTRL->PLLCTL0",         "PLL ctrl0." },
+     { (uintptr_t)&MCUCTRL->PLLDIV0,         "MCUCTRL->PLLDIV0",         "PLL div0." },
+     { (uintptr_t)&MCUCTRL->PLLDIV1,         "MCUCTRL->PLLDIV1",         "PLL div1." },
+     { (uintptr_t)&MCUCTRL->PLLSTAT,         "MCUCTRL->PLLSTAT",         "PLL status." },
+     { (uintptr_t)&MCUCTRL->PLLMUXCTL,       "MCUCTRL->PLLMUXCTL",       "PLL mux ctrl." },
+ 
+     // CLKGEN
+     { (uintptr_t)&CLKGEN->OCTRL,            "CLKGEN->OCTRL",            "Oscillator control." },
+     { (uintptr_t)&CLKGEN->CLKOUT,           "CLKGEN->CLKOUT",           "Clock output config." },
+     { (uintptr_t)&CLKGEN->HFADJ,            "CLKGEN->HFADJ",            "HFRC adjust." },
+     { (uintptr_t)&CLKGEN->CLOCKENSTAT,      "CLKGEN->CLOCKENSTAT",      "Clock enable status." },
+     { (uintptr_t)&CLKGEN->CLOCKEN2STAT,     "CLKGEN->CLOCKEN2STAT",     "Clock enable2 status." },
+     { (uintptr_t)&CLKGEN->CLOCKEN3STAT,     "CLKGEN->CLOCKEN3STAT",     "Clock enable3 status." },
+     { (uintptr_t)&CLKGEN->MISC,             "CLKGEN->MISC",             "Misc clockgen register." },
+     { (uintptr_t)&CLKGEN->HF2ADJ0,          "CLKGEN->HF2ADJ0",          "HF2 adjust0." },
+     { (uintptr_t)&CLKGEN->HF2ADJ1,          "CLKGEN->HF2ADJ1",          "HF2 adjust1." },
+     { (uintptr_t)&CLKGEN->HF2ADJ2,          "CLKGEN->HF2ADJ2",          "HF2 adjust2." },
+     { (uintptr_t)&CLKGEN->HF2VAL,           "CLKGEN->HF2VAL",           "HF2 value." },
+     { (uintptr_t)&CLKGEN->LFRCCTRL,         "CLKGEN->LFRCCTRL",         "LFRC control." },
+     { (uintptr_t)&CLKGEN->DISPCLKCTRL,      "CLKGEN->DISPCLKCTRL",      "Display clock ctrl." },
+     { (uintptr_t)&CLKGEN->CLKGENSPARES,     "CLKGEN->CLKGENSPARES",     "Clockgen spares." },
+     { (uintptr_t)&CLKGEN->HFRCIDLECOUNTERS, "CLKGEN->HFRCIDLECOUNTERS", "HFRC idle counters." },
+     { (uintptr_t)&CLKGEN->MSPIIOCLKCTRL,    "CLKGEN->MSPIIOCLKCTRL",    "MSPI IO clock ctrl." },
+     { (uintptr_t)&CLKGEN->CLKCTRL,          "CLKGEN->CLKCTRL",          "Clock control." },
+ 
+     // STIMER
+     { (uintptr_t)&STIMER->STCFG,            "STIMER->STCFG",            "System timer config." },
+     { (uintptr_t)&STIMER->STMINTSTAT,       "STIMER->STMINTSTAT",       "System timer interrupt status." },
+ 
+     // TIMER
+     { (uintptr_t)&TIMER->CTRL,              "TIMER->CTRL",              "Timer control." },
+     { (uintptr_t)&TIMER->STATUS,            "TIMER->STATUS",            "Timer status." },
+     { (uintptr_t)&TIMER->GLOBEN,            "TIMER->GLOBEN",            "Timer global enable." },
+     { (uintptr_t)&TIMER->INTSTAT,           "TIMER->INTSTAT",           "Timer interrupt status." },
+     { (uintptr_t)&TIMER->CTRL0,             "TIMER->CTRL0",             "Timer channel0 ctrl." },
+     { (uintptr_t)&TIMER->CTRL1,             "TIMER->CTRL1",             "Timer channel1 ctrl." },
+     { (uintptr_t)&TIMER->CTRL2,             "TIMER->CTRL2",             "Timer channel2 ctrl." },
+     { (uintptr_t)&TIMER->CTRL3,             "TIMER->CTRL3",             "Timer channel3 ctrl." },
+     { (uintptr_t)&TIMER->CTRL4,             "TIMER->CTRL4",             "Timer channel4 ctrl." },
+     { (uintptr_t)&TIMER->CTRL5,             "TIMER->CTRL5",             "Timer channel5 ctrl." },
+     { (uintptr_t)&TIMER->CTRL6,             "TIMER->CTRL6",             "Timer channel6 ctrl." },
+     { (uintptr_t)&TIMER->CTRL7,             "TIMER->CTRL7",             "Timer channel7 ctrl." },
+     { (uintptr_t)&TIMER->CTRL8,             "TIMER->CTRL8",             "Timer channel8 ctrl." },
+     { (uintptr_t)&TIMER->CTRL9,             "TIMER->CTRL9",             "Timer channel9 ctrl." },
+     { (uintptr_t)&TIMER->CTRL10,            "TIMER->CTRL10",            "Timer channel10 ctrl." },
+     { (uintptr_t)&TIMER->CTRL11,            "TIMER->CTRL11",            "Timer channel11 ctrl." },
+     { (uintptr_t)&TIMER->CTRL12,            "TIMER->CTRL12",            "Timer channel12 ctrl." },
+     { (uintptr_t)&TIMER->CTRL13,            "TIMER->CTRL13",            "Timer channel13 ctrl." },
+     { (uintptr_t)&TIMER->CTRL14,            "TIMER->CTRL14",            "Timer channel14 ctrl." },
+     { (uintptr_t)&TIMER->CTRL15,            "TIMER->CTRL15",            "Timer channel15 ctrl." },
+ 
+     // AUDADC
+     /*
+     { (uintptr_t)&AUDADC->CFG,              "AUDADC->CFG",              "Audio ADC config." },
+     { (uintptr_t)&AUDADC->STAT,             "AUDADC->STAT",             "Audio ADC status." },
+     { (uintptr_t)&AUDADC->SWT,              "AUDADC->SWT",              "Software trigger." },
+     { (uintptr_t)&AUDADC->SL0CFG,           "AUDADC->SL0CFG",           "Slot0 config." },
+     { (uintptr_t)&AUDADC->SL1CFG,           "AUDADC->SL1CFG",           "Slot1 config." },
+     { (uintptr_t)&AUDADC->SL2CFG,           "AUDADC->SL2CFG",           "Slot2 config." },
+     { (uintptr_t)&AUDADC->SL3CFG,           "AUDADC->SL3CFG",           "Slot3 config." },
+     { (uintptr_t)&AUDADC->SL4CFG,           "AUDADC->SL4CFG",           "Slot4 config." },
+     { (uintptr_t)&AUDADC->SL5CFG,           "AUDADC->SL5CFG",           "Slot5 config." },
+     { (uintptr_t)&AUDADC->SL6CFG,           "AUDADC->SL6CFG",           "Slot6 config." },
+     { (uintptr_t)&AUDADC->SL7CFG,           "AUDADC->SL7CFG",           "Slot7 config." },
+     { (uintptr_t)&AUDADC->WULIM,            "AUDADC->WULIM",            "Window upper limit." },
+     { (uintptr_t)&AUDADC->WLLIM,            "AUDADC->WLLIM",            "Window lower limit." },
+     { (uintptr_t)&AUDADC->SCWLIM,           "AUDADC->SCWLIM",           "Short-circuit window limit." },
+     { (uintptr_t)&AUDADC->FIFO,             "AUDADC->FIFO",             "ADC FIFO data." },
+     { (uintptr_t)&AUDADC->FIFOPR,           "AUDADC->FIFOPR",           "ADC FIFO peek." },
+     { (uintptr_t)&AUDADC->FIFOSTAT,         "AUDADC->FIFOSTAT",         "ADC FIFO status." },
+     { (uintptr_t)&AUDADC->DATAOFFSET,       "AUDADC->DATAOFFSET",       "Data offset correction." },
+     { (uintptr_t)&AUDADC->ZXCFG,            "AUDADC->ZXCFG",            "Zero crossing config." },
+     { (uintptr_t)&AUDADC->ZXLIM,            "AUDADC->ZXLIM",            "Zero crossing limit." },
+     { (uintptr_t)&AUDADC->GAINCFG,          "AUDADC->GAINCFG",          "Gain config." },
+     { (uintptr_t)&AUDADC->GAIN,             "AUDADC->GAIN",             "Gain register." },
+     { (uintptr_t)&AUDADC->SATCFG,           "AUDADC->SATCFG",           "Saturation config." },
+     { (uintptr_t)&AUDADC->SATLIM,           "AUDADC->SATLIM",           "Saturation limit." },
+     { (uintptr_t)&AUDADC->SATMAX,           "AUDADC->SATMAX",           "Saturation max." },
+     { (uintptr_t)&AUDADC->SATCLR,           "AUDADC->SATCLR",           "Saturation clear." },
+     { (uintptr_t)&AUDADC->INTEN,            "AUDADC->INTEN",            "ADC Interrupt enable." },
+     { (uintptr_t)&AUDADC->INTSTAT,          "AUDADC->INTSTAT",          "ADC Interrupt status." },
+     { (uintptr_t)&AUDADC->INTCLR,           "AUDADC->INTCLR",           "ADC Interrupt clear." },
+     { (uintptr_t)&AUDADC->INTSET,           "AUDADC->INTSET",           "ADC Interrupt set." },
+     { (uintptr_t)&AUDADC->DMATRIGEN,        "AUDADC->DMATRIGEN",        "ADC DMA trigger enable." },
+     { (uintptr_t)&AUDADC->DMATRIGSTAT,      "AUDADC->DMATRIGSTAT",      "ADC DMA trigger status." },
+     { (uintptr_t)&AUDADC->DMACFG,           "AUDADC->DMACFG",           "ADC DMA config." },
+     { (uintptr_t)&AUDADC->DMATOTCOUNT,      "AUDADC->DMATOTCOUNT",      "ADC DMA total count." },
+     { (uintptr_t)&AUDADC->DMATARGADDR,      "AUDADC->DMATARGADDR",      "ADC DMA target addr." },
+     { (uintptr_t)&AUDADC->DMASTAT,          "AUDADC->DMASTAT",          "ADC DMA status." },
+ 
+     // PDM (example for PDMn(0))
+     { (uintptr_t)&(PDMn(0)->CTRL),              "PDMn(0)->CTRL",              "PDM ctrl." },
+     { (uintptr_t)&(PDMn(0)->CORECFG0),          "PDMn(0)->CORECFG0",          "PDM core cfg0." },
+     { (uintptr_t)&(PDMn(0)->CORECFG1),          "PDMn(0)->CORECFG1",          "PDM core cfg1." },
+     { (uintptr_t)&(PDMn(0)->CORECTRL),          "PDMn(0)->CORECTRL",          "PDM core ctrl." },
+     { (uintptr_t)&(PDMn(0)->FIFOCNT),           "PDMn(0)->FIFOCNT",           "PDM FIFO count." },
+     { (uintptr_t)&(PDMn(0)->FIFOREAD),          "PDMn(0)->FIFOREAD",          "PDM FIFO read." },
+     { (uintptr_t)&(PDMn(0)->FIFOFLUSH),         "PDMn(0)->FIFOFLUSH",         "PDM FIFO flush." },
+     { (uintptr_t)&(PDMn(0)->FIFOTHR),           "PDMn(0)->FIFOTHR",           "PDM FIFO threshold." },
+     { (uintptr_t)&(PDMn(0)->INTEN),             "PDMn(0)->INTEN",             "PDM interrupt enable." },
+     { (uintptr_t)&(PDMn(0)->INTSTAT),           "PDMn(0)->INTSTAT",           "PDM interrupt status." },
+     { (uintptr_t)&(PDMn(0)->INTCLR),            "PDMn(0)->INTCLR",            "PDM interrupt clear." },
+     { (uintptr_t)&(PDMn(0)->INTSET),            "PDMn(0)->INTSET",            "PDM interrupt set." },
+     { (uintptr_t)&(PDMn(0)->DMATRIGEN),         "PDMn(0)->DMATRIGEN",         "PDM DMA trigger enable." },
+     { (uintptr_t)&(PDMn(0)->DMATRIGSTAT),       "PDMn(0)->DMATRIGSTAT",       "PDM DMA trigger status." },
+     { (uintptr_t)&(PDMn(0)->DMACFG),            "PDMn(0)->DMACFG",            "PDM DMA config." },
+     { (uintptr_t)&(PDMn(0)->DMATARGADDR),       "PDMn(0)->DMATARGADDR",       "PDM DMA target addr." },
+     { (uintptr_t)&(PDMn(0)->DMASTAT),           "PDMn(0)->DMASTAT",           "PDM DMA status." },
+     { (uintptr_t)&(PDMn(0)->DMATARGADDRNEXT),   "PDMn(0)->DMATARGADDRNEXT",   "PDM DMA target addr next." },
+     { (uintptr_t)&(PDMn(0)->DMATOTCOUNTNEXT),   "PDMn(0)->DMATOTCOUNTNEXT",   "PDM DMA total count next." },
+     { (uintptr_t)&(PDMn(0)->DMAENNEXTCTRL),     "PDMn(0)->DMAENNEXTCTRL",     "PDM DMA enable next ctrl." },
+     { (uintptr_t)&(PDMn(0)->DMATOTCOUNT),       "PDMn(0)->DMATOTCOUNT",       "PDM DMA total count." },
+      */
+ };
+ 
+ // Determine how many registers are in our map:
+ #define REGMAP_SIZE  (sizeof(g_regmap)/sizeof(g_regmap[0]))
+ 
+ // We will store up to 5 snapshots.  Each snapshot is simply an array of 
+ // the register values read at the time of capture.
+ static uint32_t g_snapshots[5][REGMAP_SIZE];
+ 
+ // A simple boolean to track which snapshot slots are valid (captured).
+ static bool     g_snapshotValid[5] = {false, false, false, false, false};
+ 
+ /******************************************************************************
+  * capture_snapshot
+  *
+  * Captures the current values of all registers-of-interest into snapshotIndex.
+  * snapshotIndex must be in [0..4].
+  ******************************************************************************/
+ void capture_snapshot(int snapshotIndex)
+ {
+     if (snapshotIndex < 0 || snapshotIndex >= 5)
+     {
+         // Out-of-bounds check; handle error as desired.
+         printf("ERROR: capture_snapshot called with invalid snapshot index %d\n", snapshotIndex);
+         return;
+     }
+ 
+     // Iterate over each register in our table and read it
+     for (size_t i = 0; i < REGMAP_SIZE; i++)
+     {
+         // Use volatile read from the address:
+         volatile uint32_t *regPtr = (volatile uint32_t *) (g_regmap[i].addr);
+         // Print out the register name and value
+            // ns_lp_printf("Capturing %d %s: 0x%08lX\n", i, g_regmap[i].regname, *regPtr);
+         g_snapshots[snapshotIndex][i] = *regPtr;
+     }
+ 
+     g_snapshotValid[snapshotIndex] = true;
+ }
+ 
+ /******************************************************************************
+  * print_snapshot
+  *
+  * Prints the contents of the specified snapshot either in JSON or in CSV.
+  * snapshotIndex must be in [0..4].
+  * If bJson == true, output JSON style. Otherwise, CSV style.
+  ******************************************************************************/
+ void print_snapshot(int snapshotIndex, bool bJson)
+ {
+     if (snapshotIndex < 0 || snapshotIndex >= 5)
+     {
+      ns_lp_printf("ERROR: print_snapshot called with invalid snapshot index %d\n", snapshotIndex);
+         return;
+     }
+     if (!g_snapshotValid[snapshotIndex])
+     {
+      ns_lp_printf("Snapshot %d is not valid (never captured).\n", snapshotIndex);
+         return;
+     }
+ 
+     if (bJson)
+     {
+         // Print as JSON
+         // For a large number of registers, we typically start with '{' or '['
+         // and carefully format each entry.  Below is a simple demonstration:
+         ns_lp_printf("{\n");
+         ns_lp_printf("  \"snapshotIndex\": %d,\n", snapshotIndex);
+         ns_lp_printf("  \"registers\": [\n");
+         for (size_t i = 0; i < REGMAP_SIZE; i++)
+         {
+             // For cleanliness, add a comma only if not the last item
+             const char *comma = (i < (REGMAP_SIZE - 1)) ? "," : "";
+             ns_lp_printf("    {\n");
+             ns_lp_printf("      \"regname\": \"%s\",\n", g_regmap[i].regname);
+             ns_lp_printf("      \"value\": \"%08X\",\n", g_snapshots[snapshotIndex][i]);
+             ns_lp_printf("      \"description\": \"%s\"\n", g_regmap[i].description);
+             ns_lp_printf("    }%s\n", comma);
+         }
+         ns_lp_printf("  ]\n");
+         ns_lp_printf("}\n");
+     }
+     else
+     {
+        // Print as CSV
+        // There is one row per register. Columns are regname, then one value per snapshot.
+        // Print a header row: regname, snapshot0, snapshot1, ..., reg description
+        // Only valid snapshots are printed.
+        ns_lp_printf("REGNAME");
+        for (int i = 0; i < 5; i++)
+        {
+            if (g_snapshotValid[i])
+            {
+                ns_lp_printf(",SNAPSHOT%d", i);
+            }
+        }
+        ns_lp_printf(",DESCRIPTION\n");
 
-static bool bCaptured[5] = {0,};
-//void *g_AUDADCHandle;
+        // Print the contents for each row
+        for (size_t i = 0; i < REGMAP_SIZE; i++)
+        {
+            ns_lp_printf("%s", g_regmap[i].regname);
+            ns_delay_us(1000); 
+            for (int j = 0; j < 5; j++)
+            {
+                if (g_snapshotValid[j])
+                {
+                    ns_lp_printf(",0x%08lX", g_snapshots[j][i]);
+                    ns_delay_us(1000); 
+
+                }
+            }
+            ns_lp_printf(",%s\n", g_regmap[i].description);
+            ns_delay_us(1000); 
+
+        }
 
 
-//*****************************************************************************
-//
-//! @brief Prints the filled up JSON to serial port.
-//!
-//! @param void
-//!
-//! This function will print filled JSON fields to serial port.
-//!
-//! @note - before use this function, make sure the UART or SWO is enabled
-//!
-//!
-//! @returns None
-//
-//*****************************************************************************
-void
-ns_print_JSON(uint32_t uNumber)
-{
-    // uint32_t uNumber = 0;
-    //
-    // Print the filled JSON file out
-    //
-char *pwrStr1 = "\n{\"PWRCTRL\": {\
-\"Singleshot\": %u,\
-\"SnapN\": %u,\
-\"MCUPERFREQ\": %u,\
-\"DEVPWREN\": %u,\
-\"DEVPWRSTATUS\": %u,\
-\"AUDSSPWREN\": %u,\
-\"AUDSSPWRSTATUS\": %u,\
-\"MEMPWREN\": %u,\
-\"MEMPWRSTATUS\": %u,\
-\"MEMRETCFG\": %u,\
-\"SYSPWRSTATUS\": %u,\
- \"SSRAMPWREN\": %u,\
- \"SSRAMPWRST\": %u,\
- \"SSRAMRETCFG\": %u,\
- \"DEVPWREVENTEN\": %u,\
- \"MEMPWREVENTEN\": %u,\
- \"MMSOVERRIDE\": %u, \
-";
+        // // For CSV, we might do one line per register, with e.g.:
+        // //   snapshotIndex, regname, 0xVALUE, description
+        // ns_lp_printf("snapshot_index,regname,value,description\n");
+        // for (size_t i = 0; i < REGMAP_SIZE; i++)
+        // {
+        // ns_lp_printf("%d,\"%s\",0x%08X,\"%s\"\n",
+        //     snapshotIndex,
+        //     g_regmap[i].regname,
+        //     g_snapshots[snapshotIndex][i],
+        //     g_regmap[i].description);
+        // }
+     }
+ }
+ 
+/* Mostly generated by ChatGPT
+Prompt: 
+am_util_pp.c defines a function called am_util_pp_snapshot which reads a series of ‘mcu registers of interest’, captures them in data structures, and prints them out the next time it is invoked. The description of each register can be found as comments in apollo5b.h.
 
-char *pwrStr2 = " \
- \"CPUPWRCTRL\": %u,\
- \"PWRCTRLMODESTATUS\": %u,\
- \"CPUPWRSTATUS\": %u,\
- \"PWRACKOVR\": %u,\
- \"PWRCNTDEFVAL\": %u,\
- \"GFXPERFREQ\": %u,\
- \"GFXPWRSWSEL\": %u,\
- \"EPURETCFG\": %u,\
- \"VRCTRL\": %u,\
- \"LEGACYVRLPOVR\": %u,\
- \"VRSTATUS\": %u, \
-";
+Create a C program that defines a const map of each register-of-interest’s address (PWCTRL->MCUPERFREQ is the address of the register), a short description of the register (a string containing the register name, can be “PWRCTRL->MCUPERFREQ” in this example), and a string containing a long string based on the comments in apollo5b.h. In C, the address of the register is as described above - no need to #define something new, just use the address directly.
 
-char *pwrStr3 = " \
- \"SRAMCTRL\": %u,\
- \"ADCSTATUS\": %u,\
- \"AUDADCSTATUS\": %u,\
- \"TONCNTRCTRL\": %u,\
- \"LPOVRTHRESHVDDS\": %u, \
- \"LPOVRHYSTCNT\": %u, \
- \"LPOVRTHRESHVDDF\": %u, \
- \"LPOVRTHRESHVDDC\": %u,\
- \"LPOVRTHRESHVDDCLV\": %u, \
- \"LPOVRSTAT\": %u, \
- \"MRAMEXTCTRL\": %u, \
- \"EMONCTRL\": %u,\
- \"EMONCFG0\": %u,\
- \"EMONCFG1\": %u, \
- \"EMONCFG2\": %u,\
- \"EMONCFG3\": %u, \
- \"EMONCFG4\": %u,\
- \"EMONCFG5\": %u, \
- \"EMONCFG6\": %u,\
- \"EMONCFG7\": %u, \
- \"EMONCOUNT0\": %u,\
- \"EMONCOUNT1\": %u, \
- \"EMONCOUNT2\": %u,\
- \"EMONCOUNT3\": %u, \
- \"EMONCOUNT4\": %u,\
- \"EMONCOUNT5\": %u, \
- \"EMONCOUNT6\": %u,\
- \"EMONCOUNT7\": %u, \
- \"EMONSTATUS\": %u, \
- \"FPIOEN0\": %u, \
- \"FPIOEN1\": %u, \
- \"FPIOEN2\": %u \
-},";   
+The map should be an array of a struct such as:
 
-char *mcuCtrlStr = " \"MCUCTRL\": {\
-\"CHIPPN\": %u, \
-\"CHIPID0\": %u, \
-\"CHIPID1\": %u, \
-\"CHIPREV\": %u, \
-\"VENDORID\": %u, \
-\"SKU\": %u, \
-\"SKUOVERRIDE\": %u, \
-\"DEBUGGER\": %u, \
-\"ACRG\": %u, \
-\"VREFGEN2\": %u, \
-\"VREFGEN4\": %u, \
-\"VREFBUF\": %u, \
-\"VRCTRL\": %u, \
-\"LDOREG1\": %u, \
-\"LDOREG2\": %u, \
-\"LFRC\": %u, \
-\"BODCTRL\": %u, \
-\"ADCPWRCTRL\": %u, \
-\"ADCCAL\": %u, \
-\"ADCBATTLOAD\": %u, \
-\"XTALCTRL\": %u, \
-\"XTALGENCTRL\": %u, \
-\"XTALHSTRIMS\": %u, \
-\"XTALHSCTRL\": %u, \
-\"BGTLPCTRL\": %u, \
-\"MRAMCRYPTOPWRCTRL\": %u, \
-\"BODISABLE\": %u, \
-\"D2ASPARE\": %u, \
-\"BOOTLOADER\": %u, \
-\"SHADOWVALID\": %u, \
-\"SCRATCH0\": %u, \
-\"SCRATCH1\": %u, \
-\"DBGR1\": %u, \
-\"DBGR2\": %u, \
-\"WICCONTROL\": %u, \
-\"DBGCTRL\": %u, \
-\"OTAPOINTER\": %u, \
-\"APBDMACTRL\": %u, \
-\"FORCEAXICLKEN\": %u, \
-\"KEXTCLKSEL\": %u, \
-\"SIMOBUCK0\": %u, \
-\"SIMOBUCK1\": %u, \
-\"SIMOBUCK2\": %u, \
-\"SIMOBUCK3\": %u, \
-\"SIMOBUCK6\": %u, \
-\"SIMOBUCK7\": %u, \
-\"SIMOBUCK8\": %u, \
-\"SIMOBUCK9\": %u, \
-\"SIMOBUCK12\": %u, \
-\"SIMOBUCK13\": %u, \
-\"SIMOBUCK15\": %u, \
-\"PWRSW0\": %u, \
-\"PWRSW1\": %u, \
-\"USBRSTCTRL\": %u, \
-\"FLASHWPROT0\": %u, \
-\"FLASHWPROT1\": %u, \
-\"FLASHWPROT2\": %u, \
-\"FLASHWPROT3\": %u, \
-\"FLASHRPROT0\": %u, \
-\"FLASHRPROT1\": %u, \
-\"FLASHRPROT2\": %u, \
-\"FLASHRPROT3\": %u, \
-\"SRAMWPROT0\": %u, \
-\"SRAMWPROT1\": %u, \
-\"SRAMWPROT2\": %u, \
-\"SRAMWPROT3\": %u, \
-\"SRAMWPROT4\": %u, \
-\"SRAMWPROT5\": %u, \
-\"SRAMRPROT0\": %u, \
-\"SRAMRPROT1\": %u, \
-\"SRAMRPROT2\": %u, \
-\"SRAMRPROT3\": %u, \
-\"SRAMRPROT4\": %u, \
-\"SRAMRPROT5\": %u, \
-\"AUDADCPWRCTRL\": %u, \
-\"AUDIO1\": %u, \
-\"PGAADCIFCTRL\": %u, \
-\"PGACTRL1\": %u, \
-\"PGACTRL2\": %u, \
-\"AUDADCPWRDLY\": %u, \
-\"SDIO0CTRL\": %u, \
-\"SDIO1CTRL\": %u, \
-\"PDMCTRL\": %u, \
-\"MMSMISCCTRL\": %u, \
-\"FLASHWPROT4\": %u, \
-\"FLASHWPROT5\": %u, \
-\"FLASHWPROT6\": %u, \
-\"FLASHWPROT7\": %u, \
-\"FLASHRPROT4\": %u, \
-\"FLASHRPROT5\": %u, \
-\"FLASHRPROT6\": %u, \
-\"FLASHRPROT7\": %u, \
-\"PWRSW2\": %u, \
-\"CPUCFG\": %u, \
-\"PLLCTL0\": %u, \
-\"PLLDIV0\": %u, \
-\"PLLDIV1\": %u, \
-\"PLLSTAT\": %u, \
-\"PLLMUXCTL\": %u \
-},";
+typedef struct  {
+    uint32_t addr;
+    const char regname[50];
+    const char description[120];
+} regmap_t;
 
-char *audadcStr = " \"AUDADC\": {\
-\"CFG\": %u, \
-\"STAT\": %u, \
-\"SWT\": %u, \
-\"SL0CFG\": %u, \
-\"SL1CFG\": %u, \
-\"SL2CFG\": %u, \
-\"SL3CFG\": %u, \
-\"SL4CFG\": %u, \
-\"SL5CFG\": %u, \
-\"SL6CFG\": %u, \
-\"SL7CFG\": %u, \
-\"WULIM\": %u, \
-\"WLLIM\": %u, \
-\"SCWLIM\": %u, \
-\"FIFO\": %u, \
-\"FIFOPR\": %u, \
-\"FIFOSTAT\": %u, \
-\"DATAOFFSET\": %u, \
-\"ZXCFG\": %u, \
-\"ZXLIM\": %u, \
-\"GAINCFG\": %u, \
-\"GAIN\": %u, \
-\"SATCFG\": %u, \
-\"SATLIM\": %u, \
-\"SATMAX\": %u, \
-\"SATCLR\": %u, \
-\"IEREN\": %u, \
-\"IERSTAT\": %u, \
-\"IERCLR\": %u, \
-\"IERSET\": %u, \
-\"DMATRIGEN\": %u, \
-\"DMATRIGSTAT\": %u, \
-\"DMACFG\": %u, \
-\"DMATOTCOUNT\": %u, \
-\"DMATARGADDR\": %u, \
-\"DMASTAT\": %u \
-},";
-
-char *clkStr = " \"CLK\": {\
-\"OCTRL\": %u, \
-\"CLKOUT\": %u, \
-\"HFADJ\": %u, \
-\"CLOCKENSTAT\": %u, \
-\"CLOCKEN2STAT\": %u, \
-\"CLOCKEN3STAT\": %u, \
-\"MISC\": %u, \
-\"HF2ADJ0\": %u, \
-\"HF2ADJ1\": %u, \
-\"HF2ADJ2\": %u, \
-\"HF2VAL\": %u, \
-\"LFRCCTRL\": %u, \
-\"DISPCLKCTRL\": %u, \
-\"CLKGENSPARES\": %u, \
-\"HFRCIDLECOUNTERS\": %u, \
-\"MSPIIOCLKCTRL\": %u, \
-\"CLKCTRL\": %u \
-},";
-
-char *timerStr = " \"Timers\": {\
- \"STCFG\": %u, \
- \"STMINTSTAT\": %u, \
- \"CTRL\": %u, \
- \"STATUS\": %u, \
- \"GLOBEN\": %u, \
- \"INTSTAT\": %u, \
- \"CTRL0\": %u, \
- \"CTRL1\": %u, \
- \"CTRL2\": %u, \
- \"CTRL3\": %u, \
- \"CTRL4\": %u, \
- \"CTRL5\": %u, \
- \"CTRL6\": %u, \
- \"CTRL7\": %u, \
- \"CTRL8\": %u, \
- \"CTRL9\": %u, \
- \"CTRL10\": %u, \
- \"CTRL11\": %u, \
- \"CTRL12\": %u, \
- \"CTRL13\": %u, \
- \"CTRL14\": %u, \
- \"CTRL15\": %u \
-},";
-
-char *pdmStr = " \"PDM\": {\
- \"CTRL\": %u, \
- \"CORECFG0\": %u, \
- \"CORECFG1\": %u, \
- \"CORECTRL\": %u, \
- \"FIFOCNT\": %u, \
- \"FIFOREAD\": %u, \
- \"FIFOFLUSH\": %u, \
- \"FIFOTHR\": %u, \
- \"INTEN\": %u, \
- \"INTSTAT\": %u, \
- \"INTCLR\": %u, \
- \"INTSET\": %u, \
- \"DMATRIGEN\": %u, \
- \"DMATRIGSTAT\": %u, \
- \"DMACFG\": %u, \
- \"DMATARGADDR\": %u, \
- \"DMASTAT\": %u, \
- \"DMATARGADDRNEXT\": %u, \
- \"DMATOTCOUNTNEXT\": %u, \
- \"DMAENNEXTCTRL\": %u, \
- \"DMATOTCOUNT\": %u \
-}}\n";
-
-
-   //To provide the single snapshot, we need enable the printf via UART
-    // am_bsp_uart_printf_enable();
-    ns_itm_printf_enable();
-
-    ns_lp_printf(pwrStr1, am_bsp_pp1[uNumber].bSingle, 
-                          am_bsp_pp1[uNumber].uSnapShot, \
-                          am_bsp_pp1[uNumber].P_MCUPERFREQ, \
-                          am_bsp_pp1[uNumber].P_DEVPWREN, \
-                          am_bsp_pp1[uNumber].P_DEVPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_AUDSSPWREN, \
-                          am_bsp_pp1[uNumber].P_AUDSSPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_MEMPWREN, \
-                          am_bsp_pp1[uNumber].P_MEMPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_MEMRETCFG, \
-                          am_bsp_pp1[uNumber].P_SYSPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_SSRAMPWREN, \
-                          am_bsp_pp1[uNumber].P_SSRAMPWRST, \
-                          am_bsp_pp1[uNumber].P_SSRAMRETCFG, \
-                          am_bsp_pp1[uNumber].P_DEVPWREVENTEN, \
-                          am_bsp_pp1[uNumber].P_MEMPWREVENTEN, \
-                          am_bsp_pp1[uNumber].P_MMSOVERRIDE);
-
-    ns_lp_printf(pwrStr2, am_bsp_pp1[uNumber].P_CPUPWRCTRL, \
-                          am_bsp_pp1[uNumber].P_PWRCTRLMODESTATUS, \
-                          am_bsp_pp1[uNumber].P_CPUPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_PWRACKOVR, \
-                          am_bsp_pp1[uNumber].P_PWRCNTDEFVAL, \
-                          am_bsp_pp1[uNumber].P_GFXPERFREQ, \
-                          am_bsp_pp1[uNumber].P_GFXPWRSWSEL, \
-                          am_bsp_pp1[uNumber].P_EPURETCFG, \
-                          am_bsp_pp1[uNumber].P_VRCTRL, \
-                          am_bsp_pp1[uNumber].P_LEGACYVRLPOVR, \
-                          am_bsp_pp1[uNumber].P_VRSTATUS);
-
-    ns_lp_printf(pwrStr3, am_bsp_pp1[uNumber].P_SRAMCTRL, \
-                          am_bsp_pp1[uNumber].P_ADCSTATUS, \
-                          am_bsp_pp1[uNumber].P_AUDADCSTATUS, \
-                          am_bsp_pp1[uNumber].P_TONCNTRCTRL, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDS, \
-                          am_bsp_pp1[uNumber].P_LPOVRHYSTCNT, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDF, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDC, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDCLV, \
-                          am_bsp_pp1[uNumber].P_LPOVRSTAT, \
-                          am_bsp_pp1[uNumber].P_MRAMEXTCTRL, \
-                          am_bsp_pp1[uNumber].P_EMONCTRL, \
-                          am_bsp_pp1[uNumber].P_EMONCFG0, \
-                          am_bsp_pp1[uNumber].P_EMONCFG1, \
-                          am_bsp_pp1[uNumber].P_EMONCFG2, \
-                          am_bsp_pp1[uNumber].P_EMONCFG3, \
-                          am_bsp_pp1[uNumber].P_EMONCFG4, \
-                          am_bsp_pp1[uNumber].P_EMONCFG5, \
-                          am_bsp_pp1[uNumber].P_EMONCFG6, \
-                          am_bsp_pp1[uNumber].P_EMONCFG7, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT0, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT1, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT2, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT3, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT4, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT5, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT6, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT7, \
-                          am_bsp_pp1[uNumber].P_EMONSTATUS, \
-                          am_bsp_pp1[uNumber].P_FPIOEN0, \
-                          am_bsp_pp1[uNumber].P_FPIOEN1, \
-                          am_bsp_pp1[uNumber].P_FPIOEN2);
-
-    ns_lp_printf(mcuCtrlStr, am_bsp_pp2[uNumber].M_CHIPPN, \
-                          am_bsp_pp2[uNumber].M_CHIPID0, \
-                          am_bsp_pp2[uNumber].M_CHIPID1, \
-                          am_bsp_pp2[uNumber].M_CHIPREV, \
-                          am_bsp_pp2[uNumber].M_VENDORID, \
-                          am_bsp_pp2[uNumber].M_SKU, \
-                          am_bsp_pp2[uNumber].M_SKUOVERRIDE, \
-                          am_bsp_pp2[uNumber].M_DEBUGGER, \
-                          am_bsp_pp2[uNumber].M_ACRG, \
-                          am_bsp_pp2[uNumber].M_VREFGEN2, \
-                          am_bsp_pp2[uNumber].M_VREFGEN4, \
-                          am_bsp_pp2[uNumber].M_VREFBUF, \
-                          am_bsp_pp2[uNumber].M_VRCTRL, \
-                          am_bsp_pp2[uNumber].M_LDOREG1, \
-                          am_bsp_pp2[uNumber].M_LDOREG2, \
-                          am_bsp_pp2[uNumber].M_LFRC, \
-                          am_bsp_pp2[uNumber].M_BODCTRL, \
-                          am_bsp_pp2[uNumber].M_ADCPWRCTRL, \
-                          am_bsp_pp2[uNumber].M_ADCCAL, \
-                          am_bsp_pp2[uNumber].M_ADCBATTLOAD, \
-                          am_bsp_pp2[uNumber].M_XTALCTRL, \
-                          am_bsp_pp2[uNumber].M_XTALGENCTRL, \
-                          am_bsp_pp2[uNumber].M_XTALHSTRIMS, \
-                          am_bsp_pp2[uNumber].M_XTALHSCTRL, \
-                          am_bsp_pp2[uNumber].M_BGTLPCTRL, \
-                          am_bsp_pp2[uNumber].M_MRAMCRYPTOPWRCTRL, \
-                          am_bsp_pp2[uNumber].M_BODISABLE, \
-                          am_bsp_pp2[uNumber].M_D2ASPARE, \
-                          am_bsp_pp2[uNumber].M_BOOTLOADER, \
-                          am_bsp_pp2[uNumber].M_SHADOWVALID, \
-                          am_bsp_pp2[uNumber].M_SCRATCH0, \
-                          am_bsp_pp2[uNumber].M_SCRATCH1, \
-                          am_bsp_pp2[uNumber].M_DBGR1, \
-                          am_bsp_pp2[uNumber].M_DBGR2, \
-                          am_bsp_pp2[uNumber].M_WICCONTROL, \
-                          am_bsp_pp2[uNumber].M_DBGCTRL, \
-                          am_bsp_pp2[uNumber].M_OTAPOINTER, \
-                          am_bsp_pp2[uNumber].M_APBDMACTRL, \
-                          am_bsp_pp2[uNumber].M_FORCEAXICLKEN, \
-                          am_bsp_pp2[uNumber].M_KEXTCLKSEL, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK0, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK1, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK2, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK3, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK6, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK7, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK8, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK9, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK12, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK13, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK15, \
-                          am_bsp_pp2[uNumber].M_PWRSW0, \
-                          am_bsp_pp2[uNumber].M_PWRSW1, \
-                          am_bsp_pp2[uNumber].M_USBRSTCTRL, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT0, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT1, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT2, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT3, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT0, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT1, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT2, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT3, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT0, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT1, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT2, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT3, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT4, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT5, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT0, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT1, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT2, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT3, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT4, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT5, \
-                          am_bsp_pp2[uNumber].M_AUDADCPWRCTRL, \
-                          am_bsp_pp2[uNumber].M_AUDIO1, \
-                          am_bsp_pp2[uNumber].M_PGAADCIFCTRL, \
-                          am_bsp_pp2[uNumber].M_PGACTRL1, \
-                          am_bsp_pp2[uNumber].M_PGACTRL2, \
-                          am_bsp_pp2[uNumber].M_AUDADCPWRDLY, \
-                          am_bsp_pp2[uNumber].M_SDIO0CTRL, \
-                          am_bsp_pp2[uNumber].M_SDIO1CTRL, \
-                          am_bsp_pp2[uNumber].M_PDMCTRL, \
-                          am_bsp_pp2[uNumber].M_MMSMISCCTRL, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT4, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT5, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT6, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT7, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT4, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT5, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT6, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT7, \
-                          am_bsp_pp2[uNumber].M_PWRSW2, \
-                          am_bsp_pp2[uNumber].M_CPUCFG, \
-                          am_bsp_pp2[uNumber].M_PLLCTL0, \
-                          am_bsp_pp2[uNumber].M_PLLDIV0, \
-                          am_bsp_pp2[uNumber].M_PLLDIV1, \
-                          am_bsp_pp2[uNumber].M_PLLSTAT, \
-                          am_bsp_pp2[uNumber].M_PLLMUXCTL);
-
-    ns_lp_printf(audadcStr, am_bsp_pp4[uNumber].AU_CFG,   \
-                          am_bsp_pp4[uNumber].AU_STAT,   \
-                          am_bsp_pp4[uNumber].AU_SWT,   \
-                          am_bsp_pp4[uNumber].AU_SL0CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL1CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL2CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL3CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL4CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL5CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL6CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL7CFG,   \
-                          am_bsp_pp4[uNumber].AU_WULIM,   \
-                          am_bsp_pp4[uNumber].AU_WLLIM,   \
-                          am_bsp_pp4[uNumber].AU_SCWLIM,   \
-                          am_bsp_pp4[uNumber].AU_FIFO,   \
-                          am_bsp_pp4[uNumber].AU_FIFOPR,   \
-                          am_bsp_pp4[uNumber].AU_FIFOSTAT,   \
-                          am_bsp_pp4[uNumber].AU_DATAOFFSET,   \
-                          am_bsp_pp4[uNumber].AU_ZXCFG,   \
-                          am_bsp_pp4[uNumber].AU_ZXLIM,   \
-                          am_bsp_pp4[uNumber].AU_GAINCFG,   \
-                          am_bsp_pp4[uNumber].AU_GAIN,   \
-                          am_bsp_pp4[uNumber].AU_SATCFG,   \
-                          am_bsp_pp4[uNumber].AU_SATLIM,   \
-                          am_bsp_pp4[uNumber].AU_SATMAX,   \
-                          am_bsp_pp4[uNumber].AU_SATCLR,   \
-                          am_bsp_pp4[uNumber].AU_IEREN,   \
-                          am_bsp_pp4[uNumber].AU_IERSTAT,   \
-                          am_bsp_pp4[uNumber].AU_IERCLR,   \
-                          am_bsp_pp4[uNumber].AU_IERSET,   \
-                          am_bsp_pp4[uNumber].AU_DMATRIGEN,   \
-                          am_bsp_pp4[uNumber].AU_DMATRIGSTAT,   \
-                          am_bsp_pp4[uNumber].AU_DMACFG,   \
-                          am_bsp_pp4[uNumber].AU_DMATOTCOUNT,   \
-                          am_bsp_pp4[uNumber].AU_DMATARGADDR,   \
-                          am_bsp_pp4[uNumber].AU_DMASTAT);
-
-    ns_lp_printf(clkStr, am_bsp_pp3[uNumber].C_OCTRL, \
-                          am_bsp_pp3[uNumber].C_CLKOUT, \
-                          am_bsp_pp3[uNumber].C_HFADJ, \
-                          am_bsp_pp3[uNumber].C_CLOCKENSTAT, \
-                          am_bsp_pp3[uNumber].C_CLOCKEN2STAT, \
-                          am_bsp_pp3[uNumber].C_CLOCKEN3STAT, \
-                          am_bsp_pp3[uNumber].C_MISC, \
-                          am_bsp_pp3[uNumber].C_HF2ADJ0, \
-                          am_bsp_pp3[uNumber].C_HF2ADJ1, \
-                          am_bsp_pp3[uNumber].C_HF2ADJ2, \
-                          am_bsp_pp3[uNumber].C_HF2VAL, \
-                          am_bsp_pp3[uNumber].C_LFRCCTRL, \
-                          am_bsp_pp3[uNumber].C_DISPCLKCTRL, \
-                          am_bsp_pp3[uNumber].C_CLKGENSPARES, \
-                          am_bsp_pp3[uNumber].C_HFRCIDLECOUNTERS, \
-                          am_bsp_pp3[uNumber].C_MSPIIOCLKCTRL, \
-                          am_bsp_pp3[uNumber].C_CLKCTRL);
-
-   ns_lp_printf(timerStr, am_bsp_pp3[uNumber].ST_STCFG, \
-                          am_bsp_pp3[uNumber].ST_STMINTSTAT, \
-                          am_bsp_pp3[uNumber].T_CTRL, \
-                          am_bsp_pp3[uNumber].T_STATUS, \
-                          am_bsp_pp3[uNumber].T_GLOBEN, \
-                          am_bsp_pp3[uNumber].T_INTSTAT, \
-                          am_bsp_pp3[uNumber].T_CTRL0, \
-                          am_bsp_pp3[uNumber].T_CTRL1, \
-                          am_bsp_pp3[uNumber].T_CTRL2, \
-                          am_bsp_pp3[uNumber].T_CTRL3, \
-                          am_bsp_pp3[uNumber].T_CTRL4, \
-                          am_bsp_pp3[uNumber].T_CTRL5, \
-                          am_bsp_pp3[uNumber].T_CTRL6, \
-                          am_bsp_pp3[uNumber].T_CTRL7, \
-                          am_bsp_pp3[uNumber].T_CTRL8, \
-                          am_bsp_pp3[uNumber].T_CTRL9, \
-                          am_bsp_pp3[uNumber].T_CTRL10, \
-                          am_bsp_pp3[uNumber].T_CTRL11, \
-                          am_bsp_pp3[uNumber].T_CTRL12, \
-                          am_bsp_pp3[uNumber].T_CTRL13, \
-                          am_bsp_pp3[uNumber].T_CTRL14, \
-                          am_bsp_pp3[uNumber].T_CTRL15 );
-
-   ns_lp_printf(pdmStr, am_bsp_pp5[uNumber].PDM_CTRL, \
-                          am_bsp_pp5[uNumber].PDM_CORECFG0, \
-                          am_bsp_pp5[uNumber].PDM_CORECFG1, \
-                          am_bsp_pp5[uNumber].PDM_CORECTRL, \
-                          am_bsp_pp5[uNumber].PDM_FIFOCNT, \
-                          am_bsp_pp5[uNumber].PDM_FIFOREAD, \
-                          am_bsp_pp5[uNumber].PDM_FIFOFLUSH, \
-                          am_bsp_pp5[uNumber].PDM_FIFOTHR, \
-                          am_bsp_pp5[uNumber].PDM_INTEN, \
-                          am_bsp_pp5[uNumber].PDM_INTSTAT, \
-                          am_bsp_pp5[uNumber].PDM_INTCLR, \
-                          am_bsp_pp5[uNumber].PDM_INTSET, \
-                          am_bsp_pp5[uNumber].PDM_DMATRIGEN, \
-                          am_bsp_pp5[uNumber].PDM_DMATRIGSTAT, \
-                          am_bsp_pp5[uNumber].PDM_DMACFG, \
-                          am_bsp_pp5[uNumber].PDM_DMATARGADDR, \
-                          am_bsp_pp5[uNumber].PDM_DMASTAT, \
-                          am_bsp_pp5[uNumber].PDM_DMATARGADDRNEXT, \
-                          am_bsp_pp5[uNumber].PDM_DMATOTCOUNTNEXT, \
-                          am_bsp_pp5[uNumber].PDM_DMAENNEXTCTRL, \
-                          am_bsp_pp5[uNumber].PDM_DMATOTCOUNT);
-
-    //Now, we can disable the UART to provide minimized impact to the system
-    am_bsp_uart_printf_disable();    
-    
+An example entry in the map would be something like:
+const regmap_t regmap[] = {
+{PWRCTRL->MCUPERFREQ, “PWRCTRL->MCUPERFREQ”, “This register provides the performance mode knobs for MCU.”},
+etc…
 }
 
+Create two functions: one that captures a snapshot of all the registers and places them in a snapshot buffer (there can be up to 5 snapshots), and another that prints out either a JSON or CSV representation of the snapshots.
 
-void
-ns_print_csv(uint32_t uNumber)
-{
-    // uint32_t uNumber = 0;
-    //
-    // Print the filled JSON file out
-    //
-char *pwrStr1 = "\n\"PWRCTRL\":\n\
-\n\"Singleshot\": 0x%x,\
-\n\"SnapN\": 0x%x,\
-\n\"MCUPERFREQ\": 0x%x,\
-\n\"DEVPWREN\": 0x%x,\
-\n\"DEVPWRSTATUS\": 0x%x,\
-\n\"AUDSSPWREN\": 0x%x,\
-\n\"AUDSSPWRSTATUS\": 0x%x,\
-\n\"MEMPWREN\": 0x%x,\
-\n\"MEMPWRSTATUS\": 0x%x,\
-\n\"MEMRETCFG\": 0x%x,\
-\n\"SYSPWRSTATUS\": 0x%x,\
- \n\"SSRAMPWREN\": 0x%x,\
- \n\"SSRAMPWRST\": 0x%x,\
- \n\"SSRAMRETCFG\": 0x%x,\
- \n\"DEVPWREVENTEN\": 0x%x,\
- \n\"MEMPWREVENTEN\": 0x%x,\
- \n\"MMSOVERRIDE\": 0x%x, \
-";
+Implement the code fully, not example code, and include all registers-of-interest
 
-char *pwrStr2 = " \
- \n\"CPUPWRCTRL\": 0x%x,\
- \n\"PWRCTRLMODESTATUS\": 0x%x,\
- \n\"CPUPWRSTATUS\": 0x%x,\
- \n\"PWRACKOVR\": 0x%x,\
- \n\"PWRCNTDEFVAL\": 0x%x,\
- \n\"GFXPERFREQ\": 0x%x,\
- \n\"GFXPWRSWSEL\": 0x%x,\
- \n\"EPURETCFG\": 0x%x,\
- \n\"VRCTRL\": 0x%x,\
- \n\"LEGACYVRLPOVR\": 0x%x,\
- \n\"VRSTATUS\": 0x%x, \
-";
-
-char *pwrStr3 = " \
- \n\"SRAMCTRL\": 0x%x,\
- \n\"ADCSTATUS\": 0x%x,\
- \n\"AUDADCSTATUS\": 0x%x,\
- \n\"TONCNTRCTRL\": 0x%x,\
- \n\"LPOVRTHRESHVDDS\": 0x%x, \
- \n\"LPOVRHYSTCNT\": 0x%x, \
- \n\"LPOVRTHRESHVDDF\": 0x%x, \
- \n\"LPOVRTHRESHVDDC\": 0x%x,\
- \n\"LPOVRTHRESHVDDCLV\": 0x%x, \
- \n\"LPOVRSTAT\": 0x%x, \
- \n\"MRAMEXTCTRL\": 0x%x, \
- \n\"EMONCTRL\": 0x%x,\
- \n\"EMONCFG0\": 0x%x,\
- \n\"EMONCFG1\": 0x%x, \
- \n\"EMONCFG2\": 0x%x,\
- \n\"EMONCFG3\": 0x%x, \
- \n\"EMONCFG4\": 0x%x,\
- \n\"EMONCFG5\": 0x%x, \
- \n\"EMONCFG6\": 0x%x,\
- \n\"EMONCFG7\": 0x%x, \
- \n\"EMONCOUNT0\": 0x%x,\
- \n\"EMONCOUNT1\": 0x%x, \
- \n\"EMONCOUNT2\": 0x%x,\
- \n\"EMONCOUNT3\": 0x%x, \
- \n\"EMONCOUNT4\": 0x%x,\
- \n\"EMONCOUNT5\": 0x%x, \
- \n\"EMONCOUNT6\": 0x%x,\
- \n\"EMONCOUNT7\": 0x%x, \
- \n\"EMONSTATUS\": 0x%x, \
- \n\"FPIOEN0\": 0x%x, \
- \n\"FPIOEN1\": 0x%x, \
- \n\"FPIOEN2\": 0x%x \
-\n";   
-
-char *mcuCtrlStr = "\n \"MCUCTRL\":\
-\n\"CHIPPN\": 0x%x, \
-\n\"CHIPID0\": 0x%x, \
-\n\"CHIPID1\": 0x%x, \
-\n\"CHIPREV\": 0x%x, \
-\n\"VENDORID\": 0x%x, \
-\n\"SKU\": 0x%x, \
-\n\"SKUOVERRIDE\": 0x%x, \
-\n\"DEBUGGER\": 0x%x, \
-\n\"ACRG\": 0x%x, \
-\n\"VREFGEN2\": 0x%x, \
-\n\"VREFGEN4\": 0x%x, \
-\n\"VREFBUF\": 0x%x, \
-\n\"VRCTRL\": 0x%x, \
-\n\"LDOREG1\": 0x%x, \
-\n\"LDOREG2\": 0x%x, \
-\n\"LFRC\": 0x%x, \
-\n\"BODCTRL\": 0x%x, \
-\n\"ADCPWRCTRL\": 0x%x, \
-\n\"ADCCAL\": 0x%x, \
-\n\"ADCBATTLOAD\": 0x%x, \
-\n\"XTALCTRL\": 0x%x, \
-\n\"XTALGENCTRL\": 0x%x, \
-\n\"XTALHSTRIMS\": 0x%x, \
-\n\"XTALHSCTRL\": 0x%x, \
-\n\"BGTLPCTRL\": 0x%x, \
-\n\"MRAMCRYPTOPWRCTRL\": 0x%x, \
-\n\"BODISABLE\": 0x%x, \
-\n\"D2ASPARE\": 0x%x, \
-\n\"BOOTLOADER\": 0x%x, \
-\n\"SHADOWVALID\": 0x%x, \
-\n\"SCRATCH0\": 0x%x, \
-\n\"SCRATCH1\": 0x%x, \
-\n\"DBGR1\": 0x%x, \
-\n\"DBGR2\": 0x%x, \
-\n\"WICCONTROL\": 0x%x, \
-\n\"DBGCTRL\": 0x%x, \
-\n\"OTAPOINTER\": 0x%x, \
-\n\"APBDMACTRL\": 0x%x, \
-\n\"FORCEAXICLKEN\": 0x%x, \
-\n\"KEXTCLKSEL\": 0x%x, \
-\n\"SIMOBUCK0\": 0x%x, \
-\n\"SIMOBUCK1\": 0x%x, \
-\n\"SIMOBUCK2\": 0x%x, \
-\n\"SIMOBUCK3\": 0x%x, \
-\n\"SIMOBUCK6\": 0x%x, \
-\n\"SIMOBUCK7\": 0x%x, \
-\n\"SIMOBUCK8\": 0x%x, \
-\n\"SIMOBUCK9\": 0x%x, \
-\n\"SIMOBUCK12\": 0x%x, \
-\n\"SIMOBUCK13\": 0x%x, \
-\n\"SIMOBUCK15\": 0x%x, \
-\n\"PWRSW0\": 0x%x, \
-\n\"PWRSW1\": 0x%x, \
-\n\"USBRSTCTRL\": 0x%x, \
-\n\"FLASHWPROT0\": 0x%x, \
-\n\"FLASHWPROT1\": 0x%x, \
-\n\"FLASHWPROT2\": 0x%x, \
-\n\"FLASHWPROT3\": 0x%x, \
-\n\"FLASHRPROT0\": 0x%x, \
-\n\"FLASHRPROT1\": 0x%x, \
-\n\"FLASHRPROT2\": 0x%x, \
-\n\"FLASHRPROT3\": 0x%x, \
-\n\"SRAMWPROT0\": 0x%x, \
-\n\"SRAMWPROT1\": 0x%x, \
-\n\"SRAMWPROT2\": 0x%x, \
-\n\"SRAMWPROT3\": 0x%x, \
-\n\"SRAMWPROT4\": 0x%x, \
-\n\"SRAMWPROT5\": 0x%x, \
-\n\"SRAMRPROT0\": 0x%x, \
-\n\"SRAMRPROT1\": 0x%x, \
-\n\"SRAMRPROT2\": 0x%x, \
-\n\"SRAMRPROT3\": 0x%x, \
-\n\"SRAMRPROT4\": 0x%x, \
-\n\"SRAMRPROT5\": 0x%x, \
-\n\"AUDADCPWRCTRL\": 0x%x, \
-\n\"AUDIO1\": 0x%x, \
-\n\"PGAADCIFCTRL\": 0x%x, \
-\n\"PGACTRL1\": 0x%x, \
-\n\"PGACTRL2\": 0x%x, \
-\n\"AUDADCPWRDLY\": 0x%x, \
-\n\"SDIO0CTRL\": 0x%x, \
-\n\"SDIO1CTRL\": 0x%x, \
-\n\"PDMCTRL\": 0x%x, \
-\n\"MMSMISCCTRL\": 0x%x, \
-\n\"FLASHWPROT4\": 0x%x, \
-\n\"FLASHWPROT5\": 0x%x, \
-\n\"FLASHWPROT6\": 0x%x, \
-\n\"FLASHWPROT7\": 0x%x, \
-\n\"FLASHRPROT4\": 0x%x, \
-\n\"FLASHRPROT5\": 0x%x, \
-\n\"FLASHRPROT6\": 0x%x, \
-\n\"FLASHRPROT7\": 0x%x, \
-\n\"PWRSW2\": 0x%x, \
-\n\"CPUCFG\": 0x%x, \
-\n\"PLLCTL0\": 0x%x, \
-\n\"PLLDIV0\": 0x%x, \
-\n\"PLLDIV1\": 0x%x, \
-\n\"PLLSTAT\": 0x%x, \
-\n\"PLLMUXCTL\": 0x%x \
-\n";
-
-char *audadcStr = "\n \"AUDADC\":\
-\n\"CFG\": 0x%x, \
-\n\"STAT\": 0x%x, \
-\n\"SWT\": 0x%x, \
-\n\"SL0CFG\": 0x%x, \
-\n\"SL1CFG\": 0x%x, \
-\n\"SL2CFG\": 0x%x, \
-\n\"SL3CFG\": 0x%x, \
-\n\"SL4CFG\": 0x%x, \
-\n\"SL5CFG\": 0x%x, \
-\n\"SL6CFG\": 0x%x, \
-\n\"SL7CFG\": 0x%x, \
-\n\"WULIM\": 0x%x, \
-\n\"WLLIM\": 0x%x, \
-\n\"SCWLIM\": 0x%x, \
-\n\"FIFO\": 0x%x, \
-\n\"FIFOPR\": 0x%x, \
-\n\"FIFOSTAT\": 0x%x, \
-\n\"DATAOFFSET\": 0x%x, \
-\n\"ZXCFG\": 0x%x, \
-\n\"ZXLIM\": 0x%x, \
-\n\"GAINCFG\": 0x%x, \
-\n\"GAIN\": 0x%x, \
-\n\"SATCFG\": 0x%x, \
-\n\"SATLIM\": 0x%x, \
-\n\"SATMAX\": 0x%x, \
-\n\"SATCLR\": 0x%x, \
-\n\"IEREN\": 0x%x, \
-\n\"IERSTAT\": 0x%x, \
-\n\"IERCLR\": 0x%x, \
-\n\"IERSET\": 0x%x, \
-\n\"DMATRIGEN\": 0x%x, \
-\n\"DMATRIGSTAT\": 0x%x, \
-\n\"DMACFG\": 0x%x, \
-\n\"DMATOTCOUNT\": 0x%x, \
-\n\"DMATARGADDR\": 0x%x, \
-\n\"DMASTAT\": 0x%x \
-\n";
-
-char *clkStr = "\n \"CLK\":\
-\n\"OCTRL\": 0x%x, \
-\n\"CLKOUT\": 0x%x, \
-\n\"HFADJ\": 0x%x, \
-\n\"CLOCKENSTAT\": 0x%x, \
-\n\"CLOCKEN2STAT\": 0x%x, \
-\n\"CLOCKEN3STAT\": 0x%x, \
-\n\"MISC\": 0x%x, \
-\n\"HF2ADJ0\": 0x%x, \
-\n\"HF2ADJ1\": 0x%x, \
-\n\"HF2ADJ2\": 0x%x, \
-\n\"HF2VAL\": 0x%x, \
-\n\"LFRCCTRL\": 0x%x, \
-\n\"DISPCLKCTRL\": 0x%x, \
-\n\"CLKGENSPARES\": 0x%x, \
-\n\"HFRCIDLECOUNTERS\": 0x%x, \
-\n\"MSPIIOCLKCTRL\": 0x%x, \
-\n\"CLKCTRL\": 0x%x \
-\n";
-
-char *timerStr = "\n \"Timers\":\
- \n\"STCFG\": 0x%x, \
- \n\"STMINTSTAT\": 0x%x, \
- \n\"CTRL\": 0x%x, \
- \n\"STATUS\": 0x%x, \
- \n\"GLOBEN\": 0x%x, \
- \n\"INTSTAT\": 0x%x, \
- \n\"CTRL0\": 0x%x, \
- \n\"CTRL1\": 0x%x, \
- \n\"CTRL2\": 0x%x, \
- \n\"CTRL3\": 0x%x, \
- \n\"CTRL4\": 0x%x, \
- \n\"CTRL5\": 0x%x, \
- \n\"CTRL6\": 0x%x, \
- \n\"CTRL7\": 0x%x, \
- \n\"CTRL8\": 0x%x, \
- \n\"CTRL9\": 0x%x, \
- \n\"CTRL10\": 0x%x, \
- \n\"CTRL11\": 0x%x, \
- \n\"CTRL12\": 0x%x, \
- \n\"CTRL13\": 0x%x, \
- \n\"CTRL14\": 0x%x, \
- \n\"CTRL15\": 0x%x \
-\n";
-
-char *pdmStr = "\n \"PDM\":\
- \n\"CTRL\": 0x%x, \
- \n\"CORECFG0\": 0x%x, \
- \n\"CORECFG1\": 0x%x, \
- \n\"CORECTRL\": 0x%x, \
- \n\"FIFOCNT\": 0x%x, \
- \n\"FIFOREAD\": 0x%x, \
- \n\"FIFOFLUSH\": 0x%x, \
- \n\"FIFOTHR\": 0x%x, \
- \n\"INTEN\": 0x%x, \
- \n\"INTSTAT\": 0x%x, \
- \n\"INTCLR\": 0x%x, \
- \n\"INTSET\": 0x%x, \
- \n\"DMATRIGEN\": 0x%x, \
- \n\"DMATRIGSTAT\": 0x%x, \
- \n\"DMACFG\": 0x%x, \
- \n\"DMATARGADDR\": 0x%x, \
- \n\"DMASTAT\": 0x%x, \
- \n\"DMATARGADDRNEXT\": 0x%x, \
- \n\"DMATOTCOUNTNEXT\": 0x%x, \
- \n\"DMAENNEXTCTRL\": 0x%x, \
- \n\"DMATOTCOUNT\": 0x%x \
-\n";
-
-
-   //To provide the single snapshot, we need enable the printf via UART
-    // am_bsp_uart_printf_enable();
-    ns_itm_printf_enable();
-
-    ns_lp_printf(pwrStr1, am_bsp_pp1[uNumber].bSingle, 
-                          am_bsp_pp1[uNumber].uSnapShot, \
-                          am_bsp_pp1[uNumber].P_MCUPERFREQ, \
-                          am_bsp_pp1[uNumber].P_DEVPWREN, \
-                          am_bsp_pp1[uNumber].P_DEVPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_AUDSSPWREN, \
-                          am_bsp_pp1[uNumber].P_AUDSSPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_MEMPWREN, \
-                          am_bsp_pp1[uNumber].P_MEMPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_MEMRETCFG, \
-                          am_bsp_pp1[uNumber].P_SYSPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_SSRAMPWREN, \
-                          am_bsp_pp1[uNumber].P_SSRAMPWRST, \
-                          am_bsp_pp1[uNumber].P_SSRAMRETCFG, \
-                          am_bsp_pp1[uNumber].P_DEVPWREVENTEN, \
-                          am_bsp_pp1[uNumber].P_MEMPWREVENTEN, \
-                          am_bsp_pp1[uNumber].P_MMSOVERRIDE);
-
-    ns_lp_printf(pwrStr2, am_bsp_pp1[uNumber].P_CPUPWRCTRL, \
-                          am_bsp_pp1[uNumber].P_PWRCTRLMODESTATUS, \
-                          am_bsp_pp1[uNumber].P_CPUPWRSTATUS, \
-                          am_bsp_pp1[uNumber].P_PWRACKOVR, \
-                          am_bsp_pp1[uNumber].P_PWRCNTDEFVAL, \
-                          am_bsp_pp1[uNumber].P_GFXPERFREQ, \
-                          am_bsp_pp1[uNumber].P_GFXPWRSWSEL, \
-                          am_bsp_pp1[uNumber].P_EPURETCFG, \
-                          am_bsp_pp1[uNumber].P_VRCTRL, \
-                          am_bsp_pp1[uNumber].P_LEGACYVRLPOVR, \
-                          am_bsp_pp1[uNumber].P_VRSTATUS);
-
-    ns_lp_printf(pwrStr3, am_bsp_pp1[uNumber].P_SRAMCTRL, \
-                          am_bsp_pp1[uNumber].P_ADCSTATUS, \
-                          am_bsp_pp1[uNumber].P_AUDADCSTATUS, \
-                          am_bsp_pp1[uNumber].P_TONCNTRCTRL, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDS, \
-                          am_bsp_pp1[uNumber].P_LPOVRHYSTCNT, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDF, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDC, \
-                          am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDCLV, \
-                          am_bsp_pp1[uNumber].P_LPOVRSTAT, \
-                          am_bsp_pp1[uNumber].P_MRAMEXTCTRL, \
-                          am_bsp_pp1[uNumber].P_EMONCTRL, \
-                          am_bsp_pp1[uNumber].P_EMONCFG0, \
-                          am_bsp_pp1[uNumber].P_EMONCFG1, \
-                          am_bsp_pp1[uNumber].P_EMONCFG2, \
-                          am_bsp_pp1[uNumber].P_EMONCFG3, \
-                          am_bsp_pp1[uNumber].P_EMONCFG4, \
-                          am_bsp_pp1[uNumber].P_EMONCFG5, \
-                          am_bsp_pp1[uNumber].P_EMONCFG6, \
-                          am_bsp_pp1[uNumber].P_EMONCFG7, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT0, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT1, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT2, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT3, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT4, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT5, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT6, \
-                          am_bsp_pp1[uNumber].P_EMONCOUNT7, \
-                          am_bsp_pp1[uNumber].P_EMONSTATUS, \
-                          am_bsp_pp1[uNumber].P_FPIOEN0, \
-                          am_bsp_pp1[uNumber].P_FPIOEN1, \
-                          am_bsp_pp1[uNumber].P_FPIOEN2);
-
-    ns_lp_printf(mcuCtrlStr, am_bsp_pp2[uNumber].M_CHIPPN, \
-                          am_bsp_pp2[uNumber].M_CHIPID0, \
-                          am_bsp_pp2[uNumber].M_CHIPID1, \
-                          am_bsp_pp2[uNumber].M_CHIPREV, \
-                          am_bsp_pp2[uNumber].M_VENDORID, \
-                          am_bsp_pp2[uNumber].M_SKU, \
-                          am_bsp_pp2[uNumber].M_SKUOVERRIDE, \
-                          am_bsp_pp2[uNumber].M_DEBUGGER, \
-                          am_bsp_pp2[uNumber].M_ACRG, \
-                          am_bsp_pp2[uNumber].M_VREFGEN2, \
-                          am_bsp_pp2[uNumber].M_VREFGEN4, \
-                          am_bsp_pp2[uNumber].M_VREFBUF, \
-                          am_bsp_pp2[uNumber].M_VRCTRL, \
-                          am_bsp_pp2[uNumber].M_LDOREG1, \
-                          am_bsp_pp2[uNumber].M_LDOREG2, \
-                          am_bsp_pp2[uNumber].M_LFRC, \
-                          am_bsp_pp2[uNumber].M_BODCTRL, \
-                          am_bsp_pp2[uNumber].M_ADCPWRCTRL, \
-                          am_bsp_pp2[uNumber].M_ADCCAL, \
-                          am_bsp_pp2[uNumber].M_ADCBATTLOAD, \
-                          am_bsp_pp2[uNumber].M_XTALCTRL, \
-                          am_bsp_pp2[uNumber].M_XTALGENCTRL, \
-                          am_bsp_pp2[uNumber].M_XTALHSTRIMS, \
-                          am_bsp_pp2[uNumber].M_XTALHSCTRL, \
-                          am_bsp_pp2[uNumber].M_BGTLPCTRL, \
-                          am_bsp_pp2[uNumber].M_MRAMCRYPTOPWRCTRL, \
-                          am_bsp_pp2[uNumber].M_BODISABLE, \
-                          am_bsp_pp2[uNumber].M_D2ASPARE, \
-                          am_bsp_pp2[uNumber].M_BOOTLOADER, \
-                          am_bsp_pp2[uNumber].M_SHADOWVALID, \
-                          am_bsp_pp2[uNumber].M_SCRATCH0, \
-                          am_bsp_pp2[uNumber].M_SCRATCH1, \
-                          am_bsp_pp2[uNumber].M_DBGR1, \
-                          am_bsp_pp2[uNumber].M_DBGR2, \
-                          am_bsp_pp2[uNumber].M_WICCONTROL, \
-                          am_bsp_pp2[uNumber].M_DBGCTRL, \
-                          am_bsp_pp2[uNumber].M_OTAPOINTER, \
-                          am_bsp_pp2[uNumber].M_APBDMACTRL, \
-                          am_bsp_pp2[uNumber].M_FORCEAXICLKEN, \
-                          am_bsp_pp2[uNumber].M_KEXTCLKSEL, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK0, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK1, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK2, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK3, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK6, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK7, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK8, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK9, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK12, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK13, \
-                          am_bsp_pp2[uNumber].M_SIMOBUCK15, \
-                          am_bsp_pp2[uNumber].M_PWRSW0, \
-                          am_bsp_pp2[uNumber].M_PWRSW1, \
-                          am_bsp_pp2[uNumber].M_USBRSTCTRL, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT0, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT1, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT2, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT3, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT0, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT1, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT2, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT3, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT0, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT1, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT2, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT3, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT4, \
-                          am_bsp_pp2[uNumber].M_SRAMWPROT5, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT0, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT1, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT2, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT3, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT4, \
-                          am_bsp_pp2[uNumber].M_SRAMRPROT5, \
-                          am_bsp_pp2[uNumber].M_AUDADCPWRCTRL, \
-                          am_bsp_pp2[uNumber].M_AUDIO1, \
-                          am_bsp_pp2[uNumber].M_PGAADCIFCTRL, \
-                          am_bsp_pp2[uNumber].M_PGACTRL1, \
-                          am_bsp_pp2[uNumber].M_PGACTRL2, \
-                          am_bsp_pp2[uNumber].M_AUDADCPWRDLY, \
-                          am_bsp_pp2[uNumber].M_SDIO0CTRL, \
-                          am_bsp_pp2[uNumber].M_SDIO1CTRL, \
-                          am_bsp_pp2[uNumber].M_PDMCTRL, \
-                          am_bsp_pp2[uNumber].M_MMSMISCCTRL, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT4, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT5, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT6, \
-                          am_bsp_pp2[uNumber].M_FLASHWPROT7, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT4, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT5, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT6, \
-                          am_bsp_pp2[uNumber].M_FLASHRPROT7, \
-                          am_bsp_pp2[uNumber].M_PWRSW2, \
-                          am_bsp_pp2[uNumber].M_CPUCFG, \
-                          am_bsp_pp2[uNumber].M_PLLCTL0, \
-                          am_bsp_pp2[uNumber].M_PLLDIV0, \
-                          am_bsp_pp2[uNumber].M_PLLDIV1, \
-                          am_bsp_pp2[uNumber].M_PLLSTAT, \
-                          am_bsp_pp2[uNumber].M_PLLMUXCTL);
-
-    ns_lp_printf(audadcStr, am_bsp_pp4[uNumber].AU_CFG,   \
-                          am_bsp_pp4[uNumber].AU_STAT,   \
-                          am_bsp_pp4[uNumber].AU_SWT,   \
-                          am_bsp_pp4[uNumber].AU_SL0CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL1CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL2CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL3CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL4CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL5CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL6CFG,   \
-                          am_bsp_pp4[uNumber].AU_SL7CFG,   \
-                          am_bsp_pp4[uNumber].AU_WULIM,   \
-                          am_bsp_pp4[uNumber].AU_WLLIM,   \
-                          am_bsp_pp4[uNumber].AU_SCWLIM,   \
-                          am_bsp_pp4[uNumber].AU_FIFO,   \
-                          am_bsp_pp4[uNumber].AU_FIFOPR,   \
-                          am_bsp_pp4[uNumber].AU_FIFOSTAT,   \
-                          am_bsp_pp4[uNumber].AU_DATAOFFSET,   \
-                          am_bsp_pp4[uNumber].AU_ZXCFG,   \
-                          am_bsp_pp4[uNumber].AU_ZXLIM,   \
-                          am_bsp_pp4[uNumber].AU_GAINCFG,   \
-                          am_bsp_pp4[uNumber].AU_GAIN,   \
-                          am_bsp_pp4[uNumber].AU_SATCFG,   \
-                          am_bsp_pp4[uNumber].AU_SATLIM,   \
-                          am_bsp_pp4[uNumber].AU_SATMAX,   \
-                          am_bsp_pp4[uNumber].AU_SATCLR,   \
-                          am_bsp_pp4[uNumber].AU_IEREN,   \
-                          am_bsp_pp4[uNumber].AU_IERSTAT,   \
-                          am_bsp_pp4[uNumber].AU_IERCLR,   \
-                          am_bsp_pp4[uNumber].AU_IERSET,   \
-                          am_bsp_pp4[uNumber].AU_DMATRIGEN,   \
-                          am_bsp_pp4[uNumber].AU_DMATRIGSTAT,   \
-                          am_bsp_pp4[uNumber].AU_DMACFG,   \
-                          am_bsp_pp4[uNumber].AU_DMATOTCOUNT,   \
-                          am_bsp_pp4[uNumber].AU_DMATARGADDR,   \
-                          am_bsp_pp4[uNumber].AU_DMASTAT);
-
-    ns_lp_printf(clkStr, am_bsp_pp3[uNumber].C_OCTRL, \
-                          am_bsp_pp3[uNumber].C_CLKOUT, \
-                          am_bsp_pp3[uNumber].C_HFADJ, \
-                          am_bsp_pp3[uNumber].C_CLOCKENSTAT, \
-                          am_bsp_pp3[uNumber].C_CLOCKEN2STAT, \
-                          am_bsp_pp3[uNumber].C_CLOCKEN3STAT, \
-                          am_bsp_pp3[uNumber].C_MISC, \
-                          am_bsp_pp3[uNumber].C_HF2ADJ0, \
-                          am_bsp_pp3[uNumber].C_HF2ADJ1, \
-                          am_bsp_pp3[uNumber].C_HF2ADJ2, \
-                          am_bsp_pp3[uNumber].C_HF2VAL, \
-                          am_bsp_pp3[uNumber].C_LFRCCTRL, \
-                          am_bsp_pp3[uNumber].C_DISPCLKCTRL, \
-                          am_bsp_pp3[uNumber].C_CLKGENSPARES, \
-                          am_bsp_pp3[uNumber].C_HFRCIDLECOUNTERS, \
-                          am_bsp_pp3[uNumber].C_MSPIIOCLKCTRL, \
-                          am_bsp_pp3[uNumber].C_CLKCTRL);
-
-   ns_lp_printf(timerStr, am_bsp_pp3[uNumber].ST_STCFG, \
-                          am_bsp_pp3[uNumber].ST_STMINTSTAT, \
-                          am_bsp_pp3[uNumber].T_CTRL, \
-                          am_bsp_pp3[uNumber].T_STATUS, \
-                          am_bsp_pp3[uNumber].T_GLOBEN, \
-                          am_bsp_pp3[uNumber].T_INTSTAT, \
-                          am_bsp_pp3[uNumber].T_CTRL0, \
-                          am_bsp_pp3[uNumber].T_CTRL1, \
-                          am_bsp_pp3[uNumber].T_CTRL2, \
-                          am_bsp_pp3[uNumber].T_CTRL3, \
-                          am_bsp_pp3[uNumber].T_CTRL4, \
-                          am_bsp_pp3[uNumber].T_CTRL5, \
-                          am_bsp_pp3[uNumber].T_CTRL6, \
-                          am_bsp_pp3[uNumber].T_CTRL7, \
-                          am_bsp_pp3[uNumber].T_CTRL8, \
-                          am_bsp_pp3[uNumber].T_CTRL9, \
-                          am_bsp_pp3[uNumber].T_CTRL10, \
-                          am_bsp_pp3[uNumber].T_CTRL11, \
-                          am_bsp_pp3[uNumber].T_CTRL12, \
-                          am_bsp_pp3[uNumber].T_CTRL13, \
-                          am_bsp_pp3[uNumber].T_CTRL14, \
-                          am_bsp_pp3[uNumber].T_CTRL15 );
-
-   ns_lp_printf(pdmStr, am_bsp_pp5[uNumber].PDM_CTRL, \
-                          am_bsp_pp5[uNumber].PDM_CORECFG0, \
-                          am_bsp_pp5[uNumber].PDM_CORECFG1, \
-                          am_bsp_pp5[uNumber].PDM_CORECTRL, \
-                          am_bsp_pp5[uNumber].PDM_FIFOCNT, \
-                          am_bsp_pp5[uNumber].PDM_FIFOREAD, \
-                          am_bsp_pp5[uNumber].PDM_FIFOFLUSH, \
-                          am_bsp_pp5[uNumber].PDM_FIFOTHR, \
-                          am_bsp_pp5[uNumber].PDM_INTEN, \
-                          am_bsp_pp5[uNumber].PDM_INTSTAT, \
-                          am_bsp_pp5[uNumber].PDM_INTCLR, \
-                          am_bsp_pp5[uNumber].PDM_INTSET, \
-                          am_bsp_pp5[uNumber].PDM_DMATRIGEN, \
-                          am_bsp_pp5[uNumber].PDM_DMATRIGSTAT, \
-                          am_bsp_pp5[uNumber].PDM_DMACFG, \
-                          am_bsp_pp5[uNumber].PDM_DMATARGADDR, \
-                          am_bsp_pp5[uNumber].PDM_DMASTAT, \
-                          am_bsp_pp5[uNumber].PDM_DMATARGADDRNEXT, \
-                          am_bsp_pp5[uNumber].PDM_DMATOTCOUNTNEXT, \
-                          am_bsp_pp5[uNumber].PDM_DMAENNEXTCTRL, \
-                          am_bsp_pp5[uNumber].PDM_DMATOTCOUNT);
-
-    //Now, we can disable the UART to provide minimized impact to the system
-    am_bsp_uart_printf_disable();    
-    
-}
-
-
-
-
-
-//This is the customer facing API function calls to invoke the snapshot
-//bUseMemory is reserved for future application
-// void ns_pp_snapshot(bool bSingleShot, uint32_t uNumber)
-
-void ns_pp_ap5_snapshot(bool bSingleShot, uint32_t uNumber, bool bStreamNow)
-{
-  // bool bStreamNow = true;
-  if (bStreamNow) {
-    
-    if (bCaptured[uNumber]) {
-      ns_lp_printf("Outputting the captured power snapshot.\n");  
-      
-      //Step 4: Stream this to the UART for Python to capture
-      // ns_print_JSON(uNumber);
-      ns_print_csv(uNumber);
-      bCaptured[uNumber] = false;
-    }
-    else 
-      ns_lp_printf("No snapshot captured or repeated snapshot requested while in single shot mode.\n");  
-
-    return;
-      
-  }
-  
-  else {
-  
-    //Step 1: gather the system information
-    //Function block 1: PWRCTRL
-    am_bsp_pp1[uNumber].bSingle = bSingleShot;
-    if (bSingleShot && uNumber == am_bsp_pp1[uNumber].uSnapShot) {
-      bCaptured[uNumber] = false;
-      return;
-    }
-
-    am_bsp_pp1[uNumber].uSnapShot = uNumber;
-    am_bsp_pp1[uNumber].P_MCUPERFREQ = PWRCTRL-> MCUPERFREQ;
-    
-    am_bsp_pp1[uNumber].P_DEVPWRSTATUS = PWRCTRL-> DEVPWRSTATUS;  //all peripheral power information
-    am_bsp_pp1[uNumber].P_DEVPWREN = PWRCTRL->DEVPWREN;
-    
-    //if there is an silicon bug, catch it here
-    if (am_bsp_pp1[uNumber].P_DEVPWRSTATUS != am_bsp_pp1[uNumber].P_DEVPWREN) am_bsp_pp1[uNumber].P_DEVPWRSTATUS = 0xFFFFFFFF;
-
-    am_bsp_pp1[uNumber].P_DEVPWREN          = PWRCTRL->DEVPWREN;
-    am_bsp_pp1[uNumber].P_DEVPWRSTATUS      = PWRCTRL->DEVPWRSTATUS;
-    am_bsp_pp1[uNumber].P_AUDSSPWREN        = PWRCTRL->AUDSSPWREN;
-    am_bsp_pp1[uNumber].P_AUDSSPWRSTATUS    = PWRCTRL->AUDSSPWRSTATUS;
-    am_bsp_pp1[uNumber].P_MEMPWREN          = PWRCTRL->MEMPWREN;
-    am_bsp_pp1[uNumber].P_MEMPWRSTATUS      = PWRCTRL->MEMPWRSTATUS;
-    am_bsp_pp1[uNumber].P_MEMRETCFG         = PWRCTRL->MEMRETCFG;
-    am_bsp_pp1[uNumber].P_SYSPWRSTATUS      = PWRCTRL->SYSPWRSTATUS;
-    am_bsp_pp1[uNumber].P_SSRAMPWREN        = PWRCTRL->SSRAMPWREN;
-    am_bsp_pp1[uNumber].P_SSRAMPWRST        = PWRCTRL->SSRAMPWRST;
-    am_bsp_pp1[uNumber].P_SSRAMRETCFG       = PWRCTRL->SSRAMRETCFG;
-    am_bsp_pp1[uNumber].P_DEVPWREVENTEN     = PWRCTRL->DEVPWREVENTEN;
-    am_bsp_pp1[uNumber].P_MEMPWREVENTEN     = PWRCTRL->MEMPWREVENTEN;
-    am_bsp_pp1[uNumber].P_MMSOVERRIDE       = PWRCTRL->MMSOVERRIDE;
-    am_bsp_pp1[uNumber].P_CPUPWRCTRL        = PWRCTRL->CPUPWRCTRL;
-    am_bsp_pp1[uNumber].P_PWRCTRLMODESTATUS = PWRCTRL->PWRCTRLMODESTATUS;
-    am_bsp_pp1[uNumber].P_CPUPWRSTATUS      = PWRCTRL->CPUPWRSTATUS;
-    am_bsp_pp1[uNumber].P_PWRACKOVR         = PWRCTRL->PWRACKOVR;
-    am_bsp_pp1[uNumber].P_PWRCNTDEFVAL      = PWRCTRL->PWRCNTDEFVAL;
-    am_bsp_pp1[uNumber].P_GFXPERFREQ        = PWRCTRL->GFXPERFREQ;
-    am_bsp_pp1[uNumber].P_GFXPWRSWSEL       = PWRCTRL->GFXPWRSWSEL;
-    am_bsp_pp1[uNumber].P_EPURETCFG         = PWRCTRL->EPURETCFG;
-    am_bsp_pp1[uNumber].P_VRCTRL            = PWRCTRL->VRCTRL;
-    am_bsp_pp1[uNumber].P_LEGACYVRLPOVR     = PWRCTRL->LEGACYVRLPOVR;
-    am_bsp_pp1[uNumber].P_VRSTATUS          = PWRCTRL->VRSTATUS;
-    am_bsp_pp1[uNumber].P_SRAMCTRL          = PWRCTRL->SRAMCTRL;
-    am_bsp_pp1[uNumber].P_ADCSTATUS         = PWRCTRL->ADCSTATUS;
-    am_bsp_pp1[uNumber].P_AUDADCSTATUS      = PWRCTRL->AUDADCSTATUS;
-    am_bsp_pp1[uNumber].P_TONCNTRCTRL       = PWRCTRL->TONCNTRCTRL;
-    am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDS   = PWRCTRL->LPOVRTHRESHVDDS;
-    am_bsp_pp1[uNumber].P_LPOVRHYSTCNT      = PWRCTRL->LPOVRHYSTCNT;
-    am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDF   = PWRCTRL->LPOVRTHRESHVDDF;
-    am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDC   = PWRCTRL->LPOVRTHRESHVDDC;
-    am_bsp_pp1[uNumber].P_LPOVRTHRESHVDDCLV = PWRCTRL->LPOVRTHRESHVDDCLV;
-    am_bsp_pp1[uNumber].P_LPOVRSTAT         = PWRCTRL->LPOVRSTAT;
-    am_bsp_pp1[uNumber].P_MRAMEXTCTRL       = PWRCTRL->MRAMEXTCTRL;
-    am_bsp_pp1[uNumber].P_EMONCTRL          = PWRCTRL->EMONCTRL;
-    am_bsp_pp1[uNumber].P_EMONCFG0          = PWRCTRL->EMONCFG0;
-    am_bsp_pp1[uNumber].P_EMONCFG1          = PWRCTRL->EMONCFG1;
-    am_bsp_pp1[uNumber].P_EMONCFG2          = PWRCTRL->EMONCFG2;
-    am_bsp_pp1[uNumber].P_EMONCFG3          = PWRCTRL->EMONCFG3;
-    am_bsp_pp1[uNumber].P_EMONCFG4          = PWRCTRL->EMONCFG4;
-    am_bsp_pp1[uNumber].P_EMONCFG5          = PWRCTRL->EMONCFG5;
-    am_bsp_pp1[uNumber].P_EMONCFG6          = PWRCTRL->EMONCFG6;
-    am_bsp_pp1[uNumber].P_EMONCFG7          = PWRCTRL->EMONCFG7;
-    am_bsp_pp1[uNumber].P_EMONCOUNT0        = PWRCTRL->EMONCOUNT0;
-    am_bsp_pp1[uNumber].P_EMONCOUNT1        = PWRCTRL->EMONCOUNT1;
-    am_bsp_pp1[uNumber].P_EMONCOUNT2        = PWRCTRL->EMONCOUNT2;
-    am_bsp_pp1[uNumber].P_EMONCOUNT3        = PWRCTRL->EMONCOUNT3;
-    am_bsp_pp1[uNumber].P_EMONCOUNT4        = PWRCTRL->EMONCOUNT4;
-    am_bsp_pp1[uNumber].P_EMONCOUNT5        = PWRCTRL->EMONCOUNT5;
-    am_bsp_pp1[uNumber].P_EMONCOUNT6        = PWRCTRL->EMONCOUNT6;
-    am_bsp_pp1[uNumber].P_EMONCOUNT7        = PWRCTRL->EMONCOUNT7;
-    am_bsp_pp1[uNumber].P_EMONSTATUS        = PWRCTRL->EMONSTATUS;
-    
-    //append the FPIO here
-    am_bsp_pp1[uNumber].P_FPIOEN0 = FPIO-> EN0 ;
-    am_bsp_pp1[uNumber].P_FPIOEN1 = FPIO-> EN1;
-    am_bsp_pp1[uNumber].P_FPIOEN2 = FPIO-> EN2;
-
-  
-    //Function block 2: MCU_CTRL
-    //Set AI keys 
-     //WriteAIKeys();
-    // AI0 = 0x61EBBE3C;
-    // AI1 = 0xAA16A508;
-    // AI2 = 0x5C13A663;
-    // AI3 = 0x49B43703;
-    // GPIO->PADKEY = 0X73;
-
-    am_bsp_pp2[uNumber].M_CHIPPN            = MCUCTRL->CHIPPN;
-    am_bsp_pp2[uNumber].M_CHIPID0           = MCUCTRL->CHIPID0;
-    am_bsp_pp2[uNumber].M_CHIPID1           = MCUCTRL->CHIPID1; 
-    am_bsp_pp2[uNumber].M_CHIPREV           = MCUCTRL->CHIPREV; 
-    am_bsp_pp2[uNumber].M_VENDORID          = MCUCTRL->VENDORID; 
-    am_bsp_pp2[uNumber].M_SKU               = MCUCTRL->SKU;   
-    am_bsp_pp2[uNumber].M_SKUOVERRIDE       = MCUCTRL->SKUOVERRIDE;  
-    am_bsp_pp2[uNumber].M_DEBUGGER          = MCUCTRL->DEBUGGER;
-    am_bsp_pp2[uNumber].M_ACRG              = MCUCTRL->ACRG;
-    am_bsp_pp2[uNumber].M_VREFGEN2          = MCUCTRL->VREFGEN2;
-    am_bsp_pp2[uNumber].M_VREFGEN4          = MCUCTRL->VREFGEN4;
-    am_bsp_pp2[uNumber].M_VREFBUF           = MCUCTRL->VREFBUF; 
-    am_bsp_pp2[uNumber].M_VRCTRL            = MCUCTRL->VRCTRL;
-    am_bsp_pp2[uNumber].M_LDOREG1           = MCUCTRL->LDOREG1; 
-    am_bsp_pp2[uNumber].M_LDOREG2           = MCUCTRL->LDOREG2; 
-    am_bsp_pp2[uNumber].M_LFRC              = MCUCTRL->LFRC;   
-    am_bsp_pp2[uNumber].M_BODCTRL           = MCUCTRL->BODCTRL;  
-    am_bsp_pp2[uNumber].M_ADCPWRCTRL        = MCUCTRL->ADCPWRCTRL; 
-    am_bsp_pp2[uNumber].M_ADCCAL            = MCUCTRL->ADCCAL;   
-    am_bsp_pp2[uNumber].M_ADCBATTLOAD       = MCUCTRL->ADCBATTLOAD; 
-    am_bsp_pp2[uNumber].M_XTALCTRL          = MCUCTRL->XTALCTRL;
-    am_bsp_pp2[uNumber].M_XTALGENCTRL       = MCUCTRL->XTALGENCTRL;
-    am_bsp_pp2[uNumber].M_XTALHSTRIMS       = MCUCTRL->XTALHSTRIMS;
-    am_bsp_pp2[uNumber].M_XTALHSCTRL        = MCUCTRL->XTALHSCTRL;
-    am_bsp_pp2[uNumber].M_BGTLPCTRL         = MCUCTRL->BGTLPCTRL;
-    am_bsp_pp2[uNumber].M_MRAMCRYPTOPWRCTRL = MCUCTRL->MRAMCRYPTOPWRCTRL;
-    am_bsp_pp2[uNumber].M_BODISABLE         = MCUCTRL->BODISABLE;
-    am_bsp_pp2[uNumber].M_D2ASPARE          = MCUCTRL->D2ASPARE;
-    am_bsp_pp2[uNumber].M_BOOTLOADER        = MCUCTRL->BOOTLOADER;
-    am_bsp_pp2[uNumber].M_SHADOWVALID       = MCUCTRL->SHADOWVALID;
-    am_bsp_pp2[uNumber].M_SCRATCH0          = MCUCTRL->SCRATCH0;
-    am_bsp_pp2[uNumber].M_SCRATCH1          = MCUCTRL->SCRATCH1;
-    am_bsp_pp2[uNumber].M_DBGR1             = MCUCTRL->DBGR1;
-    am_bsp_pp2[uNumber].M_DBGR2             = MCUCTRL->DBGR2;
-    am_bsp_pp2[uNumber].M_WICCONTROL        = MCUCTRL->WICCONTROL;
-    am_bsp_pp2[uNumber].M_DBGCTRL           = MCUCTRL->DBGCTRL;
-    am_bsp_pp2[uNumber].M_OTAPOINTER        = MCUCTRL->OTAPOINTER;
-    am_bsp_pp2[uNumber].M_APBDMACTRL        = MCUCTRL->APBDMACTRL;
-    am_bsp_pp2[uNumber].M_FORCEAXICLKEN     = MCUCTRL->FORCEAXICLKEN;
-    am_bsp_pp2[uNumber].M_KEXTCLKSEL        = MCUCTRL->KEXTCLKSEL;
-    am_bsp_pp2[uNumber].M_SIMOBUCK0         = MCUCTRL->SIMOBUCK0;
-    am_bsp_pp2[uNumber].M_SIMOBUCK1         = MCUCTRL->SIMOBUCK1;
-    am_bsp_pp2[uNumber].M_SIMOBUCK2         = MCUCTRL->SIMOBUCK2;
-    am_bsp_pp2[uNumber].M_SIMOBUCK3         = MCUCTRL->SIMOBUCK3;
-    am_bsp_pp2[uNumber].M_SIMOBUCK6         = MCUCTRL->SIMOBUCK6;
-    am_bsp_pp2[uNumber].M_SIMOBUCK7         = MCUCTRL->SIMOBUCK7;
-    am_bsp_pp2[uNumber].M_SIMOBUCK8         = MCUCTRL->SIMOBUCK8;
-    am_bsp_pp2[uNumber].M_SIMOBUCK9         = MCUCTRL->SIMOBUCK9;
-    am_bsp_pp2[uNumber].M_SIMOBUCK12        = MCUCTRL->SIMOBUCK12;
-    am_bsp_pp2[uNumber].M_SIMOBUCK13        = MCUCTRL->SIMOBUCK13;
-    am_bsp_pp2[uNumber].M_SIMOBUCK15        = MCUCTRL->SIMOBUCK15;
-    am_bsp_pp2[uNumber].M_PWRSW0            = MCUCTRL->PWRSW0;
-    am_bsp_pp2[uNumber].M_PWRSW1            = MCUCTRL->PWRSW1;
-    am_bsp_pp2[uNumber].M_USBRSTCTRL        = MCUCTRL->USBRSTCTRL;
-    am_bsp_pp2[uNumber].M_FLASHWPROT0       = MCUCTRL->FLASHWPROT0;
-    am_bsp_pp2[uNumber].M_FLASHWPROT1       = MCUCTRL->FLASHWPROT1;
-    am_bsp_pp2[uNumber].M_FLASHWPROT2       = MCUCTRL->FLASHWPROT2;
-    am_bsp_pp2[uNumber].M_FLASHWPROT3       = MCUCTRL->FLASHWPROT3;
-    am_bsp_pp2[uNumber].M_FLASHRPROT0       = MCUCTRL->FLASHRPROT0;
-    am_bsp_pp2[uNumber].M_FLASHRPROT1       = MCUCTRL->FLASHRPROT1;
-    am_bsp_pp2[uNumber].M_FLASHRPROT2       = MCUCTRL->FLASHRPROT2;
-    am_bsp_pp2[uNumber].M_FLASHRPROT3       = MCUCTRL->FLASHRPROT3;
-    am_bsp_pp2[uNumber].M_SRAMWPROT0        = MCUCTRL->SRAMWPROT0;
-    am_bsp_pp2[uNumber].M_SRAMWPROT1        = MCUCTRL->SRAMWPROT1;
-    am_bsp_pp2[uNumber].M_SRAMWPROT2        = MCUCTRL->SRAMWPROT2;
-    am_bsp_pp2[uNumber].M_SRAMWPROT3        = MCUCTRL->SRAMWPROT3;
-    am_bsp_pp2[uNumber].M_SRAMWPROT4        = MCUCTRL->SRAMWPROT4;
-    am_bsp_pp2[uNumber].M_SRAMWPROT5        = MCUCTRL->SRAMWPROT5;
-    am_bsp_pp2[uNumber].M_SRAMRPROT0        = MCUCTRL->SRAMRPROT0;
-    am_bsp_pp2[uNumber].M_SRAMRPROT1        = MCUCTRL->SRAMRPROT1;
-    am_bsp_pp2[uNumber].M_SRAMRPROT2        = MCUCTRL->SRAMRPROT2;
-    am_bsp_pp2[uNumber].M_SRAMRPROT3        = MCUCTRL->SRAMRPROT3;
-    am_bsp_pp2[uNumber].M_SRAMRPROT4        = MCUCTRL->SRAMRPROT4;
-    am_bsp_pp2[uNumber].M_SRAMRPROT5        = MCUCTRL->SRAMRPROT5;
-    am_bsp_pp2[uNumber].M_AUDADCPWRCTRL     = MCUCTRL->AUDADCPWRCTRL;
-    am_bsp_pp2[uNumber].M_AUDIO1            = MCUCTRL->AUDIO1;
-    am_bsp_pp2[uNumber].M_PGAADCIFCTRL      = MCUCTRL->PGAADCIFCTRL;
-    am_bsp_pp2[uNumber].M_PGACTRL1          = MCUCTRL->PGACTRL1;
-    am_bsp_pp2[uNumber].M_PGACTRL2          = MCUCTRL->PGACTRL2;
-    am_bsp_pp2[uNumber].M_AUDADCPWRDLY      = MCUCTRL->AUDADCPWRDLY;
-    am_bsp_pp2[uNumber].M_SDIO0CTRL         = MCUCTRL->SDIO0CTRL;
-    am_bsp_pp2[uNumber].M_SDIO1CTRL         = MCUCTRL->SDIO1CTRL;
-    am_bsp_pp2[uNumber].M_PDMCTRL           = MCUCTRL->PDMCTRL;
-    am_bsp_pp2[uNumber].M_MMSMISCCTRL       = MCUCTRL->MMSMISCCTRL;
-    am_bsp_pp2[uNumber].M_FLASHWPROT4       = MCUCTRL->FLASHWPROT4;
-    am_bsp_pp2[uNumber].M_FLASHWPROT5       = MCUCTRL->FLASHWPROT5;
-    am_bsp_pp2[uNumber].M_FLASHWPROT6       = MCUCTRL->FLASHWPROT6;
-    am_bsp_pp2[uNumber].M_FLASHWPROT7       = MCUCTRL->FLASHWPROT7;
-    am_bsp_pp2[uNumber].M_FLASHRPROT4       = MCUCTRL->FLASHRPROT4;
-    am_bsp_pp2[uNumber].M_FLASHRPROT5       = MCUCTRL->FLASHRPROT5;
-    am_bsp_pp2[uNumber].M_FLASHRPROT6       = MCUCTRL->FLASHRPROT6;
-    am_bsp_pp2[uNumber].M_FLASHRPROT7       = MCUCTRL->FLASHRPROT7;
-    am_bsp_pp2[uNumber].M_PWRSW2            = MCUCTRL->PWRSW2;
-    am_bsp_pp2[uNumber].M_CPUCFG            = MCUCTRL->CPUCFG;
-    am_bsp_pp2[uNumber].M_PLLCTL0           = MCUCTRL->PLLCTL0;
-    am_bsp_pp2[uNumber].M_PLLDIV0           = MCUCTRL->PLLDIV0;
-    am_bsp_pp2[uNumber].M_PLLDIV1           = MCUCTRL->PLLDIV1;
-    am_bsp_pp2[uNumber].M_PLLSTAT           = MCUCTRL->PLLSTAT;
-    am_bsp_pp2[uNumber].M_PLLMUXCTL         = MCUCTRL->PLLMUXCTL;
-
-    //Function Block 3: CLKGEN
-    am_bsp_pp3[uNumber].C_OCTRL             = CLKGEN->OCTRL;
-    am_bsp_pp3[uNumber].C_CLKOUT            = CLKGEN->CLKOUT;
-    am_bsp_pp3[uNumber].C_HFADJ	            = CLKGEN->HFADJ;
-    am_bsp_pp3[uNumber].C_CLOCKENSTAT	      = CLKGEN->CLOCKENSTAT;
-    am_bsp_pp3[uNumber].C_CLOCKEN2STAT	    = CLKGEN->CLOCKEN2STAT;
-    am_bsp_pp3[uNumber].C_CLOCKEN3STAT      = CLKGEN->CLOCKEN3STAT;       
-    am_bsp_pp3[uNumber].C_MISC	            = CLKGEN->MISC;
-    am_bsp_pp3[uNumber].C_HF2ADJ0	          = CLKGEN->HF2ADJ0;
-    am_bsp_pp3[uNumber].C_HF2ADJ1    	      = CLKGEN->HF2ADJ1;
-    am_bsp_pp3[uNumber].C_HF2ADJ2	          = CLKGEN->HF2ADJ2;
-    am_bsp_pp3[uNumber].C_HF2VAL	          = CLKGEN->HF2VAL;
-    am_bsp_pp3[uNumber].C_LFRCCTRL	        = CLKGEN->LFRCCTRL;
-    am_bsp_pp3[uNumber].C_DISPCLKCTRL	      = CLKGEN->DISPCLKCTRL;
-    am_bsp_pp3[uNumber].C_CLKGENSPARES	    = CLKGEN->CLKGENSPARES;
-    am_bsp_pp3[uNumber].C_HFRCIDLECOUNTERS  = CLKGEN->HFRCIDLECOUNTERS;
-    am_bsp_pp3[uNumber].C_MSPIIOCLKCTRL	    = CLKGEN->MSPIIOCLKCTRL;
-    am_bsp_pp3[uNumber].C_CLKCTRL	          = CLKGEN->CLKCTRL;
-
-    //Function Block 4: System timer
-    am_bsp_pp3[uNumber].ST_STCFG = STIMER->STCFG;  
-    am_bsp_pp3[uNumber].ST_STMINTSTAT = STIMER->STMINTSTAT;    
-   
-    //Function Block 5: Timer
-    am_bsp_pp3[uNumber].T_CTRL	= TIMER->CTRL;
-    am_bsp_pp3[uNumber].T_STATUS	= TIMER->STATUS;
-    am_bsp_pp3[uNumber].T_GLOBEN	= TIMER->GLOBEN;
-    am_bsp_pp3[uNumber].T_INTSTAT	= TIMER->INTSTAT;
-    am_bsp_pp3[uNumber].T_CTRL0	= TIMER->CTRL0;
-    am_bsp_pp3[uNumber].T_CTRL1	= TIMER->CTRL1;
-    am_bsp_pp3[uNumber].T_CTRL2	= TIMER->CTRL2;
-    am_bsp_pp3[uNumber].T_CTRL3	= TIMER->CTRL3;
-    am_bsp_pp3[uNumber].T_CTRL4	= TIMER->CTRL4;
-    am_bsp_pp3[uNumber].T_CTRL5	= TIMER->CTRL5;
-    am_bsp_pp3[uNumber].T_CTRL6	= TIMER->CTRL6;
-    am_bsp_pp3[uNumber].T_CTRL7	= TIMER->CTRL7;
-    am_bsp_pp3[uNumber].T_CTRL8	= TIMER->CTRL8;
-    am_bsp_pp3[uNumber].T_CTRL9	= TIMER->CTRL9;
-    am_bsp_pp3[uNumber].T_CTRL10	= TIMER->CTRL10;
-    am_bsp_pp3[uNumber].T_CTRL11	= TIMER->CTRL11;
-    am_bsp_pp3[uNumber].T_CTRL12	= TIMER->CTRL12;
-    am_bsp_pp3[uNumber].T_CTRL13	= TIMER->CTRL13;
-    am_bsp_pp3[uNumber].T_CTRL14	= TIMER->CTRL14;
-    am_bsp_pp3[uNumber].T_CTRL15	= TIMER->CTRL15;
-
-#if USE_AMIC_AUDADC
-    //Function Block 6: AUDADC
-    if (g_sVosBrd.pvAUDADCHandle && (AM_HAL_AUDADC_CHK_HANDLE(g_sVosBrd.pvAUDADCHandle)))
-    {
-      am_bsp_pp4[uNumber].AU_CFG  =	AUDADC->CFG;
-      am_bsp_pp4[uNumber].AU_STAT = 	AUDADC->STAT;
-      am_bsp_pp4[uNumber].AU_SWT = 	AUDADC->SWT;
-      am_bsp_pp4[uNumber].AU_SL0CFG = 	AUDADC->SL0CFG; 
-      am_bsp_pp4[uNumber].AU_SL1CFG = 	AUDADC->SL1CFG;
-      am_bsp_pp4[uNumber].AU_SL2CFG = 	AUDADC->SL2CFG;
-      am_bsp_pp4[uNumber].AU_SL3CFG = 	AUDADC->SL3CFG;
-      am_bsp_pp4[uNumber].AU_SL4CFG = 	AUDADC->SL4CFG;
-      am_bsp_pp4[uNumber].AU_SL5CFG = 	AUDADC->SL5CFG;
-      am_bsp_pp4[uNumber].AU_SL6CFG = 	AUDADC->SL6CFG;
-      am_bsp_pp4[uNumber].AU_SL7CFG = 	AUDADC->SL7CFG;
-      am_bsp_pp4[uNumber].AU_WULIM = 	AUDADC->WULIM;
-      am_bsp_pp4[uNumber].AU_WLLIM = 	AUDADC->WLLIM;
-      am_bsp_pp4[uNumber].AU_SCWLIM = 	AUDADC->SCWLIM;
-      am_bsp_pp4[uNumber].AU_FIFO = 	AUDADC->FIFO;
-      am_bsp_pp4[uNumber].AU_FIFOPR = 	AUDADC->FIFOPR;
-      am_bsp_pp4[uNumber].AU_FIFOSTAT = 	AUDADC->FIFOSTAT;
-      am_bsp_pp4[uNumber].AU_DATAOFFSET = 	AUDADC->DATAOFFSET;
-      am_bsp_pp4[uNumber].AU_ZXCFG = 	AUDADC->ZXCFG;
-      am_bsp_pp4[uNumber].AU_ZXLIM = 	AUDADC->ZXLIM;
-      am_bsp_pp4[uNumber].AU_GAINCFG = 	AUDADC->GAINCFG;
-      am_bsp_pp4[uNumber].AU_GAIN = 	AUDADC->GAIN;
-      am_bsp_pp4[uNumber].AU_SATCFG = 	AUDADC->SATCFG;
-
-      am_bsp_pp4[uNumber].AU_SATLIM = 	AUDADC->SATLIM;
-      am_bsp_pp4[uNumber].AU_SATMAX = 	AUDADC->SATMAX;
-      am_bsp_pp4[uNumber].AU_SATCLR = 	AUDADC->SATCLR;
-      am_bsp_pp4[uNumber].AU_IEREN = 	AUDADC->INTEN; 
-      am_bsp_pp4[uNumber].AU_IERSTAT = 	AUDADC->INTSTAT;
-      am_bsp_pp4[uNumber].AU_IERCLR = 	AUDADC->INTCLR;
-      am_bsp_pp4[uNumber].AU_IERSET = 	AUDADC->INTSET;
-      am_bsp_pp4[uNumber].AU_DMATRIGEN = 	AUDADC->DMATRIGEN;
-      am_bsp_pp4[uNumber].AU_DMATRIGSTAT = 	AUDADC->DMATRIGSTAT;
-      am_bsp_pp4[uNumber].AU_DMACFG = 	AUDADC->DMACFG;
-      am_bsp_pp4[uNumber].AU_DMATOTCOUNT = 	AUDADC->DMATOTCOUNT;
-      am_bsp_pp4[uNumber].AU_DMATARGADDR = 	AUDADC->DMATARGADDR;
-      am_bsp_pp4[uNumber].AU_DMASTAT = 	AUDADC->DMASTAT;
-    }
-#endif
-
-#if USE_DMIC_PDM
-    if(g_sVosBrd.pvPDMHandle && (AM_HAL_PDM_HANDLE_VALID(g_sVosBrd.pvPDMHandle)))
-    {
-      am_bsp_pp5[uNumber].PDM_CTRL  =	PDMn(0)->CTRL;
-      am_bsp_pp5[uNumber].PDM_CORECFG0 = 	PDMn(0)->CORECFG0;
-      am_bsp_pp5[uNumber].PDM_CORECFG1 = 	PDMn(0)->CORECFG1;
-      am_bsp_pp5[uNumber].PDM_CORECTRL = 	PDMn(0)->CORECTRL; 
-      am_bsp_pp5[uNumber].PDM_FIFOCNT = 	PDMn(0)->FIFOCNT;
-      am_bsp_pp5[uNumber].PDM_FIFOREAD = 	PDMn(0)->FIFOREAD;
-      am_bsp_pp5[uNumber].PDM_FIFOFLUSH = 	PDMn(0)->FIFOFLUSH;
-      am_bsp_pp5[uNumber].PDM_FIFOTHR = 	PDMn(0)->FIFOTHR;
-      am_bsp_pp5[uNumber].PDM_INTEN = 	PDMn(0)->INTEN;
-      am_bsp_pp5[uNumber].PDM_INTSTAT = 	PDMn(0)->INTSTAT;
-      am_bsp_pp5[uNumber].PDM_INTCLR = 	PDMn(0)->INTCLR;
-      am_bsp_pp5[uNumber].PDM_INTSET = 	PDMn(0)->INTSET;
-      am_bsp_pp5[uNumber].PDM_DMATRIGEN = 	PDMn(0)->DMATRIGEN;
-      am_bsp_pp5[uNumber].PDM_DMATRIGSTAT = 	PDMn(0)->DMATRIGSTAT;
-      am_bsp_pp5[uNumber].PDM_DMACFG = 	PDMn(0)->DMACFG;
-      am_bsp_pp5[uNumber].PDM_DMATARGADDR = 	PDMn(0)->DMATARGADDR;
-      am_bsp_pp5[uNumber].PDM_DMASTAT = 	PDMn(0)->DMASTAT;
-      am_bsp_pp5[uNumber].PDM_DMATARGADDRNEXT = 	PDMn(0)->DMATARGADDRNEXT;
-      am_bsp_pp5[uNumber].PDM_DMATOTCOUNTNEXT = 	PDMn(0)->DMATOTCOUNTNEXT;
-      am_bsp_pp5[uNumber].PDM_DMAENNEXTCTRL = 	PDMn(0)->DMAENNEXTCTRL;
-      am_bsp_pp5[uNumber].PDM_DMATOTCOUNT = 	PDMn(0)->DMATOTCOUNT;
-    }
-#endif
-
-    bCaptured[uNumber] = true;  //now the snapshot is in memory
-    ns_lp_printf("Power snapshot captured.\n");
-  }
-}
-
+*/
+ 

@@ -80,7 +80,7 @@ LFLAGS+=
 CPFLAGS = -Obinary
 ODFLAGS = -S
 ARFLAGS = rsc
-
+ASMFLAGS+= -mthumb -mcpu=$(CPU) $(FPU_FLAG) -mfloat-abi=$(FABI) 
 
 else ifeq ($(TOOLCHAIN),arm)
 # Armlink keeps removing stuff from static libs, so have to add some objs to the linker command line

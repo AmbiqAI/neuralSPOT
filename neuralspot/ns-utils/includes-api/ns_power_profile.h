@@ -69,8 +69,12 @@ extern "C" {
 // uNumber: snapshot number
 //*****************************************************************************
 void ns_pp_ap4_snapshot(bool bDebug, uint32_t uNumber);
-void ns_pp_ap5_snapshot(bool bSingleShot, uint32_t uNumber, bool bStreamNow);
-// void am_bsp_pp_snapshot(bool bSingleShot, uint32_t uNumber, bool bStreamNow)
+
+#ifdef AM_PART_APOLLO5B
+// AP5 uses a different PP implementation
+void capture_snapshot(int snapshotIndex);
+void print_snapshot(int snapshotIndex, bool json);
+#endif // AM_PART_APOLLO5
 
 #ifdef __cplusplus
 }

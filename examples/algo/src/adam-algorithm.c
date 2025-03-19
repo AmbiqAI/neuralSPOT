@@ -27,6 +27,7 @@ void algorithm_init(struct algorithm *instance) {
     // arm_rfft_fast_init_1024_f32(&fft);
 }
 
+//bool __attribute__((section(".itcm_text"))) algorithm(struct algorithm *instance,
 bool algorithm(struct algorithm *instance,
                struct algorithm_input *input,
                float *tempBuffer,

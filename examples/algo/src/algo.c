@@ -19,6 +19,10 @@
 #include <arm_math.h>
 #include <arm_mve.h>   // Intrinsics for MVE
 
+// Results so far
+// Orig: arm/lp 8.65ms, (58uJ), gcc/lp 24ms (115uJ)
+// adam: arm/lp 4.54 (36.5uJ), gcc/lp 12.8ns (71ms)
+// o1: arm/lp 4.48 (36uJ), itcm 4.49 (36uJ), arm/lp  12.4ms (69uJ) itcm 12.36 (69uJ)
 
 // static uint32_t elapsedTime = 0;
 // ns_timer_config_t tickTimer = {
@@ -39,7 +43,7 @@
 // uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
 //=============================================================================
-// Moc algorithm input configuration
+// Moc algorithm input configuration 
 //
 //=============================================================================
 #define SAMPLE_RATE      25.0f
@@ -369,6 +373,8 @@ int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    ns_set_performance_mode(NS_MINIMUM_PERF);
+    // ns_set_performance_mode(NS_MAXIMUM_PERF);
     // NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
     ns_button_config_t button_config = {
         .api = &ns_button_V1_0_0,

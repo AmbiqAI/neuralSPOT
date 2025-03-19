@@ -78,8 +78,9 @@ static inline void buffer_copy_and_window_mve(const struct buffer *inBuf,
     }
 }
 
-bool algorithm(struct algorithm *instance,
-    struct algorithm_input *input,
+bool __attribute__((section(".itcm_text"))) algorithm(struct algorithm *instance,
+// bool algorithm(struct algorithm *instance,
+        struct algorithm_input *input,
     float *tempBuffer,
     float *output)
 {
@@ -136,14 +137,14 @@ bool algorithm(struct algorithm *instance,
 }
 
 /*-------------------- Circular buffer function definitions ------------------*/
-void buffer_init(struct buffer *instance) {
+inline void buffer_init(struct buffer *instance) {
     instance->position = 0;
     for (int i = 0; i < BUFFER_LEN; i++) {
         instance->values[i] = 0;
     }
 }
 
-void buffer_input(struct buffer *instance, float value) {
+inline void buffer_input(struct buffer *instance, float value) {
     instance->values[instance->position] = value;
     instance->position += 1;
     if (instance->position >= BUFFER_LEN) {
@@ -151,7 +152,7 @@ void buffer_input(struct buffer *instance, float value) {
     }
 }
 
-void buffer_copy(struct buffer *instance, float *output) {
+inline void buffer_copy(struct buffer *instance, float *output) {
     arm_copy_f32(&instance->values[instance->position], output, BUFFER_LEN - instance->position);
     arm_copy_f32(&instance->values[0], output + BUFFER_LEN - instance->position, instance->position);
 }
@@ -169,7 +170,7 @@ void input_generator_init(struct input_generator *self,
     self->time = 0;
 }
 
-float generate_sine(struct input_generator *self) {
+inline float generate_sine(struct input_generator *self) {
     float result = self->amplitude *
         sinf(2 * PI * self->frequency * self->time + self->phase);
 
@@ -180,6 +181,6 @@ float generate_sine(struct input_generator *self) {
     return result;
 }
 
-float generate_white_noise(float amplitude) {
+inline float generate_white_noise(float amplitude) {
     return amplitude * (2 * ((float)rand() / RAND_MAX) - 1);
 }

@@ -30,6 +30,8 @@
 # TF_VERSION := Aug_23_2024_c01ca97f
 # TF_VERSION := tanh
 
+# CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
+
 # TOOLCHAIN := arm
 # EXAMPLE := nnse2
 # TARGET := nnse2

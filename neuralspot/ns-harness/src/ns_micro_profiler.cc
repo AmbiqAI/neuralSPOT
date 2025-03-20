@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 // Recent versions of TFLM changed the name of some internals
-// #define NS_TFLM_NEW_MICRO_PROFILER
+#define NS_TFLM_NEW_MICRO_PROFILER
 #ifdef NS_TFLM_NEW_MICRO_PROFILER
 #define NS_TOTAL_TICKS total_ticks_per_tag_
 #else

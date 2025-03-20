@@ -112,7 +112,11 @@ TF_VERSION := ns_tflm_2025_03_06
 endif
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1
+
 CMSIS_VERSION := CMSIS_5-5.9.0
+ifndef CMSIS_DSP_VERSION
+CMSIS_DSP_VERSION := CMSIS-DSP-1.15.0
+endif
 
 ##### Application Defaults #####
 # default target for binary-specific operations such as 'deploy'

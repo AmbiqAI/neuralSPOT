@@ -68,7 +68,20 @@ SRCS := $(CMSIS_DSP)/Source/BasicMathFunctions/BasicMathFunctions.c \
  $(CMSIS_DSP)/Source/SupportFunctions/SupportFunctions.c \
  $(CMSIS_DSP)/Source/FilteringFunctions/FilteringFunctions.c \
  $(CMSIS_DSP)/Source/TransformFunctions/TransformFunctions.c \
- $(CMSIS_DSP)/Source/WindowFunctions/WindowFunctions.c
+ $(CMSIS_DSP)/Source/WindowFunctions/WindowFunctions.c \
+ $(CMSIS_DSP)/Source/BasicMathFunctions/BasicMathFunctionsF16.c \
+ $(CMSIS_DSP)/Source/CommonTables/CommonTablesF16.c \
+ $(CMSIS_DSP)/Source/InterpolationFunctions/InterpolationFunctionsF16.c \
+ $(CMSIS_DSP)/Source/BayesFunctions/BayesFunctionsF16.c \
+ $(CMSIS_DSP)/Source/MatrixFunctions/MatrixFunctionsF16.c \
+ $(CMSIS_DSP)/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c \
+ $(CMSIS_DSP)/Source/SVMFunctions/SVMFunctionsF16.c \
+ $(CMSIS_DSP)/Source/DistanceFunctions/DistanceFunctionsF16.c \
+ $(CMSIS_DSP)/Source/StatisticsFunctions/StatisticsFunctionsF16.c \
+ $(CMSIS_DSP)/Source/FastMathFunctions/FastMathFunctionsF16.c \
+ $(CMSIS_DSP)/Source/SupportFunctions/SupportFunctionsF16.c \
+ $(CMSIS_DSP)/Source/FilteringFunctions/FilteringFunctionsF16.c \
+ $(CMSIS_DSP)/Source/TransformFunctions/TransformFunctionsF16.c \
 
 # Includes
 DSP_INCLUDES := $(CMSIS_DSP)/Include \

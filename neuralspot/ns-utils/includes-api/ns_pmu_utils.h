@@ -26,13 +26,10 @@ extern "C" {
 #define NS_PMU_CURRENT_VERSION NS_PMU_V1_0_0
 #define NS_PMU_API_ID 0xCA000B
 
-const ns_core_api_t ns_pmu_V0_0_1 = {.apiId = NS_PMU_API_ID, .version = NS_PMU_V0_0_1};
-const ns_core_api_t ns_pmu_V1_0_0 = {.apiId = NS_PMU_API_ID, .version = NS_PMU_V1_0_0};
-const ns_core_api_t ns_pmu_oldest_supported_version = {
-    .apiId = NS_PMU_API_ID, .version = NS_PMU_V0_0_1};
-
-const ns_core_api_t ns_pmu_current_version = {
-    .apiId = NS_PMU_API_ID, .version = NS_PMU_V1_0_0};
+extern const ns_core_api_t ns_pmu_V0_0_1;
+extern const ns_core_api_t ns_pmu_V1_0_0;
+extern const ns_core_api_t ns_pmu_oldest_supported_version;
+extern const ns_core_api_t ns_pmu_current_version;
 
 typedef enum {
     NS_PMU_EVENT_COUNTER_SIZE_16 = 0,

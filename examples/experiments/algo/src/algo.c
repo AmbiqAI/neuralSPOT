@@ -4,13 +4,13 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
 #include "ns_timer.h"
-
+#include "ns_peripherals_button.h"
+#include "ns_pmu_utils.h"
 #include "algorithm.h"
 
 #include "am_hal_mcuctrl.h"
 #include <stdio.h>
 #include <string.h>
-#include "ns_peripherals_button.h"
 #include <stdlib.h>
 #include <stdatomic.h>
 #include "am_mcu_apollo.h"
@@ -20,9 +20,16 @@
 #include <arm_mve.h>   // Intrinsics for MVE
 
 // Results so far
+// 1.15
 // Orig: arm/lp 8.65ms, (58uJ), gcc/lp 24ms (115uJ)
-// adam: arm/lp 4.54 (36.5uJ), gcc/lp 12.8ns (71ms)
-// o1: arm/lp 4.48 (36uJ), itcm 4.49 (36uJ), arm/lp  12.4ms (69uJ) itcm 12.36 (69uJ)
+// adam: arm/lp 4.54 (36.5uJ), gcc/lp 12.8ns (71uJ)
+// o1: arm/lp 4.48 (36uJ), itcm 4.49 (36uJ), gcc/lp  12.4ms (69uJ) itcm 12.36 (69uJ)
+// 
+// Orig: arm/lp 8.67ms (71uJ), gcc/lp 18.8ms (117uJ)
+// adam: arm/lp 4.58 (45.5uJ), gcc/lp 5.7ns (88uJ)
+// o1:  4.55ms (44.5uJ), gcc/lp 5.7ns
+
+// All flags on:
 
 // static uint32_t elapsedTime = 0;
 // ns_timer_config_t tickTimer = {
@@ -76,7 +83,6 @@ enum mode {
 #define PERIOD_1Hz      (uint32_t)32768       // Timer interrupr intervals
 #define PERIOD_5Hz      (uint32_t)(32768/5)  
 #define PERIOD_25Hz     (uint32_t)(32768/25)  
-
 
 //=============================================================================
 //
@@ -244,7 +250,7 @@ uint32_t pui32IntStatus;
 
 //=============================================================================
 //
-//  Set MCU cock frequency
+//  Set MCU cock frequency 
 //
 //=============================================================================
 #define HIGH_PERFORMANCE  0
@@ -306,7 +312,7 @@ void run_mode_until_button_press(enum mode mode)
     }
 
     if (mode == MODE_OFF) {
-        // IMPLEMENT: Wait for button interrupt in deep sleep
+        // IMPLEMENT: Wait for button interrupt in deep sleep 
         am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
         button_pressed=false;
     }
@@ -333,7 +339,7 @@ void run_mode_until_button_press(enum mode mode)
         
     }
     else {
-        // IMPLEMENT: Start periodic timer (input_interval_ms)
+        // IMPLEMENT: Start periodic timer (input_interval_ms) 
         am_hal_timer_compare0_set(TIMER_0,(32768*input_interval_ms)/1000);
         am_hal_timer_clear(TIMER_0) ;
         ns_lp_printf("Timer started for mode %d, interval %d\n", mode, input_interval_ms);
@@ -368,12 +374,29 @@ void run_mode_until_button_press(enum mode mode)
     }
 }
 
+ns_pmu_config_t ns_microProfilerPMU;;
+
+int ftc() {
+    // Add the function here.
+    for (int i = 0; i < 200; i++) {
+        generate_input_and_run_algorithm();
+    }
+    // generate_input_and_run_algorithm();   
+    return 0;
+}
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     ns_set_performance_mode(NS_MINIMUM_PERF);
+    ns_microProfilerPMU.api = &ns_pmu_V1_0_0;
+    ns_pmu_reset_config(&ns_microProfilerPMU);
+    // Any events, will be overriden by 
+    // ns_pmu_event_create(&ns_microProfilerPMU.events[0], 0x01, NS_PMU_EVENT_COUNTER_SIZE_32); 
+    // ns_pmu_event_create(&ns_microProfilerPMU.events[1], 0x02, NS_PMU_EVENT_COUNTER_SIZE_32); 
+    // ns_pmu_event_create(&ns_microProfilerPMU.events[2], 0x03, NS_PMU_EVENT_COUNTER_SIZE_32);
+    // ns_pmu_event_create(&ns_microProfilerPMU.events[3], 0x04, NS_PMU_EVENT_COUNTER_SIZE_32);
     // ns_set_performance_mode(NS_MAXIMUM_PERF);
     // NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
     ns_button_config_t button_config = {
@@ -394,6 +417,7 @@ int main(void) {
     // test_sine_wave();
 
     init_algorithm_and_generator();
+    ns_pmu_characterize_function(&ftc, &ns_microProfilerPMU);
 
     enum mode selected_mode = MODE_OFF;
       

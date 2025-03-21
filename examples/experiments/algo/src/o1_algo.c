@@ -184,3 +184,10 @@ inline float generate_sine(struct input_generator *self) {
 inline float generate_white_noise(float amplitude) {
     return amplitude * (2 * ((float)rand() / RAND_MAX) - 1);
 }
+
+
+/* 
+O1 Prompt:
+
+
+*/

@@ -187,7 +187,27 @@ int main(void) {
     // -- Init the NNSE2 model
     AudioPipe_wrapper_init();
     AudioPipe_wrapper_reset();
-
+    int16_t *pcm_input = audioDataBuffer;
+    int16_t *pcm_output = audioDataBuffer + SAMPLES_IN_FRAME;
+    
+    static ns_perf_counters_t pp;
+    ns_lp_printf("\n|------ MCPS Measurement: run 100 times of inference ------|\n");
+    ns_init_perf_profiler();
+    ns_reset_perf_counters();
+    ns_start_perf_profiler();
+    for (int i=0; i < 100; i++)
+    {
+        // ns_printf("Processing frame %d\n", i);
+        AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
+    }
+    ns_stop_perf_profiler();
+    ns_capture_perf_profiler(&pp);
+    ns_print_perf_profile(&pp);
+    ns_lp_printf("cpu freq=%d\n", g_ui32TrimVer);
+    ns_lp_printf("Model execution completed\n");
+    ns_lp_printf("Output after execution\n");
+    ns_lp_printf("|------End MCPS Measurement ------|\n\n");
+    
     // There is a chicken-and-egg thing involved in getting the RPC
     // started. The PC-side server cant start until the USB TTY interface
     // shows up as a device, and that doesn't happen until we start servicing
@@ -208,27 +228,10 @@ int main(void) {
     // we collect data and send it over the various RPC
     // interfaces. Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
-#if 1
-    int16_t *pcm_input = audioDataBuffer;
-    int16_t *pcm_output = audioDataBuffer + SAMPLES_IN_FRAME;
-    
-    static ns_perf_counters_t pp;
-    ns_lp_printf("MCPS estimation: run 100 times of inference\n");
-    ns_init_perf_profiler();
-    ns_reset_perf_counters();
-    ns_start_perf_profiler();
-    for (int i=0; i < 100; i++)
-    {
-        // ns_printf("Processing frame %d\n", i);
-        AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
-    }
-    ns_stop_perf_profiler();
-    ns_capture_perf_profiler(&pp);
-    ns_print_perf_profile(&pp);
-    ns_lp_printf("cpu freq=%d\n", g_ui32TrimVer);
-    ns_lp_printf("Model execution completed\n");
-    ns_lp_printf("Output after execution\n");
-#else
+
+    // -- Init the NNSE2 model
+    AudioPipe_wrapper_init();
+    AudioPipe_wrapper_reset();
     while (1) 
     {
         g_audioRecording = false;
@@ -278,5 +281,5 @@ int main(void) {
         }  // while(1)
         
     } // while(1)
-#endif
+
 }

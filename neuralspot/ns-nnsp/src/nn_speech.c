@@ -167,11 +167,13 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
 #if CHECK_POWER
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 #endif
+
         // for (int i = 0; i < 432; i++) {
         //     pt_feat->normFeatContext[i] = 1;
         // }
         NeuralNetClass_exe(pt_net, pt_feat->normFeatContext, glob_nn_output, debug_layer);
         // int16_t *po = (int16_t *)glob_nn_output;
+        // ns_printf("output: \n\n");
         // for (int i = 0; i < 257; i++) {
         //     ns_printf("%d ", po[i]);
         // }

@@ -3,7 +3,7 @@
 #include "minmax.h"
 #include "activation.h"
 #include "ns_ambiqsuite_harness.h"
-#define MAX_FAST_ACC_SIZE 256
+#define MAX_FAST_ACC_SIZE 512
 #if DEBUG_PRINT
     #include "extern_files.h"
 #endif
@@ -17,7 +17,7 @@
     // #include "third_party/ns_cmsis_nn/Include/Internal/arm_nn_compiler.h"
 #endif
 int64_t accumulators[4] = {0, 0, 0, 0};
-
+#define OPT_ASM 1
 // #if ARM_OPTIMIZED == 3
 #if 1
 int affine_Krows_8x16(
@@ -40,7 +40,7 @@ int affine_Krows_8x16(
         16-bit for input vector
 		See "affine.h" for more detail
 	*/
-	int8_t* p_kernel = *pp_kernel;
+	
 
 	int16_t* p_bias = *pp_bias;
 	int16_t* po = *pp_output;
@@ -69,23 +69,28 @@ int affine_Krows_8x16(
     // 512 512 left
     //
     int count = dim_input;
+    int8_t* p_kernel_0 = *pp_kernel;
+    int8_t *p_kernel_1 = p_kernel_0 + dim_input;
+    int8_t *p_kernel_2 = p_kernel_1 + dim_input;
+    int8_t *p_kernel_3 = p_kernel_2 + dim_input;
+
+    // ns_printf("p_kernel_0: %ld\n",(int32_t) p_kernel_0);
     while (count > 0)
     {
+        int num_acc;
         if (count < MAX_FAST_ACC_SIZE)
         {
-            num = count >> 3;
-            num_8 = num << 3;
-            rem = count & 0x7;
+            num_acc = count;
         }
         else
         {
-            num_8 = MAX_FAST_ACC_SIZE;
-            rem = 0;
+            num_acc = MAX_FAST_ACC_SIZE;
         }
         count-=MAX_FAST_ACC_SIZE;
     
         if (dim_output == 4)
         {
+            #if OPT_ASM==1
             __ASM volatile(
                 " .p2align 2                                 \n"
                 "   wlstp.16        lr, %[cnt], 1f           \n"
@@ -97,32 +102,48 @@ int affine_Krows_8x16(
                 "2:                                          \n"
                 "   vldrb.s16        q1, [%[row0]], #8       \n"
                 "   vmladava.s16     %[out0], q0, q1         \n"
-                "   vldrb.s16        q2, [%[row0]], #8       \n"
+                "   vldrb.s16        q2, [%[row1]], #8       \n"
                 "   vmladava.s16     %[out1], q0, q2         \n"
-                "   vldrb.s16       q3, [%[row0]], #8       \n"
+                "   vldrb.s16       q3, [%[row2]], #8       \n"
                 "   vmladava.s16     %[out2], q0, q3         \n"
-                "   vldrb.s16        q4, [%[row0]], #8       \n"
+                "   vldrb.s16        q4, [%[row3]], #8       \n"
                 "   vmladava.s16     %[out3], q0, q4         \n"
                 "   vldrh.s16        q0, [%[col]], #16       \n"
                 "   letp            lr, 2b                   \n"
                 "1:                                          \n"
             :
                 [col] "+r"(pi),
-                [row0] "+l"(p_kernel),
+                [row0] "+l"(p_kernel_0),
+                [row1] "+l"(p_kernel_1),
+                [row2] "+l"(p_kernel_2),
+                [row3] "+l"(p_kernel_3),
                 [out0] "=Te"(sum0),
                 [out1] "=Te"(sum1),
                 [out2] "=Te"(sum2),
                 [out3] "=Te"(sum3)
             :
-                [cnt] "r"(num_8)
+                [cnt] "r"(num_acc)
             :
                 "q0", "q1", "q2", "q3", "q4", "memory", "r14"
             );
             pi -= 8;  // Fix lhs_ptr by subtracting 8
-    
+            #else
+            sum0 = 0;
+            sum1 = 0;
+            sum2 = 0;
+            sum3 = 0;
+            for (int i = 0; i < dim_input; i++)
+            {
+                sum0 += (int32_t)pi[i] * (int32_t)p_kernel_0[i];
+                sum1 += (int32_t)pi[i] * (int32_t)p_kernel_1[i];
+                sum2 += (int32_t)pi[i] * (int32_t)p_kernel_2[i];
+                sum3 += (int32_t)pi[i] * (int32_t)p_kernel_3[i];
+            }
+            #endif
         }
         else if (dim_output == 3)
         {
+            #if OPT_ASM==1
             __ASM volatile(
                 " .p2align 2                                 \n"
                 "   wlstp.16        lr, %[cnt], 1f           \n"
@@ -133,28 +154,43 @@ int affine_Krows_8x16(
                 "2:                                          \n"
                 "   vldrb.s16        q1, [%[row0]], #8       \n"
                 "   vmladava.s16     %[out0], q0, q1         \n"
-                "   vldrb.s16        q2, [%[row0]], #8       \n"
+                "   vldrb.s16        q2, [%[row1]], #8       \n"
                 "   vmladava.s16     %[out1], q0, q2         \n"
-                "   vldrb.s16       q3, [%[row0]], #8       \n"
+                "   vldrb.s16       q3, [%[row2]], #8       \n"
                 "   vmladava.s16     %[out2], q0, q3         \n"
                 "   vldrh.s16        q0, [%[col]], #16       \n"
                 "   letp            lr, 2b                   \n"
                 "1:                                          \n"
             :
                 [col] "+r"(pi),
-                [row0] "+l"(p_kernel),
+                [row0] "+l"(p_kernel_0),
+                [row1] "+l"(p_kernel_1),
+                [row2] "+l"(p_kernel_2),
                 [out0] "=Te"(sum0),
                 [out1] "=Te"(sum1),
                 [out2] "=Te"(sum2)
             :
-                [cnt] "r"(num_8)
+                [cnt] "r"(num_acc)
             :
                 "q0", "q1", "q2", "q3", "memory", "r14"
             );
             pi -= 8;  // Fix lhs_ptr by subtracting 8
+            #else
+            sum0 = 0;
+            sum1 = 0;
+            sum2 = 0;
+
+            for (int i = 0; i < dim_input; i++)
+            {
+                sum0 += (int32_t)pi[i] * (int32_t)p_kernel_0[i];
+                sum1 += (int32_t)pi[i] * (int32_t)p_kernel_1[i];
+                sum2 += (int32_t)pi[i] * (int32_t)p_kernel_2[i];
+            }
+            #endif
         }
         else if (dim_output == 2)
         {
+            #if OPT_ASM==1
             __ASM volatile(
                 " .p2align 2                                 \n"
                 "   wlstp.16        lr, %[cnt], 1f           \n"
@@ -164,25 +200,37 @@ int affine_Krows_8x16(
                 "2:                                          \n"
                 "   vldrb.s16        q1, [%[row0]], #8       \n"
                 "   vmladava.s16     %[out0], q0, q1         \n"
-                "   vldrb.s16        q2, [%[row0]], #8       \n"
+                "   vldrb.s16        q2, [%[row1]], #8       \n"
                 "   vmladava.s16     %[out1], q0, q2         \n"
                 "   vldrh.s16        q0, [%[col]], #16       \n"
                 "   letp            lr, 2b                   \n"
                 "1:                                          \n"
             :
                 [col] "+r"(pi),
-                [row0] "+l"(p_kernel),
+                [row0] "+l"(p_kernel_0),
+                [row1] "+l"(p_kernel_1),
                 [out0] "=Te"(sum0),
                 [out1] "=Te"(sum1)
             :
-                [cnt] "r"(num_8)
+                [cnt] "r"(num_acc)
             :
                 "q0", "q1", "q2", "memory", "r14"
             );
             pi -= 8;  // Fix lhs_ptr by subtracting 8
+            #else
+            sum0 = 0;
+            sum1 = 0;
+            for (int i = 0; i < dim_input; i++)
+            {
+                sum0 += (int32_t)pi[i] * (int32_t)p_kernel_0[i];
+                sum1 += (int32_t)pi[i] * (int32_t)p_kernel_1[i];
+            }
+
+            #endif
         }
         else // (dim_output == 1)
         {
+            #if OPT_ASM==1
             __ASM volatile(
                 " .p2align 2                                 \n"
                 "   wlstp.16        lr, %[cnt], 1f           \n"
@@ -196,72 +244,24 @@ int affine_Krows_8x16(
                 "1:                                          \n"
             :
                 [col] "+r"(pi),
-                [row0] "+l"(p_kernel),
+                [row0] "+l"(p_kernel_0),
                 [out0] "=Te"(sum0)
             :
-                [cnt] "r"(num_8)
+                [cnt] "r"(num_acc)
             :
                 "q0", "q1", "memory", "r14"
             );
             pi -= 8;  // Fix lhs_ptr by subtracting 8
-    
+            #else
+            sum0 = 0;
+            for (int i = 0; i < dim_input; i++)
+            {
+                sum0 += (int32_t)pi[i] * (int32_t)p_kernel_0[i];
+            }
+            #endif
         }
-        
-        if (rem)
-        {
-            mve_pred16_t mask = vctp16q((uint32_t) rem);
-            in = vldrhq_z_s16(pi, mask);
-            pi += rem;
-            if (dim_output==4)
-            {
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum0 = vmladavaq_s16(sum0, in, w);
-    
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum1 = vmladavaq_s16(sum1, in, w);
-    
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum2 = vmladavaq_s16(sum2, in, w);
-    
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum3 = vmladavaq_s16(sum3, in, w);
-            }
-            else if (dim_output==3)
-            {
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum0 = vmladavaq_s16(sum0, in, w);
-    
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum1 = vmladavaq_s16(sum1, in, w);
-    
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum2 = vmladavaq_s16(sum2, in, w);
-            }
-            else if (dim_output==2)
-            {
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum0 = vmladavaq_s16(sum0, in, w);
-    
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum1 = vmladavaq_s16(sum1, in, w);
-            }
-            else // if (dim_output==1)
-            {
-                w = vldrbq_z_s16(p_kernel, mask);
-                p_kernel += rem;
-                sum0 = vmladavaq_s16(sum0, in, w);
-            }
-        }
-
+        // ns_printf("p_kernel_0: %ld\n", (int32_t) p_kernel_0);
+        // ns_printf("dim_input: %d\n", dim_input);
         if (dim_output == 4)
         {
             pt_accum[0] += (int64_t) sum0;
@@ -340,9 +340,25 @@ int affine_Krows_8x16(
 		po = *pp_output;
 		po = (int16_t*)(*act)(po, acc32, dim_output);
 		*pp_output = po;
-
 	}
-    *pp_kernel = p_kernel;
+
+#if OPT_ASM==1
+    if (rem==0)
+        rem=8;
+    if (rem > 0)
+    {
+        if (dim_output==4)
+            *pp_kernel = p_kernel_3 - (8-rem);
+        else if (dim_output==3)
+            *pp_kernel = p_kernel_2 - (8-rem);
+        else if (dim_output==2)
+            *pp_kernel = p_kernel_1 - (8-rem);
+        else // if (dim_output==1)
+            *pp_kernel = p_kernel_0 - (8-rem);
+    }
+#else
+    *pp_kernel = *pp_kernel + dim_input * dim_output;
+#endif
 	*pp_bias = p_bias;
 
 	return 0;

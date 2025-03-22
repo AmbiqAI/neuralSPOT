@@ -1,5 +1,8 @@
 #ifndef __BASIC_MVE_H__
 #define __BASIC_MVE_H__
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include <stdint.h>
 void vec16_vec16_mul_32b(
     int32_t *y,
@@ -18,4 +21,7 @@ int64_t interproduct_32x16(
     int32_t *in32,
     int16_t *in16,
     int16_t len);
+#ifdef __cplusplus
+}
+#endif
 #endif // __BASIC_MVE_H__

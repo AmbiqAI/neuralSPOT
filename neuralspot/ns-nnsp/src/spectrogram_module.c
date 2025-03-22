@@ -3,7 +3,7 @@
 #include "ambiq_nnsp_const.h"
 #include "ambiq_nnsp_debug.h"
 #include "minmax.h"
-
+#include "ns_ambiqsuite_harness.h"
 #if ARM_FFT == 0
     #include "fft.h"
 #else
@@ -97,6 +97,13 @@ void spec2pspec_arm(
         acc += tmp_t * tmp_t; // TODO: check if this is correct
         pspec[i] = (int32_t)MIN(MAX(acc >> rshift, INT32_MIN), INT32_MAX);
     }
+    
+    
+    // ns_printf("spec\n");
+    // for (i = 0; i < len*2; i++) {
+    //     ns_printf("%d ", spec[i]);
+    // }
+    // ns_printf("\n");
 }
 int stftModule_analyze_arm(
     void *ps_t,
@@ -194,12 +201,19 @@ void spec2pspec_arm(
         acc= vmlaldavq_s32(m1, m1);
         pspec[i] = (int32_t)MIN(MAX(acc >> rshift, INT32_MIN), INT32_MAX);
     }
+
+    // ns_printf("spec\n");
+    // for (i = 0; i < len*2; i++) {
+    //     ns_printf("%d ", spec[i]);
+    // }
+    // ns_printf("\n");
 }
 int stftModule_analyze_arm(
     void *ps_t,
     int16_t *fft_in_q16, // q15
     int32_t *spec,       // q21
     int16_t fftsize, int16_t *pt_qbit_out) {
+
     stftModule *ps = (stftModule *)ps_t;
 
     move_data_16b(
@@ -278,7 +292,7 @@ int stftModule_synthesize_arm(
     //     ps->odataBuffer[i] = ps->odataBuffer[i + ps->hop];
     // }
     move_data_16b(
-        (int16_t*) ps->odataBuffer + ps->hop,
+        (int16_t*) (ps->odataBuffer + ps->hop),
         (int16_t*) ps->odataBuffer,
         (ps->len_win - ps->hop) << 1 );
 
@@ -289,6 +303,7 @@ int stftModule_synthesize_arm(
     set_zero_32b(pt_out, ps->hop);
     return 0;
 }
+
 #endif
 
 #endif

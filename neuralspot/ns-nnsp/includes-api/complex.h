@@ -1,5 +1,8 @@
 #ifndef __COMPLEX_H__
 #define __COMPLEX_H__
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include <stdint.h>
 typedef struct {
     int32_t real;
@@ -33,4 +36,7 @@ void complex32_real2cmplx(COMPLEX32 *inst, int32_t real);
 void complexArry32_real2cmplx(COMPLEX32 *inst, int32_t *real, int32_t len);
 void complexArry32_init(COMPLEX32 *inst, int32_t *real, int32_t *imag, int len);
 void complexArry32_print(COMPLEX32 *inst, int len);
+#ifdef __cplusplus
+}
+#endif
 #endif

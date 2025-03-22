@@ -5,6 +5,7 @@
 #if ARM_OPTIMIZED==3
 #include "arm_mve.h"
 #include "basic_mve.h"
+#include "ns_ambiqsuite_harness.h"
 void melSpecProc(
         int32_t *specs,
         int32_t *melSpecs,
@@ -18,7 +19,7 @@ void melSpecProc(
         start_bin = *p_melBanks++;
         end_bin = *p_melBanks++;
         len = end_bin - start_bin + 1;
-        mac = interproduct_32x16(specs, (int16_t*) p_melBanks, len);
+        mac = interproduct_32x16(specs+start_bin, (int16_t*) p_melBanks, len);
         p_melBanks += len;
         mac >>= 15;
         melSpecs[i] = (int32_t) MIN(MAX(mac, MIN_INT32_T), MAX_INT32_T);

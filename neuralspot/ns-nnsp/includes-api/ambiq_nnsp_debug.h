@@ -1,5 +1,8 @@
 #ifndef __AMBIQ_NNSP_DEBUG__
 #define __AMBIQ_NNSP_DEBUG__
+#ifdef __cplusplus
+extern "C" {
+#endif
 #define AMBIQ_NNSP_DEBUG 0
 
 /* 
@@ -9,6 +12,7 @@
         2: verify to optimization
         3: optimization on mve_m55 
 */
+
 #ifdef AM_PART_APOLLO5B
 #define ARM_OPTIMIZED 3
 #else
@@ -17,4 +21,7 @@
 
 #define ARM_FFT 1       // fft using CMSIS
 #define DEBUG_NNID 0
+#ifdef __cplusplus
+}
+#endif
 #endif

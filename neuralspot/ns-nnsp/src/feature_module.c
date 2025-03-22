@@ -6,6 +6,7 @@
 #include "melSpecProc.h"
 #include "fixlog10.h"
 #include "ambiq_nnsp_debug.h"
+#include "ns_ambiqsuite_harness.h"
 #if ARM_OPTIMIZED == 3
 #include "basic_mve.h"
 #endif
@@ -63,7 +64,7 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     int shift = (ps->num_context - 1) * ps->dim_feat;
     int i;
     int64_t tmp;
-
+    
 #if ARM_OPTIMIZED == 3
     move_data_16b(
         ps->normFeatContext+ps->dim_feat, 
@@ -73,6 +74,7 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     for (i = 0; i < shift; i++) {
         ps->normFeatContext[i] = ps->normFeatContext[i + ps->dim_feat];
     }
+
 #endif
 #if ARM_FFT == 0
     stftModule_analyze(&ps->state_stftModule, input, spec);
@@ -84,12 +86,12 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     #endif
     spec2pspec(pspec, spec, 1 + (LEN_FFT_NNSP >> 1));
 #else
+
     stftModule_analyze_arm(
         (void *)&ps->state_stftModule,
         input, // q15
         spec,  // q21
         ps->state_stftModule.len_fft, &qbit_out);
-
     spec2pspec_arm(pspec, spec, 1 + (ps->state_stftModule.len_fft >> 1), qbit_out);
 #endif
 #if AMBIQ_NNSP_DEBUG == 1
@@ -135,4 +137,5 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
         tmp = MIN(MAX(tmp, (int64_t)MIN_INT16_T), (int64_t)MAX_INT16_T);
         ps->normFeatContext[i + shift] = (int16_t)tmp;
     }
+
 }

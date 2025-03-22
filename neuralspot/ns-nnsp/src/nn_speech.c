@@ -9,6 +9,7 @@
 #include "nnsp_identification.h"
 #include "ambiq_nnsp_debug.h"
 #include "nnid_class.h"
+#include "ns_ambiqsuite_harness.h"
 #if AMBIQ_NNSP_DEBUG == 1
     #include "debug_files.h"
 #endif
@@ -130,9 +131,12 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
     int16_t *tmp;
 #endif
     int16_t *pt_inputs;
+
+    
+
     if (pt_inst->nn_id == se_id) {
 
-#if ARM_OPTIMIZED == 3
+#if 0
         int16x8_t *pt_rawPCM = (int16x8_t *)rawPCM;
         for (int i = 0; i < (160 >> 3); i++) {
             int16x8_t val = (*pt_rawPCM * pt_inst->pt_params->pre_gain_q1) >> 1;
@@ -150,7 +154,7 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
         } else {
             pt_inputs = rawPCM;
         }
-
+        
         FeatureClass_execute(pt_feat, pt_inputs);
     } else {
         FeatureClass_execute(pt_feat, rawPCM);
@@ -163,8 +167,15 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
 #if CHECK_POWER
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 #endif
+        // for (int i = 0; i < 432; i++) {
+        //     pt_feat->normFeatContext[i] = 1;
+        // }
         NeuralNetClass_exe(pt_net, pt_feat->normFeatContext, glob_nn_output, debug_layer);
-
+        // int16_t *po = (int16_t *)glob_nn_output;
+        // for (int i = 0; i < 257; i++) {
+        //     ns_printf("%d ", po[i]);
+        // }
+        // ns_printf("\n");
         switch (pt_inst->nn_id) {
         case s2i_id:
             s2i_post_proc(pt_inst, glob_nn_output, &pt_inst->trigger);
@@ -193,7 +204,12 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
             }
             fprintf(file_mask_c, "\n");
 #endif
-            se_post_proc(pt_inst, (int16_t *)glob_nn_output, pt_inst->pt_se_out);
+            se_post_proc(
+                (void *)pt_inst->pt_feat,
+                (int16_t *)glob_nn_output,
+                 pt_inst->pt_se_out,
+                pt_inst->pt_params->start_bin,
+                NNSPClass_get_nnOut_dim(pt_inst));
 
             break;
         }
@@ -224,20 +240,23 @@ void my_argmax(int32_t *vals, int len, int16_t *pt_argmax) {
     }
 }
 
-void se_post_proc(NNSPClass *pt_inst, int16_t *pt_nn_est, int16_t *pt_se_out) {
-    FeatureClass *pt_feat = (FeatureClass *)pt_inst->pt_feat;
+void se_post_proc(
+        void *pt_feat_t,
+        int16_t *pt_nn_est, 
+        int16_t *pt_se_out,
+        int start_bin,
+        int nn_dim_out
+    ) {
+    FeatureClass *pt_feat = (FeatureClass *) pt_feat_t;
     stftModule *pt_stft_state = &(pt_feat->state_stftModule);
     int32_t *spec = pt_stft_state->spec;
     int64_t tmp;
-    int start_bin = pt_inst->pt_params->start_bin;
-    NeuralNetClass *pt_net = (NeuralNetClass *)pt_inst->pt_net;
-    int dim_out = pt_net->size_layer[pt_net->numlayers];
 
     for (int i = 0; i < start_bin; i++) {
         spec[2 * i] = 0;
         spec[2 * i + 1] = 0;
     }
-    for (int i = start_bin; i < start_bin + dim_out; i++) { // TODO: check
+    for (int i = start_bin; i < start_bin + nn_dim_out; i++) { // TODO: check
         tmp = (int64_t)pt_nn_est[i] * (int64_t)spec[2 * i];
         tmp >>= 15;
         spec[2 * i] = (int32_t)tmp;
@@ -247,7 +266,7 @@ void se_post_proc(NNSPClass *pt_inst, int16_t *pt_nn_est, int16_t *pt_se_out) {
         spec[2 * i + 1] = (int32_t)tmp;
     }
 
-    for (int i = start_bin + dim_out; i < 257; i++) {
+    for (int i = start_bin + nn_dim_out; i < 257; i++) {
         spec[2 * i] = 0;
         spec[2 * i + 1] = 0;
     }

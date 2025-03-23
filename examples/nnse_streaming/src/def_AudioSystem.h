@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-#define MODEL_FORMAT_TFLM 1 // 1: TFLM, 0: NNSP
+#define MODEL_FORMAT_TFLM 0 // 1: TFLM, 0: NNSP
 
 #include "ns_audio.h"
 #define NUM_CHANNELS 1

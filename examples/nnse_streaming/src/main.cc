@@ -184,6 +184,8 @@ int main(void) {
     dataBlock resultBlock;
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n"); // init RPC and USB
     
+    ns_lp_printf("\n|------ MCPS Measurement: run 100 times of inference ------|\n");
+    
     // -- Init the NNSE2 model
     AudioPipe_wrapper_init();
     AudioPipe_wrapper_reset();
@@ -191,7 +193,6 @@ int main(void) {
     int16_t *pcm_output = audioDataBuffer + SAMPLES_IN_FRAME;
     
     static ns_perf_counters_t pp;
-    ns_lp_printf("\n|------ MCPS Measurement: run 100 times of inference ------|\n");
     ns_init_perf_profiler();
     ns_reset_perf_counters();
     ns_start_perf_profiler();
@@ -231,14 +232,13 @@ int main(void) {
 
     // -- Init the NNSE2 model
     AudioPipe_wrapper_init();
-    AudioPipe_wrapper_reset();
     while (1) 
     {
         g_audioRecording = false;
         
         // ns_deep_sleep();
         ns_lp_printf("\nPress record button on GUI to start!\n");
-        while (1)
+        while (1) // check for record button press
         {
             ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
             int recording=resultBlock.buffer.data[0];
@@ -249,11 +249,10 @@ int main(void) {
                 g_audioRecording = true;
                 break;
             }
-            
             am_hal_delay_us(20000); 
         }
 
-        while (1)
+        while (1) // record audio and check for stop button press
         {   
             // ns_deep_sleep();
             if (g_audioReady) 

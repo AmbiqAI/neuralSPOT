@@ -5,8 +5,6 @@ extern "C" {
 #endif
 #include <stdint.h>
 
-// where we use tflm model or nnsp model
-#define MODEL_FORMAT_TFLM 1
 // feature parameters of NNSE:
 #define FEATURE_CONTEXT 6
 #define FEATURE_QBIT 8

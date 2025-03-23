@@ -167,7 +167,6 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
 #if CHECK_POWER
         am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 #endif
-
         // for (int i = 0; i < 432; i++) {
         //     pt_feat->normFeatContext[i] = 1;
         // }

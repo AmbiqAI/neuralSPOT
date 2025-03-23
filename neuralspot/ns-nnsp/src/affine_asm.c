@@ -18,8 +18,8 @@
 #endif
 int64_t accumulators[4] = {0, 0, 0, 0};
 #define OPT_ASM 1
-// #if ARM_OPTIMIZED == 3
-#if 1
+#if ARM_OPTIMIZED == 3
+// #if 1
 int affine_Krows_8x16(
 	int16_t dim_output,
 	int16_t** pp_output,
@@ -77,16 +77,8 @@ int affine_Krows_8x16(
     // ns_printf("p_kernel_0: %ld\n",(int32_t) p_kernel_0);
     while (count > 0)
     {
-        int num_acc;
-        if (count < MAX_FAST_ACC_SIZE)
-        {
-            num_acc = count;
-        }
-        else
-        {
-            num_acc = MAX_FAST_ACC_SIZE;
-        }
-        count-=MAX_FAST_ACC_SIZE;
+        int num_acc = (count < MAX_FAST_ACC_SIZE) ?  count : MAX_FAST_ACC_SIZE;
+        count -= MAX_FAST_ACC_SIZE;
     
         if (dim_output == 4)
         {
@@ -287,7 +279,6 @@ int affine_Krows_8x16(
             pt_accum[0] += (int64_t) sum0;
 
         }
-
     }
 
     lshift = (qbit_input + qbit_kernel) - qbit_s;
@@ -342,23 +333,8 @@ int affine_Krows_8x16(
 		*pp_output = po;
 	}
 
-#if OPT_ASM==1
-    if (rem==0)
-        rem=8;
-    if (rem > 0)
-    {
-        if (dim_output==4)
-            *pp_kernel = p_kernel_3 - (8-rem);
-        else if (dim_output==3)
-            *pp_kernel = p_kernel_2 - (8-rem);
-        else if (dim_output==2)
-            *pp_kernel = p_kernel_1 - (8-rem);
-        else // if (dim_output==1)
-            *pp_kernel = p_kernel_0 - (8-rem);
-    }
-#else
     *pp_kernel = *pp_kernel + dim_input * dim_output;
-#endif
+
 	*pp_bias = p_bias;
 
 	return 0;

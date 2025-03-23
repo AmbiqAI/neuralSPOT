@@ -1,3 +1,5 @@
+#include "def_AudioSystem.h"
+#if MODEL_FORMAT_TFLM==0
 // arm_core = cortex-M55_exp
 #include <stdint.h>
 #include "neural_nets.h"
@@ -113,4 +115,4 @@ NeuralNetClass net_se = {
 	}, // kernel_rec
 
 };
-
+#endif

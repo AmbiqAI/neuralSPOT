@@ -51,9 +51,10 @@ def quantize_list(scales):
         shifts.append(s)
     return np.array(multipliers, dtype=np.int32), np.array(shifts, dtype=np.int32)
 
-def find_tensor_by_pattern(tensor_details, pattern):
+def find_tensor_by_pattern(tensor_details, pattern, expected_dtype=None):
     """
     Search through tensor_details for a tensor whose 'name' contains the given pattern.
+    If expected_dtype is provided, only return a tensor with that dtype.
     Returns a tuple (name, tensor, detail) if found; otherwise, None.
     """
     for detail in tensor_details:
@@ -61,6 +62,8 @@ def find_tensor_by_pattern(tensor_details, pattern):
             try:
                 tensor = interpreter.get_tensor(detail['index'])
                 if tensor is not None:
+                    if expected_dtype is not None and tensor.dtype != expected_dtype:
+                        continue
                     return detail['name'], tensor, detail
             except Exception as e:
                 print(f"Skipping tensor {detail['name']} due to error: {e}")
@@ -85,7 +88,7 @@ def main():
     # Mapping for weights and biases.
     mapping = {
         "conv1_weights": "functional_1/conv2d/Conv2D",  # conv1 layer weights.
-        "conv1_bias":    "functional_1/conv2d/BiasAdd/ReadVariableOp",  # conv1 bias.
+        "conv1_bias":    "functional_1/conv2d/BiasAdd/ReadVariableOp",
         "block1_dw_weights": "functional_1/depthwise_conv2d/depthwise",
         "block1_dw_bias":    "functional_1/depthwise_conv2d/BiasAdd/ReadVariableOp",
         "block1_pw_weights": "functional_1/conv2d_1/Conv2D",
@@ -102,7 +105,6 @@ def main():
         "block4_dw_bias":    "functional_1/depthwise_conv2d_3/BiasAdd/ReadVariableOp",
         "block4_pw_weights": "functional_1/conv2d_4/Conv2D",
         "block4_pw_bias":    "functional_1/conv2d_4/BiasAdd",
-        # Updated fully connected mappings: assuming final dense layer uses "dense" prefix.
         "fc_weights": "dense/MatMul",
         "fc_bias":    "dense/BiasAdd",
     }
@@ -129,13 +131,13 @@ def main():
         "block4_pw_bn_shift":      "functional_1/batch_normalization_4/beta",
     }
 
-    # Updated mapping for quantization parameters.
+    # Mapping for quantization parameters.
     quant_mapping = {
         "conv1_multiplier": "functional_1/conv2d/Conv2D",
         "conv1_shift":      "functional_1/conv2d/Conv2D",
-        "dw_conv_multiplier": "depthwise_conv2d",  # matches any tensor with "depthwise_conv2d"
+        "dw_conv_multiplier": "depthwise_conv2d",
         "dw_conv_shift":      "depthwise_conv2d",
-        "pw_conv_multiplier": "conv2d_1/Conv2D",    # use block1's pointwise conv tensor.
+        "pw_conv_multiplier": "conv2d_1/Conv2D",
         "pw_conv_shift":      "conv2d_1/Conv2D",
         "fc_multiplier": "dense/MatMul",
         "fc_shift":      "dense/MatMul",
@@ -145,22 +147,17 @@ def main():
 
     # Process weights and biases.
     for cname, pattern in mapping.items():
-        result = find_tensor_by_pattern(tensor_details, pattern)
+        # For weight tensors, we expect int8; for biases, int32.
+        expected_dtype = np.int8 if "weights" in cname else None
+        result = find_tensor_by_pattern(tensor_details, pattern, expected_dtype)
         if result is not None:
             tname, tensor, detail = result
             print(f"Found tensor for {cname}: {tname}, shape {tensor.shape}, dtype {tensor.dtype}")
-            # For weight arrays, force conversion to int8.
-            if "weights" in cname:
-                arr = np.array(tensor)
-                if arr.dtype != np.int8:
-                    # Clip values to int8 range and cast.
-                    arr = np.clip(arr, -128, 127).astype(np.int8)
-                dtype_str = "int8_t"
-            else:
-                # For biases assume int32 is desired.
-                dtype_str = "int32_t" if tensor.dtype == np.int32 else "int8_t"
-                arr = tensor
-            c_arrays += generate_c_array(cname, arr, dtype_str)
+            # If the tensor is not int8 but expected int8, attempt to cast.
+            if expected_dtype is not None and tensor.dtype != np.int8:
+                tensor = tensor.astype(np.int8)
+            dtype_str = "int8_t" if tensor.dtype == np.int8 else "int32_t"
+            c_arrays += generate_c_array(cname, tensor, dtype_str)
         else:
             print(f"Warning: Could not find tensor for {cname} with pattern '{pattern}'")
 
@@ -170,10 +167,13 @@ def main():
         if result is not None:
             tname, tensor, detail = result
             print(f"Found BN tensor for {cname}: {tname}, shape {tensor.shape}, dtype {tensor.dtype}")
-            dtype_str = "int32_t"  # assuming BN parameters are quantized to int32_t
+            # Assume BN parameters are quantized to int32_t.
+            dtype_str = "int32_t"
             c_arrays += generate_c_array(cname, tensor, dtype_str)
         else:
-            print(f"Warning: Could not find BN tensor for {cname} with pattern '{pattern}'")
+            print(f"Warning: Could not find BN tensor for {cname} with pattern '{pattern}'. Using default.")
+            dummy_val = np.array([1], dtype=np.int32) if "multiplier" in cname else np.array([0], dtype=np.int32)
+            c_arrays += generate_c_array(cname, dummy_val, "int32_t")
 
     # Process quantization parameters.
     for cname, pattern in quant_mapping.items():
@@ -217,19 +217,19 @@ def main():
             else:
                 scales = [quant[0]]
             fc_mult, fc_sh = quantize_list(scales)
-            fc_n = len(fc_mult)
+            # fc_n = len(fc_mult)  # No need for 'n' in the structure.
             fc_quant_struct = (
-                f"const cmsis_nn_per_channel_quant_params fc_quant_params = {{\n"
-                f"  .multiplier = fc_multiplier,\n"
-                f"  .shift = fc_shift,\n"
-                f"  .n = {fc_n}\n"
-                f"}};\n\n"
+                "const cmsis_nn_per_channel_quant_params fc_quant_params = {\n"
+                "  .multiplier = (int32_t *)fc_multiplier,\n"
+                "  .shift = (int32_t *)fc_shift\n"
+                "};\n\n"
             )
             c_arrays += fc_quant_struct
         else:
             print("Warning: No quantization info for fully connected layer.")
     else:
         print("Warning: Could not find fc layer quantization info for fc_quant_params.")
+
 
     # Write the generated arrays and structures to ds_cnn_data.c.
     with open("ds_cnn_data.c", "w") as f:

@@ -55,9 +55,11 @@ endif
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
 modules 	 += extern/CMSIS/$(CMSIS_DSP_VERSION)
-# modules 	 += extern/CMSIS/CMSIS-NN
+ifeq ($(INCLUDE_CMSIS_NN),1)
+$(info Including CMSIS-NN)
+modules 	 += extern/CMSIS/CMSIS-NN
+endif
 modules      += extern/tensorflow/$(TF_VERSION)
-# modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules 	 += extern/codecs/opus-precomp
 
 ifeq ($(BLE_SUPPORTED),1)

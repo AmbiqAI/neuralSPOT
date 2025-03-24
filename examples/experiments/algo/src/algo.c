@@ -31,23 +31,23 @@
 
 // All flags on:
 
-// static uint32_t elapsedTime = 0;
-// ns_timer_config_t tickTimer = {
-//     .api = &ns_timer_V1_0_0,
-//     .timer = NS_TIMER_COUNTER,
-//     .enableInterrupt = false,
-// };
+static uint32_t elapsedTime = 0;
+ns_timer_config_t tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
+};
 
-// void tic() {
-//     uint32_t oldTime = elapsedTime;
-//     elapsedTime = ns_us_ticker_read(&tickTimer);
-//     if (elapsedTime == oldTime) {
-//         // We've saturated the timer, reset it
-//         ns_timer_clear(&tickTimer);
-//     }
-// }
+void tic() {
+    uint32_t oldTime = elapsedTime;
+    elapsedTime = ns_us_ticker_read(&tickTimer);
+    if (elapsedTime == oldTime) {
+        // We've saturated the timer, reset it
+        ns_timer_clear(&tickTimer);
+    }
+}
 
-// uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
+uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
 //=============================================================================
 // Moc algorithm input configuration 
@@ -218,10 +218,10 @@ uint32_t pui32IntStatus;
 //         }
 
 //         // Call optimized
-//         // tic();
-//         bool optReady = new_algorithm(&optimizedInst, &in,
-//                                             optTempBuffer, optOutput);
-//         // ns_lp_printf("Optimized time: %d\n", toc());
+        tic();
+        bool optReady = new_algorithm(&optimizedInst, &in,
+                                            optTempBuffer, optOutput);
+        ns_lp_printf("Optimized time: %d\n", toc());
 //         // optTime += toc();
 //         if (optReady) {
 //             // We have a new frequency estimate
@@ -398,7 +398,7 @@ int main(void) {
     // ns_pmu_event_create(&ns_microProfilerPMU.events[2], 0x03, NS_PMU_EVENT_COUNTER_SIZE_32);
     // ns_pmu_event_create(&ns_microProfilerPMU.events[3], 0x04, NS_PMU_EVENT_COUNTER_SIZE_32);
     // ns_set_performance_mode(NS_MAXIMUM_PERF);
-    // NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
+    NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
     ns_button_config_t button_config = {
         .api = &ns_button_V1_0_0,
         .button_0_enable = true,

@@ -31,6 +31,7 @@
 # TF_VERSION := tanh
 
 # CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
+INCLUDE_CMSIS_NN := 1
 
 # TOOLCHAIN := arm
 # EXAMPLE := nnse2

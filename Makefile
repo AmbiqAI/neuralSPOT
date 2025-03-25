@@ -77,6 +77,8 @@ else
 		modules      += examples/basic_tf_stub
 		modules      += examples/har
 		modules      += examples/nnse_streaming
+		modules      += examples/nnse_streaming2
+		
 # modules      += examples/nnse2
 		modules	     += examples/uart
 		modules      += examples/rpc_server

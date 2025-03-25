@@ -94,20 +94,33 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
         ps->state_stftModule.len_fft, &qbit_out);
     spec2pspec_arm(pspec, spec, 1 + (ps->state_stftModule.len_fft >> 1), qbit_out);
 #endif
+
+
 #if AMBIQ_NNSP_DEBUG == 1
     for (i = 0; i < 1 + (LEN_FFT_NNSP >> 1); i++) {
         fprintf(file_pspec_c, "%d ", pspec[i]);
     }
     fprintf(file_pspec_c, "\n");
 #endif
-    melSpecProc(pspec, ps->feature, ps->p_melBanks, ps->num_mfltrBank);
-#if AMBIQ_NNSP_DEBUG == 1
+    int32_t *pt_feature;
+    int32_t dim_feat;
+    if (ps->num_mfltrBank ==257)
+    {
+        pt_feature = pspec;
+    }
+    else
+    {
+        melSpecProc(pspec, ps->feature, ps->p_melBanks, ps->num_mfltrBank);
+        pt_feature = ps->feature;
+    }
+
+    #if AMBIQ_NNSP_DEBUG == 1
     for (i = 0; i < ps->num_mfltrBank; i++) {
         fprintf(file_melSpec_c, "%d ", ps->feature[i]);
     }
     fprintf(file_melSpec_c, "\n");
 #endif
-    log10_vec(ps->feature, ps->feature, ps->dim_feat, 15);
+    log10_vec(ps->feature, pt_feature, ps->dim_feat, 15);
 #if AMBIQ_NNSP_DEBUG == 1
     for (i = 0; i < ps->dim_feat; i++) {
         fprintf(file_feat_c, "%d ", ps->feature[i]);

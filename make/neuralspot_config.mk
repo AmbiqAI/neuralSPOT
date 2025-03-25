@@ -124,10 +124,10 @@ ifndef EXAMPLE
 EXAMPLE     := all
 endif
 ifndef TARGET
-TARGET      := basic_tf_stub
+TARGET      := nnse_streaming2
 endif
 NESTCOMP    := extern/AmbiqSuite
-NESTEGG := basic_tf_stub
+NESTEGG := nnse_streaming2
 NESTSOURCEDIR := examples/$(NESTEGG)/src
 TARGETS := apollo3p_evb apollo4p_evb apollo4p_blue_kbr_evb apollo4p_blue_kxr_evb apollo4l_evb apollo4l_blue_evb apollo5a_evb
 

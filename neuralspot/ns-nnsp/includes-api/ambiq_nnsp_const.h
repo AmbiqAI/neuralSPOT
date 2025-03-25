@@ -8,7 +8,7 @@ extern "C" {
 #define LEN_STFT_HOP 160
 #define NUM_MELBANKS 40
 #define NUM_FEATURE_CONTEXT 6
-#define MAX_SIZE_FEATURE 80
+#define MAX_SIZE_FEATURE 257
 #define DIMEMSION_FEATURE NUM_MELBANKS
 #define SAMPLING_RATE 16000
 #ifdef __cplusplus

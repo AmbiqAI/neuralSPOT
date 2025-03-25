@@ -95,6 +95,29 @@ int AudioPipe_wrapper_init(void)
     }
 
     ns_lp_printf("Model initialized\n");
+
+    // Get data about input and output tensors
+    int numInputs = tflm.numInputTensors;
+    int numOutputs = tflm.numOutputTensors;
+    
+    ns_lp_printf("Model has %d inputs and %d outputs\n", numInputs, numOutputs);
+    ns_lp_printf("Input tensor 0 has %d bytes\n", tflm.model_input[0]->bytes);
+    ns_lp_printf("Output tensor 0 has %d bytes\n", tflm.model_output[0]->bytes);
+    ns_lp_printf("input scale=%f\n", tflm.model_input[0]->params.scale);
+    ns_lp_printf("input zero_point=%d\n", tflm.model_input[0]->params.zero_point);
+    
+    ns_lp_printf("input dims=%d\n", tflm.model_input[0]->dims->size);
+    int input_dim = 1;
+    for (int i = 0; i < tflm.model_input[0]->dims->size; i++) {
+        input_dim *= tflm.model_input[0]->dims->data[i];
+        ns_lp_printf("input dim[%d]=%d\n", i, tflm.model_input[0]->dims->data[i]);
+    }
+    int output_dim=1;
+    for (int i = 0; i < tflm.model_output[0]->dims->size; i++) {
+        output_dim*= tflm.model_output[0]->dims->data[i];
+        ns_lp_printf("output dim[%d]=%d\n", i, tflm.model_output[0]->dims->data[i]);
+    }
+    
     return 0;
 }
 

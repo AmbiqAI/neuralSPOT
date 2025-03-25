@@ -76,21 +76,29 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
             # Data is a 16 bit Mono PCM sample
             data = struct.unpack("<" + "h" * (len(block.buffer) // 2), block.buffer)
             data = np.array(data)
-            wData = np.array([0] * (block.length // 2), dtype=float)
-            outFileNameMono = outFileName + "_mono.wav"
-            # Copy it into numpy array as a float
-            for i in range(block.length // 2):
-                wData[i] = data[i]
-            wData = wData / 32768.0
-            if os.path.isfile(outFileNameMono):
-                with sf.SoundFile(outFileNameMono, mode="r+") as wfile:
+
+            data = data.astype(np.float32) / 32768.0
+            wav_raw, wav_se = np.split(data, 2)
+            rawFileNameMono = "audio_result/raw" + outFileName + "_mono.wav"
+            seFileNameMono = "audio_result/se" + outFileName + "_mono.wav"
+            
+            if os.path.isfile(rawFileNameMono):
+                with sf.SoundFile(rawFileNameMono, mode="r+") as wfile:
                     wfile.seek(0, sf.SEEK_END)
-                    wfile.write(wData)
+                    wfile.write(wav_raw)
             else:
                 sf.write(
-                    outFileNameMono, wData, samplerate=16000
+                    rawFileNameMono, wav_raw, samplerate=16000
                 )  # writes to the new file
 
+            if os.path.isfile(seFileNameMono):
+                with sf.SoundFile(seFileNameMono, mode="r+") as wfile:
+                    wfile.seek(0, sf.SEEK_END)
+                    wfile.write(wav_se)
+            else:
+                sf.write(
+                    seFileNameMono, wav_se, samplerate=16000
+                )  # writes to
         # MPU6050 capture handler
         elif (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
             block.description == "MPU6050-Data-to-CSV"

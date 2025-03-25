@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <cstring>
-#include "../def_nnse_params.h"
+#include "def_nnse_params.h"
 #include "mut_model_metadata.h"
 #include "mut_model_data.h"
 #include "tflm_ns_model.h"
 #include <stdint.h>
-#include "../AudioPipe_wrapper.h"
+#include "AudioPipe_wrapper.h"
 
 #include "feature_module.h"
 #include "ns_ambiqsuite_harness.h"

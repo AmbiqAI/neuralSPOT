@@ -5,7 +5,7 @@ extern "C" {
 #endif
 #include "ambiq_stdint.h"
 void melSpecProc(
-    int32_t *specs, int32_t *melSpecs, const int16_t *p_melBanks, int16_t num_mfltrBank);
+    int32_t *pspec, int32_t *melSpecs, const int16_t *p_melBanks, int16_t num_mfltrBank);
 #ifdef __cplusplus
 }
 #endif

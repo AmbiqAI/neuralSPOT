@@ -1,18 +1,18 @@
 #include <cstdlib>
 #include <cstring>
-#include "../def_nnse_params.h"
+#include "def_nnse_params.h"
 #include "mut_model_metadata.h"
 #include "mut_model_data.h"
 #include "tflm_ns_model.h"
 #include <stdint.h>
-#include "../AudioPipe_wrapper.h"
+#include "AudioPipe_wrapper.h"
 
 #include "feature_module.h"
 #include "ns_ambiqsuite_harness.h"
 #include "nn_speech.h"
 #include "iir.h"
 
-
+#define FEATURE_DIM_INPUT_NN 257
 // Feature class instance
 FeatureClass FEAT_INST;
 IIR_CLASS dcrm_inst;
@@ -67,11 +67,12 @@ int AudioPipe_wrapper_init(void)
         (const int32_t*) feature_mean_se1,
         (const int32_t*) feature_stdR_se1,
         FEATURE_QBIT,
-        257, // in unet, we use Pspectrum as input directly
+        FEATURE_DIM_INPUT_NN, // in unet, we use Pspectrum as input directly
         FEATURE_WINSIZE,
         FEATURE_HOPSIZE,
         FEATURE_FFTSIZE,
         stft_win_coeff_w480_h160);
+    FEAT_INST.num_context=1; // hack
 
     IIR_CLASS_init(&dcrm_inst);
     
@@ -95,6 +96,29 @@ int AudioPipe_wrapper_init(void)
     }
 
     ns_lp_printf("Model initialized\n");
+    // Get data about input and output tensors
+    int numInputs = tflm.numInputTensors;
+    int numOutputs = tflm.numOutputTensors;
+    
+    ns_lp_printf("Model has %d inputs and %d outputs\n", numInputs, numOutputs);
+    ns_lp_printf("Input tensor 0 has %d bytes\n", tflm.model_input[0]->bytes);
+    ns_lp_printf("Output tensor 0 has %d bytes\n", tflm.model_output[0]->bytes);
+    ns_lp_printf("input scale=%f\n", tflm.model_input[0]->params.scale);
+    ns_lp_printf("input zero_point=%d\n", tflm.model_input[0]->params.zero_point);
+    
+    ns_lp_printf("input dims=%d\n", tflm.model_input[0]->dims->size);
+    int input_dim = 1;
+    for (int i = 0; i < tflm.model_input[0]->dims->size; i++) {
+        input_dim *= tflm.model_input[0]->dims->data[i];
+        ns_lp_printf("input dim[%d]=%d\n", i, tflm.model_input[0]->dims->data[i]);
+    }
+    int output_dim=1;
+    for (int i = 0; i < tflm.model_output[0]->dims->size; i++) {
+        output_dim*= tflm.model_output[0]->dims->data[i];
+        ns_lp_printf("output dim[%d]=%d\n", i, tflm.model_output[0]->dims->data[i]);
+    }
+    
+    
     return 0;
 }
 
@@ -119,12 +143,12 @@ int AudioPipe_wrapper_frameProc(
     IIR_CLASS_exec(&dcrm_inst, tmp_16s, pcm_input, FEATURE_HOPSIZE);
     FeatureClass_execute(&FEAT_INST, tmp_16s);
 
-    int16_t *ptfeat = FEAT_INST.normFeatContext + FEATURE_NUM_MFC * (FEATURE_CONTEXT-1);
+    int16_t *ptfeat = FEAT_INST.normFeatContext + FEATURE_DIM_INPUT_NN * (FEAT_INST.num_context-1);
 
     float input_scale = tflm.model_input[0]->params.scale;
     int input_zero_point = tflm.model_input[0]->params.zero_point;    
 
-    for (int i =0; i < FEATURE_NUM_MFC; i++)
+    for (int i =0; i < FEATURE_DIM_INPUT_NN; i++)
     {
         float val = ((float) ptfeat[i] ) * scalar_norm;
         int16_t input = (int16_t) ((float32_t) val / (float32_t) input_scale + (float32_t) input_zero_point);

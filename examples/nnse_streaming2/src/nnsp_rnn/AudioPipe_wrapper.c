@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include "../def_AudioSystem.h"
-#include "../AudioPipe_wrapper.h"
+#include "def_AudioSystem.h"
+#include "AudioPipe_wrapper.h"
 
 #include "nn_speech.h"
 #include "def_nn3_se.h"

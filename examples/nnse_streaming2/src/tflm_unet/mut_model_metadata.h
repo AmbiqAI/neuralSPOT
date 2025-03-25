@@ -2,7 +2,7 @@
 #define __MUT_MODEL_METADATA_H
 #include "ns_ambiqsuite_harness.h"
 // Default Arena and RPC buffer sizes
-#define TFLM_VALIDATOR_ARENA_SIZE 100
+#define TFLM_VALIDATOR_ARENA_SIZE 150
 #define TFLM_VALIDATOR_RX_BUFSIZE 4096
 #define TFLM_VALIDATOR_TX_BUFSIZE 4096
 #define TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES 14

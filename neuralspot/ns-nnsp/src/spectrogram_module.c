@@ -13,7 +13,7 @@
 int16_t dataBuffer[LEN_FFT_NNSP];
 int32_t odataBuffer[LEN_FFT_NNSP];
 int32_t glob_spec[1026];
-int32_t glob_fft_buf[LEN_FFT_NNSP << 1];
+int32_t glob_fft_buf[1026];
 
 int stftModule_construct(
     stftModule *ps, int16_t len_win, int16_t hopsize, int16_t fftsize,
@@ -88,7 +88,7 @@ void spec2pspec_arm(
     int64_t acc, tmp_t;
     int32_t *pt_spec = spec;
     int rshift = (qbit_in << 1) - 15;
-
+    
     for (i = 0; i < len; i++) {
         acc = 0;
         tmp_t = (int64_t)*pt_spec++;
@@ -189,12 +189,14 @@ int stftModule_synthesize_arm(
 void spec2pspec_arm(
     int32_t *pspec, // q15
     int32_t *spec,  // q21
-    int len, int16_t qbit_in) {
+    int len, int16_t qbit_in) 
+{
     int i;
     int64_t acc; //, tmp_t;
     int32_t *pt_spec = spec;
     int rshift = (qbit_in << 1) - 15;
     int32x4_t m1;
+
     for (i = 0; i < len; i++) {
         m1 = vldrwq_z_s32(pt_spec, 17); // 17= (1 << 4) + (1 << 0)
         pt_spec += 2;

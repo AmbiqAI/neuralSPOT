@@ -29,7 +29,25 @@
 
 #include "AudioPipe_wrapper.h"
 #include "def_AudioSystem.h"
+#define STREAMING 1
+static uint32_t elapsedTime = 0;
+ns_timer_config_t tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
+};
+ 
+void tic() {
+    uint32_t oldTime = elapsedTime;
+    elapsedTime = ns_us_ticker_read(&tickTimer);
+    if (elapsedTime == oldTime) {
+        // We've saturated the timer, reset it
+        ns_timer_clear(&tickTimer);
+    }
+}
+uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
+extern const int16_t data_wav[];
 volatile bool static g_audioReady = false;
 volatile bool static g_audioRecording = false;
 
@@ -115,13 +133,13 @@ int main(void) {
         .button_0_flag = &g_intButtonPressed,
         .button_1_flag = NULL};
     NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
-
+#if streaming==1 // only activate audio if streaming is enabled
     // -- Audio init
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
     NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P195DB, AM_HAL_PDM_GAIN_P195DB), "Gain set failed.\n");
     // NS_TRY(ns_audio_set_gain(24, 24), "Audio gain set failed.\n"); // AUDADC gain
     NS_TRY(ns_start_audio(&audioConfig), "Audio Start Failed.\n");
-
+#endif
     // Vars and init the RPC system - note this also inits the USB interface
     status stat;
     binary_t binaryBlock = {
@@ -151,6 +169,11 @@ int main(void) {
         .description = msg_compute,
         .cmd = extract_cmd,
         .buffer = binaryBlock};
+
+#ifdef NS_USB_PRESENT
+    ns_printf("RPC over USB\n");
+#endif
+
 #ifndef NS_USB_PRESENT
     ns_uart_config_t rpcGenericUARTHandle = {
         .api = &ns_uart_V0_0_1,
@@ -187,7 +210,7 @@ int main(void) {
     // -- Init the NNSE2 model
     AudioPipe_wrapper_init();
     AudioPipe_wrapper_reset();
-    int16_t *pcm_input = audioDataBuffer;
+    int16_t *pcm_input = (int16_t*) data_wav;
     int16_t *pcm_output = audioDataBuffer + SAMPLES_IN_FRAME;
     
     static ns_perf_counters_t pp;
@@ -196,9 +219,9 @@ int main(void) {
     ns_start_perf_profiler();
     for (int i=0; i < 100; i++)
     {
-        // ns_printf("Processing frame %d\n", i);
         AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
     }
+    ns_printf("\n");
     ns_stop_perf_profiler();
     ns_capture_perf_profiler(&pp);
     ns_print_perf_profile(&pp);
@@ -207,6 +230,15 @@ int main(void) {
     ns_lp_printf("Output after execution\n");
     ns_lp_printf("|------End MCPS Measurement ------|\n\n");
     
+    ns_printf("\nElapsedtime measurement\n");
+    NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
+    tic();
+    for (int i=0; i < 100; i++)
+    {
+        AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
+    }
+    elapsedTime = toc();
+    ns_printf("Elapsed time: %d us\n", elapsedTime);
     // There is a chicken-and-egg thing involved in getting the RPC
     // started. The PC-side server cant start until the USB TTY interface
     // shows up as a device, and that doesn't happen until we start servicing
@@ -227,7 +259,7 @@ int main(void) {
     // we collect data and send it over the various RPC
     // interfaces. Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
-
+#if STREAMING==1
     // -- Init the NNSE2 model
     AudioPipe_wrapper_init();
     while (1) 
@@ -278,5 +310,30 @@ int main(void) {
         }  // while(1)
         
     } // while(1)
+#else
+    // -- Init the NNSE2 model
+    AudioPipe_wrapper_init();
+    AudioPipe_wrapper_reset();
+    int16_t *pt_wav = (int16_t*) data_wav;
+    int16_t *pcm_input = audioDataBuffer;
+    int16_t* pcm_output = audioDataBuffer + SAMPLES_IN_FRAME_local;
 
+    ns_printf("\nElapsedtime measurement\n");
+    NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
+    tic();
+    for (int i = 0; i < 500; i++)
+    {
+        // arm_memcpy_s8((int8_t*) pcm_input, (int8_t*) pt_wav, SAMPLES_IN_FRAME_local * sizeof(int16_t));
+        // AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
+
+        ns_rpc_data_sendBlockToPC(&outBlock);
+        pt_wav += SAMPLES_IN_FRAME_local;
+    }
+    elapsedTime = toc();
+    ns_printf("Elapsed time: %d us\n", elapsedTime);
+    ns_rpc_data_remotePrintOnPC(
+        "EVB Says this: 5s Sample Sent.\n");
+    ns_printf("Sent 500 frames. Done\n");
+
+#endif
 }

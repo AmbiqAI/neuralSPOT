@@ -29,7 +29,8 @@
 
 #include "AudioPipe_wrapper.h"
 #include "def_AudioSystem.h"
-#define STREAMING 1
+#include "third_party/ns_cmsis_nn/Include/arm_nnsupportfunctions.h"
+#define STREAMING 0
 static uint32_t elapsedTime = 0;
 ns_timer_config_t tickTimer = {
     .api = &ns_timer_V1_0_0,
@@ -133,7 +134,7 @@ int main(void) {
         .button_0_flag = &g_intButtonPressed,
         .button_1_flag = NULL};
     NS_TRY(ns_peripheral_button_init(&button_config), "Button init failed\n");
-#if streaming==1 // only activate audio if streaming is enabled
+#if STREAMING==1 // only activate audio if streaming is enabled
     // -- Audio init
     NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
     NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P195DB, AM_HAL_PDM_GAIN_P195DB), "Gain set failed.\n");
@@ -239,6 +240,8 @@ int main(void) {
     }
     elapsedTime = toc();
     ns_printf("Elapsed time: %d us\n", elapsedTime);
+    
+
     // There is a chicken-and-egg thing involved in getting the RPC
     // started. The PC-side server cant start until the USB TTY interface
     // shows up as a device, and that doesn't happen until we start servicing
@@ -247,7 +250,11 @@ int main(void) {
     // To address this, we loop waiting for a button press, servicing
     // USB. This gives the user a chance to start the server then
     // pressing the button to let the EVB it is ready to start RPCing.
-
+#if STREAMING==1
+    ns_printf("Type $tools/python audioview_se.py\n");
+#else
+    ns_printf("Type $tools/python -m wave_offline -o myaudio.wav -m server\n");
+#endif
     ns_printf("Start the PC-side server, then press Button 0 to get started\n");
     while (g_intButtonPressed == 0) {
         ns_delay_us(1000);
@@ -259,8 +266,10 @@ int main(void) {
     // we collect data and send it over the various RPC
     // interfaces. Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.
+
 #if STREAMING==1
     // -- Init the NNSE2 model
+    ns_printf("Type $tools/python audioview_se.py\n");
     AudioPipe_wrapper_init();
     while (1) 
     {
@@ -312,28 +321,28 @@ int main(void) {
     } // while(1)
 #else
     // -- Init the NNSE2 model
+    ns_printf("Type $tools/python -m wave_offline -o myaudio.wav -m server\n");
     AudioPipe_wrapper_init();
     AudioPipe_wrapper_reset();
     int16_t *pt_wav = (int16_t*) data_wav;
-    int16_t *pcm_input = audioDataBuffer;
-    int16_t* pcm_output = audioDataBuffer + SAMPLES_IN_FRAME_local;
-
-    ns_printf("\nElapsedtime measurement\n");
+    pcm_input = (int16_t*) audioDataBuffer;;
+    int16_t tmp[200];
     NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
     tic();
     for (int i = 0; i < 500; i++)
     {
-        // arm_memcpy_s8((int8_t*) pcm_input, (int8_t*) pt_wav, SAMPLES_IN_FRAME_local * sizeof(int16_t));
-        // AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
+        ns_printf("Sending frame %d\n", i);
+        arm_memcpy_s8((int8_t*) pcm_input, (int8_t*) pt_wav, SAMPLES_IN_FRAME * sizeof(int16_t));
+
+        AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
 
         ns_rpc_data_sendBlockToPC(&outBlock);
-        pt_wav += SAMPLES_IN_FRAME_local;
+        pt_wav += SAMPLES_IN_FRAME;
     }
     elapsedTime = toc();
     ns_printf("Elapsed time: %d us\n", elapsedTime);
     ns_rpc_data_remotePrintOnPC(
-        "EVB Says this: 5s Sample Sent.\n");
+        "EVB Says this: 5s Samples Sent.\n");
     ns_printf("Sent 500 frames. Done\n");
-
 #endif
 }

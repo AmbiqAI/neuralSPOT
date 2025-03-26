@@ -6,7 +6,7 @@ local_src += $(wildcard $(subdirectory)/src/*.cpp)
 local_src += $(wildcard $(subdirectory)/src/*.s)
 
 TFLM_BUILD := 1# 1 : TFLM, 0 : NNSP
-MODEL_RNN := 1# 1 : RNN, 0 : UNET
+MODEL_RNN := 0# 1 : RNN, 0 : UNET
 includes_api += $(subdirectory)/src
 ifeq ($(strip $(TFLM_BUILD)),1)
 	ifeq ($(strip $(MODEL_RNN)),1) # RNN

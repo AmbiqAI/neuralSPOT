@@ -81,7 +81,7 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
             wav_raw, wav_se = np.split(data, 2)
             rawFileNameMono = "audio_result/raw" + outFileName + "_mono.wav"
             seFileNameMono = "audio_result/se" + outFileName + "_mono.wav"
-            
+
             if os.path.isfile(rawFileNameMono):
                 with sf.SoundFile(rawFileNameMono, mode="r+") as wfile:
                     wfile.seek(0, sf.SEEK_END)

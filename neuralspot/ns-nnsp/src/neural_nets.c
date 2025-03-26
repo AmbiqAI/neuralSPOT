@@ -8,6 +8,7 @@
 #include "lstm.h"
 #include "affine.h"
 #include "ambiq_nnsp_debug.h"
+#include "ns_ambiqsuite_harness.h"
 #if ARM_OPTIMIZED == 3
     #include "basic_mve.h"
 #endif

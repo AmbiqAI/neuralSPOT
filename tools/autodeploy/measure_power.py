@@ -161,10 +161,10 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Generate input/output tensor example data
     flatInput = [
-        element for sublist in mc.exampleTensors.inputTensors for element in sublist
+        np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist
     ]
     flatOutput = [
-        element for sublist in mc.exampleTensors.outputTensors for element in sublist
+        np.array(element).tolist() for sublist in mc.exampleTensors.outputTensors for element in sublist
     ]
     inputs = str(flatInput).replace("[", "{").replace("]", "}")
     outputs = str(flatOutput).replace("[", "{").replace("]", "}")

@@ -82,17 +82,24 @@
    Statically allocated buffers.
    Two buffers are used to alternate intermediate results.
   *---------------------------------------------------------------------------*/
- static int8_t conv1_output_buffer[CONV1_OUT_SIZE];
- static int8_t block_buffer[CONV1_OUT_SIZE];
+ static int8_t conv1_output_buffer[2*CONV1_OUT_SIZE];
+ static int8_t block_buffer[2*CONV1_OUT_SIZE];
  
  /* CMSIS–NN context (using a statically allocated buffer for internal scratch data) */
  cmsis_nn_context fc_ctx;
- static uint8_t ctx_buffer[4096];
+ static uint8_t ctx_buffer[8192];
  
  /*----------------------------------------------------------------------------
    Helper functions
   *---------------------------------------------------------------------------*/
- 
+ void print_first(const char *name, const int8_t *data, int size) {
+    ns_lp_printf("%s: ", name);
+    for (int i = 0; i < size; i++) {
+        ns_lp_printf("%d ", data[i]);
+    }
+    ns_lp_printf("\n");
+}
+
  /* A simple per–element batch normalization followed by ReLU.
     Here we assume that the BN parameters are given per–tensor (or the first element is used).
   */
@@ -139,8 +146,33 @@
      local_quant.shift = &local_shift;
  
      int32_t out_size = output_dims->h * output_dims->w * output_dims->c;
+     memset(ctx_buffer, 0, sizeof(ctx_buffer));
      /* Zero out the output buffer if required by the CMSIS–NN function */
      memset(output_data, 0, out_size);
+     ns_lp_printf("conv2d_bn_relu conv_params->padding.h: %d\n", conv_params->padding.h);
+        ns_lp_printf("conv2d_bn_relu conv_params->padding.w: %d\n", conv_params->padding.w);
+        ns_lp_printf("conv2d_bn_relu conv_params->stride.h: %d\n", conv_params->stride.h);
+        ns_lp_printf("conv2d_bn_relu conv_params->stride.w: %d\n", conv_params->stride.w);
+        ns_lp_printf("conv2d_bn_relu conv_params->dilation.h: %d\n", conv_params->dilation.h);
+        ns_lp_printf("conv2d_bn_relu conv_params->dilation.w: %d\n", conv_params->dilation.w);
+        ns_lp_printf("conv2d_bn_relu input_dims->n: %d\n", input_dims->n);
+        ns_lp_printf("conv2d_bn_relu input_dims->h: %d\n", input_dims->h);
+        ns_lp_printf("conv2d_bn_relu input_dims->w: %d\n", input_dims->w);
+        ns_lp_printf("conv2d_bn_relu input_dims->c: %d\n", input_dims->c);
+        ns_lp_printf("conv2d_bn_relu filter_dims->h: %d\n", filter_dims->h);
+        ns_lp_printf("conv2d_bn_relu filter_dims->w: %d\n", filter_dims->w);
+        ns_lp_printf("conv2d_bn_relu filter_dims->c: %d\n", filter_dims->c);
+        ns_lp_printf("conv2d_bn_relu bias_dims->n: %d\n", bias_dims->n);
+        ns_lp_printf("conv2d_bn_relu bias_dims->h: %d\n", bias_dims->h);
+        ns_lp_printf("conv2d_bn_relu bias_dims->w: %d\n", bias_dims->w);
+        ns_lp_printf("conv2d_bn_relu bias_dims->c: %d\n", bias_dims->c);
+        ns_lp_printf("conv2d_bn_relu output_dims->n: %d\n", output_dims->n);
+        ns_lp_printf("conv2d_bn_relu output_dims->h: %d\n", output_dims->h);
+        ns_lp_printf("conv2d_bn_relu output_dims->w: %d\n", output_dims->w);
+        ns_lp_printf("conv2d_bn_relu output_dims->c: %d\n", output_dims->c);
+        ns_lp_printf("local_quant.multiplier: %d\n", local_quant.multiplier);
+        ns_lp_printf("local_quant.shift: %d\n", local_quant.shift);
+        print_first("weights input", filter_data, 10);
      arm_cmsis_nn_status status = arm_convolve_wrapper_s8(&fc_ctx, conv_params, &local_quant,
                                                           input_dims, input_data,
                                                           filter_dims, filter_data,
@@ -149,6 +181,8 @@
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
      /* Apply BN and ReLU in place */
+     print_first("conv2d_bn_relu input", input_data, 10);
+    print_first("conv2d_bn_relu output", output_data, 100);
      apply_batch_norm_relu_s8(output_data, out_size, bn_multiplier, bn_shift);
      return ARM_CMSIS_NN_SUCCESS;
  }
@@ -210,6 +244,30 @@
      
      int32_t out_size = output_dims->h * output_dims->w * output_dims->c;
      memset(output_data, 0, out_size);
+     ns_lp_printf("pointwise pw_params->padding.h: %d\n", pw_params->padding.h);
+        ns_lp_printf("pointwise pw_params->padding.w: %d\n", pw_params->padding.w);
+        ns_lp_printf("pointwise pw_params->stride.h: %d\n", pw_params->stride.h);
+        ns_lp_printf("pointwise pw_params->stride.w: %d\n", pw_params->stride.w);
+        ns_lp_printf("pointwise pw_params->dilation.h: %d\n", pw_params->dilation.h);
+        ns_lp_printf("pointwise pw_params->dilation.w: %d\n", pw_params->dilation.w);
+        ns_lp_printf("pointwise input_dims->n: %d\n", input_dims->n);
+        ns_lp_printf("pointwise input_dims->h: %d\n", input_dims->h);
+        ns_lp_printf("pointwise input_dims->w: %d\n", input_dims->w);
+        ns_lp_printf("pointwise input_dims->c: %d\n", input_dims->c);
+        ns_lp_printf("pointwise filter_dims->h: %d\n", filter_dims->h);
+        ns_lp_printf("pointwise filter_dims->w: %d\n", filter_dims->w);
+        ns_lp_printf("pointwise filter_dims->c: %d\n", filter_dims->c);
+        ns_lp_printf("pointwise bias_dims->n: %d\n", bias_dims->n);
+        ns_lp_printf("pointwise bias_dims->h: %d\n", bias_dims->h);
+        ns_lp_printf("pointwise bias_dims->w: %d\n", bias_dims->w);
+        ns_lp_printf("pointwise bias_dims->c: %d\n", bias_dims->c);
+        ns_lp_printf("pointwise output_dims->n: %d\n", output_dims->n);
+        ns_lp_printf("pointwise output_dims->h: %d\n", output_dims->h);
+        ns_lp_printf("pointwise output_dims->w: %d\n", output_dims->w);
+        ns_lp_printf("pointwise output_dims->c: %d\n", output_dims->c);
+        ns_lp_printf("local_quant.multiplier: %d\n", local_quant.multiplier);
+        ns_lp_printf("local_quant.shift: %d\n", local_quant.shift);
+        print_first("weights input", filter_data, 10);
      arm_cmsis_nn_status status = arm_convolve_wrapper_s8(&fc_ctx, pw_params, &local_quant,
                                                           input_dims, input_data,
                                                           filter_dims, filter_data,
@@ -284,6 +342,8 @@
      arm_softmax_s8(input, num_rows, row_size, mult, shift, diff_min, output);
  }
  
+
+
  /*----------------------------------------------------------------------------
    The DS–CNN inference function.
   *---------------------------------------------------------------------------*/
@@ -322,6 +382,8 @@
                              conv1_bn_multiplier, conv1_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+        print_first("input", input, 10);
+        print_first("conv1_output_buffer", conv1_output_buffer, 100);
  
      /* --- DS–CNN Blocks (4 blocks, each with depthwise conv then pointwise conv) --- */
      cmsis_nn_dims block_in_dims = conv1_out_dims;
@@ -367,6 +429,8 @@
                                        block1_dw_bn_multiplier, block1_dw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+     print_first("conv1_output_buffer input", conv1_output_buffer, 100);
+     print_first("block_buffer 1", block_buffer, 100);
      status = pointwise_conv2d_bn_relu(&pw_params, &pw_quant, &block_in_dims, block_buffer,
                                        &((cmsis_nn_dims){.n=BLOCK_OUT_C, .h=PW_KH, .w=PW_KW, .c=BLOCK_OUT_C}),
                                        block1_pw_weights, &pw_bias_dims, block1_pw_bias,
@@ -374,6 +438,7 @@
                                        block1_pw_bn_multiplier, block1_pw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+    print_first("conv1_output_buffer 1", conv1_output_buffer, 100);
  
      /* --- Block 2 --- */
      status = depthwise_conv2d_bn_relu(&dw_params, &dw_quant, &block_in_dims, conv1_output_buffer,
@@ -383,6 +448,7 @@
                                        block2_dw_bn_multiplier, block2_dw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+     print_first("block_buffer 2", block_buffer, 100);
      status = pointwise_conv2d_bn_relu(&pw_params, &pw_quant, &block_in_dims, block_buffer,
                                        &((cmsis_nn_dims){.n=BLOCK_OUT_C, .h=PW_KH, .w=PW_KW, .c=BLOCK_OUT_C}),
                                        block2_pw_weights, &pw_bias_dims, block2_pw_bias,
@@ -390,6 +456,7 @@
                                        block2_pw_bn_multiplier, block2_pw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+     print_first("conv1_output_buffer 2", conv1_output_buffer, 100);
  
      /* --- Block 3 --- */
      status = depthwise_conv2d_bn_relu(&dw_params, &dw_quant, &block_in_dims, conv1_output_buffer,
@@ -399,6 +466,7 @@
                                        block3_dw_bn_multiplier, block3_dw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+         print_first("block_buffer 3", block_buffer, 100);
      status = pointwise_conv2d_bn_relu(&pw_params, &pw_quant, &block_in_dims, block_buffer,
                                        &((cmsis_nn_dims){.n=BLOCK_OUT_C, .h=PW_KH, .w=PW_KW, .c=BLOCK_OUT_C}),
                                        block3_pw_weights, &pw_bias_dims, block3_pw_bias,
@@ -406,6 +474,7 @@
                                        block3_pw_bn_multiplier, block3_pw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+        print_first("conv1_output_buffer 3", conv1_output_buffer, 100);
  
      /* --- Block 4 --- */
      status = depthwise_conv2d_bn_relu(&dw_params, &dw_quant, &block_in_dims, conv1_output_buffer,
@@ -415,6 +484,7 @@
                                        block4_dw_bn_multiplier, block4_dw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+         print_first("block_buffer 4", block_buffer, 100);
      status = pointwise_conv2d_bn_relu(&pw_params, &pw_quant, &block_in_dims, block_buffer,
                                        &((cmsis_nn_dims){.n=BLOCK_OUT_C, .h=PW_KH, .w=PW_KW, .c=BLOCK_OUT_C}),
                                        block4_pw_weights, &pw_bias_dims, block4_pw_bias,
@@ -422,16 +492,21 @@
                                        block4_pw_bn_multiplier, block4_pw_bn_shift);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+        print_first("conv1_output_buffer 4", conv1_output_buffer, 100);
  
      /* --- Global Average Pooling --- */
      int8_t gap_output[BLOCK_OUT_C];
      global_average_pooling_s8(&block_out_dims, conv1_output_buffer, gap_output);
+     print_first("gap_output", gap_output, 64);
  
      /* --- Fully Connected Layer --- */
      cmsis_nn_dims fc_in_dims = { .n = 1, .h = 1, .w = 1, .c = BLOCK_OUT_C };
      cmsis_nn_dims fc_bias_dims = { .n = 0, .h = 0, .w = 0, .c = FC_OUT };
      cmsis_nn_dims fc_out_dims = { .n = 1, .h = 1, .w = 1, .c = FC_OUT };
- 
+     // set output to all zeros
+    //  memset(output, 0, sizeof(output));
+    //  print_first("output", output, sizeof(output));
+     memset(output, 0, sizeof(output));
      status = fully_connected_layer(&fc_in_dims, gap_output,
                                     &((cmsis_nn_dims){.n = FC_OUT, .h = 1, .w = 1, .c = BLOCK_OUT_C}),
                                     fc_weights,
@@ -439,9 +514,11 @@
                                     &fc_out_dims, output);
      if (status != ARM_CMSIS_NN_SUCCESS)
          return status;
+         print_first("fc output", output, 12);
  
      /* --- Softmax --- */
      softmax_layer_s8(output, 1, FC_OUT, output);
+     print_first("softmax output", output, 12);
  
      return ARM_CMSIS_NN_SUCCESS;
  }

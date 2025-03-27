@@ -211,6 +211,7 @@ int main(void) {
                 tmp = mfcc_buffer[i] / model_input->params.scale + model_input->params.zero_point;
                 tmp = MAX(MIN(tmp, 127), -128);
                 model_input->data.int8[i] = (int8_t)tmp;
+                model_input->data.int8[i] = 80; // test
             }
 
             ns_set_power_monitor_state(NS_INFERING);

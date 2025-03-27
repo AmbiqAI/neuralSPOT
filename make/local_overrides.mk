@@ -19,11 +19,11 @@
 
 # PLATFORM := apollo5a_eb
 # AS_VERSION := Apollo510_SDK3_2024_09_14
-# MLDEBUG := 1
+MLDEBUG := 1
 
 # TF_VERSION := Oct_08_2024_e86d97b6
 # TF_VERSION := ns_tflm_2024_11_25
-# TF_VERSION := ns_tflm_2025_03_06
+TF_VERSION := ns_tflm_2025_03_19
 # TF_VERSION := d5f819d_Aug_10_2023
 # TF_VERSION := ce72f7b8_Feb_17_2024
 # TF_VERSION := bb4fc83d_Mar_28_2024

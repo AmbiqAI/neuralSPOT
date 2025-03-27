@@ -92,6 +92,12 @@ extern const int32_t pw_conv_shift[];
 extern const int32_t bn_multiplier[]; // used in both depthwise and pointwise BN (for simplicity)
 extern const int32_t bn_shift[];
 
+// Input and output scale and zero points
+extern const float input_scale;
+extern const int32_t input_zero_point;
+extern const float output_scale;
+extern const int32_t output_zero_point;
+
 //------------------------------------------------------------------------------
 // Fully connected layer parameters
 extern const int8_t fc_weights[];

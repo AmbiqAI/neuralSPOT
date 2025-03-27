@@ -87,7 +87,7 @@ def main():
 
     # Mapping for weights and biases.
     mapping = {
-        "conv1_weights": "functional_1/conv2d/Conv2D",  # conv1 layer weights.
+        "conv1_weights": "functional_1/conv2d/Conv2D",
         "conv1_bias":    "functional_1/conv2d/BiasAdd/ReadVariableOp",
         "block1_dw_weights": "functional_1/depthwise_conv2d/depthwise",
         "block1_dw_bias":    "functional_1/depthwise_conv2d/BiasAdd/ReadVariableOp",
@@ -147,13 +147,11 @@ def main():
 
     # Process weights and biases.
     for cname, pattern in mapping.items():
-        # For weight tensors, we expect int8; for biases, int32.
         expected_dtype = np.int8 if "weights" in cname else None
         result = find_tensor_by_pattern(tensor_details, pattern, expected_dtype)
         if result is not None:
             tname, tensor, detail = result
             print(f"Found tensor for {cname}: {tname}, shape {tensor.shape}, dtype {tensor.dtype}")
-            # If the tensor is not int8 but expected int8, attempt to cast.
             if expected_dtype is not None and tensor.dtype != np.int8:
                 tensor = tensor.astype(np.int8)
             dtype_str = "int8_t" if tensor.dtype == np.int8 else "int32_t"
@@ -167,7 +165,6 @@ def main():
         if result is not None:
             tname, tensor, detail = result
             print(f"Found BN tensor for {cname}: {tname}, shape {tensor.shape}, dtype {tensor.dtype}")
-            # Assume BN parameters are quantized to int32_t.
             dtype_str = "int32_t"
             c_arrays += generate_c_array(cname, tensor, dtype_str)
         else:
@@ -180,19 +177,16 @@ def main():
         result = find_tensor_by_pattern(tensor_details, pattern)
         if result is not None:
             tname, tensor, detail = result
-            quant = detail.get("quantization")
-            if quant is not None:
-                if isinstance(quant[0], (list, tuple, np.ndarray)) and len(quant[0]) > 1:
-                    scales = quant[0]
-                else:
-                    scales = [quant[0]]
+            quant = detail.get("quantization_parameters")
+            if quant is not None and "scales" in quant and len(quant["scales"]) > 0:
+                scales = quant["scales"]
                 multipliers, shifts = quantize_list(scales)
                 if "multiplier" in cname:
                     c_arrays += generate_c_array(cname, multipliers, "int32_t")
                 elif "shift" in cname:
                     c_arrays += generate_c_array(cname, shifts, "int32_t")
             else:
-                print(f"Warning: No quantization info for tensor {tname} for {cname}")
+                print(f"Warning: No quantization parameters for tensor {tname} for {cname}")
         else:
             print(f"Warning: Could not find tensor for quantization parameter {cname} with pattern '{pattern}'")
 
@@ -206,18 +200,37 @@ def main():
     c_arrays += generate_c_array("test_input", test_input, "int8_t")
     c_arrays += generate_c_array("expected_output", expected_output, "int8_t")
 
+    # Extract input quantization parameters.
+    in_quant = input_details[0].get('quantization_parameters', {})
+    if in_quant and 'scales' in in_quant and len(in_quant['scales']) > 0:
+         in_scale = in_quant['scales'][0]
+         in_zero = in_quant['zero_points'][0]
+    else:
+         in_scale = 1.0
+         in_zero = 0
+
+    # Extract output quantization parameters.
+    out_quant = output_details[0].get('quantization_parameters', {})
+    if out_quant and 'scales' in out_quant and len(out_quant['scales']) > 0:
+         out_scale = out_quant['scales'][0]
+         out_zero = out_quant['zero_points'][0]
+    else:
+         out_scale = 1.0
+         out_zero = 0
+
+    c_arrays += f"const float input_scale = {in_scale:.8f}f;\n"
+    c_arrays += f"const int32_t input_zero_point = {in_zero};\n"
+    c_arrays += f"const float output_scale = {out_scale:.8f}f;\n"
+    c_arrays += f"const int32_t output_zero_point = {out_zero};\n\n"
+
     # For the fully connected layer quantization, output the structure.
     fc_result = find_tensor_by_pattern(tensor_details, quant_mapping["fc_multiplier"])
     if fc_result is not None:
         tname, tensor, detail = fc_result
-        quant = detail.get("quantization")
-        if quant is not None:
-            if isinstance(quant[0], (list, tuple, np.ndarray)) and len(quant[0]) > 1:
-                scales = quant[0]
-            else:
-                scales = [quant[0]]
+        quant = detail.get("quantization_parameters")
+        if quant is not None and "scales" in quant and len(quant["scales"]) > 0:
+            scales = quant["scales"]
             fc_mult, fc_sh = quantize_list(scales)
-            # fc_n = len(fc_mult)  # No need for 'n' in the structure.
             fc_quant_struct = (
                 "const cmsis_nn_per_channel_quant_params fc_quant_params = {\n"
                 "  .multiplier = (int32_t *)fc_multiplier,\n"
@@ -226,10 +239,9 @@ def main():
             )
             c_arrays += fc_quant_struct
         else:
-            print("Warning: No quantization info for fully connected layer.")
+            print("Warning: No quantization parameters for fully connected layer.")
     else:
         print("Warning: Could not find fc layer quantization info for fc_quant_params.")
-
 
     # Write the generated arrays and structures to ds_cnn_data.c.
     with open("ds_cnn_data.c", "w") as f:

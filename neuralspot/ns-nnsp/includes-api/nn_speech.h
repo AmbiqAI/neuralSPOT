@@ -60,8 +60,15 @@ void binary_post_proc(NNSPClass *pt_inst, int32_t *pt_nn_est, int16_t *pt_trigge
 
 void s2i_post_proc(NNSPClass *pt_inst, int32_t *pt_nn_est, int16_t *pt_trigger);
 
-void se_post_proc(NNSPClass *pt_inst, int16_t *pt_nn_est, int16_t *pt_se_out);
-
+/*
+post processing for SE: apply tfmask and istft
+*/
+void se_post_proc(
+    void *pt_feat_t,    // feature instance
+    int16_t *pt_nn_est, // tfmask
+    int16_t *pt_se_out, // output
+    int start_bin,      // start bin
+    int nn_dim_out);       // NN output dimension
 #ifdef __cplusplus
 }
 #endif

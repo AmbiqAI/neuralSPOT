@@ -6,6 +6,7 @@
 #include "melSpecProc.h"
 #include "fixlog10.h"
 #include "ambiq_nnsp_debug.h"
+#include "ns_ambiqsuite_harness.h"
 #if ARM_OPTIMIZED == 3
 #include "basic_mve.h"
 #endif
@@ -19,9 +20,16 @@ extern const int16_t mfltrBank_coeff_nfilt40_fftsize512[];
 extern const int16_t mfltrBank_coeff_nfilt22_fftsize256[];
 
 void FeatureClass_construct(
-    FeatureClass *ps, const int32_t *norm_mean, const int32_t *norm_stdR, int8_t qbit_output,
-    int16_t num_mfltrBank, int16_t winsize, int16_t hopsize, int16_t fftsize,
-    const int16_t *pt_stft_win_coeff) {
+        FeatureClass *ps, 
+        const int32_t *norm_mean, 
+        const int32_t *norm_stdR, 
+        int8_t qbit_output,
+        int16_t num_mfltrBank, 
+        int16_t winsize, 
+        int16_t hopsize, 
+        int16_t fftsize,
+        const int16_t *pt_stft_win_coeff) 
+    {
 
     stftModule_construct(&ps->state_stftModule, winsize, hopsize, fftsize, pt_stft_win_coeff);
     ps->pt_norm_mean = norm_mean;
@@ -63,17 +71,20 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     int shift = (ps->num_context - 1) * ps->dim_feat;
     int i;
     int64_t tmp;
+    if (ps->num_context > 1)
+    {
+    #if ARM_OPTIMIZED == 3
+        move_data_16b(
+            ps->normFeatContext+ps->dim_feat, 
+            ps->normFeatContext,
+            shift);
+    #else
+        for (i = 0; i < shift; i++) {
+            ps->normFeatContext[i] = ps->normFeatContext[i + ps->dim_feat];
+        }
 
-#if ARM_OPTIMIZED == 3
-    move_data_16b(
-        ps->normFeatContext+ps->dim_feat, 
-        ps->normFeatContext,
-        shift);
-#else
-    for (i = 0; i < shift; i++) {
-        ps->normFeatContext[i] = ps->normFeatContext[i + ps->dim_feat];
+    #endif
     }
-#endif
 #if ARM_FFT == 0
     stftModule_analyze(&ps->state_stftModule, input, spec);
     #if AMBIQ_NNSP_DEBUG == 1
@@ -84,49 +95,46 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     #endif
     spec2pspec(pspec, spec, 1 + (LEN_FFT_NNSP >> 1));
 #else
+
     stftModule_analyze_arm(
         (void *)&ps->state_stftModule,
         input, // q15
         spec,  // q21
         ps->state_stftModule.len_fft, &qbit_out);
-
     spec2pspec_arm(pspec, spec, 1 + (ps->state_stftModule.len_fft >> 1), qbit_out);
 #endif
+
+
+
 #if AMBIQ_NNSP_DEBUG == 1
     for (i = 0; i < 1 + (LEN_FFT_NNSP >> 1); i++) {
         fprintf(file_pspec_c, "%d ", pspec[i]);
     }
     fprintf(file_pspec_c, "\n");
 #endif
-    melSpecProc(pspec, ps->feature, ps->p_melBanks, ps->num_mfltrBank);
-#if AMBIQ_NNSP_DEBUG == 1
+    int32_t *pt_feature;
+    if (ps->num_mfltrBank ==257)
+    {
+        pt_feature = pspec;
+    }
+    else
+    {
+        melSpecProc(pspec, ps->feature, ps->p_melBanks, ps->num_mfltrBank);
+        pt_feature = ps->feature;
+    }
+    #if AMBIQ_NNSP_DEBUG == 1
     for (i = 0; i < ps->num_mfltrBank; i++) {
         fprintf(file_melSpec_c, "%d ", ps->feature[i]);
     }
     fprintf(file_melSpec_c, "\n");
 #endif
-    log10_vec(ps->feature, ps->feature, ps->dim_feat, 15);
+    log10_vec(ps->feature, pt_feature, ps->dim_feat, 15);
 #if AMBIQ_NNSP_DEBUG == 1
     for (i = 0; i < ps->dim_feat; i++) {
         fprintf(file_feat_c, "%d ", ps->feature[i]);
     }
     fprintf(file_feat_c, "\n");
 #endif
-    // uint16_t mask = 0;
-    // for (int i = 0; i < 2; i++)
-    // {
-    //     mask = (mask << 4) | 1;
-    // }
-    // for (i = 0; i < (ps->dim_feat) >> 1; i++)
-    // {   
-    //     int32x4_t feat0 = vld1q_z_s32(ps->feature, mask);
-    //     int32x4_t mean0 = vld1q_z_s32(ps->pt_norm_mean, mask);
-    //     int32x4_t inv_s = vld1q_z_s32(ps->pt_norm_stdR, mask);
-    //     feat0 = feat0 - mean0;
-    //     int64x2_t out = vmullbq_int_s32(feat0, inv_s) >> (30 - ps->qbit_output);
-    //     feat0 = vreinterpretq_s32_s64(out);
-    //     feat0 = vminq_s32(MAX_INT16_T, vmaxvq_s32(MIN_INT16_T, feat0));
-    // }
 
     for (i = 0; i < ps->dim_feat; i++) {
         tmp = (int64_t)ps->feature[i] - (int64_t)ps->pt_norm_mean[i];
@@ -135,4 +143,5 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
         tmp = MIN(MAX(tmp, (int64_t)MIN_INT16_T), (int64_t)MAX_INT16_T);
         ps->normFeatContext[i + shift] = (int16_t)tmp;
     }
+
 }

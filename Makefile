@@ -54,7 +54,7 @@ endif
 
 # External Component Modules
 modules      += extern/AmbiqSuite/$(AS_VERSION)
-modules 	 += extern/CMSIS/CMSIS-DSP-1.15.0
+modules 	 += extern/CMSIS/$(CMSIS_DSP_VERSION)
 # modules 	 += extern/CMSIS/CMSIS-NN
 modules      += extern/tensorflow/$(TF_VERSION)
 # modules      += extern/SEGGER_RTT/$(SR_VERSION)
@@ -214,8 +214,6 @@ else
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
-# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
 endif
 
 # %.size: %.axf

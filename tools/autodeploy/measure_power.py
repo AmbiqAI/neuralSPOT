@@ -161,10 +161,10 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     # Generate input/output tensor example data
     flatInput = [
-        element for sublist in mc.exampleTensors.inputTensors for element in sublist
+        np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist
     ]
     flatOutput = [
-        element for sublist in mc.exampleTensors.outputTensors for element in sublist
+        np.array(element).tolist() for sublist in mc.exampleTensors.outputTensors for element in sublist
     ]
     inputs = str(flatInput).replace("[", "{").replace("]", "}")
     outputs = str(flatOutput).replace("[", "{").replace("]", "}")
@@ -198,7 +198,11 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         relative_build_path = relative_build_path.replace("\\", "/")
 
     # Platform Settings
-    ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+    if params.toolchain == "arm":
+        ps = f"PLATFORM={params.platform} TOOLCHAIN={params.toolchain} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
+    else:
+        # toolchain is gcc, which is default
+        ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
 
     # Generate library and example binary
     if params.onboard_perf:

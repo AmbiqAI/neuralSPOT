@@ -24,7 +24,11 @@
 #include "ns_peripherals_button.h"
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
+// #ifdef AM_PART_APOLLO5B
+// #include "ns_pp.h"
+// #else
 #include "ns_power_profile.h"
+// #endif
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_example_tensors.h"
 #include "ns_model.h"
@@ -149,10 +153,17 @@ int main(void) {
 
 #if NS_AD_JS_PRESENT == 0
     // If no Joulescope, start running the model without waiting for a trigger
-    // ns_lp_printf("Current power and performance register settings:\n");
-    // ns_pp_ap5_snapshot(false, 0, false);
-    // ns_pp_ap5_snapshot(false, 0, true);
+    ns_lp_printf("Current power and performance register settings:\n");
+    #ifdef AM_PART_APOLLO5B
+    capture_snapshot(0);
+    print_snapshot(0, false);
 
+    // am_util_pp_snapshot(false, 1, false); // Capture register snapshot 1
+    // am_util_pp_snapshot(false, 1, true); // print captured snapshot
+    #else
+    ns_pp_ap5_snapshot(false, 0, false);
+    ns_pp_ap5_snapshot(false, 0, true);
+    #endif // AM_PART_APOLLO5B
     joulescopeTrigger = true;
     ns_lp_printf("No Joulescope, starting model without trigger.\n");
 #endif

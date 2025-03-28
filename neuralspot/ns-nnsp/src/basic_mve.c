@@ -6,6 +6,7 @@ Basic MVE Function for Helium architecture
 #if ARM_OPTIMIZED == 3
 #include "basic_mve.h"
 #include <arm_mve.h>
+#include "ns_ambiqsuite_harness.h"
 void vec16_vec16_mul_32b(
         int32_t *y,
         int16_t *x1,

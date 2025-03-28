@@ -14,6 +14,14 @@
 #include "ns_pmu_utils.h"
 #include <string.h>
 
+const ns_core_api_t ns_pmu_V0_0_1 = {.apiId = NS_PMU_API_ID, .version = NS_PMU_V0_0_1};
+const ns_core_api_t ns_pmu_V1_0_0 = {.apiId = NS_PMU_API_ID, .version = NS_PMU_V1_0_0};
+const ns_core_api_t ns_pmu_oldest_supported_version = {
+    .apiId = NS_PMU_API_ID, .version = NS_PMU_V0_0_1};
+
+const ns_core_api_t ns_pmu_current_version = {
+    .apiId = NS_PMU_API_ID, .version = NS_PMU_V1_0_0};
+
 static am_util_pmu_config_t ns_am_pmu_config;
 // static am_util_pmu_profiling_t ns_am_pmu_profiling;
 static bool ns_pmu_initialized = false;
@@ -268,15 +276,22 @@ void ns_pmu_event_create(ns_pmu_event_t *event, uint32_t eventId, ns_pmu_event_c
 
 // Characterize a function by repeatedly calling it and checking different PMU counters every time
 
+// int map_index = 0;
 void ns_pmu_characterize_function(invoke_fp func, ns_pmu_config_t *cfg) {
+    am_util_pmu_enable();
 
     // Walk through every event counter in PMU map
-    for (int map_index = 0; map_index < NS_PMU_MAP_SIZE; map_index++) {
+    for (uint32_t map_index = 0; map_index < NS_PMU_MAP_SIZE; map_index++) {
         // We can do 4 32b counters at a time
+        // ns_lp_printf("Characterizing event %d %d\n", map_index, NS_PMU_MAP_SIZE);
         ns_pmu_event_create(&(cfg->events[0]), ns_pmu_map[map_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        // ns_lp_printf("Characterizing event %d %d %d\n", map_index, map_index%71, NS_PMU_MAP_SIZE);
         ns_pmu_event_create(&(cfg->events[1]), ns_pmu_map[(++map_index)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        // ns_lp_printf("Characterizing event %d %d\n", map_index, NS_PMU_MAP_SIZE);
         ns_pmu_event_create(&(cfg->events[2]), ns_pmu_map[(++map_index)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        // ns_lp_printf("Characterizing event %d %d\n", map_index, NS_PMU_MAP_SIZE);
         ns_pmu_event_create(&(cfg->events[3]), ns_pmu_map[(++map_index)%NS_PMU_MAP_SIZE].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+        // ns_lp_printf("Characterizing event %d %d\n", map_index, NS_PMU_MAP_SIZE);
 
         ns_pmu_init(cfg);
         // Call the function

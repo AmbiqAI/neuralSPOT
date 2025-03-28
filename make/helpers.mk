@@ -71,6 +71,7 @@ endef
 # 	@echo " Helper Linking $(COMPILERNAME) $$@"
 # 	@mkdir -p $$(@D)
 # ifeq ($(TOOLCHAIN),arm)
+
 # 	$(Q) $(LD) $$^ $(LFLAGS) --list=$*.map -o $$@
 # else
 # 	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $$^ $(LFLAGS)

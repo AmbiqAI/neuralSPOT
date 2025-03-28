@@ -5,6 +5,7 @@
 #AS_VERSION := R3.1.1
 
 # *** Apollo4 Plus
+# PLATFORM := apollo4p_evb
 # PLATFORM := apollo4l
 # PLATFORM := apollo4p_blue_kxr_evb
 # AS_VERSION := R4.5.0

@@ -497,7 +497,7 @@ extern "C"
 // Internal macros
 //
 #define SDIO_TIMING_SCAN_MIN_ACCEPTANCE_LENGTH  2 // Acceptable length should be determined based on system level test.
-#define AM_HAL_CARD_DEBUG(fmt, ...) am_util_debug_printf("[CARD] line %04d - "fmt, __LINE__, ##__VA_ARGS__)
+#define AM_HAL_CARD_DEBUG(fmt, ...) am_util_debug_printf("[CARD] line %04d - " fmt, __LINE__, ##__VA_ARGS__)
 
 #define SECTOR_MODE       0x4
 #define CARD_RDY_BIT      ((uint32_t)0x1 << 31)

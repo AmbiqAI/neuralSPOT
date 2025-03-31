@@ -89,7 +89,9 @@ ARMLINKER_IS_NO_BUENO := $(BINDIR)/neuralspot/ns-usb/src/overrides/usb_descripto
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/webusb_controller.o
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/ns_usb_overrides.o
 endif
+ifneq ($(ARCH),apollo3)
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_resources.o
+endif
 ifeq ($(ARCH),apollo5)
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-core/src/$(BOARD)/armclang/startup_keil6.o
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_utils.o

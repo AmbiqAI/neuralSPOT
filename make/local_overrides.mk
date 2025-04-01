@@ -5,6 +5,7 @@
 #AS_VERSION := R3.1.1
 
 # *** Apollo4 Plus
+# PLATFORM := apollo4p_evb
 # PLATFORM := apollo4l
 # PLATFORM := apollo4p_blue_kxr_evb
 # AS_VERSION := R4.5.0
@@ -24,6 +25,7 @@
 # TF_VERSION := Oct_08_2024_e86d97b6
 # TF_VERSION := ns_tflm_2024_11_25
 # TF_VERSION := ns_tflm_2025_03_06
+TF_VERSION := ns_tflm_v1_0_0
 # TF_VERSION := d5f819d_Aug_10_2023
 # TF_VERSION := ce72f7b8_Feb_17_2024
 # TF_VERSION := bb4fc83d_Mar_28_2024

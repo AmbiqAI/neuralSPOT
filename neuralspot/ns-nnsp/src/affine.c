@@ -10,7 +10,7 @@
 #include "affine.h"
 #include <arm_math.h>
 #if ARM_OPTIMIZED == 1
-    #include <cmsis_gcc.h>
+    // #include <cmsis_gcc.h>
 #elif ARM_OPTIMIZED == 3
     #include <arm_mve.h>
     // #include "third_party/ns_cmsis_nn/Include/arm_nnsupportfunctions.h"

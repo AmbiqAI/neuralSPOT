@@ -438,7 +438,7 @@ typedef struct
             __IOM uint32_t RamBits                   : 4;
             __IOM uint32_t DMAChains                 : 4;
             __IOM uint32_t RSTS                      : 1;
-            __IM  uint32_t                           : 6;
+            __IM  uint32_t nop                       : 6;
             __IOM uint32_t EDMAOUT                   : 1;
             __IOM uint32_t EDMAIN                    : 1;
         } INFO_b;
@@ -477,9 +477,9 @@ typedef struct
         struct
         {
             __IOM uint32_t PHYREFCLKDIS              : 1;
-            __IM  uint32_t                           : 7;
+            __IM  uint32_t nop                       : 7;
             __IOM uint32_t CTRLAPBCLKDIS             : 1;
-            __IM  uint32_t                           : 7;
+            __IM  uint32_t nop1                      : 7;
             __IOM uint32_t PHYAPBLCLKDIS             : 1;
         } CLKCTRL_b;
     };

@@ -89,7 +89,9 @@ ARMLINKER_IS_NO_BUENO := $(BINDIR)/neuralspot/ns-usb/src/overrides/usb_descripto
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/webusb_controller.o
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-usb/src/overrides/ns_usb_overrides.o
 endif
+ifneq ($(ARCH),apollo3)
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_resources.o
+endif
 ifeq ($(ARCH),apollo5)
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-core/src/$(BOARD)/armclang/startup_keil6.o
 ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_utils.o
@@ -112,12 +114,16 @@ CFLAGS+= -MMD -MP
 CCFLAGS+= -fno-use-cxa-atexit
 
 # LFLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP --datacompressor=off
-LFLAGS+= --cpu=$(ARMLINK_CPU) --output_float_abi=hard --fpu=$(ARMLINK_FPU)
+ifndef LINKER_FILE
 ifeq ($(ARCH),apollo5)
-LFLAGS+= --strict --scatter "neuralspot/ns-core/src/$(BOARD)/armclang/linker_script_$(BOOTLOADER).sct" --undefined=__scatterload_copy
+LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/armclang/linker_script_$(BOOTLOADER).sct
 else
-LFLAGS+= --strict --scatter "neuralspot/ns-core/src/$(BOARD)/armclang/linker_script.sct" --undefined=__scatterload_copy
+LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/armclang/linker_script.sct
 endif
+endif
+
+LFLAGS+= --cpu=$(ARMLINK_CPU) --output_float_abi=hard --fpu=$(ARMLINK_FPU)
+LFLAGS+= --strict --scatter $(LINKER_FILE) --undefined=__scatterload_copy
 
 ifeq ($(USB_PRESENT),1)
 LFLAGS+= --keep=tud_cdc_rx_cb --keep=tud_cdc_tx_complete_cb --keep=tud_vendor_control_xfer_cb

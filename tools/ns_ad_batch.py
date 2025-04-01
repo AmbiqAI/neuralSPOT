@@ -47,7 +47,7 @@ def build_command(model, args):
     if "tflite_filename" not in model:
         print("Error: Each model must specify a 'tflite_filename' in the YAML file.")
         sys.exit(1)
-    cmd.extend(["--tflite-filename", "../"+model["tflite_filename"]])
+    cmd.extend(["--tflite-filename", model["tflite_filename"]])
 
     # Optionally set model name.
     if "model_name" in model:

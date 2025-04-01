@@ -14,13 +14,27 @@ import GenericDataOperations_EvbToPc
 import GenericDataOperations_PcToEvb
 import numpy as np
 import soundfile as sf
-
+import wave
 input_fn = raw_input if sys.version_info[:2] <= (2, 7) else input
 
 # Define the RPC service handlers - one for each EVB-to-PC RPC function
 
+def wavefile_init(wavename):
+    """
+    wavefile initialization
+    """
+    fldr = 'audio_result'
+    os.makedirs(fldr, exist_ok=True)
+    wavefile = wave.open(f'{fldr}/{wavename}', 'wb')
+    wavefile.setnchannels(2)
+    wavefile.setsampwidth(2)
+    wavefile.setframerate(16000)
+    return wavefile
 
 class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
+    def __init__(self):
+        self.wavefile = None
+        self.counts_frame = 0
     def ns_rpc_data_sendBlockToPC(self, block):
         # Example decode of incoming block - unpack to WAV or CSV depending on block.description
 
@@ -74,31 +88,19 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
             block.description == "Audio16bPCM_to_WAV"
         ):
             # Data is a 16 bit Mono PCM sample
-            data = struct.unpack("<" + "h" * (len(block.buffer) // 2), block.buffer)
-            data = np.array(data)
-
-            data = data.astype(np.float32) / 32768.0
-            wav_raw, wav_se = np.split(data, 2)
-            rawFileNameMono = "audio_result/raw" + outFileName + "_mono.wav"
-            seFileNameMono = "audio_result/se" + outFileName + "_mono.wav"
-
-            if os.path.isfile(rawFileNameMono):
-                with sf.SoundFile(rawFileNameMono, mode="r+") as wfile:
-                    wfile.seek(0, sf.SEEK_END)
-                    wfile.write(wav_raw)
-            else:
-                sf.write(
-                    rawFileNameMono, wav_raw, samplerate=16000
-                )  # writes to the new file
-
-            if os.path.isfile(seFileNameMono):
-                with sf.SoundFile(seFileNameMono, mode="r+") as wfile:
-                    wfile.seek(0, sf.SEEK_END)
-                    wfile.write(wav_se)
-            else:
-                sf.write(
-                    seFileNameMono, wav_se, samplerate=16000
-                )  # writes to
+            data = np.frombuffer(block.buffer, dtype=np.int16).copy()
+            data_reshape = data.reshape((2, 160)).copy()
+            data_flatten = data_reshape.copy().T.flatten()
+            
+            if self.wavefile is None:
+                self.counts_frame = 0
+                self.wavefile = wavefile_init("rpc_audio.wav")
+            self.wavefile.writeframesraw(data_flatten.tobytes())
+            self.counts_frame += 1
+            if self.counts_frame == 500:
+                self.wavefile.close()
+                self.wavefile = None
+            
         # MPU6050 capture handler
         elif (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
             block.description == "MPU6050-Data-to-CSV"

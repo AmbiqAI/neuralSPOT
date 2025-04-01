@@ -321,6 +321,20 @@ int main(void) {
     } // while(1)
 #else
     // -- Init the NNSE2 model
+    
+    // while (1) // check for record button press
+    // {
+    //     ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
+    //     int recording=resultBlock.buffer.data[0];
+    //     ns_rpc_data_clientDoneWithBlockFromPC(&resultBlock);
+    //     if (recording==1)
+    //     {
+    //         g_audioRecording = true;
+    //         break;
+    //     }
+    //     am_hal_delay_us(20000); 
+    // }
+    
     ns_printf("Type $tools/python -m wave_offline -o myaudio.wav -m server\n");
     AudioPipe_wrapper_init();
     AudioPipe_wrapper_reset();
@@ -331,13 +345,17 @@ int main(void) {
     tic();
     for (int i = 0; i < 500; i++)
     {
-        ns_printf("Sending frame %d\n", i);
+        // ns_printf("Sending frame %d\n", i);
         arm_memcpy_s8((int8_t*) pcm_input, (int8_t*) pt_wav, SAMPLES_IN_FRAME * sizeof(int16_t));
 
         AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
 
         ns_rpc_data_sendBlockToPC(&outBlock);
         pt_wav += SAMPLES_IN_FRAME;
+
+        ns_rpc_data_computeOnPC(&computeBlock, &resultBlock);
+        int recording=resultBlock.buffer.data[0];
+        ns_rpc_data_clientDoneWithBlockFromPC(&resultBlock);
     }
     elapsedTime = toc();
     ns_printf("Elapsed time: %d us\n", elapsedTime);

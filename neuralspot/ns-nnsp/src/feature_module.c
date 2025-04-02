@@ -18,6 +18,7 @@ int32_t GLOBAL_PSPEC[512];
 extern const int16_t mfltrBank_coeff_nfilt72_fftsize512[];
 extern const int16_t mfltrBank_coeff_nfilt40_fftsize512[];
 extern const int16_t mfltrBank_coeff_nfilt22_fftsize256[];
+extern const int16_t mcombfltrBank_coeff_nfilt69_fftsize512[];
 
 void FeatureClass_construct(
         FeatureClass *ps, 
@@ -40,6 +41,8 @@ void FeatureClass_construct(
     ps->num_mfltrBank = num_mfltrBank;
     if ((ps->num_mfltrBank == 72) && (fftsize == 512))
         ps->p_melBanks = mfltrBank_coeff_nfilt72_fftsize512;
+    else if ((ps->num_mfltrBank == 69) && (fftsize == 512))
+        ps->p_melBanks = mcombfltrBank_coeff_nfilt69_fftsize512;
     else if ((ps->num_mfltrBank == 40) && (fftsize == 512))
         ps->p_melBanks = mfltrBank_coeff_nfilt40_fftsize512;
     else if ((ps->num_mfltrBank == 22) && (fftsize == 256))

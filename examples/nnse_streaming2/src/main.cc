@@ -336,8 +336,8 @@ int main(void) {
     // }
     
     ns_printf("Type $tools/python -m wave_offline -o myaudio.wav -m server\n");
-    AudioPipe_wrapper_init();
-    AudioPipe_wrapper_reset();
+    // AudioPipe_wrapper_init();
+    // AudioPipe_wrapper_reset();
     int16_t *pt_wav = (int16_t*) data_wav;
     pcm_input = (int16_t*) audioDataBuffer;;
     int16_t tmp[200];

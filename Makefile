@@ -253,6 +253,9 @@ nest: all
 
 	@cp -R $(NESTDIR)/src $(NESTDIR)/srcpreserved/ 2>/dev/null || true
 	@cp -R neuralspot/ns-core/src/* $(NESTDIR)/src/ns-core
+ifneq ($(ARCH),apollo3)
+	@cp extern/AmbiqSuite/$(AS_VERSION)/src/am_resources.c $(NESTDIR)/src/ns-core/$(BOARD)
+endif
 
 # @cp $(LINKER_FILE) $(NESTDIR)/libs
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile.suggested

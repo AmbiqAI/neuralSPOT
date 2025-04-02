@@ -32,7 +32,7 @@ class AmbiqPlatform:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8) - 70) # 70K holdback
         else:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8))
-        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 50)) # 50K holdback
+        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 60)) # 50K holdback
         self.platform_config["mram"] = int(math.ceil(self.platform_config["mram"] * .8))
 
     def GetSupportsUsb(self):
@@ -63,6 +63,7 @@ class AmbiqPlatform:
     def GetModelLocation(self, size, location):
         # if model location is 'auto', return the best location that can fit the model
         location = location.lower()
+        # print(f"[NS] Model size {size}KB, location {location} platform size {self.platform_config["dtcm"]}")
         if location == "tcm":
             location = "dtcm"
 

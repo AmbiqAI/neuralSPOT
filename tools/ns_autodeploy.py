@@ -53,7 +53,7 @@ class Params(BaseModel):
         description="Measure power consumption of the model on the EVB using Joulescope",
     )
     onboard_perf: bool = Field(
-        False, 
+        False,
         description="Capture and print performance measurements on EVB"
     )
     full_pmu_capture: bool = Field(

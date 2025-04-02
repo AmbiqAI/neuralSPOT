@@ -108,7 +108,7 @@ ifndef AS_VERSION
 AS_VERSION := R5.2.0
 endif
 ifndef TF_VERSION
-TF_VERSION := ns_tflm_2025_03_06
+TF_VERSION := ns_tflm_v1_0_0
 endif
 SR_VERSION := R7.70a
 ERPC_VERSION := R1.9.1

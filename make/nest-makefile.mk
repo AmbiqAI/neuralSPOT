@@ -38,10 +38,19 @@ dependencies = $(subst .o,.d,$(objects))
 
 CFLAGS     += $(addprefix -D,$(DEFINES))
 CFLAGS     += $(addprefix -I includes/,$(INCLUDES))
+
+ifeq ($(ARCH),apollo5)
+ifeq ($(TOOLCHAIN),arm)
+LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script_$(BOOTLOADER).sct
+else ifeq ($(TOOLCHAIN),arm-none-eabi)
+LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script_$(BOOTLOADER).ld
+endif
+else
 ifeq ($(TOOLCHAIN),arm)
 LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script.sct
 else ifeq ($(TOOLCHAIN),arm-none-eabi)
-LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script_$(BOOTLOADER).ld
+LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script.ld
+endif
 endif
 
 all: $(BINDIR) $(objects) $(targets)
@@ -81,19 +90,49 @@ $(BINDIR)/%.o: %.c
 $(BINDIR)/%.o: %.s
 	@echo " Assembling $(COMPILERNAME) $<"
 	$(Q) $(MKD) -p $(@D)
-	$(Q) $(CC) -c $(CFLAGS) $< -o $@
+	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
 
-$(BINDIR)/$(local_app_name).axf: $(objects)
+# $(eval $(call make-axf, $(BINDIR)/$(local_app_name), $(sources)))
+
+$(BINDIR)/$(local_app_name).axf: $(objects) $(libraries) $(lib_prebuilt) $(override_libraries)
 	@echo " Linking $(COMPILERNAME) $@"
 	$(Q) $(MKD) -p $(@D)
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $(objects) $(LFLAGS)
+ifeq ($(TOOLCHAIN),arm)
+	$(Q) $(LD) $^ $(LFLAGS) --list=$*.map -o $@
+else
+	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $^ $(LFLAGS)
+endif
+# $(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $@ $(objects) $(LFLAGS)
 
+# $(BINDIR)/$(local_app_name).bin: $(BINDIR)/$(local_app_name).axf
+# 	@echo " Copying $(COMPILERNAME) $@..."
+# 	$(Q) $(MKD) -p $(@D)
+# 	$(Q) $(CP) $(CPFLAGS) $< $@
+# 	$(Q) $(OD) $(ODFLAGS) $< > $(BINDIR)/$(local_app_name).lst
+# 	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $(BINDIR)/$(local_app_name).size
+ifeq ($(TOOLCHAIN),arm)
+$(BINDIR)/$(local_app_name).bin: $(BINDIR)/$(local_app_name).axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $@ $<
+	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
+else
 $(BINDIR)/$(local_app_name).bin: $(BINDIR)/$(local_app_name).axf
 	@echo " Copying $(COMPILERNAME) $@..."
 	$(Q) $(MKD) -p $(@D)
 	$(Q) $(CP) $(CPFLAGS) $< $@
-	$(Q) $(OD) $(ODFLAGS) $< > $(BINDIR)/$(local_app_name).lst
-	$(Q) $(SIZE) $(objects) $(lib_prebuilt) $< > $(BINDIR)/$(local_app_name).size
+	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
+# $(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+# $(Q) $(SIZE) @$*.sizeinput $< > $*.size
+endif
+
+# %.size: %.axf
+# 	@echo " Generating size information for $(COMPILERNAME) $@..."
+# 	$(Q) $(MKD) -p $(@D)
+# 	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
+
+# 	$(Q) $(SIZE) $< > $@
+
 
 $(JLINK_CF):
 	@echo " Creating JLink command sequence input file..."

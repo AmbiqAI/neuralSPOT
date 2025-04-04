@@ -12,7 +12,7 @@ apollo3p_evb:
   dtcm: 64
   clock_lp: 96
   as_version: R3.1.1
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - ble
     - mcu
@@ -29,7 +29,7 @@ apollo4p_evb:
   clock_lp: 96
   clock_hp: 192
   as_version: R4.5.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - mcu
     - usb
@@ -46,7 +46,7 @@ apollo4p_blue_kbr_evb:
   clock_lp: 96
   clock_hp: 192
   as_version: R4.5.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - mcu
     - usb
@@ -64,7 +64,7 @@ apollo4p_blue_kxr_evb:
   clock_lp: 96
   clock_hp: 192
   as_version: R4.5.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - mcu
     - usb
@@ -82,7 +82,7 @@ apollo4l_evb:
   clock_lp: 96
   clock_hp: 192
   as_version: R4.5.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - mcu
 
@@ -98,7 +98,7 @@ apollo4l_blue_evb:
   clock_lp: 96
   clock_hp: 192
   as_version: R4.5.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - mcu
     - ble
@@ -117,7 +117,7 @@ apollo510_eb:
   clock_lp: 96
   clock_hp: 250
   as_version: R5.2.0
-  tflm_version: ns_tflm_2025_02_14
+  tflm_version: ns_tflm_v1_0_0
   features:
     - mcu
     - usb
@@ -138,7 +138,7 @@ apollo510_evb:
   clock_lp: 96
   clock_hp: 250
   as_version: R5.2.0
-  tflm_version: ns_tflm_2025_03_06
+  tflm_version: ns_tflm_v1_0_0
   # tflm_version: Oct_08_2024_e86d97b6
   features:
     - mcu

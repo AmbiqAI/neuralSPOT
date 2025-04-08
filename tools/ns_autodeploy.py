@@ -100,7 +100,7 @@ class Params(BaseModel):
         10, description="Number of inferences to run for characterization"
     )
     runs_power: int = Field(
-        100, description="Number of inferences to run for power measurement"
+        200, description="Number of inferences to run for power measurement"
     )
 
     # Joulescope and Onboard Performance Parameters

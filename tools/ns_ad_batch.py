@@ -47,7 +47,13 @@ def build_command(model, args):
     if "tflite_filename" not in model:
         print("Error: Each model must specify a 'tflite_filename' in the YAML file.")
         sys.exit(1)
-    cmd.extend(["--tflite-filename", model["tflite_filename"]])
+    # build model path
+    model_path = os.path.join(args.model_directory, model["tflite_filename"])
+    if not os.path.exists(model_path):
+        print(f"Error: Model file '{model_path}' does not exist.")
+        sys.exit(1)
+    cmd.extend(["--tflite", model_path])
+    # cmd.extend(["--tflite-filename", model["tflite_filename"]])
 
     # Optionally set model name.
     if "model_name" in model:
@@ -57,11 +63,23 @@ def build_command(model, args):
     if "arena_size_scratch_buffer_padding" in model:
         cmd.extend(["--arena-size-scratch-buffer-padding", str(model["arena_size_scratch_buffer_padding"])])
     
+    if "runs_power" in model:
+        cmd.extend(["--runs-power", str(model["runs_power"])])
+
+
+
     return cmd
 
 def main():
     parser = argparse.ArgumentParser(
         description="Invoke ns_autodeploy for multiple models defined in a YAML file."
+    )
+    parser.add_argument(
+        "--model-directory",
+        type=str,
+        required=False,
+        default="../model_perf_tests/models/",
+        help="Directory where the models are located."
     )
     parser.add_argument(
         "yaml_file",
@@ -85,7 +103,7 @@ def main():
         type=str,
         required=False,
         default="auto",
-        help="Target toolchain (e.g. gcc, arm)."
+        help="Target neuralSPOT TFLM version."
     )
     parser.add_argument(
         "--resultlog-file",
@@ -102,6 +120,8 @@ def main():
     parser.add_argument(
         "--joulescope",
         action="store_true",
+        required=False,
+        default=False,
         help="Enable joulescope power consumption measurement."
     )
     args = parser.parse_args()

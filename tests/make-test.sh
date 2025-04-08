@@ -25,10 +25,9 @@ echo "Running all makes for Apollo4"
 
 for TC in "arm" "arm-none-eabi"; do
     for PL in "apollo4l_evb" "apollo4l_blue_evb" "apollo4p_evb" "apollo4p_blue_kbr_evb" "apollo4p_blue_kxr_evb"; do
-    # for PL in "apollo4p_evb" "apollo4p_blue_kbr_evb" "apollo4p_blue_kxr_evb"; do
         for TF in "ns_tflm_2025_03_19"; do
-            # for AS in "R4.4.1" "R4.5.0" ; do
-            for AS in  "R4.5.0" ; do
+            for AS in "R4.4.1" "R4.5.0" ; do
+            # for AS in  "R4.5.0" ; do
                 echo "Running: make PLATFORM=$PL AS_VERSION=$AS TF_VERSION=$TF"
                 make -f Makefile PLATFORM=${PL} TOOLCHAIN=${TC} clean > /dev/null
                 make -f Makefile PLATFORM=${PL} TOOLCHAIN=${TC} AS_VERSION=${AS} TF_VERSION=${TF} -j > /dev/null && echo "Make PLATFORM=$PL TOOLCHAIN=${TC} AS_VERSION=$AS TF_VERSION=$TF success" || echo "Make PLATFORM=$PL TOOLCHAIN=${TC} AS_VERSION=$AS TF_VERSION=$TF failed"
@@ -46,7 +45,6 @@ done
 echo "Running all makes for Apollo3"
 
 for TC in "arm" "arm-none-eabi"; do
-    # for PL in "apollo4l_evb" "apollo4l_blue_evb" "apollo4p_evb" "apollo4p_blue_kbr_evb" "apollo4p_blue_kxr_evb"; do
     for PL in "apollo3p_evb"; do
         for TF in "ns_tflm_2025_03_19"; do
             for AS in  "R3.1.1" ; do

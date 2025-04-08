@@ -219,17 +219,23 @@ int main(void) {
     int16_t *pcm_output = audioDataBuffer + SAMPLES_IN_FRAME;
     int16_t *pcm_out_ref = (int16_t*) outputs;
     int32_t max_err=0;
+
     for (int i=0; i < 2221; i++)
     {
         AudioPipe_wrapper_frameProc(pcm_input, pcm_output);
         for (int j=0; j < 257; j++)
         {
-            max_err = MAX(max_err, abs(pcm_output[j]-pcm_out_ref[j]));
+            int32_t err0 = (int32_t)pcm_output[j] - (int32_t)pcm_out_ref[j];
+            if (err0 < 0)
+                err0 = -err0;
+            max_err = MAX(max_err, err0);
+
         }
         
         pcm_input += 72;
         pcm_out_ref += 257;
     }
-    ns_lp_printf("Max err=%d\n", max_err);
+    ns_lp_printf("Max err=%d (%f in float)\n", max_err, (float32_t)max_err/(float32_t)(1<<15));
+    
     ns_printf("\n");
 }

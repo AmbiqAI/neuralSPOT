@@ -156,13 +156,24 @@ int AudioPipe_wrapper_frameProc(
             example_status = NS_STATUS_FAILURE; // invoke failed, so hang
         }
     }
-  
+    float32_t max_amp=0;
+    float32_t min_amp=0;
+    float32_t output_scale = tflm.model_output[0]->params.scale;
+    int output_zero_point = tflm.model_output[0]->params.zero_point;
+
     for (int i = 0; i < NN_DIM_OUT; i++) {
         
         pcm_output[i] = (int16_t) (tflm.model_output[0]->data.i16[i]);
-        
+        float32_t out; 
+        out = (float32_t) (pcm_output[i] - output_zero_point);
+        out = out * output_scale;
+        max_amp = MAX(max_amp, out);
+        min_amp = MIN(min_amp, out);
     }
-
+    if (max_amp > 1)
+        ns_lp_printf("Max amp=%f\n", max_amp);
+    if (min_amp < -1)
+        ns_lp_printf("Min amp=%f\n", min_amp);
     return 0;
 }
 

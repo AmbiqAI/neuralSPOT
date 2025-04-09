@@ -177,7 +177,8 @@ else
 DEFINES+= apollo5_eb_revb
 endif
 endif
-ifeq ($(PART),apollo5b)
+# ifeq ($(PART),apollo5b)
+ifneq ($(filter apollo5b apollo510,$(PART)),)
 DEFINES+= AM_PART_APOLLO5B
 ifeq ($(EVB),eb)
 DEFINES+= apollo5_eb

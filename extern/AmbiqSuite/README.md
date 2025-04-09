@@ -96,6 +96,7 @@ sh porthelper.sh /Users/carlosmorales/dev/ns-mirror/extern/AmbiqSuite/Apollo5B_S
  cp ./boards/apollo5b_eb_revb/bsp/keil6/bin/libam_bsp.lib lib/apollo5b/eb_revb
  cp ../Apollo5B_SDK2_2024_07_02/src/usb/cdc_device_ns.c src/usb
  cp src/port.c ../Apollo510_SDK3_2024_09_14/src
+ cp ../R5.2.0/./third_party/FreeRTOSv10.5.1/Source/include/portable.h ./third_party/FreeRTOSv10.5.1/Source/include/portable.h
  ```
 
 Also, there are several 'outliers':

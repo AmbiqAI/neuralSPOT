@@ -1,0 +1,67 @@
+;******************************************************************************
+;
+; Scatter file for Keil linker configuration.
+;
+;******************************************************************************
+; Make this 0x400000 for NBL, 0x410000 for normal
+LR_1 0x00410000
+{
+    ; Make this 0x400000 for NBL, 0x410000 for normal
+    MCU_MRAM 0x00410000 0x003F0000
+    {
+        *.o (RESET, +First)
+        * (+RO)
+    }
+                                
+    MCU_ITCM 0x00000000 0x00040000
+    {
+        * (.itcm_text)
+		arm_*.o (+RO-CODE)
+        *fft*.o (+RO-CODE)
+        *conv*.o (+RO-CODE)
+        *connected*.o (+RO-CODE)
+        *quant*.o (+RO-CODE)
+        *add*.o (+RO-CODE)
+        *softmax*.o (+RO-CODE)
+		micro*.o (+RO-CODE)
+		poolin*.o (+RO-CODE)
+		call_once.o (+RO-CODE)
+		var_handle.o (+RO-CODE)
+		strided*.o (+RO-CODE)
+		concat*.o (+RO-CODE)
+		memory_help*.o (+RO-CODE)
+		read_var*.o (+RO-CODE)
+		assign_var*.o (+RO-CODE)
+		tensor*.o (+RO-CODE)
+		linear*.o (+RO-CODE)
+		greedy*.o (+RO-CODE)
+		flatbuf*.o (+RO-CODE)
+		single_arena*.o (+RO-CODE)
+		kernel_*.o (+RO-CODE)
+    }
+
+    ;MCU_TCM dollar{rw_base} dollar{rw_size}
+    ;The next line is a temporary workaround while FPGA doesn't have SSRAM. The above line is actually correct (replace dollar with the dollar sign)
+    MCU_TCM 0x20000000 (0x0007C000-0x80)
+    {
+        * (+RW, +ZI)
+    }
+
+    ARM_LIB_HEAP  0x2007C000 EMPTY  0x00001000
+    {   ; Reserve empty region for heap
+    }
+
+    ;SHARED_SRAM dollar{shared_base} dollar{shared_size}
+    ;The next line is a temporary workaround while FPGA doesn't have SSRAM. The above line is actually correct (replace dollar with the dollar sign)
+    SHARED_SRAM 0x20080000 0x00300000
+    {
+        * (RESOURCE_TABLE, +First)
+        * (SHARED_RW)
+    }
+
+    ARM_LIB_STACK 0x20080000 EMPTY - 0x00003000
+    {   ; Reserve empty region for stack
+    }
+
+
+}

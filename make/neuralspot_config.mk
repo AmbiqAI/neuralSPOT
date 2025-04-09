@@ -34,8 +34,12 @@ endif
 BOARD := $(firstword $(subst _, ,$(PLATFORM)))
 
 # apollo510_evb has a different prefix, override
+
+# Pre R5.3.0 SDKs put the code in apollo5b, R5.3.0 and later put the code in apollo510
+ifneq ($(AS_VERSION),R5.3.0)
 ifeq ($(findstring apollo510,$(PLATFORM)),apollo510)
 BOARD := apollo5b
+endif
 endif
 
 # $(info BOARD: $(BOARD))

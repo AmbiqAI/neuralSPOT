@@ -137,7 +137,7 @@ apollo510_evb:
   psram: 32168
   clock_lp: 96
   clock_hp: 250
-  as_version: R5.2.0
+  as_version: R5.3.0
   tflm_version: ns_tflm_v1_0_0
   # tflm_version: Oct_08_2024_e86d97b6
   features:

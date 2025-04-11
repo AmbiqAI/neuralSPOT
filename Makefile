@@ -84,6 +84,8 @@ else
 			modules += examples/rpc_client
 		else ifeq ($(BOARD),apollo5b)
 			modules += examples/rpc_client
+		else ifeq ($(BOARD),apollo510)
+			modules += examples/rpc_client
 		endif	
 		ifeq ($(BLE_SUPPORTED),1)
 #			modules      += examples/web_ble

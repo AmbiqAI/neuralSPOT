@@ -176,6 +176,8 @@ else ifeq ($(PART),apollo5a)
 	USB_PRESENT := 1
 else ifeq ($(PART),apollo5b)
 	USB_PRESENT := 1
+else ifeq ($(PART),apollo510)
+	USB_PRESENT := 1
 else
 	USB_PRESENT := 0
 endif

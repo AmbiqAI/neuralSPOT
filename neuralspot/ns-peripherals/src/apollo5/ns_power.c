@@ -107,7 +107,7 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
                 .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
                 .eRetainDTCM    = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
         #endif
-        #elif defined(AM_PART_APOLLO5B)
+        #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510)
         #if ALL_RETAIN
                 .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
                 .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
@@ -181,6 +181,23 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 
     am_bsp_low_power_init();
 
+    #define ELP_ON                              1
+    am_hal_pwrctrl_pwrmodctl_cpdlp_t sDefaultCpdlpConfig =
+    {
+         .eRlpConfig = AM_HAL_PWRCTRL_RLP_ON,
+         #if ELP_ON
+            .eElpConfig = AM_HAL_PWRCTRL_ELP_ON,
+         #else
+            .eElpConfig = AM_HAL_PWRCTRL_ELP_RET,
+         #endif
+         .eClpConfig = AM_HAL_PWRCTRL_CLP_ON
+    };
+
+    // Configure the cache, Enable the I-Cache and D-Cache.
+    am_hal_cachectrl_icache_enable();
+    am_hal_cachectrl_dcache_enable(true);
+    am_hal_pwrctrl_pwrmodctl_cpdlp_config(sDefaultCpdlpConfig);
+
     #ifdef apollo510_evb_neverever
     // PATCH USB for EVB
     am_hal_clkmgr_board_info_t sClkmgrBoardInfo =
@@ -200,9 +217,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 
 
 
-    // Configure the cache, Enable the I-Cache and D-Cache.
-    am_hal_cachectrl_icache_enable();
-    am_hal_cachectrl_dcache_enable(true);
+
 
     // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_DIS_PERIPHS_ALL, 0);
     // MCUCTRL->XTALCTRL = 0;

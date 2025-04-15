@@ -1,13 +1,37 @@
 /*
 Basic MVE Function for Helium architecture
 */
+#include <string.h>
 #include <stdint.h>
 #include "ambiq_nnsp_debug.h"
-#include "third_party/ns_cmsis_nn/Include/arm_nnsupportfunctions.h"
+// #include "third_party/ns_cmsis_nn/Include/arm_nnsupportfunctions.h"
 #if ARM_OPTIMIZED == 3
 #include "basic_mve.h"
 #include <arm_mve.h>
 #include "ns_ambiqsuite_harness.h"
+/**
+ * @brief           memcpy optimized for MVE
+ * @param[in, out]  dst         Destination pointer
+ * @param[in]       src         Source pointer.
+ * @param[in]       block_size  Number of bytes to copy.
+ *
+ */
+__STATIC_FORCEINLINE void
+arm_memcpy_int8(int8_t *__RESTRICT dst, const int8_t *__RESTRICT src, uint32_t block_size) {
+#if defined(ARM_MATH_MVEI)
+    __asm volatile("   wlstp.8                 lr, %[cnt], 1f             \n"
+                   "2:                                                    \n"
+                   "   vldrb.8                 q0, [%[in]], #16            \n"
+                   "   vstrb.8                 q0, [%[out]], #16           \n"
+                   "   letp                    lr, 2b                     \n"
+                   "1:                                                    \n"
+                   : [in] "+r"(src), [out] "+r"(dst)
+                   : [cnt] "r"(block_size)
+                   : "q0", "memory", "r14");
+#else
+    memcpy(dst, src, block_size);
+#endif
+}
 void vec16_vec16_mul_32b(
         int32_t *y,
         int16_t *x1,
@@ -41,7 +65,7 @@ void move_data_16b(
         int16_t *dst,
         int len)
 {
-    arm_memcpy_s8(
+    arm_memcpy_int8(
         (int8_t*) dst,
         (int8_t*) src,
         (len << 1));

@@ -149,7 +149,7 @@ $> orbtop -c 15  -e ../../../neuralSPOT/build/apollo5b_evb/arm-none-eabi/example
 
 All of the above can be automated to a degree using Visual Studio Code, assuming you've already set it up for remote GDB. 
 
-The GDB configuration can be added to the GDB launch setup as follows (not the prelaunch command and swo config):
+The GDB configuration can be added to the GDB launch (`.vscode/launch.json`)setup as follows (not the prelaunch command and swo config):
 
 ```json
 {
@@ -203,7 +203,7 @@ The GDB configuration can be added to the GDB launch setup as follows (not the p
  
 ```
 
-Launching orbtop can also be automated thusly:
+Launching orbtop can also be automated by adding this to your `.vscode/tasks.json`:
 
 ```json
 {

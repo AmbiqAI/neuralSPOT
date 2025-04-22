@@ -146,8 +146,13 @@ extern void ns_delta_perf(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_
  */
 extern void ns_print_perf_profile(ns_perf_counters_t *c);
 
-    #ifdef __cplusplus
+#ifdef AM_PART_APOLLO5B
+uint32_t ns_perf_enable_pcsamp(void);
+int32_t ns_itm_pcsamp_enable(void);
+#endif
+
+#ifdef __cplusplus
 }
-    #endif
+#endif
 #endif // NS_CACHE_PROF
 /** @}*/

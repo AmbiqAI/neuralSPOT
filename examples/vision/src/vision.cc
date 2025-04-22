@@ -31,51 +31,7 @@
 #include "ns_camera.h"
 #include "vision.h"
 
-// // Audio init in order to reproduce EI problem
-// #include "ns_audio.h"
-// #define NUM_CHANNELS 1
-// #define NUM_FRAMES 100
-// #define SAMPLES_IN_FRAME 480
-// #define SAMPLE_RATE 16000
-// #define AUDIO_SOURCE NS_AUDIO_SOURCE_PDM
 
-// volatile bool static g_audioReady = false;
-// volatile bool static g_audioRecording = false;
-
-// #if NUM_CHANNELS == 1
-// int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
-// #else
-// int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
-// #endif
-
-// alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];     // DMA target
-// am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
-//                                                                                 // used by AUDADC
-
-// void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
-//     if (g_audioRecording) {
-//         if (g_audioReady) {
-//             ns_lp_printf("Overflow!\n");
-//         }
-//         ns_audio_getPCM_v2(config, audioDataBuffer);
-//         g_audioReady = true;
-//     }
-// }
-
-// ns_audio_config_t audioConfig = {
-//     .api = &ns_audio_V2_1_0,
-//     .eAudioApiMode = NS_AUDIO_API_CALLBACK,
-//     .callback = audio_frame_callback,
-//     .audioBuffer = (void *)&audioDataBuffer,
-//     .eAudioSource = AUDIO_SOURCE,
-//     .sampleBuffer = dmaBuffer,
-//     .workingBuffer = sLGSampleBuffer,
-//     .numChannels = NUM_CHANNELS,
-//     .numSamples = SAMPLES_IN_FRAME,
-//     .sampleRate = SAMPLE_RATE,
-//     .audioSystemHandle = NULL, // filled in by init
-//     .bufferHandle = NULL,      // only for ringbuffer mode
-// };
 
 
 //
@@ -302,17 +258,20 @@ int main(void) {
     // Power configuration (mem, cache, peripherals, clock)
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_pwr_config), "Power config failed.\n");
+    // am_bsp_low_power_init();
     am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
 
-    elapsedTime = 0;
+    #ifdef AM_PART_APOLLO5B
+    ns_perf_enable_pcsamp();
+    ns_lp_printf("DWT ITM enable\n");
+    #endif
 
-    // NS_TRY(ns_timer_init(&tickTimer), "Timer Init Failed\n");
-    // NS_TRY(ns_audio_init(&audioConfig), "Audio Initialization Failed.\n");
-    // NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Gain set failed.\n");
-    // NS_TRY(ns_start_audio(&audioConfig), "Audio Start Failed.\n");
+
+
+    elapsedTime = 0;
 
     // Initialize the URL descriptor
     strcpy(vision_url.url, "ambiqai.github.io/web-ble-dashboards/vision_demo/");

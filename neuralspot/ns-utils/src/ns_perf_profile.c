@@ -13,6 +13,7 @@
 // #else
 #include "ns_perf_profile.h"
 #include "ns_ambiqsuite_harness.h"
+#include "ns_core.h"
 
 /**
  * @brief Enables the Cache profile counters
@@ -208,3 +209,189 @@ void ns_print_perf_profile(ns_perf_counters_t *c) {
     ns_lp_printf("Folded (cycles saved by zero-cycle instructions) Count: %d\n", c->foldcnt);
 }
 // #endif
+
+#ifdef AM_PART_APOLLO5B
+
+#define NS_DCU_SWO (                 \
+     AM_HAL_DCU_CPUTRC_DWT_SWO | AM_HAL_DCU_CPUDBG_NON_INVASIVE |   \
+     AM_HAL_DCU_CPUDBG_S_NON_INVASIVE | AM_HAL_DCU_CPUTRC_PERFCNT | \
+     AM_HAL_DCU_SWD | AM_HAL_DCU_TRACE )
+
+/**
+ * @brief Enables the DWT and ITM for performance capture on top of ITM Printf
+ * 
+ * IMPORTANT: this function assumes the application has already enabled ITM printf
+ * (e.g. via ns_itm_printf_enable()). To enable PC Sampling without ITM printf, use
+ * ns_itm_pcsamp_enable() instead.
+ * 
+ * @return uint32_t 
+ */
+uint32_t ns_perf_enable_pcsamp(void) {
+    uint32_t ui32Status = AM_HAL_STATUS_SUCCESS;
+
+    // Assumes ITM printing is already enabled, so all this does is moodify ITM and DWT config
+    
+    // Disable ITM and wait for it to be disabled
+    am_hal_itm_tpiu_pipeline_flush();
+    ITM->TCR &= ~ITM_TCR_SWOENA_Msk;
+    ITM->TCR &= ~ITM_TCR_ITMENA_Msk;
+    ui32Status = am_hal_delay_us_status_change(1000,
+                                               (uint32_t)&ITM->TCR,
+                                               (ITM_TCR_ITMENA_Msk & ITM_TCR_BUSY_Msk),
+                                               0 );
+
+    // OK, safe to modify ITM and DWT registers
+    DWT->CTRL = 
+    _VAL2FLD(DWT_CTRL_PCSAMPLENA, 1) |
+    _VAL2FLD(DWT_CTRL_CYCTAP, 1)     |
+    _VAL2FLD(DWT_CTRL_CYCCNTENA, 1)  | 
+    _VAL2FLD(DWT_CTRL_SYNCTAP, 1)    |
+    _VAL2FLD(DWT_CTRL_POSTINIT, 1)   |
+    _VAL2FLD(DWT_CTRL_POSTPRESET, 3);
+
+    ITM->TCR =
+        _VAL2FLD(ITM_TCR_TRACEBUSID, 0)         | // dont change
+        _VAL2FLD(ITM_TCR_GTSFREQ, 3)            | // Doesn't seem to matter
+        _VAL2FLD(ITM_TCR_TSPRESCALE, 3)         | // Doesn't seem to matter
+        _VAL2FLD(ITM_TCR_STALLENA, 0)           |
+        _VAL2FLD(ITM_TCR_SWOENA, 1)             |
+        _VAL2FLD(ITM_TCR_DWTENA, 1)             | // Bit 3, which is TXENA in Arm documents
+        _VAL2FLD(ITM_TCR_SYNCENA, 1)            |
+        _VAL2FLD(ITM_TCR_TSENA, 0)              |
+        _VAL2FLD(ITM_TCR_ITMENA, 1);
+    return ui32Status;
+
+}
+
+static uint32_t ns_dwt_itm_enable(void)
+{
+    uint32_t ui32SWOscaler;
+    uint32_t ui32Status = AM_HAL_STATUS_SUCCESS;
+
+    am_hal_debug_enable();
+
+    //
+    // Compute SWOscaler so that the TPIU can be configured.
+    //
+    ui32SWOscaler = ( (AM_HAL_CLKGEN_FREQ_MAX_HZ / 2) /
+    AM_HAL_TPIU_BAUD_DEFAULT ) - 1;
+
+    am_hal_tpiu_config(MCUCTRL_DBGCTRL_DBGTPIUCLKSEL_HFRC_48MHz,
+                        0,                                   // FFCR = Disable continuous formatting (EnFCont)
+                        TPI_CSPSR_CWIDTH_1BIT,               // CSPSR = TPI_CSPSR_CWIDTH_1BIT
+                        TPI_SPPR_TXMODE_UART,                // PinProtocol = TPI_SPPR_TXMODE_UART
+                        // 1,                // PinProtocol = TPI_SPPR_TXMODE_UART Doesn't seem to work (Manchester)
+                        ui32SWOscaler);
+
+    //
+    // Set the enable bits in the ITM Trace Privilege Register and the
+    // ITM Trace Enable Register to enable trace data output.
+    //
+    // ITM->TPR = 0;
+    ITM->TPR = 0xFFFFFFFF; // Doesn't seem to make a difference.
+    ITM->TER = 0xFFFFFFFF;
+
+    //
+    // Write the fields in the ITM Trace Control Register.
+    //
+
+    ITM->TCR = 0; // Disable the ITM before configuring it
+    ns_delay_us(100000);
+
+    ITM->TCR =
+        _VAL2FLD(ITM_TCR_TRACEBUSID, 0)      | // dont change
+        _VAL2FLD(ITM_TCR_GTSFREQ, 3)            | // Doesn't seem to matter
+        _VAL2FLD(ITM_TCR_TSPRESCALE, 3)         | // Doesn't seem to matter
+        _VAL2FLD(ITM_TCR_STALLENA, 0)           |
+        _VAL2FLD(ITM_TCR_SWOENA, 1)             |
+        _VAL2FLD(ITM_TCR_DWTENA, 1)             | // Bit 3, which is TXENA in Arm documents
+        _VAL2FLD(ITM_TCR_SYNCENA, 1)            |
+        _VAL2FLD(ITM_TCR_TSENA, 0)              |
+        _VAL2FLD(ITM_TCR_ITMENA, 1);
+
+    return ui32Status;
+
+} // ns_dwt_itm_enable()
+
+/**
+ * @brief Enables the DWT and ITM for performance capture when ITM Printf is not
+ * enabled.
+ * 
+ * @return int32_t 
+ */
+int32_t ns_itm_pcsamp_enable(void)
+{
+    uint32_t ui32dcuVal;
+    int32_t i32RetValue = 0;
+    bool bOffCryptoOnExit = false;
+    bool bOffOtpOnExit = false;
+
+    AM_CRITICAL_BEGIN;
+
+    {
+
+        if (PWRCTRL->DEVPWRSTATUS_b.PWRSTOTP == 0)
+        {
+            bOffOtpOnExit = true;
+            am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_OTP);
+        }
+
+        if (PWRCTRL->DEVPWRSTATUS_b.PWRSTCRYPTO == 0)
+        {
+            bOffCryptoOnExit = true;
+            am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
+        }
+
+        if ((PWRCTRL->DEVPWRSTATUS_b.PWRSTCRYPTO == 1) && (CRYPTO->HOSTCCISIDLE_b.HOSTCCISIDLE == 1))
+        {
+            am_hal_dcu_get(&ui32dcuVal);
+
+            if ( ((ui32dcuVal & NS_DCU_SWO) != NS_DCU_SWO) &&
+                    (am_hal_dcu_update(true, NS_DCU_SWO) != AM_HAL_STATUS_SUCCESS) )
+            {
+                i32RetValue = -1;
+            }
+        }
+        else
+        {
+            i32RetValue = -1;
+        }
+    }
+
+    if (bOffCryptoOnExit == true)
+    {
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_CRYPTO);
+    }
+
+    if (bOffOtpOnExit == true)
+    {
+        am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_OTP);
+    }
+
+    AM_CRITICAL_END;
+
+    if (i32RetValue != 0)
+    {
+        return i32RetValue;
+    }
+
+    if ( am_hal_tpiu_enable(AM_HAL_TPIU_BAUD_1M) != AM_HAL_STATUS_SUCCESS )
+    {
+        while(1);
+    }
+
+    if ( ns_dwt_itm_enable() != AM_HAL_STATUS_SUCCESS )
+    {
+        while(1);
+    }
+
+
+    if ( am_hal_gpio_pinconfig(AM_BSP_GPIO_ITM_SWO, g_AM_BSP_GPIO_ITM_SWO) )
+    {
+        while (1);
+    }
+
+    return i32RetValue;
+} // ns_itm_pcsamp_enable()
+
+#endif // AM_PART_APOLLO5B

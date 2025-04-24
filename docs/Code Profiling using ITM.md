@@ -2,10 +2,12 @@
 
 This application note describes how to use Apollo's built-in debugging hardware to perform code profiling using non-invasive program counter (PC) sampling over the ITM SWO interface. 
 
+> **Note** A **Program‑Counter (PC) Sampling Profiler** is a type of statistical (or “sampling”) profiler that infers where a program spends its time by periodically interrupting execution and recording the current value of the program counter (i.e. the instruction pointer). Over many samples, hotspots (functions or lines executing most frequently) emerge.
+
 ## Requirements
 
 - SEGGER Jlink GDB Server
-- Orbuculum ITM Tool Suite
+- [Orbuculum](https://github.com/hiviah/ITM-howto-JLink-STLink) ITM Tool Suite - this requires compilation
 - Arm GDB (via command line or VS Code)
 
 ### Glossary
@@ -142,4 +144,103 @@ $> orbtop -c 15  -e ../../../neuralSPOT/build/apollo5b_evb/arm-none-eabi/example
 ```
 
 
+
+# The Easy Button: Launching from Visual Studio Code
+
+All of the above can be automated to a degree using Visual Studio Code, assuming you've already set it up for remote GDB. 
+
+The GDB configuration can be added to the GDB launch (`.vscode/launch.json`)setup as follows (not the prelaunch command and swo config):
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${fileDirname}",
+            "executable": "${workspaceFolder}/build/apollo5b_evb/arm-none-eabi/main.axf",
+            "name": "Debug AP5 main",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "serverpath": "JLinkGDBServer",
+            "serverArgs": [
+                "-port",
+                "50000",
+                "-swoport",
+                "50001",
+                "-telnetport",
+                "50002",
+            ],
+            "armToolchainPath": "/usr/local/arm-gnu-toolchain/bin",
+            "device": "AP510NFA-CBR",
+            "interface": "swd",
+            "serialNumber": "",
+            "runToEntryPoint": "main",
+            "svdFile": "${fileDirname}/../pack/svd/apollo5b.svd",
+            "showDevDebugOutput": "both",
+            "rtos": "/Applications/SEGGER/JLink/GDBServer/RTOSPlugin_FreeRTOS.dylib",
+            "preLaunchTask": "orbtop",
+            "preLaunchCommands": [
+                "monitor SWO start 0 1000000"
+            ],
+            "swoConfig": {
+                "enabled": false,
+                "source": "socket",
+                "swoFrequency": 1000000,
+                "cpuFrequency": 96105000,
+                "decoders": [
+                    {
+                        "port": 0,
+                        "type": "console",
+                        "label": "SWO output",
+                        "encoding": "ascii"
+                    }
+                ]
+            }
+        }
+    ]
+}
+ 
+```
+
+Launching orbtop can also be automated by adding this to your `.vscode/tasks.json`:
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "orbtop",
+            "command": "orbtop",
+            "args": [
+                "-c", "15",
+                "-e", "${workspaceFolder}/build/apollo5b_evb/arm-none-eabi/main.axf",
+                "-E",
+                "-l",
+                "-s", "localhost:50001",
+                "-p", "ITM",
+                "-I", "500"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "orbtop",
+                "pattern": {
+                  "regexp": ".+",
+                },
+                "background": {
+                  "activeOnStart": true,
+                  "beginsPattern": ".*",
+                  "endsPattern": "^No connection$"
+                }
+              },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+    ]
+  }
+ 
+```
 

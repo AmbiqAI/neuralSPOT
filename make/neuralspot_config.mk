@@ -109,7 +109,7 @@ BINDIR := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 
 ##### Extern Library Defaults #####
 ifndef AS_VERSION
-AS_VERSION := R5.2.0
+AS_VERSION := R5.3.0
 endif
 ifndef TF_VERSION
 TF_VERSION := ns_tflm_v1_0_0

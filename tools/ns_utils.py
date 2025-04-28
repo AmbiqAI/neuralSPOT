@@ -244,7 +244,23 @@ def rpc_connect_as_client(params):
         else:
             tty = params.tty
 
-        transport = erpc.transport.SerialTransport(tty, 115200)
+        # The next step may fail if on Linux and the user is not in the dialout group
+        try:
+            transport = erpc.transport.SerialTransport(tty, 115200)
+        except:
+            # Print error if in Linux and user is not in the dialout group
+            if os.name == "posix":
+                print(
+                    "[NS ERROR] Found, but could not open serial port %s. " % tty
+                    "You may not have permission to access the serial port. "
+                    "Try running the script after adding your user to the dialout group."
+                )
+            else:
+                print(
+                    "[NS ERROR] Found, but could not open serial port %s. " % tty
+                )
+            exit(1)
+
         clientManager = erpc.client.ClientManager(
             transport, erpc.basic_codec.BasicCodec
         )

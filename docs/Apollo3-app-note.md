@@ -11,7 +11,7 @@ Taken together, this means that applications that take full advantage of AP4's p
 
 Most of neuralSPOT's work just fine on AP3, just a little slower - because of peripheral assists such as DMA, in most cases this slowdown can be absorbed without problem.
 
-As in other platforms, AP3 offers a different mix of peripherals, some of which are currently relied on by some neuralSPOT functionality. For example, the lack of USB means that neuralSPOT's autodeploy scripts won't work directly on AP3, requiring an 'assist' from AP4, similar to what we did with Apollo4 Lite.
+As in other platforms, AP3 offers a different mix of peripherals, some of which are currently relied on by some neuralSPOT functionality. For example, the lack of USB means that neuralSPOT's autodeploy scripts must use the `--transport UART` option to use the UART interface instead.
 
 See the [Feature](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md) document for compatibility and supported hardware versions.
 

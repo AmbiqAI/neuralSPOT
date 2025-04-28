@@ -20,23 +20,16 @@ cd ns-mirror
 pip install .
 ```
 
-#### Platform Settings
-
-Autodeploy respects the makefile settings found in `make/local_overrides.mk`. For example, to set Apollo5 RevB EB as a target, TFLM version, and SDK3 as the AmbiqSuite version, you would add the following to the file:
-
-```make
-PLATFORM := apollo5b_eb_revb
-AS_VERSION := Apollo510_SDK3_2024_09_14
-TF_VERSION := Oct_08_2024_e86d97b6
-```
-
 #### Getting the Hardware Ready
 
 Autodeploy uses RPC-over-USB to communicate with the device. Optionally, it can use a joulescope to automatically measure power - this requires GPIO connections between the EB/EVB and the Joulescope.
 
-For EBs: one USB connection needs to be connected to PC
-
-For EVB: both USB connections must be connected to PC
+| Development Platform                                       | USB Connections                |
+| ---------------------------------------------------------- | ------------------------------ |
+| Apollo3P, Apollo4 Lite (include BLE variants)              | 1 (the Jlink connection)       |
+| Apollo4P                                                   | 2 (one for Jlink, on for USB)  |
+| Apollo510 (with J17 selecting Jlink, which is the default) | 2 (one for Jlink, one for USB) |
+| Apollo510 (with J17 selecting AP5)                         | 1 (the one labeled USB_AP%)    |
 
 #### Running Autodeploy
 
@@ -122,21 +115,17 @@ A priori, we only know the model size (2333232kB), which can be guessed from the
 
 The arena size is a different matter - its size is only known when the model's tensors are allocated by TFLM. This means we have to 'guess' at an arena size, and hope TFLM doesn't fail at instantiation time. This is less than ideal, but the experiments are fast, and it usually only takes a couple of iterations to find the right size.
 
-> **Note** This guess is only needed the first time autodeploy is run on a model. Autodeploy will record the actual size after the first successful run, and use that for subsquent runs.
+If an arena size is not specified on the command line via `--max-arena-size`, Autodeploy will select the largest SRAM size available to the target. For AP510 EVBs, there is also an option to put models and/or the arena in PSRAM ([see the Very Large Models section of the Autodeploy document](https://github.com/AmbiqAI/neuralSPOT/blob/main/tools/autodeploy.readme.md)).  This same document details how autodeploy attempts to find the optimal setting for deploy the model.
 
-Since we know that the model is too large to fit in TCM, let's run an experiment placing it in MRAM. Since we can guess that large models need large activation memories, we'll try putting the arena in SRAM and making it 400kB (the default is 100kB).
+> **Note** This arena  is only unknown the first time autodeploy is run on a model. Autodeploy will record the actual size after the first successful run, and can use that for subsquent runs.
 
-```
-ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 400
-```
-
-Spoiler: this experiment will fail. Autodeploy will detect that TFLM wasn't able to allocate and suggest that you increase the max-arena-size. Let's max out the SRAM and see what happens.
+This is a large model with a large arena - autodeploy will attempt to find the best fit for both weights and activations by default. 
 
 ```
-ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite --model-location MRAM --arena-location SRAM --max-arena-size 2200
+ns_autodeploy --model-name mnv3sm --tflite-filename mobilenet_v3_sm_a075_quant.tflite 
 ```
 
-A minute or so later we can see that the arena size was large enough, and Autodeploy is running everything else with the detected arena size (535kB).
+This command will result in model being placed in MRAM and the arena in TCM (for an apollo510, at least).
 
 #### Per Layer Profiling
 

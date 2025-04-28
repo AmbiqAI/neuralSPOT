@@ -14,11 +14,11 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 ### Software
 | External Component                   | Versions         | Notes                                                        |
 | ------------------------------------ | ---------------- | ------------------------------------------------------------ |
-| AmbiqSuite                           | 3.1.1, 4.4.1, 4.5.0, 5.2.0| See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
-| Tensorflow Lite for Microcontrollers | Oct_08_24, ns-tflm-2-14 |                                                              |
-| Embedded RPC                         | 1.9.1 Ambiq Fork | Please use this [fork](https://github.com/AmbiqAI/erpc).     |
+| AmbiqSuite                           | 3.1.1, 4.4.1, 4.5.0, 5.2.0, R5.3.0 | See [Release Notes](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/release_notes.md) |
+| Tensorflow Lite for Microcontrollers | Oct_08_24, ns-tflm-v1.0.0 |                                                              |
+| Embedded RPC                         | 1.9.1 (Ambiq Fork) | Please use this [fork](https://github.com/AmbiqAI/erpc).     |
 | CMSIS-NN | 5.9.0 | |
-| CMSIS-DSP | 1.15.0 | |
+| CMSIS-DSP | 1.16.0 | |
 
 ### Hardware
 
@@ -33,7 +33,7 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 | Apollo3P Blue | Ambiq  Apollo3P Blue EVB | |
 | MPU6050               | Invensense 6D accelerometer       | i2c support                                                  |
 | MAX86150              | Invensense ECG single-lead sensor | i2c support                                     |
-| Arducam SPI 5MP       | SPI-based camera                  | |
+| Arducam SPI 5MP       | SPI-based camera                  | SPI support |
 
 ### Compatibility
 
@@ -92,7 +92,7 @@ Examples are built entirely on NeuralSPOT's libraries and components, and are me
 | --------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ns_autodeploy.py      | All-in-one tool for automatically deploying, validating, profiling, and packaging a TFLite-based model | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
 | ns_tflite_analyzer.py | Analyzes a TFLite file, finds potential performance problems, estimates MACs per model layer, and exports a C header file with model information. | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
-| Ns_test.py            | Tool for running unit tests                                  | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
+| ns_test.py            | Tool for running unit tests                                  | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
 | ns_ad_batch.py        | Profiles a batch of models using autodeploy - useful for regression testing optimizations, etc. | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
 | generic_data.py       | Example PC-side script for interacting with EVB via remote procedure calls. | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
 

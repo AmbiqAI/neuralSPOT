@@ -38,6 +38,8 @@ neuralSPOT includes real-world [AI examples](https://github.com/AmbiqAI/neuralSP
 ## Intended Use
 There is no one way to develop and deploy AI, so NeuralSPOT makes as few assumptions as possible. There are three principal ways in which it is [intended to be used](./Developing_with_NeuralSPOT.md):
 
+
+
 <p align="center">
 <img src="images/image-20230727151931018.png" alt="simplified development flow" style="width:50%;" align=center />
 </p>

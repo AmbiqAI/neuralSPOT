@@ -8,6 +8,7 @@ The Ambiq AI team uses Visual Studio Code (vscode) to:
 - Manage our [GitHub-based version control](https://code.visualstudio.com/docs/sourcecontrol/intro-to-git)
 - Compile and flash applications
 - Step through code running on the EVB
+- Generate a [code performance profile](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/Code%20Profiling%20using%20ITM.md)
 - Manage our compilation toolchain
 - [Develop code remotely](https://code.visualstudio.com/docs/remote/remote-overview)
 
@@ -92,7 +93,11 @@ This is the `tasks.json` file. The way it is written, you have to launch the bui
 }
 ```
 
-The `tasks.json` file defines a 'launch' task. There are several hardcoded paths. There may be a clever way to make them soft paths, but I haven't bothered looking.
+
+
+The `tasks.json` file defines a 'launch' task. Note that there are several hardcoded paths:
+
+
 
 ```json
     "version": "0.2.0",

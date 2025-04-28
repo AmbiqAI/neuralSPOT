@@ -154,8 +154,7 @@ First, configure the power connections (follow EVB power measurement connection 
 3. Stop the Joulescope desktop application in order to allow the Python driver to control the Joulescope instead
 4. Run the power measurement script
 
-*NOTE*: AutoDeploy needs characterization information to create the power binary - this data can be obtained by running AutoDeploy's profiling step (it will run by default),
-or it can be loaded from a previous run (see the Apollo4 Lite section below for one scenario in which this is necessary).
+> ***NOTE***: AutoDeploy needs characterization information to create the power binary - this data can be obtained by running AutoDeploy's profiling step (it will run by default), or it can be loaded from a previous run.
 
 ### Result Output
 ```

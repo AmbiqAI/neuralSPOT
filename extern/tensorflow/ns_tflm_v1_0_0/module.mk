@@ -10,6 +10,7 @@ DEFINES += NS_TFLM_NEW_MICRO_PROFILER
 
 # Determine short architecture tag
 TFP := $(if $(filter apollo5,$(ARCH)),cm55,cm4)
+# TFP := $(if $(filter apollo5,$(ARCH)),cm4,cm4)
 
 # Determine build type suffix
 ifeq ($(MLDEBUG),1)

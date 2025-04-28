@@ -31,10 +31,10 @@ NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstr
 > **NOTE** for detailed compatibility notes, see the [features document](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/features.md).
 
 * **Hardware**
-    * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of [Apollo4 Plus](https://ambiq.com/apollo4-plus/), [Apollo4 Blue Plus](https://ambiq.com/apollo4-blue-plus/), [Apollo4 Lite](https://ambiq.com/apollo4-lite/), [Apollo4 Blue Lite](https://ambiq.com/apollo4-blue-lite/), or https://ambiq.com/apollo3-blue-plus/.
-    * Energy Measurement (optional): [Joulescope](https://www.joulescope.com) JS110 or JS220 (only needed for automated model energy measurements)
+    * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of [Apollo4 Plus](https://ambiq.com/apollo4-plus/), [Apollo4 Blue Plus](https://ambiq.com/apollo4-blue-plus/), [Apollo4 Lite](https://ambiq.com/apollo4-lite/), [Apollo4 Blue Lite](https://ambiq.com/apollo4-blue-lite/), [Apollo3 Blue Plus](https://ambiq.com/apollo3-blue-plus/), or Ambiq's flagship, the [Apollo510](https://ambiq.com/apollo510/).
+    * Energy Measurement (optional): [Joulescope](https://www.joulescope.com)  JS110 or JS220 (only needed for automated model energy measurements)
 * **Software**
-    * [Segger J-Link 7.88+](https://www.segger.com/downloads/jlink/)
+    * [Segger J-Link 8.12+](https://www.segger.com/downloads/jlink/)
     * Compilers: at least one of...
         * [Arm GNU Toolchain 10.3+](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
         * [Armclang](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
@@ -60,17 +60,12 @@ See our [Windows application note](https://github.com/AmbiqAI/neuralSPOT/blob/ma
 
 ## Automatic Model Characterization and Packaging
 
-NeuralSPOT includes tools to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).
-
-Two caveats:
-
-* Autodeploy for EVBs without a second USB port requires special attention - see the Apollo4 Lite section of this document.
-* RPC uses one of the PC's serial ports - these are named differently depending on the OS. The following example defaults to Linux/Mac, see this document for finding the serial port and add `--tty <your port>` to use that instead.
+NeuralSPOT includes Autodeploy, a tool to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).
 
 ```bash
 cd .../neuralSPOT # neuralSPOT's root directory
 pip install .
-ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel # add --tty COMx for Windows
+ns_autodeploy --tflite-filename=mymodel.tflite
 ```
 
 This one invocation will:
@@ -85,7 +80,7 @@ This one invocation will:
 Autodeploy is highly configurable and also **capable of automatically measuring the power** used by inference (if a joulescope is available) - see the [reference guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/tools/README.md) and [application note](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.md) for more details.
 
 ## NeuralSPOT Structure and Directories
-NeuralSPOT consists of the neuralspot libraries, required external components, tools, and examples.
+NeuralSPOT consists of the neuralspot [libraries](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot), required external components, [tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools), [examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples), and [documentation](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs).
 
 <p align="center">
 <img src="./docs/images/image-20230727151002947.png" alt="image-20230727151002947" style="zoom:50%;" />

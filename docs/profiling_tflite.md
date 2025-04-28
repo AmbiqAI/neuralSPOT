@@ -22,14 +22,16 @@ pip install .
 
 #### Getting the Hardware Ready
 
-Autodeploy uses RPC-over-USB to communicate with the device. Optionally, it can use a joulescope to automatically measure power - this requires GPIO connections between the EB/EVB and the Joulescope.
+Autodeploy uses RPC-over-USB or RPC-over-UART to communicate with the device. Optionally, it can use a joulescope to automatically measure power - this requires GPIO connections between the EB/EVB and the Joulescope. 
 
-| Development Platform                                       | USB Connections                |
-| ---------------------------------------------------------- | ------------------------------ |
-| Apollo3P, Apollo4 Lite (include BLE variants)              | 1 (the Jlink connection)       |
-| Apollo4P                                                   | 2 (one for Jlink, on for USB)  |
-| Apollo510 (with J17 selecting Jlink, which is the default) | 2 (one for Jlink, one for USB) |
-| Apollo510 (with J17 selecting AP5)                         | 1 (the one labeled USB_AP%)    |
+| Development Platform                                       | Transport   | USB Connections                |
+| ---------------------------------------------------------- | ----------- | ------------------------------ |
+| Apollo3P, Apollo4 Lite (include BLE variants)              | UART        | 1 (the Jlink connection)       |
+| Apollo4P                                                   | USB or UART | 2 (one for Jlink, on for USB)  |
+| Apollo510 (with J17 selecting Jlink, which is the default) | USB or UART | 2 (one for Jlink, one for USB) |
+| Apollo510 (with J17 selecting AP5)                         | USB or UART | 1 (the one labeled USB_AP%)    |
+
+The RPC transport mode is selected using the `--transport` command line parameter.
 
 #### Running Autodeploy
 

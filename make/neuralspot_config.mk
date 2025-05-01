@@ -36,6 +36,9 @@ BOARD := $(firstword $(subst _, ,$(PLATFORM)))
 # apollo510_evb has a different prefix, override
 
 # Pre R5.3.0 SDKs put the code in apollo5b, R5.3.0 and later put the code in apollo510
+ifndef AS_VERSION
+AS_VERSION := R5.3.0
+endif
 ifneq ($(AS_VERSION),R5.3.0)
 ifeq ($(findstring apollo510,$(PLATFORM)),apollo510)
 BOARD := apollo5b
@@ -108,9 +111,7 @@ BINDIR := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 
 
 ##### Extern Library Defaults #####
-ifndef AS_VERSION
-AS_VERSION := R5.3.0
-endif
+
 ifndef TF_VERSION
 TF_VERSION := ns_tflm_v1_0_0
 endif

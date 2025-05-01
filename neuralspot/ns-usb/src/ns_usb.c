@@ -208,6 +208,14 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
         tud_cdc_write_flush();
         // ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
+    #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
+    tud_cdc_write_flush();
+
+    while (tud_cdc_write_available() < 14) {
+        ns_lp_printf("avail %d\n", tud_cdc_write_available());
+        ns_delay_us(200000);
+    }
+    #endif
 
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);
     // tud_cdc_write_flush();

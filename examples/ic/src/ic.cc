@@ -16,9 +16,7 @@
 #include "ns_peripherals_power.h"
 #include "ns_peripherals_button.h"
 #include "ns_usb.h"
-#ifdef AM_PART_APOLLO5B
 #include "tusb.h"
-#endif // AM_PART_APOLLO5B
 
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
@@ -80,6 +78,7 @@ typedef struct usb_data {
 } usb_data_t;
 
 void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps, uint8_t joulesEstimate, uint8_t cpuUtilization) {
+    ns_lp_printf("Sending message, len %d\n", sizeof(usb_data_t));
     // ns_lp_printf("Sending message, len %d, avail %d\n", sizeof(usb_data_t), tud_vendor_write_available());
     usb_data_t data = {
         .type = type,
@@ -91,7 +90,7 @@ void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps,
         .cpuUtilization = cpuUtilization
     };
     webusb_send_data((uint8_t *)&data, sizeof(usb_data_t));
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
 
         while (tud_vendor_write_available() < 14) {
@@ -142,7 +141,7 @@ int main(void) {
     webUsbConfig.tx_buffer = my_tx_ff_buf;
     webUsbConfig.tx_bufferLength = MY_TX_BUFSIZE;
     NS_TRY(ns_usb_init(&webUsbConfig, &usb_handle), "USB Init Failed\n");
-    ns_lp_printf("USB Init Success\n");
+    ns_lp_printf("USB Init: Success\n");
 
     // Initialize the model, get handle if successful
     int status = ic_bench_minimal_init(&model); // model init with minimal defaults
@@ -164,7 +163,7 @@ int main(void) {
             ips = (float)invokes / ((float)(newTime - oldTime) / 1000000.0f);
             invokes = 0;
             oldTime = newTime;
-            // ns_lp_printf("Image Classification FPS: %0.2f\n", ips);
+            ns_lp_printf("Image Classification FPS: %0.2f\n", ips);
         }   
         
         // Parse the output tensor to find max value
@@ -183,9 +182,13 @@ int main(void) {
         uint8_t confidence = (uint8_t)((max + 127) * 100 / 255);
         // convert ips to uint8_t
         uint8_t fps = ips;
+        #ifdef AM_PART_APOLLO5B
         sendMessage(1, label, confidence, fps, 0, 0);
-        // ns_lp_printf("%d - Label is %d (%s). FPS = %0.2f\n", j, label, kCategoryLabels[label], ips);
-        // ns_lp_printf("Text is %s\n", kCategoryLabels[label]);
+        #else
+        sendMessage(0, label, confidence, fps, 0, 0);
+        #endif
+        ns_lp_printf("%d - Label is %d (%s). FPS = %0.2f\n", j, label, kCategoryLabels[label], ips);
+        ns_lp_printf("Text is %s\n", kCategoryLabels[label]);
 
         // Wrap at 100
         j = (j + 1)%100; 

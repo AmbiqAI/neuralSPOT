@@ -6,8 +6,8 @@ ifeq ($(USB_PRESENT),1)
 local_src += $(wildcard $(subdirectory)/src/usb/*.c)
 endif
 
-$(info local_src is $(local_src))
-$(info part is $(PART))
+# $(info local_src is $(local_src))
+# $(info part is $(PART))
 # Base AmbiqSuite
 # ifeq ($(PLATFORM),apollo5a_eb)
 # includes_api += $(subdirectory)/boards/apollo5_eb/bsp

@@ -9,7 +9,7 @@ import traceback
 import pkg_resources
 import numpy as np
 from joulescope import scan
-from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions
+from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions, reset_dut
 import yaml
 
 
@@ -229,7 +229,10 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     #     print("Makefile successfully built power measurement binary")
 
     time.sleep(5)
-
+    # Do another reset to make sure the device is in a good state
+    os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset >{ws_null} 2>&1")
+    # reset_dut(params)
+    time.sleep(5)  # give jlink a chance to settle
 
 # Joulescope-specific Code
 

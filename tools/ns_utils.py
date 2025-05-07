@@ -193,6 +193,7 @@ def reset_dut(params):
     ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
 
     makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ps} {ws1} make reset >{ws3} 2>&1")
+    print(f"cd {params.neuralspot_rootdir} {ps} {ws1} make reset >{ws3} 2>&1")
     time.sleep(2)  # give jlink a chance to settle
 
 tty = None
@@ -250,9 +251,8 @@ def rpc_connect_as_client(params):
         except:
             # Print error if in Linux and user is not in the dialout group
             if os.name == "posix":
-                print(
-                    "[NS ERROR] Found, but could not open serial port %s. " % tty
-                    "You may not have permission to access the serial port. "
+                print("[NS ERROR] Found, but could not open serial port %s. " % tty)
+                print("You may not have permission to access the serial port. "
                     "Try running the script after adding your user to the dialout group."
                 )
             else:

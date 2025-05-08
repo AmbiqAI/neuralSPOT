@@ -49,8 +49,8 @@ typedef void (*ns_timer_callback_cb)(struct ns_timer_config *);
 typedef enum {
     NS_TIMER_COUNTER = 0,   ///< Intended use is reading timerticks
     NS_TIMER_INTERRUPT = 1, ///< Calls a callback periodically
-    NS_TIMER_USB = 2,       ///< Used by ns_usb to periodically service USB
-    NS_TIMER_TEMPCO = 3     ///< Used by ns_tempco to periodically collect temps
+    NS_TIMER_USB = 3,       ///< Used by ns_usb to periodically service USB
+    NS_TIMER_TEMPCO = 4     ///< Used by ns_tempco to periodically collect temps
 } ns_timers_e;
 
 /**

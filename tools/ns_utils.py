@@ -251,8 +251,8 @@ def rpc_connect_as_client(params):
             # Print error if in Linux and user is not in the dialout group
             if os.name == "posix":
                 print(
-                    "[NS ERROR] Found, but could not open serial port %s. " % tty
-                    "You may not have permission to access the serial port. "
+                    "[NS ERROR] Found, but could not open serial port %s. " % tty)
+                print("You may not have permission to access the serial port. "
                     "Try running the script after adding your user to the dialout group."
                 )
             else:

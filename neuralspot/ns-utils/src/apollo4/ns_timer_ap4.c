@@ -47,7 +47,18 @@ void am_timer03_isr(void) {
     am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(timerNum, AM_HAL_TIMER_COMPARE1));
     am_hal_timer_clear(timerNum);
 
-    ns_timer_config[2]->callback(ns_timer_config[3]);
+    ns_timer_config[3]->callback(ns_timer_config[3]);
+}
+
+void am_timer04_isr(void) {
+    ns_timers_e timerNum = ns_timer_config[4]->timer;
+    //
+    // Clear the timer Interrupt (write to clear).
+    //
+    am_hal_timer_interrupt_clear(AM_HAL_TIMER_MASK(timerNum, AM_HAL_TIMER_COMPARE1));
+    am_hal_timer_clear(timerNum);
+
+    ns_timer_config[4]->callback(ns_timer_config[4]);
 }
 
 uint32_t ns_timer_platform_init(ns_timer_config_t *cfg) {
@@ -94,8 +105,8 @@ uint32_t ns_timer_platform_init(ns_timer_config_t *cfg) {
             NVIC_EnableIRQ(TIMER1_IRQn);
             NVIC_SetPriority(TIMER1_IRQn, AM_IRQ_PRIORITY_DEFAULT);
         } else if (cfg->timer == NS_TIMER_USB) {
-            NVIC_SetPriority(TIMER2_IRQn, AM_IRQ_PRIORITY_DEFAULT);
-            NVIC_EnableIRQ(TIMER2_IRQn);
+            NVIC_SetPriority(TIMER3_IRQn, AM_IRQ_PRIORITY_DEFAULT);
+            NVIC_EnableIRQ(TIMER3_IRQn);
         }
     }
     return ui32Status;

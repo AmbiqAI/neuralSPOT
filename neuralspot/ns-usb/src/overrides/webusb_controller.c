@@ -233,8 +233,9 @@ bool tud_vendor_control_xfer_cb(
             // ns_lp_printf("WEBUSB_REQUEST_SET_CONTROL_LINE_STATE: \n");
             if (request->wValue != 0) {
                 webusb_connected = true;
-                // ns_lp_printf("WebUSB interface connected\r\n");
+                ns_lp_printf("WebUSB interface connected\r\n");
             } else {
+                ns_lp_printf("WebUSB interface disconnected\r\n");
                 webusb_connected = false;
             }
 
@@ -254,6 +255,16 @@ bool tud_vendor_control_xfer_cb(
 uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     uint32_t bytes_tx = 0;
     uint32_t bufremain = bufsize;
+    // ns_lp_printf("webusb_send_data: %d\n", bufsize);
+    // ns_lp_printf("in: tud_vendor_write_flush, avail is %d\n", tud_vendor_write_available());
+    if (tud_vendor_write_available() != 4096) {
+        // ns_lp_printf("tud_vendor_write_available: %d\n", tud_vendor_write_available());
+        while (tud_vendor_write_available() < 4096) {
+            // ns_lp_printf(".");
+            ns_delay_us(1000);
+        }
+        // ns_lp_printf("\n");
+    }
 
     if (webusb_connected && buf) {
         int i = 0;
@@ -262,7 +273,7 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
             // until the upper limit of rewrite numbers is reached or buf is
             // written all.
             if (i == REWRIT_NUMBER) {
-                ns_lp_printf("Warning: The number of rewriting is over %d\n", i);
+                ns_lp_printf("[NS USB] Warning: The number of rewrites is over %d, giving retries.\n", i);
                 break;
             }
 
@@ -280,8 +291,9 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     }
     #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
+    // ns_lp_printf("tud_vendor_write_flush, avail is %d\n", tud_vendor_write_available());
 
-        while (tud_vendor_write_available() < 14) {
+    while (tud_vendor_write_available() < 1400) {
         ns_lp_printf("Vendor USB write avail %d, waiting...\n", tud_vendor_write_available());
         ns_delay_us(200000);
     }

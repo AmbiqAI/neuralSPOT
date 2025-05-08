@@ -25,6 +25,8 @@ includes_api += $(subdirectory)/devices
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)/hal/mcu
 includes_api += $(subdirectory)/utils
+includes_api += $(subdirectory)/boards/$(PLATFORM)/bsp
+includes_api += $(subdirectory)/src
 
 ifeq ($(TOOLCHAIN),arm)
 lib_prebuilt += $(subdirectory)/lib/$(PART)/libam_hal.lib

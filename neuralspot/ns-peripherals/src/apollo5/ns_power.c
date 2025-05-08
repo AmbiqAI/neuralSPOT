@@ -57,17 +57,11 @@ uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     uint32_t retval = NS_STATUS_SUCCESS;
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF)) {
-        ns_lp_printf("Setting CPU Perf mode to High Performance\n");
         retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
-        ns_lp_printf("Set CPU Perf mode to High Performance ret = %d\n", retval);
     } else {
-        ns_lp_printf("Setting CPU Perf mode to Low Power\n");
         retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
-        ns_lp_printf("Set CPU Perf mode to Low Power ret = %d\n", retval);
-
     }
     return retval;
-    // return NS_STATUS_SUCCESS;
 }
 
 //*****************************************************************************

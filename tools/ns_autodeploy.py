@@ -421,9 +421,16 @@ def main():
     model_size = os.path.getsize(params.tflite_filename) / 1024
     model_size = int(model_size) + 1 if model_size % 1 > 0 else int(model_size)    
 
+    move_model_back_to_sram = False
     if params.model_location == "auto":
         params.model_location = pc.GetModelLocation(model_size, params.model_location) # Set best location based on model size
         print(f"[NS] Best {model_size}KB model location for {params.platform}: {params.model_location}")
+    else:
+        # If the user chose SRAM, it wont fit for the first pass because SRAM is entire allocated to the arena, so temporarily set it to MRAM
+        if (params.create_binary) and (params.model_location) == "SRAM":
+            print(f"[NS] Model location set to MRAM for first pass, will be moved to {params.model_location} after first pass")
+            params.model_location = "MRAM"
+            move_model_back_to_sram = True
 
     if params.ambiqsuite_version == "auto":
         params.ambiqsuite_version = pc.platform_config["as_version"]
@@ -505,8 +512,9 @@ def main():
         stage += 1
 
         # If auto, use SRAM as the arena location for the first pass
-        if params.arena_location == "auto":
-            params.arena_location = "SRAM"
+        # if params.arena_location == "auto":
+        # Always use SRAM (larget ram) for the first pass
+        params.arena_location = "SRAM"
 
         create_validation_binary(params, True, mc)
         client = rpc_connect_as_client(params)
@@ -530,6 +538,10 @@ def main():
             raise ValueError(
                 f"Model size {model_size}KB exceeds available memory for platform {params.platform}"
             )
+
+        if move_model_back_to_sram:
+            params.model_location = "SRAM"
+            print(f"[NS] Model location set to SRAM for profiling pass")
 
         # If the arena and model locations are both TCM, make sure they fit, and move the model to MRAM if they don't
         if params.model_location == "TCM" and params.arena_location == "TCM":
@@ -582,6 +594,10 @@ def main():
                     f"Model size {model_size}KB exceeds available memory for platform {params.platform}"
                 )
   
+            if move_model_back_to_sram:
+                params.model_location = "SRAM"
+                print(f"[NS] Model location set to SRAM for profiling pass")
+
             if params.model_location == "TCM" and params.arena_location == "TCM":
                 if model_size + mc.arena_size_k > pc.GetDTCMSize():
                     print(f"[NS] Model plus Arena do not fit in Data TCM. Moving model to MRAM.")

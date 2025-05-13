@@ -83,7 +83,7 @@ def xxd_c_dump(
         else: # TCM
             prefix = "NS_PUT_IN_TCM"
 
-        wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
+        wfp.write(f"{prefix} alignas(16) unsigned char {var_name}[] = {{{os.linesep}")
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"

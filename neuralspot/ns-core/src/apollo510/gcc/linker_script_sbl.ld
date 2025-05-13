@@ -124,12 +124,18 @@ SECTIONS
         _ebss = .;
     } > MCU_TCM
 
-    .shared (NOLOAD):
+    .shared :
     {
         . = ALIGN(4);
         KEEP(*(.resource_table))
+        . = ALIGN(4);
+
+        _ssdata = .;
         KEEP(*(.shared))
         . = ALIGN(4);
+        _sedata = .;
     } > SHARED_SRAM AT>MCU_MRAM
+    _init_data_sram = LOADADDR(.shared);
+    
     .ARM.attributes 0 : { *(.ARM.attributes) }
 }

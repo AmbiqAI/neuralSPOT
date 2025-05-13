@@ -66,7 +66,11 @@ def build_command(model, args):
     if "runs_power" in model:
         cmd.extend(["--runs-power", str(model["runs_power"])])
 
+    if "arena_location" in model:
+        cmd.extend(["--arena-location", model["arena_location"]])
 
+    if "model_location" in model:
+        cmd.extend(["--model-location", model["model_location"]])
 
     return cmd
 

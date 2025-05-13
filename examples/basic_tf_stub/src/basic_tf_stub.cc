@@ -16,7 +16,7 @@ The basic_tf_stub example is based on a speech to intent model.
 // #define RPC_ENABLED
 #endif
 
-// #ifndef NS_AUDADC_PRESENT
+// #ifndef NS_AUDADC_PRESENT 
     #define USE_PDM_MICROPHONE
 // #endif
 // #define NS_AUDADC_PRESENT

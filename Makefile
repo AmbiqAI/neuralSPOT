@@ -320,7 +320,7 @@ reset: $(JLINK_RESET_CF)
 .PHONY: deploy
 deploy: $(JLINK_CF)
 	@echo " Deploying $< to device (ensure JLink USB connected and powered on)..."
-	$(Q) $(JLINK) $(JLINK_CMD)
+	- $(Q) $(JLINK) $(JLINK_CMD)
 	$(Q) $(RM) $(JLINK_CF)
 
 .PHONY: view

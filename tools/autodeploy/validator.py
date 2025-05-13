@@ -983,15 +983,15 @@ def create_validation_binary(params, baseline, mc):
         loc = ""
 
     if not params.model_location == "PSRAM":
-        if baseline:
-            xxd_c_dump(
-                src_path=params.tflite_filename,
-                dst_path=tflm_dir + "/src/mut_model_data.h",
-                var_name="mut_model",
-                chunk_len=12,
-                is_header=True,
-                loc=loc,
-            )
+        # if baseline:
+        xxd_c_dump(
+            src_path=params.tflite_filename,
+            dst_path=tflm_dir + "/src/mut_model_data.h",
+            var_name="mut_model",
+            chunk_len=12,
+            is_header=True,
+            loc=loc,
+        )
 
     if baseline:
         print(

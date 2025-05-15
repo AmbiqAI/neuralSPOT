@@ -1,0 +1,324 @@
+
+//
+// This reference design is intended for demo purposes only.
+//
+
+#include <string.h>
+#include <stdio.h>
+#include <arm_math.h>
+#include "am_mcu_apollo.h"
+#include "am_bsp_hrv.h"
+#include "am_util.h"
+#include "ICM45605.h"
+#include "ns_ambiqsuite_harness.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+
+//*****************************************************************************
+//
+// ICM45605 prototypes
+//
+//*****************************************************************************
+void ICM45605_enable(void);
+void ICM45605_disable(void);
+int8_t ICM45605_data_read(uint8_t address,uint8_t *data,uint32_t length);
+int8_t ICM45605_data_write(uint8_t address,const uint8_t *data,uint32_t length);
+void ICM45605_delay_us(uint32_t period);
+
+
+
+
+//*****************************************************************************
+//
+// ICM45605 delay usec
+//
+//*****************************************************************************
+void ICM45605_delay_us(uint32_t period)
+{
+  am_util_delay_us(period);
+}
+
+//*****************************************************************************
+//
+// ICM45605 interface enable
+//
+//*****************************************************************************
+void ICM45605_enable(void)
+{
+  //
+  // SOCKET 2:  power up
+  //
+  am_bsp_socket_M2_ON();
+  am_util_delay_ms(10);
+  //vTaskDelayUntil(1);
+
+  //
+  // SPI Pins Init
+  //
+  ///am_bsp_iom_pins_enable(IOM2_MODULE,AM_HAL_IOM_I2C_MODE,0);
+  //  AM_HAL_IOM_SPI_MODE_0,                  //!< CPOL = 0; CPHA = 0
+  //  AM_HAL_IOM_SPI_MODE_2,                  //!< CPOL = 1; CPHA = 0
+  //  AM_HAL_IOM_SPI_MODE_1,                  //!< CPOL = 0; CPHA = 1
+  //  AM_HAL_IOM_SPI_MODE_3,                  //!< CPOL = 1; CPHA = 1
+  // 
+  // Data is latched on the rising edge of SCLK for ICM45605
+  // Data should be transitioned on the falling edge of SCLK
+  // The maximum frequency of ICM45605 SCLK is 24 MHz (it is 20MHz at VDDIO 1.2V
+  am_bus_spi_port_enable(AM_HAL_IOM_SPI_MODE_3, AM_HAL_IOM_8MHZ);
+
+  am_util_delay_ms(8);
+}
+
+//*****************************************************************************
+//
+// ICM45605 interface disable
+//
+//*****************************************************************************
+void ICM45605_disable(void)
+{
+  //
+  // IOM0 Pins DISABLE
+  //
+  ///am_bsp_iom_pins_disable(IOM2_MODULE,AM_HAL_IOM_I2C_MODE,0);
+
+  //
+  // SOCKET 0:  power down
+  //
+  am_bsp_socket_M2_OFF();
+
+  //
+  // Disable the IOM1
+  //
+  am_bus_spi_port_disable();
+
+}
+
+//*****************************************************************************
+//
+// ICM45605 command_write
+//
+//*****************************************************************************
+int8_t ICM45605_data_write(uint8_t address,const uint8_t *data,uint32_t length)
+{
+am_hal_iom_transfer_t trans = {0};
+uint32_t status;
+
+  trans.uPeerInfo.ui32SpiChipSelect = 0;
+  trans.ui32Instr = address;
+  trans.ui32InstrLen = 1;
+  trans.bContinue = false;
+  trans.eDirection = AM_HAL_IOM_TX;
+  trans.pui32RxBuffer = (uint32_t*)data;
+  trans.pui32TxBuffer = (uint32_t*)data;
+  trans.ui32NumBytes = length;
+
+  status = am_bus_spi_port_blocking_transfer(&trans);
+  if(status != AM_HAL_STATUS_SUCCESS)
+  {
+  return 1;
+  }
+
+return 0;
+}
+
+//*****************************************************************************
+//
+// ICM45605 command_write
+//
+//*****************************************************************************
+int8_t ICM45605_address_load(uint8_t address)
+{
+am_hal_iom_transfer_t trans = {0};
+uint32_t status;
+
+  trans.uPeerInfo.ui32SpiChipSelect = 0;
+  trans.ui32Instr = address;
+  trans.ui32InstrLen = 1;
+  trans.bContinue = false;
+  trans.eDirection = AM_HAL_IOM_TX;
+  trans.ui32NumBytes = 0;
+
+  status = am_bus_spi_port_blocking_transfer(&trans);
+  if(status != AM_HAL_STATUS_SUCCESS)
+  {
+  return 1;
+  }
+
+return 0;
+}
+
+//*****************************************************************************
+//
+// ICM45605 command_read
+//
+//*****************************************************************************
+int8_t ICM45605_data_read(uint8_t address, uint8_t *buff,uint32_t length)
+{
+am_hal_iom_transfer_t trans = {0};
+uint32_t status;
+
+  trans.uPeerInfo.ui32SpiChipSelect = 0;
+  trans.ui32Instr = address |= 0x80;  // Add a MSB bit for READ
+  trans.ui32InstrLen = 1;
+  trans.bContinue = false;
+  trans.eDirection = AM_HAL_IOM_RX;
+  trans.pui32RxBuffer = buff;
+  trans.ui32NumBytes = length;
+
+  status = am_bus_spi_port_blocking_transfer(&trans);
+  if(status != AM_HAL_STATUS_SUCCESS)
+  {
+  return 1;
+  }
+
+return 0;
+}
+
+int8_t ICM45605_data_readNOREG(uint8_t address,uint8_t *buff,uint32_t length)
+{
+am_hal_iom_transfer_t trans = {0};
+uint32_t status;
+
+  trans.uPeerInfo.ui32SpiChipSelect = 0;
+  trans.ui32InstrLen = 0;
+  trans.bContinue = false;
+  trans.eDirection = AM_HAL_IOM_RX;
+  trans.pui32RxBuffer = (uint32_t*)buff;
+  trans.ui32NumBytes = length;
+
+  status = am_bus_spi_port_blocking_transfer(&trans);
+  if(status != AM_HAL_STATUS_SUCCESS)
+  {
+  return 1;
+  }
+
+return 0;
+}
+
+int8_t ICM45605_data_read_load_address(uint8_t address,uint32_t length)
+{
+am_hal_iom_transfer_t trans = {0};
+uint32_t status;
+
+  trans.uPeerInfo.ui32SpiChipSelect = 0;
+  trans.ui32Instr = address |= 0x80;  // Add a MSB bit for READ
+  trans.ui32InstrLen = 1;
+  trans.bContinue = true;
+  trans.eDirection = AM_HAL_IOM_RX;
+  trans.ui32NumBytes = length;
+
+  status = am_bus_spi_port_blocking_transfer(&trans);
+  if(status != AM_HAL_STATUS_SUCCESS)
+  {
+  return 1;
+  }
+
+return 0;
+}
+
+
+
+//*****************************************************************************
+//
+// ICM45605 Transactions
+//
+//*****************************************************************************
+int8_t ICM45605_load_configs(uint8_t *buff)
+{
+
+int8_t fail = 0;
+uint16_t sample_count = 1;
+uint32_t del_period;
+uint8_t addressbyte[17] = { 0 };
+int8_t rslt = 0;
+int8_t rsltbyte0, rsltbyte1;
+
+  ICM45605_enable();
+
+
+  for (uint8_t i = 0; i<20; i++) {   // Repeat Call until we get the correct response
+      ICM45605_data_read(ICM45605_REG_WHO_AM_I, &buff[0], 1);
+      if (buff[0] == 0xe5){
+        fail = 1;
+        break;  // Break when communication is good.
+      }
+  }
+
+  addressbyte[0] = 0x0F;
+  ICM45605_data_write(ICM45605_REG_PWR_MGMNT0, &addressbyte[0], 1);
+  addressbyte[0] = 0x47;
+  ICM45605_data_write(ICM45605_REG_ACCEL_CONFIG0, &addressbyte[0], 1);
+  addressbyte[0] = 0x47;
+  ICM45605_data_write(ICM45605_REG_GYRO_CONFIG0, &addressbyte[0], 1);
+  return fail;
+}
+
+int8_t ICM45605_get_accel_gyro(uint8_t *buff)
+{
+  uint16_t sample_count = 1;
+  uint32_t del_period;
+  uint8_t addressbyte[17] = { 0 };
+
+  int8_t rslt;
+  int8_t rsltbyte0, rsltbyte1;
+
+  for (uint8_t j = 0; j<50; j++) {
+    for (uint8_t i = 0; i<15; i++) {
+        ICM45605_data_read(ICM45605_REG_ACCEL_DATA_X1_UI+i, &buff[i], 1);
+    }
+    if ((buff[0] == 0) && (buff[1] == 0) &&
+      (buff[2] == 0) && (buff[3] == 0) &&
+      (buff[4] == 0) && (buff[5] == 0) ){
+        continue;
+      } else {
+        break;
+      }
+
+  }
+    //}
+
+
+  ICM45605_disable();
+
+
+  return rslt;
+}
+
+int8_t ICM45605_forced_mode(uint8_t *buff)
+{
+
+  uint8_t addressbyte[17] = { 0 };
+  int8_t rslt = 0;
+  int8_t rsltbyte0, rsltbyte1;
+
+
+  ICM45605_enable();
+
+
+  for (uint8_t i = 0; i<20; i++) {   // Repeat Call until we get the correct response
+      ICM45605_data_read(0xF2, &buff[0], 1);
+      if (buff[0] == 0xe5){
+          break;  // Break when communication is good.
+      }
+  }
+
+  addressbyte[0] = 0x0F;
+  ICM45605_data_write(ICM45605_REG_PWR_MGMNT0, &addressbyte[0], 1);
+  addressbyte[0] = 0x47;
+  ICM45605_data_write(ICM45605_REG_ACCEL_CONFIG0, &addressbyte[0], 1);
+  addressbyte[0] = 0x47;
+  ICM45605_data_write(ICM45605_REG_GYRO_CONFIG0, &addressbyte[0], 1);
+
+  am_util_delay_ms(60);
+
+  for (uint8_t i = 0; i<15; i++) {
+      ICM45605_data_read(ICM45605_REG_ACCEL_DATA_X1_UI+i, &buff[i], 1);
+  }
+
+
+
+  ICM45605_disable();
+
+  return rslt;
+}

@@ -26,6 +26,12 @@ am_hal_uart_config_t g_sUartConfig =
     .pui8RxBuffer = g_pui8RxBuffer,
     .ui32RxBufferSize = (uint32_t) sizeof(g_pui8RxBuffer),
 };
+
+ns_uart_transaction_t g_sUartTransaction =
+{
+    .status = 0,
+};
+
 void am_uart_isr(void)
 {
     // Service the FIFOs as necessary, and clear the interrupts.
@@ -33,10 +39,26 @@ void am_uart_isr(void)
     am_hal_uart_interrupt_status_get(phUART, &ui32Status, true);
     am_hal_uart_interrupt_clear(phUART, ui32Status);
     am_hal_uart_interrupt_service(phUART, ui32Status, &ui32Idle);
+
+    ns_uart_config_t * ctx = &ns_uart_config;
+
     // Set the data available flag if RX interrupt is set
-    if (ui32Status & AM_HAL_UART_INT_RX)
+    if (ui32Status & (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_RX_TMOUT))
     {
+        g_sUartTransaction.status = AM_HAL_UART_INT_RX;
+        if (ctx->rx_cb != NULL)
+        {
+            ctx->rx_cb(&g_sUartTransaction);
+        }
         g_DataAvailable = true;
+    }
+    else if (ui32Status & AM_HAL_UART_INT_TX)
+    {
+        g_sUartTransaction.status = AM_HAL_UART_INT_TX;
+        if (ctx->tx_cb != NULL)
+        {
+            ctx->tx_cb(&g_sUartTransaction);
+        }
     }
 }
 

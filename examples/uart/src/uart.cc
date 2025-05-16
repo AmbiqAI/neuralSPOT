@@ -15,8 +15,23 @@ ns_uart_config_t uart_config = {
     .api=&ns_uart_V0_0_1,
     .uart_config = &g_sUartConfig,
     .tx_blocking = true,
-    .rx_blocking = true
+    .rx_blocking = true,
 };
+char txbuffer[256];
+
+void my_rx_cb(ns_uart_transaction_t *t)
+{
+    static int i = 0;
+    char data;
+    if(ns_uart_nonblocking_receive_data(&uart_config, &data, 1) == AM_HAL_STATUS_SUCCESS)
+    {
+        txbuffer[i++] = data;
+        ns_uart_blocking_send_data(&uart_config, &txbuffer[i-1], 1);
+
+        txbuffer[i++] = data;
+        if (i >= sizeof(txbuffer)) i = 0;
+    }
+}
 
 ns_uart_handle_t uart_handle = NULL;
 int main(void) {
@@ -28,31 +43,15 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     ns_itm_printf_enable();                                     // nada
     ns_lp_printf("UART init\n");
+
     NS_TRY(ns_uart_init(&uart_config, &uart_handle), "UART init failed.\n");
+    ns_uart_register_callbacks(uart_handle, my_rx_cb, NULL);
     ns_interrupt_master_enable();
 
     ns_lp_printf("UART init done\n");
     
-    char buffer[256];
-    char txbuffer[256];
-    char size[3];
-    int num_bytes = 0;
-    while(1) {
-        if(ns_uart_data_available()) {
-            // Receive number of bytes to read
-            uint32_t status = ns_uart_blocking_receive_data(&uart_config, size, 3);
-            if (status == AM_HAL_STATUS_SUCCESS) {
-                num_bytes = atoi(size); // Convert the received size to an integer
-                status = ns_uart_blocking_receive_data(&uart_config, buffer, num_bytes);
-                int buffer_size = strlen(buffer);
-                if(status == AM_HAL_STATUS_SUCCESS && num_bytes == buffer_size) {
-                    memcpy(txbuffer, buffer, num_bytes);
-                    ns_uart_blocking_send_data(&uart_config, txbuffer, num_bytes);
-                    memset(buffer, 0, num_bytes);
-                    memset(txbuffer, 0, num_bytes);
-                }
-        }
-        ns_delay_us(10000);
+
+    while (1) {
     }
-    }
+
 }

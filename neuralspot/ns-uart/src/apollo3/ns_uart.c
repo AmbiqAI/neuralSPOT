@@ -18,8 +18,8 @@ am_hal_uart_config_t g_sUartConfig =
     .ui32Parity = AM_HAL_UART_PARITY_NONE,
     .ui32StopBits = AM_HAL_UART_ONE_STOP_BIT,
     .ui32FlowControl = AM_HAL_UART_FLOW_CTRL_NONE,
-    .ui32FifoLevels = (AM_HAL_UART_TX_FIFO_1_2 |
-                       AM_HAL_UART_RX_FIFO_1_2),
+    .ui32FifoLevels = (AM_HAL_UART_TX_FIFO_1_8 |
+                       AM_HAL_UART_RX_FIFO_1_8),
     // Buffers
     .pui8TxBuffer = g_pui8TxBuffer,
     .ui32TxBufferSize = (uint32_t) sizeof(g_pui8TxBuffer),
@@ -181,7 +181,7 @@ uint32_t ns_uart_nonblocking_receive_data(ns_uart_config_t *cfg, char * rxBuffer
             .pui8Data = (uint8_t *)rxBuffer,
             .ui32NumBytes = size,
             .pui32BytesTransferred = &ui32BytesRead,
-            .ui32TimeoutMs = 1000,
+            .ui32TimeoutMs = 0,
         };
         status = am_hal_uart_transfer(phUART, &sUartRead);
             if (status == AM_HAL_STATUS_SUCCESS  && ui32BytesRead == size) {

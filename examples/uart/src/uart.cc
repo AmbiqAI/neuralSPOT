@@ -26,9 +26,7 @@ void my_rx_cb(ns_uart_transaction_t *t)
     if(ns_uart_nonblocking_receive_data(&uart_config, &data, 1) == AM_HAL_STATUS_SUCCESS)
     {
         txbuffer[i++] = data;
-        ns_uart_blocking_send_data(&uart_config, &txbuffer[i-1], 1);
-
-        txbuffer[i++] = data;
+        ns_uart_nonblocking_send_data(&uart_config, &txbuffer[i-1], 1);
         if (i >= sizeof(txbuffer)) i = 0;
     }
 }

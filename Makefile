@@ -35,11 +35,11 @@ modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules 	 += neuralspot/ns-uart
 modules      += neuralspot/ns-rpc
-
 modules      += neuralspot/ns-i2c
 ifneq ($(ARCH),apollo3)
 modules      += neuralspot/ns-spi
 modules      += neuralspot/ns-camera
+modules 	 += neuralspot/ns-imu
 endif
 modules      += neuralspot/ns-nnsp
 modules      += neuralspot/ns-features

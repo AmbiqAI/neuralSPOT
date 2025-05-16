@@ -24,154 +24,165 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 #include "har.h"
 #include "har_model.h"
 #include "har_peripherals.h"
-#include "imu/inv_imu_driver.h"
 #include "ns_spi.h"
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_energy_monitor.h"
+#include "ns_imu.h"
+#include "imu/inv_imu_driver.h"
+
 
 #include "ns_perf_profile.h"
 #include "ns_peripherals_power.h"
 #ifdef NS_USB_PRESENT
     #include "ns_usb.h"
 #endif
-ns_spi_config_t imu_spi_config = {.iom = 0};
 
-int my_read_reg(uint8_t reg, uint8_t *data, uint32_t len) {
-    return ns_spi_read(&imu_spi_config, data, len, reg | 0x80, 1, 0);
-}
-int my_write_reg(uint8_t reg, const uint8_t *data, uint32_t len) {
-    return ns_spi_write(&imu_spi_config, data, len, reg, 1, 0);
-}
-void my_sleep_us(uint32_t us) {
-    ns_delay_us(us);
-}
-#define iom_isr am_iom_isrx(0)
-#define am_iom_isrx(n) am_iom_isr(n)
-#define am_iom_isr(n) am_iomaster##n##_isr
-extern "C" void iom_isr(void) {
-    ns_spi_handle_iom_isr();
-}
-
-// am_hal_gpio_pincfg_t my_AM_BSP_GPIO_IOM0_CS =
-// {
-//     .GP.cfg_b.uFuncSel             = AM_HAL_PIN_10_NCE10,
-//     .GP.cfg_b.eGPInput             = AM_HAL_GPIO_PIN_INPUT_NONE,
-//     .GP.cfg_b.eGPRdZero            = AM_HAL_GPIO_PIN_RDZERO_READPIN,
-//     .GP.cfg_b.eIntDir              = AM_HAL_GPIO_PIN_INTDIR_LO2HI,
-//     .GP.cfg_b.eGPOutCfg            = AM_HAL_GPIO_PIN_OUTCFG_PUSHPULL,
-//     .GP.cfg_b.eDriveStrength       = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P5X,
-//     .GP.cfg_b.ePullup              = AM_HAL_GPIO_PIN_PULLUP_NONE,
-//     .GP.cfg_b.uNCE                 = AM_HAL_GPIO_NCE_IOM0CE0,
-//     .GP.cfg_b.eCEpol               = AM_HAL_GPIO_PIN_CEPOL_ACTIVELOW,
-//     .GP.cfg_b.uRsvd_0              = 0,
-//     .GP.cfg_b.ePowerSw             = AM_HAL_GPIO_PIN_POWERSW_NONE,
-//     .GP.cfg_b.eForceInputEn        = AM_HAL_GPIO_PIN_FORCEEN_NONE,
-//     .GP.cfg_b.eForceOutputEn       = AM_HAL_GPIO_PIN_FORCEEN_NONE,
-//     .GP.cfg_b.uRsvd_1              = 0,
-// };
+// ns_spi_config_t imu_spi_config = {.iom = 0};
+// #define iom_isr am_iom_isrx(0)
+// #define am_iom_isrx(n) am_iom_isr(n)
+// #define am_iom_isr(n) am_iomaster##n##_isr
+// extern "C" void iom_isr(void) {
+//     ns_spi_handle_iom_isr();
+// }
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
-    inv_imu_sensor_data_t d;
-    float                 accel_g[3];
-    float                 gyro_dps[3];
-    float                 temp_degc;
-	inv_imu_int_state_t   int_state;
-    
+    ns_imu_config_t  imu_cfg = {
+        .api = &ns_imu_V1_0_0,
+        .sensor = NS_IMU_SENSOR_ICM45605,
+        .iom    = 0,
+        .accel_fsr = ACCEL_CONFIG0_ACCEL_UI_FS_SEL_4_G,
+        .gyro_fsr  = GYRO_CONFIG0_GYRO_UI_FS_SEL_2000_DPS,
+        .accel_odr = ACCEL_CONFIG0_ACCEL_ODR_50_HZ,
+        .gyro_odr  = GYRO_CONFIG0_GYRO_ODR_50_HZ,
+        .accel_ln_bw = IPREG_SYS2_REG_131_ACCEL_UI_LPFBW_DIV_4,
+        .gyro_ln_bw  = IPREG_SYS1_REG_172_GYRO_UI_LPFBW_DIV_4,
+        .frame_available_cb = NULL
+    };
+    ns_imu_sensor_data_t imu_data;
+
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
     ns_itm_printf_enable();
-
     ns_lp_printf("Ready to test IMC\n"); 
+    NS_TRY(ns_imu_configure(&imu_cfg), "IMU Init Failed.\n");
+    ns_lp_printf("IMU Init Success\n");
 
-    inv_imu_device_t imu_dev;
-    uint8_t          whoami;
-
-    // Init SPI0 (AP510 EVB microbus)
-    am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM0);
-    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_SCK_CB,  g_AM_BSP_GPIO_IOM0_SCK_CB);
-    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_MISO_CB, g_AM_BSP_GPIO_IOM0_MISO_CB);
-    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_MOSI_CB, g_AM_BSP_GPIO_IOM0_MOSI_CB);
-    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_CS,      g_AM_BSP_GPIO_IOM0_CS);
-    am_hal_gpio_pinconfig(AM_BSP_GPIO_RST_CB,       g_AM_BSP_GPIO_RST_CB);
-    int ret = am_hal_gpio_state_write(AM_BSP_GPIO_RST_CB, AM_HAL_GPIO_OUTPUT_CLEAR);
-    ns_lp_printf("GPIO RST: %d\n", ret);
-    ns_spi_interface_init(&imu_spi_config, AM_HAL_IOM_100KHZ, AM_HAL_IOM_SPI_MODE_0);
-    uint8_t buff[4] = {0};
-    ns_delay_us(8000);
-
-
-    /* Transport layer initialization */
-    imu_dev.transport.read_reg   = my_read_reg;
-    imu_dev.transport.write_reg  = my_write_reg;
-    imu_dev.transport.sleep_us   = my_sleep_us;
-    imu_dev.transport.serif_type = UI_SPI4;
-
-    /* Wait 3 ms to ensure device is properly supplied  */
-    my_sleep_us(3000);
-
-    /* Check whoami */
-    inv_imu_get_who_am_i(&imu_dev, &whoami);
-    if (whoami != INV_IMU_WHOAMI)
-        ns_lp_printf("IMU WHOAMI: 0x%02X (expected 0x%02X)\n", whoami, INV_IMU_WHOAMI);
-    
-    ns_lp_printf("IMU WHOAMI: 0x%02X\n", whoami);
-
-    /* Trigger soft-reset */
-    inv_imu_soft_reset(&imu_dev);
-            ns_spi_read(&imu_spi_config, buff, 1, 0x72, 1, 0);
-        ns_lp_printf("SPI read of address 0x%x: 0x%x\n", 0x72, buff[0]);
-
-    uint32_t rc = 0;
-	/* Set FSR */
-	rc |= inv_imu_set_accel_fsr(&imu_dev, ACCEL_CONFIG0_ACCEL_UI_FS_SEL_4_G);
-	rc |= inv_imu_set_gyro_fsr(&imu_dev, GYRO_CONFIG0_GYRO_UI_FS_SEL_2000_DPS);
-
-	/* Set ODR */
-	rc |= inv_imu_set_accel_frequency(&imu_dev, ACCEL_CONFIG0_ACCEL_ODR_50_HZ);
-	rc |= inv_imu_set_gyro_frequency(&imu_dev, GYRO_CONFIG0_GYRO_ODR_50_HZ);
-
-	/* Set BW = ODR/4 */
-	rc |= inv_imu_set_accel_ln_bw(&imu_dev, IPREG_SYS2_REG_131_ACCEL_UI_LPFBW_DIV_4);
-	rc |= inv_imu_set_gyro_ln_bw(&imu_dev, IPREG_SYS1_REG_172_GYRO_UI_LPFBW_DIV_4);
-
-	/* Sensor registers are not available in ULP, so select RCOSC clock to use LP mode. */
-	rc |= inv_imu_select_accel_lp_clk(&imu_dev, SMC_CONTROL_0_ACCEL_LP_CLK_RCOSC);
-    rc |= inv_imu_set_accel_mode(&imu_dev, PWR_MGMT0_ACCEL_MODE_LN);
-    rc |= inv_imu_set_gyro_mode(&imu_dev, PWR_MGMT0_GYRO_MODE_LN);
-
-
-	/* Set power modes */
-	// if (use_ln) {
-	// 	if (accel_en)
-	// 	if (gyro_en)
-	// } else {
-	// 	if (accel_en)
-	// 		rc |= inv_imu_set_accel_mode(&imu_dev, PWR_MGMT0_ACCEL_MODE_LP);
-	// 	if (gyro_en)
-			// rc |= inv_imu_set_gyro_mode(&imu_dev, PWR_MGMT0_GYRO_MODE_LP);   
-            
-    while (1) {
-        // rc |= inv_imu_get_int_status(&imu_dev, INV_IMU_INT1, &int_state);
-        // if (int_state.INV_UI_DRDY) {
-            rc |= inv_imu_get_register_data(&imu_dev, &d);
-            accel_g[0]  = (float)(d.accel_data[0] * 4 /* gee */) / 32768;
-            accel_g[1]  = (float)(d.accel_data[1] * 4 /* gee */) / 32768;
-            accel_g[2]  = (float)(d.accel_data[2] * 4 /* gee */) / 32768;
-            gyro_dps[0] = (float)(d.gyro_data[0] * 2000 /* dps */) / 32768;
-            gyro_dps[1] = (float)(d.gyro_data[1] * 2000 /* dps */) / 32768;
-            gyro_dps[2] = (float)(d.gyro_data[2] * 2000 /* dps */) / 32768;
-            temp_degc   = (float)25 + ((float)d.temp_data / 128);
-            ns_lp_printf("accel: %f %f %f, gyro: %f %f %f, temp: %f\n",
-                accel_g[0], accel_g[1], accel_g[2],
-                gyro_dps[0], gyro_dps[1], gyro_dps[2],
-                temp_degc);
-        // }
-    }
+    // Main loop
+    // while (1) {
+        ns_delay_us(1000);
+        NS_TRY(ns_imu_get_data(&imu_cfg, &imu_data), "IMU Get Data Failed.\n");
+        ns_lp_printf("IMU Data: Accel: %f %f %f, Gyro: %f %f %f, Temp: %f\n",
+                     imu_data.accel_g[0], imu_data.accel_g[1], imu_data.accel_g[2],
+                     imu_data.gyro_dps[0], imu_data.gyro_dps[1], imu_data.gyro_dps[2],
+                     imu_data.temp_degc);
+    while(1);
+                     // }
 }
+
+// int main_old(void) {
+//     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
+//     inv_imu_sensor_data_t d;
+//     float                 accel_g[3];
+//     float                 gyro_dps[3];
+//     float                 temp_degc;
+// 	inv_imu_int_state_t   int_state;
+    
+//     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
+//     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+//     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
+//     ns_itm_printf_enable();
+
+//     ns_lp_printf("Ready to test IMC\n"); 
+
+//     inv_imu_device_t imu_dev;
+//     uint8_t          whoami;
+
+//     // Init SPI0 (AP510 EVB microbus)
+//     am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM0);
+//     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_SCK_CB,  g_AM_BSP_GPIO_IOM0_SCK_CB);
+//     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_MISO_CB, g_AM_BSP_GPIO_IOM0_MISO_CB);
+//     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_MOSI_CB, g_AM_BSP_GPIO_IOM0_MOSI_CB);
+//     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_CS,      g_AM_BSP_GPIO_IOM0_CS);
+//     am_hal_gpio_pinconfig(AM_BSP_GPIO_RST_CB,       g_AM_BSP_GPIO_RST_CB);
+//     int ret = am_hal_gpio_state_write(AM_BSP_GPIO_RST_CB, AM_HAL_GPIO_OUTPUT_CLEAR);
+//     ns_lp_printf("GPIO RST: %d\n", ret);
+//     ns_spi_interface_init(&imu_spi_config, AM_HAL_IOM_100KHZ, AM_HAL_IOM_SPI_MODE_0);
+//     uint8_t buff[4] = {0};
+//     ns_delay_us(8000);
+
+
+//     /* Transport layer initialization */
+//     imu_dev.transport.read_reg   = my_read_reg;
+//     imu_dev.transport.write_reg  = my_write_reg;
+//     imu_dev.transport.sleep_us   = my_sleep_us;
+//     imu_dev.transport.serif_type = UI_SPI4;
+
+//     /* Wait 3 ms to ensure device is properly supplied  */
+//     my_sleep_us(3000);
+
+//     /* Check whoami */
+//     inv_imu_get_who_am_i(&imu_dev, &whoami);
+//     if (whoami != INV_IMU_WHOAMI)
+//         ns_lp_printf("IMU WHOAMI: 0x%02X (expected 0x%02X)\n", whoami, INV_IMU_WHOAMI);
+    
+//     ns_lp_printf("IMU WHOAMI: 0x%02X\n", whoami);
+
+//     /* Trigger soft-reset */
+//     inv_imu_soft_reset(&imu_dev);
+//             ns_spi_read(&imu_spi_config, buff, 1, 0x72, 1, 0);
+//         ns_lp_printf("SPI read of address 0x%x: 0x%x\n", 0x72, buff[0]);
+
+//     uint32_t rc = 0;
+// 	/* Set FSR */
+// 	rc |= inv_imu_set_accel_fsr(&imu_dev, ACCEL_CONFIG0_ACCEL_UI_FS_SEL_4_G);
+// 	rc |= inv_imu_set_gyro_fsr(&imu_dev, GYRO_CONFIG0_GYRO_UI_FS_SEL_2000_DPS);
+
+// 	/* Set ODR */
+// 	rc |= inv_imu_set_accel_frequency(&imu_dev, ACCEL_CONFIG0_ACCEL_ODR_50_HZ);
+// 	rc |= inv_imu_set_gyro_frequency(&imu_dev, GYRO_CONFIG0_GYRO_ODR_50_HZ);
+
+// 	/* Set BW = ODR/4 */
+// 	rc |= inv_imu_set_accel_ln_bw(&imu_dev, IPREG_SYS2_REG_131_ACCEL_UI_LPFBW_DIV_4);
+// 	rc |= inv_imu_set_gyro_ln_bw(&imu_dev, IPREG_SYS1_REG_172_GYRO_UI_LPFBW_DIV_4);
+
+// 	/* Sensor registers are not available in ULP, so select RCOSC clock to use LP mode. */
+// 	rc |= inv_imu_select_accel_lp_clk(&imu_dev, SMC_CONTROL_0_ACCEL_LP_CLK_RCOSC);
+//     rc |= inv_imu_set_accel_mode(&imu_dev, PWR_MGMT0_ACCEL_MODE_LN);
+//     rc |= inv_imu_set_gyro_mode(&imu_dev, PWR_MGMT0_GYRO_MODE_LN);
+
+
+// 	/* Set power modes */
+// 	// if (use_ln) {
+// 	// 	if (accel_en)
+// 	// 	if (gyro_en)
+// 	// } else {
+// 	// 	if (accel_en)
+// 	// 		rc |= inv_imu_set_accel_mode(&imu_dev, PWR_MGMT0_ACCEL_MODE_LP);
+// 	// 	if (gyro_en)
+// 			// rc |= inv_imu_set_gyro_mode(&imu_dev, PWR_MGMT0_GYRO_MODE_LP);   
+            
+//     while (1) {
+//         // rc |= inv_imu_get_int_status(&imu_dev, INV_IMU_INT1, &int_state);
+//         // if (int_state.INV_UI_DRDY) {
+//             rc |= inv_imu_get_register_data(&imu_dev, &d);
+//             accel_g[0]  = (float)(d.accel_data[0] * 4 /* gee */) / 32768;
+//             accel_g[1]  = (float)(d.accel_data[1] * 4 /* gee */) / 32768;
+//             accel_g[2]  = (float)(d.accel_data[2] * 4 /* gee */) / 32768;
+//             gyro_dps[0] = (float)(d.gyro_data[0] * 2000 /* dps */) / 32768;
+//             gyro_dps[1] = (float)(d.gyro_data[1] * 2000 /* dps */) / 32768;
+//             gyro_dps[2] = (float)(d.gyro_data[2] * 2000 /* dps */) / 32768;
+//             temp_degc   = (float)25 + ((float)d.temp_data / 128);
+//             ns_lp_printf("accel: %f %f %f, gyro: %f %f %f, temp: %f\n",
+//                 accel_g[0], accel_g[1], accel_g[2],
+//                 gyro_dps[0], gyro_dps[1], gyro_dps[2],
+//                 temp_degc);
+//         // }
+//     }
+// }
 
 
 #ifdef neverever

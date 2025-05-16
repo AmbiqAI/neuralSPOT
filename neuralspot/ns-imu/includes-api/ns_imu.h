@@ -9,33 +9,35 @@
  * 
  */
 #ifndef NS_IMU
-    #define NS_IMU
+#define NS_IMU
 
 #ifdef __cplusplus
 extern "C" {
-    #endif
+#endif
 
-    #include "am_bsp.h"
-    #include "am_mcu_apollo.h"
-    #include "am_util.h"
-    #include "ns_core.h"
-    #include "ns_spi.h"
-    #include "ns_i2c.h"
-    #include "icm45605.h"
+#include "am_bsp.h"
+#include "am_mcu_apollo.h"
+#include "am_util.h"
+#include "ns_core.h"
+#include "ns_spi.h"
+#include "ns_i2c.h"
 
-    #define NS_IMU_V0_0_1                                                                          \
-        { .major = 0, .minor = 0, .revision = 1 }
-    #define NS_IMU_V1_0_0                                                                          \
-        { .major = 1, .minor = 0, .revision = 0 }
+#define NS_IMU_V0_0_1                                                                          \
+    { .major = 0, .minor = 0, .revision = 1 }
+#define NS_IMU_V1_0_0                                                                          \
+    { .major = 1, .minor = 0, .revision = 0 }
 
-    #define NS_IMU_OLDEST_SUPPORTED_VERSION NS_IMU_V0_0_1
-    #define NS_IMU_CURRENT_VERSION NS_IMU_V1_0_0
-    #define NS_IMU_API_ID 0xCA000C
+#define NS_IMU_OLDEST_SUPPORTED_VERSION NS_IMU_V0_0_1
+#define NS_IMU_CURRENT_VERSION NS_IMU_V1_0_0
+#define NS_IMU_API_ID 0xCA000C
 
 extern const ns_core_api_t ns_imu_V0_0_1;
 extern const ns_core_api_t ns_imu_V1_0_0;
 extern const ns_core_api_t ns_imu_oldest_supported_version;
 extern const ns_core_api_t ns_imu_current_version;
+
+// Define the callback function type
+typedef void (*ns_imu_frame_available_cb)(void *arg); // arg is the ns_imu_config_t struct
 
 typedef enum {
     NS_IMU_SENSOR_ICM45605,
@@ -43,22 +45,52 @@ typedef enum {
     NS_IMU_SENSOR_MAX
 } ns_imu_sensor_e;
 
-// Configuration struct
 typedef struct {
-    ns_core_api_t *api;
-    ns_imu_sensor_e sensor;
-    uint32_t sampleRate;
-    uint32_t bufferSize;
-    // ns_imu_frame_available_cb callback;
-    void *buffer;
+    const ns_core_api_t *api;
+    ns_imu_sensor_e     sensor;
+    uint32_t            iom; // only for SPI sensors
+
+    // IMU Configuration
+    uint32_t       accel_fsr;
+    uint32_t       gyro_fsr;
+    uint32_t       accel_odr;
+    uint32_t       gyro_odr;
+    uint32_t       accel_ln_bw;
+    uint32_t       gyro_ln_bw;
+
+    // Frame mode configuration - set callback to enable, NULL to disable
+    ns_imu_frame_available_cb frame_available_cb; /// Called when frame_size samples have been collected
+    uint32_t       frame_size;
+    char           *frame_buffer;
+
+    // Internal state
+    void            *imu_dev_handle; // IMU device handle
+    ns_spi_config_t *spi_cfg;        // SPI configuration
 } ns_imu_config_t;
 
-uint32_t ns_imu_init(ns_imu_config_t *cfg);
-uint32_t ns_read_sensor_data(ns_imu_config_t *cfg, void *data, uint32_t size);
+typedef struct {
+    float accel_g[3];
+    float gyro_dps[3];
+    float temp_degc;
+} ns_imu_sensor_data_t;
 
-// ICM45605 prototypes
-int8_t ns_imu_ICM45605_init(port);
-int8_t ns_imu_ICM45605_get_accel_gyro(uint8_t *buff);
+// API functions
+
+/**
+ * @brief Configure the EVB, SPI and IMU
+ * 
+ * @param cfg 
+ */
+uint32_t ns_imu_configure(ns_imu_config_t *cfg); // Will soft reset and configure the IMU
+
+/**
+ * @brief Retrieve 6DOF data from configured IMU
+ * 
+ * @param cfg Config struct
+ * @param data Data retrieved in floating point natural units (g, dps, degC)
+ * @return uin32_t status
+ */
+uint32_t ns_imu_get_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data);
 
 #ifdef __cplusplus
 }

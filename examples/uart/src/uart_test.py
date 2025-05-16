@@ -19,7 +19,7 @@ def find_tty():
 
     return tty
 
-BAUD_RATE = 115200            # Update this to your baud rate
+BAUD_RATE = 115200
 
 def main():
     SERIAL_PORT = find_tty()
@@ -33,14 +33,14 @@ def main():
         # Continuous loop to alternately send and receive data
         while True:
             # Generate a random command
-            command_size = random.randint(1, 255)
-            ser.write(f"{command_size:03}".encode())
+            command_size = random.randint(1, 25)
+            # ser.write(f"{command_size:03}".encode())
             print(f'sending over {command_size} bytes')
             command = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', k=command_size))
             time.sleep(0.01)
             ser.write(command.encode())
             print(f"Sent: {command.strip()}")
-            time.sleep(0.1)
+            time.sleep(2)
             # Wait for a response from the microcontroller
             try:
                 response = ser.read(command_size + 1)
@@ -54,6 +54,7 @@ def main():
                     print("Received empty response.\n\n")
             except OSError as e:
                 print(f"Error reading from serial port: {e}")
+            time.sleep(1)
 
     except serial.SerialException as e:
         print(f"Error: {e}")

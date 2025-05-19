@@ -65,6 +65,8 @@ typedef struct
 }
 ns_uart_config_t;
 
+extern ns_uart_config_t ns_uart_config;
+
 /**
  * @brief Initialize the UART system
  *

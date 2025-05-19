@@ -63,5 +63,5 @@ uint32_t ns_uart_init(ns_uart_config_t *cfg, ns_uart_handle_t * handle) {
 }
 
 bool ns_uart_data_available(void) {
-    return g_DataAvailable;;
+    return g_DataAvailable;
 }

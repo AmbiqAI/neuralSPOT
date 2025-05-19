@@ -1,0 +1,10 @@
+local_src := $(wildcard $(subdirectory)/imu/*.c)
+local_src += $(wildcard $(subdirectory)/imu/*.cc)
+local_src += $(wildcard $(subdirectory)/imu/*.cpp)
+local_src += $(wildcard $(subdirectory)/imu/*.s)
+includes_api += $(subdirectory)
+
+local_bin := $(BINDIR)/$(subdirectory)
+bindirs   += $(local_bin)
+# sources   += $(local_src)
+$(eval $(call make-library, $(local_bin)/icm45605.a, $(local_src)))

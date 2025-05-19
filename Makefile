@@ -35,11 +35,11 @@ modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules 	 += neuralspot/ns-uart
 modules      += neuralspot/ns-rpc
-
 modules      += neuralspot/ns-i2c
 ifneq ($(ARCH),apollo3)
 modules      += neuralspot/ns-spi
 modules      += neuralspot/ns-camera
+modules 	 += neuralspot/ns-imu
 endif
 modules      += neuralspot/ns-nnsp
 modules      += neuralspot/ns-features
@@ -59,6 +59,7 @@ modules 	 += extern/CMSIS/$(CMSIS_DSP_VERSION)
 modules      += extern/tensorflow/$(TF_VERSION)
 # modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules 	 += extern/codecs/opus-precomp
+modules 	 += extern/drivers/tdk/icm45605
 
 ifeq ($(BLE_SUPPORTED),1)
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio

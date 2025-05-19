@@ -9,5 +9,8 @@
  * 
  */
 
+
 uint32_t ns_imu_ICM45605_init(ns_imu_config_t *cfg);
 uint32_t ns_imu_ICM_45606_get_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data);
+uint32_t ns_imu_ICM45605_configure_interrupts(ns_imu_config_t *cfg);
+uint32_t ns_imu_ICM_45605_handle_interrupt(void);

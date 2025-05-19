@@ -46,6 +46,12 @@ typedef enum {
 } ns_imu_sensor_e;
 
 typedef struct {
+    float accel_g[3];
+    float gyro_dps[3];
+    float temp_degc;
+} ns_imu_sensor_data_t;
+
+typedef struct {
     const ns_core_api_t *api;
     ns_imu_sensor_e     sensor;
     uint32_t            iom; // only for SPI sensors
@@ -57,22 +63,21 @@ typedef struct {
     uint32_t       gyro_odr;
     uint32_t       accel_ln_bw;
     uint32_t       gyro_ln_bw;
+    uint32_t       calibrate; // true to calibrate the IMU
 
     // Frame mode configuration - set callback to enable, NULL to disable
     ns_imu_frame_available_cb frame_available_cb; /// Called when frame_size samples have been collected
     uint32_t       frame_size;
-    char           *frame_buffer;
+    ns_imu_sensor_data_t *frame_buffer;
 
     // Internal state
     void            *imu_dev_handle; // IMU device handle
     ns_spi_config_t *spi_cfg;        // SPI configuration
+    uint32_t        calibrated;
+    float           accel_bias[3];   // bias to subtract from accel_g
+    float           gyro_bias[3];    // bias to subtract from gyro_dps
 } ns_imu_config_t;
 
-typedef struct {
-    float accel_g[3];
-    float gyro_dps[3];
-    float temp_degc;
-} ns_imu_sensor_data_t;
 
 // API functions
 

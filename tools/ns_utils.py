@@ -83,7 +83,7 @@ def xxd_c_dump(
         else: # TCM
             prefix = "NS_PUT_IN_TCM"
 
-        wfp.write(f"{prefix} alignas(16) unsigned char {var_name}[] = {{{os.linesep}")
+        wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"
@@ -268,3 +268,50 @@ def rpc_connect_as_client(params):
         return client
     except:
         print("Couldn't establish RPC connection EVB USB device %s" % tty)
+
+
+import subprocess
+import re
+
+def get_armclang_version():
+    """
+    Runs `armclang --version`, captures its output, and extracts the
+    version number from the “Component: Arm Compiler for Embedded X.YZ” line.
+    Returns:
+        A string like "6.23"
+    Raises:
+        RuntimeError if the command fails.
+        ValueError if no version number can be found.
+    """
+    # Run the command and capture both stdout and stderr
+    try:
+        proc = subprocess.run(
+            ["armclang", "--version"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            check=True
+        )
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Failed to run armclang: {e}") from e
+
+    output = proc.stdout
+    # Look for: Component: Arm Compiler for Embedded 6.23
+    match = re.search(
+        r"^Component:\s*Arm Compiler for Embedded\s*([\d\.]+)\s*$",
+        output,
+        re.MULTILINE
+    )
+    if not match:
+        raise ValueError(
+            "Could not find 'Component: Arm Compiler for Embedded <version>' in output:\n"
+            + output
+        )
+
+    print("armclang version found: ", match.group(1))
+    return match.group(1)
+
+
+if __name__ == "__main__":
+    version = get_armclang_version()
+    print("Detected armclang version:", version)

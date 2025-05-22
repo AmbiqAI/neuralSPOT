@@ -124,6 +124,21 @@ SECTIONS
         _ebss = .;
     } > MCU_TCM
 
+    /*--------------------------------------------------------------------------
+     * Uninitialized data in Shared SRAM
+     * Place with __attribute__((section(".sram_bss")))
+     *--------------------------------------------------------------------------*/
+    .sram_bss (NOLOAD):
+    {
+        . = ALIGN(4);
+        /* Marks start/end of SRAM BSS */
+        _ssram_bss = .;
+        *(.sram_bss)
+        *(.sram_bss*)
+        . = ALIGN(4);
+        _esram_bss = .;
+    } > SHARED_SRAM
+    
     .shared :
     {
         . = ALIGN(4);

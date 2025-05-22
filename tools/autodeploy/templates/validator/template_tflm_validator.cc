@@ -48,8 +48,8 @@
 #define NS_AD_RPC_TRANSPORT_USB 1
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024;
-uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 4) * 1024] __attribute__((aligned(4)));
+size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024;
+NS_SRAM_BSS uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((aligned(4)));
 #endif
 
 // TFLM Config and arena
@@ -73,9 +73,9 @@ ns_model_state_t tflm;
         #if (TFLM_ARENA_LOCATION == NS_AD_SRAM)
             #ifdef keil6
             // Align to 16 bytes
-            AM_SHARED_RW __attribute__((aligned(16))) static uint8_t tensor_arena[kTensorArenaSize];
+            NS_SRAM_BSS __attribute__((aligned(16))) static uint8_t tensor_arena[kTensorArenaSize];
             #else
-            AM_SHARED_RW alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
+            NS_SRAM_BSS alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
             #endif
         #else
             NS_PUT_IN_TCM alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
@@ -89,8 +89,8 @@ static constexpr int kVarArenaSize =
 alignas(16) static uint8_t var_arena[kVarArenaSize];
 
 // Validator Stuff
-AM_SHARED_RW ns_incoming_config_t mut_cfg;
-AM_SHARED_RW ns_outgoing_stats_t mut_stats;
+NS_SRAM_BSS ns_incoming_config_t mut_cfg;
+NS_SRAM_BSS ns_outgoing_stats_t mut_stats;
 static uint32_t invokes_so_far = 0;
 bool input_tensor_is_chunked = false;
 bool output_tensor_is_chunked = false;
@@ -349,7 +349,7 @@ status getStatistics(dataBlock *res) {
     #endif
 
     if (mut_cfg.config.full_pmu_stats == 1) {
-        mut_stats.stats.pmu_count = sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t);
+        mut_stats.stats.pmu_count = NS_NUM_PMU_MAP_SIZE;
     } else {
         mut_stats.stats.pmu_count = 0;
     }
@@ -423,7 +423,7 @@ status getStatistics(dataBlock *res) {
         // After last stats, we need to switch to PMU layer mode if full PMU stats were requested
         if (mut_cfg.config.full_pmu_stats == 1) {
             pmuCounterLayer = 0;
-            mut_stats.stats.pmu_events_per_layer = sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t);
+            mut_stats.stats.pmu_events_per_layer = NS_NUM_PMU_MAP_SIZE;
             pmu_events_per_layer = mut_stats.stats.pmu_events_per_layer; // mut_stats is a union, can't use it as state
         }
     } else {
@@ -497,7 +497,7 @@ status getStatChunk(dataBlock *res) {
         // After last stats, we need to switch to PMU layer mode if full PMU stats were requested
         if (mut_cfg.config.full_pmu_stats == 1) {
             pmuCounterLayer = 0;
-            mut_stats.stats.pmu_events_per_layer = sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t);
+            mut_stats.stats.pmu_events_per_layer = NS_NUM_PMU_MAP_SIZE;
             pmu_events_per_layer = mut_stats.stats.pmu_events_per_layer; // mut_stats is a union, can't use it as state
         }        
     } else {
@@ -531,7 +531,7 @@ status decodeIncomingFetchblock(dataBlock *ret) {
 uint32_t output_tensor_chunk_offset = 0;
 uint32_t totalSize = 0;
 uint32_t remaining = 0;
-AM_SHARED_RW uint8_t output_tensor_buffer[NS_OUTPUT_TENSOR_BUFFER_SIZE];
+NS_SRAM_BSS uint8_t output_tensor_buffer[NS_OUTPUT_TENSOR_BUFFER_SIZE];
 binary_t binaryBlock;
 
 // For PMU characterization
@@ -699,8 +699,8 @@ void ns_preAction(void) { ns_lp_printf("Starting action\n"); }
 
 void ns_postAction(void) { ns_lp_printf("Stopping action\n"); }
 
-uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
-uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
+NS_SRAM_BSS uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
+NS_SRAM_BSS uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};

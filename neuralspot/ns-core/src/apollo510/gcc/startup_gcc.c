@@ -496,6 +496,18 @@ Reset_Handler(void)
           "        strlt   r2, [r0], #4\n"
           "        blt     zero_loop");
 
+   //
+   // Zero fill the shared‐SRAM BSS region.
+   //
+   __asm("    ldr     r0, =_ssram_bss\n"
+         "    ldr     r1, =_esram_bss\n"
+         "    mov     r2, #0\n"
+         "zero_sram_loop:\n"
+         "        cmp     r0, r1\n"
+         "        it      lt\n"
+         "        strlt   r2, [r0], #4\n"
+         "        blt     zero_sram_loop\n");   
+
     //
     // CMSIS System Initialization
     //

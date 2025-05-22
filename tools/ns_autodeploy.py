@@ -17,7 +17,7 @@ from neuralspot.tools.autodeploy.validator import (
     printStats,
     validateModel,
 )
-from neuralspot.tools.ns_utils import ModelDetails, reset_dut, rpc_connect_as_client
+from neuralspot.tools.ns_utils import ModelDetails, reset_dut, rpc_connect_as_client, get_armclang_version
 import neuralspot.tools.ns_platform as ns_platform
 from pydantic import BaseModel, Field
 from pathlib import Path
@@ -147,6 +147,8 @@ class Params(BaseModel):
 
     # Logging Parameters
     verbosity: int = Field(1, description="Verbosity level (0-4)")
+    nocompile_mode: bool = Field(False, description="Prevents compile and flash, meant for GDB debug")
+    run_log_id: str = Field("none", description="Run ID for the run log. If none, no ID is included in report.")
 
     # RPC Parameters
     transport: str = Field("auto", description="RPC transport, 'auto' for autodetect. Can set to USB or UART.")
@@ -182,8 +184,10 @@ class adResults:
         # self.stats_filename = p.stats_filename
         self.model_name = p.model_name
         self.p = p
+        self.toolchain = p.toolchain
         self.model_size = 0
         self.arena_size = 0
+        # print(f"toolchain: {p.toolchain}")
 
     def print(self):
         print("")
@@ -244,14 +248,12 @@ Notes:
         # Model Filename, Platform,	Compiler, TF Verssion, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run
         
         # Given p.toolchain, find the version of the compiler
-    
-        if self.p.toolchain == "gcc":
+        if self.toolchain == "gcc":
             # Format for gcc --version is "arm-none-eabi-gcc (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009"
             compiler_version = os.popen("arm-none-eabi-gcc --version").read().split(" ")[4]
-        elif self.p.toolchain == "arm":
-            # Format for armclang --version is "Arm Compiler 6.16"
-            compiler_version = os.popen("armclang --version").read().split(" ")[2]
-
+        elif self.toolchain == "arm":
+            compiler_version = "armclang " + get_armclang_version()
+        print (f"[NS] Compiler Version: {compiler_version}")
         # get today's date
         from datetime import date
         today = date.today()
@@ -262,11 +264,11 @@ Notes:
             if not os.path.exists(self.p.resultlog_file):
                 with open(self.p.resultlog_file, "w") as f:
                     f.write(
-                        "Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run\n"
+                        "Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run, ID\n"
                     )
             with open(self.p.resultlog_file, "a") as f:
                 f.write(
-                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.p.ambiqsuite_version},{d1}\n"
+                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.p.ambiqsuite_version},{d1}, {self.p.run_log_id}\n"
                 )
 
 
@@ -351,8 +353,12 @@ def main():
     if params.destination_rootdir == "auto":
         # check that projects/autodeploy exists
         if not os.path.exists(params.neuralspot_rootdir / "projects" / "autodeploy"):
-            log.error(f"{params.neuralspot_rootdir}/projects/autodeploy directory not found. Please specify a valid path using --destination_rootdir")
-            exit("Autodeploy failed")
+            # if it doesn't exist, create it
+            try:
+                os.makedirs(params.neuralspot_rootdir / "projects" / "autodeploy")
+            except OSError as e:
+                log.error(f"{params.neuralspot_rootdir}/projects/autodeploy directory not found and could not be created. Please specify a valid path using --destination_rootdir")
+                exit("Autodeploy failed")
         params.destination_rootdir = params.neuralspot_rootdir / "projects" / "autodeploy"
         # convert to string
         params.destination_rootdir = str(params.destination_rootdir)
@@ -502,6 +508,7 @@ def main():
             )
 
     stash_arena_location = params.arena_location
+    print(f"NS toolchain: {params.toolchain}")
     results = adResults(params)
     results.setModelSize(model_size)
 
@@ -516,7 +523,10 @@ def main():
         # Always use SRAM (larget ram) for the first pass
         params.arena_location = "SRAM"
 
-        create_validation_binary(params, True, mc)
+        if params.nocompile_mode:
+            print("[NS WARNING] Debug mode, skipping binary compile and flash!")
+        else:
+            create_validation_binary(params, True, mc)
         client = rpc_connect_as_client(params)
 
         configModel(params, client, md)
@@ -549,7 +559,10 @@ def main():
                 print(f"[NS] Model plus Arena do not fit in Data TCM. Moving model to MRAM.")
                 params.model_location = "MRAM"
 
-        create_validation_binary(params, False, mc)
+        if params.nocompile_mode:
+            print("[NS WARNING] Debug mode, skipping binary compile and flash!")
+        else:
+            create_validation_binary(params, False, mc)
         client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
         configModel(params, client, md)
 
@@ -602,7 +615,11 @@ def main():
                 if model_size + mc.arena_size_k > pc.GetDTCMSize():
                     print(f"[NS] Model plus Arena do not fit in Data TCM. Moving model to MRAM.")
                     params.model_location = "MRAM"
-            create_validation_binary(params, False, mc)
+            
+            if params.nocompile_mode:
+                print("[NS WARNING] Debug mode, skipping binary compile and flash!")
+            else:
+                create_validation_binary(params, False, mc)
             client = rpc_connect_as_client(params)  # compiling resets EVB, need reconnect
             configModel(params, client, md)
 

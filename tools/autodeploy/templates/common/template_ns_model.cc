@@ -181,7 +181,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
 #ifdef NS_MLPROFILE
     // Need a timer for the profiler to collect latencies
     NS_TRY(ns_timer_init(ms->tickTimer), "Timer init failed.\n");
-    static tflite::MicroProfiler micro_profiler;
+    AM_SHARED_RW static tflite::MicroProfiler micro_profiler;
     ms->profiler = &micro_profiler;
     // Create the config struct for the debug log
     ns_debug_log_init_t cfg = {

@@ -282,6 +282,7 @@ def configModel(params, client, md):
         except:
             log.error("RPC call failed, retrying after reset")
             reset_dut(params)
+            time.sleep(5)
             retries -= 1
         else:
             break
@@ -812,7 +813,7 @@ def compile_and_deploy(params, mc, first_time=False):
     if first_time:
         makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make clean >{ws3} 2>&1 ")
 
-    if params.create_profile:
+    if (params.create_profile) or (params.create_binary):
 
         if params.verbosity > 3:
             print(
@@ -834,7 +835,8 @@ def compile_and_deploy(params, mc, first_time=False):
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
     else:
         if params.verbosity > 3:
-
+            print (
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy")
             makefile_result = os.system(
                 f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )

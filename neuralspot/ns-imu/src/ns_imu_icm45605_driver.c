@@ -32,6 +32,11 @@ uint32_t ns_calibrate_icm45605(ns_imu_config_t *cfg);
 
 uint32_t ns_imu_ICM45605_init(ns_imu_config_t *cfg) {
     uint8_t whoami;
+    uint32_t status = NS_STATUS_SUCCESS;
+    if (cfg == NULL) {
+        ns_lp_printf("Invalid handle\n");
+        return NS_STATUS_INVALID_HANDLE;
+    }
 
     /* Transport layer initialization */
     cfg->imu_dev_handle = &ns_imu_icm45605_dev;
@@ -44,42 +49,46 @@ uint32_t ns_imu_ICM45605_init(ns_imu_config_t *cfg) {
     ns_imu_icm45605_dev.transport.serif_type = UI_SPI4;
 
     // Check that device is present
-    inv_imu_get_who_am_i(&ns_imu_icm45605_dev, &whoami);
+    status = inv_imu_get_who_am_i(&ns_imu_icm45605_dev, &whoami);
     if (whoami != INV_IMU_WHOAMI) {
         ns_lp_printf("IMU WHOAMI: 0x%02X (expected 0x%02X)\n", whoami, INV_IMU_WHOAMI);
         return NS_STATUS_FAILURE;
     }
 
     // Trigger soft-reset
-    inv_imu_soft_reset(&ns_imu_icm45605_dev);
+    status |= inv_imu_soft_reset(&ns_imu_icm45605_dev);
     ns_delay_us(1000);
 
     // Set FSR
-    inv_imu_set_accel_fsr(&ns_imu_icm45605_dev, cfg->accel_fsr);
-    inv_imu_set_gyro_fsr(&ns_imu_icm45605_dev, cfg->gyro_fsr);
-    inv_imu_set_accel_frequency(&ns_imu_icm45605_dev, cfg->accel_odr);
-    inv_imu_set_gyro_frequency(&ns_imu_icm45605_dev, cfg->gyro_odr);
-    inv_imu_set_accel_ln_bw(&ns_imu_icm45605_dev, cfg->accel_ln_bw);
-    inv_imu_set_gyro_ln_bw(&ns_imu_icm45605_dev, cfg->gyro_ln_bw);
-	inv_imu_select_accel_lp_clk(&ns_imu_icm45605_dev, SMC_CONTROL_0_ACCEL_LP_CLK_RCOSC);
-    inv_imu_set_accel_mode(&ns_imu_icm45605_dev, PWR_MGMT0_ACCEL_MODE_LN); // LP?
-    inv_imu_set_gyro_mode(&ns_imu_icm45605_dev, PWR_MGMT0_GYRO_MODE_LN); // LP?
+    status |= inv_imu_set_accel_fsr(&ns_imu_icm45605_dev, cfg->accel_fsr);
+    status |= inv_imu_set_gyro_fsr(&ns_imu_icm45605_dev, cfg->gyro_fsr);
+    status |= inv_imu_set_accel_frequency(&ns_imu_icm45605_dev, cfg->accel_odr);
+    status |= inv_imu_set_gyro_frequency(&ns_imu_icm45605_dev, cfg->gyro_odr);
+    status |= inv_imu_set_accel_ln_bw(&ns_imu_icm45605_dev, cfg->accel_ln_bw);
+    status |= inv_imu_set_gyro_ln_bw(&ns_imu_icm45605_dev, cfg->gyro_ln_bw);
+	status |= inv_imu_select_accel_lp_clk(&ns_imu_icm45605_dev, SMC_CONTROL_0_ACCEL_LP_CLK_RCOSC);
+    status |= inv_imu_set_accel_mode(&ns_imu_icm45605_dev, PWR_MGMT0_ACCEL_MODE_LN); // LP?
+    status |= inv_imu_set_gyro_mode(&ns_imu_icm45605_dev, PWR_MGMT0_GYRO_MODE_LN); // LP?
 
     // If callback is set, configure interrupt. Invoker is responsible for INT pin setup.
     if (cfg->frame_available_cb != NULL) {
         cfg->frame_size = cfg->frame_size ? cfg->frame_size : 1;
-        ns_imu_ICM45605_configure_interrupts(cfg);
+        status |= ns_imu_ICM45605_configure_interrupts(cfg);
     }
 
     if (cfg->calibrate) {
         ns_lp_printf("NS_IMU: Calibrating ICM-45605\n");
-        ns_calibrate_icm45605(cfg);
+        status |= ns_calibrate_icm45605(cfg);
     } else {
         cfg->calibrated = 0; // set calibrated flag
     }
 
-    return NS_STATUS_SUCCESS;
+    return status;
 };
+
+float ns_imu_accel_map[] = {32, 16, 8, 4, 2};
+float ns_imu_gyro_map[] = {4000, 2000, 1000, 500, 250, 125, 62.5, 31.25, 15.625};
+
 
 /**
  * @brief Retrieve 6DOF data from configured IMU
@@ -90,44 +99,69 @@ uint32_t ns_imu_ICM45605_init(ns_imu_config_t *cfg) {
  */
 uint32_t ns_imu_ICM_45606_get_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data) {
     inv_imu_sensor_data_t d;
+    uint32_t status = NS_STATUS_SUCCESS;
+    if (cfg == NULL || data == NULL) {
+        ns_lp_printf("Invalid handle or data pointer\n");
+        return NS_STATUS_INVALID_HANDLE;
+    }
 
-    inv_imu_get_register_data(cfg->imu_dev_handle, &d);
-    data->accel_g[0]  = (float)(d.accel_data[0] * 4 /* gee */) / 32768;
-    data->accel_g[1]  = (float)(d.accel_data[1] * 4 /* gee */) / 32768;
-    data->accel_g[2]  = (float)(d.accel_data[2] * 4 /* gee */) / 32768;
-    data->gyro_dps[0] = (float)(d.gyro_data[0] * 2000 /* dps */) / 32768;
-    data->gyro_dps[1] = (float)(d.gyro_data[1] * 2000 /* dps */) / 32768;
-    data->gyro_dps[2] = (float)(d.gyro_data[2] * 2000 /* dps */) / 32768;
-    data->temp_degc   = (float)25 + ((float)d.temp_data / 128);
+    status = inv_imu_get_register_data(cfg->imu_dev_handle, &d);
 
-    // if calibration is set, apply it
-    if (cfg->calibrated) {
-        for (int i = 0; i < 3; i++) {
-            // ns_lp_printf("Data %d: Accel: %f, Gyro: %f\n", i, data->accel_g[i], data->gyro_dps[i]);
-            // ns_lp_printf("Bias %d: Accel: %f, Gyro: %f\n", i, cfg->accel_bias[i], cfg->gyro_bias[i]);
+    // Scale the data to natural units
+    for (int i = 0; i < 3; i++) {
+        data->accel_g[i]  = (float)(d.accel_data[i] * ns_imu_accel_map[cfg->accel_fsr]) / 32768;
+        data->gyro_dps[i] = (float)(d.gyro_data[i] * ns_imu_gyro_map[cfg->gyro_fsr]) / 32768;
+        if (cfg->calibrated) {
             data->accel_g[i]  -= cfg->accel_bias[i];
             data->gyro_dps[i] -= cfg->gyro_bias[i];
-            // ns_lp_printf("Adjusted Data %d: Accel: %f, Gyro: %f\n", i, data->accel_g[i], data->gyro_dps[i]);
         }
     }
+    data->temp_degc = (float)25 + ((float)d.temp_data / 128);
+    return status;
+}
+
+uint32_t ns_imu_ICM_45606_get_raw_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data) {
+    inv_imu_sensor_data_t d;
+    if (cfg == NULL || data == NULL) {
+        ns_lp_printf("Invalid handle or data pointer\n");
+        return NS_STATUS_INVALID_HANDLE;
+    }
+    if (NS_STATUS_SUCCESS != inv_imu_get_register_data(cfg->imu_dev_handle, &d)) {
+        ns_lp_printf("NS_IMU: Failed to get raw data from ICM-45605\n");
+        return NS_STATUS_FAILURE;
+    }
+    // Copy raw data to the output structure
+    for (int i = 0; i < 3; i++) {
+        data->accel_g[i]  = (float)d.accel_data[i]; // raw data in LSB
+        data->gyro_dps[i] = (float)d.gyro_data[i];  // raw data in LSB
+    }
+    data->temp_degc = (float)d.temp_data; // raw data in LSB
     return NS_STATUS_SUCCESS;
 }
 
 uint32_t ns_imu_ICM45605_configure_interrupts(ns_imu_config_t *cfg) {
 	inv_imu_int_pin_config_t int_pin_config;
-	inv_imu_int_state_t      int_config;    
+	inv_imu_int_state_t      int_config;
+    uint32_t status;
+    if (cfg == NULL || cfg->imu_dev_handle == NULL) {
+        ns_lp_printf("Invalid handle\n");
+        return NS_STATUS_INVALID_HANDLE;
+    }
     ns_lp_printf("NS_IMU ICM: Configuring GPIO interrupt\n");
 	int_pin_config.int_polarity = INTX_CONFIG2_INTX_POLARITY_HIGH;
 	int_pin_config.int_mode     = INTX_CONFIG2_INTX_MODE_PULSE;
 	int_pin_config.int_drive    = INTX_CONFIG2_INTX_DRIVE_PP;
-	inv_imu_set_pin_config_int(cfg->imu_dev_handle, INV_IMU_INT2, &int_pin_config);
-
+	status = inv_imu_set_pin_config_int(cfg->imu_dev_handle, INV_IMU_INT2, &int_pin_config);
+    if (status != NS_STATUS_SUCCESS) {
+        ns_lp_printf("NS_IMU ICM: Failed to set pin config for INT2\n");
+        return status;
+    }
 	/* Interrupts configuration */
 	memset(&int_config, INV_IMU_DISABLE, sizeof(int_config));
 	int_config.INV_UI_DRDY = INV_IMU_ENABLE;
-	inv_imu_set_config_int(cfg->imu_dev_handle, INV_IMU_INT2, &int_config);
+	status = inv_imu_set_config_int(cfg->imu_dev_handle, INV_IMU_INT2, &int_config);
 
-    return NS_STATUS_SUCCESS;
+    return status;
 }
 
 uint32_t ns_imu_ICM_45605_handle_interrupt(void) {

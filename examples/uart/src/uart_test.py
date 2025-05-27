@@ -19,7 +19,7 @@ def find_tty():
 
     return tty
 
-BAUD_RATE = 115200
+BAUD_RATE = 250000
 
 def main():
     SERIAL_PORT = find_tty()

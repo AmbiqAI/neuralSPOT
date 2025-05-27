@@ -57,8 +57,6 @@ int main(void) {
     ns_interrupt_master_enable();
 
     ns_lp_printf("UART init done\n");
-    // ns_uart_change_baud_rate(uart_handle, 250000);
-    int iteration = 0;
     while (1) {
     }
 

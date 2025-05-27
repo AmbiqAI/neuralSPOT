@@ -2,7 +2,6 @@ import serial
 import time
 import serial.tools.list_ports
 import random
-END_ITER = 5
 HIGH_BAUD = 921600
 LOW_BAUD  = 115200
 # Configure the serial port

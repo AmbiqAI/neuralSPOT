@@ -2,7 +2,9 @@ import serial
 import time
 import serial.tools.list_ports
 import random
-
+END_ITER = 5
+HIGH_BAUD = 921600
+LOW_BAUD  = 115200
 # Configure the serial port
 
 def find_tty():
@@ -19,52 +21,48 @@ def find_tty():
 
     return tty
 
-BAUD_RATE = 250000
-
 def main():
-    SERIAL_PORT = find_tty()
-    try:
-        # Open the serial port
-        ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=1)
-        print(f"Opened serial port {SERIAL_PORT} at {BAUD_RATE} baud.")
+    ser = serial.Serial(find_tty(), LOW_BAUD, timeout=1)
+    print(f"Opened {ser.port} @ {ser.baudrate} baud")
+    time.sleep(2)  # MCU reset
 
-        # Give the microcontroller some time to reset
-        time.sleep(2)
-        # Continuous loop to alternately send and receive data
-        while True:
-            # Generate a random command
-            command_size = random.randint(1, 25)
-            # ser.write(f"{command_size:03}".encode())
-            print(f'sending over {command_size} bytes')
-            command = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', k=command_size))
-            time.sleep(0.01)
-            ser.write(command.encode())
-            print(f"Sent: {command.strip()}")
-            time.sleep(2)
-            # Wait for a response from the microcontroller
-            try:
-                response = ser.read(command_size + 1)
-                if response:
-                    response = response.decode('utf-8').strip()
-                    print(f"Received: {response}\n\n")
-                    if response != command:
-                        print("Error: Received response does not match sent command.")
+    iteration = 0
+    while True:
+        # 1) Send one command (always ending in '\n')
+        iteration += 1
+        size = random.randint(1,25)
+        cmd  = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=size))
+        ser.write((cmd + '\n').encode())
+        print(f"[{iteration}] Sent: {cmd!r}")
 
-                else:
-                    print("Received empty response.\n\n")
-            except OSError as e:
-                print(f"Error reading from serial port: {e}")
-            time.sleep(1)
+        # 2) Read exactly one line back
+        line = ser.readline()          # reads until '\n' or timeout
+        if not line:
+            print("Timeout, no reply")
+            continue
 
-    except serial.SerialException as e:
-        print(f"Error: {e}")
-    except OSError as e:
-        print(f"OS Error: {e}")
-    finally:
-        # Close the serial port
-        if ser.is_open:
-            ser.close()
-            print("Closed serial port.")
+        # 3) Check for our special switch token
+        if line.strip() == b"SWITCH":
+            # host flips here
+            new_baud = HIGH_BAUD if ser.baudrate == LOW_BAUD else LOW_BAUD
+            ser.baudrate = new_baud
+            ser.reset_input_buffer()
+            ser.reset_output_buffer()
+            print(f"Host switched to {new_baud} baud")
+            # don’t try to decode or compare as a normal echo
+            continue
 
+        # 4) Otherwise it’s an echo of our command:
+        # decode safely (ASCII only)
+        try:
+            text = line.decode('ascii').rstrip('\r\n')
+        except UnicodeDecodeError:
+            text = line.decode('ascii', errors='ignore').rstrip('\r\n')
+        print(f"Received: {text!r}")
+
+        if text != cmd:
+
+            print("Mismatch!")
+        time.sleep(1)
 if __name__ == "__main__":
     main()

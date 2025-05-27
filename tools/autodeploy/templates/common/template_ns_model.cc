@@ -20,7 +20,7 @@
 #include "NS_AD_NAME_model.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
-#if (NS_AD_NAME_MODEL_LOCATION == NS_AD_PSRAM)
+#if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
     #include "ns_peripherals_psram.h"
 #endif
 #include "NS_AD_NAME_model_data.h"

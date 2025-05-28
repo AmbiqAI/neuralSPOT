@@ -1,12 +1,37 @@
 /*
 Basic MVE Function for Helium architecture
 */
+#include <string.h>
 #include <stdint.h>
 #include "ambiq_nnsp_debug.h"
+// #include "third_party/ns_cmsis_nn/Include/arm_nnsupportfunctions.h"
 #if ARM_OPTIMIZED == 3
 #include "basic_mve.h"
 #include <arm_mve.h>
 #include "ns_ambiqsuite_harness.h"
+/**
+ * @brief           memcpy optimized for MVE
+ * @param[in, out]  dst         Destination pointer
+ * @param[in]       src         Source pointer.
+ * @param[in]       block_size  Number of bytes to copy.
+ *
+ */
+__STATIC_FORCEINLINE void
+arm_memcpy_int8(int8_t *__RESTRICT dst, const int8_t *__RESTRICT src, uint32_t block_size) {
+#if defined(ARM_MATH_MVEI)
+    __asm volatile("   wlstp.8                 lr, %[cnt], 1f             \n"
+                   "2:                                                    \n"
+                   "   vldrb.8                 q0, [%[in]], #16            \n"
+                   "   vstrb.8                 q0, [%[out]], #16           \n"
+                   "   letp                    lr, 2b                     \n"
+                   "1:                                                    \n"
+                   : [in] "+r"(src), [out] "+r"(dst)
+                   : [cnt] "r"(block_size)
+                   : "q0", "memory", "r14");
+#else
+    memcpy(dst, src, block_size);
+#endif
+}
 void vec16_vec16_mul_32b(
         int32_t *y,
         int16_t *x1,
@@ -40,20 +65,10 @@ void move_data_16b(
         int16_t *dst,
         int len)
 {
-    int i;
-    int num = len >> 3;
-    int rem = len & 0x7;
-    int16x8_t *pt_src = (int16x8_t*) src;
-    int16x8_t *pt_dst = (int16x8_t*) dst;
-
-    for (i = 0; i < num; i++)
-        *pt_dst++ = *pt_src++;
-
-    if (rem) {
-        mve_pred16_t mask = vctp16q((uint32_t) rem);
-        int16x8_t tmp = vldrhq_z_s16((int16_t*) pt_src, mask);
-        vst1q_p_s16((int16_t*) pt_dst, tmp, mask);
-    }
+    arm_memcpy_int8(
+        (int8_t*) dst,
+        (int8_t*) src,
+        (len << 1));
 }
 
 void set_zero_32b(int32_t *dst, int len)

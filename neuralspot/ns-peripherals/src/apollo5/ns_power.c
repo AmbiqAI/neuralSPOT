@@ -126,9 +126,9 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
     MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
     MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
 #else
-    // MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
-    // MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
-    // MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
+    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
 #endif
 
     if (pCfg->bNeedSharedSRAM == false) {
@@ -144,7 +144,8 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
     } else {
          am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
             .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_3M,
-            .eActiveWithMCU   = PWRCTRL_SSRAMPWREN_PWRENSSRAM_ALL,
+            // .eActiveWithMCU   = PWRCTRL_SSRAMPWREN_PWRENSSRAM_ALL,
+            .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_NONE,
             .eActiveWithGFX   = AM_HAL_PWRCTRL_SRAM_NONE,
             .eActiveWithDISP  = AM_HAL_PWRCTRL_SRAM_NONE,          
             .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_3M
@@ -190,7 +191,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     // Configure the cache, Enable the I-Cache and D-Cache.
     am_hal_cachectrl_icache_enable();
     am_hal_cachectrl_dcache_enable(true);
-    // am_hal_pwrctrl_pwrmodctl_cpdlp_config(sDefaultCpdlpConfig);
+    am_hal_pwrctrl_pwrmodctl_cpdlp_config(sDefaultCpdlpConfig);
 
     #ifdef apollo510_evb_neverever
     // PATCH USB for EVB

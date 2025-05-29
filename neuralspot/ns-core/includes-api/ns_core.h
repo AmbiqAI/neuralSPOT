@@ -68,6 +68,16 @@ extern const ns_core_api_t ns_core_current_version;
             return NS_STATUS_FAILURE;                                                              \
         }
 
+#ifdef AM_PART_APOLLO5B
+#if defined(gcc)
+#define NS_SRAM_BSS __attribute__((section(".sram_bss")))
+#else
+#define NS_SRAM_BSS AM_SHARED_RW
+#endif
+#else
+#define NS_SRAM_BSS
+#endif
+
 /**
  * @brief Core config struct
  *

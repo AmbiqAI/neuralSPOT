@@ -10,7 +10,7 @@
 #include <string.h>
 #include "ns_peripherals_button.h"
 #include <stdlib.h>
-
+#define END_OF_CMD  '\n'
 ns_uart_config_t uart_config = {
     .api=&ns_uart_V0_0_1,
     .uart_config = &g_sUartConfig,
@@ -18,20 +18,30 @@ ns_uart_config_t uart_config = {
     .rx_blocking = true,
 };
 char txbuffer[256];
+ns_uart_handle_t uart_handle = NULL;
 
 void my_rx_cb(ns_uart_transaction_t *t)
 {
     static int i = 0;
+    static int iteration = 0;
     char data;
+    static uint32_t baud = 115200; // Default baud rate
     if(ns_uart_nonblocking_receive_data(&uart_config, &data, 1) == AM_HAL_STATUS_SUCCESS)
     {
         txbuffer[i++] = data;
         ns_uart_nonblocking_send_data(&uart_config, &txbuffer[i-1], 1);
-        if (i >= sizeof(txbuffer)) i = 0;
+        if (data == END_OF_CMD && ++iteration % 5 == 0)
+        {
+            // send the switch token
+            ns_uart_blocking_send_data(&uart_config, "SWITCH\n", 7);
+
+            baud = (baud == 115200) ? 921600 : 115200;
+            ns_uart_change_baud_rate(uart_handle, baud);
+        }
     }
+    if (i >= sizeof(txbuffer)) i = 0;
 }
 
-ns_uart_handle_t uart_handle = NULL;
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
@@ -47,8 +57,6 @@ int main(void) {
     ns_interrupt_master_enable();
 
     ns_lp_printf("UART init done\n");
-    
-
     while (1) {
     }
 

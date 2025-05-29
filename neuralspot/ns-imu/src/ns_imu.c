@@ -62,24 +62,6 @@ void ns_imu_data_available_cb(void *pArg) {
     }
 }
 
-am_hal_gpio_pincfg_t NS_IMU_AM_BSP_GPIO_INT_CB =
-{
-    .GP.cfg_b.uFuncSel             = AM_HAL_PIN_50_GPIO,
-    .GP.cfg_b.eGPInput             = AM_HAL_GPIO_PIN_INPUT_ENABLE,
-    .GP.cfg_b.eGPRdZero            = AM_HAL_GPIO_PIN_RDZERO_READPIN,
-    .GP.cfg_b.eIntDir              = AM_HAL_GPIO_PIN_INTDIR_HI2LO,
-    .GP.cfg_b.eGPOutCfg            = AM_HAL_GPIO_PIN_OUTCFG_DISABLE,
-    .GP.cfg_b.eDriveStrength       = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P1X,
-    .GP.cfg_b.ePullup              = AM_HAL_GPIO_PIN_PULLUP_100K,
-    .GP.cfg_b.uNCE                 = 0,
-    .GP.cfg_b.eCEpol               = AM_HAL_GPIO_PIN_CEPOL_ACTIVEHIGH,
-    .GP.cfg_b.uRsvd_0              = 0,
-    .GP.cfg_b.ePowerSw             = AM_HAL_GPIO_PIN_POWERSW_NONE,
-    .GP.cfg_b.eForceInputEn        = AM_HAL_GPIO_PIN_FORCEEN_NONE,
-    .GP.cfg_b.eForceOutputEn       = AM_HAL_GPIO_PIN_FORCEEN_NONE,
-    .GP.cfg_b.uRsvd_1              = 0,
-};
-
 uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
     uint32_t imu_int_pin = 50; // GPIO pin for the IMU interrupt
     uint32_t GpioIntMask = 0;
@@ -126,14 +108,15 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
     if (cfg->frame_available_cb != NULL) {
         ns_lp_printf("NS_IMU: Configuring GPIO interrupt\n");
         cfg->frame_size = cfg->frame_size ? cfg->frame_size : 1;
-        // am_hal_gpio_pinconfig(imu_int_pin, g_AM_BSP_GPIO_INT_CB);
         am_hal_gpio_pinconfig(imu_int_pin,  am_hal_gpio_pincfg_input);
-        // am_hal_gpio_pinconfig(17,  MS_IMU_AM_BSP_GPIO_INT_CB);
     }
 
     // Call the IMU driver init function
     if (cfg->sensor == NS_IMU_SENSOR_ICM45605) {
-        ns_imu_ICM45605_init(cfg);
+        if (NS_STATUS_SUCCESS != ns_imu_ICM45605_init(cfg)) {
+            ns_lp_printf("NS_IMU: Failed to initialize ICM45605\n");
+            return NS_STATUS_FAILURE;
+        }
     } else {
         ns_lp_printf("NS_IMU: Sensor not supported\n");
     }
@@ -169,8 +152,18 @@ uint32_t ns_imu_get_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data) {
     
     // Read data from the specified sensor
     if (cfg->sensor == NS_IMU_SENSOR_ICM45605) {
-        ns_imu_ICM_45606_get_data(cfg, data);
-        return NS_STATUS_SUCCESS;
+        return ns_imu_ICM_45606_get_data(cfg, data);
+    } else {
+        ns_lp_printf("ICM45605: Sensor not supported\n");
+    }
+    return NS_STATUS_FAILURE;
+}
+
+uint32_t ns_imu_get_raw_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data) {
+    
+    // Read data from the specified sensor
+    if (cfg->sensor == NS_IMU_SENSOR_ICM45605) {
+        return ns_imu_ICM_45606_get_raw_data(cfg, data);
     } else {
         ns_lp_printf("ICM45605: Sensor not supported\n");
     }

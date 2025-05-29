@@ -17,11 +17,53 @@ MEMORY
 
 SECTIONS
 {
+
     .text :
     {
         . = ALIGN(4);
         KEEP(*(.isr_vector))
         KEEP(*(.patch))
+        . = ALIGN(4);
+        _etext = .;
+    } > MCU_MRAM
+    
+    .itcm_text :
+    {
+        . = ALIGN(4);
+        _s_itcm_text = .;
+        *(.itcm_text)
+        *(.itcm_text*)
+        /* KEEP(add*.o       (.text .text.* .rodata .rodata.*)) */
+        KEEP(arm*.o       (.text .text.* .rodata .rodata.*))
+        KEEP(fft*.o       (.text .text.* .rodata .rodata.*))
+        KEEP(conv*.o      (.text .text.* .rodata .rodata.*))
+        KEEP(connected*.o (.text .text.* .rodata .rodata.*))
+        KEEP(quant*.o     (.text .text.* .rodata .rodata.*))
+        KEEP(add*.o       (.text .text.* .rodata .rodata.*))
+        KEEP(softmax*.o   (.text .text.* .rodata .rodata.*))
+        KEEP(micro*.o     (.text .text.* .rodata .rodata.*))
+        KEEP(poolin*.o    (.text .text.* .rodata .rodata.*))
+        KEEP(call_on*.o  (.text .text.* .rodata .rodata.*))
+        KEEP(var_hand*.o (.text .text.* .rodata .rodata.*))
+        KEEP(strided*.o   (.text .text.* .rodata .rodata.*))
+        KEEP(concat*.o    (.text .text.* .rodata .rodata.*))
+        KEEP(memory_help*.o (.text .text.* .rodata .rodata.*))
+        KEEP(read_var*.o  (.text .text.* .rodata .rodata.*))
+        KEEP(assign_var*.o (.text .text.* .rodata .rodata.*))
+        KEEP(tensor*.o    (.text .text.* .rodata .rodata.*))
+        KEEP(linear*.o    (.text .text.* .rodata .rodata.*))
+        KEEP(greedy*.o    (.text .text.* .rodata .rodata.*))
+        KEEP(flatbuf*.o   (.text .text.* .rodata .rodata.*))
+        KEEP(single_arena*.o (.text .text.* .rodata .rodata.*))
+        KEEP(kernel_*.o   (.text .text.* .rodata .rodata.*))
+
+        . = ALIGN(4);
+        _e_itcm_text = .;
+    } > MCU_ITCM AT>MCU_MRAM
+
+    .text :
+    {
+        . = ALIGN(4);
         *(.text)
         *(.text*)
         *(.rodata)
@@ -65,7 +107,7 @@ SECTIONS
         PROVIDE_HIDDEN (__fini_array_end = .);
     } > MCU_MRAM
 
-    .itcm_text :
+    /* .itcm_text :
     {
         . = ALIGN(4);
         _s_itcm_text = .;
@@ -73,10 +115,10 @@ SECTIONS
         *(.itcm_text*)
         . = ALIGN(4);
         _e_itcm_text = .;
-    } > MCU_ITCM AT>MCU_MRAM
+    } > MCU_ITCM AT>MCU_MRAM */
 
-    /* used by startup to initialize the functions located in ITCM */
     _init_itcm_text = LOADADDR(.itcm_text);
+
 
     /* User stack section initialized by startup code. */
     .stack (NOLOAD):
@@ -123,6 +165,21 @@ SECTIONS
         . = ALIGN(4);
         _ebss = .;
     } > MCU_TCM
+
+    /*--------------------------------------------------------------------------
+     * Uninitialized data in Shared SRAM
+     * Place with __attribute__((section(".sram_bss")))
+     *--------------------------------------------------------------------------*/
+    .sram_bss (NOLOAD):
+    {
+        . = ALIGN(4);
+        /* Marks start/end of SRAM BSS */
+        _ssram_bss = .;
+        *(.sram_bss)
+        *(.sram_bss*)
+        . = ALIGN(4);
+        _esram_bss = .;
+    } > SHARED_SRAM
 
     .shared :
     {

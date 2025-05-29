@@ -41,7 +41,7 @@ typedef union {
 #define NS_MUT_STATS_PLATFORM_AP5 5
 
 #ifdef AM_PART_APOLLO5B
-#define NS_NUM_PMU_EVENTS sizeof(ns_pmu_map) / sizeof(ns_pmu_map_t)
+#define NS_NUM_PMU_EVENTS NS_NUM_PMU_MAP_SIZE
 #endif 
 
 typedef struct {
@@ -60,7 +60,7 @@ typedef struct {
 typedef struct {
     uint32_t layer;
     char csv_header[2048];
-    uint32_t pmu_event_counters[NS_NUM_PMU_EVENTS];
+    uint32_t pmu_event_counters[73]; // CAREFUL: this is a bit more than needed, but C needs a fixed size
 } ns_pmu_stats_t;
 #endif
 

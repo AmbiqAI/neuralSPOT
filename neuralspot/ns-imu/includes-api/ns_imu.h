@@ -96,6 +96,7 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg); // Will soft reset and configur
  * @return uin32_t status
  */
 uint32_t ns_imu_get_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data);
+uint32_t ns_imu_get_raw_data(ns_imu_config_t *cfg, ns_imu_sensor_data_t *data);
 
 #ifdef __cplusplus
 }

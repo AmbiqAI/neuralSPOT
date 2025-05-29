@@ -36,7 +36,6 @@ ns_cache_config_t ns_microProfiler_cache_config;
 #ifdef AM_PART_APOLLO5B
 ns_pmu_config_t ns_microProfilerPMU;
 AM_SHARED_RW char ns_profiler_pmu_header[2048];
-#define NS_DEBUG_NUM_PMU_COUNTERS sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t)
 #endif  // AM_PART_APOLLO5B
 AM_SHARED_RW ns_profiler_sidecar_t ns_microProfilerSidecar;
 AM_SHARED_RW ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
@@ -93,13 +92,13 @@ uint32_t ns_characterize_model(invoke_fp func) {
 #ifdef NS_MLPROFILE
 #ifdef AM_PART_APOLLO5B
     uint32_t map_index = 0;
-    ns_lp_printf("Starting model characterization, capturing %d (%d/%d) PMU events per layer\n", sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t), sizeof(ns_pmu_map), sizeof(ns_pmu_map_t));
-    for (map_index = 0; map_index < sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t); map_index = map_index + 4) {
+    ns_lp_printf("Starting model characterization, capturing %d (%d/%d) PMU events per layer\n", NS_NUM_PMU_MAP_SIZE, g_ns_pmu_map_length, sizeof(ns_pmu_map_t));
+    for (map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index = map_index + 4) {
         // Init the pmu capture
         ns_pmu_reset_config(&ns_microProfilerPMU);
         
         for (uint32_t i = 0; i < 4; i++) {
-            if (map_index + i >= sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t)) {
+            if (map_index + i >= NS_NUM_PMU_MAP_SIZE) {
                 // We've run out of event types, init with event 0
                 // ns_lp_printf("Ran out of PMU events at %d, initializing event %d with event 0\n", map_index, i);
                 ns_pmu_event_create(&(ns_microProfilerPMU.events[i]), ns_pmu_map[0].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
@@ -157,7 +156,7 @@ uint32_t ns_set_pmu_header(void) {
     char name[50];
     snprintf(ns_profiler_pmu_header, 2048, "Event,Tag,uSeconds,EST_MAC,MAC_EQ,OUTPUT_MAG,OUTPUT_SHAPE,FILTER_SHAPE,STRIDE_H,STRIDE_W,DILATION_H,DILATION_W");
     // ns_lp_printf("Event,\"Tag\",\"uSeconds\",\"Est MACs\",\"MAC Eq\",\"Output Mag\",\"Output Shape\",\"Filter Shape\", \"Stride H\", \"Stride W\", \"Dilation H\", \"Dilation W\""); 
-    for (int map_index = 0; map_index < sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t); map_index++) {
+    for (int map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index++) {
         strcpy(name, ns_pmu_map[map_index].regname);
         snprintf(ns_profiler_pmu_header + strlen(ns_profiler_pmu_header), 2048 - strlen(ns_profiler_pmu_header),
                  ",%s", name);
@@ -212,7 +211,7 @@ ns_get_layer_counters(uint32_t layer,
         (layer <= (uint32_t)(call_once_layer + rv * 2)))
     {
         //  Return all zeros for these "skipped" layers
-        for (uint32_t i = 0; i < NS_DEBUG_NUM_PMU_COUNTERS; i++)
+        for (uint32_t i = 0; i < NS_NUM_PMU_MAP_SIZE; i++)
         {
             out_counters[i] = 0;
         }
@@ -235,7 +234,7 @@ ns_get_layer_counters(uint32_t layer,
 
     // 5. For each PMU counter index (map_index), compute the "non-obvious" index
     //    and extract the PMU counter from the sidecar
-    for (uint32_t map_index = 0; map_index < NS_DEBUG_NUM_PMU_COUNTERS; map_index++)
+    for (uint32_t map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index++)
     {
         // index formula from the snippet
         uint32_t index = (num_layers + source_layer) + source_layer_count * (map_index / 4);
@@ -320,7 +319,7 @@ uint32_t ns_parse_pmu_stats(uint32_t num_layers, uint32_t rv) {
     // Start with the header
     ns_lp_printf("\"Event\",\"Tag\",\"uSeconds\",\"Est MACs\",\"MAC Eq\",\"Output Mag\",\"Output Shape\",\"Filter Shape\", \"Stride H\", \"Stride W\", \"Dilation H\", \"Dilation W\""); 
     ns_delay_us(10000);
-    for (map_index = 0; map_index < sizeof(ns_pmu_map)/sizeof(ns_pmu_map_t); map_index++) {
+    for (map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index++) {
         strcpy(name, ns_pmu_map[map_index].regname);
         ns_lp_printf(",\"%s\"", name); 
         ns_delay_us(10000);
@@ -346,13 +345,13 @@ uint32_t ns_parse_pmu_stats(uint32_t num_layers, uint32_t rv) {
         // Print the PMU counters if not the call-once layers
         if ((call_once_layer != -1) &&  (print_layer > call_once_layer) && (print_layer<=(rv*2 + call_once_layer))) {
             // print zeros for all pmu values
-            for (map_index = 0; map_index < NS_DEBUG_NUM_PMU_COUNTERS; map_index++) {
+            for (map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index++) {
                 ns_lp_printf(", 0");
             }
             // ns_lp_printf(", no pmu values");
         } 
         else {
-            for (map_index = 0; map_index < NS_DEBUG_NUM_PMU_COUNTERS; map_index++) {
+            for (map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index++) {
                 // Fetch all the PMU counters for event i, spread out in the ns_profiler_events_stats[index].pmu_delta.counterValue array
                 // The index is  num_layers * (4/map_index), and counterValue index is map_index%4
                 if (call_once_layer == -1) {

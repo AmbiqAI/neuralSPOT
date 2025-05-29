@@ -290,7 +290,7 @@ nestall: nest
 	@cp make/jlink.mk $(NESTDIR)/make
 	@cp make/nest-makefile.mk $(NESTDIR)/Makefile
 
-$(JLINK_CF):
+$(JLINK_CF): $(deploy_target)
 	@echo " Creating JLink command sequence input file... $(deploy_target)"
 	$(Q) echo "ExitOnError 1" > $@
 # $(Q) echo "Reset" >> $@

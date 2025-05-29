@@ -72,6 +72,9 @@ def build_command(model, args):
     if "model_location" in model:
         cmd.extend(["--model-location", model["model_location"]])
 
+    if "id" in model:
+        cmd.extend(["--run-log-id", str(model["id"])])
+
     return cmd
 
 def main():
@@ -175,6 +178,7 @@ def main():
         for model in failed_models:
             print(f" - {model.get('model_name', model.get('tflite_filename', 'Unknown model'))}")
         # Generate a YAML file for failed models.
+        print(failed_models)
         failed_yaml = {"models": failed_models}
         output_filename = "failed_models.yaml"
         with open(output_filename, "w") as f:

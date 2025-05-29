@@ -77,7 +77,7 @@ else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
 		modules      += examples/har
-# modules      += examples/nnse2
+		
 		modules	     += examples/uart
 		modules      += examples/rpc_server
 
@@ -96,6 +96,9 @@ else
 		endif
 
 		ifeq ($(USB_PRESENT),1)
+			modules      += examples/nnse_usb
+			modules      += examples/nnse_usb_tflm
+			
 			modules      += examples/vision		
 			modules 	 += examples/ic
 			modules      += examples/quaternion

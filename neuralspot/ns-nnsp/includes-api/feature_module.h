@@ -31,7 +31,8 @@ void FeatureClass_construct(
         int16_t winsize,
         int16_t hopsize,
         int16_t fftsize,
-        const int16_t *pt_stft_win_coeff);
+        const int16_t *pt_stft_win_coeff,
+        const int16_t *p_melBanks);
 
 void FeatureClass_setDefault(FeatureClass *ps);
 

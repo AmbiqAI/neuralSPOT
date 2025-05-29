@@ -16,6 +16,7 @@ typedef struct {
     int16_t num_mfltrBank;
     int16_t num_dnsmpl;
     const int16_t *pt_stft_win_coeff;
+    const int16_t *p_melBanks;
     int16_t start_bin;
     int16_t is_dcrm;
     int16_t pre_gain_q1; // q1

@@ -7,6 +7,7 @@
 #include "lstm.h"
 #include "nn_speech.h"
 extern const int16_t stft_win_coeff_w480_h160[];
+extern const int16_t mfltrBank_coeff_nfilt72_fftsize512[];
 PARAMS_NNSP params_nn3_se = {
     .samplingRate = 16000,
     .fftsize = 512,
@@ -15,6 +16,7 @@ PARAMS_NNSP params_nn3_se = {
     .num_mfltrBank = 72,
     .num_dnsmpl = 1,
     .pt_stft_win_coeff = stft_win_coeff_w480_h160,
+    .p_melBanks = mfltrBank_coeff_nfilt72_fftsize512,
     .start_bin = 1,
     .is_dcrm = 1,
     .pre_gain_q1 = 10 << 1, // q1: 10

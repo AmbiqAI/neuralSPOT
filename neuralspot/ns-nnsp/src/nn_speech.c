@@ -67,7 +67,8 @@ int NNSPClass_init(
         (FeatureClass *)pt_inst->pt_feat, pt_mean, pt_stdR,
         ((NeuralNetClass *)pt_inst->pt_net)->qbit_input[0], pt_params->num_mfltrBank,
         pt_params->winsize_stft, pt_params->hopsize_stft, pt_params->fftsize,
-        pt_params->pt_stft_win_coeff);
+        pt_params->pt_stft_win_coeff,
+        pt_params->p_melBanks);
 
     pt_inst->num_dnsmpl = pt_params->num_dnsmpl;
 

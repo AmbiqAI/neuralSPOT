@@ -521,7 +521,8 @@ def main():
         # If auto, use SRAM as the arena location for the first pass
         # if params.arena_location == "auto":
         # Always use SRAM (larget ram) for the first pass
-        params.arena_location = "SRAM"
+        if params.arena_location != "PSRAM":
+            params.arena_location = "SRAM"
 
         if params.nocompile_mode:
             print("[NS WARNING] Debug mode, skipping binary compile and flash!")

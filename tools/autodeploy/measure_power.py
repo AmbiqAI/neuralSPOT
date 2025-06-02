@@ -229,9 +229,9 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     #     print("Makefile successfully built power measurement binary")
 
     # Do one more reset
-    time.sleep(4)
+    time.sleep(3)
     os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1")
-    time.sleep(4)
+    time.sleep(10)
 
 
 # Joulescope-specific Code

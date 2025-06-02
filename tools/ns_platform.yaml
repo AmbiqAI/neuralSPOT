@@ -114,6 +114,8 @@ apollo510_eb:
   dtcm: 512
   itcm: 256
   psram: 32168
+  psram-arena: 12000
+  psram-model: 20000
   clock_lp: 96
   clock_hp: 250
   as_version: R5.2.0
@@ -135,6 +137,8 @@ apollo510_evb:
   dtcm: 512
   itcm: 256
   psram: 32168
+  psram-arena: 12000
+  psram-model: 20000
   clock_lp: 96
   clock_hp: 250
   as_version: R5.3.0

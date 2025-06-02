@@ -75,7 +75,9 @@ class Params(BaseModel):
     model_location: str = Field(
         "auto", description="Where the model is stored on the EVB (Auto, TCM, SRAM, MRAM, or PSRAM)"
     )
-
+    tflm_location: str = Field(
+        "auto", description="Where the TFLM library is stored on the EVB (auto, MRAM, or ITCM (M55 only))"
+    )
     arena_location: str = Field(
         "auto", description="Where the arena is stored on the EVB (auto, TCM, SRAM, or PSRAM)"
     )
@@ -418,8 +420,12 @@ def main():
     # Override any 'auto' params with platform defaults (except arena location because 
     # true size isn't known yet)
     if params.max_arena_size == 0:
-        params.max_arena_size = pc.GetMaxArenaSize()
-        print(f"[NS] Max Arena Size for {params.platform}: {params.max_arena_size} KB")
+        if params.arena_location == "PSRAM":
+            params.max_arena_size = pc.GetMaxPsramArenaSize()
+            print(f"[NS] Max PSRAM Arena Size for {params.platform}: {params.max_arena_size} KB")
+        else:
+            params.max_arena_size = pc.GetMaxArenaSize()
+            print(f"[NS] Max Arena Size for {params.platform}: {params.max_arena_size} KB")
     else:
         pc.CheckArenaSize(params.max_arena_size, params.arena_location)
 

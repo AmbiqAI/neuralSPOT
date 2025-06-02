@@ -708,7 +708,9 @@ int main(void) {
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
     ns_itm_printf_enable();
-
+#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM) or (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
+    NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed\n");
+#endif
     ns_lp_printf("sizeof arena %d\n", sizeof(tensor_arena));
     ns_lp_printf("sizeof mut_cfg %d\n", sizeof(mut_cfg));
     ns_lp_printf("sizeof mut_stats %d\n", sizeof(mut_stats));
@@ -732,11 +734,6 @@ int main(void) {
     ns_pmu_event_create(&pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);   
     ns_pmu_init(&pmu_cfg); // PMU config passed to model init, which passes it to debugLogInit
 #endif
-#endif
-
-
-#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM) or (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
-    NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed\n");
 #endif
 
 #if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)

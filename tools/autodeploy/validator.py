@@ -736,29 +736,38 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         table.append(row)
         offset = offset + computed_stat_per_event_size
 
-    log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
+    if params.joulescope or params.onboard_perf:
+        log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
+    else:
+        print(tabulate(table, headers="firstrow", tablefmt="simple"))
 
     if platform == 5:
-        log.info(
-            f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"
-        )
+        if params.joulescope or params.onboard_perf:
+            log.info(
+                f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"
+            )
+            log.info(
+                f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}"
+            )
+        else:
+            print(
+                f"[NS] Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"
+            )
+            print(
+                f"[NS] Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}"
+            )        
     else:
         log.info(
             f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
         )
-
-    log.info(
-        f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}, cycles/MAC {(totalCycles/totalMacs):.2f}"
-    )
+        log.info(
+            f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}, cycles/MAC {(totalCycles/totalMacs):.2f}"
+        )
 
     log.info(
         "Model Performance Analysis: Per-layer performance statistics saved to: %s"
         % stats_filename
     )
-
-    # print("table is ", table)
-    # for r in table:
-    #     print(r)
 
     np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
 
@@ -774,9 +783,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
         # make it safe by removing spaces and . from the name
         unique_name = unique_name.replace(" ", "_").replace(".", "_")
-        # create the directory
         os.makedirs(params.profile_results_path, exist_ok=True)
-        # print(f"Copying profile results {unique_name} to {params.profile_results_path}")
 
         # copy the files
         shutil.copy(stats_filename + ".csv", os.path.join(params.profile_results_path, unique_name + ".csv"))

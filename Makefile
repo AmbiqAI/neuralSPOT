@@ -30,12 +30,18 @@ include make/jlink.mk
 modules      := neuralspot/ns-core
 modules      += neuralspot/ns-harness
 modules      += neuralspot/ns-peripherals
-modules      += neuralspot/ns-ipc
-modules      += neuralspot/ns-audio
 modules      += neuralspot/ns-utils
 modules 	 += neuralspot/ns-uart
 modules      += neuralspot/ns-rpc
+modules      += neuralspot/ns-ipc
+ifeq ($(USB_PRESENT),1)
+	modules      += neuralspot/ns-usb
+endif
+
+# Autodeploy doesn't need the full set of modules
+ifneq ($(AUTODEPLOY),1)
 modules      += neuralspot/ns-i2c
+modules      += neuralspot/ns-audio
 ifneq ($(ARCH),apollo3)
 modules      += neuralspot/ns-spi
 modules      += neuralspot/ns-camera
@@ -44,12 +50,9 @@ endif
 modules      += neuralspot/ns-nnsp
 modules      += neuralspot/ns-features
 
-ifeq ($(USB_PRESENT),1)
-	modules      += neuralspot/ns-usb
-endif
-
 ifeq ($(BLE_SUPPORTED),1)
 modules      += neuralspot/ns-ble
+endif
 endif
 
 # External Component Modules

@@ -229,9 +229,9 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     #     print("Makefile successfully built power measurement binary")
 
     # Do one more reset
-    time.sleep(4)
+    time.sleep(3)
     os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1")
-    time.sleep(4)
+    time.sleep(10)
 
 
 # Joulescope-specific Code
@@ -290,9 +290,34 @@ def handle_queue(q):
             # print("Queue empty")
             return  # no more data
 
-
+def joulescope_power_on():
+    # Sometimes autodeploy is invoked with Joulescope powered off.
+    # Ensure we can talk to joulescope and turn on the DUT power.
+    devices = scan(config="auto")
+    if not devices:
+        log.error("No Joulescope devices found. Ensure Joulescope is connected and powered on.")
+        return False
+    try:
+        for device in devices:
+            device.open()
+            device.parameter_set("sensor_power", "on")
+            device.parameter_set("i_range", "auto")
+            device.parameter_set("v_range", "15V")
+            device.parameter_set("reduction_frequency", "50 Hz")
+            # if params.platform in ["apollo3p_evb", "apollo_evb"]:
+            #     device.parameter_set("io_voltage", "3.3V")
+            # else:
+            device.parameter_set("io_voltage", "1.8V")
+            device.close()
+        return True
+    except Exception as exc:
+        log.error(f"Failed to initialize Joulescope (likely collision with Joulescope app): {exc}")
+        return False
+    
 def measurePower(params):
     global state
+    global i, v, p, c, e
+    i, v, p, c, e = 0, 0, 0, 0, 0   
     _quit = False
     statistics_queue = queue.Queue()  # resynchronize to main thread
     startTime = 0
@@ -316,7 +341,11 @@ def measurePower(params):
             cbk = statistics_callback_factory(device, statistics_queue)
             device.statistics_callback_register(cbk, "sensor")
             device.close()
-            device.open()
+            try:
+                device.open()
+            except Exception as exc:
+                log.error(f"Failed to open device {device} (ensure Joulescope App is not running): {exc}")
+                return 0, 0, 0, 0, 0, 0            
             device.parameter_set("reduction_frequency", "50 Hz")
             if params.platform in ["apollo3p_evb", "apollo_evb"]:
                 device.parameter_set("io_voltage", "3.3V")
@@ -334,12 +363,12 @@ def measurePower(params):
                     if gpi == 3:
                         device.parameter_set("gpo0", "0")  # clear trigger to EVB
                         state = "getting_ready"
-                        # print("Waiting for trigger to be acknowledged...", end="")
+                        print("[NS] Waiting for trigger to be acknowledged...", end="")
                 elif state == "getting_ready":
                     if gpi == 0:
                         state = "collecting"
                         device.statistics_accumulators_clear()
-                        # print("Collecting...", end="")
+                        print("Collecting...", end="")
                         startTime = datetime.datetime.now()
                 elif state == "collecting":
                     if gpi != 0:
@@ -347,7 +376,7 @@ def measurePower(params):
                         # print ("Elapsed inference time: %d" % (stopTime - startTime))
                         td = stopTime - startTime
                         state = "reporting"
-                        # print("Done collecting.")
+                        print("Done collecting.")
 
                 elif state == "quit":
                     state = "start"
@@ -360,9 +389,10 @@ def measurePower(params):
     except:
         log.error("Failed interacting with Joulescope")
         traceback.print_exc()
+        return 0, 0, 0, 0, 0, 0
 
     finally:
         for device in devices:
             device.stop()
             device.close()
-            return td, i, v, p, c, e
+        return td, i, v, p, c, e

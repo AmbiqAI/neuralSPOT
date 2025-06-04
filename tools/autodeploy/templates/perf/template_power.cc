@@ -110,7 +110,9 @@ int main(void) {
 
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
         // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
-
+    #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
+        NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed\n");
+    #endif
 #if NS_AD_JS_PRESENT == 0
     ns_itm_printf_enable();
 #endif // NS_AD_JS_PRESENT == 0
@@ -121,10 +123,6 @@ int main(void) {
 
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");
-    
-    #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
-        NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed\n");
-    #endif
 
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
     if (status == NS_AD_NAME_STATUS_FAILURE) {

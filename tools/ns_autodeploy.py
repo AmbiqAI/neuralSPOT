@@ -6,7 +6,7 @@ import os
 import numpy as np
 import pydantic_argparse
 from neuralspot.tools.autodeploy.gen_library import generateModelLib
-from neuralspot.tools.autodeploy.measure_power import generatePowerBinary, measurePower
+from neuralspot.tools.autodeploy.measure_power import generatePowerBinary, measurePower, joulescope_power_on
 from neuralspot.tools.autodeploy.validator import (
     ModelConfiguration,
     configModel,
@@ -75,7 +75,9 @@ class Params(BaseModel):
     model_location: str = Field(
         "auto", description="Where the model is stored on the EVB (Auto, TCM, SRAM, MRAM, or PSRAM)"
     )
-
+    tflm_location: str = Field(
+        "auto", description="Where the TFLM library is stored on the EVB (auto, MRAM, or ITCM (M55 only))"
+    )
     arena_location: str = Field(
         "auto", description="Where the arena is stored on the EVB (auto, TCM, SRAM, or PSRAM)"
     )
@@ -187,7 +189,6 @@ class adResults:
         self.toolchain = p.toolchain
         self.model_size = 0
         self.arena_size = 0
-        # print(f"toolchain: {p.toolchain}")
 
     def print(self):
         print("")
@@ -199,31 +200,35 @@ class adResults:
             f"[Profile] Model Size:                        {self.model_size} KB"
         )
         print(
+            f"[Profile] Arena Size:                        {self.arena_size} KB")
+        print(
             f"[Profile] Total Estimated MACs:              {self.profileTotalEstimatedMacs}"
         )
-        # print(f"[Profile] Total CPU Cycles:                  {self.profileTotalCycles}")
         print(f"[Profile] Total Model Layers:                {self.profileTotalLayers}")
+
+            # print(f"[Profile] Total CPU Cycles:                  {self.profileTotalCycles}")
         # print(
         #     f"[Profile] Cycles per MAC:                    {(self.profileTotalCycles/self.profileTotalEstimatedMacs):0.3f}"
         # )
-        print(
-            f"[Power]   HP Inference Time (ms):      {self.powerMaxPerfInferenceTime:0.3f}"
-        )
-        print(
-            f"[Power]   HP Inference Energy (uJ):    {self.powerMaxPerfJoules:0.3f}"
-        )
-        print(
-            f"[Power]   HP Inference Avg Power (mW): {self.powerMaxPerfWatts:0.3f}"
-        )
-        print(
-            f"[Power]   LP Inference Time (ms):      {self.powerMinPerfInferenceTime:0.3f}"
-        )
-        print(
-            f"[Power]   LP Inference Energy (uJ):    {self.powerMinPerfJoules:0.3f}"
-        )
-        print(
-            f"[Power]   LP Inference Avg Power (mW): {self.powerMinPerfWatts:0.3f}"
-        )
+        if self.p.joulescope or self.p.onboard_perf:
+            print(
+                f"[Power]   HP Inference Time (ms):      {self.powerMaxPerfInferenceTime:0.3f}"
+            )
+            print(
+                f"[Power]   HP Inference Energy (uJ):    {self.powerMaxPerfJoules:0.3f}"
+            )
+            print(
+                f"[Power]   HP Inference Avg Power (mW): {self.powerMaxPerfWatts:0.3f}"
+            )
+            print(
+                f"[Power]   LP Inference Time (ms):      {self.powerMinPerfInferenceTime:0.3f}"
+            )
+            print(
+                f"[Power]   LP Inference Energy (uJ):    {self.powerMinPerfJoules:0.3f}"
+            )
+            print(
+                f"[Power]   LP Inference Avg Power (mW): {self.powerMinPerfWatts:0.3f}"
+            )
         print(
             f"""
 Notes:
@@ -253,7 +258,7 @@ Notes:
             compiler_version = os.popen("arm-none-eabi-gcc --version").read().split(" ")[4]
         elif self.toolchain == "arm":
             compiler_version = "armclang " + get_armclang_version()
-        print (f"[NS] Compiler Version: {compiler_version}")
+        # print (f"[NS] Compiler Version: {compiler_version}")
         # get today's date
         from datetime import date
         today = date.today()
@@ -415,11 +420,21 @@ def main():
     pc = ns_platform.AmbiqPlatform(params)
     print (f"[NS] Running {total_stages} Stage Autodeploy for Platform: {params.platform}")
 
+    if params.joulescope:
+        # Ensure Joulescope is powered on and ready
+        if not joulescope_power_on():
+            log.error("Joulescope power on failed. Exiting.")
+            exit("Autodeploy failed")
+
     # Override any 'auto' params with platform defaults (except arena location because 
     # true size isn't known yet)
     if params.max_arena_size == 0:
-        params.max_arena_size = pc.GetMaxArenaSize()
-        print(f"[NS] Max Arena Size for {params.platform}: {params.max_arena_size} KB")
+        if params.arena_location == "PSRAM":
+            params.max_arena_size = pc.GetMaxPsramArenaSize()
+            print(f"[NS] Max PSRAM Arena Size for {params.platform}: {params.max_arena_size} KB")
+        else:
+            params.max_arena_size = pc.GetMaxArenaSize()
+            print(f"[NS] Max Arena Size for {params.platform}: {params.max_arena_size} KB")
     else:
         pc.CheckArenaSize(params.max_arena_size, params.arena_location)
 
@@ -508,7 +523,6 @@ def main():
             )
 
     stash_arena_location = params.arena_location
-    print(f"NS toolchain: {params.toolchain}")
     results = adResults(params)
     results.setModelSize(model_size)
 
@@ -521,7 +535,8 @@ def main():
         # If auto, use SRAM as the arena location for the first pass
         # if params.arena_location == "auto":
         # Always use SRAM (larget ram) for the first pass
-        params.arena_location = "SRAM"
+        if params.arena_location != "PSRAM":
+            params.arena_location = "SRAM"
 
         if params.nocompile_mode:
             print("[NS WARNING] Debug mode, skipping binary compile and flash!")

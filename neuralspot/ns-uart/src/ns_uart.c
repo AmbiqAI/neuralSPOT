@@ -65,3 +65,15 @@ uint32_t ns_uart_init(ns_uart_config_t *cfg, ns_uart_handle_t * handle) {
 bool ns_uart_data_available(void) {
     return g_DataAvailable;
 }
+
+
+uint32_t ns_uart_change_baud_rate(ns_uart_handle_t handle, uint32_t baud_rate) {
+    NS_TRY(am_hal_uart_interrupt_disable(phUART, (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_TX | AM_HAL_UART_INT_RX_TMOUT)), "Failed to disable UART interrupts");
+    ((ns_uart_config_t *)handle)->uart_config->ui32BaudRate = baud_rate;
+    NS_TRY(am_hal_uart_configure(phUART,
+        ((ns_uart_config_t *)handle)->uart_config),
+        "Failed to reconfigure baud rate");
+    NS_TRY(am_hal_uart_interrupt_enable(phUART, (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_TX | AM_HAL_UART_INT_RX_TMOUT)), "Failed to enable UART interrupts");
+
+    return NS_STATUS_SUCCESS;
+}

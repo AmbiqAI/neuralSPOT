@@ -15,6 +15,11 @@ class AmbiqPlatform:
         # print (self.platform_config[self.platform])
         # Check if the platform is in the yaml file
         if self.platform not in self.platform_config:
+            print(f"Platform {self.platform} not found in ns_platform.yaml")
+            # print all available platforms
+            print("Available platforms:")
+            for platform in self.platform_config.keys():
+                print(f"  - {platform}")
             raise ValueError(f"Platform {self.platform} not found in ns_platform.yaml")
         
         # Check if platform is supported by ns_autodeploy
@@ -41,6 +46,12 @@ class AmbiqPlatform:
     def GetMaxArenaSize(self):
         return self.platform_config["sram"]
     
+    def GetMaxPsramArenaSize(self):
+        if "psram-arena" in self.platform_config:
+            return self.platform_config["psram-arena"]
+        else:
+            raise ValueError(f"Platform {self.platform} does not have PSRAM arena size defined")
+    
     def GetDTCMSize(self):
         return self.platform_config["dtcm"]
     
@@ -57,6 +68,9 @@ class AmbiqPlatform:
             if location not in self.platform_config:
                 raise ValueError(f"Platform {self.platform} does not have arena location {location}")
             
+            # PSRAM arean size is called something different
+            if location == "psram":
+                return size <= self.platform_config["psram-arena"]
             # Check if size is less than specified arena location size
             return size <= self.platform_config[location]
     

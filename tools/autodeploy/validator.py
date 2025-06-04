@@ -282,7 +282,7 @@ def configModel(params, client, md):
         except:
             log.error("RPC call failed, retrying after reset")
             reset_dut(params)
-            time.sleep(5)
+            time.sleep(10)
             retries -= 1
         else:
             break
@@ -736,29 +736,38 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         table.append(row)
         offset = offset + computed_stat_per_event_size
 
-    log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
+    if params.joulescope or params.onboard_perf:
+        log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
+    else:
+        print(tabulate(table, headers="firstrow", tablefmt="simple"))
 
     if platform == 5:
-        log.info(
-            f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"
-        )
+        if params.joulescope or params.onboard_perf:
+            log.info(
+                f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"
+            )
+            log.info(
+                f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}"
+            )
+        else:
+            print(
+                f"[NS] Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, layers {captured_events}"
+            )
+            print(
+                f"[NS] Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}"
+            )        
     else:
         log.info(
             f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
         )
-
-    log.info(
-        f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}, cycles/MAC {(totalCycles/totalMacs):.2f}"
-    )
+        log.info(
+            f"Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}, cycles/MAC {(totalCycles/totalMacs):.2f}"
+        )
 
     log.info(
         "Model Performance Analysis: Per-layer performance statistics saved to: %s"
         % stats_filename
     )
-
-    # print("table is ", table)
-    # for r in table:
-    #     print(r)
 
     np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
 
@@ -774,9 +783,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
         # make it safe by removing spaces and . from the name
         unique_name = unique_name.replace(" ", "_").replace(".", "_")
-        # create the directory
         os.makedirs(params.profile_results_path, exist_ok=True)
-        # print(f"Copying profile results {unique_name} to {params.profile_results_path}")
 
         # copy the files
         shutil.copy(stats_filename + ".csv", os.path.join(params.profile_results_path, unique_name + ".csv"))
@@ -813,15 +820,20 @@ def compile_and_deploy(params, mc, first_time=False):
     if first_time:
         makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make clean >{ws3} 2>&1 ")
 
+    if (params.tflm_location == "ITCM"):
+        itcm = "TFLM_IN_ITCM=1"
+    else:
+        itcm = ""
+
     if (params.create_profile) or (params.create_binary):
 
         if params.verbosity > 3:
             print(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")
@@ -829,22 +841,22 @@ def compile_and_deploy(params, mc, first_time=False):
             # print(f"cd .. {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1")
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
     else:
         if params.verbosity > 3:
             print (
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy")
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy")
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 TARGET=tflm_validator deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")           
         else:
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
@@ -853,8 +865,10 @@ def compile_and_deploy(params, mc, first_time=False):
         print("[ERROR] Make failed, return code %d" % makefile_result)
         exit("Make failed, return code %d" % makefile_result)
         return makefile_result
-
-    time.sleep(3)
+    # time.sleep(10)
+    # print("[NS] Resetting after flashing the firmware")
+    # reset_dut(params)
+    time.sleep(10)
     # reset_dut()
     return makefile_result
 

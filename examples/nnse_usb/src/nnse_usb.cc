@@ -18,27 +18,14 @@
 #include "task.h"
 #include "arm_math.h"
 
+#include "usb_packet_generated.h"
+// #include "audio_webble.h"
+
 alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
                                                         // to 80 bytes
 bool enableSE = false; // Flip between SE and Raw audio when button 0 is pressed
 uint32_t seLatency = 0;
 uint32_t opusLatency = 0;
-
-typedef enum {
-    SET_SE_MODE = 0x1,
-    SE_LATENCY = 0x2,
-    OPUS_LATENCY = 0x3,
-    AUDIO_DATA = 0x4,
-} usb_data_descriptor_e;
-
-typedef struct usb_data {
-    usb_data_descriptor_e type;
-    uint8_t length;
-    uint8_t platform; // 0 = Apollo3, 1 = Apollo4, 2 = Apollo5
-    uint8_t data[80]; // Audio data, seLatency, or opusLatency, depending on the type
-} usb_data_t;
-
-// #include "audio_webble.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
     #define NNSE_HEAP_SIZE (40 * 1024)
@@ -185,6 +172,181 @@ uint32_t opusLatencyCapturePeriod = 5; // measure every 100 frames (1s)
 uint32_t currentSESample = 0;
 uint32_t currentOpusSample = 0;
 
+// Structure for tracking acknowledgements
+struct ack_tracker_t {
+    uint16_t sequence;
+    bool received;
+};
+
+static ack_tracker_t current_ack = {0, false};
+
+// Function to wait for acknowledgement
+bool wait_for_ack(uint16_t sequence, uint32_t timeout_ms) {
+    uint32_t start = ns_us_ticker_read(&basic_tickTimer);
+    while ((ns_us_ticker_read(&basic_tickTimer) - start) < (timeout_ms * 1000)) {
+        if (current_ack.received && current_ack.sequence == sequence) {
+            current_ack.received = false;
+            return true;
+        }
+        ns_delay_us(100);
+    }
+    return false;
+}
+
+// Callback for received messages
+void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
+    if (length < sizeof(usb_message_header_t)) return;
+    
+    // Extract header
+    usb_message_header_t* header = (usb_message_header_t*)buffer;
+    const uint8_t* payload = buffer + sizeof(usb_message_header_t);
+    size_t payload_len = length - sizeof(usb_message_header_t);
+    
+    // Verify CRC
+    uint32_t computed_crc = calcCrc32(0, payload_len, (uint8_t*)payload);
+    if (computed_crc != header->crc32) {
+        ns_lp_printf("CRC mismatch\n");
+        return;
+    }
+    
+    // Parse FlatBuffer
+    auto fb_packet = web::usb::GetUsbPacket(payload);
+    
+    // Check if this is an acknowledgement
+    if (fb_packet->type() == web::usb::UsbDataType_NONE && 
+        fb_packet->data_length() == 1 && 
+        fb_packet->data()->Get(0) == 1) {
+        current_ack.sequence = fb_packet->sequence();
+        current_ack.received = true;
+    }
+}
+
+
+// High Level Transport Layer
+
+// Message header structure
+typedef struct {
+    uint32_t crc32;
+    uint8_t command;
+    uint8_t chunk_id;
+    uint8_t total_chunks;
+} __attribute__((packed)) usb_message_header_t;
+
+// USB Transport Layer Constants
+#define USB_MAX_PACKET_SIZE     512  // Max WebUSB packet size
+#define USB_HEADER_SIZE         sizeof(usb_message_header_t)  // 7 bytes
+#define ALIGNMENT_MARGIN        8    // Safety margin for alignment
+
+#define FLATBUFFER_VTABLE_SIZE  4    // vtable overhead
+#define FLATBUFFER_FIELDS_SIZE  12   // type(1) + platform(1) + sequence(2) + version(1) + vector_len(4) + padding(3)
+
+// Calculate maximum data chunk size
+#define MAX_PAYLOAD      (USB_MAX_PACKET_SIZE - \
+                                USB_HEADER_SIZE - \
+                                FLATBUFFER_VTABLE_SIZE - \
+                                FLATBUFFER_FIELDS_SIZE - \
+                                ALIGNMENT_MARGIN)  // ~481 bytes
+
+// // Function to calculate maximum chunk size based on current FlatBuffer schema
+// size_t calculate_max_chunk_size() {
+//     flatbuffers::FlatBufferBuilder builder;
+    
+//     // Create a minimal packet to measure overhead
+//     auto dummy_vector = builder.CreateVector((uint8_t*)nullptr, 0);
+//     auto packet = web::usb::CreateUsbPacket(
+//         builder,
+//         web::usb::UsbDataType_NONE,
+//         (web::usb::Platform)data.platform,
+//         0,
+//         1,
+//         dummy_vector
+//     );
+//     builder.Finish(packet, "USB1");
+    
+//     // Get FlatBuffer overhead (everything except the actual data)
+//     size_t flatbuffer_overhead = builder.GetSize();
+    
+//     // Calculate maximum data size that can fit in a packet
+//     return USB_MAX_PACKET_SIZE - USB_HEADER_SIZE - flatbuffer_overhead - ALIGNMENT_MARGIN;
+// }
+
+// Helper function to send chunked data with retries
+void send_chunked_data(web::usb::UsbDataType type, const uint8_t* data, size_t data_len) {
+    static size_t max_chunk_size = MAX_PAYLOAD;
+    
+    // // Calculate max chunk size once
+    // if (max_chunk_size == 0) {
+    //     max_chunk_size = calculate_max_chunk_size();
+    //     ns_lp_printf("Calculated max chunk size: %d bytes\n", max_chunk_size);
+    // }
+    
+    // Basically math.ceil(data_len / max_chunk_size)
+    const size_t num_chunks = (data_len + max_chunk_size - 1) / max_chunk_size;
+    
+    for (size_t chunk = 0; chunk < num_chunks; chunk++) {
+        size_t chunk_size = (chunk == num_chunks - 1) ? 
+            (data_len - chunk * max_chunk_size) : max_chunk_size;
+        
+        // Create FlatBuffer for this chunk
+        flatbuffers::FlatBufferBuilder builder;
+        
+        // Create data vector for this chunk
+        auto data_vector = builder.CreateVector(
+            data + (chunk * max_chunk_size), 
+            chunk_size
+        );
+        
+        // Create USB packet - using chunk as sequence number
+        auto packet = web::usb::CreateUsbPacket(
+            builder,
+            type,
+            (web::usb::Platform)data.platform,
+            chunk,  // Use chunk as sequence number
+            1, // version
+            data_vector
+        );
+        builder.Finish(packet, "USB1");
+        
+        // Get the serialized buffer
+        uint8_t* buf = builder.GetBufferPointer();
+        size_t len = builder.GetSize();
+        
+        // Create header - chunk_id and sequence are now the same
+        usb_message_header_t header;
+        header.crc32 = calcCrc32(0, len, buf);
+        header.command = 0; // SEND command
+        header.chunk_id = chunk;
+        header.total_chunks = num_chunks;
+        
+        // Combine header and data
+        uint8_t tx_buf[sizeof(header) + len];
+        memcpy(tx_buf, &header, sizeof(header));
+        memcpy(tx_buf + sizeof(header), buf, len);
+        
+        // Send with retries
+        bool ack_received = false;
+        int retries = 0;
+        const int MAX_RETRIES = 3;
+        
+        while (!ack_received && retries < MAX_RETRIES) {
+            webusb_send_data(tx_buf, sizeof(tx_buf));
+            
+            // Wait for acknowledgement - now waiting for chunk number
+            if (wait_for_ack(chunk, 100)) { // Using chunk instead of sequence_number
+                ack_received = true;
+            } else {
+                retries++;
+                ns_delay_us(1000 * (1 << retries)); // Exponential backoff
+            }
+        }
+        
+        if (!ack_received) {
+            ns_lp_printf("Failed to send chunk %d after %d retries\n", chunk, MAX_RETRIES);
+            return;
+        }
+    }
+}
+
 // USB Senders
 void set_se_mode(bool enable) {
     ns_lp_printf("SE Mode %d\n", enable);
@@ -314,11 +476,6 @@ void setup_task(void *pvParameters) {
     vTaskSuspend(NULL);
     while (1)
         ;
-}
-
-void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
-    // The message contains information about how to set the camera
-    ns_lp_printf("Received %d bytes: %s\n", length, buffer);
 }
 
 int main(void) {

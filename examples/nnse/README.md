@@ -31,7 +31,7 @@ $> make -j
 $> make TARGET=nnse deploy
 ```
 
-With the firmware deploy, follow this link on a PC using the Chrome browser: [Audio WebBLE Demo](https://ambiqai.github.io/web-ble-dashboards/audio/)
+With the firmware deployed, follow this link on a PC using the Chrome browser: [Audio WebBLE Demo](https://ambiqai.github.io/web-ble-dashboards/raw_audio/)
 
 The webpage should look something like this:
 

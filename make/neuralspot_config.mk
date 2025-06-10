@@ -1,297 +1,335 @@
+# File: make/neuralspot_config.mk
 
-##### Toolchain Defaults #####
+# -----------------------------------------------------------------------------
+# 1) TOOLCHAIN SELECTION & VERSION DETECTION
+# -----------------------------------------------------------------------------
+
+# Default toolchain if not overridden by environment
 TOOLCHAIN ?= arm-none-eabi
+
 ifeq ($(TOOLCHAIN),arm-none-eabi)
-COMPILERNAME := gcc
+  COMPILERNAME := gcc
 
-# Detect GCC version and set flags accordingly
-GCC_VER := $(shell arm-none-eabi-gcc --version | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')
-# GCC_VER := $(shell arm-none-eabi-gcc --version 2>&1 | sed -n 's/.* \([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')
-# $(info GCC_VERSION: $(GCC_VER))
-ifeq ($(shell expr $(GCC_VER) \>= 14),1)
-GCC14 := 1
-else
-GCC14 := 0
-endif
+  # Detect GCC version for conditional flags later
+  GCC_VER := $(shell $(TOOLCHAIN)-gcc --version | grep -E -o '[0-9]+\.[0-9]+\.[0-9]+')
+  ifeq ($(shell expr $(GCC_VER) \>= 14),1)
+    GCC14 := 1
+  else
+    GCC14 := 0
+  endif
 else ifeq ($(TOOLCHAIN),arm)
-COMPILERNAME := clang
+  COMPILERNAME := clang
 else ifeq ($(TOOLCHAIN),llvm)
-COMPILERNAME := clang
-endif
-
-NESTDIR := nest
-SHELL  :=/bin/bash
-
-ifndef PLATFORM
-PLATFORM := apollo510_evb
-endif
-
-##### Target Hardware Defaults #####
-# PLATFORM defines the MCU (aka BOARD) and the EVB (aka EVB)
-# in the form of BOARD_EVB, where board e.g. is apollo4p or apollo4l
-# and EVB is evb, blue_evb, blue_kbr_evb, or blue_kxr_evb, etc
-# Get the first word of the PLATFORM, which is the MCU
-BOARD := $(firstword $(subst _, ,$(PLATFORM)))
-
-# apollo510_evb has a different prefix, override
-
-# Pre R5.3.0 SDKs put the code in apollo5b, R5.3.0 and later put the code in apollo510
-ifndef AS_VERSION
-AS_VERSION := R5.3.0
-endif
-ifneq ($(AS_VERSION),R5.3.0)
-ifeq ($(findstring apollo510,$(PLATFORM)),apollo510)
-BOARD := apollo5b
-endif
-endif
-
-# $(info BOARD: $(BOARD))
-# EVB is the rest of the PLATFORM, which is the EVB
-EVB := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
-
-# Replace spaces with underscores
-space := $(null) #
-EVB := $(subst $(space),_,$(EVB))
-# $(info EVB: $(EVB))
-
-# Set the ARCH to apollo3, apollo4, or apollo5
-ifeq ($(findstring apollo3,$(BOARD)),apollo3)
-ARCH := apollo3
-else ifeq ($(findstring apollo4,$(BOARD)),apollo4)
-ARCH := apollo4
-else ifeq ($(findstring apollo5,$(BOARD)),apollo5)
-ARCH := apollo5
-endif
-
-# Only applies to Apollo5a - SBL variants have a secure bootloader
-ifndef BOOTLOADER
-BOOTLOADER := sbl
-endif
-
-# $(info BOARD: $(BOARD))
-# $(info EVB: $(EVB))
-# $(info ARCH: $(ARCH))
-
-ifndef BOARD
-BOARD  :=apollo4p
-endif
-BRD   :=$(BOARD)
-BOARDROOT = $(firstword $(subst _, ,$(BRD)))
-ifndef EVB
-EVB    :=evb
-endif
-PART   = $(BOARDROOT)
-
-# Core-specific compile and link settings
-ifeq ($(ARCH),apollo5)
-CPU    = cortex-m55
-# FPU_FLAG = <dont define, armclang doesn't like it
-# only for armlink
-ARMLINK_CPU = Cortex-M55
-ARMLINK_FPU = FPv5_D16
+  COMPILERNAME := clang
 else
-# For both gcc and armclang
-CPU    = cortex-m4
-
-# Only for gcc and armclang M4
-FPU_FLAG   = -mfpu=fpv4-sp-d16
-
-# Only for armlink
-ARMLINK_CPU = Cortex-M4.fp.sp
-ARMLINK_FPU = FPv4-SP
+  $(error "Unsupported TOOLCHAIN: $(TOOLCHAIN). Valid values are arm-none-eabi, arm, llvm.")
 endif
 
-# Default to FPU hardware calling convention.  However, some customers and/or
-# applications may need the software calling convention.
-#FABI     = softfp
-FABI     = hard
 
+# -----------------------------------------------------------------------------
+# 2) DEFAULTS & NAMING CONVENTIONS
+# -----------------------------------------------------------------------------
+
+# Where “nest” mode will copy source files
+NESTDIR := nest
+
+# If no PLATFORM is specified from outside, pick a sane default
+ifndef PLATFORM
+  PLATFORM := apollo510_evb
+endif
+
+# For Apollo5 variants that use “apollo510” in names older than R5.3.0
+ifndef AS_VERSION
+  AS_VERSION := R5.3.0
+endif
+
+# PLATFORM is in the form “<BOARD>_<EVB>” (e.g. apollo4p_blue_evb)
+# Split it into BOARD and EVB
+BOARD      := $(firstword $(subst _, ,$(PLATFORM)))
+
+# Pre-R5.3.0 SDKs put code under “apollo5b”; newer ones use “apollo510”
+ifneq ($(AS_VERSION),R5.3.0)
+  ifneq ($(filter apollo510,$(BOARD)),)
+    BOARD := apollo5b
+  endif
+endif
+
+EVB        := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
+BOARDROOT  := $(BOARD)
+PART       := $(BOARDROOT)
+
+# Replace any spaces in EVB with underscores (unlikely, but for safety)
+space      := $(null) #
+EVB        := $(subst $(space),_,$(EVB))
+
+# Where to emit build artifacts
 BINDIRROOT := build
-BINDIR := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
+BINDIR      := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 
+# -----------------------------------------------------------------------------
+# 3) ARCHITECTURE & CPU/FPU BOOTSTRAP
+# -----------------------------------------------------------------------------
 
-##### Extern Library Defaults #####
+ifeq ($(findstring apollo3,$(BOARD)),apollo3)
+  ARCH := apollo3
+else ifeq ($(findstring apollo4,$(BOARD)),apollo4)
+  ARCH := apollo4
+else ifeq ($(findstring apollo5,$(BOARD)),apollo5)
+  ARCH := apollo5
+else
+  $(error "Unable to detect ARCH from BOARD='$(BOARD)'. Must contain apollo3, apollo4, or apollo5.")
+endif
+
+# Core CPU & FPU settings by ARCH
+ifeq ($(ARCH),apollo5)
+  CPU         := cortex-m55
+  ARMLINK_CPU := Cortex-M55
+  ARMLINK_FPU := FPv5_D16
+else
+  CPU         := cortex-m4
+  FPU_FLAG    := -mfpu=fpv4-sp-d16
+  ARMLINK_CPU := Cortex-M4.fp.sp
+  ARMLINK_FPU := FPv4-SP
+endif
+
+# Calling convention: default to hardware FPU
+FABI := hard
+
+# -----------------------------------------------------------------------------
+# 4) APPLICATION DEFAULTS
+# -----------------------------------------------------------------------------
+
+# If you only want to build one example, set EXAMPLE=xyz from the command line.
+ifndef EXAMPLE
+  EXAMPLE := all
+endif
+
+# Default binary target when invoking “make deploy” etc.
+ifndef TARGET
+  TARGET := basic_tf_stub
+endif
+
+# Example directory & nesting info
+NESTCOMP      := extern/AmbiqSuite
+NESTEGG       := basic_tf_stub
+NESTSOURCEDIR := examples/$(NESTEGG)/src
+
+# When building all examples, these are the choices
+TARGETS := \
+  apollo3p_evb \
+  apollo4p_evb \
+  apollo4p_blue_kbr_evb \
+  apollo4p_blue_kxr_evb \
+  apollo4l_evb \
+  apollo4l_blue_evb \
+  apollo5a_evb
+
+# -----------------------------------------------------------------------------
+# 5) EXTERNAL LIBRARY VERSIONS
+# -----------------------------------------------------------------------------
 
 ifndef TF_VERSION
-TF_VERSION := ns_tflm_v1_0_0
+  TF_VERSION := ns_tflm_v1_0_0
 endif
-SR_VERSION := R7.70a
-ERPC_VERSION := R1.9.1
 
-CMSIS_VERSION := CMSIS_5-5.9.0
+SR_VERSION     := R7.70a
+ERPC_VERSION   := R1.9.1
+CMSIS_VERSION  := CMSIS_5-5.9.0
+
 ifndef CMSIS_DSP_VERSION
-CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
+  CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
 endif
 
-##### Application Defaults #####
-# default target for binary-specific operations such as 'deploy'
-ifndef EXAMPLE
-EXAMPLE     := all
-endif
-ifndef TARGET
-TARGET      := basic_tf_stub
-endif
-NESTCOMP    := extern/AmbiqSuite
-NESTEGG := basic_tf_stub
-NESTSOURCEDIR := examples/$(NESTEGG)/src
-TARGETS := apollo3p_evb apollo4p_evb apollo4p_blue_kbr_evb apollo4p_blue_kxr_evb apollo4l_evb apollo4l_blue_evb apollo5a_evb
 
-##### AmbiqSuite Config and HW Feature Control Flags #####
-# AM_HAL_TEMPCO_LP is only supported by Apollo4
-# NS_AUDADC_PRESENT is only supported by Apollo4p and Apollo5 (but not on EB board)
-# USB_PRESENT is only supported by Apollo4p and Apollo5
-# NS_PDM1TO3_PRESENT is only supported by non-BLE Apollo4p
-# NS_BLE_SUPPORTED is support by EVBs with 'blue' in name
+# -----------------------------------------------------------------------------
+# 6) HARDWARE FEATURE FLAGS
+# -----------------------------------------------------------------------------
 
-# Set BLE_PRESENT
+# BLE_PRESENT: any “blue” EVB (or apollo3 always has BLE)
 ifeq ($(EVB),blue_evb)
-	BLE_PRESENT := 1
+  BLE_PRESENT := 1
 else ifeq ($(EVB),blue_kbr_evb)
-	BLE_PRESENT := 1
+  BLE_PRESENT := 1
 else ifeq ($(EVB),blue_kxr_evb)
-	BLE_PRESENT := 1
+  BLE_PRESENT := 1
 else ifeq ($(ARCH),apollo3)
-	BLE_PRESENT := 1
+  BLE_PRESENT := 1
 else
-	BLE_PRESENT := 0
+  BLE_PRESENT := 0
 endif
 
-# $(info BLE_PRESENT: $(BLE_PRESENT))
+# USB_PRESENT: only certain PARTs support USB
+ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510),$(PART))
+  USB_PRESENT := 1
+else
+  USB_PRESENT := 0
+endif
 
-# ifeq ($(BLE_PRESENT),1)
-# 	ifeq ($(AS_VERSION),R4.3.0)
-# 		DEFINES+= NS_BLE_SUPPORTED
-# 	else ifeq ($(AS_VERSION),R4.4.1)
-# 		DEFINES+= NS_BLE_SUPPORTED
-# 	else ifeq ($(AS_VERSION),R3.1.1)
-# 		DEFINES+= NS_BLE_SUPPORTED
-# 	else ifeq ($(AS_VERSION),R4.5.0)
-# 		DEFINES+= NS_BLE_SUPPORTED
-# 	endif
-# endif
-
-# Set USB
+# NS_AUDADC_PRESENT & AM_HAL_TEMPCO_LP for apollo4p
 ifeq ($(PART),apollo4p)
-	USB_PRESENT := 1
-else ifeq ($(PART),apollo5a)
-	USB_PRESENT := 1
-else ifeq ($(PART),apollo5b)
-	USB_PRESENT := 1
-else ifeq ($(PART),apollo510)
-	USB_PRESENT := 1
-else
-	USB_PRESENT := 0
+  DEFINES += NS_AUDADC_PRESENT
+  DEFINES += AM_HAL_TEMPCO_LP
 endif
 
+# NS_PDM1TO3_PRESENT: only on apollo4p EVB (non-BLE version)
+ifeq ($(PART),apollo4p)
+  ifeq ($(EVB),evb)
+    DEFINES += NS_PDM1TO3_PRESENT
+  endif
+endif
+
+# Add USB define if USB is supported
 ifeq ($(USB_PRESENT),1)
-	DEFINES+= NS_USB_PRESENT
+  DEFINES += NS_USB_PRESENT
 endif
 
-# $(info USB_PRESENT: $(USB_PRESENT))
-
-# Set NS_AUDADC_PRESENT and AM_HAL_TEMPCO_LP
-ifeq ($(PART),apollo4p)
-	DEFINES+= NS_AUDADC_PRESENT
-	DEFINES+= AM_HAL_TEMPCO_LP
-else ifeq ($(PART),apollo5)
-# DEFINES+= NS_AUDADC_PRESENT
-endif
-
-# Set NS_PDM1TO3_PRESENT
-ifeq ($(PART),apollo4p)
-	ifeq ($(EVB),evb)
-		DEFINES+= NS_PDM1TO3_PRESENT
-	endif
-endif
-
-
-# application stack and heap size
-ifndef STACK_SIZE_IN_32B_WORDS
-STACK_SIZE_IN_32B_WORDS ?= 4096
-endif
-
-# If LEGACY MALLOC is 1, a heap of NS_MALLOC_HEAP_SIZE_IN_K
-# will be allocated for all NS examples. If LEGACY MALLOC is 0,
-# the heap must be allocated by the example, but can differ
-# per each example
-
-ifeq ($(LEGACY_MALLOC),1)
-	DEFINES+= configAPPLICATION_ALLOCATED_HEAP=0
+# Add NS_BLE_SUPPORTED if BLE is possible and SDK version is >= R4.3.0
+ifeq ($(AS_VERSION),R4.3.0)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
+else ifeq ($(AS_VERSION),R4.4.1)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
+else ifeq ($(AS_VERSION),R4.5.0)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
+else ifeq ($(AS_VERSION),R3.1.1)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
 else
-	DEFINES+= configAPPLICATION_ALLOCATED_HEAP=1
+  BLE_SUPPORTED := 0
+endif
+
+ifndef BOOTLOADER
+  BOOTLOADER := sbl
+endif
+
+# -----------------------------------------------------------------------------
+# 7) MEMORY & MISCELLANEOUS DEFINES
+# -----------------------------------------------------------------------------
+
+# Default stack & heap (in 32-bit words or KB)
+ifndef STACK_SIZE_IN_32B_WORDS
+  STACK_SIZE_IN_32B_WORDS := 4096
 endif
 
 ifndef NS_MALLOC_HEAP_SIZE_IN_K
-NS_MALLOC_HEAP_SIZE_IN_K ?= 32
+  NS_MALLOC_HEAP_SIZE_IN_K := 32
 endif
 
-##### TinyUSB Default Config #####
-ifeq ($(ARCH),apollo5)
-DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO5
-ifeq ($(PART),apollo5a)
-DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
-else ifeq ($(PART),apollo5b)
-DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
-# DEFINES+=AM_CFG_USB_DMA_MODE_1
-# DEFINES+=AM_CFG_USB_EP2_OUT_DBUF_ENABLE
-# DEFINES+=AM_CFG_USB_EP3_IN_DBUF_ENABLE
-endif
+# LEGACY_MALLOC toggles whether heap is auto-allocated
+ifeq ($(LEGACY_MALLOC),1)
+  DEFINES += configAPPLICATION_ALLOCATED_HEAP=0
 else
-DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
+  DEFINES += configAPPLICATION_ALLOCATED_HEAP=1
 endif
-# DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_HIGH_SPEED
+DEFINES += STACK_SIZE=$(STACK_SIZE_IN_32B_WORDS)
+DEFINES += NS_MALLOC_HEAP_SIZE_IN_K=$(NS_MALLOC_HEAP_SIZE_IN_K)
 
-##### BLE Defines
-## BLE is only supported by neuralSPOT for AmbiqSuite R4.3.0 and later
-ifeq ($(AS_VERSION),R4.3.0)
-	BLE_SUPPORTED := $(BLE_PRESENT)
-	ifeq ($(BLE_SUPPORTED),1)
-		DEFINES+= NS_BLE_SUPPORTED
-	endif
-else ifeq ($(AS_VERSION),R4.4.1)
-	BLE_SUPPORTED := $(BLE_PRESENT)
-	ifeq ($(BLE_SUPPORTED),1)
-		DEFINES+= NS_BLE_SUPPORTED
-	endif
-else ifeq ($(AS_VERSION),R4.5.0)
-	BLE_SUPPORTED := $(BLE_PRESENT)
-	ifeq ($(BLE_SUPPORTED),1)
-		DEFINES+= NS_BLE_SUPPORTED
-	endif
-else ifeq ($(AS_VERSION),R3.1.1)
-	BLE_SUPPORTED := $(BLE_PRESENT)
-	ifeq ($(BLE_SUPPORTED),1)
-		DEFINES+= NS_BLE_SUPPORTED
-	endif
-else
-	BLE_SUPPORTED := 0
-endif
+DEFINES += SEC_ECC_CFG=SEC_ECC_CFG_HCI
+DEFINES += AM_DEBUG_PRINTF
 
-# $(info BLE_SUPPORTED: $(BLE_SUPPORTED))
-# $(info DEFINES: $(DEFINES))
-
-DEFINES+= SEC_ECC_CFG=SEC_ECC_CFG_HCI
-# DEFINES+= WSF_TRACE_ENABLED
-# DEFINES+= HCI_TRACE_ENABLED
-DEFINES+= AM_DEBUG_PRINTF
-
-##### Common AI Precompiler Directives #####
-# 1 = load TF library with debug info, turn on TF debug statements
+# AI precompiler settings (TFLM)
 ifndef MLDEBUG
-MLDEBUG := 0
+  MLDEBUG := 0
 endif
+DEFINES += NS_TFSTRUCTURE_RECENT
 
-
-DEFINES+= NS_TFSTRUCTURE_RECENT
-
-
-# 1 = load optimized TF library with prints enabled, turn on TF profiler
 MLPROFILE := 0
 TFLM_VALIDATOR := 0
 TFLM_VALIDATOR_MAX_EVENTS := 40
-# AUDIO_DEBUG := 0    # 1 = link in RTT, dump audio to RTT console
-# ENERGY_MODE := 0    # 1 = enable energy measurements via UART1
 
-DEFINES+= OPUS_ARM_INLINE_ASM
-# DEFINES+= ARM_MATH_CM4
-DEFINES+= OPUS_ARM_ASM
+DEFINES += OPUS_ARM_INLINE_ASM
+DEFINES += OPUS_ARM_ASM
+
+DEFINES += NS_AMBIQSUITE_VERSION_$(subst .,_,$(AS_VERSION))
+DEFINES += NS_TF_VERSION_$(subst .,_,$(TF_VERSION))
+DEFINES += NS_SR_VERSION_$(subst .,_,$(SR_VERSION))
+DEFINES += NS_ERPC_VERSION_$(subst .,_,$(ERPC_VERSION))
+DEFINES += NS_CMSIS_VERSION_$(subst .,_,$(subst -,_,$(CMSIS_VERSION)))
+
+ifeq ($(MLPROFILE),1)
+  DEFINES += NS_MLPROFILE
+endif
+
+ifeq ($(TFLM_VALIDATOR),1)
+  DEFINES += NS_TFLM_VALIDATOR
+endif
+
+DEFINES += NS_PROFILER_RPC_EVENTS_MAX=$(TFLM_VALIDATOR_MAX_EVENTS)
+
+# TinyUSB settings
+ifeq ($(ARCH),apollo5)
+  DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO5
+ifeq ($(PART),apollo5a)
+  DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
+else ifeq ($(PART),apollo5b)
+  DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
+endif
+else
+  DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
+endif
+
+# -----------------------------------------------------------------------------
+# 8) INCLUDE PATHS, SOURCES, AND BINDIR INITIALIZATION
+# -----------------------------------------------------------------------------
+
+# The “includes” and “sources” variables will be populated by each module’s module.mk
+# includes_api := 
+# sources      :=
+
+# BINDIR must exist before any compilation
+# .PHONY: init_bindir
+# init_bindir:
+# 	@mkdir -p $(BINDIR)
+
+# -----------------------------------------------------------------------------
+# 9) MODULE LISTS (populated from top-level Makefile)
+# -----------------------------------------------------------------------------
+
+# examples      := 
+# mains         := 
+# libraries     := 
+# lib_prebuilt  := 
+# override_libraries := 
+# obs           := $(call source-to-object,$(sources))
+# dependencies  := $(subst .o,.d,$(obs))
+# objects       := $(filter-out $(mains),$(call source-to-object,$(sources)))
+
+
+# -----------------------------------------------------------------------------
+# 10) SUMMARY PRINT
+# -----------------------------------------------------------------------------
+
+$(info ==== neuralspot_config.mk ===)
+$(info TOOLCHAIN:      $(TOOLCHAIN))
+$(info COMPILERNAME:   $(COMPILERNAME))
+$(info PLATFORM:       $(PLATFORM).)
+$(info BOARD:          $(BOARD).)
+$(info BOARDROOT:      $(BOARDROOT).)
+$(info PART:           $(PART).)
+$(info EVB:            $(EVB).)
+$(info ARCH:           $(ARCH).)
+$(info CPU:            $(CPU).)
+$(info TARGET:         $(TARGET).)
+$(info EXAMPLE:        $(EXAMPLE).)
+$(info FPU_FLAG:       $(FPU_FLAG).)
+$(info BINDIR:         $(BINDIR).)
+$(info NESTDIR:        $(NESTDIR).)
+$(info BINDIRROOT:     $(BINDIRROOT).)
+$(info BLE_SUPPORTED:  $(BLE_SUPPORTED))
+$(info USB_PRESENT:    $(USB_PRESENT))
+$(info TF_VERSION:     $(TF_VERSION))
+$(info AS_VERSION:     $(AS_VERSION))
+$(info --------------------------------)
+
+
+# End of neuralspot_config.mk

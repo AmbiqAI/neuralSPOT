@@ -332,4 +332,44 @@ view:
 	@echo " Printing SWO output (ensure JLink USB connected and powered on)..."
 	$(Q) $(JLINK_SWO) $(JLINK_SWO_CMD)
 
+.PHONY: help
+help:
+	@echo ""
+	@echo "Usage: make [target] [VARIABLE=value] ..."
+	@echo ""
+	@echo "Common targets:"
+	@echo "  all             - Build everything (default)."
+	@echo "  clean           - Remove build artifacts."
+	@echo "  deploy          - Flash the selected TARGET to device."
+	@echo "  reset           - Reset the EVB via JLink."
+	@echo "  view            - Print SWO output via JLink SWO viewer."
+	@echo ""
+	@echo "Configuration variables (override on command line):"
+	@echo "  PLATFORM=<name>    - Which board/evb combination to build for."
+	@echo "                       e.g. apollo4p_evb, apollo510_evb, apollo4p_blue_kbr_evb"
+
+	@echo ""
+	@echo "  TOOLCHAIN=<name>   - Choose toolchain (arm-none-eabi, arm, llvm)."
+	@echo "  AS_VERSION=<ver>   - AmbiqSuite version (e.g. R4.3.0, R5.3.0)."
+	@echo "  TF_VERSION=<ver>   - TensorFlow Lite Micro version (e.g. ns_tflm_v1_0_0)."
+	@echo ""
+	@echo "  EXAMPLE=<name>     - Which example to build (default: all)."
+	@echo "  TARGET=<name>      - Binary name for deploy/init (default: basic_tf_stub)."
+	@echo ""
+	@echo "Feature switches:"
+	@echo "  MLDEBUG=0|1        - Include TF debugging info (default 0)."
+	@echo "  MLPROFILE=0|1      - Enable TFLM profiling (default 0)."
+	@echo "  TFLM_VALIDATOR=0|1 - Enable TFLM validation - used by autodeploy (default 0)."
+	@echo "  AUDIO_DEBUG=0|1    - Enable audio debug via RTT (default 0)."
+	@echo "  ENERGY_MODE=0|1    - Enable energy mode instrumentation (default 0)."
+	@echo "  TFLM_IN_ITCM=0|1   - Place TFLM in ITCM (default 0)."
+	@echo ""
+	@echo "Examples:"
+	@echo "  make PLATFORM=apollo510_evb EXAMPLE=har        # Build HAR example"
+	@echo "  make TOOLCHAIN=arm clean                       # Clean using armclang"
+	@echo "  make deploy TARGET=har                         # Deploy basic_tf_stub to device"
+	@echo ""
+
+
 %.d: ;
+

@@ -41,7 +41,7 @@ static TfLiteTensor *model_input = nullptr;
 static TfLiteTensor *model_output = nullptr;
 static tflite::MicroProfiler *profiler = nullptr;
 
-static constexpr int kTensorArenaSize = 1024 * 27;
+static constexpr int kTensorArenaSize = 1024 * 30;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
 #ifdef NS_MLPROFILE

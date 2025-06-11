@@ -1,0 +1,3 @@
+pyusb>=1.2.1
+flatbuffers>=23.5.26
+flatbuffers-compiler>=23.5.26 

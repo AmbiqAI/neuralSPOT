@@ -12,12 +12,11 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
 
     template_directory = pkg_resources.resource_filename(__name__, "templates")
     # Get the  base path of neuralSPOT
-
+    
     if ambiqsuite:
         n = params.model_name + "_ambiqsuite"
     else:
         n = params.model_name
-
     d = params.destination_rootdir + "/" + params.model_name
 
     # Calculate the name of the MCU based on the platform

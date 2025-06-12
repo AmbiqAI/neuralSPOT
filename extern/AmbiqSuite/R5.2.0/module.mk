@@ -13,7 +13,7 @@ endif
 includes_api += $(subdirectory)/boards/$(PLATFORM)/bsp
 includes_api += $(subdirectory)/src
 # endif
-includes_api += $(subdirectory)/CMSIS/ARM/Include
+#includes_api += $(subdirectory)/CMSIS/ARM/Include
 includes_api += $(subdirectory)/CMSIS/AmbiqMicro/Include
 includes_api += $(subdirectory)/devices
 includes_api += $(subdirectory)/mcu/$(BOARDROOT)

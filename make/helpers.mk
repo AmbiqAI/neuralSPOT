@@ -81,12 +81,12 @@ endef
 define make-axf
 
 $1.axf: $(call source-to-object,$2)  $(ARMLINKER_IS_NO_BUENO) $(libraries) $(lib_prebuilt) $(override_libraries)
-	@echo " Linking $(COMPILERNAME) $$@"
+	@echo " test Linking $(COMPILERNAME) $$@"
 	@mkdir -p $$(@D)
 ifeq ($(TOOLCHAIN),arm)
 	$(Q) $(LD) $$^ $(LFLAGS) --list=$$*.map -o $$@
 else
-	$(Q) $(CC) -Wl,-T,$(LINKER_FILE) -o $$@ $$(call source-to-object,$2) $(LFLAGS)
+	$(Q) $(CC) -Wl,-T,$(LINKER_FILE)  -o $$@ $$(call source-to-object,$2) $(LFLAGS)
 endif
 endef
 

@@ -62,7 +62,7 @@ def collectProfilerStats(params, client):
 
     pmu_array = struct.unpack("<" + "I" * (pmu_count), pmu_data[:pmu_count*4])
 
-    str_data = pmu_data[(pmu_count+1)*4:]
+    str_data = pmu_data[(pmu_count)*4:]
 
     csv_header = parse_csv_header(str_data)
     pmu_array = [pmu_array[:len(csv_header)]]
@@ -429,7 +429,7 @@ def main():
         #stats = collectProfilerStats(params, client)
 
         # Run the function 100 times and collect results.
-        dfs = [collectProfilerStats(params, client) for _ in range(100)]
+        dfs = [collectProfilerStats(params, client) for _ in range(2)]
 
         # Average the dataframes (assuming they have the same index/structure).
         df_avg = pd.concat(dfs).groupby(level=0).mean()

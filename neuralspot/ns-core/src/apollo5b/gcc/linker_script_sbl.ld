@@ -22,6 +22,23 @@ SECTIONS
         . = ALIGN(4);
         KEEP(*(.isr_vector))
         KEEP(*(.patch))
+    } > MCU_MRAM
+    .itcm_text :
+    {
+        . = ALIGN(4);
+        _s_itcm_text = .;
+        *(.itcm_text)
+        *(.itcm_text*)
+        *(.text.arm_convolve_*)
+        *(.text.arm_nn_mat_mult*)
+        *(.text.arm_memset*)
+        . = ALIGN(4);
+
+        _e_itcm_text = .;
+    } > MCU_ITCM AT>MCU_MRAM
+
+    .text :
+    {
         *(.text)
         *(.text*)
         *(.rodata)
@@ -65,15 +82,7 @@ SECTIONS
         PROVIDE_HIDDEN (__fini_array_end = .);
     } > MCU_MRAM
 
-    .itcm_text :
-    {
-        . = ALIGN(4);
-        _s_itcm_text = .;
-        *(.itcm_text)
-        *(.itcm_text*)
-        . = ALIGN(4);
-        _e_itcm_text = .;
-    } > MCU_ITCM AT>MCU_MRAM
+
 
     /* used by startup to initialize the functions located in ITCM */
     _init_itcm_text = LOADADDR(.itcm_text);

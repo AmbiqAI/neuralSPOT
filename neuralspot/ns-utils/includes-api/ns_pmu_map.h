@@ -19,6 +19,7 @@ typedef struct ns_pmu_map_foo {
 } ns_pmu_map_t;
 
 const ns_pmu_map_t ns_pmu_map[] = {
+    {0x001D,"ARM_PMU_BUS_CYCLES","Bus cycles"},
     {0x0000,"ARM_PMU_SW_INCR","Software update to the PMU_SWINC register, architecturally executed and condition code check pass"},
     {0x0001,"ARM_PMU_L1I_CACHE_REFILL","L1 I-Cache refill"},
     {0x0003,"ARM_PMU_L1D_CACHE_REFILL","L1 D-Cache refill"},
@@ -44,7 +45,6 @@ const ns_pmu_map_t ns_pmu_map[] = {
     {0x0019,"ARM_PMU_BUS_ACCESS","Bus access"},
     {0x001A,"ARM_PMU_MEMORY_ERROR","Local memory error"},
     // {0x001B,"ARM_PMU_INST_SPEC","Instruction speculatively executed"},
-    {0x001D,"ARM_PMU_BUS_CYCLES","Bus cycles"},
     {0x001E,"ARM_PMU_CHAIN","For an odd numbered counter, increment when an overflow occurs on the preceding even-numbered counter on the same PE"},
     {0x001F,"ARM_PMU_L1D_CACHE_ALLOCATE","Level 1 data cache allocation without refill"},
     // {0x0020,"ARM_PMU_L2D_CACHE_ALLOCATE","Level 2 data cache allocation without refill"},
@@ -142,6 +142,16 @@ const ns_pmu_map_t ns_pmu_map[] = {
     {0x02D4,"ARM_PMU_MVE_STALL_DEPENDENCY","Stall cycles caused by MVE register dependency"},
     {0x4007,"ARM_PMU_ITCM_ACCESS","Instruction TCM access"},
     {0x4008,"ARM_PMU_DTCM_ACCESS","Data TCM access"},
+    {0xC100,"PF_LINEFILL","Prefetcher starts a linefill"},
+    {0xC101,"PF_CANCEL","Prefetecher stops prefetching"},
+    {0xC102,"PF_DROP_LINEFILL","Prfetecher linefill dropped because of lack of buffering"},
+    {0xC201,"NWAMODE","nwamode"},
+    {0xC302,"AXI_WRITE_ACCESS","Axi Write access"},
+    {0xC303,"AXI_READ_ACCESS","Axi Read access"},
+    {0xC421,"PF_LF_LA_6","linefill request la distance 6"},
+    {0xC422,"PF_BUFFER_FULL","pf full"},
+    {0xC423,"PF_BUFFER_MISS","pf miss"},
+    {0xC424,"PF_BUFFER_HIT","pf hit"},
     // {0x4010,"ARM_PMU_TRCEXTOUT0","ETM external output 0"},
     // {0x4011,"ARM_PMU_TRCEXTOUT1","ETM external output 1"},
     // {0x4012,"ARM_PMU_TRCEXTOUT2","ETM external output 2"},

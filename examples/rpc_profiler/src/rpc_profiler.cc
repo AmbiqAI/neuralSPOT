@@ -171,7 +171,36 @@ int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
 
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+
+    const ns_power_config_t ns_hp_mode = {
+        .api = &ns_power_V1_0_0,
+        .eAIPowerMode = NS_MAXIMUM_PERF,
+        .bNeedAudAdc = true,
+        .bNeedSharedSRAM = true,
+        .bNeedCrypto = false,
+        .bNeedBluetooth = true,
+        .bNeedUSB = true,
+        .bNeedIOM = true,
+        .bNeedAlternativeUART = true,
+        .b128kTCM = false,
+        .bEnableTempCo = false,
+        .bNeedITM = true,
+        .bNeedXtal = true};
+    const ns_power_config_t ns_lp_mode = {
+        .api = &ns_power_V1_0_0,
+        .eAIPowerMode = NS_MINIMUM_PERF,
+        .bNeedAudAdc = true,
+        .bNeedSharedSRAM = true,
+        .bNeedCrypto = false,
+        .bNeedBluetooth = true,
+        .bNeedUSB = true,
+        .bNeedIOM = true,
+        .bNeedAlternativeUART = true,
+        .b128kTCM = false,
+        .bEnableTempCo = false,
+        .bNeedITM = true,
+        .bNeedXtal = true};
+    NS_TRY(ns_power_config(&ns_hp_mode), "Power Init Failed\n");
     ns_itm_printf_enable();
 
     

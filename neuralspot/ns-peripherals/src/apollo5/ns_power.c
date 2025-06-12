@@ -95,7 +95,7 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
     #define ALL_RETAIN 1
     am_hal_pwrctrl_mcu_memory_config_t McuMemCfg =
     {
-        .eROMMode       = AM_HAL_PWRCTRL_ROM_AUTO,
+        .eROMMode       = AM_HAL_PWRCTRL_ROM_ALWAYS_ON,
 
         #if defined(AM_PART_APOLLO5A)
         .bEnableCache   = true,

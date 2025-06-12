@@ -26,7 +26,7 @@ static uint32_t ns_pmu_config_index[8];
 // Enable Cycle Counter and Event Counters
 //
 //*****************************************************************************
-static uint32_t
+uint32_t
 cntr_enable(uint32_t ui32CountersEnable)
 {
     if (ui32CountersEnable & (~VALID_PMU_COUNTERS))
@@ -44,7 +44,7 @@ cntr_enable(uint32_t ui32CountersEnable)
 // Disable Cycle Counter and Event Counters
 //
 //*****************************************************************************
-static uint32_t
+uint32_t
 cntr_disable(uint32_t ui32CountersDisable)
 {
     if (ui32CountersDisable & (~VALID_PMU_COUNTERS))
@@ -279,7 +279,7 @@ void ns_pmu_characterize_function(invoke_fp func, ns_pmu_config_t *cfg, char* na
     // Walk through every event counter in PMU map
     for (int map_index = 0; map_index < NS_PMU_MAP_SIZE; map_index) {
         ns_pmu_reset_config(cfg);
-        // We can do 4 32b counters at a time
+
         ns_pmu_event_create(&(cfg->events[0]), ns_pmu_map[map_index++].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
         if(map_index >= NS_PMU_MAP_SIZE) goto profile;
 
@@ -294,7 +294,7 @@ void ns_pmu_characterize_function(invoke_fp func, ns_pmu_config_t *cfg, char* na
 
         profile:
         ns_pmu_init(cfg);
-        // Call the function
+        //disable counter 1 - 
         func();
         uint32_t result = ns_pmu_get_counters(cfg);
         if (result == NS_STATUS_INIT_FAILED) {

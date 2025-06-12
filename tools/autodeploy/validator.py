@@ -812,11 +812,11 @@ def compile_and_deploy(params, mc, first_time=False):
 
         if params.verbosity > 3:
             print(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} VERBOSE=1 AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} VERBOSE=1 AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator TARGET=tflm_validator deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")
@@ -850,6 +850,7 @@ def compile_and_deploy(params, mc, first_time=False):
 
     time.sleep(3)
     # reset_dut()
+
     return makefile_result
 
 

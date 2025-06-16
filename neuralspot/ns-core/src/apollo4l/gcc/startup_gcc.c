@@ -328,6 +328,13 @@ extern uint32_t _ebss;
 //
 //*****************************************************************************
 #if defined(__GNUC_STDC_INLINE__)
+
+// Stub out some CPP init-related functions
+extern void _init(void) { ; }
+extern void _fini(void) { ; }
+void *__dso_handle = 0;
+extern void __libc_init_array(void);
+
 void Reset_Handler(void) {
     //
     // Set the vector table pointer.
@@ -382,6 +389,21 @@ void Reset_Handler(void) {
           "        it      lt\n"
           "        strlt   r2, [r0], #4\n"
           "        blt     zero_loop");
+
+   //
+   // Zero fill the shared‐SRAM BSS region.
+   //
+   __asm("    ldr     r0, =_ssram_bss\n"
+         "    ldr     r1, =_esram_bss\n"
+         "    mov     r2, #0\n"
+         "zero_sram_loop:\n"
+         "        cmp     r0, r1\n"
+         "        it      lt\n"
+         "        strlt   r2, [r0], #4\n"
+         "        blt     zero_sram_loop\n");         
+          
+    // Call CPP constructor init
+    __libc_init_array();
 
     //
     // Call the application's entry point.

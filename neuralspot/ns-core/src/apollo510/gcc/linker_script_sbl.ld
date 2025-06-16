@@ -83,16 +83,6 @@ SECTIONS
         PROVIDE_HIDDEN (__fini_array_end = .);
     } > MCU_MRAM
 
-    /* .itcm_text :
-    {
-        . = ALIGN(4);
-        _s_itcm_text = .;
-        *(.itcm_text)
-        *(.itcm_text*)
-        . = ALIGN(4);
-        _e_itcm_text = .;
-    } > MCU_ITCM AT>MCU_MRAM */
-
     _init_itcm_text = LOADADDR(.itcm_text);
 
 

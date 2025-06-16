@@ -133,18 +133,18 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     uint32_t retries = 100000;
     uint32_t block_retries = 15; // number of rx blocks we'll retry
 
-    // if (gGotUSBRx == 0)
-        // ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
-        //         gGotUSBRx);
-    // uint32_t before = tud_cdc_available();
-    // uint8_t before_sem = gGotUSBRx;
-    // ns_delay_us(10);
-    // uint32_t after = tud_cdc_available();
-    // uint8_t after_sem = gGotUSBRx;
+    if (gGotUSBRx == 0)
+        ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
+                gGotUSBRx);
+    uint32_t before = tud_cdc_available();
+    uint8_t before_sem = gGotUSBRx;
+    ns_delay_us(10);
+    uint32_t after = tud_cdc_available();
+    uint8_t after_sem = gGotUSBRx;
     while (tud_cdc_available() < bufsize) {
         // If there isn't enough data to satisfy request, wait for a while
 
-        // ns_lp_printf("Mystery path after %d %d %d\n", after, after_sem, gGotUSBRx);
+        ns_lp_printf("Mystery path after %d %d %d\n", after, after_sem, gGotUSBRx);
 
         // We only care abot gGotUSBRx in order to count 'blocks' (i.e. USB RX interrupts)
         ns_interrupt_master_disable(); // critical region
@@ -178,7 +178,7 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     //     ns_lp_printf("rx_data ask %d got %d retries %d before cnt, sem: %d,%d, after cnt, sem: %d, %d, af2 cnt,sem: %d, %d\n",
     //         bufsize, bytes_rx, retries, before, before_sem, after, after_sem, after2,
     //         after2_sem);
-    // ns_lp_printf("Got bytes %d\n", bytes_rx);
+    ns_lp_printf("Got bytes %d\n", bytes_rx);
      ns_delay_us(200);
 
     // dontoptimizeme = after + after_sem + before + before_sem + after2 + after2_sem;
@@ -201,20 +201,34 @@ void ns_usb_handle_read_error(usb_handle_t h) {
 uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
-    // ns_lp_printf("NS USB  asked to send %d, \n", bufsize);
+    ns_lp_printf("NS USB  asked to send %d from 0x%x, \n", bufsize, (uint32_t)buffer);
+    // Make sure there is no pending data in the USB TX buffer
+    // This is a blocking call, so we can be sure that the buffer is flushed
+    while (tud_cdc_write_available() < 4096) {
+        ns_lp_printf("NS USB  asked to send %d, avail %d\n", bufsize, tud_cdc_write_available());
+        ns_delay_us(1000);
+        tud_cdc_write_flush(); // flush the write buffer
+        tud_task(); // flush the write buffer
+    }
 
     while (bytes_tx < bufsize) {
         bytes_tx += tud_cdc_write((void *)(buffer + bytes_tx), bufsize - bytes_tx); // blocking
         tud_cdc_write_flush();
-        // ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
+        tud_task(); // flush the write buffer
+        ns_delay_us(1000);
+        ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
     #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_cdc_write_flush();
+    tud_task(); // flush the write buffer
+    ns_lp_printf("NS _USB avail %d\n", tud_cdc_write_available());
 
-    while (tud_cdc_write_available() < 14) {
-        ns_lp_printf("avail %d\n", tud_cdc_write_available());
-        ns_delay_us(200000);
-    }
+    // while (tud_cdc_write_available() < 4096) {
+    //     // tud_cdc_write_flush();
+    //     tud_task(); // flush the write buffer
+    //     ns_lp_printf("avail %d\n", tud_cdc_write_available());
+    //     ns_delay_us(1000);
+    // }
     #endif
 
     // uint32_t retval =  tud_cdc_write(buffer, bufsize);

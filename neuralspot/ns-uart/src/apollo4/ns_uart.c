@@ -5,7 +5,7 @@
 
 volatile uint32_t ui32LastError;
 bool g_bUARTdone = false;
-#define MAX_UART_RETRIES 10 // Maximum number of retries
+#define MAX_UART_RETRIES 500 // Maximum number of retries
 
 am_hal_uart_config_t g_sUartConfig =
 {

@@ -129,7 +129,7 @@ TARGETS := \
 # -----------------------------------------------------------------------------
 
 ifndef TF_VERSION
-  TF_VERSION := ns_tflm_v1_0_0
+  TF_VERSION := helios_rt_v1_2_0
 endif
 
 SR_VERSION     := R7.70a
@@ -276,6 +276,7 @@ else ifeq ($(PART),apollo5b)
 endif
 else
   DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
+  DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
 endif
 
 # -----------------------------------------------------------------------------
@@ -309,27 +310,27 @@ endif
 # 10) SUMMARY PRINT
 # -----------------------------------------------------------------------------
 
-$(info ==== neuralspot_config.mk ===)
-$(info TOOLCHAIN:      $(TOOLCHAIN))
-$(info COMPILERNAME:   $(COMPILERNAME))
-$(info PLATFORM:       $(PLATFORM).)
-$(info BOARD:          $(BOARD).)
-$(info BOARDROOT:      $(BOARDROOT).)
-$(info PART:           $(PART).)
-$(info EVB:            $(EVB).)
-$(info ARCH:           $(ARCH).)
-$(info CPU:            $(CPU).)
-$(info TARGET:         $(TARGET).)
-$(info EXAMPLE:        $(EXAMPLE).)
-$(info FPU_FLAG:       $(FPU_FLAG).)
-$(info BINDIR:         $(BINDIR).)
-$(info NESTDIR:        $(NESTDIR).)
-$(info BINDIRROOT:     $(BINDIRROOT).)
-$(info BLE_SUPPORTED:  $(BLE_SUPPORTED))
-$(info USB_PRESENT:    $(USB_PRESENT))
-$(info TF_VERSION:     $(TF_VERSION))
-$(info AS_VERSION:     $(AS_VERSION))
-$(info --------------------------------)
+# $(info ==== neuralspot_config.mk ===)
+# $(info TOOLCHAIN:      $(TOOLCHAIN))
+# $(info COMPILERNAME:   $(COMPILERNAME))
+# $(info PLATFORM:       $(PLATFORM).)
+# $(info BOARD:          $(BOARD).)
+# $(info BOARDROOT:      $(BOARDROOT).)
+# $(info PART:           $(PART).)
+# $(info EVB:            $(EVB).)
+# $(info ARCH:           $(ARCH).)
+# $(info CPU:            $(CPU).)
+# $(info TARGET:         $(TARGET).)
+# $(info EXAMPLE:        $(EXAMPLE).)
+# $(info FPU_FLAG:       $(FPU_FLAG).)
+# $(info BINDIR:         $(BINDIR).)
+# $(info NESTDIR:        $(NESTDIR).)
+# $(info BINDIRROOT:     $(BINDIRROOT).)
+# $(info BLE_SUPPORTED:  $(BLE_SUPPORTED))
+# $(info USB_PRESENT:    $(USB_PRESENT))
+# $(info TF_VERSION:     $(TF_VERSION))
+# $(info AS_VERSION:     $(AS_VERSION))
+# $(info --------------------------------)
 
 
 # End of neuralspot_config.mk

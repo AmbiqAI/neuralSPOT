@@ -112,7 +112,6 @@ SECTIONS
     .sram_bss (NOLOAD):
     {
         . = ALIGN(4);
-        /* Marks start/end of SRAM BSS */
         _ssram_bss = .;
         *(.sram_bss)
         *(.sram_bss*)

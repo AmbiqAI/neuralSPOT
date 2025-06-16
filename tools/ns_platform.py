@@ -34,7 +34,7 @@ class AmbiqPlatform:
         # reserve memory for non-model stuff (20-25%)
         # Reserve is different for each platform
         if self.platform_config["mcu"] in ["apollo4p", "apollo4l"]:
-            self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8) - 70) # 70K holdback
+            self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8) - 85) # 85K holdback
         else:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8))
         self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 60)) # 50K holdback

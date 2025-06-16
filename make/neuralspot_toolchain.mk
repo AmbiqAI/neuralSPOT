@@ -208,13 +208,13 @@ endif
 # 3) RUNTIME MESSAGE
 # -----------------------------------------------------------------------------
 
-$(info ==== neuralspot_toolchain.mk ====)
-$(info TOOLCHAIN:       $(TOOLCHAIN))
-$(info CC:              $(CC))
-$(info CFLAGS:          $(CFLAGS))
-$(info LFLAGS:          $(LFLAGS))
-$(info LINKER_FILE:     $(LINKER_FILE))
-$(info ------------------------------------)
+# $(info ==== neuralspot_toolchain.mk ====)
+# $(info TOOLCHAIN:       $(TOOLCHAIN))
+# $(info CC:              $(CC))
+# $(info CFLAGS:          $(CFLAGS))
+# $(info LFLAGS:          $(LFLAGS))
+# $(info LINKER_FILE:     $(LINKER_FILE))
+# $(info ------------------------------------)
 
 
 # -----------------------------------------------------------------------------

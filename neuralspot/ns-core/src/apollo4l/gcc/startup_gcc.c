@@ -328,6 +328,13 @@ extern uint32_t _ebss;
 //
 //*****************************************************************************
 #if defined(__GNUC_STDC_INLINE__)
+
+// Stub out some CPP init-related functions
+extern void _init(void) { ; }
+extern void _fini(void) { ; }
+void *__dso_handle = 0;
+extern void __libc_init_array(void);
+
 void Reset_Handler(void) {
     //
     // Set the vector table pointer.

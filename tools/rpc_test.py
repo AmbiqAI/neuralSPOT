@@ -176,7 +176,7 @@ def runClient(transport):
             # outblock_size = random.randint(10, 100)
             input_fn()
 
-            outblock_size = 40 + t
+            outblock_size = 1000 + t
             # for outblock_size in range (3000,3100):
             # for outblock_size in range (3,4):
             # Create an array of sequential bytes and send it to the EVB
@@ -194,7 +194,7 @@ def runClient(transport):
             )
 
             print(f"Send/Rcv {outblock_size}")
-            for i in range(1):
+            for i in range(20):
                 stat = client.ns_rpc_data_computeOnEVB(outBlock, retBlock)
                 if stat != 0:
                     print("Error computing on EVB")
@@ -208,6 +208,10 @@ def runClient(transport):
                         )
                         sys.stdout.flush()
                         break
+                    else:
+                        print(
+                            f"Block {i} OK, length {retBlock.value.length}, cmd {retBlock.value.cmd}, dType {retBlock.value.dType}"
+                        )
 
             if t % 100 == 0:
                 print(f"{t}...")
@@ -273,7 +277,7 @@ if __name__ == "__main__":
     argParser.add_argument(
         "-t",
         "--tty",
-        default="/dev/tty.usbmodem1234561",
+        default="/dev/tty.usbmodem1234571",
         help="Serial device (default value is None)",
     )
     argParser.add_argument(

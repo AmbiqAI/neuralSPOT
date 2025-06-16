@@ -129,7 +129,7 @@ TARGETS := \
 # -----------------------------------------------------------------------------
 
 ifndef TF_VERSION
-  TF_VERSION := ns_tflm_v1_0_0
+  TF_VERSION := helios_rt_v1_2_0
 endif
 
 SR_VERSION     := R7.70a
@@ -276,6 +276,7 @@ else ifeq ($(PART),apollo5b)
 endif
 else
   DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4
+  DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
 endif
 
 # -----------------------------------------------------------------------------

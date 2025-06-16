@@ -122,10 +122,10 @@ status example_computeOnEVB(const dataBlock *in, dataBlock *res) {
     res->description = msg_store;
     res->cmd = generic_cmd;
     res->buffer = binaryBlock;
-    // ns_lp_printf(".");
+    ns_lp_printf(".");
 
-    ns_lp_printf("Resulting Data Block To Be Sent:\n");
-    ns_rpc_genericDataOperations_printDatablock(res);
+    // ns_lp_printf("Resulting Data Block To Be Sent:\n");
+    // ns_rpc_genericDataOperations_printDatablock(res);
 
     return ns_rpc_data_success;
 }

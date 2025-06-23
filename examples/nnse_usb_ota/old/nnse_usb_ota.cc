@@ -344,28 +344,6 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
                                 FLATBUFFER_FIELDS_SIZE - \
                                 ALIGNMENT_MARGIN)  // ~481 bytes
 
-// // Function to calculate maximum chunk size based on current FlatBuffer schema
-// size_t calculate_max_chunk_size() {
-//     flatbuffers::FlatBufferBuilder builder;
-    
-//     // Create a minimal packet to measure overhead
-//     auto dummy_vector = builder.CreateVector((uint8_t*)nullptr, 0);
-//     auto packet = web::usb::CreateUsbPacket(
-//         builder,
-//         web::usb::UsbDataType_NONE,
-//         (web::usb::Platform)data.platform,
-//         0,
-//         1,
-//         dummy_vector
-//     );
-//     builder.Finish(packet, "USB1");
-    
-//     // Get FlatBuffer overhead (everything except the actual data)
-//     size_t flatbuffer_overhead = builder.GetSize();
-    
-//     // Calculate maximum data size that can fit in a packet
-//     return USB_MAX_PACKET_SIZE - USB_HEADER_SIZE - flatbuffer_overhead - ALIGNMENT_MARGIN;
-// }
 
 // Helper function to send chunked data with retries
 void send_chunked_data(web::usb::UsbDataType type, const uint8_t* data_ptr, size_t data_len) {

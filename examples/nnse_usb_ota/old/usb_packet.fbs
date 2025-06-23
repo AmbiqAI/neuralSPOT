@@ -1,0 +1,32 @@
+namespace web.usb;
+
+enum UsbDataType : byte {
+  NONE = 0,
+  SET_SE_MODE = 1,
+  SE_LATENCY = 2,
+  OPUS_LATENCY = 3,
+  AUDIO_DATA = 4,
+  MODEL_DATA = 5
+}
+
+enum Platform : byte {
+  APOLLO3 = 0,
+  APOLLO4 = 1,
+  APOLLO5 = 2
+}
+
+enum Command : byte {
+  SEND_DATA = 0,
+  CHECK_MAILBOX = 1,
+  GET_DATA = 2,
+  CHECK_HEARTBEAT = 3
+}
+
+table UsbPacket {
+  platform: Platform;
+  version: byte;
+  type: UsbDataType;
+  data: [ubyte];
+}
+
+file_identifier "USB1";

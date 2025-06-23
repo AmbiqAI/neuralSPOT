@@ -34,7 +34,7 @@ class UsbOtaTester:
         self.device = usb.core.find(idVendor=VENDOR_ID)
         if self.device is None:
             raise ValueError('Device not found')
-        
+
         print(f"Found device: {self.device}")
         
         # Reset the device
@@ -47,7 +47,7 @@ class UsbOtaTester:
         
         # Set configuration
         try:
-            self.device.set_configuration()
+        self.device.set_configuration()
             print("Configuration set successfully")
         except usb.core.USBError as e:
             print(f"Error setting configuration: {e}")
@@ -122,22 +122,22 @@ class UsbOtaTester:
     def send_packet(self, command, data_type, data, corrupt_crc=False, corrupt_data=False):
         """Send a packet to the device"""
         try:
-            # Create FlatBuffer
-            fb_data = self.create_packet(command, data_type, data)
+        # Create FlatBuffer
+        fb_data = self.create_packet(command, data_type, data)
             print(f"Created FlatBuffer of size: {len(fb_data)} bytes")
             print(f"FlatBuffer content: {fb_data.hex()}")
-            
-            # Create header
-            crc = self.calculate_crc32(fb_data)
-            if corrupt_crc:
-                crc ^= 0x12345678  # Corrupt CRC
-            
-            if corrupt_data:
-                # Corrupt some bytes in the FlatBuffer
-                fb_data = bytearray(fb_data)
-                for i in range(0, len(fb_data), 10):
-                    fb_data[i] ^= 0xFF
-            
+        
+        # Create header
+        crc = self.calculate_crc32(fb_data)
+        if corrupt_crc:
+            crc ^= 0x12345678  # Corrupt CRC
+        
+        if corrupt_data:
+            # Corrupt some bytes in the FlatBuffer
+            fb_data = bytearray(fb_data)
+            for i in range(0, len(fb_data), 10):
+                fb_data[i] ^= 0xFF
+        
             # Calculate number of chunks needed
             total_chunks = (len(fb_data) + MAX_PAYLOAD - 1) // MAX_PAYLOAD
             print(f"Data will be split into {total_chunks} chunks")
@@ -151,7 +151,7 @@ class UsbOtaTester:
                 # Create header for this chunk
                 header = struct.pack('<IBBB', crc, command, self.sequence, total_chunks)
                 print(f"Chunk {chunk_num + 1}/{total_chunks} header: {header.hex()}")
-                
+        
                 # Combine header and chunk data
                 packet = header + chunk_data
                 print(f"Chunk {chunk_num + 1}/{total_chunks} size: {len(packet)} bytes")
@@ -165,9 +165,9 @@ class UsbOtaTester:
                 print(f"Sending chunk {chunk_num + 1}/{total_chunks} to endpoint 0x{self.endpoint_out.bEndpointAddress:02x}")
                 bytes_written = self.device.write(self.endpoint_out.bEndpointAddress, packet, timeout=2000)
                 print(f"Chunk {chunk_num + 1}/{total_chunks} bytes written: {bytes_written}")
-                
-                # Wait for acknowledgment
-                try:
+        
+        # Wait for acknowledgment
+        try:
                     print(f"Waiting for response on endpoint 0x{self.endpoint_in.bEndpointAddress:02x}")
                     response = self.device.read(self.endpoint_in.bEndpointAddress, USB_MAX_PACKET_SIZE, timeout=2000)
                     print(f"Chunk {chunk_num + 1}/{total_chunks} response: {response.hex() if response else 'None'}")
@@ -243,11 +243,11 @@ class UsbOtaTester:
         data = 'Hello, World!'.encode('utf-8')
         for retry in range(MAX_RETRIES):
             try:
-                response = self.send_packet(Command.SEND_DATA, UsbDataType.MODEL_DATA, data)
-                if response:
-                    print("✓ Valid packet acknowledged")
+        response = self.send_packet(Command.SEND_DATA, UsbDataType.MODEL_DATA, data)
+        if response:
+            print("✓ Valid packet acknowledged")
                     break
-                else:
+        else:
                     print(f"✗ Valid packet not acknowledged (attempt {retry + 1}/{MAX_RETRIES})")
                     time.sleep(RETRY_DELAY)
             except usb.core.USBError as e:

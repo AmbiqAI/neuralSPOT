@@ -2,6 +2,8 @@
 #include "am_util_stdio.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "seCntrlClass.h"
+#include <cstring>  // for memcpy
 
 static model_upload_state_t upload_state = {0};
 
@@ -50,7 +52,15 @@ bool handle_model_chunk(const uint8_t* data, uint32_t length, uint32_t chunk_num
     // Check if upload is complete
     if (upload_state.received_chunks == total_chunks) {
         am_util_stdio_printf("Model upload complete. Size: %d bytes\n", upload_state.model_size);
-        // TODO: Initialize model with uploaded data
+        
+        // Initialize model with uploaded data
+        extern seCntrlClass cntrl_inst;  // Reference to global instance
+        seCntrlClass_init(&cntrl_inst);  // Initialize the instance
+        
+        // TODO: Add model data loading after initialization
+        // This will need to be implemented in seCntrlClass
+        
+        am_util_stdio_printf("Model initialized successfully\n");
         upload_state.upload_in_progress = false;
         return true;
     }

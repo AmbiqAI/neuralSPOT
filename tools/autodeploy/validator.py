@@ -825,6 +825,10 @@ def compile_and_deploy(params, mc, first_time=False):
     else:
         itcm = ""
 
+    # If full PMU capture is enabled and the platform is AP5, we need to increase the stack size
+    if params.full_pmu_capture and (params.platform == "apollo510_evb"):
+        itcm = itcm + " STACK_SIZE_IN_32B_WORDS=5120"
+
     if (params.create_profile) or (params.create_binary):
 
         if params.verbosity > 3:
@@ -868,7 +872,7 @@ def compile_and_deploy(params, mc, first_time=False):
     # time.sleep(10)
     # print("[NS] Resetting after flashing the firmware")
     # reset_dut(params)
-    time.sleep(10)
+    time.sleep(3)
     # reset_dut()
     return makefile_result
 

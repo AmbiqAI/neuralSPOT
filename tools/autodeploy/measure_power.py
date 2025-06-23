@@ -231,7 +231,10 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     # Do one more reset
     time.sleep(3)
     os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1")
-    time.sleep(10)
+    if (params.model_location == "PSRAM" or params.arena_location == "PSRAM"):
+        time.sleep(10) # wait for PSRAM to be ready
+    else:
+        time.sleep(3)
 
 
 # Joulescope-specific Code

@@ -150,12 +150,12 @@ uint32_t ns_spi_interface_init(ns_spi_config_t *cfg, uint32_t speed, am_hal_iom_
 
     IRQn_Type gc_iomIrq = (IRQn_Type)(cfg->iom + IOMSTR0_IRQn);
     ns_lp_printf("SPI Init IOM %d, gc_iomIrq %d\n", cfg->iom, gc_iomIrq);
-    #ifdef apollo510_evb
+    // #ifdef apollo510_evb
     // ns_lp_printf("Apollo510 EVB\n");
     am_bsp_iom_pins_enable(cfg->iom, AM_HAL_IOM_SPI_MODE);
-    #else
-    ns_high_drive_pins_enable(); // High drive pins for EB
-    #endif
+    // #else
+    // ns_high_drive_pins_enable(); // High drive pins for EB
+    // #endif
 
     // if (cfg->iom != NS_IOM_ISR) {
     //     ns_lp_printf("ns_spi_interface_init: Configured IOM %d does not match NS_IOM_ISR\n", cfg->iom, NS_IOM_ISR);
@@ -165,6 +165,7 @@ uint32_t ns_spi_interface_init(ns_spi_config_t *cfg, uint32_t speed, am_hal_iom_
     if (am_hal_iom_initialize(cfg->iom, &(cfg->iomHandle)) ||
         am_hal_iom_power_ctrl(cfg->iomHandle, AM_HAL_SYSCTRL_WAKE, false) ||
         am_hal_iom_configure(cfg->iomHandle, &(cfg->sIomCfg))) {
+        ns_lp_printf("ns_spi_interface_init: Failed to initialize IOM %d\n", cfg->iom);
         return NS_SPI_STATUS_ERROR;
     }
     am_hal_iom_enable(cfg->iomHandle);
@@ -195,7 +196,7 @@ uint32_t ns_spi_read(
     Transaction.ui32PauseCondition = 0;
     Transaction.ui32StatusSetClr = 0;
     Transaction.uPeerInfo.ui32SpiChipSelect = csPin;
-    // ns_lp_printf("SPI read of address 0x%llx\n", reg);
+    // ns_lp_printf("SPI read of address 0x%llx, len %d\n", reg, regLen);
     err = am_hal_iom_blocking_transfer(cfg->iomHandle, &Transaction);
     if (err) {
         ns_lp_printf("SPI Read reg 0x%llx done err %d\n",reg, err);

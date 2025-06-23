@@ -1,0 +1,6 @@
+models:
+- id: 22
+  runs_power: 50
+  tflite_filename: mobilenet_v3_sm_quant.tflite
+  unsupported_platforms:
+  - apollo3p_evb

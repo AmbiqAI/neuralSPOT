@@ -49,7 +49,7 @@
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
 size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024;
- uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((aligned(4)));
+NS_SRAM_BSS uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((aligned(4)));
 #endif
 
 // TFLM Config and arena
@@ -231,7 +231,7 @@ status configureModel(const dataBlock *in) {
     pmu_events_per_layer = 0; // This is set after first stats returned
     ns_lp_printf("[INFO] Full PMU Request %d\n", mut_cfg.config.full_pmu_stats);
 
-    ns_rpc_genericDataOperations_printDatablock(in);
+    // ns_rpc_genericDataOperations_printDatablock(in);
     if (status == 0) {
         return ns_rpc_data_success;
     } else {
@@ -461,7 +461,7 @@ status getStatistics(dataBlock *res) {
     // }
     // ns_lp_printf("\n");
     ns_lp_printf("[INFO] Sending %d bytes of stats,sizeof %d\n", res->length, sizeof(dataBlock));
-    ns_rpc_genericDataOperations_printDatablock(res);
+    // ns_rpc_genericDataOperations_printDatablock(res);
 
     return ns_rpc_data_success;
 }
@@ -699,10 +699,10 @@ void ns_preAction(void) { ns_lp_printf("Starting action\n"); }
 
 void ns_postAction(void) { ns_lp_printf("Stopping action\n"); }
 
-// NS_SRAM_BSS uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
-// NS_SRAM_BSS uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
- uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
- uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
+NS_SRAM_BSS uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
+NS_SRAM_BSS uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
+//  uint8_t tflm_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
+//  uint8_t tlfm_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};

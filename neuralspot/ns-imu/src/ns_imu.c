@@ -63,7 +63,12 @@ void ns_imu_data_available_cb(void *pArg) {
 }
 
 uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
-    uint32_t imu_int_pin = 50; // GPIO pin for the IMU interrupt
+    uint32_t imu_int_pin;
+    #ifdef AM_PART_APOLLO5B
+    imu_int_pin = 50; // GPIO pin for the IMU interrupt
+    #elif defined(AM_PART_APOLLO4P)
+    imu_int_pin = 52; // GPIO pin for the IMU interrupt
+    #endif
     uint32_t GpioIntMask = 0;
 
     // Check if the configuration is valid
@@ -82,6 +87,11 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
         ns_lp_printf("NS_IMU: SPI port must be 0 for AP510 EVB, %d not supported\n", cfg->iom);
         return NS_STATUS_INVALID_CONFIG;
     }
+#elif defined(AM_PART_APOLLO4P)
+    if (cfg->iom != 1) {
+        ns_lp_printf("NS_IMU: SPI port must be 1 for Apollo4P, %d not supported\n", cfg->iom);
+        return NS_STATUS_INVALID_CONFIG;
+    }
 #endif
 
     ns_imu_spi_config.iom = cfg->iom;
@@ -89,7 +99,6 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
 #ifdef AM_PART_APOLLO5B
     // For AP510 Mikroe Board is IOM0, which is currently not initialized well in
     // the HAL. So we need to do it manually.
-
     // Configure and init SPI0  
     am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM0);
     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_SCK_CB,  g_AM_BSP_GPIO_IOM0_SCK_CB);
@@ -98,6 +107,35 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_CS,      g_AM_BSP_GPIO_IOM0_CS);
     am_hal_gpio_pinconfig(AM_BSP_GPIO_RST_CB,       g_AM_BSP_GPIO_RST_CB); 
     am_hal_gpio_state_write(AM_BSP_GPIO_RST_CB,     AM_HAL_GPIO_OUTPUT_SET);
+#elif defined(AM_PART_APOLLO4P)
+    // For AP4P EVB, we use IOM5 for SPI, init the reset and int pins NOT CURRENTLY WORKING
+    ns_lp_printf("NS_IMU: Configuring IOM1 for SPI - WIP, not functional yet!\n");
+    // am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM1);
+    // am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM5_SCK,  g_AM_BSP_GPIO_IOM5_SCK);
+    // am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM5_MISO, g_AM_BSP_GPIO_IOM5_MISO);
+    // am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM5_MOSI, g_AM_BSP_GPIO_IOM5_MOSI);
+    // am_hal_gpio_pinconfig(66,   g_AM_BSP_GPIO_IOM5_CS);
+    am_bsp_iom_pins_enable(1, AM_HAL_IOM_SPI_MODE);
+
+    am_hal_gpio_pincfg_t mikrobus_2_reset =
+    {
+        .GP.cfg_b.uFuncSel             = AM_HAL_PIN_14_GPIO,
+        .GP.cfg_b.eGPInput             = AM_HAL_GPIO_PIN_INPUT_NONE,
+        .GP.cfg_b.eGPRdZero            = AM_HAL_GPIO_PIN_RDZERO_READPIN,
+        .GP.cfg_b.eIntDir              = AM_HAL_GPIO_PIN_INTDIR_NONE,
+        .GP.cfg_b.eGPOutCfg            = AM_HAL_GPIO_PIN_OUTCFG_PUSHPULL,
+        .GP.cfg_b.eDriveStrength       = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P5X,
+        .GP.cfg_b.ePullup              = AM_HAL_GPIO_PIN_PULLUP_NONE,
+        .GP.cfg_b.uNCE                 = 0,
+        .GP.cfg_b.eCEpol               = AM_HAL_GPIO_PIN_CEPOL_ACTIVELOW,
+        .GP.cfg_b.uRsvd_0              = 0,
+        .GP.cfg_b.ePowerSw             = AM_HAL_GPIO_PIN_POWERSW_NONE,
+        .GP.cfg_b.eForceInputEn        = AM_HAL_GPIO_PIN_FORCEEN_NONE,
+        .GP.cfg_b.eForceOutputEn       = AM_HAL_GPIO_PIN_FORCEEN_NONE,
+        .GP.cfg_b.uRsvd_1              = 0,
+    };
+    am_hal_gpio_pinconfig(14, mikrobus_2_reset);
+    am_hal_gpio_state_write(14, 0);
 #endif
 
     ns_spi_interface_init(&ns_imu_spi_config, AM_HAL_IOM_8MHZ, AM_HAL_IOM_SPI_MODE_3);

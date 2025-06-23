@@ -5,11 +5,11 @@
 # AS_VERSION := R3.1.1
 
 # *** Apollo4 Plus
-# PLATFORM := apollo4p_evb
+PLATFORM := apollo4p_evb
 # PLATFORM := apollo4l_blue_evb
 # PLATFORM := apollo4l_evb
 # PLATFORM := apollo4p_blue_kxr_evb
-# AS_VERSION := R4.5.0
+AS_VERSION := R4.5.0
 # AS_VERSION := R4.4.1
 
 # *** Apollo510 EVB

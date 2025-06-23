@@ -197,11 +197,37 @@ def reset_dut(params):
 
 tty = None
 
+def wait_for_tty(params, timeout=30):
+    """If TTY is auto, ping find_tty() until it finds a tty or times out.
+       If TTY is not auto, ping that tty until it is available or times out."""
+    if params.tty == 'auto':
+        start_time = time.time()
+        while True:
+            tty = find_tty(params)
+            if tty is not None:
+                log.info("Found TTY: %s" % tty)
+                return tty
+            if time.time() - start_time > timeout:
+                log.error("Timeout waiting for TTY")
+                return None
+            time.sleep(2)
+    else:
+        # If TTY is not auto, just wait for it to be available
+        while True:
+            try:
+                with open(params.tty, 'r'):
+                    log.info("TTY %s is available" % params.tty)
+                    return params.tty
+            except FileNotFoundError:
+                log.warning("TTY %s not found, retrying..." % params.tty)
+                time.sleep(2)
+
 def find_tty(params):
     # Find the TTY of our device by scanning serial USB or UART devices
     # The VID of our device is alway 0xCAFE
     # This is a hack to find the tty of our device, it will break if there are multiple devices with the same VID
     # or if the VID changes
+    
     tty = None
     ports = serial.tools.list_ports.comports()
 
@@ -227,47 +253,50 @@ def find_tty(params):
     return tty
 
 def rpc_connect_as_client(params):
-    try:
-        # Find the TTY of our device by scanning serial USB devices
-        # The VID of our device is alway 0xCAFE
-        if params.tty == 'auto':
-            tty = find_tty(params)
-            if tty is None:
-                print(f"Couldn't find tty device on {params.transport}, trying a reset")
-                # reset pyserial
+    tty = wait_for_tty(params)
+    if tty is None:
+        print("Couldn't find tty device on %s" % params.transport)
+        exit(1)
+    # try:
+    #     # Find the TTY of our device by scanning serial USB devices
+    #     # The VID of our device is alway 0xCAFE
+    #     if params.tty == 'auto':
+    #         tty = find_tty(params)
+    #         if tty is None:
+    #             print(f"Couldn't find tty device on {params.transport}, trying a reset")
+    #             # reset pyserial
 
-                reset_dut(params)
-                tty = find_tty(params)
-                if tty is None:
-                    print("Couldn't find tty device after reset")
-                    exit(1)
-        else:
-            tty = params.tty
+    #             reset_dut(params)
+    #             tty = find_tty(params)
+    #             if tty is None:
+    #                 print("Couldn't find tty device after reset")
+    #                 exit(1)
+    #     else:
+    #         tty = params.tty
 
         # The next step may fail if on Linux and the user is not in the dialout group
-        try:
-            transport = erpc.transport.SerialTransport(tty, 115200)
-        except:
-            # Print error if in Linux and user is not in the dialout group
-            if os.name == "posix":
-                print(
-                    "[NS ERROR] Found, but could not open serial port %s. " % tty)
-                print("You may not have permission to access the serial port. "
-                    "Try running the script after adding your user to the dialout group."
-                )
-            else:
-                print(
-                    "[NS ERROR] Found, but could not open serial port %s. " % tty
-                )
-            exit(1)
-
-        clientManager = erpc.client.ClientManager(
-            transport, erpc.basic_codec.BasicCodec
-        )
-        client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
-        return client
+    log.info("Connecting to EVB USB/UART device %s" % tty)
+    try:
+        transport = erpc.transport.SerialTransport(tty, 115200)
     except:
-        print("Couldn't establish RPC connection EVB USB device %s" % tty)
+        # Print error if in Linux and user is not in the dialout group
+        if os.name == "posix":
+            print(
+                "[NS ERROR] Found, but could not open serial port %s. " % tty)
+            print("You may not have permission to access the serial port. Try running the script after adding your user to the dialout group.")
+        else:
+            print(
+                "[NS ERROR] Found, but could not open serial port %s. " % tty
+            )
+        exit(1)
+
+    clientManager = erpc.client.ClientManager(
+        transport, erpc.basic_codec.BasicCodec
+    )
+    client = GenericDataOperations_PcToEvb.client.pc_to_evbClient(clientManager)
+    return client
+    # except:
+    #     print("Couldn't establish RPC connection EVB USB device %s" % tty)
 
 
 import subprocess

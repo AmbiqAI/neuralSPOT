@@ -28,6 +28,9 @@ The basic_tf_stub example is based on a speech to intent model.
 #include "ns_energy_monitor.h"
 #include "ns_peripherals_power.h"
 
+// Audio variables and config
+
+
 static int recording_win = NUM_FRAMES;
 
 typedef enum { WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
@@ -150,3 +153,5 @@ int main(void) {
         // ns_deep_sleep();
     } // while(1)
 }
+
+

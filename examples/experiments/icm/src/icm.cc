@@ -41,7 +41,11 @@ int main(void) {
     ns_imu_config_t  imu_cfg = {
         .api = &ns_imu_V1_0_0,
         .sensor = NS_IMU_SENSOR_ICM45605,
+        #ifdef AM_PART_APOLLO5B
         .iom    = 0,
+        #else
+        .iom    = 1, // IOM1 for Apollo4P
+        #endif
         .accel_fsr = ACCEL_CONFIG0_ACCEL_UI_FS_SEL_4_G,
         .gyro_fsr  = GYRO_CONFIG0_GYRO_UI_FS_SEL_2000_DPS,
         .accel_odr = ACCEL_CONFIG0_ACCEL_ODR_50_HZ,

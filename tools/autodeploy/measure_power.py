@@ -212,14 +212,14 @@ def generatePowerBinary(params, mc, md, cpu_mode):
 
     if params.verbosity > 3:
         print(
-            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={n} deploy"
         )
         makefile_result = os.system(
-            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} TARGET={n} EXAMPLE={n} deploy"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path} {mlp} EXAMPLE={n} {ws_and} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={n} deploy"
         )
     else:
         makefile_result = os.system(
-            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} TARGET={n} deploy >{ws_null} 2>&1"
+            f"cd {params.neuralspot_rootdir} {ws_and} make clean >{ws_null} 2>&1 {ws_and} make {ws_j} {ps} AUTODEPLOY=1 ADPATH={relative_build_path}  {mlp} EXAMPLE={n} >{ws_null} 2>&1 {ws_and} make {ps} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={n} deploy >{ws_null} 2>&1"
         )
 
     if makefile_result != 0:

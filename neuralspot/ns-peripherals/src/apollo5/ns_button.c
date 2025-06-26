@@ -95,11 +95,11 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
         ui32IntStatus = am_hal_gpio_interrupt_register(
             AM_HAL_GPIO_INT_CHANNEL_0, ui32BUTTON0GpioNum,
             (am_hal_gpio_handler_t)ns_button_0_handler, NULL);
-        ns_lp_printf("Button 0 interrupt registered. Status %d\n", ui32IntStatus);
+        // ns_lp_printf("Button 0 interrupt registered. Status %d\n", ui32IntStatus);
         ui32IntStatus = am_hal_gpio_interrupt_control(
             AM_HAL_GPIO_INT_CHANNEL_0, AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,
             (void *)&ui32BUTTON0GpioNum);
-        ns_lp_printf("Button 0 interrupt enabled. Status %d\n", ui32IntStatus);
+        // ns_lp_printf("Button 0 interrupt enabled. Status %d\n", ui32IntStatus);
     }
     if (cfg->button_1_enable) {
         am_hal_gpio_interrupt_register(

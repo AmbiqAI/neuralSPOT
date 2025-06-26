@@ -93,22 +93,9 @@ neuralSPOT includes a sample Python application which requires some Python libra
 
 ```bash
 $> cd .../neuralSPOT
-$> python setup.py install
+$> pip install .
 ```
 
-### Running neuralSPOT RPC
-
-An EVB running RPC-enabled code will show up as a USB TTY device. On Windows this will be one of the COMx: ports. The easiest way to identify which COM port to use is to look at the device manager GUI while resetting the EVB (after you have flashed an RPC-capable image) - after the reset, two COM ports will show up, one for Jlink's USB and the other for the RPC TTY port. You can also see these ports from the command line via the following command:
-
-```bash
-wmic path Win32_SerialPort
-```
-
-If the port is (for example) COM3, the command to start neuralSPOT's Python application as a server would be:
-
-```bash
-python -m generic_data -t COM3: -o myaudio.wav -m server
-```
 
 
 

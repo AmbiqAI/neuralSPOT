@@ -60,7 +60,6 @@ modules      += extern/AmbiqSuite/$(AS_VERSION)
 modules 	 += extern/CMSIS/$(CMSIS_DSP_VERSION)
 # modules 	 += extern/CMSIS/CMSIS-NN
 modules      += extern/tensorflow/$(TF_VERSION)
-# modules      += extern/SEGGER_RTT/$(SR_VERSION)
 modules 	 += extern/codecs/opus-precomp
 modules 	 += extern/drivers/tdk/icm45605
 
@@ -78,32 +77,29 @@ ifeq ($(AUTODEPLOY),1)
 	modules      += $(ADPATH)/$(EXAMPLE)
 else
 	ifeq ($(EXAMPLE),all)
-		modules      += examples/basic_tf_stub
-		modules      += examples/har
-# modules      += examples/nnse2
-		modules	     += examples/uart
-		modules      += examples/rpc_server
+		modules      += apps/basic_tf_stub
+		ifneq ($(ARCH),apollo3)
+			modules      += apps/ai/har
+		endif
+		modules      += apps/ai/kws
+		modules	     += apps/examples/uart
+		modules      += apps/examples/rpc_evb_to_pc
+		modules      += apps/examples/rpc_pc_to_evb
+		ifeq ($(BOARD),apollo510)
+			modules      += apps/examples/icm
+		endif
 
-		ifeq ($(BOARD),apollo4p)
-			modules += examples/rpc_client
-		else ifeq ($(BOARD),apollo5b)
-			modules += examples/rpc_client
-		else ifeq ($(BOARD),apollo510)
-			modules += examples/rpc_client
-		endif	
 		ifeq ($(BLE_SUPPORTED),1)
-#			modules      += examples/web_ble
-# 			modules      += examples/audio_codec
-			modules	     += examples/nnse
-			modules	     += examples/nnid
+			modules	     += apps/demos/nnse
+			modules	     += apps/demos/nnid
 		endif
 
 		ifeq ($(USB_PRESENT),1)
-			modules      += examples/vision		
-			modules 	 += examples/ic
-			modules      += examples/quaternion
+			modules      += apps/examples/vision		
+			modules 	 += apps/demos/ic
+			modules      += apps/examples/quaternion
 			ifneq ($(ARCH),apollo3)
-				modules      += examples/mpu_data_collection
+				modules      += apps/experiments/mpu_data_collection
 			endif
 # 			ifneq ($(BLE_SUPPORTED),1)
 # # Don't include it twice
@@ -111,7 +107,7 @@ else
 # 			endif
 		endif
 	else
-		modules 	 += examples/$(EXAMPLE)
+		modules 	 += apps/$(EXAMPLE)
 	endif
 endif
 
@@ -177,7 +173,14 @@ doc_sources = $(addprefix ../../,$(sources))
 doc_sources += $(addprefix ../../,$(includes_api))
 
 # Find the full path of $(TARGET) for deploy:
-deploy_target = $(filter %$(TARGET).bin, $(examples))
+# Compute binary by removing anything before the last slash in EXAMPLE
+binary_name = $(lastword $(subst /, ,$(EXAMPLE)))
+# Special case: if EXAMPLE is 'all', use 'basic_tf_stub'
+ifeq ($(EXAMPLE),all)
+	binary_name = basic_tf_stub
+endif
+# $(info binary_name: $(binary_name))
+deploy_target = $(filter %$(binary_name).bin, $(examples))
 # $(info deploy_target: $(deploy_target))
 # $(info TARGET: $(TARGET))
 # $(info examples: $(examples))
@@ -222,12 +225,7 @@ else
 	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
 endif
 
-# %.size: %.axf
-# 	@echo " Generating size information for $(COMPILERNAME) $@..."
-# 	$(Q) $(MKD) -p $(@D)
-# 	$(foreach OBJ,$(objects),$(shell echo "${OBJ}">>$*.sizeinput;))
-
-# 	$(Q) $(SIZE) $< > $@
+# AXF target located in helpers.mk as a def to allow multiple mains
 
 .PHONY: nest
 nest: all
@@ -347,14 +345,12 @@ help:
 	@echo "Configuration variables (override on command line):"
 	@echo "  PLATFORM=<name>    - Which board/evb combination to build for."
 	@echo "                       e.g. apollo4p_evb, apollo510_evb, apollo4p_blue_kbr_evb"
-
 	@echo ""
 	@echo "  TOOLCHAIN=<name>   - Choose toolchain (arm-none-eabi, arm, llvm)."
 	@echo "  AS_VERSION=<ver>   - AmbiqSuite version (e.g. R4.3.0, R5.3.0)."
 	@echo "  TF_VERSION=<ver>   - TensorFlow Lite Micro version (e.g. ns_tflm_v1_0_0)."
 	@echo ""
-	@echo "  EXAMPLE=<name>     - Which example to build (default: all)."
-	@echo "  TARGET=<name>      - Binary name for deploy/init (default: basic_tf_stub)."
+	@echo "  EXAMPLE=<name>     - Which example to build (default: all) or deploy (default: basic_tf_stub)."
 	@echo ""
 	@echo "Feature switches:"
 	@echo "  MLDEBUG=0|1        - Include TF debugging info (default 0)."
@@ -365,10 +361,38 @@ help:
 	@echo "  TFLM_IN_ITCM=0|1   - Place TFLM in ITCM (default 0)."
 	@echo ""
 	@echo "Examples:"
-	@echo "  make PLATFORM=apollo510_evb EXAMPLE=har        # Build HAR example"
+	@echo "  make PLATFORM=apollo510_evb EXAMPLE=ai/har     # Build HAR example"
 	@echo "  make TOOLCHAIN=arm clean                       # Clean using armclang"
-	@echo "  make deploy TARGET=har                         # Deploy basic_tf_stub to device"
+	@echo "  make deploy EXAMPLE=ai/har                     # Deploy basic_tf_stub to device"
 	@echo ""
+	@echo "==== Config Settings ==="
+	@echo "TOOLCHAIN:      $(TOOLCHAIN)"
+	@echo "COMPILERNAME:   $(COMPILERNAME)"
+	@echo "PLATFORM:       $(PLATFORM)."
+	@echo "BOARD:          $(BOARD)."
+	@echo "BOARDROOT:      $(BOARDROOT)."
+	@echo "PART:           $(PART)."
+	@echo "EVB:            $(EVB)."
+	@echo "ARCH:           $(ARCH)."
+	@echo "CPU:            $(CPU)."
+	@echo "TARGET:         $(TARGET)."
+	@echo "EXAMPLE:        $(EXAMPLE)."
+	@echo "FPU_FLAG:       $(FPU_FLAG)."
+	@echo "BINDIR:         $(BINDIR)."
+	@echo "NESTDIR:        $(NESTDIR)."
+	@echo "BINDIRROOT:     $(BINDIRROOT)."
+	@echo "BLE_SUPPORTED:  $(BLE_SUPPORTED)"
+	@echo "USB_PRESENT:    $(USB_PRESENT)"
+	@echo "TF_VERSION:     $(TF_VERSION)"
+	@echo "AS_VERSION:     $(AS_VERSION)"
+	@echo "--------------------------------"
+	@echo "==== Toolchain Settings ===="
+	@echo "TOOLCHAIN:       $(TOOLCHAIN)"
+	@echo "CC:              $(CC)"
+	@echo "CFLAGS:          $(CFLAGS)"
+	@echo "LFLAGS:          $(LFLAGS)"
+	@echo "LINKER_FILE:     $(LINKER_FILE)"
+	@echo "--------------------------------"
 
 
 %.d: ;

@@ -92,7 +92,7 @@ The directory structure reflects the code structure:
 /neuralspot - contains all code for NeuralSPOT libraries
 	/neuralspot # Sensor, communications, and helper libraries
 	/extern     # External dependencies, including TF and AmbiqSuite
-	/examples   # Example applications, each of which can be compiled to a deployable binary
+	/apps       # Example applications, each of which can be compiled to a deployable binary
 	/projects   # Examples of how to integrate external projects such as EdgeImpulse models
 	/make       # Makefile helpers, including neuralspot-config.mk and local_overrides.mk
 	/tools	    # AutoDeploy and RPC python-based tools

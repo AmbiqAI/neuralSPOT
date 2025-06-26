@@ -166,7 +166,7 @@ set_event_type(uint32_t ui32CounterNum, uint32_t ui32EventType)
 uint32_t
 am_util_pmu_enable(void)
 {
-    am_util_stdio_printf("PMU Enable\n");
+    // am_util_stdio_printf("PMU Enable\n");
     ARM_PMU_Enable();
     ARM_PMU_CYCCNT_Reset();
     ARM_PMU_EVCNTR_ALL_Reset();

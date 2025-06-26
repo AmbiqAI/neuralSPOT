@@ -120,6 +120,8 @@
 #define CFG_TUD_MSC_EP_BUFSIZE   512
 
 // Vendor FIFO size of TX and RX
+#define CFG_TUD_VENDOR_EPSIZE 512
+
 // If not configured vendor endpoints will not be buffered
 #define CFG_TUD_VENDOR_RX_BUFSIZE 512
 // (TUD_OPT_HIGH_SPEED ? 512 : 64)

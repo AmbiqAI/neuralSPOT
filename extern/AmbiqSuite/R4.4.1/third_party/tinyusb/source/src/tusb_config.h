@@ -112,6 +112,7 @@
 #define CFG_TUD_CDC_EP_BUFSIZE  1024
 
 // Vendor FIFO size of TX and RX
+#define CFG_TUD_VENDOR_EPSIZE 512
 // If not configured vendor endpoints will not be buffered
 #define CFG_TUD_VENDOR_RX_BUFSIZE (TUD_OPT_HIGH_SPEED ? 512 : 512)
 // Increase tx ring-buffer size from 512 to 4096. It can transmit data at a rate

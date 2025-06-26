@@ -34,7 +34,7 @@ uint32_t ns_imu_ICM45605_init(ns_imu_config_t *cfg) {
     uint8_t whoami;
     uint32_t status = NS_STATUS_SUCCESS;
     if (cfg == NULL) {
-        ns_lp_printf("Invalid handle\n");
+        ns_lp_printf("ns_imu_ICM45605_init: Invalid handle\n");
         return NS_STATUS_INVALID_HANDLE;
     }
 
@@ -70,17 +70,17 @@ uint32_t ns_imu_ICM45605_init(ns_imu_config_t *cfg) {
     status |= inv_imu_set_accel_mode(&ns_imu_icm45605_dev, PWR_MGMT0_ACCEL_MODE_LN); // LP?
     status |= inv_imu_set_gyro_mode(&ns_imu_icm45605_dev, PWR_MGMT0_GYRO_MODE_LN); // LP?
 
-    // If callback is set, configure interrupt. Invoker is responsible for INT pin setup.
-    if (cfg->frame_available_cb != NULL) {
-        cfg->frame_size = cfg->frame_size ? cfg->frame_size : 1;
-        status |= ns_imu_ICM45605_configure_interrupts(cfg);
-    }
-
     if (cfg->calibrate) {
         ns_lp_printf("NS_IMU: Calibrating ICM-45605\n");
         status |= ns_calibrate_icm45605(cfg);
     } else {
         cfg->calibrated = 0; // set calibrated flag
+    }
+
+        // If callback is set, configure interrupt. Invoker is responsible for INT pin setup.
+    if (cfg->frame_available_cb != NULL) {
+        cfg->frame_size = cfg->frame_size ? cfg->frame_size : 1;
+        status |= ns_imu_ICM45605_configure_interrupts(cfg);
     }
 
     return status;
@@ -147,7 +147,7 @@ uint32_t ns_imu_ICM45605_configure_interrupts(ns_imu_config_t *cfg) {
         ns_lp_printf("Invalid handle\n");
         return NS_STATUS_INVALID_HANDLE;
     }
-    ns_lp_printf("NS_IMU ICM: Configuring GPIO interrupt\n");
+    // ns_lp_printf("NS_IMU ICM: Configuring GPIO interrupt\n");
 	int_pin_config.int_polarity = INTX_CONFIG2_INTX_POLARITY_HIGH;
 	int_pin_config.int_mode     = INTX_CONFIG2_INTX_MODE_PULSE;
 	int_pin_config.int_drive    = INTX_CONFIG2_INTX_DRIVE_PP;

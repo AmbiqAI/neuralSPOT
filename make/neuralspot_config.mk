@@ -112,7 +112,7 @@ endif
 # Example directory & nesting info
 NESTCOMP      := extern/AmbiqSuite
 NESTEGG       := basic_tf_stub
-NESTSOURCEDIR := examples/$(NESTEGG)/src
+NESTSOURCEDIR := apps/$(NESTEGG)/src
 
 # When building all examples, these are the choices
 TARGETS := \

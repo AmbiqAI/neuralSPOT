@@ -149,7 +149,7 @@ uint32_t ns_spi_interface_init(ns_spi_config_t *cfg, uint32_t speed, am_hal_iom_
     cfg->sIomCfg.pNBTxnBuf = ns_spi_tcb_command_buffer;
 
     IRQn_Type gc_iomIrq = (IRQn_Type)(cfg->iom + IOMSTR0_IRQn);
-    ns_lp_printf("SPI Init IOM %d, gc_iomIrq %d\n", cfg->iom, gc_iomIrq);
+    // ns_lp_printf("SPI Init IOM %d, gc_iomIrq %d\n", cfg->iom, gc_iomIrq);
     // #ifdef apollo510_evb
     // ns_lp_printf("Apollo510 EVB\n");
     am_bsp_iom_pins_enable(cfg->iom, AM_HAL_IOM_SPI_MODE);

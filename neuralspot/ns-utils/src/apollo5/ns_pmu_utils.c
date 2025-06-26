@@ -304,7 +304,7 @@ uint32_t ns_pmu_init(ns_pmu_config_t *cfg) {
     }
 
     ns_am_pmu_config.ui32Counters = counterMask;
-
+    am_util_pmu_enable();
     am_util_pmu_init(&ns_am_pmu_config);
     ns_pmu_initialized = true;
     ns_pmu_profiling = true;

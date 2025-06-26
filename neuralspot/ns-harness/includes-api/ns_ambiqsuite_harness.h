@@ -30,6 +30,13 @@ extern "C" {
     #include "ns_timer.h"
     #include <am_util_stdio.h>
 
+    #ifndef MAX
+        #define MAX(a, b) (((a) > (b)) ? (a) : (b))
+    #endif
+    #ifndef MIN
+        #define MIN(a, b) (((a) < (b)) ? (a) : (b))
+    #endif
+
     #define ns_debug_printf_enable am_bsp_debug_printf_enable
     #define ns_uart_printf_disable am_bsp_uart_printf_disable
     #define ns_itm_printf_disable                                                                  \

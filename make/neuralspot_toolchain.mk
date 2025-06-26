@@ -77,6 +77,7 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
     LFLAGS += -Wl,--no-warn-rwx-segments
   endif
 
+  # Avoid linker warnings
   LFLAGS += \
     -Wl,--wrap=_write_r \
     -Wl,--wrap=_close_r \
@@ -88,7 +89,7 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
     -Wl,--wrap=_isatty_r
 
   LFLAGS += \
-    -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map \
+    -Wl,--gc-sections,--entry,Reset_Handler \
     -Wl,--start-group -lm -lc -lgcc -lnosys \
     -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ \
     -Wl,--end-group

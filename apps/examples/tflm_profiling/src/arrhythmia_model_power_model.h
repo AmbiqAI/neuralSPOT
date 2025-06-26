@@ -1,0 +1,6 @@
+#define LOCAL_MODEL_NAME arrhythmia_model_power
+// Calculated Arena size
+#define arrhythmia_model_power_COMPUTED_ARENA_SIZE 73
+
+#define arrhythmia_model_power_MODEL_LOCATION NS_AD_TCM
+#define arrhythmia_model_power_ARENA_LOCATION NS_AD_TCM

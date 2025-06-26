@@ -57,6 +57,7 @@ void ns_imu_data_available_cb(void *pArg) {
             ns_imu_frame_buffer_index = 0;
             ns_imu_config.frame_available_cb(&ns_imu_config);
         }
+        // ns_lp_printf("NS_IMU: Data collected %d\n", ns_imu_frame_buffer_index);
     } else {
         ns_lp_printf("NS_IMU: Failed to get data\n");
     }
@@ -144,7 +145,7 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
 
     // If callback is set, configure int pin
     if (cfg->frame_available_cb != NULL) {
-        ns_lp_printf("NS_IMU: Configuring GPIO interrupt\n");
+        // ns_lp_printf("NS_IMU: Configuring GPIO interrupt\n");
         cfg->frame_size = cfg->frame_size ? cfg->frame_size : 1;
         am_hal_gpio_pinconfig(imu_int_pin,  am_hal_gpio_pincfg_input);
     }

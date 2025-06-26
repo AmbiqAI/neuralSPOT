@@ -56,7 +56,7 @@ uint32_t ns_peripheral_button_init(ns_button_config_t *cfg) {
         return NS_STATUS_INVALID_VERSION;
     }
 #endif
-    ns_lp_printf("ns_peripheral_button_init\n");
+    // ns_lp_printf("ns_peripheral_button_init\n");
     ui32IntStatus = ns_button_platform_init(cfg);
 
     return ui32IntStatus;

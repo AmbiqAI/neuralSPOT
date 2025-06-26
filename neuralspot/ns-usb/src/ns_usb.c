@@ -208,11 +208,13 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     // ns_lp_printf("NS USB  asked to send %d from 0x%x, \n", bufsize, (uint32_t)buffer);
     // Make sure there is no pending data in the USB TX buffer
     // This is a blocking call, so we can be sure that the buffer is flushed
-    while (tud_cdc_write_available() < 4096) {
-        ns_lp_printf("NS USB flushing before of send %d, avail %d\n", bufsize, tud_cdc_write_available());
+    while (tud_cdc_write_available() < usb_config.tx_bufferLength) {
+        // ns_lp_printf("NS USB flushing before of send %d, avail %d\n", bufsize, tud_cdc_write_available());
         ns_delay_us(1000);
+        ns_interrupt_master_disable(); // critical region
         tud_cdc_write_flush(); // flush the write buffer
-        // tud_task(); // flush the write buffer
+        tud_task(); // flush the write buffer
+        ns_interrupt_master_enable();
     }
 
     while (bytes_tx < bufsize) {

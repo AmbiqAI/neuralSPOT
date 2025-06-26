@@ -30,12 +30,28 @@ endif
 # 2) DEFAULTS & NAMING CONVENTIONS
 # -----------------------------------------------------------------------------
 
+# Supported platforms
+TARGETS := \
+  apollo3p_evb \
+  apollo4p_evb \
+  apollo4p_blue_kbr_evb \
+  apollo4p_blue_kxr_evb \
+  apollo4l_evb \
+  apollo4l_blue_evb \
+  apollo5b_evb \
+  apollo510_evb \
+
 # Where “nest” mode will copy source files
 NESTDIR := nest
 
 # If no PLATFORM is specified from outside, pick a sane default
 ifndef PLATFORM
   PLATFORM := apollo510_evb
+endif
+
+# Error if PLATFORM is not set to a valid target
+ifeq ($(filter $(PLATFORM),$(TARGETS)),)
+  $(error "Invalid PLATFORM: $(PLATFORM). Must be one of: $(TARGETS).")
 endif
 
 # For Apollo5 variants that use “apollo510” in names older than R5.3.0
@@ -57,6 +73,10 @@ endif
 EVB        := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
 BOARDROOT  := $(BOARD)
 PART       := $(BOARDROOT)
+
+# Error out if PART is apollo5a
+# ifeq ($(PART),apollo5a)
+#   $(error "apollo5a is not supported. Use apollo510 or apollo5b instead.")
 
 # Replace any spaces in EVB with underscores (unlikely, but for safety)
 space      := $(null) #
@@ -114,15 +134,7 @@ NESTCOMP      := extern/AmbiqSuite
 NESTEGG       := basic_tf_stub
 NESTSOURCEDIR := apps/$(NESTEGG)/src
 
-# When building all examples, these are the choices
-TARGETS := \
-  apollo3p_evb \
-  apollo4p_evb \
-  apollo4p_blue_kbr_evb \
-  apollo4p_blue_kxr_evb \
-  apollo4l_evb \
-  apollo4l_blue_evb \
-  apollo5a_evb
+
 
 # -----------------------------------------------------------------------------
 # 5) EXTERNAL LIBRARY VERSIONS
@@ -272,7 +284,7 @@ ifeq ($(ARCH),apollo5)
 ifeq ($(PART),apollo5a)
   DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
 else ifeq ($(PART),apollo5b)
-  DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_FULL_SPEED
+  DEFINES+= BOARD_DEVICE_RHPORT_SPEED=OPT_MODE_HIGH_SPEED
 endif
 else
   DEFINES+= CFG_TUSB_MCU=OPT_MCU_APOLLO4

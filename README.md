@@ -33,6 +33,7 @@ NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstr
 * **Hardware**
     * [Ambiq EVB](https://ambiq.com/apollo4/): at least one of [Apollo4 Plus](https://ambiq.com/apollo4-plus/), [Apollo4 Blue Plus](https://ambiq.com/apollo4-blue-plus/), [Apollo4 Lite](https://ambiq.com/apollo4-lite/), [Apollo4 Blue Lite](https://ambiq.com/apollo4-blue-lite/), [Apollo3 Blue Plus](https://ambiq.com/apollo3-blue-plus/), or Ambiq's flagship, the [Apollo510](https://ambiq.com/apollo510/).
     * Energy Measurement (optional): [Joulescope](https://www.joulescope.com)  JS110 or JS220 (only needed for automated model energy measurements)
+    * Sensors: some of neuralSPOT's example applications require sensors such as microphones, IMUs, ECG/PPG sensors, and cameras. See the application's README for detailed requirements. 
 * **Software**
     * [Segger J-Link 8.12+](https://www.segger.com/downloads/jlink/)
     * Compilers: at least one of...
@@ -65,7 +66,7 @@ NeuralSPOT includes Autodeploy, a tool to automatically analyze, build, characte
 ```bash
 cd .../neuralSPOT # neuralSPOT's root directory
 pip install .
-ns_autodeploy --tflite-filename=mymodel.tflite
+ns_autodeploy --tflite-filename mymodel.tflite
 ```
 
 This one invocation will:
@@ -80,11 +81,11 @@ This one invocation will:
 Autodeploy is highly configurable and also **capable of automatically measuring the power** used by inference (if a joulescope is available) - see the [reference guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/tools/README.md) and [application note](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.md) for more details.
 
 ## NeuralSPOT Structure and Directories
-NeuralSPOT consists of the neuralspot [libraries](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot), required external components, [tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools), [examples](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples), and [documentation](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs).
+NeuralSPOT consists of the neuralspot [libraries](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot), required external components, [tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools), [applications](https://github.com/AmbiqAI/neuralSPOT/tree/main/apps), and [documentation](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs).
 
-<p align="center">
-<img src="./docs/images/image-20230727151002947.png" alt="image-20230727151002947" style="zoom:50%;" />
-</p>
+![image-20250627104626036](/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/images/ns-layercake.png)
+
+
 
 The directory structure reflects the code structure:
 

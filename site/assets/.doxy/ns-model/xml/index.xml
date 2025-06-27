@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.4" xml:lang="en-US">
+  <compound refid="structns__model__state__t" kind="struct"><name>ns_model_state_t</name>
+    <member refid="structns__model__state__t_1a32adf88dc388b285f735ab739a3f7b81" kind="variable"><name>state</name></member>
+    <member refid="structns__model__state__t_1aa1465473ecc138ec9262fea6c16e6bf2" kind="variable"><name>runtime</name></member>
+    <member refid="structns__model__state__t_1ad34e675c0388645d4f946e19d8f8b9c7" kind="variable"><name>model_array</name></member>
+    <member refid="structns__model__state__t_1a8e32f9c624f9a774367c4d81d499742c" kind="variable"><name>arena</name></member>
+    <member refid="structns__model__state__t_1ad20c8f882ed7f569eb34f0875c01402f" kind="variable"><name>arena_size</name></member>
+    <member refid="structns__model__state__t_1a49204feb4d5d711b83070782e2aa4ef2" kind="variable"><name>rv_arena</name></member>
+    <member refid="structns__model__state__t_1a2d50dcf6d821aed78305ed5658276456" kind="variable"><name>rv_arena_size</name></member>
+    <member refid="structns__model__state__t_1a22cd8e3e316f37185a4741b20d89f949" kind="variable"><name>rv_count</name></member>
+    <member refid="structns__model__state__t_1aa395cf721482b764128b06230e7821c1" kind="variable"><name>numInputTensors</name></member>
+    <member refid="structns__model__state__t_1ade303e1f7e0659d0eb2e65a40930bf90" kind="variable"><name>numOutputTensors</name></member>
+    <member refid="structns__model__state__t_1a7539d81ab4b6a8581f7afd37ff41d554" kind="variable"><name>tickTimer</name></member>
+    <member refid="structns__model__state__t_1acbe2440b1d4ae587e508595c561f6ca7" kind="variable"><name>mac_estimate</name></member>
+    <member refid="structns__model__state__t_1ab919fdd048880fafc3dda85248a5d96e" kind="variable"><name>pmu</name></member>
+    <member refid="structns__model__state__t_1a8a50ca7008958a04e1405c8993981cb0" kind="variable"><name>model</name></member>
+    <member refid="structns__model__state__t_1aa00a288358bc4b0fe4db1e427105cf48" kind="variable"><name>interpreter</name></member>
+    <member refid="structns__model__state__t_1ae073d82bf5951726662bed7f535027c0" kind="variable"><name>model_input</name></member>
+    <member refid="structns__model__state__t_1ac2d3d2c8cee748a4ed4b8e55703d2230" kind="variable"><name>model_output</name></member>
+    <member refid="structns__model__state__t_1aa351e8977e32b05e1262baab37b2b584" kind="variable"><name>profiler</name></member>
+    <member refid="structns__model__state__t_1a139d22c08867981de84464273e44941b" kind="variable"><name>error_reporter</name></member>
+    <member refid="structns__model__state__t_1a4c68e7019dbf9adb63d178709f87a8b2" kind="variable"><name>computed_arena_size</name></member>
+  </compound>
+  <compound refid="ns__model_8h" kind="file"><name>ns_model.h</name>
+    <member refid="group__ns-model_1gaf308c397a3628cd18e404d027d7df7ee" kind="define"><name>NS_MAX_INPUT_TENSORS</name></member>
+    <member refid="group__ns-model_1ga4b733a69104ac8999af57dba1a089ea1" kind="define"><name>NS_MAX_OUTPUT_TENSORS</name></member>
+    <member refid="group__ns-model_1gae97a396a8f9a5659c4ca4c49c85f0b2a" kind="enum"><name>ns_model_states_e</name></member>
+    <member refid="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa6564f2f3e15be06b670547bbcaaf0798" kind="enumvalue"><name>READY</name></member>
+    <member refid="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2d0ab2296896fcb80babf4dadfd039a5" kind="enumvalue"><name>NOT_READY</name></member>
+    <member refid="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2fd6f336d08340583bd620a7f5694c90" kind="enumvalue"><name>ERROR</name></member>
+    <member refid="group__ns-model_1ga50b88f68884a4cf569728373e3cb3d4e" kind="enum"><name>ns_model_runtime_e</name></member>
+    <member refid="group__ns-model_1gga50b88f68884a4cf569728373e3cb3d4ea857b412fc355bdfa2f55f3dc81fc950b" kind="enumvalue"><name>TFLM</name></member>
+    <member refid="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" kind="function"><name>ns_model_init</name></member>
+  </compound>
+  <compound refid="ns__model_8cc" kind="file"><name>ns_model.cc</name>
+    <member refid="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" kind="function"><name>ns_model_init</name></member>
+    <member refid="ns__model_8cc_1a4abb057e576179fb16d6b4489b9e2139" kind="function"><name>ns_tf_get_num_input_tensors</name></member>
+    <member refid="ns__model_8cc_1a6cb3f3e44d2c737efcb0126e1f9d0a92" kind="function"><name>ns_tf_get_num_output_tensors</name></member>
+    <member refid="ns__model_8cc_1af98edb992e760475196fcba3c1b42dbe" kind="function"><name>ns_tf_get_input_tensor</name></member>
+    <member refid="ns__model_8cc_1aa22b3ee0593ea577041f645cfe5953a6" kind="function"><name>ns_tf_get_output_tensor</name></member>
+  </compound>
+  <compound refid="group__ns-model" kind="group"><name>ns-model</name>
+    <member refid="group__ns-model_1gae97a396a8f9a5659c4ca4c49c85f0b2a" kind="enum"><name>ns_model_states_e</name></member>
+    <member refid="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa6564f2f3e15be06b670547bbcaaf0798" kind="enumvalue"><name>READY</name></member>
+    <member refid="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2d0ab2296896fcb80babf4dadfd039a5" kind="enumvalue"><name>NOT_READY</name></member>
+    <member refid="group__ns-model_1ggae97a396a8f9a5659c4ca4c49c85f0b2aa2fd6f336d08340583bd620a7f5694c90" kind="enumvalue"><name>ERROR</name></member>
+    <member refid="group__ns-model_1ga50b88f68884a4cf569728373e3cb3d4e" kind="enum"><name>ns_model_runtime_e</name></member>
+    <member refid="group__ns-model_1gga50b88f68884a4cf569728373e3cb3d4ea857b412fc355bdfa2f55f3dc81fc950b" kind="enumvalue"><name>TFLM</name></member>
+    <member refid="group__ns-model_1ga883951ae20be3e8e7ff1afa7fd833bc2" kind="function"><name>ns_model_init</name></member>
+    <member refid="group__ns-model_1gaf308c397a3628cd18e404d027d7df7ee" kind="define"><name>NS_MAX_INPUT_TENSORS</name></member>
+    <member refid="group__ns-model_1ga4b733a69104ac8999af57dba1a089ea1" kind="define"><name>NS_MAX_OUTPUT_TENSORS</name></member>
+  </compound>
+  <compound refid="dir_4cff3ad1ea11578e3df8271aa3d25e93" kind="dir"><name>neuralSPOT/neuralspot/ns-model/includes-api</name>
+  </compound>
+  <compound refid="dir_75594cce7c7773aa3cb253214bf56510" kind="dir"><name>neuralSPOT</name>
+  </compound>
+  <compound refid="dir_b737d82f35ec218ac5a7ef4105db9c0e" kind="dir"><name>neuralSPOT/neuralspot</name>
+  </compound>
+  <compound refid="dir_0e0d7b58960104054b7f7c1d73877dc4" kind="dir"><name>neuralSPOT/neuralspot/ns-model</name>
+  </compound>
+  <compound refid="dir_788645d5adb2eb568128006739007a6c" kind="dir"><name>neuralSPOT/neuralspot/ns-model/src</name>
+  </compound>
+</doxygenindex>

@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__psram_8c" kind="file" language="C++">
+    <compoundname>ns_psram.c</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes refid="ns__peripherals__psram_8h" local="yes">ns_peripherals_psram.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_peripherals_psram.h</label>
+        <link refid="ns__peripherals__psram_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c</label>
+        <link refid="ns__psram_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__psram_8c_1aaca70ae2596b04d60286534c9068a0ef" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_psram_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_psram_V0_0_1</name>
+        <initializer>= {.apiId = NS_PSRAM_API_ID, .version = NS_PSRAM_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" line="18" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__psram_8c_1ad77b96d1d099c726e99bbc4b12a455aa" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_psram_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_psram_oldest_supported_version</name>
+        <initializer>= {
+    .apiId = NS_PSRAM_API_ID, .version = NS_PSRAM_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" line="20" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__psram_8c_1a062711fbe730bc4db99b6f3d9d8661dd" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_psram_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_psram_current_version</name>
+        <initializer>= {
+    .apiId = NS_PSRAM_API_ID, .version = NS_PSRAM_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" line="23" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__psram_8c_1a3d435623c137e3f46d4180ac046f57fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_psram_platform_init</definition>
+        <argsstring>(ns_psram_config_t *cfg)</argsstring>
+        <name>ns_psram_platform_init</name>
+        <param>
+          <type><ref refid="structns__psram__config__t" kindref="compound">ns_psram_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" line="26" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="191" bodyend="245" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" declline="26" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__psram_8c_1a322d345a16d41a926582f68dce160bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_psram_init</definition>
+        <argsstring>(ns_psram_config_t *cfg)</argsstring>
+        <name>ns_psram_init</name>
+        <param>
+          <type><ref refid="structns__psram__config__t" kindref="compound">ns_psram_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize PSRAM per the configuration struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ns_psram_config_t*</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: psram configuration struct</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" line="28" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c" bodystart="28" bodyend="43"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Initialize PSRAM per the configuration struct. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ambiq </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2024-04-19</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2024 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__peripherals__psram_8h" kindref="compound">ns_peripherals_psram.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_psram_V0_0_1<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_PSRAM_API_ID,<sp/>.version<sp/>=<sp/>NS_PSRAM_V0_0_1};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_psram_oldest_supported_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_PSRAM_API_ID,<sp/>.version<sp/>=<sp/>NS_PSRAM_V0_0_1};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_psram_current_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_PSRAM_API_ID,<sp/>.version<sp/>=<sp/>NS_PSRAM_V0_0_1};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>ns_psram_platform_init(<ref refid="structns__psram__config__t" kindref="compound">ns_psram_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">uint32_t<sp/><ref refid="ns__psram_8c_1a322d345a16d41a926582f68dce160bd2" kindref="member">ns_psram_init</ref>(<ref refid="structns__psram__config__t" kindref="compound">ns_psram_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32IntStatus<sp/>=<sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg-&gt;<ref refid="structns__button__config__t_1a8dd124084c2a05678e378d70f161b706" kindref="member">api</ref>,<sp/>&amp;ns_psram_oldest_supported_version,<sp/>&amp;ns_psram_current_version))<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32IntStatus<sp/>=<sp/>ns_psram_platform_init(cfg);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32IntStatus;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_psram.c"/>
+  </compounddef>
+</doxygen>

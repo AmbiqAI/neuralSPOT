@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_4b586f9555feab2a00d1b63aa502548f" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-utils/src/apollo5</compoundname>
+    <innerfile refid="ns__pmu__utils_8c">ns_pmu_utils.c</innerfile>
+    <innerfile refid="apollo5_2ns__power__profile_8c">ns_power_profile.c</innerfile>
+    <innerfile refid="ns__timer__ap5_8c">ns_timer_ap5.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/src/apollo5/"/>
+  </compounddef>
+</doxygen>

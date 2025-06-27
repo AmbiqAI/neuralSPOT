@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__fbanks__cfg__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_fbanks_cfg_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1a135b45db036bc0182e94f426d4645812" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* ns_fbanks_cfg_t::arena_fbanks</definition>
+        <argsstring></argsstring>
+        <name>arena_fbanks</name>
+        <qualifiedname>ns_fbanks_cfg_t::arena_fbanks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="46" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1a6910cb7611a9e96d846d5e4e659cc599" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_fbanks_cfg_t::sample_frequency</definition>
+        <argsstring></argsstring>
+        <name>sample_frequency</name>
+        <qualifiedname>ns_fbanks_cfg_t::sample_frequency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="47" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1aec6f459196792211b4c43e34d0a54e5d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_fbanks_cfg_t::num_fbank_bins</definition>
+        <argsstring></argsstring>
+        <name>num_fbank_bins</name>
+        <qualifiedname>ns_fbanks_cfg_t::num_fbank_bins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="48" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1adae9bbd2a8948de11db6648286bac4ea" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_fbanks_cfg_t::low_freq</definition>
+        <argsstring></argsstring>
+        <name>low_freq</name>
+        <qualifiedname>ns_fbanks_cfg_t::low_freq</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="49" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1ab1950a7fa82977e4e6761f6ec5a34151" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_fbanks_cfg_t::high_freq</definition>
+        <argsstring></argsstring>
+        <name>high_freq</name>
+        <qualifiedname>ns_fbanks_cfg_t::high_freq</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="50" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1a1db2b1bb025ecc1e9a6574d5d06611b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_fbanks_cfg_t::frame_len_pow2</definition>
+        <argsstring></argsstring>
+        <name>frame_len_pow2</name>
+        <qualifiedname>ns_fbanks_cfg_t::frame_len_pow2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="51" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1a3b54f315237eec93a1b900c16f0a550a" prot="public" static="no" mutable="no">
+        <type>int32_t *</type>
+        <definition>int32_t* ns_fbanks_cfg_t::mfccFbankFirst</definition>
+        <argsstring></argsstring>
+        <name>mfccFbankFirst</name>
+        <qualifiedname>ns_fbanks_cfg_t::mfccFbankFirst</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="52" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1ac1d427419e56b2cdb295ae89cb3849db" prot="public" static="no" mutable="no">
+        <type>int32_t *</type>
+        <definition>int32_t* ns_fbanks_cfg_t::mfccFbankLast</definition>
+        <argsstring></argsstring>
+        <name>mfccFbankLast</name>
+        <qualifiedname>ns_fbanks_cfg_t::mfccFbankLast</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="53" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__fbanks__cfg__t_1ad736374ddf1facf290c7282d7374a65b" prot="public" static="no" mutable="no">
+        <type>ns_fbank_t *</type>
+        <definition>ns_fbank_t* ns_fbanks_cfg_t::melFBank</definition>
+        <argsstring></argsstring>
+        <name>melFBank</name>
+        <qualifiedname>ns_fbanks_cfg_t::melFBank</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="54" column="16" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" line="45" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_features_common.h" bodystart="45" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structns__fbanks__cfg__t_1a135b45db036bc0182e94f426d4645812" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>arena_fbanks</name></member>
+      <member refid="structns__fbanks__cfg__t_1a1db2b1bb025ecc1e9a6574d5d06611b7" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>frame_len_pow2</name></member>
+      <member refid="structns__fbanks__cfg__t_1ab1950a7fa82977e4e6761f6ec5a34151" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>high_freq</name></member>
+      <member refid="structns__fbanks__cfg__t_1adae9bbd2a8948de11db6648286bac4ea" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>low_freq</name></member>
+      <member refid="structns__fbanks__cfg__t_1ad736374ddf1facf290c7282d7374a65b" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>melFBank</name></member>
+      <member refid="structns__fbanks__cfg__t_1a3b54f315237eec93a1b900c16f0a550a" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>mfccFbankFirst</name></member>
+      <member refid="structns__fbanks__cfg__t_1ac1d427419e56b2cdb295ae89cb3849db" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>mfccFbankLast</name></member>
+      <member refid="structns__fbanks__cfg__t_1aec6f459196792211b4c43e34d0a54e5d" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>num_fbank_bins</name></member>
+      <member refid="structns__fbanks__cfg__t_1a6910cb7611a9e96d846d5e4e659cc599" prot="public" virt="non-virtual"><scope>ns_fbanks_cfg_t</scope><name>sample_frequency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

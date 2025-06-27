@@ -1,0 +1,2218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="group__ns-_m_p_u6050" kind="group">
+    <compoundname>ns-MPU6050</compoundname>
+    <title>Ns-MPU6050</title>
+    <innerclass refid="structmpu6050__fifo__config__t" prot="public">mpu6050_fifo_config_t</innerclass>
+    <innerclass refid="structmpu6050__int__config__t" prot="public">mpu6050_int_config_t</innerclass>
+    <innerclass refid="structmpu6050__config__t" prot="public">mpu6050_config_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-_m_p_u6050_1gac472d14ed35a15b59182459f0d55509e" prot="public" static="no" strong="no">
+        <type></type>
+        <name>mpu6050_status_e</name>
+        <enumvalue id="group__ns-_m_p_u6050_1ggac472d14ed35a15b59182459f0d55509ea94bfc7f21070a5d3f36cfed689872676" prot="public">
+          <name>MPU6050_STATUS_SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggac472d14ed35a15b59182459f0d55509ea099f7468ee2ef213b5b81a44c4e3ab74" prot="public">
+          <name>MPU6050_STATUS_ERROR</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="26" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-_m_p_u6050_1gaec0667e9311180ae3f72cabb416c7b2b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>mpu6050_dlpf_cfg_t</name>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2ba9bcfeb46d3f9e100db4e642e3c33b649" prot="public">
+          <name>DLPF_260HZ</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2ba3a04bbf191436af2cd888119eaadcb4e" prot="public">
+          <name>DLPF_184HZ</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2bacecf80c4b2da6f2b54e78f2018e6b306" prot="public">
+          <name>DLPF_094HZ</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2bacbec79f346830d0c9f5fd0ec09442e45" prot="public">
+          <name>DLPF_044HZ</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2ba490d858f2d96372d7593e51b5afae196" prot="public">
+          <name>DLPF_021HZ</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2ba6e1166ee491270a24ff21929855ba6f8" prot="public">
+          <name>DLPF_010HZ</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaec0667e9311180ae3f72cabb416c7b2ba2b1a84a05df70c7099f4966e24fee1e6" prot="public">
+          <name>DLPF_005HZ</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="28" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="28" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-_m_p_u6050_1gab4dbc4e43855395ed81f8bdc8841c27d" prot="public" static="no" strong="no">
+        <type></type>
+        <name>mpu6050_gyro_fs_t</name>
+        <enumvalue id="group__ns-_m_p_u6050_1ggab4dbc4e43855395ed81f8bdc8841c27da13a506e5980394eef0c9efa8de2b3f65" prot="public">
+          <name>GYRO_FS_250DPS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>+/- 250 º/s -&gt; 131 LSB/(º/s) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggab4dbc4e43855395ed81f8bdc8841c27da620762917758cd41d56958e76191c28c" prot="public">
+          <name>GYRO_FS_500DPS</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>+/- 500 º/s -&gt; 65.5 LSB/(º/s) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggab4dbc4e43855395ed81f8bdc8841c27da259e99cd576941911266076adaff31f8" prot="public">
+          <name>GYRO_FS_1000DPS</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>+/- 1000 º/s -&gt; 32.8 LSB/(º/s) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggab4dbc4e43855395ed81f8bdc8841c27da13877729d71c8805aea6041e0b6ba5e8" prot="public">
+          <name>GYRO_FS_2000DPS</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>+/- 2000 º/s -&gt; 16.4 LSB/(º/s) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gyroscope full-scale range </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="40" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-_m_p_u6050_1gac47e841b4e2b1db2d675c252e6637b44" prot="public" static="no" strong="no">
+        <type></type>
+        <name>mpu6050_accel_fs_t</name>
+        <enumvalue id="group__ns-_m_p_u6050_1ggac47e841b4e2b1db2d675c252e6637b44a5a3cf1b9e75e22daa08706f7f2c888b2" prot="public">
+          <name>ACCEL_FS_2G</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>+/- 2 g -&gt; 16384 LSB/g </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggac47e841b4e2b1db2d675c252e6637b44afea1f6dcc4e646d38c24d2fd4f64e547" prot="public">
+          <name>ACCEL_FS_4G</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>+/- 4 g -&gt; 8192 LSB/g </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggac47e841b4e2b1db2d675c252e6637b44a022d470e233f2772adce7a506cb26e62" prot="public">
+          <name>ACCEL_FS_8G</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>+/- 8 g -&gt; 4096 LSB/g </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggac47e841b4e2b1db2d675c252e6637b44af2eb87f211db3efbed34333935f710a9" prot="public">
+          <name>ACCEL_FS_16G</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>+/- 16 g -&gt; 2048 LSB/g </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Accel full-scale range </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="48" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-_m_p_u6050_1gaa79598704e9063ad2dd263221cdb69fc" prot="public" static="no" strong="no">
+        <type></type>
+        <name>mpu6050_clock_src_t</name>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fca8bdec1634c9e8e37a678c5a12f87df78" prot="public">
+          <name>CLOCK_INTERNAL</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fcadcc6b86c5e61b7208ed7f6c5a755ab28" prot="public">
+          <name>CLOCK_GX_PLL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fca8a7c26168e3d70ed680925b9db378a7c" prot="public">
+          <name>CLOCK_GY_PLL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fca3aca2e7d45a163796d0879cb5612ffff" prot="public">
+          <name>CLOCK_GZ_PLL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fca4c9f3f95725452f8610e0e70f779bf8e" prot="public">
+          <name>CLOCK_32_REF</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fca8f9e80ba1ac37a3bd4df39d9f2d29bcd" prot="public">
+          <name>CLOCK_19_REF</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-_m_p_u6050_1ggaa79598704e9063ad2dd263221cdb69fcab1c7ec78efae2310aa35221cbe2682ad" prot="public">
+          <name>CLOCK_KEEP_RESET</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Stops the clock and keeps timing generator in reset. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Clock selection </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="56" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="56" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga403512b9e2cda535ec37855a474b235a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_sample_rate_divider</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t divider)</argsstring>
+        <name>mpu6050_set_sample_rate_divider</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>divider</declname>
+        </param>
+        <briefdescription>
+<para>Set sample rate divider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>divider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sample rate divider </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="108" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="295" bodyend="297" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="108" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga6fd6abe5676f82ef051426d1760813ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_sample_rate</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t rate)</argsstring>
+        <name>mpu6050_set_sample_rate</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint16_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>Set target sample rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target rate in Hz </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="118" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="307" bodyend="312" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="118" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gaf02cf4c293cc2d57960e4f115ac9a507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_lowpass_filter</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_dlpf_cfg_t value)</argsstring>
+        <name>mpu6050_set_lowpass_filter</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>mpu6050_dlpf_cfg_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set digital lowpass filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filter selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="129" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="323" bodyend="325" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="129" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gae1b4f3fc724c05bd249f017725555f14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_gyro_full_scale</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_gyro_fs_t fsr)</argsstring>
+        <name>mpu6050_set_gyro_full_scale</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gab4dbc4e43855395ed81f8bdc8841c27d" kindref="member">mpu6050_gyro_fs_t</ref></type>
+          <declname>fsr</declname>
+        </param>
+        <briefdescription>
+<para>Set gyro full scale range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fsr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scale range selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="139" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="336" bodyend="338" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="139" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gae81c5c400a231c018882f6d2a2e696f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_accel_full_scale</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_accel_fs_t fsr)</argsstring>
+        <name>mpu6050_set_accel_full_scale</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gac47e841b4e2b1db2d675c252e6637b44" kindref="member">mpu6050_accel_fs_t</ref></type>
+          <declname>fsr</declname>
+        </param>
+        <briefdescription>
+<para>Set accel full scale range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fsr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scale range selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="150" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="349" bodyend="351" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="150" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga9534a9eac204a49a1702454a6e09ab34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_configure_fifo</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_fifo_config_t *fifoConfig)</argsstring>
+        <name>mpu6050_configure_fifo</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="structmpu6050__fifo__config__t" kindref="compound">mpu6050_fifo_config_t</ref> *</type>
+          <declname>fifoConfig</declname>
+        </param>
+        <briefdescription>
+<para>Configure FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fifoConfig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>FIFO configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="161" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="362" bodyend="373" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="161" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gab3cc4df8c7ea260b837487829b9d6b46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_fifo_enable</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t enable)</argsstring>
+        <name>mpu6050_set_fifo_enable</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enable FIFO flag </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="171" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="383" bodyend="385" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="171" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga4864812b0d314614be2092c308e21b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_reset_fifo</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr)</argsstring>
+        <name>mpu6050_reset_fifo</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+<para>Reset FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="180" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="394" bodyend="396" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="180" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga0d9e265c66c7b0273ac35fcfde6bf3af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_get_fifo_count</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint16_t *count)</argsstring>
+        <name>mpu6050_get_fifo_count</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint16_t *</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Get FIFO count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="190" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="406" bodyend="411" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="190" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga9c5e55569717453367926f558ce54c8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_fifo_pop</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *value)</argsstring>
+        <name>mpu6050_fifo_pop</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Pop next value from FIFO. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to FIFO value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="200" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="421" bodyend="426" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="200" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga0f87ac84c753cdeaefbdbb5d7ab94c0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_configure_interrupt</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_int_config_t *intConfig)</argsstring>
+        <name>mpu6050_configure_interrupt</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="structmpu6050__int__config__t" kindref="compound">mpu6050_int_config_t</ref> *</type>
+          <declname>intConfig</declname>
+        </param>
+        <briefdescription>
+<para>Configure interrupts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>intConfig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interrupt configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="210" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="436" bodyend="446" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="210" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga886a70eb2c27921b90fa244280372aca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_interrupt_enable</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t overflowEnable, uint8_t dataReadyEnable)</argsstring>
+        <name>mpu6050_set_interrupt_enable</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>overflowEnable</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>dataReadyEnable</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable interrupts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>overflowEnable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Overflow triggers interrupt </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dataReadyEnable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data ready triggers interrupt </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="222" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="457" bodyend="461" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="222" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga5f95553d66ffe02905246c77c8b3c598" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_get_interrupt_status</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *status)</argsstring>
+        <name>mpu6050_get_interrupt_status</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Get interrupt status register. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store status register </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="233" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="471" bodyend="473" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="233" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gad8e8fdabfef9c497c3aeeb0b0cb4a4e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_reset_signal_paths</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr)</argsstring>
+        <name>mpu6050_reset_signal_paths</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+<para>Reset signal paths. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="242" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="482" bodyend="484" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="242" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga69c978d5085bff211edb619e9b657ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_reset_signal_conds</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr)</argsstring>
+        <name>mpu6050_reset_signal_conds</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+<para>Reset signal conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="251" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="493" bodyend="495" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="251" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga60685a3ce63c0c1d99c1ccc123ba2495" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_get_accel_values</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int16_t *y, int16_t *z)</argsstring>
+        <name>mpu6050_get_accel_values</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+<para>Get current acceleration values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store x axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store y axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store z axis </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="263" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="507" bodyend="517" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="263" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gaa2f87758cb3946067b29957635c471c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_get_gyro_values</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *x, int16_t *y, int16_t *z)</argsstring>
+        <name>mpu6050_get_gyro_values</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+<para>Get current gyro values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store x axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store y axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store z axis </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="277" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="529" bodyend="539" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="277" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gaec7ef0ff7a3b0e38896534363b8b04e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_get_temperature</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, int16_t *t)</argsstring>
+        <name>mpu6050_get_temperature</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>int16_t *</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Get current temperature value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store Temperature </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="287" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="549" bodyend="554" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="287" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gabd01e5373f38fe7b9316767ecaa848a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_sleep</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t sleep)</argsstring>
+        <name>mpu6050_set_sleep</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>sleep</declname>
+        </param>
+        <briefdescription>
+<para>Enable/disable sleep mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sleep</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sleep flag </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="297" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="564" bodyend="566" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="297" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gafabe4da1079ce1bb301cc5d2f5fa1bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_temperature_disable</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t disable)</argsstring>
+        <name>mpu6050_set_temperature_disable</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>disable</declname>
+        </param>
+        <briefdescription>
+<para>Disable temperature readings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Disable temperature flag </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="307" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="576" bodyend="578" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="307" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga2e5adc266ac375c7e57163a44e9eccf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_test_connection</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr)</argsstring>
+        <name>mpu6050_test_connection</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+<para>Verify device by reading WHO_AM_I register. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="316" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="587" bodyend="593" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="316" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gab4ff3e24654cef5ac81befa290eca934" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_lowpower_accel_mode</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t wakeFreq)</argsstring>
+        <name>mpu6050_set_lowpower_accel_mode</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>wakeFreq</declname>
+        </param>
+        <briefdescription>
+<para>Put device into low-power acceleration-only mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wakeFreq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wake-up frequency 0=1.25Hz, 1=5Hz 2=20Hz 3=40Hz </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="326" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="603" bodyend="609" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="326" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga6fa95e13a98f11d59718e5425c14502c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_device_reset</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr)</argsstring>
+        <name>mpu6050_device_reset</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+<para>Hard reset device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="335" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="618" bodyend="628" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="335" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gadec9c371ad5ce995a6f2007000014511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_clock_source</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, mpu6050_clock_src_t sel)</argsstring>
+        <name>mpu6050_set_clock_source</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gaa79598704e9063ad2dd263221cdb69fc" kindref="member">mpu6050_clock_src_t</ref></type>
+          <declname>sel</declname>
+        </param>
+        <briefdescription>
+<para>Set clock source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Clock selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="345" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="638" bodyend="640" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="345" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga7200307da54045f6afb7ee9350a0ac73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_read_sensors</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t *buffer)</argsstring>
+        <name>mpu6050_read_sensors</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Reads MPU sensor values (3-axis accel, 1 temp, 3-axis gyro) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>14-byte buffer to store values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="355" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="650" bodyend="655" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="355" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gacfb3352925b38066b2c0030917ee6eae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_accel_fsr_value</definition>
+        <argsstring>(mpu6050_accel_fs_t range)</argsstring>
+        <name>mpu6050_accel_fsr_value</name>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gac47e841b4e2b1db2d675c252e6637b44" kindref="member">mpu6050_accel_fs_t</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Acceleration scale in units of G. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scale range selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Scale in G </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="363" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="663" bodyend="663" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="363" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gabe293988adfbefd2672c65682d908880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float mpu6050_accel_resolution</definition>
+        <argsstring>(mpu6050_accel_fs_t range)</argsstring>
+        <name>mpu6050_accel_resolution</name>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gac47e841b4e2b1db2d675c252e6637b44" kindref="member">mpu6050_accel_fs_t</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Acceleration scale LSB resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scale range selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>float Resolution (G) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="371" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="671" bodyend="673" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="371" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gac14b0548ec8e2b444f0417e1a79a8ad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float mpu6050_accel_to_gravity</definition>
+        <argsstring>(int16_t val, mpu6050_accel_fs_t range)</argsstring>
+        <name>mpu6050_accel_to_gravity</name>
+        <param>
+          <type>int16_t</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gac47e841b4e2b1db2d675c252e6637b44" kindref="member">mpu6050_accel_fs_t</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Convert acceleration value to G. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Accel register value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full-scale range used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Acceleration (G) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="380" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="700" bodyend="702" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="380" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gaeceacdec42871639cc2dd74ba152f2f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float mpu6050_temperature_to_celsius</definition>
+        <argsstring>(int16_t val)</argsstring>
+        <name>mpu6050_temperature_to_celsius</name>
+        <param>
+          <type>int16_t</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Convert temperature value to Celsius. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temperature register </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>float Temperature (°C) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="388" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="710" bodyend="710" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="388" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gaa998efeb9a2adcc7d100623777843c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_gyro_fsr_value</definition>
+        <argsstring>(const mpu6050_gyro_fs_t range)</argsstring>
+        <name>mpu6050_gyro_fsr_value</name>
+        <param>
+          <type>const <ref refid="group__ns-_m_p_u6050_1gab4dbc4e43855395ed81f8bdc8841c27d" kindref="member">mpu6050_gyro_fs_t</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Gyroscope scale in units dps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scale range selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t Scale (°/s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="396" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="681" bodyend="681" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="396" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gadb4795fdfc538f7454e64a513c28c9c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float mpu6050_gyro_resolution</definition>
+        <argsstring>(const mpu6050_gyro_fs_t range)</argsstring>
+        <name>mpu6050_gyro_resolution</name>
+        <param>
+          <type>const <ref refid="group__ns-_m_p_u6050_1gab4dbc4e43855395ed81f8bdc8841c27d" kindref="member">mpu6050_gyro_fs_t</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Gyroscope scale LSB resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full scale range selection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>float Resolution (°/s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="404" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="689" bodyend="691" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="404" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gab7389c070e9ea30f58f4aade2969c91e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float mpu6050_gyro_to_deg_per_sec</definition>
+        <argsstring>(int val, mpu6050_gyro_fs_t range)</argsstring>
+        <name>mpu6050_gyro_to_deg_per_sec</name>
+        <param>
+          <type>int</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type><ref refid="group__ns-_m_p_u6050_1gab4dbc4e43855395ed81f8bdc8841c27d" kindref="member">mpu6050_gyro_fs_t</ref></type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Convert gyroscope value to degrees/second. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gyroscope register value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full-scale range used </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>float Gyroscope (°/s) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="413" column="7" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="719" bodyend="721" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="413" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga4594a05e733711f0461b15ad7dec82d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_accel_offset</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, int offset)</argsstring>
+        <name>mpu6050_set_accel_offset</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>axis</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Set acceleration offset for axis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>axis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x=0, y=1, z=2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offset value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="424" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="733" bodyend="748" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="424" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga7d9c5eaa5266f28c4c57435fb1ca3965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_set_gyro_offset</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, uint8_t axis, int offset)</argsstring>
+        <name>mpu6050_set_gyro_offset</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>axis</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Set gyroscope offset for axis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>axis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x=0, y=1, z=2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Offset value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="435" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="759" bodyend="764" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="435" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1ga3ff2a549b8604e615fd4c34be92b7de2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_mean_sensors</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr, int *meanAX, int *meanAY, int *meanAZ, int *meanGX, int *meanGY, int *meanGZ)</argsstring>
+        <name>mpu6050_mean_sensors</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>meanAX</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>meanAY</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>meanAZ</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>meanGX</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>meanGY</declname>
+        </param>
+        <param>
+          <type>int *</type>
+          <declname>meanGZ</declname>
+        </param>
+        <briefdescription>
+<para>Get average sensor values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meanAX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store mean X accel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meanAY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store mean Y accel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meanAZ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store mean Z accel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meanGX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store mean X gyro </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meanGY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store mean Y gyro </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meanGZ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to store mean Z gyro </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="450" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="779" bodyend="815" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="450" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gae4debdf60fa0bd51c279b63f446bdabf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_calibrate</definition>
+        <argsstring>(ns_i2c_config_t *cfg, uint32_t devAddr)</argsstring>
+        <name>mpu6050_calibrate</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+<para>Calibrate device offsets. Device must be still on a flat surface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status</para>
+</simplesect>
+Calibrate device offsets. Device must be still on a flat surface.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>I2C configuration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>devAddr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device I2C address </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="461" column="10" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="847" bodyend="902" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="461" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_p_u6050_1gabdbfab0e20adca96fa04913abfec1f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t mpu6050_init</definition>
+        <argsstring>(ns_i2c_config_t *cfg, mpu6050_config_t *c, uint32_t devAddr)</argsstring>
+        <name>mpu6050_init</name>
+        <param>
+          <type><ref refid="structns__i2c__config__t" kindref="compound">ns_i2c_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type><ref refid="structmpu6050__config__t" kindref="compound">mpu6050_config_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>devAddr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="463" column="17" bodyfile="neuralSPOT/neuralspot/ns-i2c/src/ns_mpu6050_i2c_driver.c" bodystart="919" bodyend="931" declfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" declline="463" declcolumn="17"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-_m_p_u6050_1ga0b927eb126b057787f7d6b133847a3ad" prot="public" static="no">
+        <name>MPU_I2CADDRESS_AD0_LOW</name>
+        <initializer>0x68</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="88" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_p_u6050_1ga69fe5c834d4202830573d8ec55a7c0d8" prot="public" static="no">
+        <name>MPU_I2CADDRESS_AD0_HIGH</name>
+        <initializer>0x69</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="89" column="9" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

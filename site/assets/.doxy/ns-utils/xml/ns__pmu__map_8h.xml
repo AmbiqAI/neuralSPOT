@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__pmu__map_8h" kind="file" language="C++">
+    <compoundname>ns_pmu_map.h</compoundname>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includedby refid="ns__pmu__utils_8c" local="yes">neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h</label>
+        <link refid="ns__pmu__map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_mcu_apollo.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h</label>
+        <link refid="ns__pmu__map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c</label>
+        <link refid="ns__pmu__utils_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structns__pmu__map__t" prot="public">ns_pmu_map_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__pmu__map_8h_1a44cb34c9920c5b9f5b55fb4e86bf7d5c" prot="public" static="no">
+        <name>NS_NUM_PMU_MAP_SIZE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" line="27" column="10" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Convenient mapping of PMU registers to human-readable names. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ambiq </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2024-08-15</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2024 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_PMU_MAP_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_MAP_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="structns__pmu__map__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>eventId;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>regname[50];</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>description[120];</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">}<sp/><ref refid="structns__pmu__map__t" kindref="compound">ns_pmu_map_t</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>g_ns_pmu_map_length;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_NUM_PMU_MAP_SIZE<sp/>(g_ns_pmu_map_length/sizeof(ns_pmu_map_t))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__pmu__map__t" kindref="compound">ns_pmu_map_t</ref><sp/>ns_pmu_map[];</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_MAP_SIZE<sp/>(sizeof(ns_pmu_map)<sp/>/<sp/>sizeof(ns_pmu_map_t))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_NUM_PMU_MAP_SIZE<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_PMU_MAP_H</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_2723405b1f2a31e5bda368efdd9e115c" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-rpc/includes-api</compoundname>
+    <innerfile refid="_generic_data_operations___evb_to_pc_8h">GenericDataOperations_EvbToPc.h</innerfile>
+    <innerfile refid="_generic_data_operations___evb_to_pc__server_8h">GenericDataOperations_EvbToPc_server.h</innerfile>
+    <innerfile refid="_generic_data_operations___pc_to_evb_8h">GenericDataOperations_PcToEvb.h</innerfile>
+    <innerfile refid="_generic_data_operations___pc_to_evb__server_8h">GenericDataOperations_PcToEvb_server.h</innerfile>
+    <innerfile refid="ns__rpc__generic__data_8h">ns_rpc_generic_data.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-rpc/includes-api/"/>
+  </compounddef>
+</doxygen>

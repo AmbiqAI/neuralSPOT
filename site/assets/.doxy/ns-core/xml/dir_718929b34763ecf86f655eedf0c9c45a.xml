@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_718929b34763ecf86f655eedf0c9c45a" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-core/src/apollo510/gcc</compoundname>
+    <innerfile refid="apollo510_2gcc_2startup__gcc_8c">startup_gcc.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-core/src/apollo510/gcc/"/>
+  </compounddef>
+</doxygen>

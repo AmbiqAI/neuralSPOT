@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="picojpeg_8h" kind="file" language="C++">
+    <compoundname>picojpeg.h</compoundname>
+    <includedby refid="jpeg__decoder_8c" local="yes">neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/jpeg_decoder.c</includedby>
+    <includedby refid="jpeg__decoder_8h" local="yes">neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/jpeg_decoder.h</includedby>
+    <includedby refid="picojpeg_8c" local="yes">neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.c</includedby>
+    <includedby refid="ns__camera_8c" local="yes">neuralSPOT/neuralspot/ns-camera/src/ns_camera.c</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/jpeg_decoder.h</label>
+        <link refid="jpeg__decoder_8h_source"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h</label>
+        <link refid="picojpeg_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structpjpeg__image__info__t" prot="public">pjpeg_image_info_t</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7" prot="public" static="no" strong="no">
+        <type></type>
+        <name>@1</name>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a3992cf7ac21afb4a191e5585cc23a41a" prot="public">
+          <name>PJPG_NO_MORE_BLOCKS</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a79546effd29ae04ef73d2c7b482fb820" prot="public">
+          <name>PJPG_BAD_DHT_COUNTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a8b11fc7585eeb350b8e83578c75f7b26" prot="public">
+          <name>PJPG_BAD_DHT_INDEX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a1b38fc6ca2382df9ffd67f9e99be47ad" prot="public">
+          <name>PJPG_BAD_DHT_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a756769a2186fa850c761e567dbc091c9" prot="public">
+          <name>PJPG_BAD_DQT_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a9d98c0b37d2d82578fcf2440c59282c0" prot="public">
+          <name>PJPG_BAD_DQT_TABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a892e3863366b622fa3eec1ca96f4be27" prot="public">
+          <name>PJPG_BAD_PRECISION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7aee6c80171bd762652c640785a0ee686c" prot="public">
+          <name>PJPG_BAD_HEIGHT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a9e8c5aa29d50c214114ec0059d21eeae" prot="public">
+          <name>PJPG_BAD_WIDTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a878124c5fec5506c6a83ef8d9b647e7e" prot="public">
+          <name>PJPG_TOO_MANY_COMPONENTS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a9e129eb232902e6e1bb12c5ee1446c75" prot="public">
+          <name>PJPG_BAD_SOF_LENGTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a943f90adeda820a135fb54baf1af9243" prot="public">
+          <name>PJPG_BAD_VARIABLE_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a3505cbbb7df69205558d7188f87797f2" prot="public">
+          <name>PJPG_BAD_DRI_LENGTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a788e5030a5b1865d78080ba939f83a77" prot="public">
+          <name>PJPG_BAD_SOS_LENGTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a1f966c5f83cfae9a431b9696263eacbc" prot="public">
+          <name>PJPG_BAD_SOS_COMP_ID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a723e961284dff8e05f39d4a039bb63dd" prot="public">
+          <name>PJPG_W_EXTRA_BYTES_BEFORE_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0e3ebc7f616aa21e5c32d37adab63261" prot="public">
+          <name>PJPG_NO_ARITHMITIC_SUPPORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7ad012118f28d4357ef7fe89f257a1e006" prot="public">
+          <name>PJPG_UNEXPECTED_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a39485873270c19b788ca97a1969500aa" prot="public">
+          <name>PJPG_NOT_JPEG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7ab3cdffe9723ac7199d702c89dfe3db31" prot="public">
+          <name>PJPG_UNSUPPORTED_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a53ddfd0c37f520aaada8a9b5dbb0f48c" prot="public">
+          <name>PJPG_BAD_DQT_LENGTH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7adbd760c13cb11be6ae5271df471eed74" prot="public">
+          <name>PJPG_TOO_MANY_BLOCKS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a068ce7c15f6a2c196c37a7c22084ec3c" prot="public">
+          <name>PJPG_UNDEFINED_QUANT_TABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0bbc5e7b57770999823bf90346b0e579" prot="public">
+          <name>PJPG_UNDEFINED_HUFF_TABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a252f38513ab8faf9778d2261751f3027" prot="public">
+          <name>PJPG_NOT_SINGLE_SCAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7ab448038949097f03d1da119b2581df78" prot="public">
+          <name>PJPG_UNSUPPORTED_COLORSPACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a468f45c33414469d8d7117fff184424d" prot="public">
+          <name>PJPG_UNSUPPORTED_SAMP_FACTORS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7af4dc98f02e0f550269e6aaa45ac42afc" prot="public">
+          <name>PJPG_DECODE_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7aa4b9d4d9e475e494023286f82232f0a6" prot="public">
+          <name>PJPG_BAD_RESTART_MARKER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a5afb5a1517f3b66a51e094a135b0e770" prot="public">
+          <name>PJPG_ASSERTION_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7aa70ffa0619bea72f0e7ef2f075a677d6" prot="public">
+          <name>PJPG_BAD_SOS_SPECTRAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a7e8f8b04f30ab9c46660596dae77b637" prot="public">
+          <name>PJPG_BAD_SOS_SUCCESSIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7a17e39e4941f8c55f9849dd2b64fae1c2" prot="public">
+          <name>PJPG_STREAM_READ_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7aca986ac3bdc3c4f7d1aab2f83902cb24" prot="public">
+          <name>PJPG_NOTENOUGHMEM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7af095b12155d80acfe6b45c2915938f4f" prot="public">
+          <name>PJPG_UNSUPPORTED_COMP_IDENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7ad264f0130f9f13de303cef19e8331d5d" prot="public">
+          <name>PJPG_UNSUPPORTED_QUANT_TABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1adf764cbdea00d65edcd07bb9953ad2b7ae43da09e2b0af59a92e6479b7a10a335" prot="public">
+          <name>PJPG_UNSUPPORTED_MODE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" line="12" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" bodystart="12" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="picojpeg_8h_1afe2604617554650deee2824806880d8b" prot="public" static="no" strong="no">
+        <type></type>
+        <name>pjpeg_scan_type_t</name>
+        <enumvalue id="picojpeg_8h_1afe2604617554650deee2824806880d8baf4f84caf16132c65e3eaf0bff24e7fac" prot="public">
+          <name>PJPG_GRAYSCALE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1afe2604617554650deee2824806880d8ba3e9b7318e9681ef3fc925b9286e0af8e" prot="public">
+          <name>PJPG_YH1V1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1afe2604617554650deee2824806880d8ba9bf41bb7a15e3748ff64a1ca60ffebb2" prot="public">
+          <name>PJPG_YH2V1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1afe2604617554650deee2824806880d8ba174739a40f06e2e0e030a10dc090cae1" prot="public">
+          <name>PJPG_YH1V2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="picojpeg_8h_1afe2604617554650deee2824806880d8bac286ebc9d7710c2fa3b6c6078a75529d" prot="public">
+          <name>PJPG_YH2V2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" line="53" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="picojpeg_8h_1adc3c174d5c3d6da2ee1de23c803e90dc" prot="public" static="no">
+        <type>unsigned char(*</type>
+        <definition>typedef unsigned char(* pjpeg_need_bytes_callback_t) (unsigned char *pBuf, unsigned char buf_size, unsigned char *pBytes_actually_read, void *pCallback_data)</definition>
+        <argsstring>)(unsigned char *pBuf, unsigned char buf_size, unsigned char *pBytes_actually_read, void *pCallback_data)</argsstring>
+        <name>pjpeg_need_bytes_callback_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" line="111" column="18" bodyfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="picojpeg_8h_1a40a56c4b8efaf6e12ddf006ae3442092" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned char</type>
+        <definition>unsigned char pjpeg_decode_init</definition>
+        <argsstring>(pjpeg_image_info_t *pInfo, pjpeg_need_bytes_callback_t pNeed_bytes_callback, void *pCallback_data, unsigned char reduce)</argsstring>
+        <name>pjpeg_decode_init</name>
+        <param>
+          <type><ref refid="structpjpeg__image__info__t" kindref="compound">pjpeg_image_info_t</ref> *</type>
+          <declname>pInfo</declname>
+        </param>
+        <param>
+          <type>pjpeg_need_bytes_callback_t</type>
+          <declname>pNeed_bytes_callback</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>pCallback_data</declname>
+        </param>
+        <param>
+          <type>unsigned char</type>
+          <declname>reduce</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" line="121" column="15" bodyfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.c" bodystart="2124" bodyend="2175" declfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" declline="121" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="picojpeg_8h_1a436709bdac48f40629ff782b52eb4fb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned char</type>
+        <definition>unsigned char pjpeg_decode_mcu</definition>
+        <argsstring>(void)</argsstring>
+        <name>pjpeg_decode_mcu</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" line="129" column="15" bodyfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.c" bodystart="2101" bodyend="2122" declfile="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h" declline="129" declcolumn="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>picojpeg<sp/>-<sp/>Public<sp/>domain,<sp/>Rich<sp/>Geldreich<sp/>&lt;richgel99@gmail.com&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>PICOJPEG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PICOJPEG_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_NO_MORE_BLOCKS<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DHT_COUNTS,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DHT_INDEX,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DHT_MARKER,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DQT_MARKER,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DQT_TABLE,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_PRECISION,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_HEIGHT,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_WIDTH,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_TOO_MANY_COMPONENTS,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_SOF_LENGTH,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_VARIABLE_MARKER,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DRI_LENGTH,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_SOS_LENGTH,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_SOS_COMP_ID,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_W_EXTRA_BYTES_BEFORE_MARKER,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_NO_ARITHMITIC_SUPPORT,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNEXPECTED_MARKER,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_NOT_JPEG,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNSUPPORTED_MARKER,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_DQT_LENGTH,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_TOO_MANY_BLOCKS,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNDEFINED_QUANT_TABLE,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNDEFINED_HUFF_TABLE,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_NOT_SINGLE_SCAN,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNSUPPORTED_COLORSPACE,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNSUPPORTED_SAMP_FACTORS,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_DECODE_ERROR,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_RESTART_MARKER,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_ASSERTION_ERROR,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_SOS_SPECTRAL,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_BAD_SOS_SUCCESSIVE,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_STREAM_READ_ERROR,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_NOTENOUGHMEM,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNSUPPORTED_COMP_IDENT,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNSUPPORTED_QUANT_TABLE,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>PJPG_UNSUPPORTED_MODE,<sp/></highlight><highlight class="comment">//<sp/>picojpeg<sp/>doesn&apos;t<sp/>support<sp/>progressive<sp/>JPEG&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Scan<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{<sp/>PJPG_GRAYSCALE,<sp/>PJPG_YH1V1,<sp/>PJPG_YH2V1,<sp/>PJPG_YH1V2,<sp/>PJPG_YH2V2<sp/>}<sp/>pjpeg_scan_type_t;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structpjpeg__image__info__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Image<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_width;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_height;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>components<sp/>(1<sp/>or<sp/>3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_comps;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>number<sp/>of<sp/>minimum<sp/>coded<sp/>units<sp/>(MCU&apos;s)<sp/>per<sp/>row/col.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_MCUSPerRow;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_MCUSPerCol;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scan<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>pjpeg_scan_type_t<sp/>m_scanType;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MCU<sp/>width/height<sp/>in<sp/>pixels<sp/>(each<sp/>is<sp/>either<sp/>8<sp/>or<sp/>16<sp/>depending<sp/>on<sp/>the<sp/>scan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_MCUWidth;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m_MCUHeight;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>m_pMCUBufR,<sp/>m_pMCUBufG,<sp/>and<sp/>m_pMCUBufB<sp/>are<sp/>pointers<sp/>to<sp/>internal<sp/>MCU<sp/>Y<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RGB<sp/>pixel<sp/>component<sp/>buffers.<sp/>Each<sp/>time<sp/>pjpegDecodeMCU()<sp/>is<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>successfully<sp/>these<sp/>buffers<sp/>will<sp/>be<sp/>filled<sp/>with<sp/>8x8<sp/>pixel<sp/>blocks<sp/>of<sp/>Y<sp/>or<sp/>RGB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pixels.<sp/>Each<sp/>MCU<sp/>consists<sp/>of<sp/>(m_MCUWidth/8)*(m_MCUHeight/8)<sp/>Y/RGB<sp/>blocks:<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>greyscale/no<sp/>subsampling,<sp/>2<sp/>for<sp/>H1V2/H2V1,<sp/>or<sp/>4<sp/>blocks<sp/>for<sp/>H2V2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sampling<sp/>factors.<sp/>Each<sp/>block<sp/>is<sp/>a<sp/>contiguous<sp/>array<sp/>of<sp/>64<sp/>(8x8)<sp/>bytes<sp/>of<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>single<sp/>component:<sp/>either<sp/>Y<sp/>for<sp/>grayscale<sp/>images,<sp/>or<sp/>R,<sp/>G<sp/>or<sp/>B<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>color<sp/>images.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>8x8<sp/>pixel<sp/>blocks<sp/>are<sp/>organized<sp/>in<sp/>these<sp/>byte<sp/>arrays<sp/>like<sp/>this:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PJPG_GRAYSCALE:<sp/>Each<sp/>MCU<sp/>is<sp/>decoded<sp/>to<sp/>a<sp/>single<sp/>block<sp/>of<sp/>8x8<sp/>grayscale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pixels.<sp/>Only<sp/>the<sp/>values<sp/>in<sp/>m_pMCUBufR<sp/>are<sp/>valid.<sp/>Each<sp/>8<sp/>bytes<sp/>is<sp/>a<sp/>row<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pixels<sp/>(raster<sp/>order:<sp/>left<sp/>to<sp/>right,<sp/>top<sp/>to<sp/>bottom)<sp/>from<sp/>the<sp/>8x8<sp/>block.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PJPG_H1V1:<sp/>Each<sp/>MCU<sp/>contains<sp/>is<sp/>decoded<sp/>to<sp/>a<sp/>single<sp/>block<sp/>of<sp/>8x8<sp/>RGB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pixels.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PJPG_YH2V1:<sp/>Each<sp/>MCU<sp/>is<sp/>decoded<sp/>to<sp/>2<sp/>blocks,<sp/>or<sp/>16x8<sp/>pixels.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>2<sp/>RGB<sp/>blocks<sp/>are<sp/>at<sp/>byte<sp/>offsets:<sp/>0,<sp/>64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PJPG_YH1V2:<sp/>Each<sp/>MCU<sp/>is<sp/>decoded<sp/>to<sp/>2<sp/>blocks,<sp/>or<sp/>8x16<sp/>pixels.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>2<sp/>RGB<sp/>blocks<sp/>are<sp/>at<sp/>byte<sp/>offsets:<sp/>0,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PJPG_YH2V2:<sp/>Each<sp/>MCU<sp/>is<sp/>decoded<sp/>to<sp/>4<sp/>blocks,<sp/>or<sp/>16x16<sp/>pixels.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>2x2<sp/>block<sp/>array<sp/>is<sp/>organized<sp/>at<sp/>byte<sp/>offsets:<sp/><sp/><sp/>0,<sp/><sp/>64,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128,<sp/>192</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>It<sp/>is<sp/>up<sp/>to<sp/>the<sp/>caller<sp/>to<sp/>copy<sp/>or<sp/>blit<sp/>these<sp/>pixels<sp/>from<sp/>these<sp/>buffers<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>destination<sp/>bitmap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*m_pMCUBufR;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*m_pMCUBufG;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*m_pMCUBufB;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/><ref refid="structpjpeg__image__info__t" kindref="compound">pjpeg_image_info_t</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>char<sp/>(*pjpeg_need_bytes_callback_t)(</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*pBuf,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buf_size,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*pBytes_actually_read,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pCallback_data);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initializes<sp/>the<sp/>decompressor.<sp/>Returns<sp/>0<sp/>on<sp/>success,<sp/>or<sp/>one<sp/>of<sp/>the<sp/>above<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>codes<sp/>on<sp/>failure.<sp/>pNeed_bytes_callback<sp/>will<sp/>be<sp/>called<sp/>to<sp/>fill<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>decompressor&apos;s<sp/>internal<sp/>input<sp/>buffer.<sp/>If<sp/>reduce<sp/>is<sp/>1,<sp/>only<sp/>the<sp/>first<sp/>pixel<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>each<sp/>block<sp/>will<sp/>be<sp/>decoded.<sp/>This<sp/>mode<sp/>is<sp/>much<sp/>faster<sp/>because<sp/>it<sp/>skips<sp/>the<sp/>AC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>dequantization,<sp/>IDCT<sp/>and<sp/>chroma<sp/>upsampling<sp/>of<sp/>every<sp/>image<sp/>pixel.<sp/>Not<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>pjpeg_decode_init(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structpjpeg__image__info__t" kindref="compound">pjpeg_image_info_t</ref><sp/>*pInfo,<sp/>pjpeg_need_bytes_callback_t<sp/>pNeed_bytes_callback,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pCallback_data,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>reduce);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Decompresses<sp/>the<sp/>file&apos;s<sp/>next<sp/>MCU.<sp/>Returns<sp/>0<sp/>on<sp/>success,<sp/>PJPG_NO_MORE_BLOCKS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>no<sp/>more<sp/>blocks<sp/>are<sp/>available,<sp/>or<sp/>an<sp/>error<sp/>code.<sp/>Must<sp/>be<sp/>called<sp/>a<sp/>total<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>m_MCUSPerRow*m_MCUSPerCol<sp/>times<sp/>to<sp/>completely<sp/>decompress<sp/>the<sp/>image.<sp/>Not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>thread<sp/>safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>pjpeg_decode_mcu(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>PICOJPEG_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-camera/src/jpeg-decoder/picojpeg.h"/>
+  </compounddef>
+</doxygen>

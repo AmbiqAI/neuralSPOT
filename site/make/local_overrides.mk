@@ -1,0 +1,53 @@
+# Put your local overrides in here
+
+# *** Apollo3 Plus Blue EVB
+# PLATFORM := apollo3p_evb
+# AS_VERSION := R3.1.1
+
+# *** Apollo4 Plus
+# PLATFORM := apollo4p_evb
+# PLATFORM := apollo4l_blue_evb
+# PLATFORM := apollo4l_evb
+# PLATFORM := apollo4p_blue_kxr_evb
+# AS_VERSION := R4.5.0
+# AS_VERSION := R4.4.1
+
+# *** Apollo510 EVB
+# PLATFORM := apollo510_evb
+# AS_VERSION := R5.3.0
+
+# *** Apollo510 Revb EB
+# PLATFORM := apollo5b_eb_revb
+# AS_VERSION := Apollo510_SDK3_2024_09_14
+
+# PLATFORM := apollo5a_eb
+# AS_VERSION := Apollo510_SDK3_2024_09_14
+# MLDEBUG := 1
+
+# TF_VERSION := Oct_08_2024_e86d97b6
+# TF_VERSION := ns_tflm_2024_11_25
+# TF_VERSION := ns_tflm_2025_03_06
+# TF_VERSION := helios_rt_v1_2_0
+# TF_VERSION := d5f819d_Aug_10_2023
+# TF_VERSION := ce72f7b8_Feb_17_2024
+# TF_VERSION := bb4fc83d_Mar_28_2024
+# TF_VERSION := Aug_23_2024_c01ca97f
+# TF_VERSION := tanh
+
+# CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
+
+# TOOLCHAIN := arm
+# EXAMPLE := nnse2
+# TARGET := nnse2
+# GCC13_EXPERIMENTAL  := 1
+# DEFINES+= NS_AUDIO_DMA_BUFFER_SIZE=16000
+# DEFINES+= NS_MALLOC_HEAP_SIZE_IN_K=32
+# LEGACY_MALLOC := 1
+# STACK_SIZE_IN_32B_WORDS := 8192
+# STACK_SIZE_IN_32B_WORDS := 10240
+# NS_MALLOC_HEAP_SIZE_IN_K := 32
+# DEFINES+= WSF_TRACE_ENABLED
+# DEFINES+= HCI_TRACE_ENABLED
+# DEFINES+= CFG_TUSB_DEBUG=4
+# DEFINES += AM_UTIL_FAULTISR_PRINT
+# BOOTLOADER := sbl

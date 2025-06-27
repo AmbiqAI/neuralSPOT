@@ -1,0 +1,4773 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs">
+      
+      
+      
+      
+        <link rel="prev" href="Developing_with_NeuralSPOT.html">
+      
+      
+        <link rel="next" href="NeuralSPOT_Nests.html">
+      
+      
+      <link rel="icon" href="images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Developing for NeuralSPOT - NeuralSPOT</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#neuralspot-developers-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="NeuralSPOT" class="md-header__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
+      
+  <img src="images/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NeuralSPOT
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Developing for NeuralSPOT
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Use system theme"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Use system theme" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light theme"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light theme" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark theme"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AmbiqAI/neuralSPOT
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="NeuralSPOT" class="md-nav__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
+      
+  <img src="images/favicon.png" alt="logo">
+
+    </a>
+    NeuralSPOT
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AmbiqAI/neuralSPOT
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ai_at_ambiq.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI at Ambiq
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Ambiq-ModelZoo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ambiq Model Zoo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Introduction-to-neuralSPOT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="makefile-details.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="features.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Developers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Developing_with_NeuralSPOT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Developing with NeuralSPOT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Developing for NeuralSPOT
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="developer_guide.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Developing for NeuralSPOT
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#faqs" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-is-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where is main()?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-are-the-linker-script-and-reset-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where are the linker script and reset handlers?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-the-makefiles-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do the makefiles work?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-are-compilation-artifacts-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where are compilation artifacts store?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-and-updating-components-to-neuralspot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding and Updating Components to NeuralSPOT
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding and Updating Components to NeuralSPOT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-neuralspot-library-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding NeuralSPOT Library Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding NeuralSPOT Library Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#library-component-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Library Component Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#library-component-module-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Library Component Module definition
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#library-api-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Library API Versioning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Library API Versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-the-include-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      In the Include File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-the-library-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      In the library implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-neuralspot-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding NeuralSPOT Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding NeuralSPOT Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-component-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Component Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-component-module-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Component Module definition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-external-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding External Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding External Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#external-component-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Component Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-component-module-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Component Module Definition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-and-updating-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding and Updating Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-rpc-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding RPC Interfaces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding RPC Interfaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rpc-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPC Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RPC Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ns-rpc-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      NS-RPC Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a New Interface
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a New Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-defining-the-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - Defining the Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-generating-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - Generating the code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-wrap-the-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - Wrap the Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-write-a-pc-side-rpc-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 - Write a PC-side RPC application
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-an-existing-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying an Existing Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NeuralSPOT_Nests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nests
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Automatic Testing, profiling, and deploying
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/autodeploy.readme.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Autodeploy User Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/ns_ad_batch.readme.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Batched Autodeploy User Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tools/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tools Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Application Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Application Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Application-Note-neuralSPOT-and-Windows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    neuralSPOT on Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NeuralSPOT_RPC_and_AutoDeploy_on_Linux.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    neuralSPOT on Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="optimizing_using_neuralspot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optimizing Using NeuralSPOT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="release_notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="developer_notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Developer Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Deploying-EI-Models-using-neuralSPOT%20Nests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Edge Impulse Support
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/basic_tf_stub/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kitchen Sink
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AI Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            AI Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/ai/kws/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keyword Spotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/ai/har/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Human Activity Recognition
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    SDK Exmaples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            SDK Exmaples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/icm/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ICM Inertial Sensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/ai/kws/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keyword Spotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/rpc_evb_to_pc/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC EVB to PC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/rpc_pc_to_evb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC PC to EVB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/tflm_profiling/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    TFLM Profling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/pmu_profiling/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PMU Profiling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/quaternion/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quaternion Feature Extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/uart/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UART
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/demos/nnse/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BLE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/demos/nnse_usb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WebUSB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/examples/vision/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arducam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Demos
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            Demos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/demos/ic/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Image Classification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/demos/nnid/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speaker Identification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/demos/nnse/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BLE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/demos/nnse_usb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WebUSB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Libraries
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Libraries
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-audio/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Audio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-ble/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bluetooth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-i2c/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    i2c
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-spi/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-rpc/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-usb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    USB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-ble/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bluetooth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-imu/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IMU
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-features/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Feature Extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-peripherals/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-peripherals/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-utils/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neuralspot/ns-nnsp/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NNSP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Code Documentation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Code Documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Audio
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            Audio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-audio/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-audio/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-audio/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-audio/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-audio/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bluetooth
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            Bluetooth
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Remote Procedure Call
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3">
+            <span class="md-nav__icon md-icon"></span>
+            Remote Procedure Call
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-rpc/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-rpc/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-rpc/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-rpc/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-rpc/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_4" id="__nav_10_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    i2c
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_4">
+            <span class="md-nav__icon md-icon"></span>
+            i2c
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-i2c/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-i2c/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-i2c/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-i2c/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-i2c/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_5" id="__nav_10_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    spi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_5">
+            <span class="md-nav__icon md-icon"></span>
+            spi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-spi/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-spi/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-spi/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-spi/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-spi/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_6" id="__nav_10_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utilities
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_6">
+            <span class="md-nav__icon md-icon"></span>
+            Utilities
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-utils/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-utils/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-utils/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-utils/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-utils/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_7" id="__nav_10_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Power and power
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_7">
+            <span class="md-nav__icon md-icon"></span>
+            Power and power
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-power/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-power/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-power/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-power/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-power/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_8" id="__nav_10_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Core
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_8">
+            <span class="md-nav__icon md-icon"></span>
+            Core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-core/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-core/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-core/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-core/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-core/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_9" id="__nav_10_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AmbiqSuite Harness
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_9">
+            <span class="md-nav__icon md-icon"></span>
+            AmbiqSuite Harness
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-harness/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-harness/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-harness/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-harness/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-harness/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_10" id="__nav_10_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Model Wrapper
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_10">
+            <span class="md-nav__icon md-icon"></span>
+            Model Wrapper
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-model/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-model/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-model/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-model/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-model/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="blog/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="blog/archive/2023.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="blog/category/examples.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="blog/category/general.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    General
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="blog/category/integration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="blog/category/new-features.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    New Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#faqs" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FAQs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-is-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where is main()?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-are-the-linker-script-and-reset-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where are the linker script and reset handlers?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-the-makefiles-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do the makefiles work?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-are-compilation-artifacts-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where are compilation artifacts store?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-and-updating-components-to-neuralspot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding and Updating Components to NeuralSPOT
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding and Updating Components to NeuralSPOT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#adding-neuralspot-library-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding NeuralSPOT Library Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding NeuralSPOT Library Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#library-component-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Library Component Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#library-component-module-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Library Component Module definition
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#library-api-versioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Library API Versioning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Library API Versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-the-include-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      In the Include File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#in-the-library-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      In the library implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-neuralspot-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding NeuralSPOT Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding NeuralSPOT Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-component-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Component Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-component-module-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Component Module definition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-external-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding External Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding External Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#external-component-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Component Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-component-module-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      External Component Module Definition
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-and-updating-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding and Updating Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-rpc-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding RPC Interfaces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding RPC Interfaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rpc-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      RPC Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RPC Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ns-rpc-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      NS-RPC Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-new-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a New Interface
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a New Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-defining-the-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - Defining the Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-generating-the-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - Generating the code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-wrap-the-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - Wrap the Interface
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-write-a-pc-side-rpc-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 - Write a PC-side RPC application
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-an-existing-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying an Existing Interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="neuralspot-developers-guide">NeuralSPOT Developer's Guide</h1>
+<p>This document covers various guidelines for creating and modifying NeuralSPOT's various types of components. Its intended audience are NeuralSPOT developers and contributors.</p>
+<h2 id="faqs">FAQs</h2>
+<h5 id="where-is-main">Where is main()?</h5>
+<p>NeuralSPOT <a href="">examples</a> each contain a <code>main()</code>, and each example produces a different binary (AXF and BIN files).</p>
+<h5 id="where-are-the-linker-script-and-reset-handlers">Where are the linker script and reset handlers?</h5>
+<p>NeuralSPOT's platform-specific linker scripts and startup code are located in <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/gcc">neuralspot/ns-core/src/gcc</a> for the GCC toolchain and <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/armclang">neuralspot/ns-core/src/armclang</a> for the armclang toolchain.</p>
+<h5 id="how-do-the-makefiles-work">How do the makefiles work?</h5>
+<p>This is documented within the <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile">main makefile</a>. </p>
+<h5 id="where-are-compilation-artifacts-store">Where are compilation artifacts store?</h5>
+<p>By default, compilation artifacts are placed in <code>build\...</code> and mirror the location of the source of the artifact (for example, the binaries for the HAR example are placed at <code>build/examples/har</code>).</p>
+<hr />
+<h2 id="adding-and-updating-components-to-neuralspot">Adding and Updating Components to NeuralSPOT</h2>
+<p>This section describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:</p>
+<ol>
+<li>NeuralSPOT Libraries</li>
+<li>NeuralSPOT Examples</li>
+<li>External Components</li>
+<li>Documentation</li>
+<li>RPC Interfaces</li>
+</ol>
+<h3 id="adding-neuralspot-library-components">Adding NeuralSPOT Library Components</h3>
+<p>NeuralSPOT Libraries are small, task-specific components. They're located in <code>./neuralspot</code>, and are generally organized by function. For example, current components include ns-audio, ns-ipc, ns-i2c, ns-rpc, and so on. Some libraries are collections of very simple functions - ns_peripherals includes both ns-power and ns-button, components which are too simple to warrant their on libraries.</p>
+<p>Each library compiles to a static lib (e.g. <code>ns-audio.a</code>), and has a defined API (e.g. <code>ns-audio.h</code>). When linking, only code which is invoked is actually linked into the binary.</p>
+<h4 id="library-component-structure">Library Component Structure</h4>
+<p>Every neuralspot library has a similar structure - some of this is dictated by neuralspot's makefile architecture, and some is by convention. The typical structure is as follows:</p>
+<div class="highlight"><pre><span></span><code>./neuralspot/
+<span class="w">    </span>ns-&lt;componentName&gt;/
+<span class="w">        </span>src/<span class="w">         </span><span class="c1"># All c/cc/cpp/s/h/hpp files in here will be compiled to a static library</span>
+<span class="w">        </span>include_api/<span class="w"> </span><span class="c1"># H/HPP files defining APIs for library - files in here will be added to -I compiler path</span>
+<span class="w">        </span>module.mk<span class="w">    </span><span class="c1"># Simple makefile (see boilerplate below)</span>
+<span class="w">        </span>README.md<span class="w"> </span><span class="c1"># Local documentation</span>
+<span class="w">        </span>build/<span class="w">       </span><span class="c1"># temporary working directory for storing static libs, object files and other compile artifacts</span>
+</code></pre></div>
+<h4 id="library-component-module-definition">Library Component Module definition</h4>
+<p>Each component includes a local <code>module.mk</code>. These are fairly similar in structure, and tend to follow this pattern:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nv">local_src</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.c<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.cpp<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.cc<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.s<span class="k">)</span>
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/includes-api
+
+<span class="nv">local_bin</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/<span class="k">$(</span>BINDIR<span class="k">)</span>
+<span class="nv">bindirs</span><span class="w">   </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>local_bin<span class="k">)</span>
+<span class="k">$(</span><span class="nv">eval</span> <span class="k">$(</span><span class="nv">call</span> <span class="nv">make-library</span>, <span class="k">$(</span><span class="nv">local_bin</span><span class="k">)</span>/<span class="nv">ns-</span>&lt;<span class="nv">componentName</span>&gt;<span class="nv">.a</span>, <span class="k">$(</span><span class="nv">local_src</span><span class="k">)))</span><span class="w"> </span><span class="c"># only change needed</span>
+</code></pre></div>
+The only thing that normally differs between library's <code>module.mk</code> is the <code>&lt;componentName&gt;</code>, but this file can be used for more elaborate purposes (for example, ns-core's <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-core/module.mk">module.mk</a> conditionally includes source files based on the `TOOLCHAIN`` setting).</p>
+<h4 id="library-api-versioning">Library API Versioning</h4>
+<p>Many of the libraries have APIs - those that do are 'versioned', meaning that they have a related semantic version number. When a library's init() function is called, part of the configuration includes a desired version number. The initialization function checks that the desired version is supported, and fails if it isn't.</p>
+<p>When adding a new library, include the following code to add version control...</p>
+<h5 id="in-the-include-file">In the Include File</h5>
+<div class="highlight"><pre><span></span><code><span class="c1">// using &#39;usb&#39; as example</span>
+<span class="cp">#define NS_USB_V0_0_1                                                                            \</span>
+<span class="cp">    { .major = 0, .minor = 0, .revision = 1 }</span>
+<span class="cp">#define NS_USB_V1_0_0                                                                            \</span>
+<span class="cp">    { .major = 1, .minor = 0, .revision = 0 }</span>
+
+<span class="cp">#define NS_USB_OLDEST_SUPPORTED_VERSION NS_USB_V0_0_1</span>
+<span class="cp">#define NS_USB_CURRENT_VERSION NS_USB_V1_0_0</span>
+<span class="cp">#define NS_USB_API_ID 0xCA0006 </span><span class="c1">// unique for each libray</span>
+
+<span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_V0_0_1</span><span class="p">;</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_V1_0_0</span><span class="p">;</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_oldest_supported_version</span><span class="p">;</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_current_version</span><span class="p">;</span>
+</code></pre></div>
+<h5 id="in-the-library-implementation">In the library implementation</h5>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_V0_0_1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">apiId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_API_ID</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_V0_0_1</span><span class="p">};</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_V1_0_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">apiId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_API_ID</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_V1_0_0</span><span class="p">};</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_oldest_supported_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">apiId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_API_ID</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_V0_0_1</span><span class="p">};</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">ns_core_api_t</span><span class="w"> </span><span class="n">ns_usb_current_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">.</span><span class="n">apiId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_API_ID</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NS_USB_V1_0_0</span><span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="n">ns_usb_config_t</span><span class="w"> </span><span class="n">usb_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{.</span><span class="n">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ns_usb_V1_0_0</span><span class="p">,</span><span class="w"> </span><span class="c1">// one of the above</span>
+<span class="w">                                     </span><span class="c1">// rest of init</span>
+<span class="w">                                    </span><span class="p">};</span>
+<span class="n">main</span><span class="p">()</span>
+<span class="cp">#ifndef NS_DISABLE_API_VALIDATION</span>
+<span class="w">    </span><span class="c1">// other API checks</span>
+
+<span class="w">    </span><span class="c1">// Version Check</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ns_core_check_api</span><span class="p">(</span><span class="n">cfg</span><span class="o">-&gt;</span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ns_usb_oldest_supported_version</span><span class="p">,</span>
+<span class="w">                          </span><span class="o">&amp;</span><span class="n">ns_usb_current_version</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">NS_STATUS_INVALID_VERSION</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="cp">#endif</span>
+</code></pre></div>
+<h3 id="adding-neuralspot-examples">Adding NeuralSPOT Examples</h3>
+<p>NeuralSPOT Examples are pared-down examples showcasing NeuralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.</p>
+<p>For every Example, NeuralSPOT will compile all the binary artifacts needed to load the application onto an EVB (specifically, AXF and BIN images). These artifacts are stored in the example's temporary build directory (e.g. <code>build\examples\har</code>).</p>
+<blockquote>
+<p><strong>Note</strong> The name of the artifacts are derived from the example's <code>module.mk</code>,  not the directory it resides in.</p>
+</blockquote>
+<h4 id="example-component-structure">Example Component Structure</h4>
+<p>Every neuralspot library has a similar structure - some of this is dictated by neuralspot's makefile architecture, and some is by convention. The typical structure is as follows:</p>
+<div class="highlight"><pre><span></span><code>./examples/
+<span class="w">    </span>&lt;exampleName&gt;/
+<span class="w">        </span>src/<span class="w">             </span><span class="c1"># All c/cc/cpp/s/h/hpp files in here will be compiled to a flashable file</span>
+<span class="w">        </span>module.mk<span class="w">        </span><span class="c1"># Simple makefile (see boilerplate below)</span>
+<span class="w">        </span>README.md<span class="w">        </span><span class="c1"># Local documentation</span>
+</code></pre></div>
+<blockquote>
+<p><em>NOTE</em> Each example can access all of neuralSPOT's libraries and external components, but the code in the example's <code>src</code> directory is only visible to the example itself.</p>
+</blockquote>
+<h4 id="example-component-module-definition">Example Component Module definition</h4>
+<p>Each example includes a local <code>module.mk</code>. These are fairly similar in structure, and tend to follow this pattern:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">local_app_name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>basic_tf_stub
+<span class="nv">local_src</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.c<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.cc<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.cpp<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.s<span class="k">)</span>
+<span class="nv">local_bin</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>BINDIR<span class="k">)</span>/<span class="k">$(</span>subdirectory<span class="k">)</span>
+
+<span class="nv">bindirs</span><span class="w">   </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>local_bin<span class="k">)</span>
+<span class="nv">examples</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>local_bin<span class="k">)</span>/<span class="k">$(</span>local_app_name<span class="k">)</span>.axf
+<span class="nv">examples</span><span class="w">  </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>local_bin<span class="k">)</span>/<span class="k">$(</span>local_app_name<span class="k">)</span>.bin
+<span class="k">$(</span><span class="nv">eval</span> <span class="k">$(</span><span class="nv">call</span> <span class="nv">make-axf</span>, <span class="k">$(</span><span class="nv">local_bin</span><span class="k">)</span>/<span class="k">$(</span><span class="nv">local_app_name</span><span class="k">)</span>, <span class="k">$(</span><span class="nv">local_src</span><span class="k">)))</span>
+</code></pre></div>
+<h3 id="adding-external-components">Adding External Components</h3>
+<p>External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, CMSIS, and Embedded RPC.</p>
+<p>The structure of an external component included in NeuralSPOT depends on the component - for example, <code>extern/AmbiqSuite</code> doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.</p>
+<p>NeuralSPOT supports multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in <code>make/neuralspot_config.mk</code>.</p>
+<h4 id="external-component-structure">External Component Structure</h4>
+<p>Generally, the structure of an external component within NeuralSPOT is:
+<div class="highlight"><pre><span></span><code>.../extern/
+<span class="w">    </span>&lt;componentName&gt;/
+<span class="w">        </span>&lt;version&gt;/
+<span class="w">            </span>lib/<span class="w">   </span><span class="c1"># Contains static libraries if there are any</span>
+<span class="w">            </span>src/<span class="w">   </span><span class="c1"># source and header files</span>
+<span class="w">            </span>module.mk
+</code></pre></div></p>
+<p>Because external components don't all have the same structure, the module.mk is less boilerplate than that of other types of components. The critical parts of a typical module.mk are:</p>
+<ol>
+<li>Defining the local source files that need compilation</li>
+<li>Add required header files to <code>includes_api</code></li>
+<li>Adding any pre-built static libraries to <code>lib_prebuilt</code></li>
+<li>If the component generates object files, they need to be linked into a static library via the <code>make-library</code> makefile function.</li>
+</ol>
+<h4 id="external-component-module-definition">External Component Module Definition</h4>
+<p>Here is a simple example which adds tensorflow to NeuralSPOT:
+<div class="highlight"><pre><span></span><code><span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/tensorflow
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/flatbuffers/include
+
+<span class="nv">lib_prebuilt</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/lib/libtensorflow-microlite.a
+</code></pre></div></p>
+<p>On the other hand, here is AmbiqSuite's module.mk:
+<div class="highlight"><pre><span></span><code><span class="c"># Add source files</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.c<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.cc<span class="k">)</span>
+<span class="nv">local_src</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/*.s<span class="k">)</span>
+
+<span class="c"># Base AmbiqSuite include files (note the $ variables)</span>
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/boards/<span class="k">$(</span>BOARD<span class="k">)</span>_<span class="k">$(</span>EVB<span class="k">)</span>/bsp
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/CMSIS/ARM/Include
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/CMSIS/AmbiqMicro/Include
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/devices
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/mcu/<span class="k">$(</span>BOARD<span class="k">)</span>
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/mcu/<span class="k">$(</span>BOARD<span class="k">)</span>/hal/mcu
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/utils
+
+<span class="c"># Pre-built static libraries</span>
+<span class="nv">lib_prebuilt</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/lib/<span class="k">$(</span>PART<span class="k">)</span>/libam_hal.a
+<span class="nv">lib_prebuilt</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/lib/<span class="k">$(</span>PART<span class="k">)</span>/<span class="k">$(</span>EVB<span class="k">)</span>/libam_bsp.a
+<span class="nv">lib_prebuilt</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/lib/libarm_cortexM4lf_math.a
+
+<span class="c"># Third-Party (FreeRTOS)</span>
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/FreeRTOSv10.1.1/Source/include
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4
+
+<span class="c"># Third-Party (TinyUSB)</span>
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/tinyusb/src
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/tinyusb/src/common
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/tinyusb/src/osal
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/tinyusb/src/class/cdc
+<span class="nv">includes_api</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/third_party/tinyusb/src/device
+
+<span class="nv">local_bin</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/<span class="k">$(</span>BINDIR<span class="k">)</span>
+<span class="nv">bindirs</span><span class="w">   </span><span class="o">+=</span><span class="w"> </span><span class="k">$(</span>local_bin<span class="k">)</span>
+
+<span class="c"># Special link and compiler overrides</span>
+<span class="nv">LINKER_FILE</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>subdirectory<span class="k">)</span>/src/linker_script.ld
+<span class="nv">STARTUP_FILE</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>./startup_<span class="k">$(</span>COMPILERNAME<span class="k">)</span>.c
+
+<span class="k">$(</span><span class="nv">eval</span> <span class="k">$(</span><span class="nv">call</span> <span class="nv">make-library</span>, <span class="k">$(</span><span class="nv">local_bin</span><span class="k">)</span>/<span class="nv">ambiqsuite.a</span>, <span class="k">$(</span><span class="nv">local_src</span><span class="k">)))</span>
+</code></pre></div></p>
+<h3 id="adding-and-updating-documentation">Adding and Updating Documentation</h3>
+<p>NeuralSPOT's documentation in automatically generated from the repository using Mkdocs. Because of where our markdown docs are located, we had to locate the mkdocs definition file outside of the repository (mkdocs expects all markdown to reside in a subdirectory which is not where mkdown.yml lives, and does not support <code>..\</code> relative paths). This means we cannot use the Github deployment
+command (<code>mkdocs gh-deploy</code>), and have to do so manually:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>mkdocs<span class="w"> </span>mkdocs-material<span class="w"> </span>mkdocs-glightbox<span class="w"> </span>mkdoxy
+<span class="nb">cd</span><span class="w"> </span>..
+cp<span class="w"> </span>neuralSPOT/mkdocs.yml<span class="w"> </span>.
+mkdocs<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>neuralSPOT
+git<span class="w"> </span>checkout<span class="w"> </span>gh-pages
+cp<span class="w"> </span>-R<span class="w"> </span>../site<span class="w"> </span>.
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;update docs&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>gh-pages
+</code></pre></div>
+<h3 id="adding-rpc-interfaces">Adding RPC Interfaces</h3>
+<blockquote>
+<p><strong>LIMITATIONS</strong> ns-rpc only works as client or server, exclusively.</p>
+</blockquote>
+<p>RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:</p>
+<ol>
+<li>Defining the interface using an IDL (interface definition language)</li>
+<li>Processing that definition to generate server and client code.</li>
+<li>Copying the generated client code to neuralSPOT, generally as a new neuralspot library</li>
+<li>Implementing the server code that will respond to the client.</li>
+</ol>
+<p>NeuralSPOT RPC is based on <a href="https://github.com/AmbiqAI/erpc">a modified fork</a> of <a href="https://github.com/EmbeddedRPC/erpc">EmbeddedRPC (eRPC)</a> which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the <a href="https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference">specifics of IDL definition</a>, is outside the scope of this document. </p>
+<h4 id="rpc-structure">RPC Structure</h4>
+<p>RPC in NeuralSPOT is structured as follows:</p>
+<ol>
+<li>The relevant parts of eRPC's infrastructure reside in <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/extern/erpc"><code>extern/erpc</code></a></li>
+<li>Interface library implementations reside in <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc"><code>neuralspot/ns-rpc</code></a></li>
+<li>Examples of generic RPC utilization reside in <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_client"><code>examples/rpc-client</code></a>, and <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/rpc_server"><code>examples/rpc-server</code></a>.</li>
+<li>Examples of practical utilization of RPC to capture data can be found in <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/mpu_data_collection"><code>examples/mpu_data_collection</code></a> (for i2c) and <a href="https://github.com/AmbiqAI/neuralSPOT/tree/main/examples/basic_tf_stub"><code>examples/basic_tf_stub</code></a> (for audio)</li>
+</ol>
+<h5 id="ns-rpc-structure">NS-RPC Structure</h5>
+<div class="highlight"><pre><span></span><code>ns-rpc/
+<span class="w">    </span>interfaces/<span class="w"> </span><span class="c1"># contains IDL definition files</span>
+<span class="w">    </span>includes-api/<span class="w"> </span><span class="c1"># API for each interface</span>
+<span class="w">    </span>python/<span class="w"> </span><span class="c1"># PC-side code implementing the interface and example client/servers using it</span>
+<span class="w">    </span>src/<span class="w"> </span><span class="c1"># Code implementing the interface and wrapping it for neuralspot</span>
+</code></pre></div>
+<h4 id="creating-a-new-interface">Creating a New Interface</h4>
+<p>As briefly described above, creating a new interface involves multiple steps, some of which generate CPP and Python code that need to be wrapped usefully for integration with NeuralSPOT. </p>
+<h5 id="step-1-defining-the-interface">Step 1 - Defining the Interface</h5>
+<p>eRPC definitions start from an ERPC file which is written in an IDL (defined <a href="https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference">here</a>). eRPC doesn't have a lot of good examples in the wild, so we recommend you start from an existing definition such as <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/interfaces/GenericDataOperations.erpc"><code>GenericDataOperations.erpc</code></a>. </p>
+<h5 id="step-2-generating-the-code">Step 2 - Generating the code</h5>
+<p>eRPC can generate both C and Python client and server code (of course, the Python code is only for use on the PC). You only have to generate Python if you plan on implementing Python-based PC applications. Currently, NeuralSPOT only includes Python PC examples.</p>
+<div class="highlight"><pre><span></span><code>$&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>neuralspot/ns-rpc
+$&gt;<span class="w"> </span>mkdir<span class="w"> </span>python/foo
+$&gt;<span class="w"> </span>erpcgen<span class="w"> </span>-g<span class="w"> </span>py<span class="w"> </span>-o<span class="w"> </span>python/foo<span class="w"> </span>interfaces/foo.erpc<span class="w"> </span><span class="c1"># Generate Python client/server code</span>
+$&gt;<span class="w"> </span>erpcgen<span class="w"> </span>-o<span class="w"> </span>src<span class="w"> </span>interfaces/foo.erpc<span class="w"> </span><span class="c1"># Generate C client/server code</span>
+</code></pre></div>
+<blockquote>
+<p><strong>NOTE</strong> The Client C code contains prototypes for the remote procedures. This will cause linking errors if you are not implementing those procedures. If you don't plan on implementing EVB-side client procedures, delete the file or give it a non-source extension to avoid compiling it.</p>
+</blockquote>
+<p>At this point you'll have everything you need to implement the interface.</p>
+<h5 id="step-3-wrap-the-interface">Step 3 - Wrap the Interface</h5>
+<p>When the EVB is acting as a client (i.e. it is calling procedures that reside on the PC), all you really need to do is add an <code>init()</code> and a header file that includes everything needed for the application to find the remote procedures. The <code>init()</code> should initialize the USB interface and the erpc client.</p>
+<p>When the EVB is acting as a server, the <code>ns-rpc</code> wrapper should also include implementations for the remotely called procedures. One way to implement this is to have those procedures invoke callbacks, which can be defined via the <code>init()</code>.</p>
+<p>See the GenericDataOperations <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/src/ns_rpc_generic_data.c">wrapper</a> for an example of how to wrap both client and server interfaces.</p>
+<h5 id="step-4-write-a-pc-side-rpc-application">Step 4 - Write a PC-side RPC application</h5>
+<p>Your new interface will need a PC-side application (server or client, depending on your needs). NeuralSPOT includes <a href="https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py">an example PC side application</a> that can be configured as either a server or client. The code is fairly self-explanatory. </p>
+<blockquote>
+<p><strong>Note</strong> that the eRPC Python implementation is not well documented or tested. NeuralSPOT's GenericDataOperation RPC interface has been tested to work well after fixing a few bugs in our eRPC fork, but other types of interfaces have not be stressed.</p>
+</blockquote>
+<h4 id="modifying-an-existing-interface">Modifying an Existing Interface</h4>
+<p>Modifying an interface involves changing the existing interface's eRPC file, generating new interface files, and modifying the wrappers to accomodate those changes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023-2025 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

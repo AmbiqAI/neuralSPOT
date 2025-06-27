@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_a6fe3be1a7876c624c59ed050417822e" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-core/src/apollo5a</compoundname>
+    <innerdir refid="dir_1aa96d0d08bb9c7ebc3aa9fc44295b9d">neuralSPOT/neuralspot/ns-core/src/apollo5a/armclang</innerdir>
+    <innerdir refid="dir_0d388e8cc3cd473f17b84236fe6e888d">neuralSPOT/neuralspot/ns-core/src/apollo5a/gcc</innerdir>
+    <innerdir refid="dir_ace0baa96e0893ab4ce7e01ba9481688">neuralSPOT/neuralspot/ns-core/src/apollo5a/llvm</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-core/src/apollo5a/"/>
+  </compounddef>
+</doxygen>

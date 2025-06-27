@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="union_sdk_info" kind="struct" language="C++" prot="public">
+    <compoundname>SdkInfo</compoundname>
+    <includes refid="_arducam_camera_8h" local="no">ArducamCamera.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="union_sdk_info_1a8952bca51d18ed134fc76ab390aa32dd" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t SdkInfo::sdkVersion[5]</definition>
+        <argsstring>[5]</argsstring>
+        <name>sdkVersion</name>
+        <qualifiedname>SdkInfo::sdkVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sdk version </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="52" column="13" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="union_sdk_info_1a0d44856f1f088c17ae19bc836c0c750b" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="struct_sdk_date" kindref="compound">SdkDate</ref></type>
+        <definition>struct SdkDate SdkInfo::sdkInfo</definition>
+        <argsstring></argsstring>
+        <name>sdkInfo</name>
+        <qualifiedname>SdkInfo::sdkInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="53" column="18" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Basic information of the sdk. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>SdkDate</label>
+        <link refid="struct_sdk_date"/>
+      </node>
+      <node id="1">
+        <label>SdkInfo</label>
+        <link refid="union_sdk_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sdkInfo</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="51" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="51" bodyend="54"/>
+    <listofallmembers>
+      <member refid="union_sdk_info_1a0d44856f1f088c17ae19bc836c0c750b" prot="public" virt="non-virtual"><scope>SdkInfo</scope><name>sdkInfo</name></member>
+      <member refid="union_sdk_info_1a8952bca51d18ed134fc76ab390aa32dd" prot="public" virt="non-virtual"><scope>SdkInfo</scope><name>sdkVersion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

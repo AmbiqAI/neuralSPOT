@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__debug__log__init__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_debug_log_init_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__debug__log__init__t_1a0dce4282ff063bb8e0d15264f44c7ed8" prot="public" static="no" mutable="no">
+        <type>ns_timer_config_t *</type>
+        <definition>ns_timer_config_t* ns_debug_log_init_t::t</definition>
+        <argsstring></argsstring>
+        <name>t</name>
+        <qualifiedname>ns_debug_log_init_t::t</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="104" column="23" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__debug__log__init__t_1abf8120013ad7a9331dd0ff4aca16a070" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__perf__mac__count__t" kindref="compound">ns_perf_mac_count_t</ref> *</type>
+        <definition>const ns_perf_mac_count_t* ns_debug_log_init_t::m</definition>
+        <argsstring></argsstring>
+        <name>m</name>
+        <qualifiedname>ns_debug_log_init_t::m</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="105" column="31" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ns_debug_log_init_t</label>
+        <link refid="structns__debug__log__init__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>m</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_perf_mac_count_t</label>
+        <link refid="structns__perf__mac__count__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="103" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="103" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structns__debug__log__init__t_1abf8120013ad7a9331dd0ff4aca16a070" prot="public" virt="non-virtual"><scope>ns_debug_log_init_t</scope><name>m</name></member>
+      <member refid="structns__debug__log__init__t_1a0dce4282ff063bb8e0d15264f44c7ed8" prot="public" virt="non-virtual"><scope>ns_debug_log_init_t</scope><name>t</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__power__tests_8c" kind="file" language="C++">
+    <compoundname>ns_power_tests.c</compoundname>
+    <includes local="yes">unity/unity.h</includes>
+    <includes refid="ns__peripherals__power_8h" local="yes">ns_peripherals_power.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>ns_peripherals_power.h</label>
+        <link refid="ns__peripherals__power_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c</label>
+        <link refid="ns__power__tests_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="6">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="7">
+        <label>am_util.h</label>
+      </node>
+      <node id="4">
+        <label>ns_core.h</label>
+      </node>
+      <node id="2">
+        <label>unity/unity.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__power__tests_8c_1a6c0d6592997c882f5e8a2f181299ad20" prot="public" static="yes" mutable="no">
+        <type><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>ns_power_config_t custom_cfg</definition>
+        <argsstring></argsstring>
+        <name>custom_cfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="5" column="26" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="5" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__power__tests_8c_1ac755ddb2344278e5f8ef15ef1ff8590e" prot="public" static="yes" mutable="no">
+        <type>ns_core_config_t</type>
+        <definition>ns_core_config_t core_cfg</definition>
+        <argsstring></argsstring>
+        <name>core_cfg</name>
+        <initializer>= {
+        .api = &amp;ns_core_V1_0_0,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="7" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__power__tests_8c_1a58915570bfe386895748c6f3b9ac6ffc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void reset_custom_cfg</definition>
+        <argsstring>()</argsstring>
+        <name>reset_custom_cfg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="10" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="10" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1a7f9cda503f806000f4f66451ab015732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="25" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1af2a3f33c802112c27bc900510d75fc6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="29" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1ac28865a5566e654edcb4bb01f3b8fc1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_null_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_null_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="33" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1ab4b4042b180c9d2f9ce9b8236625a300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="40" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="40" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1a49c9e68664d9714c5957698e2593a75a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_invalid_api_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_invalid_api_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="65" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="65" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1a7748139a02239a9baf6726199dae43e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_power_mode_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_power_mode_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="80" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="80" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1afecd1577ca1c0ec8db37421da27aeb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_all_true_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_all_true_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="102" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="102" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8c_1a35eb5596f75492e2199fcfc08a7ce931" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_all_false_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_all_false_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" line="119" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="119" bodyend="134"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;unity/unity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__peripherals__power_8h" kindref="compound">ns_peripherals_power.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/>custom_cfg;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>ns_core_config_t<sp/>core_cfg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_core_V1_0_0,</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reset_custom_cfg()<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" kindref="member">api</ref><sp/>=<sp/>&amp;ns_power_V1_0_0;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1ae3532732154ca0ed9cd239789fc76901" kindref="member">bNeedAudAdc</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" kindref="member">bNeedSharedSRAM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4a3a41cf06308b5e67c0a5ed5f97cc7e" kindref="member">bNeedCrypto</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a7ece590a2c4fedf77e8cdf70767882bf" kindref="member">bNeedBluetooth</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" kindref="member">bNeedUSB</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a859bc288f4f3c4d65e28285c803cb95f" kindref="member">bNeedIOM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0f96c87a4aa01b3ae12b2a19eb7701df" kindref="member">bNeedAlternativeUART</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" kindref="member">b128kTCM</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" kindref="member">bEnableTempCo</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" kindref="member">bNeedITM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_tests_pre_test_hook()<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>reset_custom_cfg();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_tests_post_test_hook()<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>post<sp/>hook<sp/>if<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_null_test()<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_core_init(&amp;core_cfg);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(NULL);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_HANDLE,<sp/>status);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Init<sp/>each<sp/>predefined<sp/>power<sp/>setting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_test()<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kindref="member">ns_development_default</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" kindref="member">ns_debug_default</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kindref="member">ns_good_default</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kindref="member">ns_mlperf_mode1</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kindref="member">ns_mlperf_mode2</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" kindref="member">ns_mlperf_mode3</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;<ref refid="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" kindref="member">ns_audio_default</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_invalid_api_test()<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" kindref="member">api</ref><sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_VERSION,<sp/>status);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_core_api_t<sp/>invalid_api<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.version<sp/>=<sp/>NS_CORE_V0_0_1,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" kindref="member">api</ref><sp/>=<sp/>&amp;invalid_api;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(NS_STATUS_INVALID_VERSION,<sp/>status);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>each<sp/>power<sp/>mode<sp/>configuration<sp/>including<sp/>invalid<sp/>one</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_power_mode_test()<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>reset_custom_cfg();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;what\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>a<sp/>valid<sp/>power<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_NOT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_all_true_test()<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>reset_custom_cfg();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1ae3532732154ca0ed9cd239789fc76901" kindref="member">bNeedAudAdc</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" kindref="member">bNeedSharedSRAM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4a3a41cf06308b5e67c0a5ed5f97cc7e" kindref="member">bNeedCrypto</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a7ece590a2c4fedf77e8cdf70767882bf" kindref="member">bNeedBluetooth</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" kindref="member">bNeedUSB</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a859bc288f4f3c4d65e28285c803cb95f" kindref="member">bNeedIOM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0f96c87a4aa01b3ae12b2a19eb7701df" kindref="member">bNeedAlternativeUART</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" kindref="member">b128kTCM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" kindref="member">bEnableTempCo</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" kindref="member">bNeedITM</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_all_false_test()<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>reset_custom_cfg();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1ae3532732154ca0ed9cd239789fc76901" kindref="member">bNeedAudAdc</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a719b7e7ed4b2e4a7b7f0cf4dc7be86f0" kindref="member">bNeedSharedSRAM</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4a3a41cf06308b5e67c0a5ed5f97cc7e" kindref="member">bNeedCrypto</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a7ece590a2c4fedf77e8cdf70767882bf" kindref="member">bNeedBluetooth</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a28baf1720eb24099beb8365c814972ac" kindref="member">bNeedUSB</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a859bc288f4f3c4d65e28285c803cb95f" kindref="member">bNeedIOM</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0f96c87a4aa01b3ae12b2a19eb7701df" kindref="member">bNeedAlternativeUART</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0bc7747ad32694d9db540bc5e5737b43" kindref="member">b128kTCM</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a4027bfea68bf400633a7aa8b43a3a28d" kindref="member">bEnableTempCo</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_cfg.<ref refid="structns__power__config__t_1a0b906df22efe11c1e49d0dabb74cf891" kindref="member">bNeedITM</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>status<sp/>=<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(&amp;custom_cfg);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>TEST_ASSERT_EQUAL(AM_HAL_STATUS_SUCCESS,<sp/>status);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c"/>
+  </compounddef>
+</doxygen>

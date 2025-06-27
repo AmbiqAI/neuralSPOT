@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__pdm_8h" kind="file" language="C++">
+    <compoundname>ns_pdm.h</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes refid="ns__audio_8h" local="yes">ns_audio.h</includes>
+    <includedby refid="apollo4_2ns__pdm_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_pdm.c</includedby>
+    <includedby refid="apollo5_2ns__pdm_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/apollo5/ns_pdm.c</includedby>
+    <includedby refid="ns__audio_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_audio.c</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>ns_audio.h</label>
+        <link refid="ns__audio_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h</label>
+        <link refid="ns__pdm_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="6">
+        <label>ns_core.h</label>
+      </node>
+      <node id="7">
+        <label>ns_ipc_ring_buffer.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_pdm.c</label>
+        <link refid="apollo4_2ns__pdm_8c"/>
+      </node>
+      <node id="3">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo5/ns_pdm.c</label>
+        <link refid="apollo5_2ns__pdm_8c"/>
+      </node>
+      <node id="4">
+        <label>neuralSPOT/neuralspot/ns-audio/src/ns_audio.c</label>
+        <link refid="ns__audio_8c"/>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h</label>
+        <link refid="ns__pdm_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__pdm_8h_1a008f54c9bc9b3504387d593c453f28dc" prot="public" static="no">
+        <name>NS_AUDIO_PDM_SAMPLE_16BIT</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" line="24" column="9" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__pdm_8h_1aa9aa133d692ba1ae274788ad8f6dac29" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__pdm__cfg__t" kindref="compound">ns_pdm_cfg_t</ref></type>
+        <definition>ns_pdm_cfg_t ns_pdm_default</definition>
+        <argsstring></argsstring>
+        <name>ns_pdm_default</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" line="26" column="21" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="21" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" declline="26" declcolumn="21"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__pdm_8h_1aeebb83c9ca268003290efea280354594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t pdm_init</definition>
+        <argsstring>(ns_audio_config_t *config)</argsstring>
+        <name>pdm_init</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>AUDADC subsystem init - should only be invoked by ns_audio, not directly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" line="29" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="39" bodyend="102" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" declline="29" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pdm_8h_1ac78eeda0cfeef7327e416b111ef34a5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void pdm_deinit</definition>
+        <argsstring>(ns_audio_config_t *config)</argsstring>
+        <name>pdm_deinit</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" line="30" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="104" bodyend="122" declfile="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h" declline="30" declcolumn="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>your name (<ulink url="mailto:you@domain.com">you@domain.com</ulink>) </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2023-05-22</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2023 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_PDM_AUDIO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PDM_AUDIO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__audio_8h" kindref="compound">ns_audio.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_AUDIO_PDM_SAMPLE_16BIT<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="structns__pdm__cfg__t" kindref="compound">ns_pdm_cfg_t</ref><sp/>ns_pdm_default;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="apollo3_2ns__pdm_8h_1aeebb83c9ca268003290efea280354594" kindref="member">pdm_init</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pdm_deinit(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_PDM_AUDIO</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-audio/src/ns_pdm.h"/>
+  </compounddef>
+</doxygen>

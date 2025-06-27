@@ -1,0 +1,1080 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structam__bsp__pp__b2__t" kind="struct" language="C++" prot="public">
+    <compoundname>am_bsp_pp_b2_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a64c929c75c9ec8f937b05f7c1e07d445" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_ACRG</definition>
+        <argsstring></argsstring>
+        <name>M_ACRG</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_ACRG</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="155" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a010c9544eded6ee37029a1d47383905a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_VREFGEN</definition>
+        <argsstring></argsstring>
+        <name>M_VREFGEN</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_VREFGEN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="156" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a9bf044f8d9cd09305e8447afcb36fb81" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_VREFGEN2</definition>
+        <argsstring></argsstring>
+        <name>M_VREFGEN2</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_VREFGEN2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="157" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1acd2585e726d9a8298a223db1416ead0b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_VRCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_VRCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_VRCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="158" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1aa475f9574fbcc86ddf55788923ad89dd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_LDOREG1</definition>
+        <argsstring></argsstring>
+        <name>M_LDOREG1</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_LDOREG1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="159" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a8f8b5f198e4f4dfaaefe16f2f93a1525" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_LDOREG2</definition>
+        <argsstring></argsstring>
+        <name>M_LDOREG2</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_LDOREG2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="160" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a24c50a01cb7abdd84e5164c775b72a90" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_UVRGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_UVRGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_UVRGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="161" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1af5410a65f636dd4915acc57c07ca5f47" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_UCRGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_UCRGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_UCRGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="162" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a73851e922f68060e45749454b6a9022f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_HFRC</definition>
+        <argsstring></argsstring>
+        <name>M_HFRC</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_HFRC</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="163" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1af04e532eccb5e02dcf62d29c1c102374" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_HFRC2</definition>
+        <argsstring></argsstring>
+        <name>M_HFRC2</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_HFRC2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="164" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a55a35afb5f455a2c38f88ffe07de1ea3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_LFRC</definition>
+        <argsstring></argsstring>
+        <name>M_LFRC</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_LFRC</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="165" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1abd29a7b9720ddd2cfca85ed5c1d77f6d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_IOCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_IOCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_IOCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="166" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a5ed97698bc5d9abef188d19ca735922d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_BODCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_BODCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_BODCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="167" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a2b0fd75cb8ad27fe823033775ee3e420" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_ADCPWRDLY</definition>
+        <argsstring></argsstring>
+        <name>M_ADCPWRDLY</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_ADCPWRDLY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="168" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a5a5133ebda7bbe58d21ec08e74c8e91f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_ADCPWRCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_ADCPWRCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_ADCPWRCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="169" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a945b769ba372cc9c2762e536f11e3e1f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_ADCCAL</definition>
+        <argsstring></argsstring>
+        <name>M_ADCCAL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_ADCCAL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="170" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a826d2b9dbace32236259b32363b4336b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_ADCBATTLOAD</definition>
+        <argsstring></argsstring>
+        <name>M_ADCBATTLOAD</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_ADCBATTLOAD</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="171" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a0b8f5f9cf7ce7060547e17631cfc1b33" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_XTALCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_XTALCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_XTALCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="172" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a7e5370f30649c90e83ced9d81458c997" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_XTALGENCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_XTALGENCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_XTALGENCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="173" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a101d48e529707c525bae1c923a6087a4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_XTALHSTRIMS</definition>
+        <argsstring></argsstring>
+        <name>M_XTALHSTRIMS</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_XTALHSTRIMS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="174" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1aadec025115ddc1873b6e5c4c5cce4077" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_XTALHSCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_XTALHSCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_XTALHSCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="175" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ad65d2015d6ab5d9227b8481d8281fd47" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_TEMPSCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_TEMPSCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_TEMPSCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="176" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1afe59c2b0370d0b610e2e1328d87a6a91" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_BGTLPCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_BGTLPCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_BGTLPCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="177" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a55e42e8cda518c78f1738e51ae989608" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_FLASHPWRDIS</definition>
+        <argsstring></argsstring>
+        <name>M_FLASHPWRDIS</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_FLASHPWRDIS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="178" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ac765160e0cea20358e312ae75b19cff6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_EXTCLKSEL</definition>
+        <argsstring></argsstring>
+        <name>M_EXTCLKSEL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_EXTCLKSEL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="179" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a18ddd6c6f2d58937af0312599f34c1fc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_OBSCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_OBSCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_OBSCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="180" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a1940799d27424bd9850feede5a60f3ba" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_TESTMODECTRL</definition>
+        <argsstring></argsstring>
+        <name>M_TESTMODECTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_TESTMODECTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="181" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ae56c0cf47a9d9072b1117b17c0b89ecc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_MFGTEST3</definition>
+        <argsstring></argsstring>
+        <name>M_MFGTEST3</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_MFGTEST3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="182" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1af463a8ce2739dfec9a92268de26541f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_ANATEST</definition>
+        <argsstring></argsstring>
+        <name>M_ANATEST</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_ANATEST</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="183" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a96a486a43c6d0de861101e4eea549b4b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_MRAMPWRCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_MRAMPWRCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_MRAMPWRCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="184" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a33f9479eecfaeb1a7a04aefe42cc5d6f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_NVMCACHEPGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_NVMCACHEPGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_NVMCACHEPGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="185" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a003f3747baf9bd1dbd593563c16e4e74" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SRAMPGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_SRAMPGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SRAMPGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="186" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ae8de5740cd2019da1aa7235d9e85879d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SSRAMPGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_SSRAMPGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SSRAMPGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="187" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a0b340d66f18a5a80c278f23dbc283b3e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_DSP0RAMPGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_DSP0RAMPGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_DSP0RAMPGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="188" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1acee5e11ad5972e87079826d990eb575a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_DSP1RAMPGCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_DSP1RAMPGCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_DSP1RAMPGCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="189" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1afe1dd35bfcd75aad458b494f27a02090" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_MISCPWRCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_MISCPWRCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_MISCPWRCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="190" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a90a24f344b29401ec39c7ae2d52ad022" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PWRONRSTDLY</definition>
+        <argsstring></argsstring>
+        <name>M_PWRONRSTDLY</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PWRONRSTDLY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="191" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a322d7018e0aa4348026e88eef84856fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PWRSEQ1ANA</definition>
+        <argsstring></argsstring>
+        <name>M_PWRSEQ1ANA</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PWRSEQ1ANA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="192" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a28505664d3beafb93b67fc723720ead9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PWRSEQ2ANA</definition>
+        <argsstring></argsstring>
+        <name>M_PWRSEQ2ANA</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PWRSEQ2ANA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="193" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1aed3e7cd01768a67c39c44eb8f2cc488e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_BODISABLE</definition>
+        <argsstring></argsstring>
+        <name>M_BODISABLE</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_BODISABLE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="194" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1acccb362492db3055d9c11280946b2270" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PMUENABLE</definition>
+        <argsstring></argsstring>
+        <name>M_PMUENABLE</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PMUENABLE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="195" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a25a6ee116398637138a2cb83b26283f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_MISCDEVST</definition>
+        <argsstring></argsstring>
+        <name>M_MISCDEVST</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_MISCDEVST</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="196" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a55f4375accc531f9e0366d06f0e75433" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_KEXTCLKSE</definition>
+        <argsstring></argsstring>
+        <name>M_KEXTCLKSE</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_KEXTCLKSE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="197" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a490327b1c68b10217b23fc5eb05f66e1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK0</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK0</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="198" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a56e597ff08a8b5e904ea77454822099e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK1</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK1</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="199" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ab5acf156fd2b09178835ff520224b999" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK2</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK2</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="200" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a3c08220b1c861761b7549a68fb43a14e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK3</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK3</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="201" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a69eb6da54597ef942b44829a040c61c6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK4</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK4</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="202" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1af3715deef3cac1ef7095c99c3b715582" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK5</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK5</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="203" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a30209b29074cd199939f60cfe65af310" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK6</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK6</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="204" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ab3a47d008fd59a492b3243835fb4fe27" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK7</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK7</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="205" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a2e4064d843370577894c2558c09ff49d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK8</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK8</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK8</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="206" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ab3ab2febed8229c8d3d79ac375f5f046" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK9</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK9</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK9</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="207" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a94d7e3d03655b2967c2b8f1cda254ce0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK10</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK10</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK10</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="208" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a037630fb18f73d0feac466cd0f055bf9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK11</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK11</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK11</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="209" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1af6ca2d0b967576dfba225bd77775b95f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK12</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK12</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK12</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="210" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a83c2634fcec69ef0ef9732db432a1534" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK13</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK13</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK13</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="211" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1addb2980040556e297fba91c83eec2a10" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK14</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK14</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK14</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="212" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a2a1a1329afdf145f0ff12771155d0c45" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SIMOBUCK15</definition>
+        <argsstring></argsstring>
+        <name>M_SIMOBUCK15</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SIMOBUCK15</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="213" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a980429252e916c28b816dee032496134" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PWRSW0</definition>
+        <argsstring></argsstring>
+        <name>M_PWRSW0</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PWRSW0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="214" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ac1e0c94c3109efe1333ce552dc750846" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PWRSW1</definition>
+        <argsstring></argsstring>
+        <name>M_PWRSW1</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PWRSW1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="215" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1af60ab17aad71bccbbaf5a65dfd69757f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PCM</definition>
+        <argsstring></argsstring>
+        <name>M_PCM</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PCM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="216" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1aefef66f9770369d02d48e6b460141f78" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_AUDADCPWRCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_AUDADCPWRCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_AUDADCPWRCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="217" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a6b17734e0a924b1e7a62cf9cca538055" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_AUDIO1</definition>
+        <argsstring></argsstring>
+        <name>M_AUDIO1</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_AUDIO1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="218" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a9468b9fdaa0ce4f7fc7d9aea1ce379d8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_AUDIO2</definition>
+        <argsstring></argsstring>
+        <name>M_AUDIO2</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_AUDIO2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="219" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1ae9e88e44297c6b9097ffa998ac01f0e4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PGAADCIFCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_PGAADCIFCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PGAADCIFCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="220" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1afd96f5a45f9ecf30836bf6470139e620" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PGACTRL1</definition>
+        <argsstring></argsstring>
+        <name>M_PGACTRL1</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PGACTRL1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="221" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a8bf8bb2bb8d492450ba01a1c5fb7a133" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PGACTRL2</definition>
+        <argsstring></argsstring>
+        <name>M_PGACTRL2</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PGACTRL2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="222" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a612daa730d46c4652a528f57dd4054cb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_AUDADCPWRDLY</definition>
+        <argsstring></argsstring>
+        <name>M_AUDADCPWRDLY</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_AUDADCPWRDLY</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="223" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1aa224a3aecd4c972ee6d8040c42484f58" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_SDIOCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_SDIOCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_SDIOCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="224" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structam__bsp__pp__b2__t_1a080e6aefe53f4b285e291717aba315f1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t am_bsp_pp_b2_t::M_PDMCTRL</definition>
+        <argsstring></argsstring>
+        <name>M_PDMCTRL</name>
+        <qualifiedname>am_bsp_pp_b2_t::M_PDMCTRL</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="225" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" line="154" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo4/ns_power_profile.h" bodystart="154" bodyend="226"/>
+    <listofallmembers>
+      <member refid="structam__bsp__pp__b2__t_1a64c929c75c9ec8f937b05f7c1e07d445" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_ACRG</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a826d2b9dbace32236259b32363b4336b" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_ADCBATTLOAD</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a945b769ba372cc9c2762e536f11e3e1f" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_ADCCAL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a5a5133ebda7bbe58d21ec08e74c8e91f" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_ADCPWRCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a2b0fd75cb8ad27fe823033775ee3e420" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_ADCPWRDLY</name></member>
+      <member refid="structam__bsp__pp__b2__t_1af463a8ce2739dfec9a92268de26541f5" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_ANATEST</name></member>
+      <member refid="structam__bsp__pp__b2__t_1aefef66f9770369d02d48e6b460141f78" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_AUDADCPWRCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a612daa730d46c4652a528f57dd4054cb" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_AUDADCPWRDLY</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a6b17734e0a924b1e7a62cf9cca538055" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_AUDIO1</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a9468b9fdaa0ce4f7fc7d9aea1ce379d8" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_AUDIO2</name></member>
+      <member refid="structam__bsp__pp__b2__t_1afe59c2b0370d0b610e2e1328d87a6a91" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_BGTLPCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a5ed97698bc5d9abef188d19ca735922d" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_BODCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1aed3e7cd01768a67c39c44eb8f2cc488e" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_BODISABLE</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a0b340d66f18a5a80c278f23dbc283b3e" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_DSP0RAMPGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1acee5e11ad5972e87079826d990eb575a" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_DSP1RAMPGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ac765160e0cea20358e312ae75b19cff6" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_EXTCLKSEL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a55e42e8cda518c78f1738e51ae989608" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_FLASHPWRDIS</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a73851e922f68060e45749454b6a9022f" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_HFRC</name></member>
+      <member refid="structam__bsp__pp__b2__t_1af04e532eccb5e02dcf62d29c1c102374" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_HFRC2</name></member>
+      <member refid="structam__bsp__pp__b2__t_1abd29a7b9720ddd2cfca85ed5c1d77f6d" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_IOCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a55f4375accc531f9e0366d06f0e75433" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_KEXTCLKSE</name></member>
+      <member refid="structam__bsp__pp__b2__t_1aa475f9574fbcc86ddf55788923ad89dd" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_LDOREG1</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a8f8b5f198e4f4dfaaefe16f2f93a1525" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_LDOREG2</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a55a35afb5f455a2c38f88ffe07de1ea3" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_LFRC</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ae56c0cf47a9d9072b1117b17c0b89ecc" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_MFGTEST3</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a25a6ee116398637138a2cb83b26283f5" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_MISCDEVST</name></member>
+      <member refid="structam__bsp__pp__b2__t_1afe1dd35bfcd75aad458b494f27a02090" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_MISCPWRCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a96a486a43c6d0de861101e4eea549b4b" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_MRAMPWRCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a33f9479eecfaeb1a7a04aefe42cc5d6f" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_NVMCACHEPGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a18ddd6c6f2d58937af0312599f34c1fc" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_OBSCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1af60ab17aad71bccbbaf5a65dfd69757f" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PCM</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a080e6aefe53f4b285e291717aba315f1" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PDMCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ae9e88e44297c6b9097ffa998ac01f0e4" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PGAADCIFCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1afd96f5a45f9ecf30836bf6470139e620" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PGACTRL1</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a8bf8bb2bb8d492450ba01a1c5fb7a133" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PGACTRL2</name></member>
+      <member refid="structam__bsp__pp__b2__t_1acccb362492db3055d9c11280946b2270" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PMUENABLE</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a90a24f344b29401ec39c7ae2d52ad022" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PWRONRSTDLY</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a322d7018e0aa4348026e88eef84856fe" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PWRSEQ1ANA</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a28505664d3beafb93b67fc723720ead9" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PWRSEQ2ANA</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a980429252e916c28b816dee032496134" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PWRSW0</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ac1e0c94c3109efe1333ce552dc750846" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_PWRSW1</name></member>
+      <member refid="structam__bsp__pp__b2__t_1aa224a3aecd4c972ee6d8040c42484f58" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SDIOCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a490327b1c68b10217b23fc5eb05f66e1" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK0</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a56e597ff08a8b5e904ea77454822099e" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK1</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a94d7e3d03655b2967c2b8f1cda254ce0" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK10</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a037630fb18f73d0feac466cd0f055bf9" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK11</name></member>
+      <member refid="structam__bsp__pp__b2__t_1af6ca2d0b967576dfba225bd77775b95f" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK12</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a83c2634fcec69ef0ef9732db432a1534" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK13</name></member>
+      <member refid="structam__bsp__pp__b2__t_1addb2980040556e297fba91c83eec2a10" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK14</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a2a1a1329afdf145f0ff12771155d0c45" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK15</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ab5acf156fd2b09178835ff520224b999" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK2</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a3c08220b1c861761b7549a68fb43a14e" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK3</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a69eb6da54597ef942b44829a040c61c6" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK4</name></member>
+      <member refid="structam__bsp__pp__b2__t_1af3715deef3cac1ef7095c99c3b715582" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK5</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a30209b29074cd199939f60cfe65af310" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK6</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ab3a47d008fd59a492b3243835fb4fe27" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK7</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a2e4064d843370577894c2558c09ff49d" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK8</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ab3ab2febed8229c8d3d79ac375f5f046" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SIMOBUCK9</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a003f3747baf9bd1dbd593563c16e4e74" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SRAMPGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ae8de5740cd2019da1aa7235d9e85879d" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_SSRAMPGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1ad65d2015d6ab5d9227b8481d8281fd47" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_TEMPSCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a1940799d27424bd9850feede5a60f3ba" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_TESTMODECTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1af5410a65f636dd4915acc57c07ca5f47" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_UCRGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a24c50a01cb7abdd84e5164c775b72a90" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_UVRGCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1acd2585e726d9a8298a223db1416ead0b" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_VRCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a010c9544eded6ee37029a1d47383905a" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_VREFGEN</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a9bf044f8d9cd09305e8447afcb36fb81" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_VREFGEN2</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a0b8f5f9cf7ce7060547e17631cfc1b33" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_XTALCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a7e5370f30649c90e83ced9d81458c997" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_XTALGENCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1aadec025115ddc1873b6e5c4c5cce4077" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_XTALHSCTRL</name></member>
+      <member refid="structam__bsp__pp__b2__t_1a101d48e529707c525bae1c923a6087a4" prot="public" virt="non-virtual"><scope>am_bsp_pp_b2_t</scope><name>M_XTALHSTRIMS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

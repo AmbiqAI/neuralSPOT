@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="_platform_8h" kind="file" language="C++">
+    <compoundname>Platform.h</compoundname>
+    <includedby refid="_arducam_camera_8c" local="yes">neuralSPOT/neuralspot/ns-camera/src/arducam/ArducamCamera.c</includedby>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_platform_8h_1a55e26033f3c0ea3dc85f6a0744e8f794" prot="public" static="no">
+        <name>arducamSpiBegin</name>
+        <param></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="14" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1ad692e947d9ad98dde603dc7f8cbc1e07" prot="public" static="no">
+        <name>arducamSpiTransfer</name>
+        <param><defname>val</defname></param>
+        <initializer>arducamSpiTransfer(val)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="15" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1a6335117e8b7bbe7538e25b7157a77aeb" prot="public" static="no">
+        <name>arducamSpiReadBlock</name>
+        <param><defname>p_val</defname></param>
+        <param><defname>count</defname></param>
+        <initializer>arducamSpiTransferBlock(p_val, count)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="16" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1a23fbc1bed41beaa3650ca46b2ea84f65" prot="public" static="no">
+        <name>arducamSpiCsPinHigh</name>
+        <param><defname>pin</defname></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="17" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1ab8cf2dccca52fff2a9099aa50bf40912" prot="public" static="no">
+        <name>arducamSpiCsPinLow</name>
+        <param><defname>pin</defname></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="18" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1acd7ba40287dbbc16562f54d92de05513" prot="public" static="no">
+        <name>arducamCsOutputMode</name>
+        <param><defname>pin</defname></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="19" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1a79274a7d84e87bd2f7692c9f8f3ae9f9" prot="public" static="no">
+        <name>arducamDelayMs</name>
+        <param><defname>val</defname></param>
+        <initializer>arducam_delay_ms(val)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="20" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_platform_8h_1a537bc577f739ef8dc0950f3886b5a6a1" prot="public" static="no">
+        <name>arducamDelayUs</name>
+        <param><defname>val</defname></param>
+        <initializer>arducam_delay_us(val)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" line="21" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>This<sp/>file<sp/>is<sp/>part<sp/>of<sp/>the<sp/>Arducam<sp/>SPI<sp/>Camera<sp/>project.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>2021<sp/>Arducam<sp/>Technology<sp/>co.,<sp/>Ltd.<sp/>All<sp/>Rights<sp/>Reserved.</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>This<sp/>work<sp/>is<sp/>licensed<sp/>under<sp/>the<sp/>MIT<sp/>license,<sp/>see<sp/>the<sp/>file<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__PLATFORM_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__PLATFORM_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamSpiBegin()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamSpiTransfer(val)<sp/>arducamSpiTransfer(val)<sp/></highlight><highlight class="comment">//<sp/><sp/>SPI<sp/>communication<sp/>sends<sp/>a<sp/>byte</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamSpiReadBlock(p_val,<sp/>count)<sp/>arducamSpiTransferBlock(p_val,<sp/>count)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamSpiCsPinHigh(pin)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamSpiCsPinLow(pin)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamCsOutputMode(pin)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamDelayMs(val)<sp/>arducam_delay_ms(val)<sp/></highlight><highlight class="comment">//<sp/><sp/>Delay<sp/>Ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>arducamDelayUs(val)<sp/>arducam_delay_us(val)<sp/></highlight><highlight class="comment">//<sp/>Delay<sp/>Us</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*__PLATFORM_H*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-camera/src/arducam/Platform.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_ebce5d9663c103d379a321152159c42b" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-audio/tests</compoundname>
+    <innerfile refid="ns__audio__tests_8c">ns_audio_tests.c</innerfile>
+    <innerfile refid="ns__audio__tests_8h">ns_audio_tests.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-audio/tests/"/>
+  </compounddef>
+</doxygen>

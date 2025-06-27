@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__pmu__counter" kind="struct" language="C++" prot="public">
+    <compoundname>ns_pmu_counter</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__pmu__counter_1ab043c9e08f617f3c822803b4de4026bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_pmu_counter::added</definition>
+        <argsstring></argsstring>
+        <name>added</name>
+        <qualifiedname>ns_pmu_counter::added</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to track if the event has been added to the am_util_pmu_config_t </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="46" column="10" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__counter_1a5cc1813c0187108a0be140c316621c09" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_counter::mapIndex</definition>
+        <argsstring></argsstring>
+        <name>mapIndex</name>
+        <qualifiedname>ns_pmu_counter::mapIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="48" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__counter_1a02a367a1040708414d17a98362816935" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_counter::counterValue</definition>
+        <argsstring></argsstring>
+        <name>counterValue</name>
+        <qualifiedname>ns_pmu_counter::counterValue</qualifiedname>
+        <briefdescription>
+<para>pmu_map index for this event </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="49" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="45" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="45" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structns__pmu__counter_1ab043c9e08f617f3c822803b4de4026bf" prot="public" virt="non-virtual"><scope>ns_pmu_counter</scope><name>added</name></member>
+      <member refid="structns__pmu__counter_1a02a367a1040708414d17a98362816935" prot="public" virt="non-virtual"><scope>ns_pmu_counter</scope><name>counterValue</name></member>
+      <member refid="structns__pmu__counter_1a5cc1813c0187108a0be140c316621c09" prot="public" virt="non-virtual"><scope>ns_pmu_counter</scope><name>mapIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

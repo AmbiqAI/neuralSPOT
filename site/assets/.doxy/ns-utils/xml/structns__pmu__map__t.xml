@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__pmu__map__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_pmu_map_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__pmu__map__t_1aee54690880901775f10ae9e37059db39" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_map_t::eventId</definition>
+        <argsstring></argsstring>
+        <name>eventId</name>
+        <qualifiedname>ns_pmu_map_t::eventId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" line="16" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__map__t_1a0504ca999abdfee8359ebf81e9a58850" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char ns_pmu_map_t::regname[50]</definition>
+        <argsstring>[50]</argsstring>
+        <name>regname</name>
+        <qualifiedname>ns_pmu_map_t::regname</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" line="17" column="16" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__map__t_1a870a495d49fb2e56d2d74201cba90c09" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char ns_pmu_map_t::description[120]</definition>
+        <argsstring>[120]</argsstring>
+        <name>description</name>
+        <qualifiedname>ns_pmu_map_t::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" line="18" column="16" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" line="15" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_map.h" bodystart="15" bodyend="19"/>
+    <listofallmembers>
+      <member refid="structns__pmu__map__t_1a870a495d49fb2e56d2d74201cba90c09" prot="public" virt="non-virtual"><scope>ns_pmu_map_t</scope><name>description</name></member>
+      <member refid="structns__pmu__map__t_1aee54690880901775f10ae9e37059db39" prot="public" virt="non-virtual"><scope>ns_pmu_map_t</scope><name>eventId</name></member>
+      <member refid="structns__pmu__map__t_1a0504ca999abdfee8359ebf81e9a58850" prot="public" virt="non-virtual"><scope>ns_pmu_map_t</scope><name>regname</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

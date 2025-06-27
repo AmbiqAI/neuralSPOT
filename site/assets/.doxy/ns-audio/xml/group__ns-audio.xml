@@ -1,0 +1,629 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="group__ns-audio" kind="group">
+    <compoundname>ns-audio</compoundname>
+    <title>Ns-audio</title>
+    <innerclass refid="structns__audadc__cfg__t" prot="public">ns_audadc_cfg_t</innerclass>
+    <innerclass refid="structns__pdm__cfg__t" prot="public">ns_pdm_cfg_t</innerclass>
+    <innerclass refid="structns__audio__cfg" prot="public">ns_audio_cfg</innerclass>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__ns-audio_1gac323b3153cc1c87ccdacca907cc10ba7" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_audio_api_mode_e</name>
+        <enumvalue id="group__ns-audio_1ggac323b3153cc1c87ccdacca907cc10ba7af90a19e63376aaee138c8d50b8a88989" prot="public">
+          <name>NS_AUDIO_API_CALLBACK</name>
+          <briefdescription>
+<para>App-defined callback is invoked when audio is ready. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1ggac323b3153cc1c87ccdacca907cc10ba7a8eb59c4834d29717a738c5714cc8551e" prot="public">
+          <name>NS_AUDIO_API_RINGBUFFER</name>
+          <briefdescription>
+<para>FreeRTOS ringbuffer is used to send audio to app. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1ggac323b3153cc1c87ccdacca907cc10ba7a3f118ec6ecb3950af04fa8ddea9297e2" prot="public">
+          <name>NS_AUDIO_API_TASK</name>
+          <briefdescription>
+<para>FreeRTOS task event (TODO) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Audio IPC Modes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="88" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-audio_1gac60456a745861cbe75be2504b3071f32" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_audio_source_e</name>
+        <enumvalue id="group__ns-audio_1ggac60456a745861cbe75be2504b3071f32a51878572d9b7fe3281b28a8f8856b658" prot="public">
+          <name>NS_AUDIO_SOURCE_AUDADC</name>
+          <briefdescription>
+<para>Collect data from AUDADC. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1ggac60456a745861cbe75be2504b3071f32a3376bb726ddbe7b7c79d82b4b51005e3" prot="public">
+          <name>NS_AUDIO_SOURCE_PDM</name>
+          <briefdescription>
+<para>Collect data from PDM. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Audio Source (current only AUDADC and PDM are supported) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="95" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-audio_1ga9008718d4339654a156c32dfc490928c" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_audio_clksel_e</name>
+        <enumvalue id="group__ns-audio_1gga9008718d4339654a156c32dfc490928cac2ba5524e8a299a33a1006b75efa35f4" prot="public">
+          <name>NS_CLKSEL_XTHS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga9008718d4339654a156c32dfc490928ca707db88f97176876b62a2e9adf2a57ec" prot="public">
+          <name>NS_CLKSEL_HFXTAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga9008718d4339654a156c32dfc490928cad1aa93334056c90ee0ccae96a517bcf6" prot="public">
+          <name>NS_CLKSEL_HFRC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga9008718d4339654a156c32dfc490928ca57f55e09671133b8ec6f5d9c1d58f800" prot="public">
+          <name>NS_CLKSEL_HFRC2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga9008718d4339654a156c32dfc490928cafe0f6dbedf4dce63ef87561bee7faa6c" prot="public">
+          <name>NS_CLKSEL_HFRC2_ADJ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga9008718d4339654a156c32dfc490928caeca083c33ec1fcd17d59d927735e4618" prot="public">
+          <name>NS_CLKSEL_PLL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Audio Clock Source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="101" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-audio_1gad3d7ced85672c74a7b7ef73d3a9d2038" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_audio_pdm_clock_e</name>
+        <enumvalue id="group__ns-audio_1ggad3d7ced85672c74a7b7ef73d3a9d2038a1f6ff85735edf5eba33f402809d30c5a" prot="public">
+          <name>NS_AUDIO_PDM_CLK_750KHZ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1ggad3d7ced85672c74a7b7ef73d3a9d2038a642ab2d0d15aa43e169b871056dd8849" prot="public">
+          <name>NS_AUDIO_PDM_CLK_1_5MHZ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>PDM Clock Frequency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="121" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__ns-audio_1ga46da474306eafc3495f66abd00206cb2" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_audio_pdm_micsel_e</name>
+        <enumvalue id="group__ns-audio_1gga46da474306eafc3495f66abd00206cb2a4c30b7537a1d96650c6759241b6ee8f4" prot="public">
+          <name>NS_AUDIO_PDM_MICBOARD_0</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga46da474306eafc3495f66abd00206cb2acd0e6f7e9cc48e5f5a4e025c571e532f" prot="public">
+          <name>NS_AUDIO_PDM_MICBOARD_1</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__ns-audio_1gga46da474306eafc3495f66abd00206cb2a72e50dfdd40741543576625cd7f2bada" prot="public">
+          <name>NS_AUDIO_PDM_MICBOARD_2</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>PDM Microphone Selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="127" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="127" bodyend="131"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__ns-audio_1ga35c104727a2cc272bd5ee2043f23a60a" prot="public" static="no">
+        <type>void(*</type>
+        <definition>typedef void(* ns_audio_callback_cb) (struct ns_audio_cfg *, uint16_t)</definition>
+        <argsstring>)(struct ns_audio_cfg *, uint16_t)</argsstring>
+        <name>ns_audio_callback_cb</name>
+        <briefdescription>
+<para>Invoked by IRQ when audio buffer is ready. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="147" column="9" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" prot="public" static="no">
+        <type>struct <ref refid="structns__audio__cfg" kindref="compound">ns_audio_cfg</ref></type>
+        <definition>typedef struct ns_audio_cfg ns_audio_config_t</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_config_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>NeuralSPOT Audio API Configuration Struct</para>
+<para>Audio configuration is via this struct, which also serves as a handle after <ref refid="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" kindref="member">ns_audio_init()</ref> has been invoked </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="195" column="19"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-audio_1ga13441b97381f02eb62e402fe49d7469d" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_V0_0_1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="76" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="31" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="76" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1gab6a4a8cf5963f5f1f89ab077aebf2023" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_V1_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="77" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="32" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="77" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1ga1930391d50c7943a64b5d880b83dc407" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_V2_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_V2_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="78" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="33" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="78" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1ga96ed17cf860229cb3cdb9a72df67e634" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_V2_1_0</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_V2_1_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="79" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="34" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="79" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1ga90f0ca4d98c0ba5b7f35b1d6cc844edb" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="80" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="35" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="80" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1gaf721b679c31095f360c648454b6f50e1" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_audio_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="81" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="37" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="81" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+        <definition>ns_audio_config_t* g_ns_audio_config</definition>
+        <argsstring></argsstring>
+        <name>g_ns_audio_config</name>
+        <briefdescription>
+<para>Audio Configuration and State. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="197" column="26" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="56" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="197" declcolumn="26"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-audio_1ga5bedd56196c15019156dc699c8c9b1d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_audio_init</definition>
+        <argsstring>(ns_audio_config_t *)</argsstring>
+        <name>ns_audio_init</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize NeuralSPOT audio capture library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: desired configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="204" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="58" bodyend="163" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="204" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1ga55e60de796839733a56906df5b732e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_start_audio</definition>
+        <argsstring>(ns_audio_config_t *)</argsstring>
+        <name>ns_start_audio</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Start audio capture, must be called after ns_audio_init. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: desired configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="211" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="165" bodyend="201" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="211" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1ga4f5f641c72025f6021ad5688a7fecfd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_end_audio</definition>
+        <argsstring>(ns_audio_config_t *)</argsstring>
+        <name>ns_end_audio</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Stop audio capture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: desired configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="218" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="203" bodyend="219" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="218" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1gae15c6c4e64ae0f906e76ed5f181ef09b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_getPCM</definition>
+        <argsstring>(int16_t *pcm, uint32_t *raw, int16_t len)</argsstring>
+        <name>ns_audio_getPCM</name>
+        <param>
+          <type>int16_t *</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>raw</declname>
+        </param>
+        <param>
+          <type>int16_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Extract int16 PCM from data collected by ADC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pcm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- resulting PCM data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- incoming data from ADC engine </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- number of sample words to convert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="227" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="222" bodyend="234" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="227" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1ga9e3bccd1ffbb0fbdbc0072ec850f4569" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_audio_getPCM_v2</definition>
+        <argsstring>(ns_audio_config_t *config, void *pcm)</argsstring>
+        <name>ns_audio_getPCM_v2</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>pcm</declname>
+        </param>
+        <briefdescription>
+<para>Extract int16 PCM from AUDADC or PDM sources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- ns audio config </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pcm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- resulting PCM data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="235" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="236" bodyend="277" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="235" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-audio_1gad25d2ce7cfc5ffd6cdcaf8da33d89120" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_audio_set_gain</definition>
+        <argsstring>(int left_gain, int right_gain)</argsstring>
+        <name>ns_audio_set_gain</name>
+        <param>
+          <type>int</type>
+          <declname>left_gain</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>right_gain</declname>
+        </param>
+        <briefdescription>
+<para>Set gain of audio source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left_gain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- left channel gain </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right_gain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- right channel gain </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="243" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_audio.c" bodystart="279" bodyend="334" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" declline="243" declcolumn="17"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-audio_1ga0c7ca1c6a6a797e5e26d337050f006a0" prot="public" static="no">
+        <name>NS_AUDIO_V0_0_1</name>
+        <initializer>        { .major = 0, .minor = 0, .revision = 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="64" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1gacc71ba8c8ce109222867a30f629fe87b" prot="public" static="no">
+        <name>NS_AUDIO_V1_0_0</name>
+        <initializer>        { .major = 1, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="66" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1ga6cd4a166584d85c6c0633904ab7d7281" prot="public" static="no">
+        <name>NS_AUDIO_V2_0_0</name>
+        <initializer>        { .major = 2, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="68" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1ga357f6988b0bd826d8ee9589490abaf89" prot="public" static="no">
+        <name>NS_AUDIO_V2_1_0</name>
+        <initializer>        { .major = 2, .minor = 1, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1gacb8e5edd501c9f6a5eafaca1e3a0fe87" prot="public" static="no">
+        <name>NS_AUDIO_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_AUDIO_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="72" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1gaeb7928f9bf518bdc0b2678e1c6838017" prot="public" static="no">
+        <name>NS_AUDIO_CURRENT_VERSION</name>
+        <initializer>NS_AUDIO_V2_1_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="73" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1gae6dfef07fcfabffabd1f51435b12c1e9" prot="public" static="no">
+        <name>NS_AUDIO_API_ID</name>
+        <initializer>0xCA0001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="74" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-audio_1ga9340fa419f10ce63cf8d85c08d67b19f" prot="public" static="no">
+        <name>NS_AUDIO_DMA_BUFFER_SIZE</name>
+        <initializer>480</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="84" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+# Definitions for various Ambiq Platforms
+
+# Ambiq Micro Apollo3p Platform
+apollo3p_evb:
+  name: apollo3p_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo3p
+  core: cortex-m4
+  mram: 1024
+  sram: 384
+  dtcm: 64
+  clock_lp: 96
+  as_version: R3.1.1
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - ble
+    - mcu
+
+apollo4p_evb:
+  name: apollo4p_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo4p
+  core: cortex-m4
+  mram: 2000
+  sram: 1024
+  dtcm: 384
+  clock_lp: 96
+  clock_hp: 192
+  as_version: R4.5.0
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - mcu
+    - usb
+
+apollo4p_blue_kbr_evb:
+  name: apollo4p_blue_kbr_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo4p
+  core: cortex-m4
+  mram: 2000
+  sram: 1024
+  dtcm: 384
+  clock_lp: 96
+  clock_hp: 192
+  as_version: R4.5.0
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - mcu
+    - usb
+    - ble
+
+apollo4p_blue_kxr_evb:
+  name: apollo4p_blue_kxr_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo4p
+  core: cortex-m4
+  mram: 2000
+  sram: 1024
+  dtcm: 384
+  clock_lp: 96
+  clock_hp: 192
+  as_version: R4.5.0
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - mcu
+    - usb
+    - ble
+
+apollo4l_evb:
+  name: apollo4l_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo4l
+  core: cortex-m4
+  mram: 2000
+  sram: 1024
+  dtcm: 384
+  clock_lp: 96
+  clock_hp: 192
+  as_version: R4.5.0
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - mcu
+
+apollo4l_blue_evb:
+  name: apollo4l_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo4l
+  core: cortex-m4
+  mram: 2000
+  sram: 1024
+  dtcm: 384
+  clock_lp: 96
+  clock_hp: 192
+  as_version: R4.5.0
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - mcu
+    - ble
+
+apollo510_eb:
+  name: apollo5b_eb_revb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo510
+  core: cortex-m55
+  mram: 4096
+  sram: 3072
+  dtcm: 512
+  itcm: 256
+  psram: 32168
+  psram-arena: 12000
+  psram-model: 20000
+  clock_lp: 96
+  clock_hp: 250
+  as_version: R5.2.0
+  tflm_version: helios_rt_v1_2_0
+  features:
+    - mcu
+    - usb
+    - psram
+    - mve
+
+apollo510_evb:
+  name: apollo510_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo510
+  core: cortex-m55
+  mram: 4096
+  sram: 3072
+  dtcm: 512
+  itcm: 256
+  psram: 32168
+  psram-arena: 12000
+  psram-model: 20000
+  clock_lp: 96
+  clock_hp: 250
+  as_version: R5.3.0
+  tflm_version: helios_rt_v1_2_0
+  # tflm_version: Oct_08_2024_e86d97b6
+  features:
+    - mcu
+    - usb
+    - psram
+    - mve

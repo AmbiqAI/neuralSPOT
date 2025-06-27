@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structregmap__t" kind="struct" language="C++" prot="public">
+    <compoundname>regmap_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structregmap__t_1a1e352db2b74a5301508baee601be15ca" prot="public" static="no" mutable="no">
+        <type>uintptr_t</type>
+        <definition>uintptr_t regmap_t::addr</definition>
+        <argsstring></argsstring>
+        <name>addr</name>
+        <qualifiedname>regmap_t::addr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" line="95" column="25" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structregmap__t_1aaf4f0a7bba45a345a50877b28eb8b817" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char regmap_t::regname[64]</definition>
+        <argsstring>[64]</argsstring>
+        <name>regname</name>
+        <qualifiedname>regmap_t::regname</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" line="96" column="25" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structregmap__t_1a180cde6f712e44b73cdb9768279c06de" prot="public" static="no" mutable="no">
+        <type>const char</type>
+        <definition>const char regmap_t::description[128]</definition>
+        <argsstring>[128]</argsstring>
+        <name>description</name>
+        <qualifiedname>regmap_t::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" line="97" column="25" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" line="92" column="2" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_power_profile.c" bodystart="92" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structregmap__t_1a1e352db2b74a5301508baee601be15ca" prot="public" virt="non-virtual"><scope>regmap_t</scope><name>addr</name></member>
+      <member refid="structregmap__t_1a180cde6f712e44b73cdb9768279c06de" prot="public" virt="non-virtual"><scope>regmap_t</scope><name>description</name></member>
+      <member refid="structregmap__t_1aaf4f0a7bba45a345a50877b28eb8b817" prot="public" virt="non-virtual"><scope>regmap_t</scope><name>regname</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,609 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__power_8c" kind="file" language="C++">
+    <compoundname>ns_power.c</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes refid="ns__peripherals__power_8h" local="yes">ns_peripherals_power.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_peripherals_power.h</label>
+        <link refid="ns__peripherals__power_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c</label>
+        <link refid="ns__power_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-power_1gacc59e094579b9a62714927f7c5671981" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_power_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_power_V0_0_1</name>
+        <initializer>= {.apiId = NS_POWER_API_ID, .version = NS_POWER_V0_0_1}</initializer>
+        <briefdescription>
+<para>Power Control Utilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="52" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1gaba3e2ea00eb6f88fecc9d27225d2b540" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_power_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_power_V1_0_0</name>
+        <initializer>= {.apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="54" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1gacf9d63b66ee49b6d45b51733d3377a42" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_power_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_power_oldest_supported_version</name>
+        <initializer>= {
+    .apiId = NS_POWER_API_ID, .version = NS_POWER_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="56" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1ga2378143811ad172a0a68d4cf7c971207" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_power_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_power_current_version</name>
+        <initializer>= {
+    .apiId = NS_POWER_API_ID, .version = NS_POWER_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="59" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_development_default</definition>
+        <argsstring></argsstring>
+        <name>ns_development_default</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = true,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = true,
+    .bNeedUSB = true,
+    .bNeedIOM = true,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = true,
+    .bNeedXtal = true}</initializer>
+        <briefdescription>
+<para>Enables most things. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="62" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_debug_default</definition>
+        <argsstring></argsstring>
+        <name>ns_debug_default</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = true,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = true,
+    .bNeedUSB = true,
+    .bNeedIOM = true,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = true,
+    .bNeedXtal = true}</initializer>
+        <briefdescription>
+<para>Enables all things. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="77" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1gae90836b195988b047dfd869088c1024f" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_good_default</definition>
+        <argsstring></argsstring>
+        <name>ns_good_default</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = true,
+    .bNeedXtal = false}</initializer>
+        <briefdescription>
+<para>Reasonable settings for more applications. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="92" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_mlperf_mode1</definition>
+        <argsstring></argsstring>
+        <name>ns_mlperf_mode1</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = false,
+    .bNeedXtal = false}</initializer>
+        <briefdescription>
+<para>Good power/perf setting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="107" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_mlperf_mode2</definition>
+        <argsstring></argsstring>
+        <name>ns_mlperf_mode2</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186" kindref="member">NS_MINIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = false,
+    .bNeedXtal = false}</initializer>
+        <briefdescription>
+<para>Good power/perf setting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="122" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_mlperf_mode3</definition>
+        <argsstring></argsstring>
+        <name>ns_mlperf_mode3</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = false,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = true,
+    .b128kTCM = true,
+    .bEnableTempCo = false,
+    .bNeedITM = false,
+    .bNeedXtal = false}</initializer>
+        <briefdescription>
+<para>Good power/perf setting. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="137" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" prot="public" static="no" mutable="no">
+        <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></type>
+        <definition>const ns_power_config_t ns_audio_default</definition>
+        <argsstring></argsstring>
+        <name>ns_audio_default</name>
+        <initializer>= {
+    .eAIPowerMode = <ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,
+    .api = &amp;ns_power_V1_0_0,
+    .bNeedAudAdc = true,
+    .bNeedSharedSRAM = false,
+    .bNeedCrypto = false,
+    .bNeedBluetooth = false,
+    .bNeedUSB = false,
+    .bNeedIOM = false,
+    .bNeedAlternativeUART = false,
+    .b128kTCM = false,
+    .bEnableTempCo = false,
+    .bNeedITM = false,
+    .bNeedXtal = false}</initializer>
+        <briefdescription>
+<para>Good for AI that uses audio peripherals. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="152" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-power_1ga5e478ff8045369408f29963f631e2677" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_set_performance_mode</definition>
+        <argsstring>(ns_power_mode_e eAIPowerMode)</argsstring>
+        <name>ns_set_performance_mode</name>
+        <param>
+          <type><ref refid="group__ns-power_1gabd0847bd4ffca2198c2099c2b9888348" kindref="member">ns_power_mode_e</ref></type>
+          <declname>eAIPowerMode</declname>
+        </param>
+        <briefdescription>
+<para>Power Control Utilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sets CPU frequency to one of the ns_power_modes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="167" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_power.c" bodystart="52" bodyend="71" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" declline="167" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power_8c_1acf8b2e4b1199f9457101c6e484a32782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_power_platform_config</definition>
+        <argsstring>(const ns_power_config_t *pCfg)</argsstring>
+        <name>ns_power_platform_config</name>
+        <param>
+          <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref> *</type>
+          <declname>pCfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="168" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_power.c" bodystart="81" bodyend="107" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" declline="168" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_power_config</definition>
+        <argsstring>(const ns_power_config_t *pCfg)</argsstring>
+        <name>ns_power_config</name>
+        <param>
+          <type>const <ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref> *</type>
+          <declname>pCfg</declname>
+        </param>
+        <briefdescription>
+<para>Set SOC Power Mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired power mode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t success/failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="171" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="171" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power_8c_1a95493f1f347c5cd80384dcc91d85859c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_platform_deep_sleep</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_platform_deep_sleep</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Wraps am_hal_sysctrl_sleep to enable and disable systems as needed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="200" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_power.c" bodystart="114" bodyend="141" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" declline="200" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_deep_sleep</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_deep_sleep</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>neuralSPOT-aware deep_sleep - turns off certain systems off before sleeping and turns them back upon waking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" line="202" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c" bodystart="202" bodyend="202"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>Ambiq<sp/>Micro,<sp/>Inc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redistribution<sp/>and<sp/>use<sp/>in<sp/>source<sp/>and<sp/>binary<sp/>forms,<sp/>with<sp/>or<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>modification,<sp/>are<sp/>permitted<sp/>provided<sp/>that<sp/>the<sp/>following<sp/>conditions<sp/>are<sp/>met:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Redistributions<sp/>of<sp/>source<sp/>code<sp/>must<sp/>retain<sp/>the<sp/>above<sp/>copyright<sp/>notice,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Redistributions<sp/>in<sp/>binary<sp/>form<sp/>must<sp/>reproduce<sp/>the<sp/>above<sp/>copyright</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>notice,<sp/>this<sp/>list<sp/>of<sp/>conditions<sp/>and<sp/>the<sp/>following<sp/>disclaimer<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>documentation<sp/>and/or<sp/>other<sp/>materials<sp/>provided<sp/>with<sp/>the<sp/>distribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Neither<sp/>the<sp/>name<sp/>of<sp/>the<sp/>copyright<sp/>holder<sp/>nor<sp/>the<sp/>names<sp/>of<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>contributors<sp/>may<sp/>be<sp/>used<sp/>to<sp/>endorse<sp/>or<sp/>promote<sp/>products<sp/>derived<sp/>from<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>software<sp/>without<sp/>specific<sp/>prior<sp/>written<sp/>permission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Third<sp/>party<sp/>software<sp/>included<sp/>in<sp/>this<sp/>distribution<sp/>is<sp/>subject<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>additional<sp/>license<sp/>terms<sp/>as<sp/>defined<sp/>in<sp/>the<sp/>/docs/licenses<sp/>directory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THIS<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>BY<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>AND<sp/>CONTRIBUTORS<sp/>&quot;AS<sp/>IS&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AND<sp/>ANY<sp/>EXPRESS<sp/>OR<sp/>IMPLIED<sp/>WARRANTIES,<sp/>INCLUDING,<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO,<sp/>THE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMPLIED<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY<sp/>AND<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ARE<sp/>DISCLAIMED.<sp/>IN<sp/>NO<sp/>EVENT<sp/>SHALL<sp/>THE<sp/>COPYRIGHT<sp/>HOLDER<sp/>OR<sp/>CONTRIBUTORS<sp/>BE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LIABLE<sp/>FOR<sp/>ANY<sp/>DIRECT,<sp/>INDIRECT,<sp/>INCIDENTAL,<sp/>SPECIAL,<sp/>EXEMPLARY,<sp/>OR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONSEQUENTIAL<sp/>DAMAGES<sp/>(INCLUDING,<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO,<sp/>PROCUREMENT<sp/>OF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SUBSTITUTE<sp/>GOODS<sp/>OR<sp/>SERVICES;<sp/>LOSS<sp/>OF<sp/>USE,<sp/>DATA,<sp/>OR<sp/>PROFITS;<sp/>OR<sp/>BUSINESS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>INTERRUPTION)<sp/>HOWEVER<sp/>CAUSED<sp/>AND<sp/>ON<sp/>ANY<sp/>THEORY<sp/>OF<sp/>LIABILITY,<sp/>WHETHER<sp/>IN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONTRACT,<sp/>STRICT<sp/>LIABILITY,<sp/>OR<sp/>TORT<sp/>(INCLUDING<sp/>NEGLIGENCE<sp/>OR<sp/>OTHERWISE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ARISING<sp/>IN<sp/>ANY<sp/>WAY<sp/>OUT<sp/>OF<sp/>THE<sp/>USE<sp/>OF<sp/>THIS<sp/>SOFTWARE,<sp/>EVEN<sp/>IF<sp/>ADVISED<sp/>OF<sp/>THE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>POSSIBILITY<sp/>OF<sp/>SUCH<sp/>DAMAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>part<sp/>of<sp/>revision<sp/>release_sdk_4_0_1-bef824fa27<sp/>of<sp/>the<sp/>AmbiqSuite</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Development<sp/>Package.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__peripherals__power_8h" kindref="compound">ns_peripherals_power.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/><ref refid="group__ns-power_1gacc59e094579b9a62714927f7c5671981" kindref="member">ns_power_V0_0_1</ref><sp/>=<sp/>{.apiId<sp/>=<sp/>NS_POWER_API_ID,<sp/>.version<sp/>=<sp/>NS_POWER_V0_0_1};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_power_V1_0_0<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_POWER_API_ID,<sp/>.version<sp/>=<sp/>NS_POWER_V1_0_0};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_power_oldest_supported_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_POWER_API_ID,<sp/>.version<sp/>=<sp/>NS_POWER_V0_0_1};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_power_current_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_POWER_API_ID,<sp/>.version<sp/>=<sp/>NS_POWER_V1_0_0};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1gaa14ef7ffe27dc37804fd9f58125fb7e7" kindref="member">ns_development_default</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1ga7ce4ebeef4316064d634bb723510a39e" kindref="member">ns_debug_default</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1gae90836b195988b047dfd869088c1024f" kindref="member">ns_good_default</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1ga94fd788deb69f576a206e31845dbf13e" kindref="member">ns_mlperf_mode1</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1gaad3ecb4d385830906a4d51cc02012301" kindref="member">ns_mlperf_mode2</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a65bbb69b25332be58af0a8c977d60186" kindref="member">NS_MINIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1ga99b1dc42266309e67387ee1ccca51818" kindref="member">ns_mlperf_mode3</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/><ref refid="group__ns-power_1ga6818d2eb6d9535a2670edb4f17ca022f" kindref="member">ns_audio_default</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>.<ref refid="structns__power__config__t_1a4d137695a724bf8a7bb6489c61e876b6" kindref="member">eAIPowerMode</ref><sp/>=<sp/><ref refid="group__ns-power_1ggabd0847bd4ffca2198c2099c2b9888348a96e98012a42066a89f7982809ccb3901" kindref="member">NS_MAXIMUM_PERF</ref>,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>.api<sp/>=<sp/>&amp;ns_power_V1_0_0,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAudAdc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedSharedSRAM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedCrypto<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedBluetooth<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedUSB<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedIOM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedAlternativeUART<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>.b128kTCM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnableTempCo<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedITM<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNeedXtal<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-power_1ga5e478ff8045369408f29963f631e2677" kindref="member">ns_set_performance_mode</ref>(<ref refid="group__ns-power_1gabd0847bd4ffca2198c2099c2b9888348" kindref="member">ns_power_mode_e</ref><sp/>eAIPowerMode);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>ns_power_platform_config(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/>*pCfg);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>function<sp/>for<sp/>power<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">uint32_t<sp/><ref refid="group__ns-power_1gaf565d14d4c66f5c269a9f1ccea16e49e" kindref="member">ns_power_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structns__power__config__t" kindref="compound">ns_power_config_t</ref><sp/>*pCfg)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32ReturnStatus<sp/>=<sp/>AM_HAL_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pCfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pCfg-&gt;<ref refid="structns__power__config__t_1a8e02ad8f746057d4cd21755cb6da6c30" kindref="member">api</ref>,<sp/>&amp;ns_power_oldest_supported_version,<sp/>&amp;ns_power_current_version))<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ns_core_initialized())<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Power<sp/>needs<sp/>ns_core<sp/>to<sp/>be<sp/>initialized<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32ReturnStatus<sp/>=<sp/>ns_power_platform_config(pCfg);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32ReturnStatus;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_platform_deep_sleep(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-power_1gadc2bd450c26cfa669a24c9549ac2afa8" kindref="member">ns_deep_sleep</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{<sp/>ns_platform_deep_sleep();<sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_power.c"/>
+  </compounddef>
+</doxygen>

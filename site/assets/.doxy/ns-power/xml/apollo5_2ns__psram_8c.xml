@@ -1,0 +1,680 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="apollo5_2ns__psram_8c" kind="file" language="C++">
+    <compoundname>ns_psram.c</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes refid="ns__peripherals__psram_8h" local="yes">ns_peripherals_psram.h</includes>
+    <includes local="yes">am_devices_mspi_psram_aps25616n.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_peripherals_psram.h</label>
+        <link refid="ns__peripherals__psram_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c</label>
+        <link refid="apollo5_2ns__psram_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="7">
+        <label>am_devices_mspi_psram_aps25616n.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="4">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a2af35f0ebb3f9a72e1a739b9569e8be5" prot="public" static="no">
+        <name>MSPI_PSRAM_OCTAL_CONFIG</name>
+        <initializer>MSPI_PSRAM_OctalCE0MSPIConfig</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="24" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a2af35f0ebb3f9a72e1a739b9569e8be5" prot="public" static="no">
+        <name>MSPI_PSRAM_OCTAL_CONFIG</name>
+        <initializer>MSPI_PSRAM_OctalCE0MSPIConfig</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="25" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a02d3c4c2c9d57f4a70c758ebb1a8010d" prot="public" static="no">
+        <name>MSPI_TEST_MODULE</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="139" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a41446c848eb5f4cc53046aea12f18165" prot="public" static="no">
+        <name>init_psram_timing_check</name>
+        <initializer>am_devices_mspi_psram_aps25616n_ddr_init_timing_check</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="149" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a2a4c80efbe0f9e8ae5f8b8d18ea616e0" prot="public" static="no">
+        <name>init_psram</name>
+        <initializer>am_devices_mspi_psram_aps25616n_ddr_init</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="150" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a36cfc9373b010807f12b03d8fc5c1792" prot="public" static="no">
+        <name>apply_psram_timing</name>
+        <initializer>am_devices_mspi_psram_aps25616n_apply_ddr_timing</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="151" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a2fb32dab0fd2f2742f87189b333d3754" prot="public" static="no">
+        <name>enable_psram_xip</name>
+        <initializer>am_devices_mspi_psram_aps25616n_ddr_enable_xip</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="152" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1acad3a478d4063238db32a858cb5014dd" prot="public" static="no">
+        <name>MSPI_XIP_BASE_ADDRESS</name>
+        <initializer>MSPI3_APERTURE_START_ADDR</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="163" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1ab5c160701135ce81d175f12e029bed18" prot="public" static="no">
+        <name>psram_mspi_isr</name>
+        <initializer>    am_mspi_isr1(MSPI_TEST_MODULE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="175" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a0ae91adae590cca875090616b70a48ec" prot="public" static="no">
+        <name>am_mspi_isr1</name>
+        <param><defname>n</defname></param>
+        <initializer>    am_mspi_isr(n)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="177" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="apollo5_2ns__psram_8c_1a4cf85c80a1e1c374814eb60485dab819" prot="public" static="no">
+        <name>am_mspi_isr</name>
+        <param><defname>n</defname></param>
+        <initializer>    am_mspi ## n ## _isr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="179" column="9" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a704fec0a4614b97b650612d7d18bc72d" prot="public" static="no" mutable="no">
+        <type>AM_SHARED_RW uint32_t</type>
+        <definition>AM_SHARED_RW uint32_t DMATCBBuffer[2560]</definition>
+        <argsstring>[2560]</argsstring>
+        <name>DMATCBBuffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="27" column="23" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1af01b2e830e1d4fd8f5005c9eb8e73495" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* g_pDevHandle</definition>
+        <argsstring></argsstring>
+        <name>g_pDevHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="29" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a7df05fef4fc81892088f2239dbadd382" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* g_pHandle</definition>
+        <argsstring></argsstring>
+        <name>g_pHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="30" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a97069e2ed57d343b5260c348cbdb7f5e" prot="public" static="no" mutable="no">
+        <type>am_hal_mpu_region_config_t</type>
+        <definition>am_hal_mpu_region_config_t sMPUCfg</definition>
+        <argsstring></argsstring>
+        <name>sMPUCfg</name>
+        <initializer>=
+{
+    .ui32RegionNumber = 6,
+    .ui32BaseAddress = (uint32_t)DMATCBBuffer,
+    .eShareable = NON_SHARE,
+    .eAccessPermission = RW_NONPRIV,
+    .bExecuteNever = true,
+    .ui32LimitAddress = (uint32_t)DMATCBBuffer + sizeof(DMATCBBuffer) - 1,
+    .ui32AttrIndex = 0,
+    .bEnable = true,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="34" column="28" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1ac8f751d589c91e58f46bc736c17e4899" prot="public" static="no" mutable="no">
+        <type>am_hal_mpu_attr_t</type>
+        <definition>am_hal_mpu_attr_t sMPUAttr</definition>
+        <argsstring></argsstring>
+        <name>sMPUAttr</name>
+        <initializer>=
+{
+    .ui8AttrIndex = 0,
+    .bNormalMem = true,
+    .sOuterAttr = {
+                    .bNonTransient = false,
+                    .bWriteBack = true,
+                    .bReadAllocate = false,
+                    .bWriteAllocate = false
+                  },
+    .sInnerAttr = {
+                    .bNonTransient = false,
+                    .bWriteBack = true,
+                    .bReadAllocate = false,
+                    .bWriteAllocate = false
+                  },
+    .eDeviceAttr = 0,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="45" column="19" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a7b9d12f5f726ff5ff02ea477f02b6692" prot="public" static="no" mutable="no">
+        <type>am_devices_mspi_psram_config_t</type>
+        <definition>am_devices_mspi_psram_config_t MSPI_PSRAM_OctalCE0MSPIConfig</definition>
+        <argsstring></argsstring>
+        <name>MSPI_PSRAM_OctalCE0MSPIConfig</name>
+        <initializer>=
+{
+    .eDeviceConfig            = AM_HAL_MSPI_FLASH_OCTAL_DDR_CE0,
+
+
+
+    .eClockFreq               = AM_HAL_MSPI_CLK_125MHZ,
+
+    .pNBTxnBuf                = DMATCBBuffer,
+    .ui32NBTxnBufLength       = sizeof(DMATCBBuffer) / sizeof(uint32_t),
+    .ui32ScramblingStartAddr  = 0,
+    .ui32ScramblingEndAddr    = 0,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="67" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a4a16e8e9950e827bfb3cd1378601ddb0" prot="public" static="no" mutable="no">
+        <type>am_devices_mspi_psram_config_t</type>
+        <definition>am_devices_mspi_psram_config_t MSPI_PSRAM_OctalCE1MSPIConfig</definition>
+        <argsstring></argsstring>
+        <name>MSPI_PSRAM_OctalCE1MSPIConfig</name>
+        <initializer>=
+{
+    .eDeviceConfig            = AM_HAL_MSPI_FLASH_OCTAL_DDR_CE1,
+
+
+
+    .eClockFreq               = AM_HAL_MSPI_CLK_125MHZ,
+
+    .pNBTxnBuf                = DMATCBBuffer,
+    .ui32NBTxnBufLength       = sizeof(DMATCBBuffer) / sizeof(uint32_t),
+    .ui32ScramblingStartAddr  = 0,
+    .ui32ScramblingEndAddr    = 0,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="81" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a5e777315abe59d541ca04c551342eb8d" prot="public" static="no" mutable="no">
+        <type>am_devices_mspi_psram_config_t</type>
+        <definition>am_devices_mspi_psram_config_t MSPI_PSRAM_HexCE0MSPIConfig</definition>
+        <argsstring></argsstring>
+        <name>MSPI_PSRAM_HexCE0MSPIConfig</name>
+        <initializer>=
+{
+    .eDeviceConfig            = AM_HAL_MSPI_FLASH_HEX_DDR_CE0,
+
+
+
+    .eClockFreq               = AM_HAL_MSPI_CLK_125MHZ,
+
+    .ui32NBTxnBufLength       = sizeof(DMATCBBuffer) / sizeof(uint32_t),
+    .pNBTxnBuf                = DMATCBBuffer,
+    .ui32ScramblingStartAddr  = 0,
+    .ui32ScramblingEndAddr    = 0,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="95" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a9028169dc4b6b8a42f15ea63c56ff621" prot="public" static="no" mutable="no">
+        <type>am_devices_mspi_psram_config_t</type>
+        <definition>am_devices_mspi_psram_config_t MSPI_PSRAM_HexCE1MSPIConfig</definition>
+        <argsstring></argsstring>
+        <name>MSPI_PSRAM_HexCE1MSPIConfig</name>
+        <initializer>=
+{
+    .eDeviceConfig            = AM_HAL_MSPI_FLASH_HEX_DDR_CE1,
+
+
+
+    .eClockFreq               = AM_HAL_MSPI_CLK_125MHZ,
+
+    .ui32NBTxnBufLength       = sizeof(DMATCBBuffer) / sizeof(uint32_t),
+    .pNBTxnBuf                = DMATCBBuffer,
+    .ui32ScramblingStartAddr  = 0,
+    .ui32ScramblingEndAddr    = 0,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="109" column="32" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1a21aa143f82e45af6e135e1ecdc087900" prot="public" static="no" mutable="no">
+        <type>am_devices_mspi_psram_ddr_timing_config_t</type>
+        <definition>am_devices_mspi_psram_ddr_timing_config_t MSPIDdrTimingConfig</definition>
+        <argsstring></argsstring>
+        <name>MSPIDdrTimingConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="134" column="43" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo5_2ns__psram_8c_1ac1335725f35a23dd136928581eaa2822" prot="public" static="yes" mutable="no">
+        <type>const IRQn_Type</type>
+        <definition>const IRQn_Type mspi_interrupts[]</definition>
+        <argsstring>[]</argsstring>
+        <name>mspi_interrupts</name>
+        <initializer>=
+{
+    MSPI0_IRQn,
+    MSPI1_IRQn,
+    MSPI2_IRQn,
+    MSPI3_IRQn,
+}</initializer>
+        <briefdescription>
+<para>MSPI interrupts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="167" column="24" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="apollo5_2ns__psram_8c_1a3d435623c137e3f46d4180ac046f57fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_psram_platform_init</definition>
+        <argsstring>(ns_psram_config_t *cfg)</argsstring>
+        <name>ns_psram_platform_init</name>
+        <param>
+          <type><ref refid="structns__psram__config__t" kindref="compound">ns_psram_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" line="191" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c" bodystart="191" bodyend="245"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Utility for configuring and accessing PSRAM. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ambiq </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2024-04-19</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2024 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__peripherals__psram_8h" kindref="compound">ns_peripherals_psram.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_devices_mspi_psram_aps25616ba_1p2v.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_devices_mspi_psram_aps25616n.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_PSRAM_OCTAL_CONFIG<sp/>MSPI_PSRAM_OctalCE0MSPIConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_PSRAM_OCTAL_CONFIG<sp/>MSPI_PSRAM_OctalCE0MSPIConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">AM_SHARED_RW<sp/>uint32_t<sp/>DMATCBBuffer[2560];</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*g_pDevHandle;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*g_pHandle;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EVB<sp/>Stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">am_hal_mpu_region_config_t<sp/>sMPUCfg<sp/>=</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32RegionNumber<sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32BaseAddress<sp/>=<sp/>(uint32_t)DMATCBBuffer,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>.eShareable<sp/>=<sp/>NON_SHARE,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>.eAccessPermission<sp/>=<sp/>RW_NONPRIV,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>.bExecuteNever<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32LimitAddress<sp/>=<sp/>(uint32_t)DMATCBBuffer<sp/>+<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(DMATCBBuffer)<sp/>-<sp/>1,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32AttrIndex<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>.bEnable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">am_hal_mpu_attr_t<sp/>sMPUAttr<sp/>=</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui8AttrIndex<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>.bNormalMem<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>.sOuterAttr<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bNonTransient<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bWriteBack<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bReadAllocate<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bWriteAllocate<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>.sInnerAttr<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bNonTransient<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bWriteBack<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bReadAllocate<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bWriteAllocate<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>.eDeviceAttr<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>END<sp/>EVB<sp/>stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">am_devices_mspi_psram_config_t<sp/>MSPI_PSRAM_OctalCE0MSPIConfig<sp/>=</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>.eDeviceConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_FLASH_OCTAL_DDR_CE0,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_48MHZ,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_125MHZ,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>.pNBTxnBuf<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>DMATCBBuffer,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32NBTxnBufLength<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(DMATCBBuffer)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t),</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingStartAddr<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingEndAddr<sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">am_devices_mspi_psram_config_t<sp/>MSPI_PSRAM_OctalCE1MSPIConfig<sp/>=</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>.eDeviceConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_FLASH_OCTAL_DDR_CE1,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_48MHZ,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_125MHZ,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>.pNBTxnBuf<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>DMATCBBuffer,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32NBTxnBufLength<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(DMATCBBuffer)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t),</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingStartAddr<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingEndAddr<sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">am_devices_mspi_psram_config_t<sp/>MSPI_PSRAM_HexCE0MSPIConfig<sp/>=</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>.eDeviceConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_FLASH_HEX_DDR_CE0,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_48MHZ,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_125MHZ,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32NBTxnBufLength<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(DMATCBBuffer)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t),</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>.pNBTxnBuf<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>DMATCBBuffer,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingStartAddr<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingEndAddr<sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">am_devices_mspi_psram_config_t<sp/>MSPI_PSRAM_HexCE1MSPIConfig<sp/>=</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>.eDeviceConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_FLASH_HEX_DDR_CE1,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_48MHZ,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>.eClockFreq<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_CLK_125MHZ,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32NBTxnBufLength<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(DMATCBBuffer)<sp/>/<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t),</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>.pNBTxnBuf<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>DMATCBBuffer,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingStartAddr<sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32ScramblingEndAddr<sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(AM_PART_APOLLO5B)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">am_hal_mspi_cpu_read_burst_t<sp/>sCPURQCFG<sp/>=</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>.eGQArbBais<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AM_HAL_MSPI_GQARB_2_1_BAIS,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>.bCombineRID2CacheMissAccess<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>.bCombineRID3CachePrefetchAccess<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>.bCombineRID4ICacheAccess<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>.bCPUReadQueueEnable<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">am_devices_mspi_psram_ddr_timing_config_t<sp/>MSPIDdrTimingConfig;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_TEST_MODULE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_TEST_MODULE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Function<sp/>calls<sp/>are<sp/>based<sp/>on<sp/>memory<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>init_psram_timing_check<sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616ba_ddr_init_timing_check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>init_psram<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616ba_ddr_init</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>apply_psram_timing<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616ba_apply_ddr_timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>enable_psram_xip<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616ba_ddr_enable_xip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>init_psram_timing_check<sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616n_ddr_init_timing_check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>init_psram<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616n_ddr_init</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>apply_psram_timing<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616n_apply_ddr_timing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>enable_psram_xip<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_devices_mspi_psram_aps25616n_ddr_enable_xip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(MSPI_TEST_MODULE<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_XIP_BASE_ADDRESS<sp/>MSPI0_APERTURE_START_ADDR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>(MSPI_TEST_MODULE<sp/>==<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_XIP_BASE_ADDRESS<sp/>MSPI1_APERTURE_START_ADDR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>(MSPI_TEST_MODULE<sp/>==<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_XIP_BASE_ADDRESS<sp/>MSPI2_APERTURE_START_ADDR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>(MSPI_TEST_MODULE<sp/>==<sp/>3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MSPI_XIP_BASE_ADDRESS<sp/>MSPI3_APERTURE_START_ADDR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>#if<sp/>(MSPI_TEST_MODULE<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IRQn_Type<sp/>mspi_interrupts[]<sp/>=</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>MSPI0_IRQn,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>MSPI1_IRQn,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>MSPI2_IRQn,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>MSPI3_IRQn,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>psram_mspi_isr<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="176"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>am_mspi_isr1(MSPI_TEST_MODULE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>am_mspi_isr1(n)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="178"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>am_mspi_isr(n)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>am_mspi_isr(n)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="180"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>am_mspi<sp/>##<sp/>n<sp/>##<sp/>_isr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MSPI<sp/>ISRs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>psram_mspi_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mspi_interrupt_status_get(g_pHandle,<sp/>&amp;ui32Status,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mspi_interrupt_clear(g_pHandle,<sp/>ui32Status);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mspi_interrupt_service(g_pHandle,<sp/>ui32Status);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">uint32_t<sp/>ns_psram_platform_init(<ref refid="structns__psram__config__t" kindref="compound">ns_psram_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>am_devices_mspi_psram_config_t<sp/>*psram_config;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>apollo510_evb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MPU<sp/>Stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mpu_attr_configure(&amp;sMPUAttr,<sp/>1);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mpu_region_clear();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mpu_region_configure(&amp;sMPUCfg,<sp/>1);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_cachectrl_dcache_invalidate(NULL,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_mpu_enable(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;psram_type<sp/>==<sp/>PSRAM_TYPE_OCT)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>psram_config<sp/>=<sp/>&amp;MSPI_PSRAM_OctalCE0MSPIConfig;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>psram_config<sp/>=<sp/>&amp;MSPI_PSRAM_HexCE0MSPIConfig;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32Status<sp/>=<sp/>init_psram_timing_check(MSPI_TEST_MODULE,<sp/>psram_config,<sp/>&amp;MSPIDdrTimingConfig);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_DEVICES_MSPI_PSRAM_STATUS_SUCCESS<sp/>!=<sp/>ui32Status)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>configure<sp/>the<sp/>MSPI<sp/>and<sp/>PSRAM<sp/>Device<sp/>correctly!\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Must<sp/>ensure<sp/>Device<sp/>is<sp/>Connected<sp/>and<sp/>Properly<sp/>Initialized!\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32Status<sp/>=<sp/>init_psram(MSPI_TEST_MODULE,<sp/>psram_config,<sp/>&amp;g_pDevHandle,<sp/>&amp;g_pHandle);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_DEVICES_MSPI_PSRAM_STATUS_SUCCESS<sp/>!=<sp/>ui32Status)<sp/></highlight><highlight class="comment">//<sp/>return<sp/>ui32Status;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>configure<sp/>the<sp/>MSPI<sp/>and<sp/>PSRAM<sp/>Device<sp/>correctly!\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Must<sp/>ensure<sp/>Device<sp/>is<sp/>Connected<sp/>and<sp/>Properly<sp/>Initialized!\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_SetPriority(mspi_interrupts[MSPI_TEST_MODULE],<sp/>AM_IRQ_PRIORITY_DEFAULT);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(mspi_interrupts[MSPI_TEST_MODULE]);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_interrupt_master_enable();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>apply_psram_timing(g_pDevHandle,<sp/>&amp;MSPIDdrTimingConfig);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>XIP<sp/>mode.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32Status<sp/>=<sp/>enable_psram_xip(g_pDevHandle);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_DEVICES_MSPI_PSRAM_STATUS_SUCCESS<sp/>!=<sp/>ui32Status)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>enable<sp/>XIP<sp/>mode<sp/>in<sp/>the<sp/>MSPI!\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;psram_base_address<sp/>=<sp/>MSPI_XIP_BASE_ADDRESS;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32Status;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo5/ns_psram.c"/>
+  </compounddef>
+</doxygen>

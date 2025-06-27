@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_1aa96d0d08bb9c7ebc3aa9fc44295b9d" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-core/src/apollo5a/armclang</compoundname>
+    <innerfile refid="apollo5a_2armclang_2startup__keil6_8c">startup_keil6.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-core/src/apollo5a/armclang/"/>
+  </compounddef>
+</doxygen>

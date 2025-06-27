@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_2b540daedd13b1486e7bf344eba1e313" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-core/src</compoundname>
+    <innerdir refid="dir_a053768382660fc89b462f90e05e629d">neuralSPOT/neuralspot/ns-core/src/apollo3</innerdir>
+    <innerdir refid="dir_2eb28cd4eb479aaf73d8bfdd9ecf519f">neuralSPOT/neuralspot/ns-core/src/apollo3p</innerdir>
+    <innerdir refid="dir_6c2ab603aea1a67ea1df81280fd1670a">neuralSPOT/neuralspot/ns-core/src/apollo4l</innerdir>
+    <innerdir refid="dir_c58f1eb3a5e551e5695aea95f324fbae">neuralSPOT/neuralspot/ns-core/src/apollo4p</innerdir>
+    <innerdir refid="dir_4836c8f18adf8fe661489f81269964c0">neuralSPOT/neuralspot/ns-core/src/apollo510</innerdir>
+    <innerdir refid="dir_a6fe3be1a7876c624c59ed050417822e">neuralSPOT/neuralspot/ns-core/src/apollo5a</innerdir>
+    <innerdir refid="dir_1bc984617d7262bb6a8980a011072c69">neuralSPOT/neuralspot/ns-core/src/apollo5b</innerdir>
+    <innerfile refid="heap__4_8c">heap_4.c</innerfile>
+    <innerfile refid="ns__core_8c">ns_core.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-core/src/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,9 @@
+models:
+  - tflite_filename: "../../ourmodels/vww/vww_96_int8_aligned.tflite"
+    model_name: "VWW"
+  - tflite_filename: "../../ourmodels/kws/kws_ref_model_aligned.tflite"
+    model_name: "KWS"
+  - tflite_filename: "../../ourmodels/ic/pretrainedResnet_quant_aligned.tflite"
+    model_name: "IC"
+  - tflite_filename: "../../ourmodels/ad/ad01_int8_aligned.tflite"
+    model_name: "AD"

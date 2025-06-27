@@ -1,0 +1,907 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__audadc_8c" kind="file" language="C++">
+    <compoundname>ns_audadc.c</compoundname>
+    <includes refid="ns__audadc_8h" local="yes">../ns_audadc.h</includes>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes refid="ns__audio_8h" local="yes">ns_audio.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_audio.h</label>
+        <link refid="ns__audio_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c</label>
+        <link refid="ns__audadc_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>../ns_audadc.h</label>
+        <link refid="ns__audadc_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="7">
+        <label>ns_core.h</label>
+      </node>
+      <node id="8">
+        <label>ns_ipc_ring_buffer.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__audadc_8c_1ab2d503d4c7071ad9cccadf75f3794750" prot="public" static="no">
+        <name>XTHS</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="43" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1a298326c7c4e91a4396e9d60f04bc4592" prot="public" static="no">
+        <name>HFRC</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="44" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1a128c51f84d339a401f5fa8f8c88ab1f3" prot="public" static="no">
+        <name>HFRC2</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="45" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1af9751565e57ec6b40de37452277a25bc" prot="public" static="no">
+        <name>HFRC2_ADJ</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="46" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1a7b12acf0c1601c3f44c95ca8d93d4f8c" prot="public" static="no">
+        <name>CLK_SRC</name>
+        <initializer>HFRC</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="47" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1a789bcb6da61eff5a1d2bbadac383877c" prot="public" static="no">
+        <name>PREAMP_FULL_GAIN</name>
+        <initializer>24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="70" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1a438a0941aee18a2481d1644ba152d649" prot="public" static="no">
+        <name>CH_A0_GAIN_DB</name>
+        <initializer>18</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="71" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1ade185e30f4bd3a6e9999465aba97ef8a" prot="public" static="no">
+        <name>CH_A1_GAIN_DB</name>
+        <initializer>18</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="72" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1ab0da057f80f6689702ca794ffba76412" prot="public" static="no">
+        <name>CH_B0_GAIN_DB</name>
+        <initializer>12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="73" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__audadc_8c_1a9edfc7f2e9407f253c0059bafd4727c4" prot="public" static="no">
+        <name>CH_B1_GAIN_DB</name>
+        <initializer>12</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="74" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__audadc_8c_1a160f33bae19246569bfecec3ac889ffe" prot="public" static="no" mutable="no">
+        <type>AUDADC_Type *</type>
+        <definition>AUDADC_Type* g_adc</definition>
+        <argsstring></argsstring>
+        <name>g_adc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="49" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1ac472e36e3e8c2ea3c002fffe9b132060" prot="public" static="no" mutable="no">
+        <type>MCUCTRL_Type *</type>
+        <definition>MCUCTRL_Type* g_mcuctrl</definition>
+        <argsstring></argsstring>
+        <name>g_mcuctrl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="50" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1a79bc9452434f4919574ec91e4e05b642" prot="public" static="yes" mutable="no">
+        <type>void *</type>
+        <definition>void* g_AUDADCHandle</definition>
+        <argsstring></argsstring>
+        <name>g_AUDADCHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="53" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1a08d724446ac7324973c4492e13a1f79f" prot="public" static="yes" mutable="no">
+        <type>volatile bool</type>
+        <definition>volatile bool g_bAUDADCDMAError</definition>
+        <argsstring></argsstring>
+        <name>g_bAUDADCDMAError</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="56" column="22" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1a84ac566ddd71c2f714e9447e7c4f5632" prot="public" static="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t axiScratchBuf[20]</definition>
+        <argsstring>[20]</argsstring>
+        <name>axiScratchBuf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="62" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1af3329a446b57015a50cc08b29b02f047" prot="public" static="no" mutable="no">
+        <type>am_hal_audadc_gain_config_t</type>
+        <definition>am_hal_audadc_gain_config_t g_sAudadcGainConfig</definition>
+        <argsstring></argsstring>
+        <name>g_sAudadcGainConfig</name>
+        <initializer>= {
+    .ui32LGA = 0,      
+    .ui32HGADELTA = 0, 
+    .ui32LGB = 0,      
+    .ui32HGBDELTA = 0, 
+    .eUpdateMode = AM_HAL_AUDADC_GAIN_UPDATE_IMME,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="76" column="29" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1a32a3784ca3236b590009f1dce1a173ac" prot="public" static="no" mutable="no">
+        <type>am_hal_audadc_dma_config_t</type>
+        <definition>am_hal_audadc_dma_config_t g_sAUDADCDMAConfig</definition>
+        <argsstring></argsstring>
+        <name>g_sAUDADCDMAConfig</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="84" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1a8b9f9405264573156553d938b3fae1af" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref></type>
+        <definition>ns_audadc_cfg_t ns_audadc_default</definition>
+        <argsstring></argsstring>
+        <name>ns_audadc_default</name>
+        <initializer>= {
+    
+    
+    .clock = NS_CLKSEL_HFRC2_ADJ,
+    .low_power_mode = true,
+    .repeating_trigger_mode = true,
+    .dcmp_enable = false,
+    .left_gain = PREAMP_FULL_GAIN,
+    .right_gain = PREAMP_FULL_GAIN
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="90" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__audadc_8c_1aba99c8c9af9d61b229c89d996cf4b533" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref></type>
+        <definition>ns_audadc_cfg_t ns_audadc_vos_default</definition>
+        <argsstring></argsstring>
+        <name>ns_audadc_vos_default</name>
+        <initializer>= {
+    .clock = NS_CLKSEL_HFRC2_ADJ,
+    .low_power_mode = true,
+    .repeating_trigger_mode = false,
+    .dcmp_enable = false,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="101" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__audadc_8c_1aa85cdab332e29eb24325424fc750e4c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t audadc_slot_config</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_slot_config</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="113" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="113" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1a2088bc9f3df057fcb4401925ca59fdfd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void audadc_pga_init</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_pga_init</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="163" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="163" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1a13a737aff624019e451a80743109622c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void audadc_config_dma</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_config_dma</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="192" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="192" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1a2ec68001c9e676bab8df11c4ec58c7c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t audadc_config</definition>
+        <argsstring>(ns_audadc_cfg_t *cfg)</argsstring>
+        <name>audadc_config</name>
+        <param>
+          <type><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Configure and enable the AUDADC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- AUDADC-specific configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="218" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="218" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1a06188e453dafb69bddaf6925537ba9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void am_audadc0_isr</definition>
+        <argsstring>(void)</argsstring>
+        <name>am_audadc0_isr</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="341" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="341" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1acd7c4868a8a5a9d18daa44bf85f9a817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t audadc_init</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_init</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="386" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="386" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__audadc_8c_1a97bbe4349694c751b032c617bb4b1030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void audadc_deinit</definition>
+        <argsstring>(ns_audio_config_t *cfg)</argsstring>
+        <name>audadc_deinit</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" line="441" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c" bodystart="441" bodyend="462"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>${copyright}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>part<sp/>of<sp/>revision<sp/>${version}<sp/>of<sp/>the<sp/>AmbiqSuite<sp/>Development<sp/>Package.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;../ns_audadc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;<ref refid="ns__audio_8h" kindref="compound">ns_audio.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#define<sp/>HFRC2_ADJ<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#define<sp/>AUDADC_EXAMPLE_DEBUG<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#define<sp/>FIFO_READ<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>XTHS<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>HFRC<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>HFRC2<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>HFRC2_ADJ<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>CLK_SRC<sp/>HFRC<sp/></highlight><highlight class="comment">//<sp/>NEW<sp/>example<sp/>has<sp/>HFRC2_ADJ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">AUDADC_Type<sp/>*g_adc;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">MCUCTRL_Type<sp/>*g_mcuctrl;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDADC<sp/>Device<sp/>Handle.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*g_AUDADCHandle;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDADC<sp/>DMA<sp/>error<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>g_bAUDADCDMAError;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AXI<sp/>Scratch<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Need<sp/>to<sp/>allocate<sp/>20<sp/>Words<sp/>even<sp/>though<sp/>we<sp/>only<sp/>need<sp/>16,<sp/>to<sp/>ensure<sp/>we<sp/>have<sp/>16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Byte<sp/>alignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>AM_PART_APOLLO4P</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>axiScratchBuf[20];</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUDADC<sp/>gain<sp/>configuration<sp/>information.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>PREAMP_FULL_GAIN<sp/>24<sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>op<sp/>amps<sp/>for<sp/>full<sp/>gain<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>CH_A0_GAIN_DB<sp/>18</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>CH_A1_GAIN_DB<sp/>18</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>CH_B0_GAIN_DB<sp/>12</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>CH_B1_GAIN_DB<sp/>12</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">am_hal_audadc_gain_config_t<sp/>g_sAudadcGainConfig<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32LGA<sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32HGADELTA<sp/>=<sp/>0,<sp/></highlight><highlight class="comment">//<sp/>delta<sp/>from<sp/>the<sp/>LGA<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32LGB<sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>.ui32HGBDELTA<sp/>=<sp/>0,<sp/></highlight><highlight class="comment">//<sp/>delta<sp/>from<sp/>the<sp/>LGB<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>.eUpdateMode<sp/>=<sp/>AM_HAL_AUDADC_GAIN_UPDATE_IMME,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">am_hal_audadc_dma_config_t<sp/>g_sAUDADCDMAConfig;<sp/></highlight><highlight class="comment">//<sp/>global<sp/>because<sp/>needed<sp/>by<sp/>ISR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>defined(AM_PART_APOLLO4P)<sp/>&amp;&amp;<sp/>AUDADC_DC_OFFSET_CAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">am_hal_offset_cal_coeffs_array_t<sp/>sOffsetCalib;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif<sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO4P<sp/>&amp;&amp;<sp/>AUDADC_DC_OFFSET_CAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref><sp/>ns_audadc_default<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>.clock<sp/>=<sp/>NS_CLKSEL_HFRC,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>.low_power_mode<sp/>=<sp/>false,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>.clock<sp/>=<sp/>NS_CLKSEL_HFRC2_ADJ,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>.low_power_mode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>.repeating_trigger_mode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>.dcmp_enable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>.left_gain<sp/>=<sp/>PREAMP_FULL_GAIN,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>.right_gain<sp/>=<sp/>PREAMP_FULL_GAIN</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref><sp/>ns_audadc_vos_default<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>.clock<sp/>=<sp/>NS_CLKSEL_HFRC2_ADJ,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>.low_power_mode<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>.repeating_trigger_mode<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>.dcmp_enable<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>AUDADC<sp/>SLOT.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">uint32_t<sp/>audadc_slot_config(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_slot_config_t<sp/>AUDADCSlotConfig;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>up<sp/>an<sp/>AUDADC<sp/>slot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCSlotConfig.eMeasToAvg<sp/>=<sp/>AM_HAL_AUDADC_SLOT_AVG_1;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCSlotConfig.ePrecisionMode<sp/>=<sp/>AM_HAL_AUDADC_SLOT_12BIT;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" kindref="member">audadc_config</ref>-&gt;clock<sp/>==<sp/>NS_CLKSEL_XTHS)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCSlotConfig.ui32TrkCyc<sp/>=<sp/>24;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#if<sp/>defined(AM_PART_APOLLO4P)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCSlotConfig.ui32TrkCyc<sp/>=<sp/>34;<sp/></highlight><highlight class="comment">//<sp/>new<sp/>example<sp/>has<sp/>&apos;34&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCSlotConfig.ui32TrkCyc<sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCSlotConfig.eChannel<sp/>=<sp/>AM_HAL_AUDADC_SLOT_CHSEL_SE0;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCSlotConfig.bWindowCompare<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCSlotConfig.bEnabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_configure_slot(g_AUDADCHandle,<sp/>0,<sp/>&amp;AUDADCSlotConfig))<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>configuring<sp/>AUDADC<sp/>Slot<sp/>0<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCSlotConfig.eChannel<sp/>=<sp/>AM_HAL_AUDADC_SLOT_CHSEL_SE1;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_configure_slot(g_AUDADCHandle,<sp/>1,<sp/>&amp;AUDADCSlotConfig))<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>configuring<sp/>AUDADC<sp/>Slot<sp/>1<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>==<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCSlotConfig.eChannel<sp/>=<sp/>AM_HAL_AUDADC_SLOT_CHSEL_SE2;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_configure_slot(g_AUDADCHandle,<sp/>2,<sp/>&amp;AUDADCSlotConfig))<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>configuring<sp/>AUDADC<sp/>Slot<sp/>2<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCSlotConfig.eChannel<sp/>=<sp/>AM_HAL_AUDADC_SLOT_CHSEL_SE3;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_configure_slot(g_AUDADCHandle,<sp/>3,<sp/>&amp;AUDADCSlotConfig))<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>configuring<sp/>AUDADC<sp/>Slot<sp/>3<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>audadc_pga_init(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>AM_PART_APOLLO4P</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>up<sp/>scratch<sp/>AXI<sp/>buf<sp/>(needs<sp/>64B<sp/>-<sp/>aligned<sp/>to<sp/>16<sp/>Bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_daxi_control(</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_DAXI_CONTROL_AXIMEM,<sp/>(uint8_t<sp/>*)((uint32_t)(axiScratchBuf<sp/>+<sp/>3)<sp/>&amp;<sp/>~0xF));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Power<sp/>up<sp/>PrePGA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_refgen_powerup();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerup(0);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerup(1);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>==<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerup(2);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerup(3);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_gain_set(0,<sp/>2<sp/>*<sp/>cfg-&gt;<ref refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" kindref="member">audadc_config</ref>-&gt;left_gain);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_gain_set(1,<sp/>2<sp/>*<sp/>cfg-&gt;<ref refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" kindref="member">audadc_config</ref>-&gt;left_gain);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>==<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_gain_set(2,<sp/>2<sp/>*<sp/>cfg-&gt;<ref refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" kindref="member">audadc_config</ref>-&gt;right_gain);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_gain_set(3,<sp/>2<sp/>*<sp/>cfg-&gt;<ref refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" kindref="member">audadc_config</ref>-&gt;right_gain);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Turn<sp/>on<sp/>mic<sp/>bias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_micbias_powerup(24);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>am_util_delay_ms(400);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>audadc_config_dma(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>AUDADC<sp/>to<sp/>use<sp/>DMA<sp/>for<sp/>the<sp/>sample<sp/>transfer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.bDynamicPriority<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.ePriority<sp/>=<sp/>AM_HAL_AUDADC_PRIOR_SERVICE_IMMED;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.bDMAEnable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.ui32SampleCount<sp/>=<sp/>cfg-&gt;<ref refid="structns__audio__cfg_1a3cda7603b16a3d4c901e8a72765b4ddd" kindref="member">numSamples</ref><sp/>*<sp/>cfg-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref>;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.ui32TargetAddress<sp/>=<sp/>(uint32_t)cfg-&gt;<ref refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" kindref="member">sampleBuffer</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.ui32TargetAddressReverse<sp/>=</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_sAUDADCDMAConfig.ui32TargetAddress<sp/>+</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(uint32_t)<sp/>*<sp/>g_sAUDADCDMAConfig.ui32SampleCount;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_configure_dma(g_AUDADCHandle,<sp/>&amp;g_sAUDADCDMAConfig))<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>configuring<sp/>AUDADC<sp/>DMA<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>the<sp/>AUDADC<sp/>DMA<sp/>flags.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_sVosBrd.bAUDADCDMAComplete<sp/>=<sp/>false;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>g_bAUDADCDMAError<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal">uint32_t<sp/>audadc_config(<ref refid="structns__audadc__cfg__t" kindref="compound">ns_audadc_cfg_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>up<sp/>the<sp/>AUDADC<sp/>configuration<sp/>parameters.<sp/>These<sp/>settings<sp/>are<sp/>reasonable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>accurate<sp/>measurements<sp/>at<sp/>a<sp/>low<sp/>sample<sp/>rate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_config_t<sp/>AUDADCConfig<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.ePolarity<sp/>=<sp/>AM_HAL_AUDADC_TRIGPOL_RISING,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eTrigger<sp/>=<sp/>AM_HAL_AUDADC_TRIGSEL_SOFTWARE,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eRepeat<sp/>=<sp/>AM_HAL_AUDADC_REPEATING_SCAN,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_irtt_config_t<sp/>AUDADCIrttConfig<sp/>=<sp/>{</highlight><highlight class="comment">//<sp/>only<sp/>used<sp/>if<sp/>timer<sp/>isn&apos;t<sp/>used</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bIrttEnable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eClkDiv<sp/>=<sp/>AM_HAL_AUDADC_RPTT_CLK_DIV32};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(cfg-&gt;clock)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_CLKSEL_XTHS:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eClock<sp/>=<sp/>AM_HAL_AUDADC_CLKSEL_XTHS_24MHz;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCIrttConfig.ui32IrttCountMax<sp/>=<sp/>46;<sp/></highlight><highlight class="comment">//<sp/>VoS<sp/>has<sp/>46</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_CLKSEL_HFRC:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eClock<sp/>=<sp/>AM_HAL_AUDADC_CLKSEL_HFRC_48MHz;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCIrttConfig.ui32IrttCountMax<sp/>=<sp/>93;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_CLKSEL_HFRC2:</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_CLKSEL_HFRC2_ADJ:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eClock<sp/>=<sp/>AM_HAL_AUDADC_CLKSEL_HFRC2_48MHz;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCIrttConfig.ui32IrttCountMax<sp/>=<sp/>93;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_CLKSEL_HFXTAL:</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_CLKSEL_PLL:</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>allowed<sp/>for<sp/>AUDADC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_CONFIG;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;low_power_mode)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eClockMode<sp/>=<sp/>AM_HAL_AUDADC_CLKMODE_LOW_POWER;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.ePowerMode<sp/>=<sp/>AM_HAL_AUDADC_LPMODE1;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eSampMode<sp/>=<sp/>AM_HAL_AUDADC_SAMPMODE_LP;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eClockMode<sp/>=<sp/>AM_HAL_AUDADC_CLKMODE_LOW_LATENCY;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.ePowerMode<sp/>=<sp/>AM_HAL_AUDADC_LPMODE0;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AUDADCConfig.eSampMode<sp/>=<sp/>AM_HAL_AUDADC_SAMPMODE_MED;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((cfg-&gt;clock<sp/>==<sp/>NS_CLKSEL_HFRC2)<sp/>||<sp/>(cfg-&gt;clock<sp/>==<sp/>NS_CLKSEL_HFRC2_ADJ))<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>hfrc2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_HFRC2_START,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_delay_us(200);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>AUDADCConfig.eRepeatTrigger<sp/>=</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(cfg-&gt;repeating_trigger_mode)<sp/>?<sp/>AM_HAL_AUDADC_RPTTRIGSEL_INT<sp/>:<sp/>AM_HAL_AUDADC_RPTTRIGSEL_TMR;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ret<sp/>=<sp/>am_hal_audadc_initialize(0,<sp/>&amp;g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>ret)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>reservation<sp/>of<sp/>the<sp/>AUDADC<sp/>instance<sp/>failed<sp/>ERR<sp/>%d.\n&quot;</highlight><highlight class="normal">,<sp/>ret);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_power_control(g_AUDADCHandle,<sp/>AM_HAL_SYSCTRL_WAKE,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>AUDADC<sp/>power<sp/>on<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;clock<sp/>==<sp/>NS_CLKSEL_HFRC2_ADJ)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>hfrc2<sp/>adj.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_mcuctrl_control(AM_HAL_MCUCTRL_CONTROL_EXTCLK32M_KICK_START,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>set<sp/>HF2ADJ<sp/>for<sp/>24.576MHz<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_clkgen_control(AM_HAL_CLKGEN_CONTROL_HF2ADJ_ENABLE,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_delay_us(500);<sp/></highlight><highlight class="comment">//<sp/>wait<sp/>for<sp/>adj<sp/>to<sp/>apply</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;clock<sp/>==<sp/>NS_CLKSEL_XTHS)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_mcuctrl_control(AM_HAL_MCUCTRL_CONTROL_EXTCLK32M_NORMAL,<sp/>0);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_delay_us(1500);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>AUDADC<sp/>based<sp/>on<sp/>the<sp/>above<sp/>data<sp/>structs<sp/>using<sp/>HAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_configure(g_AUDADCHandle,<sp/>&amp;AUDADCConfig))<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>configuring<sp/>AUDADC<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>up<sp/>internal<sp/>repeat<sp/>trigger<sp/>timer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;repeating_trigger_mode)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_configure_irtt(g_AUDADCHandle,<sp/>&amp;AUDADCIrttConfig);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>timer6_init();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_enable(g_AUDADCHandle))<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>enabling<sp/>AUDADC<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;repeating_trigger_mode)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_irtt_enable(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>am_hal_timer_start(6);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AUDADC<sp/>DMA<sp/>data<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>audadc_config_dma(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;dcmp_enable)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_interrupt_enable(</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_AUDADCHandle,<sp/>AM_HAL_AUDADC_INT_DERR<sp/>|<sp/>AM_HAL_AUDADC_INT_DCMP);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_interrupt_enable(</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_AUDADCHandle,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_AUDADC_INT_DERR<sp/>|<sp/>AM_HAL_AUDADC_INT_DCMP<sp/>|<sp/>AM_HAL_AUDADC_INT_FIFOOVR1);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Interrupt<sp/>handler<sp/>for<sp/>the<sp/>AUDADC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>am_audadc0_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32IntMask;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>the<sp/>interrupt<sp/>status.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_interrupt_status(g_AUDADCHandle,<sp/>&amp;ui32IntMask,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>reading<sp/>AUDADC<sp/>interrupt<sp/>status\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>the<sp/>AUDADC<sp/>interrupt.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_interrupt_clear(g_AUDADCHandle,<sp/>ui32IntMask))<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>clearing<sp/>AUDADC<sp/>interrupt<sp/>status\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>got<sp/>a<sp/>DMA<sp/>complete,<sp/>set<sp/>the<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>if<sp/>(ui32IntMask<sp/>&amp;<sp/>AM_HAL_AUDADC_INT_FIFOOVR1)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32IntMask<sp/>&amp;<sp/>AM_HAL_AUDADC_INT_DCMP)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AUDADCn(0)-&gt;DMASTAT_b.DMACPL)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_bAUDADCDMAError<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_bAUDADCDMAComplete<sp/>=<sp/>true;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aa28c1a191b21b4dfc45e41baf052336c" kindref="member">api</ref>-&gt;version.major<sp/>&lt;<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_audadc_interrupt_service(g_AUDADCHandle,<sp/>&amp;g_sAUDADCDMAConfig);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1ad68021b5ffeff080ba643bc51565f9e2" kindref="member">callback</ref>(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>audadc_config_dma(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AUDADCn(0)-&gt;DMASTAT_b.DMACPL)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;WHAT<sp/>clearing<sp/>AUDADC<sp/>interrupt<sp/>status\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>got<sp/>a<sp/>DMA<sp/>error,<sp/>set<sp/>the<sp/>flag.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32IntMask<sp/>&amp;<sp/>AM_HAL_AUDADC_INT_DERR)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_bAUDADCDMAError<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Setup<sp/>the<sp/>AUDADC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal">uint32_t<sp/>audadc_init(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Power<sp/>up<sp/>PrePGA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>audadc_pga_init(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>AUDADC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(audadc_config(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1a44652fe70b5650166dbbbe88bb8a22b8" kindref="member">audadc_config</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1a367e4c6d451b5efed87852d25695c7c1" kindref="member">audioSystemHandle</ref><sp/>=<sp/>g_AUDADCHandle;<sp/></highlight><highlight class="comment">//<sp/>now<sp/>it<sp/>has<sp/>a<sp/>real<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gain<sp/>setting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAudadcGainConfig.ui32LGA<sp/>=<sp/>CH_A0_GAIN_DB<sp/>*<sp/>2<sp/>+<sp/>12;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;fLGAdB<sp/>=<sp/>CH_A0_GAIN_DB;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_sAudadcGainConfig.ui32HGADELTA<sp/>=<sp/>g_sAudadcGainConfig.ui32LGA<sp/>-<sp/>(CH_A1_GAIN_DB<sp/>*<sp/>2<sp/>+<sp/>12);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAudadcGainConfig.ui32HGADELTA<sp/>=</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(CH_A1_GAIN_DB<sp/>*<sp/>2<sp/>+<sp/>12)<sp/>-<sp/>g_sAudadcGainConfig.ui32LGA;<sp/></highlight><highlight class="comment">//<sp/>HGDelta<sp/>=<sp/>12</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>==<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_sAudadcGainConfig.ui32LGB<sp/>=<sp/>CH_B0_GAIN_DB<sp/>*<sp/>2<sp/>+<sp/>12;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>g_sAudadcGainConfig.ui32HGBDELTA<sp/>=<sp/>g_sAudadcGainConfig.ui32LGB<sp/>-<sp/>(CH_B1_GAIN_DB<sp/>*<sp/>2<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>12);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_sAudadcGainConfig.ui32HGBDELTA<sp/>=<sp/>(CH_B1_GAIN_DB<sp/>*<sp/>2<sp/>+<sp/>12)<sp/>-<sp/>g_sAudadcGainConfig.ui32LGB;</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>g_sAudadcGainConfig.eUpdateMode<sp/>=<sp/>AM_HAL_AUDADC_GAIN_UPDATE_IMME;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_internal_pga_config(g_AUDADCHandle,<sp/>&amp;g_sAudadcGainConfig);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>slot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(audadc_slot_config(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INIT_FAILED;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>NEW_EXAMPLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#if<sp/>defined(AM_PART_APOLLO4P)<sp/>&amp;&amp;<sp/>defined(DC_OFFSET_CAL)<sp/>&amp;&amp;<sp/>(AS_VERSION<sp/>=<sp/>R4_3_0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calculate<sp/>DC<sp/>offset<sp/>calibartion<sp/>parameter.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_slot_dc_offset_calculate(</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_AUDADCHandle,<sp/>4,<sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;sOffsetCalib))<sp/>{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>failed<sp/>to<sp/>calculate<sp/>offset<sp/>calibration<sp/>parameter.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_SetPriority(AUDADC0_IRQn,<sp/>AM_IRQ_PRIORITY_DEFAULT);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(AUDADC0_IRQn);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_interrupt_master_enable();</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Power<sp/>off<sp/>audadc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>audadc_deinit(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_interrupt_disable(g_AUDADCHandle,<sp/>0xFFFFFFFF);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(AUDADC-&gt;DMATOTCOUNT_b.TOTCOUNT<sp/>!=<sp/>0);<sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>DMATOTCOUNT<sp/>is<sp/>set<sp/>to<sp/>0<sp/>as<sp/>part<sp/>of<sp/>de-initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(AM_HAL_STATUS_SUCCESS<sp/>!=<sp/>am_hal_audadc_control(g_AUDADCHandle,<sp/>AM_HAL_AUDADC_REQ_DMA_DISABLE,<sp/>NULL))</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_stdio_printf(</highlight><highlight class="stringliteral">&quot;Error<sp/>-<sp/>AUDADC<sp/>control<sp/>failed.\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_irtt_disable(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_disable(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_deinitialize(g_AUDADCHandle);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>POWER_CYCLE_MICBIAS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_micbias_powerdown();</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(0);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(1);</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(2);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_pga_powerdown(3);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_audadc_refgen_powerdown();</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_AUDADC);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>am_util_delay_ms(20);</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO4L</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-audio/src/apollo4/ns_audadc.c"/>
+  </compounddef>
+</doxygen>

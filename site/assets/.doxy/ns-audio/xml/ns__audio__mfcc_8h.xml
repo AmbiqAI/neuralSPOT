@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__audio__mfcc_8h" kind="file" language="C++">
+    <compoundname>ns_audio_mfcc.h</compoundname>
+    <includes local="yes">arm_math.h</includes>
+    <includes refid="ns__audio__features__common_8h" local="yes">ns_audio_features_common.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes local="yes">string.h</includes>
+    <includedby refid="ns__mfcc_8c" local="yes">neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>ns_audio_features_common.h</label>
+        <link refid="ns__audio__features__common_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h</label>
+        <link refid="ns__audio__mfcc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>arm_math.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
+      </node>
+      <node id="4">
+        <label>string.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h</label>
+        <link refid="ns__audio__mfcc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c</label>
+        <link refid="ns__mfcc_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structns__mfcc__cfg__t" prot="public">ns_mfcc_cfg_t</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1ga435f1490ea93f4248a9ea83102ff827e" prot="public" static="no">
+        <name>NS_MFCC_V0_0_1</name>
+        <initializer>        { .major = 0, .minor = 0, .revision = 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="47" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1gab1fedcc437e9073150930a42135e0f49" prot="public" static="no">
+        <name>NS_MFCC_V1_0_0</name>
+        <initializer>        { .major = 1, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="49" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1ga9e466f6f3489fb9f3bdbdfd0dbb2ebf8" prot="public" static="no">
+        <name>NS_MFCC_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_MFCC_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="52" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1ga97994f346f59a966e55dff3351f1e698" prot="public" static="no">
+        <name>NS_MFCC_CURRENT_VERSION</name>
+        <initializer>NS_MFCC_V1_0_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="53" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1ga2bcbcbcb9df406f26e4621ade6efde1f" prot="public" static="no">
+        <name>NS_MFCC_API_ID</name>
+        <initializer>0xCA0005</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="54" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1ga80b8f41289401254c4d3c2b48cc0b263" prot="public" static="no">
+        <name>NS_MFCC_SIZEBINS</name>
+        <initializer>53</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="87" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1ga4aa2c43b09c1300c334821f5507d6f71" prot="public" static="no">
+        <name>M_2PI</name>
+        <initializer>6.283185307179586476925286766559005</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="94" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__ns-_m_f_c_c_1gae71449b1cc6e6250b91f539153a7a0d3" prot="public" static="no">
+        <name>M_PI</name>
+        <initializer>3.14159265358979323846264338328</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="96" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="group__ns-_m_f_c_c_1ga34a035b909059a5b9a7a316f17331596" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_mfcc_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_mfcc_V0_0_1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="56" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c" bodystart="46" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" declline="56" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-_m_f_c_c_1ga38c7ad150864b6bff8214ee4700d2608" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_mfcc_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_mfcc_V1_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="57" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c" bodystart="48" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" declline="57" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-_m_f_c_c_1ga9b5c960949936d4b29eeae00754faf38" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_mfcc_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_mfcc_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="58" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c" bodystart="50" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" declline="58" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="group__ns-_m_f_c_c_1gaa6054d1d1663732da737c7809a70555e" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_mfcc_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_mfcc_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="59" column="28" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c" bodystart="53" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" declline="59" declcolumn="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-_m_f_c_c_1gaab2cee00877e16fd48f12e9a34e18694" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_init</definition>
+        <argsstring>(ns_mfcc_cfg_t *c)</argsstring>
+        <name>ns_mfcc_init</name>
+        <param>
+          <type><ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Initializes the MFCC calculator based on desired configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>configuration struct (see <ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="114" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c" bodystart="96" bodyend="126" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" declline="114" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-_m_f_c_c_1gadde7fb04bb212352723066b36e73405b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_compute</definition>
+        <argsstring>(ns_mfcc_cfg_t *c, const int16_t *audio_data, float *mfcc_out)</argsstring>
+        <name>ns_mfcc_compute</name>
+        <param>
+          <type><ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const int16_t *</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>mfcc_out</declname>
+        </param>
+        <briefdescription>
+<para>Computes MFCC based on audio data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- configuration struct (see <ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref>) from ns_mfcc_init </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- pointer to audio data (int16_t) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mfcc_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- pointer to output buffer (float) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="124" column="17" bodyfile="neuralSPOT/neuralspot/ns-audio/src/ns_mfcc.c" bodystart="128" bodyend="199" declfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" declline="124" declcolumn="17"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Confifurable MFCC Calculator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Carlos Morales </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2022-08-12</para>
+</simplesect>
+This MFCC utility is adapted from Arm&apos;s example C++ implementation. It can be configured via DEFINES, but better config support is planned.</para>
+<para><simplesect kind="copyright"><para>Copyright (c) 2022 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(C)<sp/>2018<sp/>Arm<sp/>Limited<sp/>or<sp/>its<sp/>affiliates.<sp/>All<sp/>rights<sp/>reserved.</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>License);<sp/>you<sp/>may</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/>You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/>www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/>Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/>distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>AS<sp/>IS<sp/>BASIS,<sp/>WITHOUT</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*<sp/>See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/>*<sp/>limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="33"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__AM_MFCC_H__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>__AM_MFCC_H__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;arm_math.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_audio_features_common.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&quot;string.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MFCC_V0_0_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="48"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>0,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>1<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MFCC_V1_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="50"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>1,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MFCC_OLDEST_SUPPORTED_VERSION<sp/>NS_MFCC_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MFCC_CURRENT_VERSION<sp/>NS_MFCC_V1_0_0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MFCC_API_ID<sp/>0xCA0005</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_mfcc_V0_0_1;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_mfcc_V1_0_0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_mfcc_oldest_supported_version;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_mfcc_current_version;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structns__mfcc__cfg__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66" refid="structns__mfcc__cfg__t_1a56fbde00798a0495e6e2f2b0086e338b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*<ref refid="structns__mfcc__cfg__t_1a56fbde00798a0495e6e2f2b0086e338b" kindref="member">api</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structns__mfcc__cfg__t_1a2af1b32283920443980eae8dfdb27bea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>*<ref refid="structns__mfcc__cfg__t_1a2af1b32283920443980eae8dfdb27bea" kindref="member">arena</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structns__mfcc__cfg__t_1a5eaacd966dc3886d62dbe9ec594e8758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a5eaacd966dc3886d62dbe9ec594e8758" kindref="member">sample_frequency</ref>;<sp/></highlight></codeline>
+<codeline lineno="69" refid="structns__mfcc__cfg__t_1aef1cd18362c77aeeafac80cda01e74bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1aef1cd18362c77aeeafac80cda01e74bd" kindref="member">num_fbank_bins</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structns__mfcc__cfg__t_1a828379fa435e8735bce5d1644caa4b82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a828379fa435e8735bce5d1644caa4b82" kindref="member">low_freq</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structns__mfcc__cfg__t_1a65c9d8249d0bb3cf13ba3c60ec20b9a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a65c9d8249d0bb3cf13ba3c60ec20b9a6" kindref="member">high_freq</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structns__mfcc__cfg__t_1a58e98d3cdaf5ac7d9beddea67d5ca5bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a58e98d3cdaf5ac7d9beddea67d5ca5bc" kindref="member">num_frames</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structns__mfcc__cfg__t_1a5e38ac83b77663c3dd2a1fffb4000e8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a5e38ac83b77663c3dd2a1fffb4000e8f" kindref="member">num_coeffs</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structns__mfcc__cfg__t_1a38975c674095e94cbbc002741cf760c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a38975c674095e94cbbc002741cf760c2" kindref="member">num_dec_bits</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structns__mfcc__cfg__t_1aa6b700f388c90632edb67346277ac29c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1aa6b700f388c90632edb67346277ac29c" kindref="member">frame_shift_ms</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structns__mfcc__cfg__t_1a54fff5dbff8921ba3148c14834b64bc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a54fff5dbff8921ba3148c14834b64bc7" kindref="member">frame_len_ms</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structns__mfcc__cfg__t_1af58f6c765ad396307f7350436acb354d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1af58f6c765ad396307f7350436acb354d" kindref="member">frame_len</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structns__mfcc__cfg__t_1a6d70913efd74e42996b60952f96cbd73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__mfcc__cfg__t_1a6d70913efd74e42996b60952f96cbd73" kindref="member">frame_len_pow2</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structns__mfcc__cfg__t_1a6455051c6d328fd488be953459e8647c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<ref refid="structns__mfcc__cfg__t_1a6455051c6d328fd488be953459e8647c" kindref="member">mfccFrame</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structns__mfcc__cfg__t_1ac9d922836bf2dd1c6f3890cf83340d15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<ref refid="structns__mfcc__cfg__t_1ac9d922836bf2dd1c6f3890cf83340d15" kindref="member">mfccBuffer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structns__mfcc__cfg__t_1aa903932e57c65ebfb334e4ac9542b14f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<ref refid="structns__mfcc__cfg__t_1aa903932e57c65ebfb334e4ac9542b14f" kindref="member">mfccEnergies</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structns__mfcc__cfg__t_1a0b5c44656af892c53d5fd5a190a64f9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<ref refid="structns__mfcc__cfg__t_1a0b5c44656af892c53d5fd5a190a64f9d" kindref="member">mfccWindowFunction</ref>;<sp/></highlight></codeline>
+<codeline lineno="83" refid="structns__mfcc__cfg__t_1ac59ac3c0bf98da2f24138d52266263ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*<ref refid="structns__mfcc__cfg__t_1ac59ac3c0bf98da2f24138d52266263ad" kindref="member">mfccDCTMatrix</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structns__mfcc__cfg__t_1a9fe97da912e6e8f54590d041c3de23b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__fbanks__cfg__t" kindref="compound">ns_fbanks_cfg_t</ref><sp/><ref refid="structns__mfcc__cfg__t_1a9fe97da912e6e8f54590d041c3de23b4" kindref="member">fbc</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}<sp/><ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>NS_MFCC_SIZEBINS<sp/>53</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Arena<sp/>should<sp/>be<sp/>enough<sp/>to<sp/>accomodate<sp/>the<sp/>various<sp/>buffers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>e.g.<sp/>MFCC_ARENA_SIZE<sp/><sp/>32*(MY_MFCC_FRAME_LEN_POW2*2<sp/>+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MY_MFCC_NUM_FBANK_BINS*(NS_MFCC_SIZEBINS+MY_MFCC_NUM_MFCC_COEFFS))<sp/>where<sp/>&apos;32&apos;<sp/>is<sp/>size<sp/>of<sp/>float</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>int32_t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>M_2PI<sp/>6.283185307179586476925286766559005</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifndef<sp/>M_PI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#define<sp/>M_PI<sp/>3.14159265358979323846264338328</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>MFCC_DEBUG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>g_audioMax;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>g_audioMin;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>g_audioSum;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>g_audioMaxInt;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>g_audioMinInt;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>g_audioSumInt;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-_m_f_c_c_1gaab2cee00877e16fd48f12e9a34e18694" kindref="member">ns_mfcc_init</ref>(<ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref><sp/>*c);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="group__ns-_m_f_c_c_1gadde7fb04bb212352723066b36e73405b" kindref="member">ns_mfcc_compute</ref>(<ref refid="structns__mfcc__cfg__t" kindref="compound">ns_mfcc_cfg_t</ref><sp/>*c,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int16_t<sp/>*audio_data,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>*mfcc_out);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>End<sp/>Doxygen<sp/>Group</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h"/>
+  </compounddef>
+</doxygen>

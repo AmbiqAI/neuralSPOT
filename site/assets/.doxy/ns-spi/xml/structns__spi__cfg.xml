@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__spi__cfg" kind="struct" language="C++" prot="public">
+    <compoundname>ns_spi_cfg</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1ga990ec3f0ca2df24118a321bfef408319" prot="public" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t ns_spi_cfg::iom</definition>
+        <argsstring></argsstring>
+        <name>iom</name>
+        <qualifiedname>ns_spi_cfg::iom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="30" column="12" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1ga9ac5412b7f66e674c9ea23b02f42591a" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ns_spi_cfg::iomHandle</definition>
+        <argsstring></argsstring>
+        <name>iomHandle</name>
+        <qualifiedname>ns_spi_cfg::iomHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="32" column="10" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1gaf11fb88a0440f53122404be573fd5800" prot="public" static="no" mutable="no">
+        <type>am_hal_iom_config_t</type>
+        <definition>am_hal_iom_config_t ns_spi_cfg::sIomCfg</definition>
+        <argsstring></argsstring>
+        <name>sIomCfg</name>
+        <qualifiedname>ns_spi_cfg::sIomCfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="33" column="25" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="group___neural_s_p_o_t-spi_1ga6ab68c7941daf02fc0718685eb0adea5" prot="public" static="no" mutable="no">
+        <type>ns_spi_cb</type>
+        <definition>ns_spi_cb ns_spi_cfg::cb</definition>
+        <argsstring></argsstring>
+        <name>cb</name>
+        <qualifiedname>ns_spi_cfg::cb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="34" column="15" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ns_spi_cfg</label>
+        <link refid="structns__spi__cfg"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>cb</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" line="29" column="1" bodyfile="neuralSPOT/neuralspot/ns-spi/includes-api/ns_spi.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="group___neural_s_p_o_t-spi_1ga6ab68c7941daf02fc0718685eb0adea5" prot="public" virt="non-virtual"><scope>ns_spi_cfg</scope><name>cb</name></member>
+      <member refid="group___neural_s_p_o_t-spi_1ga990ec3f0ca2df24118a321bfef408319" prot="public" virt="non-virtual"><scope>ns_spi_cfg</scope><name>iom</name></member>
+      <member refid="group___neural_s_p_o_t-spi_1ga9ac5412b7f66e674c9ea23b02f42591a" prot="public" virt="non-virtual"><scope>ns_spi_cfg</scope><name>iomHandle</name></member>
+      <member refid="group___neural_s_p_o_t-spi_1gaf11fb88a0440f53122404be573fd5800" prot="public" virt="non-virtual"><scope>ns_spi_cfg</scope><name>sIomCfg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

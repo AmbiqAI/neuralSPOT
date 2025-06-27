@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_7a01d249276e526cbac17daf32597066" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-core</compoundname>
+    <innerdir refid="dir_da37538f420cb91275568ee8c81f5653">neuralSPOT/neuralspot/ns-core/includes-api</innerdir>
+    <innerdir refid="dir_2b540daedd13b1486e7bf344eba1e313">neuralSPOT/neuralspot/ns-core/src</innerdir>
+    <innerdir refid="dir_ae8b3b42ecd578532e898a7057869875">neuralSPOT/neuralspot/ns-core/tests</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-core/"/>
+  </compounddef>
+</doxygen>

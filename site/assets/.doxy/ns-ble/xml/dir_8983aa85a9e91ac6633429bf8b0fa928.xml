@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_8983aa85a9e91ac6633429bf8b0fa928" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-ble/tests</compoundname>
+    <innerfile refid="ns__ble__tests_8c">ns_ble_tests.c</innerfile>
+    <innerfile refid="ns__ble__tests_8h">ns_ble_tests.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-ble/tests/"/>
+  </compounddef>
+</doxygen>

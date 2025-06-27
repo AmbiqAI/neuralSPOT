@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="apollo3_2ns__button_8c" kind="file" language="C++">
+    <compoundname>ns_button.c</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes refid="ns__peripherals__button_8h" local="yes">ns_peripherals_button.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_peripherals_button.h</label>
+        <link refid="ns__peripherals__button_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c</label>
+        <link refid="apollo3_2ns__button_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="apollo3_2ns__button_8c_1ad673d2019dad9880e59dbe25183a1ea7" prot="public" static="no" mutable="no">
+        <type>int volatile *</type>
+        <definition>int volatile* g_ns_peripheral_button0</definition>
+        <argsstring></argsstring>
+        <name>g_ns_peripheral_button0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="26" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="36" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" declline="26" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo3_2ns__button_8c_1ad25dc92825bcbd9b2a9b0bf618887753" prot="public" static="no" mutable="no">
+        <type>int volatile *</type>
+        <definition>int volatile* g_ns_peripheral_button1</definition>
+        <argsstring></argsstring>
+        <name>g_ns_peripheral_button1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="27" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="37" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" declline="27" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo3_2ns__button_8c_1afd657682cccd271c74e6093ef8ca610f" prot="public" static="no" mutable="no">
+        <type>int volatile *</type>
+        <definition>int volatile* g_ns_peripheral_joulescope_trigger</definition>
+        <argsstring></argsstring>
+        <name>g_ns_peripheral_joulescope_trigger</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="28" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="38" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" declline="28" declcolumn="21"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="apollo3_2ns__button_8c_1a234ac5cc96261765b30db936cbad216f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_button_0_handler</definition>
+        <argsstring>(void *pArg)</argsstring>
+        <name>ns_button_0_handler</name>
+        <param>
+          <type>void *</type>
+          <declname>pArg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="29" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="40" bodyend="40" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" declline="29" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__button_8c_1ad11880a33d5a071aeee682ae8b674d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_button_1_handler</definition>
+        <argsstring>(void *pArg)</argsstring>
+        <name>ns_button_1_handler</name>
+        <param>
+          <type>void *</type>
+          <declname>pArg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="30" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="41" bodyend="41" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" declline="30" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__button_8c_1afb035c82b22bb386d37e8e76f606a61e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_joulescope_trigger_handler</definition>
+        <argsstring>(void *pArg)</argsstring>
+        <name>ns_joulescope_trigger_handler</name>
+        <param>
+          <type>void *</type>
+          <declname>pArg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="31" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="42" bodyend="42" declfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" declline="31" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__button_8c_1ad9b27187795918cf4114b7432f20e4b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void am_gpio_isr</definition>
+        <argsstring>(void)</argsstring>
+        <name>am_gpio_isr</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>GPIO Button0 ISR handler. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="37" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" bodystart="37" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__button_8c_1a539c52a074af34615b314917f2f52ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_button_platform_init</definition>
+        <argsstring>(ns_button_config_t *cfg)</argsstring>
+        <name>ns_button_platform_init</name>
+        <param>
+          <type><ref refid="structns__button__config__t" kindref="compound">ns_button_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" line="54" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" bodystart="54" bodyend="114"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>${copyright}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>part<sp/>of<sp/>revision<sp/>${version}<sp/>of<sp/>the<sp/>AmbiqSuite<sp/>Development<sp/>Package.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_peripherals_button.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>*g_ns_peripheral_button0;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>*g_ns_peripheral_button1;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>*g_ns_peripheral_joulescope_trigger;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_button_0_handler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pArg);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_button_1_handler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pArg);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_joulescope_trigger_handler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pArg);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>am_gpio_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>and<sp/>clear<sp/>the<sp/>GPIO<sp/>interrupt<sp/>status.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(AM_PART_APOLLO3P)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>AM_HAL_GPIO_MASKCREATE(GpioIntStatusMask);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_status_get(</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>pGpioIntStatusMask);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_clear(pGpioIntStatusMask);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_service(pGpioIntStatusMask);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>defined(AM_PART_APOLLO3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>ui64Status;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_status_get(</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>&amp;ui64Status);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_clear(ui64Status);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_service(ui64Status);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#error<sp/>Unknown<sp/>device.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">uint32_t<sp/>ns_button_platform_init(<ref refid="structns__button__config__t" kindref="compound">ns_button_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>ui32IntStatus;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>ui32BUTTON0GpioNum<sp/>=<sp/>AM_BSP_GPIO_BUTTON0;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>ui32BUTTON1GpioNum<sp/>=<sp/>AM_BSP_GPIO_BUTTON1;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32JoulescopeTriggerGpioNum<sp/>=<sp/>24;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>the<sp/>button<sp/>pin.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a971f97071ed2a664a94f1f13b3dae7e7" kindref="member">button_0_enable</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1adb2afe9454b65062bf1b9d30083d5d0d" kindref="member">button_0_flag</ref><sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_pinconfig(AM_BSP_GPIO_BUTTON0,<sp/>g_AM_BSP_GPIO_BUTTON0);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_ns_peripheral_button0<sp/>=<sp/>cfg-&gt;<ref refid="structns__button__config__t_1adb2afe9454b65062bf1b9d30083d5d0d" kindref="member">button_0_flag</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a3723269e9d11d448036593349028020c" kindref="member">button_1_enable</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1ae2e4edb2c8e0f7b6e305271dae73249f" kindref="member">button_1_flag</ref><sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_pinconfig(AM_BSP_GPIO_BUTTON1,<sp/>g_AM_BSP_GPIO_BUTTON1);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_ns_peripheral_button1<sp/>=<sp/>cfg-&gt;<ref refid="structns__button__config__t_1ae2e4edb2c8e0f7b6e305271dae73249f" kindref="member">button_1_flag</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a075ccbfc50f91955c60abd927af1de3e" kindref="member">joulescope_trigger_enable</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a2f8aead06af35facdae3de104daa5210" kindref="member">joulescope_trigger_flag</ref><sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_pinconfig(ui32JoulescopeTriggerGpioNum,<sp/>g_AM_HAL_GPIO_INPUT);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_ns_peripheral_joulescope_trigger<sp/>=<sp/>cfg-&gt;<ref refid="structns__button__config__t_1a2f8aead06af35facdae3de104daa5210" kindref="member">joulescope_trigger_flag</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>interrupt<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a971f97071ed2a664a94f1f13b3dae7e7" kindref="member">button_0_enable</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_GPIO_MASKCREATE(GpioIntMask0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_register(</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_BSP_GPIO_BUTTON0,<sp/>(am_hal_gpio_handler_t)ns_button_0_handler);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_clear(AM_HAL_GPIO_MASKBIT(pGpioIntMask0,<sp/>AM_BSP_GPIO_BUTTON0));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_enable(AM_HAL_GPIO_MASKBIT(pGpioIntMask0,<sp/>AM_BSP_GPIO_BUTTON0));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a3723269e9d11d448036593349028020c" kindref="member">button_1_enable</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_GPIO_MASKCREATE(GpioIntMask1);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_register(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_BSP_GPIO_BUTTON1,<sp/>(am_hal_gpio_handler_t)ns_button_1_handler);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_clear(AM_HAL_GPIO_MASKBIT(pGpioIntMask1,<sp/>AM_BSP_GPIO_BUTTON1));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_enable(AM_HAL_GPIO_MASKBIT(pGpioIntMask1,<sp/>AM_BSP_GPIO_BUTTON1));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;<ref refid="structns__button__config__t_1a075ccbfc50f91955c60abd927af1de3e" kindref="member">joulescope_trigger_enable</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_GPIO_MASKCREATE(GpioIntMask2);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_register(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ui32JoulescopeTriggerGpioNum,<sp/>(am_hal_gpio_handler_t)ns_joulescope_trigger_handler);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_clear(AM_HAL_GPIO_MASKBIT(pGpioIntMask2,<sp/>24));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_gpio_interrupt_enable(AM_HAL_GPIO_MASKBIT(pGpioIntMask2,<sp/>24));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>am_hal_gpio_interrupt_control(</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>AM_HAL_GPIO_INT_CHANNEL_0,<sp/>AM_HAL_GPIO_INT_CTRL_INDV_ENABLE,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>(void<sp/>*)&amp;ui32JoulescopeTriggerGpioNum);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(GPIO_IRQn);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_interrupt_master_enable();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c"/>
+  </compounddef>
+</doxygen>

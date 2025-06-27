@@ -1,0 +1,494 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__pmu__utils_8h" kind="file" language="C++">
+    <compoundname>ns_pmu_utils.h</compoundname>
+    <includedby refid="ns__pmu__utils_8c" local="yes">neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c</includedby>
+    <invincdepgraph>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h</label>
+        <link refid="ns__pmu__utils_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c</label>
+        <link refid="ns__pmu__utils_8c"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structns__pmu__event" prot="public">ns_pmu_event</innerclass>
+    <innerclass refid="structns__pmu__counter" prot="public">ns_pmu_counter</innerclass>
+    <innerclass refid="structns__pmu__counters__t" prot="public">ns_pmu_counters_t</innerclass>
+    <innerclass refid="structns__pmu__config" prot="public">ns_pmu_config</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="ns__pmu__utils_8h_1a305c7645b96872844a32022251c25b69" prot="public" static="no">
+        <name>NS_PMU_V0_0_1</name>
+        <initializer>    { .major = 0, .minor = 0, .revision = 1 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="20" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__pmu__utils_8h_1a95c0d34bf7e198e94e4a08cac830f0f5" prot="public" static="no">
+        <name>NS_PMU_V1_0_0</name>
+        <initializer>    { .major = 1, .minor = 0, .revision = 0 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="22" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__pmu__utils_8h_1a473b9af0d7c7a5ab7ce214ad6c9b6cce" prot="public" static="no">
+        <name>NS_PMU_OLDEST_SUPPORTED_VERSION</name>
+        <initializer>NS_PMU_V0_0_1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="25" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__pmu__utils_8h_1a92f90db628a146eb9cf0a7db9a5787ce" prot="public" static="no">
+        <name>NS_PMU_CURRENT_VERSION</name>
+        <initializer>NS_PMU_V1_0_0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="26" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="ns__pmu__utils_8h_1ab827dfec3cd59fb177d5dd86d8d9842f" prot="public" static="no">
+        <name>NS_PMU_API_ID</name>
+        <initializer>0xCA000B</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="27" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="ns__pmu__utils_8h_1a8fdacd3a597a5564661a0cf53670b622" prot="public" static="no" strong="no">
+        <type></type>
+        <name>ns_pmu_event_counter_size_e</name>
+        <enumvalue id="ns__pmu__utils_8h_1a8fdacd3a597a5564661a0cf53670b622a90e4a2df139f3a6049fbb74c77ff6816" prot="public">
+          <name>NS_PMU_EVENT_COUNTER_SIZE_16</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="ns__pmu__utils_8h_1a8fdacd3a597a5564661a0cf53670b622a276c80039d836fc8a2aa985e467890b5" prot="public">
+          <name>NS_PMU_EVENT_COUNTER_SIZE_32</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="34" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="34" bodyend="37"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="ns__pmu__utils_8h_1a1d92590a53b44eb54a454a6832baae01" prot="public" static="no">
+        <type>struct <ref refid="structns__pmu__event" kindref="compound">ns_pmu_event</ref></type>
+        <definition>typedef struct ns_pmu_event ns_pmu_event_t</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_event_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="43" column="16"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ns__pmu__utils_8h_1a7f755895a99a008f84c25486d6b8a679" prot="public" static="no">
+        <type>struct <ref refid="structns__pmu__counter" kindref="compound">ns_pmu_counter</ref></type>
+        <definition>typedef struct ns_pmu_counter ns_pmu_counter_t</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_counter_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="50" column="18"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ns__pmu__utils_8h_1ae5e400cbd45f003394fe4ec8f8fe8c6b" prot="public" static="no">
+        <type>struct <ref refid="structns__pmu__config" kindref="compound">ns_pmu_config</ref></type>
+        <definition>typedef struct ns_pmu_config ns_pmu_config_t</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_config_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="60" column="17"/>
+      </memberdef>
+      <memberdef kind="typedef" id="ns__pmu__utils_8h_1a57ee6c4de956b238893ed4358921fbee" prot="public" static="no">
+        <type>int(*</type>
+        <definition>typedef int(* invoke_fp) ()</definition>
+        <argsstring>)()</argsstring>
+        <name>invoke_fp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="72" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__pmu__utils_8h_1a6820094de3649bed6744af602285a073" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_pmu_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_V0_0_1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="29" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="17" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="29" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__pmu__utils_8h_1ae136d42fb35a78f966d0529d5f261ba0" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_pmu_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_V1_0_0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="30" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="18" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="30" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__pmu__utils_8h_1ad6cd5abb5f41b07110dd34308066dea1" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_pmu_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_oldest_supported_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="31" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="19" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="31" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__pmu__utils_8h_1abe07149dd49d019e212d05f188950340" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_pmu_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_pmu_current_version</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="32" column="28" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="22" bodyend="-1" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="32" declcolumn="28"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__pmu__utils_8h_1a51e26d00385fd3ff49dd06b53ead740d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_init</definition>
+        <argsstring>(ns_pmu_config_t *cfg)</argsstring>
+        <name>ns_pmu_init</name>
+        <param>
+          <type><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize and start the PMU profiling syste. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="62" column="10" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="230" bodyend="313" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="62" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1ad68eb6d770683d79a298720f19a9b1ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_get_counters</definition>
+        <argsstring>(ns_pmu_config_t *cfg)</argsstring>
+        <name>ns_pmu_get_counters</name>
+        <param>
+          <type><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Get PMU counter values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="63" column="10" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="320" bodyend="358" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="63" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1af53fa1c9a01ff4a8cb56bc494f0ac9bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_delta_pmu</definition>
+        <argsstring>(ns_pmu_counters_t *s, ns_pmu_counters_t *e, ns_pmu_counters_t *d)</argsstring>
+        <name>ns_delta_pmu</name>
+        <param>
+          <type><ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref> *</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref> *</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="64" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="360" bodyend="365" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="64" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1a9b971cbe77cb86fb902174e8f66ae5df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_pmu_get_name</definition>
+        <argsstring>(ns_pmu_config_t *cfg, uint32_t i, char *name)</argsstring>
+        <name>ns_pmu_get_name</name>
+        <param>
+          <type><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="65" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="383" bodyend="399" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="65" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1a77d5c6ffa5108a62f45fe285b5268e4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_print_counters</definition>
+        <argsstring>(ns_pmu_config_t *cfg)</argsstring>
+        <name>ns_pmu_print_counters</name>
+        <param>
+          <type><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="66" column="10" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="367" bodyend="381" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="66" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1ab532138577a31c0cf87d5fee5442037b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_pmu_event_create</definition>
+        <argsstring>(ns_pmu_event_t *event, uint32_t eventId, ns_pmu_event_counter_size_e counterSize)</argsstring>
+        <name>ns_pmu_event_create</name>
+        <param>
+          <type><ref refid="structns__pmu__event" kindref="compound">ns_pmu_event_t</ref> *</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>eventId</declname>
+        </param>
+        <param>
+          <type>ns_pmu_event_counter_size_e</type>
+          <declname>counterSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="67" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="409" bodyend="414" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="67" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1a2ba602dfd42222882583a84eee0fe669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_pmu_reset_counters</definition>
+        <argsstring>()</argsstring>
+        <name>ns_pmu_reset_counters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="68" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="201" bodyend="205" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="68" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1af2f2485deade4b1383fbe4fc2568f482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_pmu_reset_config</definition>
+        <argsstring>(ns_pmu_config_t *cfg)</argsstring>
+        <name>ns_pmu_reset_config</name>
+        <param>
+          <type><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="69" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="401" bodyend="407" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="69" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__pmu__utils_8h_1a3538a63a6734d4f3f78a1c7427dd4381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_pmu_characterize_function</definition>
+        <argsstring>(invoke_fp func, ns_pmu_config_t *cfg)</argsstring>
+        <name>ns_pmu_characterize_function</name>
+        <param>
+          <type>invoke_fp</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="74" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/apollo5/ns_pmu_utils.c" bodystart="419" bodyend="441" declfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" declline="74" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Utilities for setting up and using the Performance Monitoring Unit. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ambiq</para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2024-08-16</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2024 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_PMU_UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_V0_0_1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="21"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>0,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>1<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_V1_0_0<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="23"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>{<sp/>.major<sp/>=<sp/>1,<sp/>.minor<sp/>=<sp/>0,<sp/>.revision<sp/>=<sp/>0<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_OLDEST_SUPPORTED_VERSION<sp/>NS_PMU_V0_0_1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_CURRENT_VERSION<sp/>NS_PMU_V1_0_0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NS_PMU_API_ID<sp/>0xCA000B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_pmu_V0_0_1;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_pmu_V1_0_0;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_pmu_oldest_supported_version;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_pmu_current_version;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_PMU_EVENT_COUNTER_SIZE_16<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>NS_PMU_EVENT_COUNTER_SIZE_32<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}<sp/>ns_pmu_event_counter_size_e;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structns__pmu__event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__pmu__event" kindref="compound">ns_pmu_event</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>eventId;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_pmu_event_counter_size_e<sp/>counterSize;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}<sp/><ref refid="structns__pmu__event" kindref="compound">ns_pmu_event_t</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structns__pmu__counter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__pmu__counter" kindref="compound">ns_pmu_counter</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structns__pmu__counter_1ab043c9e08f617f3c822803b4de4026bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structns__pmu__counter_1ab043c9e08f617f3c822803b4de4026bf" kindref="member">added</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>mapIndex;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structns__pmu__counter_1a02a367a1040708414d17a98362816935" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structns__pmu__counter_1a02a367a1040708414d17a98362816935" kindref="member">counterValue</ref>;<sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}<sp/><ref refid="structns__pmu__counter" kindref="compound">ns_pmu_counter_t</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structns__pmu__counters__t" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>counterValue[8];<sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}<sp/><ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref>;<sp/></highlight><highlight class="comment">//<sp/>just<sp/>the<sp/>counter<sp/>values,<sp/>used<sp/>for<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structns__pmu__config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>*api;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__pmu__event" kindref="compound">ns_pmu_event_t</ref><sp/>events[8];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__pmu__counter" kindref="compound">ns_pmu_counter_t</ref><sp/>counter[8];</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}<sp/><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">uint32_t<sp/><ref refid="ns__pmu__utils_8h_1a51e26d00385fd3ff49dd06b53ead740d" kindref="member">ns_pmu_init</ref>(<ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">uint32_t<sp/><ref refid="ns__pmu__utils_8h_1ad68eb6d770683d79a298720f19a9b1ba" kindref="member">ns_pmu_get_counters</ref>(<ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_delta_pmu(<ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref><sp/>*s,<sp/><ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref><sp/>*e,<sp/><ref refid="structns__pmu__counters__t" kindref="compound">ns_pmu_counters_t</ref><sp/>*d);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_pmu_get_name(<ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref><sp/>*cfg,<sp/>uint32_t<sp/>i,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*name);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">uint32_t<sp/>ns_pmu_print_counters(<ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_pmu_event_create(<ref refid="structns__pmu__event" kindref="compound">ns_pmu_event_t</ref><sp/>*event,<sp/>uint32_t<sp/>eventId,<sp/>ns_pmu_event_counter_size_e<sp/>counterSize);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_pmu_reset_counters();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_pmu_reset_config(<ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>for<sp/>tensorflow<sp/>invoke</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>int<sp/>(*invoke_fp)();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>typedef<sp/>TfLiteStatus<sp/>(tflite::MicroInterpreter::*)()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_pmu_characterize_function(invoke_fp<sp/>func,<sp/><ref refid="structns__pmu__config" kindref="compound">ns_pmu_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_PMU_UTILS_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h"/>
+  </compounddef>
+</doxygen>

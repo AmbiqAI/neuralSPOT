@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structmpu6050__config__t" kind="struct" language="C++" prot="public">
+    <compoundname>mpu6050_config_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structmpu6050__config__t_1ab405342f716c352351134004e3f9e429" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-_m_p_u6050_1gaa79598704e9063ad2dd263221cdb69fc" kindref="member">mpu6050_clock_src_t</ref></type>
+        <definition>mpu6050_clock_src_t mpu6050_config_t::clock_src</definition>
+        <argsstring></argsstring>
+        <name>clock_src</name>
+        <qualifiedname>mpu6050_config_t::clock_src</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="92" column="25" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structmpu6050__config__t_1aba7348124257418813397b9b52d0303f" prot="public" static="no" mutable="no">
+        <type>mpu6050_dlpf_cfg_t</type>
+        <definition>mpu6050_dlpf_cfg_t mpu6050_config_t::dlpf_cfg</definition>
+        <argsstring></argsstring>
+        <name>dlpf_cfg</name>
+        <qualifiedname>mpu6050_config_t::dlpf_cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="93" column="24" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structmpu6050__config__t_1a14bb72150f39d689e1ed3dc9bbbe23d3" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-_m_p_u6050_1gab4dbc4e43855395ed81f8bdc8841c27d" kindref="member">mpu6050_gyro_fs_t</ref></type>
+        <definition>mpu6050_gyro_fs_t mpu6050_config_t::gyro_fullscale_range</definition>
+        <argsstring></argsstring>
+        <name>gyro_fullscale_range</name>
+        <qualifiedname>mpu6050_config_t::gyro_fullscale_range</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="94" column="23" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structmpu6050__config__t_1ae11896b6064695d56a356c356888de8e" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-_m_p_u6050_1gac47e841b4e2b1db2d675c252e6637b44" kindref="member">mpu6050_accel_fs_t</ref></type>
+        <definition>mpu6050_accel_fs_t mpu6050_config_t::accel_fullscale_range</definition>
+        <argsstring></argsstring>
+        <name>accel_fullscale_range</name>
+        <qualifiedname>mpu6050_config_t::accel_fullscale_range</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="95" column="24" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structmpu6050__config__t_1a3c4bf92ff2bc7f358ced102ccdaac8e1" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t mpu6050_config_t::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>mpu6050_config_t::sample_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="96" column="14" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structmpu6050__config__t_1a8241dfa6b4a29fc0a9b755cbdbbec052" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t mpu6050_config_t::sleep_cfg</definition>
+        <argsstring></argsstring>
+        <name>sleep_cfg</name>
+        <qualifiedname>mpu6050_config_t::sleep_cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="97" column="14" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" line="91" column="1" bodyfile="neuralSPOT/neuralspot/ns-i2c/includes-api/ns_mpu6050_i2c_driver.h" bodystart="91" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structmpu6050__config__t_1ae11896b6064695d56a356c356888de8e" prot="public" virt="non-virtual"><scope>mpu6050_config_t</scope><name>accel_fullscale_range</name></member>
+      <member refid="structmpu6050__config__t_1ab405342f716c352351134004e3f9e429" prot="public" virt="non-virtual"><scope>mpu6050_config_t</scope><name>clock_src</name></member>
+      <member refid="structmpu6050__config__t_1aba7348124257418813397b9b52d0303f" prot="public" virt="non-virtual"><scope>mpu6050_config_t</scope><name>dlpf_cfg</name></member>
+      <member refid="structmpu6050__config__t_1a14bb72150f39d689e1ed3dc9bbbe23d3" prot="public" virt="non-virtual"><scope>mpu6050_config_t</scope><name>gyro_fullscale_range</name></member>
+      <member refid="structmpu6050__config__t_1a3c4bf92ff2bc7f358ced102ccdaac8e1" prot="public" virt="non-virtual"><scope>mpu6050_config_t</scope><name>sample_rate</name></member>
+      <member refid="structmpu6050__config__t_1a8241dfa6b4a29fc0a9b755cbdbbec052" prot="public" virt="non-virtual"><scope>mpu6050_config_t</scope><name>sleep_cfg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

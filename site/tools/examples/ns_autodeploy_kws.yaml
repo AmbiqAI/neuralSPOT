@@ -1,0 +1,39 @@
+seed: 1000
+create_binary: true
+create_profile: true
+create_library: true
+create_ambiqsuite_example: true
+measure_power: false
+
+tflite_filename: "kws_ref_model_aligned.tflite"
+
+# configfile: ""
+
+# # Create Binary Parameters
+# tflm_filename: "mut_model_data.h"
+# # max_arena_size: 100
+# # arena_size_scratch_buffer_padding: 0
+# # max_rpc_buf_size: 4096
+# # resource_variable_count: 0
+# # max_profile_events: 40
+
+# # Validation Parameters
+# dataset: "./myaudio.wav_mono.wav"
+# random_data: true
+# runs: 10
+# runs_power: 100
+# cpu_mode: 96
+
+# # Library Parameters
+# model_name: "KWS model"
+# working_directory: "../projects/autodeploy"
+
+# # Profile Parameters
+# profile_warmup: 1
+
+# # Logging Parameters
+# verbosity: 1
+
+# # RPC Parameters
+# tty: "/dev/tty.usbmodem1234561"
+# baud: "115200"

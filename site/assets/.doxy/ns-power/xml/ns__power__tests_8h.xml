@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__power__tests_8h" kind="file" language="C++">
+    <compoundname>ns_power_tests.h</compoundname>
+    <includes refid="ns__peripherals__power_8h" local="yes">ns_peripherals_power.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_peripherals_power.h</label>
+        <link refid="ns__peripherals__power_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h</label>
+        <link refid="ns__power__tests_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="5">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="6">
+        <label>am_util.h</label>
+      </node>
+      <node id="3">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__power__tests_8h_1a7f9cda503f806000f4f66451ab015732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="4" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="25" bodyend="27" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="4" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1af2a3f33c802112c27bc900510d75fc6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="5" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="29" bodyend="31" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="5" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1ac28865a5566e654edcb4bb01f3b8fc1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_null_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_null_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="6" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="33" bodyend="37" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="6" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1ab4b4042b180c9d2f9ce9b8236625a300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="7" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="40" bodyend="62" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="7" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1a49c9e68664d9714c5957698e2593a75a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_invalid_api_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_invalid_api_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="8" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="65" bodyend="77" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="8" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1a7748139a02239a9baf6726199dae43e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_power_mode_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_power_mode_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="9" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="80" bodyend="100" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="9" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1afecd1577ca1c0ec8db37421da27aeb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_all_true_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_all_true_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="10" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="102" bodyend="117" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="10" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__power__tests_8h_1a35eb5596f75492e2199fcfc08a7ce931" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_power_config_all_false_test</definition>
+        <argsstring>()</argsstring>
+        <name>ns_power_config_all_false_test</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" line="11" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.c" bodystart="119" bodyend="134" declfile="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h" declline="11" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__peripherals__power_8h" kindref="compound">ns_peripherals_power.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_tests_pre_test_hook();</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_tests_post_test_hook();</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_null_test();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_test();</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_invalid_api_test();</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_power_mode_test();</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_all_true_test();</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_power_config_all_false_test();</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/tests/ns_power_tests.h"/>
+  </compounddef>
+</doxygen>

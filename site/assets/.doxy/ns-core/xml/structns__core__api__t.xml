@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__core__api__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_core_api_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__core__api__t_1a65ae0ed6eed75459004245514cf4c865" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_core_api_t::apiId</definition>
+        <argsstring></argsstring>
+        <name>apiId</name>
+        <qualifiedname>ns_core_api_t::apiId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="32" column="14" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__core__api__t_1a26f84c8aab6c75d3111b62bf7f18d3f5" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__semver__t" kindref="compound">ns_semver_t</ref></type>
+        <definition>ns_semver_t ns_core_api_t::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>ns_core_api_t::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="33" column="17" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ns_core_api_t</label>
+        <link refid="structns__core__api__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_semver_t</label>
+        <link refid="structns__semver__t"/>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" line="31" column="1" bodyfile="neuralSPOT/neuralspot/ns-core/includes-api/ns_core.h" bodystart="31" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structns__core__api__t_1a65ae0ed6eed75459004245514cf4c865" prot="public" virt="non-virtual"><scope>ns_core_api_t</scope><name>apiId</name></member>
+      <member refid="structns__core__api__t_1a26f84c8aab6c75d3111b62bf7f18d3f5" prot="public" virt="non-virtual"><scope>ns_core_api_t</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

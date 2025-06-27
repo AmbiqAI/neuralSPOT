@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="apollo3_2ns__pdm_8c" kind="file" language="C++">
+    <compoundname>ns_pdm.c</compoundname>
+    <includes refid="apollo3_2ns__pdm_8h" local="yes">ns_pdm.h</includes>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes refid="ns__audio_8h" local="yes">ns_audio.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_audio.h</label>
+        <link refid="ns__audio_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c</label>
+        <link refid="apollo3_2ns__pdm_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_pdm.h</label>
+        <link refid="apollo3_2ns__pdm_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="4">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="5">
+        <label>am_util.h</label>
+      </node>
+      <node id="7">
+        <label>ns_core.h</label>
+      </node>
+      <node id="8">
+        <label>ns_ipc_ring_buffer.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="apollo3_2ns__pdm_8c_1a09a70f3a79d9e94f85d8db31fec6311b" prot="public" static="yes" mutable="no">
+        <type>void *</type>
+        <definition>void* pvPDMHandle</definition>
+        <argsstring></argsstring>
+        <name>pvPDMHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" line="19" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="apollo3_2ns__pdm_8c_1aa9aa133d692ba1ae274788ad8f6dac29" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__pdm__cfg__t" kindref="compound">ns_pdm_cfg_t</ref></type>
+        <definition>ns_pdm_cfg_t ns_pdm_default</definition>
+        <argsstring></argsstring>
+        <name>ns_pdm_default</name>
+        <initializer>= {
+    .clock = NS_CLKSEL_HFRC,
+    .clock_freq = NS_AUDIO_PDM_CLK_750KHZ,
+    .mic = NS_AUDIO_PDM_MICBOARD_0,
+    .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" line="21" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="apollo3_2ns__pdm_8c_1a8f4bfeb1a0f1412e38a98e85a520b705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void pdm_trigger_dma</definition>
+        <argsstring>(ns_audio_config_t *config)</argsstring>
+        <name>pdm_trigger_dma</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" line="28" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="28" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__pdm_8c_1aeebb83c9ca268003290efea280354594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t pdm_init</definition>
+        <argsstring>(ns_audio_config_t *config)</argsstring>
+        <name>pdm_init</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>AUDADC subsystem init - should only be invoked by ns_audio, not directly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" line="39" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="39" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__pdm_8c_1ac78eeda0cfeef7327e416b111ef34a5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void pdm_deinit</definition>
+        <argsstring>(ns_audio_config_t *config)</argsstring>
+        <name>pdm_deinit</name>
+        <param>
+          <type><ref refid="group__ns-audio_1gaecb653d03a82a5700e3c9f91cba42de6" kindref="member">ns_audio_config_t</ref> *</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" line="104" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="104" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="apollo3_2ns__pdm_8c_1adf8879ad28d5cd9f65567708a732027d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void am_pdm0_isr</definition>
+        <argsstring>(void)</argsstring>
+        <name>am_pdm0_isr</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" line="125" column="6" bodyfile="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c" bodystart="125" bodyend="165"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Driver for Ambiq PDM Microphone interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ambiq </para>
+</simplesect>
+<simplesect kind="version"><para>0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2023-05-17</para>
+</simplesect>
+<simplesect kind="copyright"><para>Copyright (c) 2023 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__pdm_8h" kindref="compound">ns_pdm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__audio_8h" kindref="compound">ns_audio.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pvPDMHandle;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="structns__pdm__cfg__t" kindref="compound">ns_pdm_cfg_t</ref><sp/>ns_pdm_default<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>.clock<sp/>=<sp/>NS_CLKSEL_HFRC,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>.clock_freq<sp/>=<sp/>NS_AUDIO_PDM_CLK_750KHZ,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>.mic<sp/>=<sp/>NS_AUDIO_PDM_MICBOARD_0,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>.numBytes<sp/>=<sp/>NS_AUDIO_PDM_SAMPLE_16BIT,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pdm_trigger_dma(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>DMA<sp/>and<sp/>target<sp/>address.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>config-&gt;sTransfer.ui32TotalCount<sp/>=</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(config-&gt;<ref refid="structns__audio__cfg_1a3cda7603b16a3d4c901e8a72765b4ddd" kindref="member">numSamples</ref><sp/>*<sp/>config-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>*<sp/>config-&gt;<ref refid="structns__audio__cfg_1aa6e4e8d73e526ea2780911e804b8b513" kindref="member">pdm_config</ref>-&gt;numBytes<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>config-&gt;sTransfer.ui32TargetAddr<sp/>=<sp/>(uint32_t)config-&gt;<ref refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" kindref="member">sampleBuffer</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>the<sp/>data<sp/>transfer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_dma_start(pvPDMHandle,<sp/>&amp;(config-&gt;sTransfer));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">uint32_t<sp/><ref refid="apollo3_2ns__pdm_8c_1aeebb83c9ca268003290efea280354594" kindref="member">pdm_init</ref>(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__pdm__cfg__t" kindref="compound">ns_pdm_cfg_t</ref><sp/>*cfg<sp/>=<sp/>config-&gt;<ref refid="structns__audio__cfg_1aa6e4e8d73e526ea2780911e804b8b513" kindref="member">pdm_config</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>PDM<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_config_t<sp/>pdmConfig<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eClkDivider<sp/>=<sp/>AM_HAL_PDM_MCLKDIV_1,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bHighPassEnable<sp/>=<sp/>0,<sp/></highlight><highlight class="comment">//<sp/>0<sp/>is<sp/>enabled.<sp/>(Reversed..)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.ui32HighPassCutoff<sp/>=<sp/>0xB,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eLeftGain<sp/>=<sp/>AM_HAL_PDM_GAIN_P105DB,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.eRightGain<sp/>=<sp/>AM_HAL_PDM_GAIN_P105DB,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bDataPacking<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bInvertI2SBCLK<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.ePDMClkSource<sp/>=<sp/>AM_HAL_PDM_INTERNAL_CLK,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bPDMSampleDelay<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bSoftMute<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.bLRSwap<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PDM<sp/>Clock<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(cfg-&gt;clock_freq)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_AUDIO_PDM_CLK_750KHZ:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdmConfig.ePDMClkSpeed<sp/>=<sp/>AM_HAL_PDM_CLK_750KHZ;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdmConfig.ui32DecimationRate<sp/>=<sp/>24;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>NS_AUDIO_PDM_CLK_1_5MHZ:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdmConfig.ePDMClkSpeed<sp/>=<sp/>AM_HAL_PDM_CLK_1_5MHZ;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdmConfig.ui32DecimationRate<sp/>=<sp/>48;<sp/></highlight><highlight class="comment">//<sp/>CLK<sp/>1.5<sp/>Mhz</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_lp_printf(</highlight><highlight class="stringliteral">&quot;Clock<sp/>not<sp/>supported<sp/>by<sp/>PDM\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_CONFIG;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PDM<sp/>Channel<sp/>Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(config-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>==<sp/>2)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdmConfig.ePCMChannels<sp/>=<sp/>AM_HAL_PDM_CHANNEL_STEREO;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pdmConfig.ePCMChannels<sp/>=<sp/>AM_HAL_PDM_CHANNEL_LEFT;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize,<sp/>power-up,<sp/>and<sp/>configure<sp/>the<sp/>PDM.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_initialize(cfg-&gt;<ref refid="structns__pdm__cfg__t_1a5f8f4d4a82b16c48968c3a0a40978f2a" kindref="member">mic</ref>,<sp/>&amp;pvPDMHandle);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_pinconfig(AM_BSP_GPIO_PDMCLK,<sp/>g_AM_BSP_GPIO_PDMCLK);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_gpio_pinconfig(AM_BSP_GPIO_PDM_DATA,<sp/>g_AM_BSP_GPIO_PDM_DATA);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_power_control(pvPDMHandle,<sp/>AM_HAL_PDM_POWER_ON,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_configure(pvPDMHandle,<sp/>&amp;pdmConfig);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_fifo_flush(pvPDMHandle);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configure<sp/>and<sp/>enable<sp/>PDM<sp/>interrupts<sp/>(set<sp/>up<sp/>to<sp/>trigger<sp/>on<sp/>DMA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>completion).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_interrupt_enable(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pvPDMHandle,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(AM_HAL_PDM_INT_DERR<sp/>|<sp/>AM_HAL_PDM_INT_DCMP<sp/>|<sp/>AM_HAL_PDM_INT_UNDFL<sp/>|<sp/>AM_HAL_PDM_INT_OVF));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_EnableIRQ(PDM_IRQn);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVIC_SetPriority(PDM_IRQn,<sp/>NVIC_configKERNEL_INTERRUPT_PRIORITY);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_enable(pvPDMHandle);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>pdm_trigger_dma(config);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pdm_deinit(<ref refid="structns__audio__cfg" kindref="compound">ns_audio_config_t</ref><sp/>*config)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structns__pdm__cfg__t" kindref="compound">ns_pdm_cfg_t</ref><sp/>*<sp/>cfg<sp/>=<sp/>config-&gt;<ref refid="structns__audio__cfg_1aa6e4e8d73e526ea2780911e804b8b513" kindref="member">pdm_config</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_interrupt_clear(cfg,<sp/>(AM_HAL_PDM_INT_DERR<sp/><sp/>|\</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_PDM_INT_DCMP<sp/><sp/>|\</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_PDM_INT_UNDFL<sp/>|\</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_PDM_INT_OVF));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_interrupt_disable(cfg,<sp/>(AM_HAL_PDM_INT_DERR<sp/><sp/>|\</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_PDM_INT_DCMP<sp/><sp/>|\</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_PDM_INT_UNDFL<sp/>|\</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_HAL_PDM_INT_OVF));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>NVIC_DisableIRQ(PDM_IRQn);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_disable(cfg);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_power_control(cfg,<sp/>AM_HAL_PDM_POWER_OFF,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_deinitialize(cfg);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PDM<sp/>Interrupt<sp/>Service<sp/>Routine<sp/>(ISR)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>am_pdm0_isr(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32Status;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>the<sp/>interrupt<sp/>status.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_interrupt_status_get(pvPDMHandle,<sp/>&amp;ui32Status,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>am_hal_pdm_interrupt_clear(pvPDMHandle,<sp/>ui32Status);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32Status<sp/>&amp;<sp/>AM_HAL_PDM_INT_DCMP)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memcpy(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(uint8_t<sp/>*)<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aed4fd73f4160b6cf91452ac0d425c270" kindref="member">audioBuffer</ref>,<sp/>(uint8_t<sp/>*)<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" kindref="member">sampleBuffer</ref>,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1a3cda7603b16a3d4c901e8a72765b4ddd" kindref="member">numSamples</ref><sp/>*<sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/>*temp1<sp/>=<sp/>(uint16_t<sp/>*)<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aed4fd73f4160b6cf91452ac0d425c270" kindref="member">audioBuffer</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>*ui32PDMDatabuffer<sp/>=<sp/>(uint32_t<sp/>*)<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1ab1d78e927bfe130257dab6385c2f0740" kindref="member">sampleBuffer</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1a3cda7603b16a3d4c901e8a72765b4ddd" kindref="member">numSamples</ref><sp/>*<sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mono<sp/>data<sp/>is<sp/>packed<sp/>(2<sp/>16<sp/>bit<sp/>samples<sp/>in<sp/>32<sp/>bit<sp/>word)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp1[2<sp/>*<sp/>i]<sp/>=<sp/>ui32PDMDatabuffer[i]<sp/>&amp;<sp/>0xFFFF;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>temp1[2<sp/>*<sp/>i<sp/>+<sp/>1]<sp/>=<sp/>(ui32PDMDatabuffer[i]<sp/>&amp;<sp/>0xFFFF0000)<sp/>&gt;&gt;<sp/>16U;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1ad68021b5ffeff080ba643bc51565f9e2" kindref="member">callback</ref>(<ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_CRITICAL_BEGIN;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PDMn(0)-&gt;DMATOTCOUNT<sp/>=<sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1a3cda7603b16a3d4c901e8a72765b4ddd" kindref="member">numSamples</ref><sp/>*<sp/><ref refid="group__ns-audio_1ga78106ac9ad1621c685adef9330203171" kindref="member">g_ns_audio_config</ref>-&gt;<ref refid="structns__audio__cfg_1aed07446d68eedcfe936c58f99d2b3746" kindref="member">numChannels</ref><sp/>*</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2;<sp/></highlight><highlight class="comment">//<sp/>FIFO<sp/>unit<sp/>in<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AM_CRITICAL_END;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#if<sp/>configUSE_AAD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(g_sVosSys.ui8WosSkipFrameFlag)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g_sVosSys.ui8WosSkipFrameFlag<sp/>=<sp/>0;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memset(g_sVosBrd.pui32PcmBuf,<sp/>0,<sp/>(g_ui32WosDiscardTimeUS<sp/>/<sp/>1000)<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(AM_SPP_SAMPLE_FREQ<sp/>/<sp/>1000)<sp/>*<sp/>PCM_SAMPLE_BYTES<sp/>*<sp/>USE_MIC_NUM);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>#endif<sp/>//<sp/>configUSE_AAD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ui32Status<sp/>&amp;<sp/>(AM_HAL_PDM_INT_UNDFL<sp/>|<sp/>AM_HAL_PDM_INT_OVF))<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_hal_pdm_fifo_flush(pvPDMHandle);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;am_hal_pdm_fifo_flush()<sp/>%d\n&quot;,<sp/>ui32Status);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-audio/src/apollo3/ns_pdm.c"/>
+  </compounddef>
+</doxygen>

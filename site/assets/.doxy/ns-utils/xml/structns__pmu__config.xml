@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__pmu__config" kind="struct" language="C++" prot="public">
+    <compoundname>ns_pmu_config</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__pmu__config_1a1e638558751cd092b18aaa33c31b040d" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_pmu_config::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_pmu_config::api</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="57" column="25" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__config_1a7742e3d78ec498042296f382b370f526" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__pmu__event" kindref="compound">ns_pmu_event_t</ref></type>
+        <definition>ns_pmu_event_t ns_pmu_config::events[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>events</name>
+        <qualifiedname>ns_pmu_config::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="58" column="20" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__config_1af2d13f12bdb6d6880be556a5c3949f64" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__pmu__counter" kindref="compound">ns_pmu_counter_t</ref></type>
+        <definition>ns_pmu_counter_t ns_pmu_config::counter[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>counter</name>
+        <qualifiedname>ns_pmu_config::counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="59" column="22" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ns_pmu_config</label>
+        <link refid="structns__pmu__config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>events</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>counter</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ns_pmu_counter</label>
+        <link refid="structns__pmu__counter"/>
+      </node>
+      <node id="2">
+        <label>ns_pmu_event</label>
+        <link refid="structns__pmu__event"/>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="56" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="56" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structns__pmu__config_1a1e638558751cd092b18aaa33c31b040d" prot="public" virt="non-virtual"><scope>ns_pmu_config</scope><name>api</name></member>
+      <member refid="structns__pmu__config_1af2d13f12bdb6d6880be556a5c3949f64" prot="public" virt="non-virtual"><scope>ns_pmu_config</scope><name>counter</name></member>
+      <member refid="structns__pmu__config_1a7742e3d78ec498042296f382b370f526" prot="public" virt="non-virtual"><scope>ns_pmu_config</scope><name>events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

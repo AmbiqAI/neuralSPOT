@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__psram__config__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_psram_config_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__psram__config__t_1a82ef345a226632f14ebb923f3b57c9a5" prot="public" static="no" mutable="no">
+        <type>ns_core_api_t const  *</type>
+        <definition>ns_core_api_t const* ns_psram_config_t::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_psram_config_t::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="39" column="25" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__psram__config__t_1aab723bdd5bf59117fe6a9c70db296f28" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_psram_config_t::psram_enable</definition>
+        <argsstring></argsstring>
+        <name>psram_enable</name>
+        <qualifiedname>ns_psram_config_t::psram_enable</qualifiedname>
+        <briefdescription>
+<para>Enable PSRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="40" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__psram__config__t_1a5c17cb83a5475ccfc8e1685bfae0f080" prot="public" static="no" mutable="no">
+        <type>psram_type_e</type>
+        <definition>psram_type_e ns_psram_config_t::psram_type</definition>
+        <argsstring></argsstring>
+        <name>psram_type</name>
+        <qualifiedname>ns_psram_config_t::psram_type</qualifiedname>
+        <briefdescription>
+<para>PSRAM type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="41" column="18" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__psram__config__t_1add7b07a27ca6391005f21aa4c5aec771" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_psram_config_t::psram_block</definition>
+        <argsstring></argsstring>
+        <name>psram_block</name>
+        <qualifiedname>ns_psram_config_t::psram_block</qualifiedname>
+        <briefdescription>
+<para>PSRAM block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="42" column="13" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__psram__config__t_1a2086110c1268dd915840de1fd03bb4e0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_psram_config_t::psram_size</definition>
+        <argsstring></argsstring>
+        <name>psram_size</name>
+        <qualifiedname>ns_psram_config_t::psram_size</qualifiedname>
+        <briefdescription>
+<para>PSRAM size, filled in by init. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="43" column="14" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__psram__config__t_1abb5d1b365fdbac873f966dc4811c69cf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_psram_config_t::psram_base_address</definition>
+        <argsstring></argsstring>
+        <name>psram_base_address</name>
+        <qualifiedname>ns_psram_config_t::psram_base_address</qualifiedname>
+        <briefdescription>
+<para>PSRAM base address, filled in by init. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="44" column="14" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" line="38" column="1" bodyfile="neuralSPOT/neuralspot/ns-peripherals/includes-api/ns_peripherals_psram.h" bodystart="38" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structns__psram__config__t_1a82ef345a226632f14ebb923f3b57c9a5" prot="public" virt="non-virtual"><scope>ns_psram_config_t</scope><name>api</name></member>
+      <member refid="structns__psram__config__t_1abb5d1b365fdbac873f966dc4811c69cf" prot="public" virt="non-virtual"><scope>ns_psram_config_t</scope><name>psram_base_address</name></member>
+      <member refid="structns__psram__config__t_1add7b07a27ca6391005f21aa4c5aec771" prot="public" virt="non-virtual"><scope>ns_psram_config_t</scope><name>psram_block</name></member>
+      <member refid="structns__psram__config__t_1aab723bdd5bf59117fe6a9c70db296f28" prot="public" virt="non-virtual"><scope>ns_psram_config_t</scope><name>psram_enable</name></member>
+      <member refid="structns__psram__config__t_1a2086110c1268dd915840de1fd03bb4e0" prot="public" virt="non-virtual"><scope>ns_psram_config_t</scope><name>psram_size</name></member>
+      <member refid="structns__psram__config__t_1a5c17cb83a5475ccfc8e1685bfae0f080" prot="public" virt="non-virtual"><scope>ns_psram_config_t</scope><name>psram_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__malloc_8c" kind="file" language="C++">
+    <compoundname>ns_malloc.c</compoundname>
+    <includes refid="ns__malloc_8h" local="yes">ns_malloc.h</includes>
+    <includes local="yes">ns_ambiqsuite_harness.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_malloc.h</label>
+        <link refid="ns__malloc_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c</label>
+        <link refid="ns__malloc_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FreeRTOS.h</label>
+      </node>
+      <node id="4">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="5">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="6">
+        <label>am_util.h</label>
+      </node>
+      <node id="10">
+        <label>ns_ambiqsuite_harness.h</label>
+      </node>
+      <node id="7">
+        <label>portable.h</label>
+      </node>
+      <node id="8">
+        <label>portmacro.h</label>
+      </node>
+      <node id="9">
+        <label>rtos.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__malloc_8c_1aef455b70c94cc079c4ec994bcc7d0c49" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int total_allocated</definition>
+        <argsstring></argsstring>
+        <name>total_allocated</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" line="20" column="5" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="group__ns-malloc_1gabf1c042e70be409ee2d41838f83bb8d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_malloc_init</definition>
+        <argsstring>()</argsstring>
+        <name>ns_malloc_init</name>
+        <briefdescription>
+<para>Empty for now, but placeholder in case we need multi-heap support. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" line="18" column="9" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" bodystart="18" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-malloc_1ga45bcbf6ad4ad52cb96f6d024acaa0602" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * ns_malloc</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>ns_malloc</name>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Simple pvPortMalloc wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" line="22" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" bodystart="22" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="group__ns-malloc_1ga8a1763f61176219155b7cd50652f383d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>ns_free</name>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Simple vPortFree wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" line="34" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c" bodystart="34" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_malloc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_ambiqsuite_harness.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>uint8_t<sp/>ucHeap[NS_MALLOC_HEAP_SIZE_IN_K<sp/>*<sp/>1024];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">uint8_t<sp/><ref refid="group__ns-malloc_1gabf1c042e70be409ee2d41838f83bb8d3" kindref="member">ns_malloc_init</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;<sp/>};</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_allocated<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="22"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*<ref refid="group__ns-malloc_1ga45bcbf6ad4ad52cb96f6d024acaa0602" kindref="member">ns_malloc</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(size<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptr<sp/>=<sp/>pvTasklessPortMalloc(size);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">//<sp/>else<sp/>NULL<sp/>if<sp/>there<sp/>was<sp/>an<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>total_allocated<sp/>+=<sp/>size;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;ns_malloc(%d)<sp/>total<sp/>%d<sp/>returning<sp/>0x%x\n&quot;,<sp/>size,<sp/>total_allocated,<sp/>ptr);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ptr;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="group__ns-malloc_1ga8a1763f61176219155b7cd50652f383d" kindref="member">ns_free</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*ptr)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ptr)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vTasklessPortFree(ptr);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;ns_free(0x%x)\n&quot;,<sp/>ptr);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-utils/src/ns_malloc.c"/>
+  </compounddef>
+</doxygen>

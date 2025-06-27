@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="struct_camera_info" kind="struct" language="C++" prot="public">
+    <compoundname>CameraInfo</compoundname>
+    <includes refid="_arducam_camera_8h" local="no">ArducamCamera.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_camera_info_1abbb53648ae151fa253a9e3d9ddacdb66" prot="public" static="no" mutable="no">
+        <type>char *</type>
+        <definition>char* CameraInfo::cameraId</definition>
+        <argsstring></argsstring>
+        <name>cameraId</name>
+        <qualifiedname>CameraInfo::cameraId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Model of camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="62" column="10" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a875016ea9b027f71c1591fc67c8ef2ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CameraInfo::supportResolution</definition>
+        <argsstring></argsstring>
+        <name>supportResolution</name>
+        <qualifiedname>CameraInfo::supportResolution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolution supported by the camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="63" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a102f97a61395732beae18f32acb846fe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CameraInfo::supportSpecialEffects</definition>
+        <argsstring></argsstring>
+        <name>supportSpecialEffects</name>
+        <qualifiedname>CameraInfo::supportSpecialEffects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Special effects supported by the camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="64" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a3c0c6782d143fae4f0db02c2e57eb43c" prot="public" static="no" mutable="no">
+        <type>unsigned long</type>
+        <definition>unsigned long CameraInfo::exposureValueMax</definition>
+        <argsstring></argsstring>
+        <name>exposureValueMax</name>
+        <qualifiedname>CameraInfo::exposureValueMax</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum exposure time supported by the camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="66" column="19" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a8f43406fdfc2f0b5e1dc4e7754064426" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int CameraInfo::exposureValueMin</definition>
+        <argsstring></argsstring>
+        <name>exposureValueMin</name>
+        <qualifiedname>CameraInfo::exposureValueMin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum exposure time supported by the camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="68" column="18" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1ae607a6b13202c4bf9fa2c58b59313fa5" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int CameraInfo::gainValueMax</definition>
+        <argsstring></argsstring>
+        <name>gainValueMax</name>
+        <qualifiedname>CameraInfo::gainValueMax</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum gain supported by the camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="70" column="18" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a638bfe2a43701e8030a106f660325181" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int CameraInfo::gainValueMin</definition>
+        <argsstring></argsstring>
+        <name>gainValueMin</name>
+        <qualifiedname>CameraInfo::gainValueMin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum gain supported by the camera module </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="71" column="18" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a61a2a1ca9256dd8cd156e34b4d9a6a29" prot="public" static="no" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char CameraInfo::supportFocus</definition>
+        <argsstring></argsstring>
+        <name>supportFocus</name>
+        <qualifiedname>CameraInfo::supportFocus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Does the camera module support the focus function </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="72" column="19" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1ae7517e2dd74d57048c8265af6d2790f4" prot="public" static="no" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char CameraInfo::supportSharpness</definition>
+        <argsstring></argsstring>
+        <name>supportSharpness</name>
+        <qualifiedname>CameraInfo::supportSharpness</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Does the camera module support the sharpening function </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="73" column="19" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_camera_info_1a274bc11157c4294d8b41a7af4d864143" prot="public" static="no" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char CameraInfo::deviceAddress</definition>
+        <argsstring></argsstring>
+        <name>deviceAddress</name>
+        <qualifiedname>CameraInfo::deviceAddress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="75" column="19" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Basic information of the camera module. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" line="61" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ArducamCamera.h" bodystart="61" bodyend="76"/>
+    <listofallmembers>
+      <member refid="struct_camera_info_1abbb53648ae151fa253a9e3d9ddacdb66" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>cameraId</name></member>
+      <member refid="struct_camera_info_1a274bc11157c4294d8b41a7af4d864143" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>deviceAddress</name></member>
+      <member refid="struct_camera_info_1a3c0c6782d143fae4f0db02c2e57eb43c" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>exposureValueMax</name></member>
+      <member refid="struct_camera_info_1a8f43406fdfc2f0b5e1dc4e7754064426" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>exposureValueMin</name></member>
+      <member refid="struct_camera_info_1ae607a6b13202c4bf9fa2c58b59313fa5" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>gainValueMax</name></member>
+      <member refid="struct_camera_info_1a638bfe2a43701e8030a106f660325181" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>gainValueMin</name></member>
+      <member refid="struct_camera_info_1a61a2a1ca9256dd8cd156e34b4d9a6a29" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>supportFocus</name></member>
+      <member refid="struct_camera_info_1a875016ea9b027f71c1591fc67c8ef2ec" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>supportResolution</name></member>
+      <member refid="struct_camera_info_1ae7517e2dd74d57048c8265af6d2790f4" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>supportSharpness</name></member>
+      <member refid="struct_camera_info_1a102f97a61395732beae18f32acb846fe" prot="public" virt="non-virtual"><scope>CameraInfo</scope><name>supportSpecialEffects</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

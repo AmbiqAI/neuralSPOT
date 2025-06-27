@@ -1,0 +1,636 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__debug__log_8cc" kind="file" language="C++">
+    <compoundname>ns_debug_log.cc</compoundname>
+    <includes refid="ns__debug__log_8h" local="yes">ns_debug_log.h</includes>
+    <includes local="yes">tensorflow/lite/micro/cortex_m_generic/debug_log_callback.h</includes>
+    <includes refid="ns__ambiqsuite__harness_8h" local="yes">ns_ambiqsuite_harness.h</includes>
+    <includes local="yes">ns_pmu_map.h</includes>
+    <includes local="yes">ns_pmu_utils.h</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">cstdio</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_ambiqsuite_harness.h</label>
+        <link refid="ns__ambiqsuite__harness_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ns_debug_log.h</label>
+        <link refid="ns__debug__log_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc</label>
+        <link refid="ns__debug__log_8cc"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="8">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="9">
+        <label>am_util.h</label>
+      </node>
+      <node id="11">
+        <label>am_util_stdio.h</label>
+      </node>
+      <node id="15">
+        <label>cstdio</label>
+      </node>
+      <node id="14">
+        <label>cstring</label>
+      </node>
+      <node id="10">
+        <label>ns_core.h</label>
+      </node>
+      <node id="3">
+        <label>ns_perf_profile.h</label>
+      </node>
+      <node id="12">
+        <label>ns_pmu_map.h</label>
+      </node>
+      <node id="13">
+        <label>ns_pmu_utils.h</label>
+      </node>
+      <node id="4">
+        <label>ns_timer.h</label>
+      </node>
+      <node id="5">
+        <label>tensorflow/lite/micro/cortex_m_generic/debug_log_callback.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__debug__log_8cc_1a9c5f0efbfd4c1d024a4a5601514451b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_TFDebugLog</definition>
+        <argsstring>(const char *s)</argsstring>
+        <name>ns_TFDebugLog</name>
+        <param>
+          <type>const char *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" line="27" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__debug__log_8cc_1a2de3dae7ffe21ca22f2ba7acabf65f74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_TFDebugLogInit</definition>
+        <argsstring>(ns_debug_log_init_t *cfg)</argsstring>
+        <name>ns_TFDebugLogInit</name>
+        <param>
+          <type><ref refid="structns__debug__log__init__t" kindref="compound">ns_debug_log_init_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" line="46" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="46" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__debug__log_8cc_1a515ffec8be6c048b2bafff4ad3471f4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_characterize_model</definition>
+        <argsstring>(invoke_fp func)</argsstring>
+        <name>ns_characterize_model</name>
+        <param>
+          <type>invoke_fp</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Given a model, characterize it by running it repeatedly and capturing PMU events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" line="90" column="10" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="90" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__debug__log_8cc_1a19242776c555ac170f8bfe9ede8ae88e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_set_pmu_header</definition>
+        <argsstring>(void)</argsstring>
+        <name>ns_set_pmu_header</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+<para>Searches for the &quot;CALL_ONCE&quot; layer in the global profiler stats array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function scans through all layers to see if any layer is tagged &quot;CALL_ONCE&quot;. If found, the layer index is returned. If not, returns -1.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The total number of layers in the model or pipeline.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Index of the CALL_ONCE layer if found, otherwise -1. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" line="151" column="10" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="151" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__debug__log_8cc_1a3a3865f0b9f2a032365ec495849027d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_get_layer_counters</definition>
+        <argsstring>(uint32_t layer, uint32_t num_layers, uint32_t rv, uint32_t *out_counters)</argsstring>
+        <name>ns_get_layer_counters</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>layer</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_layers</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rv</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>out_counters</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves PMU counters for a given layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function determines if the layer is within a &quot;skip&quot; range for PMU counters (related to CALL_ONCE), then either returns zeros or calculates the counters based on the &quot;non-obvious&quot; index formula:</para>
+<para><programlisting><codeline><highlight class="normal">index<sp/>=<sp/>(num_layers<sp/>+<sp/>source_layer)<sp/>+<sp/>(source_layer_count)<sp/>*<sp/>(map_index<sp/>/<sp/>4);</highlight></codeline>
+<codeline><highlight class="normal">counterValue<sp/>=<sp/>ns_microProfilerSidecar.pmu_snapshot[index].counterValue[<sp/>map_index<sp/>%<sp/>4<sp/>];</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The layer index for which PMU values are requested. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total layers in the pipeline. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of &quot;resource variables&quot; used to offset certain layers. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">out_counters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an array in which to store the retrieved counter values. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_counters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the out_counters array (e.g. number of PMU registers).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>NS_STATUS_SUCCESS on success. Could return an error code if desired. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" line="195" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="195" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__debug__log_8cc_1af3ff897bda9ecc9e2772515cc4767616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_parse_pmu_stats</definition>
+        <argsstring>(uint32_t num_layers, uint32_t rv)</argsstring>
+        <name>ns_parse_pmu_stats</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>num_layers</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>rv</declname>
+        </param>
+        <briefdescription>
+<para>Parses and prints performance monitoring unit (PMU) statistics for each layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function retrieves PMU counter values from a global profiler sidecar and prints them in a CSV-like format for external analysis. It supports the concept of a &quot;CALL_ONCE&quot; layer, whereby certain layers are &quot;skipped&quot; on subsequent runs (and thus display zero counters).</para>
+<para>The high-level logic: 1) Search for a layer tagged as &quot;CALL_ONCE&quot;. If found, record its index. 2) Print CSV headers, including names of PMU registers. 3) For each layer:<itemizedlist>
+<listitem><para>Print basic profiling data (layer index, tag, time, estimated MACs).</para>
+</listitem><listitem><para>Print detailed sidecar information (e.g., output shape, filter shape, strides).</para>
+</listitem><listitem><para>Determine if the layer is in the &quot;skipped&quot; region. If so, print zeros. Otherwise, compute a non-obvious index for accessing PMU counters and print them.</para>
+</listitem></itemizedlist>
+</para>
+<para>The non-obvious indexing formula for the PMU counters follows: <programlisting><codeline><highlight class="normal">//<sp/>source_layer<sp/>is<sp/>either<sp/>the<sp/>current<sp/>layer<sp/>or<sp/>offset<sp/>by<sp/>rv*2<sp/>if<sp/>we<sp/>are<sp/>beyond<sp/>the<sp/>skip<sp/>region</highlight></codeline>
+<codeline><highlight class="normal">uint32_t<sp/>index<sp/>=<sp/>(num_layers<sp/>+<sp/>source_layer)<sp/>+<sp/>(num_layers<sp/>-<sp/>rv<sp/>*<sp/>2)<sp/>*<sp/>(map_index<sp/>/<sp/>4);</highlight></codeline>
+<codeline><highlight class="normal">uint32_t<sp/>counterValue<sp/>=<sp/>ns_microProfilerSidecar.pmu_snapshot[index].counterValue[<sp/>map_index<sp/>%<sp/>4<sp/>];</highlight></codeline>
+</programlisting></para>
+<para>Skipped region logic:<itemizedlist>
+<listitem><para>If a CALL_ONCE layer is present at index C, then any layer in the range (C, C + rv*2] prints zero counters.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_layers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The total number of layers (including any special layers). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of resource variables, used to determine how many layers get skipped after the CALL_ONCE layer.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>NS_STATUS_SUCCESS on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" line="285" column="10" bodyfile="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc" bodystart="285" bodyend="378"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*<sp/>Copyright<sp/>2018<sp/>The<sp/>TensorFlow<sp/>Authors.<sp/>All<sp/>Rights<sp/>Reserved.</highlight></codeline>
+<codeline lineno="2"><highlight class="comment">Licensed<sp/>under<sp/>the<sp/>Apache<sp/>License,<sp/>Version<sp/>2.0<sp/>(the<sp/>&quot;License&quot;);</highlight></codeline>
+<codeline lineno="3"><highlight class="comment">you<sp/>may<sp/>not<sp/>use<sp/>this<sp/>file<sp/>except<sp/>in<sp/>compliance<sp/>with<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="4"><highlight class="comment">You<sp/>may<sp/>obtain<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>License<sp/>at</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/><sp/><sp/><sp/>http://www.apache.org/licenses/LICENSE-2.0</highlight></codeline>
+<codeline lineno="6"><highlight class="comment">Unless<sp/>required<sp/>by<sp/>applicable<sp/>law<sp/>or<sp/>agreed<sp/>to<sp/>in<sp/>writing,<sp/>software</highlight></codeline>
+<codeline lineno="7"><highlight class="comment">distributed<sp/>under<sp/>the<sp/>License<sp/>is<sp/>distributed<sp/>on<sp/>an<sp/>&quot;AS<sp/>IS&quot;<sp/>BASIS,</highlight></codeline>
+<codeline lineno="8"><highlight class="comment">WITHOUT<sp/>WARRANTIES<sp/>OR<sp/>CONDITIONS<sp/>OF<sp/>ANY<sp/>KIND,<sp/>either<sp/>express<sp/>or<sp/>implied.</highlight></codeline>
+<codeline lineno="9"><highlight class="comment">See<sp/>the<sp/>License<sp/>for<sp/>the<sp/>specific<sp/>language<sp/>governing<sp/>permissions<sp/>and</highlight></codeline>
+<codeline lineno="10"><highlight class="comment">limitations<sp/>under<sp/>the<sp/>License.</highlight></codeline>
+<codeline lineno="11"><highlight class="comment">==============================================================================*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_debug_log.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensorflow/lite/micro/cortex_m_generic/debug_log_callback.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ns__ambiqsuite__harness_8h" kindref="compound">ns_ambiqsuite_harness.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_pmu_map.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_pmu_utils.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdio&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">ns_TFDebugLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*s)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(NS_MLDEBUG)<sp/>||<sp/>defined(NS_MLPROFILE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;%s&quot;</highlight><highlight class="normal">,<sp/>s);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">ns_timer_config_t<sp/>*ns_microProfilerTimer;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">ns_cache_config_t<sp/>ns_microProfiler_cache_config;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">ns_pmu_config_t<sp/>ns_microProfilerPMU;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">AM_SHARED_RW<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ns_profiler_pmu_header[2048];</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">AM_SHARED_RW<sp/><ref refid="structns__profiler__sidecar__t" kindref="compound">ns_profiler_sidecar_t</ref><sp/>ns_microProfilerSidecar;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">AM_SHARED_RW<sp/><ref refid="structns__profiler__event__stats__t" kindref="compound">ns_profiler_event_stats_t</ref><sp/>ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">AM_SHARED_RW<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>ns_profiler_csv_header[512];</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">ns_TFDebugLogInit(<ref refid="structns__debug__log__init__t" kindref="compound">ns_debug_log_init_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(NS_MLDEBUG)<sp/>||<sp/>defined(NS_MLPROFILE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>RegisterDebugLogCallback(ns_TFDebugLog);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_microProfilerTimer<sp/>=<sp/>cfg-&gt;t;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;m<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.has_estimated_macs<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.number_of_layers<sp/>=<sp/>cfg-&gt;m-&gt;<ref refid="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" kindref="member">number_of_layers</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.mac_count_map<sp/>=<sp/>cfg-&gt;m-&gt;mac_count_map;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.m<sp/>=<sp/>cfg-&gt;m;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>print<sp/>out<sp/>the<sp/>mac<sp/>count<sp/>map</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;est<sp/>is<sp/>located<sp/>at<sp/>0x%x\n&quot;,<sp/>ns_microProfilerSidecar.mac_count_map);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>(int<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>i++)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>ns_lp_printf(&quot;Layer<sp/>%d:<sp/>%d\n&quot;,<sp/>i,<sp/>ns_microProfilerSidecar.mac_count_map[i]);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.has_estimated_macs<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_init_perf_profiler();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_start_perf_profiler();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>micro_profiler<sp/>needs<sp/>access<sp/>to<sp/>a<sp/>global,<sp/>so<sp/>copy<sp/>it<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg-&gt;pmu<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>memcpy(&amp;ns_microProfilerPMU,<sp/>cfg-&gt;pmu,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ns_pmu_config_t));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>am_util_pmu_enable();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_microProfiler_cache_config.enable<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_cache_profiler_init(&amp;ns_microProfiler_cache_config);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">uint32_t<sp/>ns_characterize_model(invoke_fp<sp/>func)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Repeatedly<sp/>run<sp/>the<sp/>model,<sp/>capturing<sp/>different<sp/>PMU<sp/>every<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>map_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;Starting<sp/>model<sp/>characterization,<sp/>capturing<sp/>%d<sp/>(%d/%d)<sp/>PMU<sp/>events<sp/>per<sp/>layer\n&quot;</highlight><highlight class="normal">,<sp/>NS_NUM_PMU_MAP_SIZE,<sp/>g_ns_pmu_map_length,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(ns_pmu_map_t));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(map_index<sp/>=<sp/>0;<sp/>map_index<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>map_index<sp/>=<sp/>map_index<sp/>+<sp/>4)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Init<sp/>the<sp/>pmu<sp/>capture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_pmu_reset_config(&amp;ns_microProfilerPMU);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(map_index<sp/>+<sp/>i<sp/>&gt;=<sp/>NS_NUM_PMU_MAP_SIZE)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We&apos;ve<sp/>run<sp/>out<sp/>of<sp/>event<sp/>types,<sp/>init<sp/>with<sp/>event<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Ran<sp/>out<sp/>of<sp/>PMU<sp/>events<sp/>at<sp/>%d,<sp/>initializing<sp/>event<sp/>%d<sp/>with<sp/>event<sp/>0\n&quot;,<sp/>map_index,<sp/>i);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_pmu_event_create(&amp;(ns_microProfilerPMU.events[i]),<sp/>ns_pmu_map[0].eventId,<sp/>NS_PMU_EVENT_COUNTER_SIZE_32);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Creating<sp/>event<sp/>%d<sp/>at<sp/>%d\n&quot;,<sp/>map_index,<sp/>i);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_pmu_event_create(&amp;(ns_microProfilerPMU.events[i]),<sp/>ns_pmu_map[map_index<sp/>+<sp/>i].eventId,<sp/>NS_PMU_EVENT_COUNTER_SIZE_32);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;PMU<sp/>event<sp/>%d:<sp/>%s,<sp/>%s,<sp/>%s,<sp/>%s\n&quot;,<sp/>map_index,<sp/>ns_pmu_map[map_index].regname,<sp/>ns_pmu_map[map_index<sp/>+<sp/>1].regname,<sp/>ns_pmu_map[map_index<sp/>+<sp/>2].regname,<sp/>ns_pmu_map[map_index<sp/>+<sp/>3].regname);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_pmu_init(&amp;ns_microProfilerPMU);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;PMU<sp/>initialized\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>the<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>func();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Model<sp/>run<sp/>complete\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int32_t</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">find_call_once_layer(uint32_t<sp/>num_layers)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_layers;<sp/>i++)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strcmp(ns_profiler_events_stats[i].tag,<sp/></highlight><highlight class="stringliteral">&quot;CALL_ONCE&quot;</highlight><highlight class="normal">)<sp/>==<sp/>0)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(int32_t)i;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">uint32_t<sp/>ns_set_pmu_header(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>ns_profiler_csv_header<sp/>to<sp/>the<sp/>PMU<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>name[50];</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>snprintf(ns_profiler_pmu_header,<sp/>2048,<sp/></highlight><highlight class="stringliteral">&quot;Event,Tag,uSeconds,EST_MAC,MAC_EQ,OUTPUT_MAG,OUTPUT_SHAPE,FILTER_SHAPE,STRIDE_H,STRIDE_W,DILATION_H,DILATION_W&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Event,\&quot;Tag\&quot;,\&quot;uSeconds\&quot;,\&quot;Est<sp/>MACs\&quot;,\&quot;MAC<sp/>Eq\&quot;,\&quot;Output<sp/>Mag\&quot;,\&quot;Output<sp/>Shape\&quot;,\&quot;Filter<sp/>Shape\&quot;,<sp/>\&quot;Stride<sp/>H\&quot;,<sp/>\&quot;Stride<sp/>W\&quot;,<sp/>\&quot;Dilation<sp/>H\&quot;,<sp/>\&quot;Dilation<sp/>W\&quot;&quot;);<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>map_index<sp/>=<sp/>0;<sp/>map_index<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>map_index++)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strcpy(name,<sp/>ns_pmu_map[map_index].regname);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snprintf(ns_profiler_pmu_header<sp/>+<sp/>strlen(ns_profiler_pmu_header),<sp/>2048<sp/>-<sp/>strlen(ns_profiler_pmu_header),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;,%s&quot;</highlight><highlight class="normal">,<sp/>name);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;,\&quot;%s\&quot;&quot;,<sp/>name);<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">uint32_t</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">ns_get_layer_counters(uint32_t<sp/>layer,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>num_layers,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>rv,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>*out_counters)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Find<sp/>if<sp/>a<sp/>CALL_ONCE<sp/>layer<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>call_once_layer<sp/>=<sp/>find_call_once_layer(num_layers);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;[INFO]<sp/>NS_GET_LAYER_COUNTERS:<sp/>CALL_ONCE<sp/>%d,<sp/>layer<sp/>%d<sp/>num_layers<sp/>%d,<sp/>rv<sp/>%d\n&quot;,<sp/>call_once_layer,<sp/>layer,<sp/>num_layers,<sp/>rv);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>If<sp/>found,<sp/>figure<sp/>out<sp/>if<sp/>the<sp/>requested<sp/>layer<sp/>is<sp/>in<sp/>the<sp/>skip<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>The<sp/>skip<sp/>region<sp/>is:<sp/>call_once_layer<sp/>&lt;<sp/>layer<sp/>&lt;=<sp/>(call_once_layer<sp/>+<sp/>rv*2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>as<sp/>per<sp/>the<sp/>snippet<sp/>logic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_once_layer<sp/>!=<sp/>-1<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(layer<sp/>&gt;<sp/>(uint32_t)call_once_layer)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(layer<sp/>&lt;=<sp/>(uint32_t)(call_once_layer<sp/>+<sp/>rv<sp/>*<sp/>2)))</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>Return<sp/>all<sp/>zeros<sp/>for<sp/>these<sp/>&quot;skipped&quot;<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>i++)</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out_counters[i]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Layer<sp/>%d<sp/>is<sp/>in<sp/>the<sp/>skip<sp/>region,<sp/>returning<sp/>zeros\n&quot;,<sp/>layer);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Otherwise,<sp/>proceed<sp/>with<sp/>the<sp/>&quot;source<sp/>layer&quot;<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>We<sp/>also<sp/>define<sp/>source_layer_count<sp/>=<sp/>num_layers<sp/>-<sp/>rv*2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>source_layer_count<sp/>=<sp/>num_layers<sp/>-<sp/>rv<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Determine<sp/>the<sp/>actual<sp/>&quot;source_layer&quot;<sp/>for<sp/>reading<sp/>PMU<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>(some<sp/>layers<sp/>are<sp/>offset<sp/>by<sp/>rv*2<sp/>if<sp/>after<sp/>the<sp/>skip<sp/>region)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>source_layer<sp/>=<sp/>layer;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_once_layer<sp/>!=<sp/>-1<sp/>&amp;&amp;<sp/>layer<sp/>&gt;<sp/>(uint32_t)(call_once_layer<sp/>+<sp/>rv<sp/>*<sp/>2))</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_layer<sp/>=<sp/>layer<sp/>-<sp/>rv<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Layer<sp/>%d,<sp/>source<sp/>layer<sp/>%d,<sp/>source<sp/>layer<sp/>count<sp/>%d\n&quot;,<sp/>layer,<sp/>source_layer,<sp/>source_layer_count);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5.<sp/>For<sp/>each<sp/>PMU<sp/>counter<sp/>index<sp/>(map_index),<sp/>compute<sp/>the<sp/>&quot;non-obvious&quot;<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>and<sp/>extract<sp/>the<sp/>PMU<sp/>counter<sp/>from<sp/>the<sp/>sidecar</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>map_index<sp/>=<sp/>0;<sp/>map_index<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>map_index++)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>index<sp/>formula<sp/>from<sp/>the<sp/>snippet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>index<sp/>=<sp/>(num_layers<sp/>+<sp/>source_layer)<sp/>+<sp/>source_layer_count<sp/>*<sp/>(map_index<sp/>/<sp/>4);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>retrieve<sp/>the<sp/>PMU<sp/>snapshot<sp/>(mocked<sp/>by<sp/>g_ns_microProfilerSidecar)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>counterValue<sp/>=<sp/>ns_microProfilerSidecar.pmu_snapshot[index].counterValue[map_index<sp/>%<sp/>4];</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;Layer<sp/>%d,<sp/>map_index<sp/>%d,<sp/>index<sp/>%d,<sp/>counterValue<sp/>%d\n&quot;,<sp/>layer,<sp/>map_index,<sp/>index,<sp/>counterValue);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out_counters[map_index]<sp/>=<sp/>counterValue;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">uint32_t<sp/>ns_parse_pmu_stats(uint32_t<sp/>num_layers,<sp/>uint32_t<sp/>rv)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>NS_MLPROFILE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>AM_PART_APOLLO5B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>name[50];</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>map_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_once_layer<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>source_layer<sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>The<sp/>source<sp/>of<sp/>the<sp/>PMU<sp/>data<sp/>starts<sp/>from<sp/>the<sp/>second<sp/>run,<sp/>so<sp/>we<sp/>need<sp/>to<sp/>offset<sp/>the<sp/>layer<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>it<sp/>increments<sp/>by<sp/>(num_layers-28)<sp/>for<sp/>each<sp/>pmu<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>uint32_t<sp/>rv<sp/>=<sp/>model.rv_count;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>source_layer_count<sp/>=<sp/>num_layers<sp/>-<sp/>rv*2;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Once<sp/>PMU<sp/>data<sp/>is<sp/>collected<sp/>using<sp/>ns_characterize_model,<sp/>parse<sp/>it<sp/>and<sp/>print<sp/>it<sp/>out<sp/>in<sp/>CSV<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adjust<sp/>for<sp/>CALL_ONCE<sp/>layers.<sp/>The<sp/>heuristic<sp/>is<sp/>this<sp/>(IMPORTANT:<sp/>not<sp/>widely<sp/>tested):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>a<sp/>CALL_ONCE<sp/>layer<sp/>is<sp/>present:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>All<sp/>layers<sp/>before<sp/>it<sp/>are<sp/>run<sp/>normally,<sp/>as<sp/>is<sp/>the<sp/>CALL_ONCE<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>RV*2<sp/>layers<sp/>are<sp/>skipped<sp/>(RV<sp/>-<sp/>number<sp/>of<sp/>resource<sp/>variables)<sp/>on<sp/>subsequent<sp/>runs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>number<sp/>of<sp/>layers<sp/>captured<sp/>per<sp/>run<sp/>is<sp/>num_layers<sp/>minus<sp/>RV*2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>layer<sp/>tags<sp/>for<sp/>the<sp/>CALL_ONCE<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint32_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_layers;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strcmp(ns_profiler_events_stats[i].tag,<sp/></highlight><highlight class="stringliteral">&quot;CALL_ONCE&quot;</highlight><highlight class="normal">)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_once_layer<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_once_layer<sp/>!=<sp/>-1)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;CALL_ONCE<sp/>layer<sp/>found<sp/>at<sp/>layer<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>call_once_layer);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;Number<sp/>of<sp/>layers:<sp/>%d,<sp/>RV:<sp/>%d,<sp/>Source<sp/>layer<sp/>count:<sp/>%d\n&quot;</highlight><highlight class="normal">,<sp/>num_layers,<sp/>rv,<sp/>source_layer_count);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_delay_us(10000);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>with<sp/>the<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;\&quot;Event\&quot;,\&quot;Tag\&quot;,\&quot;uSeconds\&quot;,\&quot;Est<sp/>MACs\&quot;,\&quot;MAC<sp/>Eq\&quot;,\&quot;Output<sp/>Mag\&quot;,\&quot;Output<sp/>Shape\&quot;,\&quot;Filter<sp/>Shape\&quot;,<sp/>\&quot;Stride<sp/>H\&quot;,<sp/>\&quot;Stride<sp/>W\&quot;,<sp/>\&quot;Dilation<sp/>H\&quot;,<sp/>\&quot;Dilation<sp/>W\&quot;&quot;</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ns_delay_us(10000);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(map_index<sp/>=<sp/>0;<sp/>map_index<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>map_index++)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>strcpy(name,<sp/>ns_pmu_map[map_index].regname);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;,\&quot;%s\&quot;&quot;</highlight><highlight class="normal">,<sp/>name);<sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_delay_us(10000);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>the<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>print_layer<sp/>=<sp/>0;<sp/>print_layer<sp/>&lt;<sp/>num_layers;<sp/>print_layer++)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Print<sp/>event<sp/>number,<sp/>tag,<sp/>time,<sp/>and<sp/>estimated<sp/>MACs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;%d,<sp/>%s,<sp/>%d,<sp/>%d,<sp/>&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>print_layer,</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_profiler_events_stats[print_layer].tag,</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_profiler_events_stats[print_layer].elapsed_us,</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_profiler_events_stats[print_layer].estimated_macs</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;\&quot;%s\&quot;,<sp/>%d,<sp/>\&quot;%s\&quot;,<sp/>\&quot;%s\&quot;,<sp/>%d,<sp/>%d,<sp/>%d,<sp/>%d&quot;</highlight><highlight class="normal">,<sp/>ns_microProfilerSidecar.m-&gt;mac_compute_string[print_layer],</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.m-&gt;output_magnitudes[print_layer],<sp/>ns_microProfilerSidecar.m-&gt;output_shapes[print_layer],</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.m-&gt;filter_shapes[print_layer],<sp/>ns_microProfilerSidecar.m-&gt;stride_h[print_layer],</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.m-&gt;stride_w[print_layer],<sp/>ns_microProfilerSidecar.m-&gt;dilation_h[print_layer],</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ns_microProfilerSidecar.m-&gt;dilation_w[print_layer]);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Print<sp/>the<sp/>PMU<sp/>counters<sp/>if<sp/>not<sp/>the<sp/>call-once<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>((call_once_layer<sp/>!=<sp/>-1)<sp/>&amp;&amp;<sp/><sp/>(print_layer<sp/>&gt;<sp/>call_once_layer)<sp/>&amp;&amp;<sp/>(print_layer&lt;=(rv*2<sp/>+<sp/>call_once_layer)))<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>print<sp/>zeros<sp/>for<sp/>all<sp/>pmu<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(map_index<sp/>=<sp/>0;<sp/>map_index<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>map_index++)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;,<sp/>0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;,<sp/>no<sp/>pmu<sp/>values&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(map_index<sp/>=<sp/>0;<sp/>map_index<sp/>&lt;<sp/>NS_NUM_PMU_MAP_SIZE;<sp/>map_index++)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fetch<sp/>all<sp/>the<sp/>PMU<sp/>counters<sp/>for<sp/>event<sp/>i,<sp/>spread<sp/>out<sp/>in<sp/>the<sp/>ns_profiler_events_stats[index].pmu_delta.counterValue<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>index<sp/>is<sp/><sp/>num_layers<sp/>*<sp/>(4/map_index),<sp/>and<sp/>counterValue<sp/>index<sp/>is<sp/>map_index%4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_once_layer<sp/>==<sp/>-1)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_layer<sp/>=<sp/>print_layer;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(print_layer<sp/>&gt;<sp/>(rv*2<sp/>+<sp/>call_once_layer))<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_layer<sp/>=<sp/>print_layer<sp/>-<sp/>rv*2;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_layer<sp/>=<sp/>print_layer;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>index<sp/>=<sp/>(num_layers<sp/>+<sp/>source_layer)<sp/>+<sp/>source_layer_count<sp/>*<sp/>(map_index/4);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>counterValue<sp/>=<sp/>ns_microProfilerSidecar.pmu_snapshot[index].counterValue[map_index%4];</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;,<sp/>(%d,<sp/>%d,<sp/>%d,)%u&quot;,<sp/>index,<sp/>map_index,<sp/>source_layer,<sp/>counterValue);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;,<sp/>%u&quot;</highlight><highlight class="normal">,<sp/>counterValue);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>source_layer++;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_delay_us(10000);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="group__harness_1ga6ec08b083c76471764833f501d434297" kindref="member">ns_lp_printf</ref>(</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>extern<sp/>&quot;C&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>__cplusplus</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-harness/src/ns_debug_log.cc"/>
+  </compounddef>
+</doxygen>

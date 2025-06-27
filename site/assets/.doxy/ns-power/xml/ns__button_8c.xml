@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__button_8c" kind="file" language="C++">
+    <compoundname>ns_button.c</compoundname>
+    <includes local="yes">am_bsp.h</includes>
+    <includes local="yes">am_mcu_apollo.h</includes>
+    <includes local="yes">am_util.h</includes>
+    <includes local="yes">ns_core.h</includes>
+    <includes refid="ns__peripherals__button_8h" local="yes">ns_peripherals_button.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>ns_peripherals_button.h</label>
+        <link refid="ns__peripherals__button_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c</label>
+        <link refid="ns__button_8c"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="3">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="4">
+        <label>am_util.h</label>
+      </node>
+      <node id="5">
+        <label>ns_core.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="ns__button_8c_1a9d9d690be966d93a730a9c7b9d6aa4ec" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_button_V0_0_1</definition>
+        <argsstring></argsstring>
+        <name>ns_button_V0_0_1</name>
+        <initializer>= {.apiId = NS_BUTTON_API_ID, .version = NS_BUTTON_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="26" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__button_8c_1aad3d053176636dc0250c6ea000d81872" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_button_V1_0_0</definition>
+        <argsstring></argsstring>
+        <name>ns_button_V1_0_0</name>
+        <initializer>= {.apiId = NS_BUTTON_API_ID, .version = NS_BUTTON_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="28" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__button_8c_1a53190412c1ec136831b265ba1d92c93c" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_button_oldest_supported_version</definition>
+        <argsstring></argsstring>
+        <name>ns_button_oldest_supported_version</name>
+        <initializer>= {
+    .apiId = NS_BUTTON_API_ID, .version = NS_BUTTON_V0_0_1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="30" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__button_8c_1aad00032ae5c9956dfc1a6795c6fc8fc8" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t</type>
+        <definition>const ns_core_api_t ns_button_current_version</definition>
+        <argsstring></argsstring>
+        <name>ns_button_current_version</name>
+        <initializer>= {
+    .apiId = NS_BUTTON_API_ID, .version = NS_BUTTON_V1_0_0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="33" column="21" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__button_8c_1ad673d2019dad9880e59dbe25183a1ea7" prot="public" static="no" mutable="no">
+        <type>int volatile *</type>
+        <definition>int volatile* g_ns_peripheral_button0</definition>
+        <argsstring></argsstring>
+        <name>g_ns_peripheral_button0</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="36" column="14" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__button_8c_1ad25dc92825bcbd9b2a9b0bf618887753" prot="public" static="no" mutable="no">
+        <type>int volatile *</type>
+        <definition>int volatile* g_ns_peripheral_button1</definition>
+        <argsstring></argsstring>
+        <name>g_ns_peripheral_button1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="37" column="14" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="ns__button_8c_1afd657682cccd271c74e6093ef8ca610f" prot="public" static="no" mutable="no">
+        <type>int volatile *</type>
+        <definition>int volatile* g_ns_peripheral_joulescope_trigger</definition>
+        <argsstring></argsstring>
+        <name>g_ns_peripheral_joulescope_trigger</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="38" column="14" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__button_8c_1a234ac5cc96261765b30db936cbad216f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_button_0_handler</definition>
+        <argsstring>(void *pArg)</argsstring>
+        <name>ns_button_0_handler</name>
+        <param>
+          <type>void *</type>
+          <declname>pArg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="40" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__button_8c_1ad11880a33d5a071aeee682ae8b674d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_button_1_handler</definition>
+        <argsstring>(void *pArg)</argsstring>
+        <name>ns_button_1_handler</name>
+        <param>
+          <type>void *</type>
+          <declname>pArg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="41" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__button_8c_1afb035c82b22bb386d37e8e76f606a61e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_joulescope_trigger_handler</definition>
+        <argsstring>(void *pArg)</argsstring>
+        <name>ns_joulescope_trigger_handler</name>
+        <param>
+          <type>void *</type>
+          <declname>pArg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="42" column="6" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__button_8c_1a539c52a074af34615b314917f2f52ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_button_platform_init</definition>
+        <argsstring>(ns_button_config_t *cfg)</argsstring>
+        <name>ns_button_platform_init</name>
+        <param>
+          <type><ref refid="structns__button__config__t" kindref="compound">ns_button_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="44" column="17" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/ns_button.c" bodystart="54" bodyend="114" declfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" declline="44" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__button_8c_1a47ca0f4f5f0ff466cd113e4ca1900594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_peripheral_button_init</definition>
+        <argsstring>(ns_button_config_t *cfg)</argsstring>
+        <name>ns_peripheral_button_init</name>
+        <param>
+          <type><ref refid="structns__button__config__t" kindref="compound">ns_button_config_t</ref> *</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Initialize button monitoring per the configuration struct. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ns_button_config_t*</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>: button configuration struct</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>uint32_t </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" line="46" column="10" bodyfile="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c" bodystart="46" bodyend="63"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>${copyright}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>part<sp/>of<sp/>revision<sp/>${version}<sp/>of<sp/>the<sp/>AmbiqSuite<sp/>Development<sp/>Package.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//*****************************************************************************</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_bsp.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_mcu_apollo.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;am_util.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_core.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ns_peripherals_button.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_button_V0_0_1<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_BUTTON_API_ID,<sp/>.version<sp/>=<sp/>NS_BUTTON_V0_0_1};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_button_V1_0_0<sp/>=<sp/>{.apiId<sp/>=<sp/>NS_BUTTON_API_ID,<sp/>.version<sp/>=<sp/>NS_BUTTON_V1_0_0};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_button_oldest_supported_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_BUTTON_API_ID,<sp/>.version<sp/>=<sp/>NS_BUTTON_V0_0_1};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ns_core_api_t<sp/>ns_button_current_version<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>.apiId<sp/>=<sp/>NS_BUTTON_API_ID,<sp/>.version<sp/>=<sp/>NS_BUTTON_V1_0_0};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>*g_ns_peripheral_button0;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>*g_ns_peripheral_button1;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/>*g_ns_peripheral_joulescope_trigger;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_button_0_handler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pArg)<sp/>{<sp/>*g_ns_peripheral_button0<sp/>=<sp/>1;<sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_button_1_handler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pArg)<sp/>{<sp/>*g_ns_peripheral_button1<sp/>=<sp/>1;<sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_joulescope_trigger_handler(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*pArg)<sp/>{<sp/>*g_ns_peripheral_joulescope_trigger<sp/>=<sp/>1;<sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>uint32_t<sp/>ns_button_platform_init(<ref refid="structns__button__config__t" kindref="compound">ns_button_config_t</ref><sp/>*cfg);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">uint32_t<sp/>ns_peripheral_button_init(<ref refid="structns__button__config__t" kindref="compound">ns_button_config_t</ref><sp/>*cfg)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>ui32IntStatus<sp/>=<sp/>NS_STATUS_SUCCESS;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>NS_DISABLE_API_VALIDATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cfg<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_HANDLE;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ns_core_check_api(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg-&gt;<ref refid="structns__button__config__t_1a8dd124084c2a05678e378d70f161b706" kindref="member">api</ref>,<sp/>&amp;ns_button_oldest_supported_version,<sp/>&amp;ns_button_current_version))<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NS_STATUS_INVALID_VERSION;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ns_lp_printf(&quot;ns_peripheral_button_init\n&quot;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ui32IntStatus<sp/>=<sp/>ns_button_platform_init(cfg);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ui32IntStatus;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/ns_button.c"/>
+  </compounddef>
+</doxygen>

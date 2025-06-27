@@ -1,0 +1,5325 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs">
+      
+      
+      
+      
+        <link rel="prev" href="../ns-utils/index.html">
+      
+      
+        <link rel="next" href="../../ns-audio/files.html">
+      
+      
+      <link rel="icon" href="../../docs/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>NNSP - NeuralSPOT</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#neuralspot-nnsp-programmers-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="NeuralSPOT" class="md-header__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
+      
+  <img src="../../docs/images/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            NeuralSPOT
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NNSP
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Use system theme"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Use system theme" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to light theme"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light theme" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="indigo"  aria-label="Switch to dark theme"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to dark theme" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AmbiqAI/neuralSPOT
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="NeuralSPOT" class="md-nav__button md-logo" aria-label="NeuralSPOT" data-md-component="logo">
+      
+  <img src="../../docs/images/favicon.png" alt="logo">
+
+    </a>
+    NeuralSPOT
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AmbiqAI/neuralSPOT" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AmbiqAI/neuralSPOT
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/ai_at_ambiq.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI at Ambiq
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/Ambiq-ModelZoo.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ambiq Model Zoo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/Introduction-to-neuralSPOT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tutorial
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/makefile-details.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Build Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/features.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Developers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Developers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/Developing_with_NeuralSPOT.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Developing with NeuralSPOT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/developer_guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Developing for NeuralSPOT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/NeuralSPOT_Nests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nests
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tools
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Automatic Testing, profiling, and deploying
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/autodeploy.readme.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Autodeploy User Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/ns_ad_batch.readme.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Batched Autodeploy User Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tools Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Application Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Application Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/Application-Note-neuralSPOT-and-Windows.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    neuralSPOT on Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/NeuralSPOT_RPC_and_AutoDeploy_on_Linux.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    neuralSPOT on Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/optimizing_using_neuralspot.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optimizing Using NeuralSPOT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/release_notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Release Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/developer_notes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Developer Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/Deploying-EI-Models-using-neuralSPOT%20Nests.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Edge Impulse Support
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/basic_tf_stub/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kitchen Sink
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AI Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            AI Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/ai/kws/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keyword Spotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/ai/har/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Human Activity Recognition
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    SDK Exmaples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            SDK Exmaples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/icm/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ICM Inertial Sensor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/ai/kws/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Keyword Spotting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/rpc_evb_to_pc/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC EVB to PC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/rpc_pc_to_evb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC PC to EVB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/tflm_profiling/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    TFLM Profling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/pmu_profiling/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PMU Profiling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/quaternion/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quaternion Feature Extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/uart/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UART
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/demos/nnse/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BLE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/demos/nnse_usb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WebUSB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/examples/vision/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arducam
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Demos
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            Demos
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/demos/ic/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Image Classification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/demos/nnid/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speaker Identification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/demos/nnse/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BLE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/demos/nnse_usb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    WebUSB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Libraries
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Libraries
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-audio/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Audio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bluetooth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-i2c/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    i2c
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-spi/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SPI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-rpc/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-usb/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    USB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-ble/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bluetooth
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-imu/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IMU
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-features/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Feature Extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-peripherals/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-peripherals/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Power
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ns-utils/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    NNSP
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="index.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    NNSP
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#header-by-header-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Header-by-Header Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Header-by-Header Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-activationh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 activation.h
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 activation.h">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-affineh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 affine.h
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 affine.h">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-affine_acc32bh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 affine_acc32b.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-ambiq_nnsp_consth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 ambiq_nnsp_const.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-ambiq_nnsp_debugh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 ambiq_nnsp_debug.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-ambiq_stdinth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.6 ambiq_stdint.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-basic_mveh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.7 basic_mve.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-complexh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.8 complex.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-debug_filesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.9 debug_files.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-feature_moduleh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.10 feature_module.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#211-fft_armh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.11 fft_arm.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-ffth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.12 fft.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-fixlog10h" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.13 fixlog10.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#214-iirh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.14 iir.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#215-lstmh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.15 lstm.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#216-melspecproch" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.16 melSpecProc.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#217-minmaxh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.17 minmax.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#218-neural_netsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.18 neural_nets.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#219-nn_speechh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.19 nn_speech.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#220-nnid_classh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.20 nnid_class.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#221-nnsp_identificationh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.21 nnsp_identification.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-s2i_consth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.22 s2i_const.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-spectrogram_moduleh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.23 spectrogram_module.h
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-example-putting-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Example: Putting It All Together
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Code Documentation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Code Documentation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_1" id="__nav_10_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Audio
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_1">
+            <span class="md-nav__icon md-icon"></span>
+            Audio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-audio/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-audio/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-audio/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-audio/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-audio/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bluetooth
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            Bluetooth
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-ble/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-ble/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-ble/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-ble/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-ble/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Remote Procedure Call
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3">
+            <span class="md-nav__icon md-icon"></span>
+            Remote Procedure Call
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-rpc/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-rpc/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-rpc/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-rpc/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-rpc/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_4" id="__nav_10_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    i2c
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_4">
+            <span class="md-nav__icon md-icon"></span>
+            i2c
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-i2c/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-i2c/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-i2c/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-i2c/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-i2c/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_5" id="__nav_10_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    spi
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_5">
+            <span class="md-nav__icon md-icon"></span>
+            spi
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-spi/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-spi/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-spi/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-spi/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-spi/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_6" id="__nav_10_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Utilities
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_6">
+            <span class="md-nav__icon md-icon"></span>
+            Utilities
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-utils/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-utils/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-utils/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-utils/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-utils/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_7" id="__nav_10_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Power and power
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_7">
+            <span class="md-nav__icon md-icon"></span>
+            Power and power
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-power/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-power/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-power/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-power/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-power/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_8" id="__nav_10_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Core
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_8">
+            <span class="md-nav__icon md-icon"></span>
+            Core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-core/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-core/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-core/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-core/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-core/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_9" id="__nav_10_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AmbiqSuite Harness
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_9">
+            <span class="md-nav__icon md-icon"></span>
+            AmbiqSuite Harness
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-harness/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-harness/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-harness/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-harness/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-harness/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_10" id="__nav_10_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Model Wrapper
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_10">
+            <span class="md-nav__icon md-icon"></span>
+            Model Wrapper
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-model/files.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-model/modules.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-model/functions.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-model/annotated.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Structs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ns-model/variables.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/blog/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Blog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/blog/archive/2023.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2023
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_3" id="__nav_11_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/blog/category/examples.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/blog/category/general.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    General
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/blog/category/integration.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/blog/category/new-features.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    New Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#header-by-header-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Header-by-Header Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Header-by-Header Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-activationh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 activation.h
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 activation.h">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-affineh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 affine.h
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 affine.h">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-affine_acc32bh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 affine_acc32b.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-ambiq_nnsp_consth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 ambiq_nnsp_const.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-ambiq_nnsp_debugh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 ambiq_nnsp_debug.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-ambiq_stdinth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.6 ambiq_stdint.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-basic_mveh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.7 basic_mve.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-complexh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.8 complex.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-debug_filesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.9 debug_files.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-feature_moduleh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.10 feature_module.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#211-fft_armh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.11 fft_arm.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212-ffth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.12 fft.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#213-fixlog10h" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.13 fixlog10.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#214-iirh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.14 iir.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#215-lstmh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.15 lstm.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#216-melspecproch" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.16 melSpecProc.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#217-minmaxh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.17 minmax.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#218-neural_netsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.18 neural_nets.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#219-nn_speechh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.19 nn_speech.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#220-nnid_classh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.20 nnid_class.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#221-nnsp_identificationh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.21 nnsp_identification.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222-s2i_consth" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.22 s2i_const.h
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-spectrogram_moduleh" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.23 spectrogram_module.h
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-example-putting-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Example: Putting It All Together
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="neuralspot-nnsp-programmers-guide"><strong>NeuralSpot NNSP: Programmer’s Guide</strong></h1>
+<p>This guide provides an overview of the <strong>NeuralSpot NNSP</strong> (Neural Network Speech Processing) library’s API for fixed-point neural-network, audio, and speech-processing functions. It focuses on the public headers found under <code>ns-nnsp/includes-api/</code>. Each header provides a well-defined set of C/C++ functions, data structures, and constants to facilitate signal processing, neural network inference, speech feature extraction, and more, on resource-constrained devices.</p>
+<hr />
+<h2 id="table-of-contents"><strong>Table of Contents</strong></h2>
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#header-by-header-reference">Header-by-Header Reference</a><br />
+   2.1 <a href="#activationh">activation.h</a><br />
+   2.2 <a href="#affineh">affine.h</a><br />
+   2.3 <a href="#affine_acc32bh">affine_acc32b.h</a><br />
+   2.4 <a href="#ambiq_nnsp_consth">ambiq_nnsp_const.h</a><br />
+   2.5 <a href="#ambiq_nnsp_debugh">ambiq_nnsp_debug.h</a><br />
+   2.6 <a href="#ambiq_stdinth">ambiq_stdint.h</a><br />
+   2.7 <a href="#basic_mveh">basic_mve.h</a><br />
+   2.8 <a href="#complexh">complex.h</a><br />
+   2.9 <a href="#debug_filesh">debug_files.h</a><br />
+   2.10 <a href="#feature_moduleh">feature_module.h</a><br />
+   2.11 <a href="#fft_armh">fft_arm.h</a><br />
+   2.12 <a href="#ffth">fft.h</a><br />
+   2.13 <a href="#fixlog10h">fixlog10.h</a><br />
+   2.14 <a href="#iirh">iir.h</a><br />
+   2.15 <a href="#lstmh">lstm.h</a><br />
+   2.16 <a href="#melspecproch">melSpecProc.h</a><br />
+   2.17 <a href="#minmaxh">minmax.h</a><br />
+   2.18 <a href="#neural_netsh">neural_nets.h</a><br />
+   2.19 <a href="#nn_speechh">nn_speech.h</a><br />
+   2.20 <a href="#nnid_classh">nnid_class.h</a><br />
+   2.21 <a href="#nnsp_identificationh">nnsp_identification.h</a><br />
+   2.22 <a href="#s2i_consth">s2i_const.h</a><br />
+   2.23 <a href="#spectrogram_moduleh">spectrogram_module.h</a>  </li>
+<li><a href="#example-putting-it-all-together">Example: Putting It All Together</a></li>
+</ol>
+<hr />
+<h2 id="overview"><strong>Overview</strong></h2>
+<p>The <strong>NNSP</strong> library provides:</p>
+<ul>
+<li><strong>Fixed-point Activation Functions</strong> (ReLU6, Tanh, Sigmoid, Linear).</li>
+<li><strong>Affine (Fully-Connected) Layers</strong> with different accumulators (32-bit or 64-bit).</li>
+<li><strong>LSTM</strong> routines optimized for fixed-point arithmetic.</li>
+<li><strong>STFT/Spectrogram</strong> routines, including windowing functions and FFT-based transforms.</li>
+<li><strong>Mel Spectrogram</strong> computations.</li>
+<li><strong>Feature extraction</strong> modules for audio signals (e.g., log-mel spectrogram).</li>
+<li><strong>IIR Filtering</strong> utilities.</li>
+<li><strong>Debug &amp; Logging</strong> functionalities.</li>
+<li><strong>NeuralNet</strong> and <strong>NNSPClass</strong> structures for building speech-related pipelines (e.g., KWS, VAD, S2I, SE).</li>
+</ul>
+<p>You can build and link these APIs into your embedded or desktop application to implement fixed-point deep learning tasks, speech feature extraction, or classical signal-processing pipelines.</p>
+<hr />
+<h2 id="header-by-header-reference"><strong>Header-by-Header Reference</strong></h2>
+<h3 id="21-activationh">2.1 <a name="activationh"></a> <strong><code>activation.h</code></strong></h3>
+<p><strong>Location</strong>: <code>ns-nnsp/includes-api/activation.h</code><br />
+<strong>Purpose</strong>: Provides fixed-point activation functions.</p>
+<h4 id="functions"><strong>Functions</strong></h4>
+<ol>
+<li><code>c
+   void *relu6_fix(int16_t *y, int32_t *x, int len);</code></li>
+<li><strong>Description</strong>: Applies the ReLU6 activation elementwise.<br />
+     [
+       \text{ReLU6}(x) = \min(\max(x, 0), 6).
+     ]
+     Internally, values are in Q-format (see code for specific shifts).</li>
+<li><strong>Parameters</strong>:  <ul>
+<li><code>y</code>: Output array (int16_t).  </li>
+<li><code>x</code>: Input array (int32_t).  </li>
+<li><code>len</code>: Number of elements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: A pointer to the end of the output array (<code>y + len</code>).</p>
+</li>
+<li>
+<p><code>c
+   void *linear_fix(int32_t *y, int32_t *x, int len);</code></p>
+</li>
+<li><strong>Description</strong>: Elementwise “linear” activation. Basically copies <code>x</code> into <code>y</code>.</li>
+<li><strong>Parameters</strong>:  <ul>
+<li><code>y</code>: Output array (int32_t).  </li>
+<li><code>x</code>: Input array (int32_t).  </li>
+<li><code>len</code>: Number of elements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: A pointer to <code>(y + len)</code>.</p>
+</li>
+<li>
+<p><code>c
+   void *tanh_fix(int16_t *y, int32_t *x, int len);</code></p>
+</li>
+<li><strong>Description</strong>: Fixed-point (\tanh) function.</li>
+<li><strong>Parameters</strong>:  <ul>
+<li><code>y</code>: Output array (int16_t).  </li>
+<li><code>x</code>: Input array (int32_t).  </li>
+<li><code>len</code>: Number of elements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: Pointer to <code>(y + len)</code>.</p>
+</li>
+<li>
+<p><code>c
+   void *sigmoid_fix(int16_t *y, int32_t *x, int len);</code></p>
+</li>
+<li><strong>Description</strong>: Fixed-point (\sigma(x)) function using (\tanh(x/2)). </li>
+<li><strong>Parameters</strong>:  <ul>
+<li><code>y</code>: Output array (int16_t).  </li>
+<li><code>x</code>: Input array (int32_t).  </li>
+<li><code>len</code>: Number of elements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: Pointer to <code>(y + len)</code>.</p>
+</li>
+<li>
+<p><code>c
+   typedef enum { relu6, ftanh, sigmoid, linear } ACTIVATION_TYPE;</code></p>
+</li>
+<li><strong>Description</strong>: An enum for identifying these activations.</li>
+</ol>
+<h4 id="usage-example"><strong>Usage Example</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;activation.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">input</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">-5000</span><span class="p">,</span><span class="w"> </span><span class="mi">32000</span><span class="p">,</span><span class="w"> </span><span class="mi">8000</span><span class="p">,</span><span class="w"> </span><span class="mi">60000</span><span class="p">};</span><span class="w"> </span><span class="c1">// Q15-like</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">output</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// Apply ReLU6</span>
+<span class="w">    </span><span class="n">relu6_fix</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;ReLU6 out[%d] = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="22-affineh">2.2 <a name="affineh"></a> <strong><code>affine.h</code></strong></h3>
+<p><strong>Location</strong>: <code>ns-nnsp/includes-api/affine.h</code><br />
+<strong>Purpose</strong>: Implements matrix-vector multiplication with 64-bit accumulators for neural network layers (e.g., fully-connected, RNN-like).</p>
+<h4 id="functions_1"><strong>Functions</strong></h4>
+<ol>
+<li><code>c
+   int affine_Krows_8x16(
+       int16_t dim_output,
+       int16_t **pp_output,
+       int8_t **pp_kernel,
+       int16_t **pp_bias,
+       int16_t *input,
+       int16_t dim_input,
+       int16_t qbit_kernel,
+       int16_t qbit_bias,
+       int16_t qbit_input,
+       int64_t *pt_accum,
+       int8_t is_out,
+       void *(*act)(void *, int32_t *, int));</code></li>
+<li><strong>Description</strong>: Core function to multiply a (dim_output x dim_input) 8-bit weight matrix by a 16-bit input vector, accumulate in 64-bit, optionally add bias, and apply an activation function.  </li>
+<li><strong>Parameters</strong>:  <ul>
+<li><code>dim_output</code>: Number of output neurons (rows).  </li>
+<li><code>pp_output</code>: Pointer to a pointer of the output array.  </li>
+<li><code>pp_kernel</code>: Pointer to pointer of the weight matrix in 8-bit format.  </li>
+<li><code>pp_bias</code>: Pointer to pointer of the bias vector in 16-bit format (optional).  </li>
+<li><code>input</code>: 16-bit input vector.  </li>
+<li><code>dim_input</code>: Length of <code>input</code>.  </li>
+<li><code>qbit_kernel</code>, <code>qbit_bias</code>, <code>qbit_input</code>: Q-format shifts for kernel, bias, and input, used for fixed-point scaling.  </li>
+<li><code>pt_accum</code>: Array used for partial accumulators.  </li>
+<li><code>is_out</code>: If nonzero, apply the activation function and finalize the output.  </li>
+<li><code>act</code>: Activation function callback (e.g., <code>relu6_fix</code>).  </li>
+</ul>
+</li>
+<li>
+<p><strong>Returns</strong>: <code>0</code> on success.</p>
+</li>
+<li>
+<p><code>c
+   int rc_Krows_8x16(...);
+   int fc_8x16(...);
+   int rc_8x16(...);
+   void shift_64b(int64_t *x, int8_t shift, int len);</code></p>
+</li>
+<li><strong><code>rc_Krows_8x16</code></strong>: Similar to <code>affine_Krows_8x16</code>, but for recurrent connections (input + recurrent input).  </li>
+<li><strong><code>fc_8x16</code></strong>: Simplified “fully-connected” interface.  </li>
+<li><strong><code>rc_8x16</code></strong>: Recurrent version (no 64-bit accum, it calls <code>rc_Krows_8x16</code>).  </li>
+<li><strong><code>shift_64b</code></strong>: Utility to shift a 64-bit array by a fixed amount.</li>
+</ol>
+<h4 id="usage-example_1"><strong>Usage Example</strong></h4>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;affine.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;activation.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="c1">// Activation callback</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">my_relu</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">accum</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">out16</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accum</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// saturate to 16-bit</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">32767</span><span class="p">)</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32767</span><span class="p">;</span>
+<span class="w">        </span><span class="n">out16</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">val</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">out16</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">300</span><span class="p">,</span><span class="w"> </span><span class="mi">400</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">kernel_data</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="cm">/* 4x4 weights in row-major 8-bit*/</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">bias</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">output</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">p_out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">output</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="o">*</span><span class="n">p_kernel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel_data</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">p_bias</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bias</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">accum</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">    </span><span class="c1">// Example usage of a single 4x4 fully-connected</span>
+<span class="w">    </span><span class="n">affine_Krows_8x16</span><span class="p">(</span>
+<span class="w">       </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="o">&amp;</span><span class="n">p_out</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p_kernel</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p_bias</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span>
+<span class="w">       </span><span class="cm">/*qbit_kernel=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_bias=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_input=*/</span><span class="mi">8</span><span class="p">,</span>
+<span class="w">       </span><span class="n">accum</span><span class="p">,</span><span class="w"> </span><span class="cm">/*is_out=*/</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">my_relu</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// output now has the activation result</span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Output[%d] = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="23-affine_acc32bh">2.3 <a name="affine_acc32bh"></a> <strong><code>affine_acc32b.h</code></strong></h3>
+<p><strong>Location</strong>: <code>ns-nnsp/includes-api/affine_acc32b.h</code><br />
+<strong>Purpose</strong>: Similar to <strong>affine.h</strong> but uses <strong>32-bit</strong> accumulators (less memory usage, but risk of overflow).</p>
+<p><strong>Main Functions</strong>:
+- <code>affine_Krows_8x16_acc32b</code>
+- <code>rc_Krows_8x16_acc32b</code>
+- <code>fc_8x16_acc32b</code>
+- <code>rc_8x16_acc32b</code>
+- <code>shift_32b</code></p>
+<p>All usage patterns are analogous to those in <a href="#affineh"><code>affine.h</code></a>. The difference is the internal accumulator size (32-bit vs. 64-bit).</p>
+<hr />
+<h3 id="24-ambiq_nnsp_consth">2.4 <a name="ambiq_nnsp_consth"></a> <strong><code>ambiq_nnsp_const.h</code></strong></h3>
+<p><strong>Purpose</strong>: Defines constants used throughout the library, particularly for audio feature extraction.</p>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#define LEN_FFT_NNSP 512</span>
+<span class="cp">#define LEN_STFT_WIN_COEFF 480</span>
+<span class="cp">#define LEN_STFT_HOP 160</span>
+<span class="cp">#define NUM_MELBANKS 40</span>
+<span class="cp">#define NUM_FEATURE_CONTEXT 6</span>
+<span class="cp">#define MAX_SIZE_FEATURE 80</span>
+<span class="cp">#define DIMEMSION_FEATURE NUM_MELBANKS</span>
+<span class="cp">#define SAMPLING_RATE 16000</span>
+</code></pre></div>
+These are typical audio settings (e.g., 16 kHz sampling).</p>
+<p><strong>Usage</strong>: Simply <code>#include "ambiq_nnsp_const.h"</code> and use the constants directly.</p>
+<hr />
+<h3 id="25-ambiq_nnsp_debugh">2.5 <a name="ambiq_nnsp_debugh"></a> <strong><code>ambiq_nnsp_debug.h</code></strong></h3>
+<p><strong>Purpose</strong>: Debugging macros that control levels of optimization and logging.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#define AMBIQ_NNSP_DEBUG 0</span>
+<span class="cm">/*</span>
+<span class="cm"> ARM_OPTIMIZED:</span>
+<span class="cm">   0: no optimization</span>
+<span class="cm">   1: fully optimization</span>
+<span class="cm">   2: verify to optimization</span>
+<span class="cm">   3: optimization on Helium (MVE for M55)</span>
+<span class="cm">*/</span>
+<span class="cp">#define ARM_OPTIMIZED 3</span>
+<span class="cp">#define ARM_FFT 1</span>
+<span class="cp">#define DEBUG_NNID 0</span>
+</code></pre></div>
+<p><strong>Usage</strong>:<br />
+- Edit <code>AMBIQ_NNSP_DEBUG</code> or <code>ARM_OPTIMIZED</code> if you want to toggle debug prints or use MVE optimization. Typically, you recompile after changing these macros.</p>
+<hr />
+<h3 id="26-ambiq_stdinth">2.6 <a name="ambiq_stdinth"></a> <strong><code>ambiq_stdint.h</code></strong></h3>
+<p>Contains redefinitions and macros for fixed-width integer constraints:
+<div class="highlight"><pre><span></span><code><span class="cp">#define MAX_INT32_T ((int32_t)0x7fffffff)</span>
+<span class="cp">#define MIN_INT32_T ((int32_t)0x80000000)</span>
+<span class="cp">#define MAX_INT16_T ((int16_t)0x7fff)</span>
+<span class="cp">#define MIN_INT16_T ((int16_t)0x8000)</span>
+<span class="cp">#define ONE_N32_Q15 ((int32_t)32768)</span>
+</code></pre></div>
+<strong>Usage</strong>:<br />
+- For saturating arithmetic or easy reference to max/min.<br />
+- <code>ONE_N32_Q15</code> is <code>1.0</code> in Q15.</p>
+<hr />
+<h3 id="27-basic_mveh">2.7 <a name="basic_mveh"></a> <strong><code>basic_mve.h</code></strong></h3>
+<p><strong>Purpose</strong>: Contains Helium MVE-optimized vector operations (for ARM Cortex-M55).</p>
+<p><strong>Functions</strong>:
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">vec16_vec16_mul_32b</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">move_data_16b</span><span class="p">(</span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">set_zero_32b</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">dst</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="kt">int64_t</span><span class="w"> </span><span class="nf">interproduct_32x16</span><span class="p">(</span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">in32</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">in16</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+</code></pre></div>
+- <strong>vec16_vec16_mul_32b</strong>: Elementwise multiply two 16-bit vectors into a 32-bit result array.<br />
+- <strong>move_data_16b</strong>: Vector copy with MVE acceleration.<br />
+- <strong>set_zero_32b</strong>: Sets a 32-bit array to zero with MVE.<br />
+- <strong>interproduct_32x16</strong>: Dot product of a 32-bit vector with a 16-bit vector, returning 64-bit.</p>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;basic_mve.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">x1</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">x2</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">out</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="w">    </span><span class="n">vec16_vec16_mul_32b</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// out[i] = x1[i]*x2[i]</span>
+
+<span class="w">    </span><span class="kt">int64_t</span><span class="w"> </span><span class="n">dot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interproduct_32x16</span><span class="p">(</span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="28-complexh">2.8 <a name="complexh"></a> <strong><code>complex.h</code></strong></h3>
+<p><strong>Purpose</strong>: Supports 16/32-bit complex data types and basic operations.</p>
+<p><strong>Data Structures</strong>:
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">real</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">imag</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">COMPLEX32</span><span class="p">;</span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">real</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">imag</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">COMPLEX16</span><span class="p">;</span>
+</code></pre></div></p>
+<p><strong>Key Functions</strong>:
+- <code>complex32_copy</code>, <code>complex32_add</code>, <code>complex32_sub</code>, <code>complex32_mul</code>, etc.
+- <code>complex32_interprod</code>: Dot product of two COMPLEX32 arrays.
+- <code>complex32_complex16_elmtprod</code>: Elementwise multiply a COMPLEX32 array by a COMPLEX16 array.</p>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;complex.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="n">COMPLEX32</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">2000</span><span class="p">};</span>
+<span class="w">    </span><span class="n">COMPLEX32</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="mi">-1000</span><span class="p">};</span>
+<span class="w">    </span><span class="n">COMPLEX32</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">complex32_mul</span><span class="p">(</span><span class="o">&amp;</span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;out = (%d, %d)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">real</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="n">imag</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="29-debug_filesh">2.9 <a name="debug_filesh"></a> <strong><code>debug_files.h</code></strong></h3>
+<p><strong>Purpose</strong>: If <code>AMBIQ_NNSP_DEBUG == 1</code>, provides file pointers and functions to open/close debug logs.</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">extern</span><span class="w"> </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">file_spec_c</span><span class="p">;</span>
+<span class="k">extern</span><span class="w"> </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">file_pspec_c</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kt">void</span><span class="w"> </span><span class="n">open_debug_files</span><span class="p">();</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">close_debug_files</span><span class="p">();</span>
+</code></pre></div>
+<strong>Usage</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#if AMBIQ_NNSP_DEBUG == 1</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;debug_files.h&quot;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">open_debug_files</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// Debug logging ...</span>
+<span class="w">    </span><span class="n">close_debug_files</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="cp">#endif</span>
+</code></pre></div></p>
+<hr />
+<h3 id="210-feature_moduleh">2.10 <a name="feature_moduleh"></a> <strong><code>feature_module.h</code></strong></h3>
+<p><strong>Purpose</strong>: Offers a <strong>FeatureClass</strong> for STFT-based feature extraction (e.g., Mel-spectrogram + normalization).</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">stftModule</span><span class="w"> </span><span class="n">state_stftModule</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">feature</span><span class="p">[</span><span class="n">MAX_SIZE_FEATURE</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">num_mfltrBank</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">p_melBanks</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">normFeatContext</span><span class="p">[</span><span class="n">NUM_FEATURE_CONTEXT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">MAX_SIZE_FEATURE</span><span class="p">];</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_norm_mean</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_norm_stdR</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span><span class="w"> </span><span class="n">FeatureClass</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">FeatureClass_construct</span><span class="p">(...);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">FeatureClass_setDefault</span><span class="p">(...);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">FeatureClass_execute</span><span class="p">(...);</span>
+</code></pre></div>
+<p><strong>High-Level Flow</strong>:
+1. <code>FeatureClass_construct(...)</code>: Initialize the STFT module, melbank pointer, normalization arrays, etc.<br />
+2. <code>FeatureClass_setDefault(...)</code>: Clears internal buffers.<br />
+3. <code>FeatureClass_execute(...)</code>: Takes raw PCM, runs STFT, mel-scaling, log10, normalization, and updates <code>normFeatContext</code>.</p>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;feature_module.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ambiq_nnsp_const.h&quot;</span><span class="c1"> // for constants</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="n">FeatureClass</span><span class="w"> </span><span class="n">feat</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Suppose we have precomputed norm arrays</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">norm_mean</span><span class="p">[</span><span class="n">NUM_MELBANKS</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">norm_std</span><span class="p">[</span><span class="n">NUM_MELBANKS</span><span class="p">]</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">PARAMS_NNSP</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">num_mfltrBank</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">winsize_stft</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">480</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">hopsize_stft</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">fftsize</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span>
+<span class="w">        </span><span class="p">.</span><span class="n">pt_stft_win_coeff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stft_win_coeff_w480_h160</span><span class="w"> </span><span class="c1">// from library</span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="n">FeatureClass_construct</span><span class="p">(</span><span class="o">&amp;</span><span class="n">feat</span><span class="p">,</span><span class="w"> </span><span class="n">norm_mean</span><span class="p">,</span><span class="w"> </span><span class="n">norm_std</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_output=*/</span><span class="mi">8</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">params</span><span class="p">.</span><span class="n">num_mfltrBank</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">winsize_stft</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">params</span><span class="p">.</span><span class="n">hopsize_stft</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">fftsize</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">params</span><span class="p">.</span><span class="n">pt_stft_win_coeff</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">FeatureClass_setDefault</span><span class="p">(</span><span class="o">&amp;</span><span class="n">feat</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// For each 160-sample frame:</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">audio_frame</span><span class="p">[</span><span class="mi">160</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// Fill audio_frame with PCM data...</span>
+<span class="w">    </span><span class="n">FeatureClass_execute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">feat</span><span class="p">,</span><span class="w"> </span><span class="n">audio_frame</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// The result is in feat.normFeatContext, </span>
+<span class="w">    </span><span class="c1">// or feat.feature for the latest frame</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="211-fft_armh">2.11 <a name="fft_armh"></a> <strong><code>fft_arm.h</code></strong></h3>
+<p><strong>Purpose</strong>: Wraps CMSIS DSP RFFT functionalities for Q31 usage.</p>
+<p><strong>Functions</strong>:
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">arm_fft_init</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">p_fft_st_t</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">is_ifft</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">fftsize</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">arm_fft_exec</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">p_fft_st_t</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">);</span>
+</code></pre></div></p>
+<ul>
+<li><strong>arm_fft_init</strong>: Initialize an <code>arm_rfft_instance_q31</code> struct for forward or inverse FFT.  </li>
+<li><strong>arm_fft_exec</strong>: Execute the RFFT on <code>x</code> -&gt; <code>y</code>.</li>
+</ul>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fft_arm.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;arm_math.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="n">arm_rfft_instance_q31</span><span class="w"> </span><span class="n">rfft</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">fft_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span>
+<span class="w">    </span><span class="n">arm_fft_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rfft</span><span class="p">,</span><span class="w"> </span><span class="cm">/*is_ifft=*/</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">fft_size</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Suppose x[] is your real input in Q30</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">512</span><span class="p">],</span><span class="w"> </span><span class="n">y</span><span class="p">[</span><span class="mi">512</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// fill x[] ...</span>
+<span class="w">    </span><span class="n">arm_fft_exec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rfft</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// y[] now holds the complex frequency bins in a Q31 format</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="212-ffth">2.12 <a name="ffth"></a> <strong><code>fft.h</code></strong></h3>
+<p><strong>Purpose</strong>: Simple fixed-point FFT/RFFT functions if <code>ARM_FFT==0</code>.<br />
+- <code>fft(int exp_nfft, void *input, void *output)</code>
+- <code>rfft(int num_rfft, int32_t *input, void *output)</code></p>
+<p><strong>Usage</strong>: For builds without ARM CMSIS DSP support, you can use these implementations.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fft.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">256</span><span class="o">*</span><span class="mi">2</span><span class="p">];</span><span class="w"> </span><span class="c1">// real/imag interleaved?</span>
+<span class="w">    </span><span class="c1">// fill input ...</span>
+<span class="w">    </span><span class="n">COMPLEX32</span><span class="w"> </span><span class="n">output</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>
+<span class="w">    </span><span class="n">fft</span><span class="p">(</span><span class="cm">/*exp_nfft=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">output</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="213-fixlog10h">2.13 <a name="fixlog10h"></a> <strong><code>fixlog10.h</code></strong></h3>
+<p><strong>Purpose</strong>: Fixed-point log10 approximations.<br />
+- <code>void norm_oneTwo(int32_t x, int32_t *y, int8_t *shift);</code>
+- <code>void my_log10(int32_t *out, int32_t x);</code>
+- <code>void log10_vec(int32_t *out, int32_t *x, int32_t len, int16_t bit_frac_in);</code></p>
+<p><strong>Usage</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fixlog10.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">32768</span><span class="p">;</span><span class="w"> </span><span class="c1">// Q15 &#39;1.0&#39;</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="n">my_log10</span><span class="p">(</span><span class="o">&amp;</span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;log10(1.0) = %ld (Q15-based)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="214-iirh">2.14 <a name="iirh"></a> <strong><code>iir.h</code></strong></h3>
+<p><strong>Purpose</strong>: A simple IIR filter class with a single pole/zero.</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="c1">// feedback coefficient</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="c1">// feedforward coefficient</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">IIR_CLASS</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">IIR_CLASS_init</span><span class="p">(</span><span class="n">IIR_CLASS</span><span class="w"> </span><span class="o">*</span><span class="n">inst</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">IIR_CLASS_reset</span><span class="p">(</span><span class="n">IIR_CLASS</span><span class="w"> </span><span class="o">*</span><span class="n">inst</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">IIR_CLASS_exec</span><span class="p">(</span><span class="n">IIR_CLASS</span><span class="w"> </span><span class="o">*</span><span class="n">inst</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">outputs</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">inputs</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+</code></pre></div>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;iir.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span>
+<span class="w">    </span><span class="n">IIR_CLASS</span><span class="w"> </span><span class="n">iir</span><span class="p">;</span>
+<span class="w">    </span><span class="n">IIR_CLASS_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iir</span><span class="p">);</span>
+<span class="w">    </span><span class="n">iir</span><span class="p">.</span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-31630</span><span class="p">;</span><span class="w"> </span><span class="c1">// your design</span>
+<span class="w">    </span><span class="n">iir</span><span class="p">.</span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-32768</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// filter 100 samples</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">in</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span><span class="w"> </span><span class="n">out</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// fill in[] ...</span>
+<span class="w">    </span><span class="n">IIR_CLASS_exec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">iir</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="215-lstmh">2.15 <a name="lstmh"></a> <strong><code>lstm.h</code></strong></h3>
+<p><strong>Purpose</strong>: LSTM cell functions with fixed-point arithmetic. 8-bit weights, 16-bit states.</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">lstm_8x16</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">lstm_8x16_acc32b</span><span class="p">(...);</span>
+</code></pre></div>
+<p><strong>Usage</strong>:
+1. Provide input vector (<code>int16_t *input</code>), hidden-state vector (<code>int16_t *h_state</code>), cell-state vector (<code>int32_t *c_state</code>), weights/bias.
+2. The function updates <code>h_state</code> and <code>c_state</code> for the next step, outputs the new hidden-state in <code>p_output</code>.</p>
+<p><strong>Basic Example</strong> (pseudocode):
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;lstm.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;activation.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// Suppose we have an LSTM with dim_input=10, dim_output=8</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">h_state</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">c_state</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">kernel</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">10</span><span class="o">*</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="n">kernel_rec</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">*</span><span class="mi">4</span><span class="p">];</span><span class="w"> </span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">bias</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">4</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// ... fill weights</span>
+
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">output</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="w">    </span><span class="n">lstm_8x16</span><span class="p">(</span>
+<span class="w">      </span><span class="n">output</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="n">kernel</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_rec</span><span class="p">,</span><span class="w"> </span><span class="n">bias</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">h_state</span><span class="p">,</span><span class="w"> </span><span class="n">c_state</span><span class="p">,</span>
+<span class="w">      </span><span class="cm">/*dim_output=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="cm">/*dim_input=*/</span><span class="mi">10</span><span class="p">,</span>
+<span class="w">      </span><span class="cm">/*dim_input_rec=*/</span><span class="mi">8</span><span class="p">,</span>
+<span class="w">      </span><span class="cm">/*qbit_kernel=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_bias=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_input=*/</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_input_rec=*/</span><span class="mi">8</span><span class="p">,</span>
+<span class="w">      </span><span class="n">ftanh</span><span class="p">,</span><span class="w"> </span><span class="c1">// activation for gates</span>
+<span class="w">      </span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">))</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tanh_fix</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// output and h_state[] are updated</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="216-melspecproch">2.16 <a name="melspecproch"></a> <strong><code>melSpecProc.h</code></strong></h3>
+<p><strong>Purpose</strong>: Convert a power spectrum into a Mel-scaled spectrogram.</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">melSpecProc</span><span class="p">(</span>
+<span class="w">   </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">specs</span><span class="p">,</span><span class="w">    </span><span class="c1">// input power spectrum</span>
+<span class="w">   </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">melSpecs</span><span class="p">,</span><span class="w"> </span><span class="c1">// output mel-spectral array</span>
+<span class="w">   </span><span class="k">const</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">p_melBanks</span><span class="p">,</span>
+<span class="w">   </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">num_mfltrBank</span><span class="p">);</span>
+</code></pre></div>
+<p><strong>Usage</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;melSpecProc.h&quot;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">specs</span><span class="p">[</span><span class="mi">257</span><span class="p">];</span><span class="w"> </span><span class="c1">// e.g. 512-point FFT =&gt; half +1</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">mel</span><span class="p">[</span><span class="mi">40</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// fill specs ...</span>
+<span class="w">    </span><span class="n">melSpecProc</span><span class="p">(</span><span class="n">specs</span><span class="p">,</span><span class="w"> </span><span class="n">mel</span><span class="p">,</span><span class="w"> </span><span class="n">mfltrBank_coeff_nfilt40_fftsize512</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// mel[] now has mel-spectral energies</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="217-minmaxh">2.17 <a name="minmaxh"></a> <strong><code>minmax.h</code></strong></h3>
+<p>Defines macros:
+<div class="highlight"><pre><span></span><code><span class="cp">#ifndef MAX</span>
+<span class="cp">#define MAX(x, y) (((x) &gt; (y)) ? (x) : (y))</span>
+<span class="cp">#define MIN(x, y) (((x) &lt; (y)) ? (x) : (y))</span>
+<span class="cp">#endif</span>
+</code></pre></div>
+<strong>Usage</strong>: Basic min/max macros used throughout the library.</p>
+<hr />
+<h3 id="218-neural_netsh">2.18 <a name="neural_netsh"></a> <strong><code>neural_nets.h</code></strong></h3>
+<p><strong>Purpose</strong>: Definition of a higher-level <code>NeuralNetClass</code> structure to orchestrate multi-layer (FC, LSTM, etc.) networks.</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">fc</span><span class="p">,</span><span class="w"> </span><span class="n">lstm</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">NET_LAYER_TYPE</span><span class="p">;</span>
+
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">numlayers</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">size_layer</span><span class="p">[</span><span class="mi">11</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NET_LAYER_TYPE</span><span class="w"> </span><span class="n">net_layer_type</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">qbit_kernel</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">qbit_input</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">qbit_bias</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="n">ACTIVATION_TYPE</span><span class="w"> </span><span class="n">activation_type</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_cstate</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_hstate</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">act_func</span><span class="p">[</span><span class="mi">10</span><span class="p">])(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">layer_func</span><span class="p">[</span><span class="mi">10</span><span class="p">])();</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_kernel</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_bias</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_kernel_rec</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="p">}</span><span class="w"> </span><span class="n">NeuralNetClass</span><span class="p">;</span>
+</code></pre></div>
+<strong>Functions</strong>:
+- <code>NeuralNetClass_init(...)</code>
+- <code>NeuralNetClass_setDefault(...)</code>
+- <code>NeuralNetClass_exe(...)</code></p>
+<p><strong>Usage</strong>:
+1. Populate <code>size_layer[i]</code>, layer types, pointers to weights, etc.
+2. Call <code>NeuralNetClass_exe(...)</code> to run the forward pass on the input vector.</p>
+<hr />
+<h3 id="219-nn_speechh">2.19 <a name="nn_speechh"></a> <strong><code>nn_speech.h</code></strong></h3>
+<p><strong>Purpose</strong>: High-level “speech pipeline” structure, <code>NNSPClass</code>, combining feature extraction + neural net + post-processing (KWS, VAD, S2I, etc.).</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">nn_id</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pt_net</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pt_feat</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int8_t</span><span class="w"> </span><span class="n">slides</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">trigger</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_thresh_prob</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">counts_category</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_th_count_trigger</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">outputs</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">PARAMS_NNSP</span><span class="w"> </span><span class="o">*</span><span class="n">pt_params</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">NNSPClass</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">NNSPClass_init</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">NNSPClass_reset</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">NNSPClass_exec</span><span class="p">(</span><span class="n">NNSPClass</span><span class="w"> </span><span class="o">*</span><span class="n">pt_inst</span><span class="p">,</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">rawPCM</span><span class="p">);</span>
+<span class="p">...</span>
+</code></pre></div>
+<p><strong>Usage</strong>:
+1. Construct + initialize your feature class + network + thresholds.<br />
+2. Call <code>NNSPClass_exec(...)</code> each new audio frame.<br />
+3. Check <code>pt_inst-&gt;trigger</code> or <code>pt_inst-&gt;outputs[]</code> for classification results.</p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nn_speech.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="n">NNSPClass</span><span class="w"> </span><span class="n">speech</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Suppose we have an existing neural net instance (NeuralNetClass),</span>
+<span class="w">    </span><span class="c1">// and a FeatureClass instance, plus thresholds.</span>
+<span class="w">    </span><span class="c1">// You set them up, then do:</span>
+<span class="w">    </span><span class="n">NNSPClass_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">speech</span><span class="p">,</span><span class="w"> </span><span class="n">net</span><span class="p">,</span><span class="w"> </span><span class="n">feat</span><span class="p">,</span><span class="w"> </span><span class="cm">/*nn_id=*/</span><span class="n">kws_galaxy_id</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+
+<span class="w">    </span><span class="c1">// Provide raw PCM each iteration:</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">audio_buf</span><span class="p">[</span><span class="mi">160</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// fill audio_buf ...</span>
+<span class="w">    </span><span class="n">NNSPClass_exec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">speech</span><span class="p">,</span><span class="w"> </span><span class="n">audio_buf</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">speech</span><span class="p">.</span><span class="n">trigger</span><span class="p">){</span>
+<span class="w">       </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Detected event!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="220-nnid_classh">2.20 <a name="nnid_classh"></a> <strong><code>nnid_class.h</code></strong></h3>
+<p><strong>Purpose</strong>: Provides a structure and functions for “NN-based ID” (speaker ID / embeddings).</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_embd</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">dim_embd</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">is_get_corr</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">thresh_get_corr</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">total_enroll_ppls</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">thresh_trigger</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">corr</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+<span class="p">}</span><span class="w"> </span><span class="n">NNID_CLASS</span><span class="p">;</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">nnidClass_get_cos</span><span class="p">(</span>
+<span class="w">   </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_nn_est</span><span class="p">,</span>
+<span class="w">   </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">pt_embds</span><span class="p">,</span>
+<span class="w">   </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">len_embd</span><span class="p">,</span>
+<span class="w">   </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">ppls</span><span class="p">,</span>
+<span class="w">   </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">corr</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">nnidClass_reset_states</span><span class="p">(</span><span class="n">NNID_CLASS</span><span class="w"> </span><span class="o">*</span><span class="n">pt_nnid</span><span class="p">);</span>
+</code></pre></div>
+<p><strong>Usage</strong>:<br />
+- Typically part of a pipeline for speaker identification.<br />
+- <code>nnidClass_get_cos(...)</code> computes the cosine similarity of <code>pt_nn_est</code> embedding with a set of reference embeddings.</p>
+<hr />
+<h3 id="221-nnsp_identificationh">2.21 <a name="nnsp_identificationh"></a> <strong><code>nnsp_identification.h</code></strong></h3>
+<p>Defines an enum for known tasks:
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="n">s2i_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">   </span><span class="n">vad_id</span><span class="p">,</span>
+<span class="w">   </span><span class="n">kws_galaxy_id</span><span class="p">,</span>
+<span class="w">   </span><span class="n">se_id</span><span class="p">,</span>
+<span class="w">   </span><span class="n">nnid_id</span><span class="p">,</span>
+<span class="w">   </span><span class="n">num_NNSP_IDS</span>
+<span class="p">}</span><span class="w"> </span><span class="n">NNSP_ID</span><span class="p">;</span>
+</code></pre></div></p>
+<p><strong>Usage</strong>: For identifying the type of speech neural net or pipeline (S2I, VAD, KWS, etc.).</p>
+<hr />
+<h3 id="222-s2i_consth">2.22 <a name="s2i_consth"></a> <strong><code>s2i_const.h</code></strong></h3>
+<p><div class="highlight"><pre><span></span><code><span class="cp">#define DIM_INTENTS 7</span>
+<span class="cp">#define DIM_SLOTS 17</span>
+</code></pre></div>
+Used in an S2I (speech-to-intent) model.</p>
+<hr />
+<h3 id="223-spectrogram_moduleh">2.23 <a name="spectrogram_moduleh"></a> <strong><code>spectrogram_module.h</code></strong></h3>
+<p><strong>Purpose</strong>: STFT-based spectrogram generation using overlap-and-add.</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">len_win</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">hop</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">len_fft</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">dataBuffer</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">odataBuffer</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="o">*</span><span class="n">window</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="o">*</span><span class="n">spec</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">stftModule</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">stftModule_construct</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">stftModule_setDefault</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">stftModule_analyze</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">stftModule_analyze_arm</span><span class="p">(...);</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">stftModule_synthesize_arm</span><span class="p">(...);</span>
+</code></pre></div>
+<p><strong>Example</strong> (for ARM FFT):
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;spectrogram_module.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fft_arm.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="n">stftModule</span><span class="w"> </span><span class="n">stft</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Construct for a 480-sample window, 160 hop, 512-FFT</span>
+<span class="w">    </span><span class="n">stftModule_construct</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stft</span><span class="p">,</span><span class="w"> </span><span class="mi">480</span><span class="p">,</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span><span class="w"> </span><span class="n">stft_win_coeff_w480_h160</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">stftModule_setDefault</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stft</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Each 160-sample input:</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">audio_frame</span><span class="p">[</span><span class="mi">160</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">spec</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span>
+<span class="w">    </span><span class="n">stftModule_analyze_arm</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">stft</span><span class="p">,</span><span class="w"> </span><span class="n">audio_frame</span><span class="p">,</span><span class="w"> </span><span class="n">spec</span><span class="p">,</span><span class="w"> </span><span class="n">stft</span><span class="p">.</span><span class="n">len_fft</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// spec now has the frequency bins</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h2 id="3-example-putting-it-all-together"><strong>3. Example: Putting It All Together</strong></h2>
+<p>Below is a conceptual example that ties together <strong>feature extraction</strong>, <strong>neural net</strong> inference, and the <strong>NNSPClass</strong> pipeline for a keyword spotting scenario:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;nn_speech.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;feature_module.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;neural_nets.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;activation.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;affine.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;lstm.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="c1">// 1) Allocate and fill your NeuralNetClass with layer info</span>
+<span class="k">static</span><span class="w"> </span><span class="n">NeuralNetClass</span><span class="w"> </span><span class="n">g_net</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">cstate_layer0</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span><span class="w"> </span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">hstate_layer0</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
+<span class="c1">// Similarly for other layers if needed</span>
+<span class="c1">// ... Fill weights, biases in global arrays</span>
+
+<span class="c1">// 2) Feature extraction</span>
+<span class="k">static</span><span class="w"> </span><span class="n">FeatureClass</span><span class="w"> </span><span class="n">g_feat</span><span class="p">;</span>
+<span class="c1">// Provide norm arrays, melbanks, etc</span>
+
+<span class="c1">// 3) NNSP container</span>
+<span class="k">static</span><span class="w"> </span><span class="n">NNSPClass</span><span class="w"> </span><span class="n">g_ns</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<span class="w">    </span><span class="c1">// Setup stft parameters</span>
+<span class="w">    </span><span class="n">PARAMS_NNSP</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">       </span><span class="p">.</span><span class="n">samplingRate</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">16000</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">fftsize</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">winsize_stft</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">480</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">hopsize_stft</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">160</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">num_mfltrBank</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">pt_stft_win_coeff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stft_win_coeff_w480_h160</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">is_dcrm</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">       </span><span class="p">.</span><span class="n">pre_gain_q1</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">       </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="c1">// (A) Initialize FeatureClass</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">norm_mean</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">norm_stdR</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">FeatureClass_construct</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_feat</span><span class="p">,</span><span class="w"> </span><span class="n">norm_mean</span><span class="p">,</span><span class="w"> </span><span class="n">norm_stdR</span><span class="p">,</span><span class="w"> </span><span class="cm">/*qbit_output=*/</span><span class="mi">8</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">params</span><span class="p">.</span><span class="n">num_mfltrBank</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">winsize_stft</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">params</span><span class="p">.</span><span class="n">hopsize_stft</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">fftsize</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                           </span><span class="n">params</span><span class="p">.</span><span class="n">pt_stft_win_coeff</span><span class="p">);</span>
+<span class="w">    </span><span class="n">FeatureClass_setDefault</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_feat</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// (B) Initialize NeuralNetClass</span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">numlayers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">size_layer</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">240</span><span class="p">;</span><span class="w"> </span><span class="c1">// e.g. 40 * 6 context frames</span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">size_layer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">64</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">size_layer</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">  </span><span class="c1">// Binary classifier</span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">net_layer_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fc</span><span class="p">;</span><span class="w">  </span><span class="c1">// layer 0</span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">net_layer_type</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fc</span><span class="p">;</span><span class="w">  </span><span class="c1">// layer 1</span>
+<span class="w">    </span><span class="c1">// fill qbit_kernel[], qbit_bias[], act_func[], etc</span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">pt_cstate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cstate_layer0</span><span class="p">;</span><span class="w"> </span><span class="c1">// or NULL for FC</span>
+<span class="w">    </span><span class="n">g_net</span><span class="p">.</span><span class="n">pt_hstate</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hstate_layer0</span><span class="p">;</span><span class="w"> </span><span class="c1">// or NULL for FC</span>
+<span class="w">    </span><span class="c1">// fill kernel arrays g_net.pt_kernel[0], biases, etc</span>
+<span class="w">    </span><span class="n">NeuralNetClass_setDefault</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_net</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// (C) NNSPClass: combine feature + net</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">thresh_prob</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16384</span><span class="p">;</span><span class="w"> </span><span class="c1">// 0.5 in Q15</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">th_count_trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">NNSPClass_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_ns</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">g_net</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">g_feat</span><span class="p">,</span><span class="w"> </span><span class="n">kws_galaxy_id</span><span class="p">,</span>
+<span class="w">                   </span><span class="n">norm_mean</span><span class="p">,</span><span class="w"> </span><span class="n">norm_stdR</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                   </span><span class="o">&amp;</span><span class="n">thresh_prob</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">th_count_trigger</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">params</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// (D) Repeatedly process audio</span>
+<span class="w">    </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">audio_frame</span><span class="p">[</span><span class="mi">160</span><span class="p">];</span>
+<span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="w"> </span><span class="n">getMicrophoneFrame</span><span class="p">(</span><span class="n">audio_frame</span><span class="p">,</span><span class="w"> </span><span class="mi">160</span><span class="p">)</span><span class="w"> </span><span class="p">){</span>
+<span class="w">        </span><span class="c1">// Run pipeline</span>
+<span class="w">        </span><span class="kt">int16_t</span><span class="w"> </span><span class="n">trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NNSPClass_exec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_ns</span><span class="p">,</span><span class="w"> </span><span class="n">audio_frame</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">trigger</span><span class="p">){</span>
+<span class="w">           </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;KWS triggered!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This completes a high-level example. In practice, you must carefully set your weight arrays, Q-format shifts, and handle partial/rolling classification logic.</p>
+<hr />
+<p><strong>Enjoy developing with NeuralSpot NNSP!</strong><br />
+This guide covered each API from <code>includes-api/</code> with usage hints and minimal code snippets. For more detailed examples, consult the library’s tests/demos and the reference source files in <code>ns-nnsp/src/</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2023-2025 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

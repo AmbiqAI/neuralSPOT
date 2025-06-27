@@ -1,0 +1,118 @@
+# Default ROOTDIR
+ROOTDIR ?= $(shell pwd)
+
+include $(ROOTDIR)/make/helpers.mk
+include $(ROOTDIR)/make/neuralspot_config.mk
+include $(ROOTDIR)/make/local_overrides.mk
+include $(ROOTDIR)/make/neuralspot_toolchain.mk
+include $(ROOTDIR)/make/jlink.mk
+
+build := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
+libname := NS_AD_NAME_${BOARD}_${EVB}_${TOOLCHAIN}.a
+includes_api :=
+pp_defines   := $(DEFINES)
+
+libraries := lib/$(libname)
+includes_api += lib
+includes_api += src/CMSIS/ARM/Include
+includes_api += src/CMSIS/AmbiqMicro/Include
+
+# include $(ROOTDIR)/extern/tensorflow/$(TF_VERSION)/module.mk
+include lib/tensorflow/module.mk
+libraries += $(lib_prebuilt)
+
+objects := $(build)/NS_AD_NAME_model.o
+objects += $(build)/NS_AD_NAME_example.o
+ifeq ($(ARCH),apollo5)
+objects += $(build)/system_$(BOARD).o
+endif
+
+ifeq ($(TOOLCHAIN),arm)
+objects += $(build)/ns-core/$(BOARD)/armclang/startup_keil6.o
+else
+objects += $(build)/ns-core/$(BOARD)/gcc/startup_gcc.o
+endif
+
+CFLAGS     += $(addprefix -D,$(pp_defines))
+CFLAGS     += $(addprefix -I ,$(includes_api))
+
+# Arm Flags
+ifeq ($(ARCH),apollo5)
+ARMLINKER_FLAGS += --cpu=Cortex-M55 --output_float_abi=hard --fpu=FPv5_D16 
+ARMLINKER_FLAGS+= --strict --scatter "src/ns-core/$(BOARD)/armclang/linker_script_$(BOOTLOADER).sct" --undefined=__scatterload_copy
+else
+ARMLINKER_FLAGS+= --cpu=Cortex-M4.fp.sp --output_float_abi=hard --fpu=FPv4-SP
+ARMLINKER_FLAGS+= --strict --scatter "src/ns-core/$(BOARD)/armclang/linker_script.sct" --undefined=__scatterload_copy
+endif
+ARMLINKER_FLAGS+= --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+ARMLINKER_FLAGS+= --info sizes --info totals --info unused --info veneers --debug
+
+
+# GCC Flags
+ifeq ($(ARCH),apollo5)
+GCC_LINKER_FILE := src/ns-core/$(BOARD)/gcc/linker_script_$(BOOTLOADER).ld
+GCC_CPU    = cortex-m55
+else
+GCC_LINKER_FILE := src/ns-core/$(BOARD)/gcc/linker_script.ld
+GCC_FPU_FLAG = -mfpu=fpv4-sp-d16
+GCC_CPU    = cortex-m4
+endif
+
+GCCLINKER_FLAGS = -mthumb -mcpu=$(GCC_CPU) $(GCC_FPU_FLAG) -mfloat-abi=$(FABI)
+GCCLINKER_FLAGS+= -nostartfiles -static -fno-exceptions
+GCCLINKER_FLAGS+= -Wl,--gc-sections,--entry,Reset_Handler,-Map,$(BINDIR)/output.map
+GCCLINKER_FLAGS+= -Wl,--start-group -lm -lc -lgcc -lnosys -Wl,--no-whole-archive $(libraries) -lstdc++ -Wl,--end-group
+
+all: $(build) $(build)/NS_AD_NAME_example.bin $(build)/NS_AD_NAME_example.axf
+
+$(build):
+	$(Q) $(MKD) -p $@
+
+lib/$(libname): $(build)/NS_AD_NAME_model.o
+	@echo " Archiving $< to make $@"
+	$(Q) $(AR) $(ARFLAGS) $@ $^
+
+$(build)/%.o: src/%.c
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CONLY_FLAGS) $< -o $@
+
+$(build)/%.o: src/%.cc
+	@echo " Compiling $(COMPILERNAME) $< to make $@"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(CFLAGS) $(CCFLAGS) $< -o $@
+
+$(build)/%.o: %.s
+	@echo " Assembling $(COMPILERNAME) $<"
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CC) -c $(ASMFLAGS) $< -o $@
+
+$(build)/%.axf: $(objects) $(libraries)
+	@echo " Linking $(COMPILERNAME) $@"
+	$(Q) $(MKD) -p $(@D)
+
+ifeq ($(TOOLCHAIN),arm)
+	$(Q) $(LD) $^ $(ARMLINKER_FLAGS) --list=$*.map -o $@
+else
+	$(Q) $(CC) -Wl,-T,$(GCC_LINKER_FILE) -o $@ $(objects) $(GCCLINKER_FLAGS)
+endif
+
+
+ifeq ($(TOOLCHAIN),arm)
+$(build)/%.bin: $(build)/%.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $@ $<
+	$(Q) $(OD) $(ODFLAGS) $< --output $*.txt
+else
+$(build)/%.bin: $(build)/%.axf
+	@echo " Copying $(COMPILERNAME) $@..."
+	$(Q) $(MKD) -p $(@D)
+	$(Q) $(CP) $(CPFLAGS) $< $@
+	$(Q) $(OD) $(ODFLAGS) $< > $*.lst
+endif
+
+.PHONY: clean
+clean:
+	$(Q) $(RM) -rf $(build)
+	$(Q) $(RM) -f lib/$(libname)

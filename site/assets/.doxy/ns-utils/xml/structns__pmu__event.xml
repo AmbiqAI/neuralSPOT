@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__pmu__event" kind="struct" language="C++" prot="public">
+    <compoundname>ns_pmu_event</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__pmu__event_1a4374eb30e0ddb790a0b086cc54c190fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_pmu_event::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>ns_pmu_event::enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="40" column="10" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__event_1a8ff6bdd80e74659e5fe75df34dce7911" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_pmu_event::eventId</definition>
+        <argsstring></argsstring>
+        <name>eventId</name>
+        <qualifiedname>ns_pmu_event::eventId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="41" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pmu__event_1a010a947b18b85a5c3cdc8b6e69057691" prot="public" static="no" mutable="no">
+        <type>ns_pmu_event_counter_size_e</type>
+        <definition>ns_pmu_event_counter_size_e ns_pmu_event::counterSize</definition>
+        <argsstring></argsstring>
+        <name>counterSize</name>
+        <qualifiedname>ns_pmu_event::counterSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="42" column="33" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" line="39" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_pmu_utils.h" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structns__pmu__event_1a010a947b18b85a5c3cdc8b6e69057691" prot="public" virt="non-virtual"><scope>ns_pmu_event</scope><name>counterSize</name></member>
+      <member refid="structns__pmu__event_1a4374eb30e0ddb790a0b086cc54c190fc" prot="public" virt="non-virtual"><scope>ns_pmu_event</scope><name>enabled</name></member>
+      <member refid="structns__pmu__event_1a8ff6bdd80e74659e5fe75df34dce7911" prot="public" virt="non-virtual"><scope>ns_pmu_event</scope><name>eventId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

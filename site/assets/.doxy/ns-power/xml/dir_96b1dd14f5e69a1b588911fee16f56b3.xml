@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="dir_96b1dd14f5e69a1b588911fee16f56b3" kind="dir">
+    <compoundname>neuralSPOT/neuralspot/ns-peripherals/src/apollo3</compoundname>
+    <innerfile refid="apollo3_2ns__button_8c">ns_button.c</innerfile>
+    <innerfile refid="apollo3_2ns__power_8c">ns_power.c</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-peripherals/src/apollo3/"/>
+  </compounddef>
+</doxygen>

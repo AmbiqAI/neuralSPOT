@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__camera__cfg" kind="struct" language="C++" prot="public">
+    <compoundname>ns_camera_cfg</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__camera__cfg_1a16ff1ac0ee53538ca0d94914e402b658" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_camera_cfg::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_camera_cfg::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="66" column="25" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1abccd806f3d100be7c7f40025b85f7e2c" prot="public" static="no" mutable="no">
+        <type>int8_t</type>
+        <definition>int8_t ns_camera_cfg::iom</definition>
+        <argsstring></argsstring>
+        <name>iom</name>
+        <qualifiedname>ns_camera_cfg::iom</qualifiedname>
+        <briefdescription>
+<para>Apollo4 IOM port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="67" column="12" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1ad617301a8e37a57655da4bfb576aa933" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_camera_cfg::spiSpeed</definition>
+        <argsstring></argsstring>
+        <name>spiSpeed</name>
+        <qualifiedname>ns_camera_cfg::spiSpeed</qualifiedname>
+        <briefdescription>
+<para>= CAM_SPI_SPEED; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="68" column="14" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1ab10e14c9f100c698df158f66e79562ef" prot="public" static="no" mutable="no">
+        <type>ns_camera_hw_e</type>
+        <definition>ns_camera_hw_e ns_camera_cfg::cameraHw</definition>
+        <argsstring></argsstring>
+        <name>cameraHw</name>
+        <qualifiedname>ns_camera_cfg::cameraHw</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="69" column="20" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1a1a1704bf328e8479b1a17c7531b000c5" prot="public" static="no" mutable="no">
+        <type>ns_image_mode_e</type>
+        <definition>ns_image_mode_e ns_camera_cfg::imageMode</definition>
+        <argsstring></argsstring>
+        <name>imageMode</name>
+        <qualifiedname>ns_camera_cfg::imageMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="70" column="21" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1a4c201b3f82306fe2f1538c810d0a7b3e" prot="public" static="no" mutable="no">
+        <type>ns_image_pix_fmt_e</type>
+        <definition>ns_image_pix_fmt_e ns_camera_cfg::imagePixFmt</definition>
+        <argsstring></argsstring>
+        <name>imagePixFmt</name>
+        <qualifiedname>ns_camera_cfg::imagePixFmt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="71" column="24" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1aab3c961f402308c8cfb5c8164cb19960" prot="public" static="no" mutable="no">
+        <type>ns_spi_config_t</type>
+        <definition>ns_spi_config_t ns_camera_cfg::spiConfig</definition>
+        <argsstring></argsstring>
+        <name>spiConfig</name>
+        <qualifiedname>ns_camera_cfg::spiConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="72" column="21" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1ac2d7d3b08caaa834b44cc3694d8a0ff3" prot="public" static="no" mutable="no">
+        <type>ns_camera_dma_cb</type>
+        <definition>ns_camera_dma_cb ns_camera_cfg::dmaCompleteCb</definition>
+        <argsstring></argsstring>
+        <name>dmaCompleteCb</name>
+        <qualifiedname>ns_camera_cfg::dmaCompleteCb</qualifiedname>
+        <briefdescription>
+<para>If using DMA, this will be called when DMA chunk is complete. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="74" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1a3ea9dc68df44ac8b3c0fc08dd4a067c3" prot="public" static="no" mutable="no">
+        <type>ns_camera_picture_cb</type>
+        <definition>ns_camera_picture_cb ns_camera_cfg::pictureTakenCb</definition>
+        <argsstring></argsstring>
+        <name>pictureTakenCb</name>
+        <qualifiedname>ns_camera_cfg::pictureTakenCb</qualifiedname>
+        <briefdescription>
+<para>If using polling timer, this will be called when pic is ready to xfer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="76" column="9" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1a8aeffd69820ca69e0fe6730611cd9786" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_camera_cfg::dmaBufferOffset</definition>
+        <argsstring></argsstring>
+        <name>dmaBufferOffset</name>
+        <qualifiedname>ns_camera_cfg::dmaBufferOffset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="79" column="14" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__camera__cfg_1a27f15aa0fec875429c7d666fb4ff910a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_camera_cfg::dmaBufferLength</definition>
+        <argsstring></argsstring>
+        <name>dmaBufferLength</name>
+        <qualifiedname>ns_camera_cfg::dmaBufferLength</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="80" column="14" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ns_camera_cfg</label>
+        <link refid="structns__camera__cfg"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>dmaCompleteCb</edgelabel>
+          <edgelabel>pictureTakenCb</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" line="65" column="1" bodyfile="neuralSPOT/neuralspot/ns-camera/includes-api/ns_camera.h" bodystart="65" bodyend="82"/>
+    <listofallmembers>
+      <member refid="structns__camera__cfg_1a16ff1ac0ee53538ca0d94914e402b658" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>api</name></member>
+      <member refid="structns__camera__cfg_1ab10e14c9f100c698df158f66e79562ef" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>cameraHw</name></member>
+      <member refid="structns__camera__cfg_1a27f15aa0fec875429c7d666fb4ff910a" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>dmaBufferLength</name></member>
+      <member refid="structns__camera__cfg_1a8aeffd69820ca69e0fe6730611cd9786" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>dmaBufferOffset</name></member>
+      <member refid="structns__camera__cfg_1ac2d7d3b08caaa834b44cc3694d8a0ff3" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>dmaCompleteCb</name></member>
+      <member refid="structns__camera__cfg_1a1a1704bf328e8479b1a17c7531b000c5" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>imageMode</name></member>
+      <member refid="structns__camera__cfg_1a4c201b3f82306fe2f1538c810d0a7b3e" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>imagePixFmt</name></member>
+      <member refid="structns__camera__cfg_1abccd806f3d100be7c7f40025b85f7e2c" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>iom</name></member>
+      <member refid="structns__camera__cfg_1a3ea9dc68df44ac8b3c0fc08dd4a067c3" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>pictureTakenCb</name></member>
+      <member refid="structns__camera__cfg_1aab3c961f402308c8cfb5c8164cb19960" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>spiConfig</name></member>
+      <member refid="structns__camera__cfg_1ad617301a8e37a57655da4bfb576aa933" prot="public" virt="non-virtual"><scope>ns_camera_cfg</scope><name>spiSpeed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

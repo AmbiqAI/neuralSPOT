@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__perf__mac__count__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_perf_mac_count_t</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_perf_mac_count_t::number_of_layers</definition>
+        <argsstring></argsstring>
+        <name>number_of_layers</name>
+        <qualifiedname>ns_perf_mac_count_t::number_of_layers</qualifiedname>
+        <briefdescription>
+<para>Number of layers for which we have mac estimates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="62" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1abbc7e2a9f75edebeb142b0e7e0e8acf2" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::mac_count_map</definition>
+        <argsstring></argsstring>
+        <name>mac_count_map</name>
+        <qualifiedname>ns_perf_mac_count_t::mac_count_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="63" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1ad24567f5aa88a3febdc6db8b6024243f" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::output_magnitudes</definition>
+        <argsstring></argsstring>
+        <name>output_magnitudes</name>
+        <qualifiedname>ns_perf_mac_count_t::output_magnitudes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="64" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a438502a365dd10a1ba1af8a8885b0011" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::stride_h</definition>
+        <argsstring></argsstring>
+        <name>stride_h</name>
+        <qualifiedname>ns_perf_mac_count_t::stride_h</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="65" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a96d25e20e746d6b274b9b87496fb0b45" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::stride_w</definition>
+        <argsstring></argsstring>
+        <name>stride_w</name>
+        <qualifiedname>ns_perf_mac_count_t::stride_w</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="66" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a0f5093f77f57df9423e0fb54b73b01fc" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::dilation_h</definition>
+        <argsstring></argsstring>
+        <name>dilation_h</name>
+        <qualifiedname>ns_perf_mac_count_t::dilation_h</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="67" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a8606836266488715128419a52f3b8ab4" prot="public" static="no" mutable="no">
+        <type>uint32_t *</type>
+        <definition>uint32_t* ns_perf_mac_count_t::dilation_w</definition>
+        <argsstring></argsstring>
+        <name>dilation_w</name>
+        <qualifiedname>ns_perf_mac_count_t::dilation_w</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="68" column="14" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a9359f6f8575705dbef581c1f667026b8" prot="public" static="no" mutable="no">
+        <type>const char **</type>
+        <definition>const char** ns_perf_mac_count_t::mac_compute_string</definition>
+        <argsstring></argsstring>
+        <name>mac_compute_string</name>
+        <qualifiedname>ns_perf_mac_count_t::mac_compute_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="71" column="16" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a7864902deb729c6c1a85be01ca83f375" prot="public" static="no" mutable="no">
+        <type>const char **</type>
+        <definition>const char** ns_perf_mac_count_t::output_shapes</definition>
+        <argsstring></argsstring>
+        <name>output_shapes</name>
+        <qualifiedname>ns_perf_mac_count_t::output_shapes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="72" column="16" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__perf__mac__count__t_1a2f068444bfa88edd03076c92a4fdac2e" prot="public" static="no" mutable="no">
+        <type>const char **</type>
+        <definition>const char** ns_perf_mac_count_t::filter_shapes</definition>
+        <argsstring></argsstring>
+        <name>filter_shapes</name>
+        <qualifiedname>ns_perf_mac_count_t::filter_shapes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="73" column="16" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" line="61" column="1" bodyfile="neuralSPOT/neuralspot/ns-harness/includes-api/ns_debug_log.h" bodystart="61" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structns__perf__mac__count__t_1a0f5093f77f57df9423e0fb54b73b01fc" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>dilation_h</name></member>
+      <member refid="structns__perf__mac__count__t_1a8606836266488715128419a52f3b8ab4" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>dilation_w</name></member>
+      <member refid="structns__perf__mac__count__t_1a2f068444bfa88edd03076c92a4fdac2e" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>filter_shapes</name></member>
+      <member refid="structns__perf__mac__count__t_1a9359f6f8575705dbef581c1f667026b8" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>mac_compute_string</name></member>
+      <member refid="structns__perf__mac__count__t_1abbc7e2a9f75edebeb142b0e7e0e8acf2" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>mac_count_map</name></member>
+      <member refid="structns__perf__mac__count__t_1a2c33d778b7d2d398135769d9c71ce813" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>number_of_layers</name></member>
+      <member refid="structns__perf__mac__count__t_1ad24567f5aa88a3febdc6db8b6024243f" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>output_magnitudes</name></member>
+      <member refid="structns__perf__mac__count__t_1a7864902deb729c6c1a85be01ca83f375" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>output_shapes</name></member>
+      <member refid="structns__perf__mac__count__t_1a438502a365dd10a1ba1af8a8885b0011" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>stride_h</name></member>
+      <member refid="structns__perf__mac__count__t_1a96d25e20e746d6b274b9b87496fb0b45" prot="public" virt="non-virtual"><scope>ns_perf_mac_count_t</scope><name>stride_w</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

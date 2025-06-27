@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__mfcc__cfg__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_mfcc_cfg_t</compoundname>
+    <includes refid="ns__audio__mfcc_8h" local="no">ns_audio_mfcc.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a56fbde00798a0495e6e2f2b0086e338b" prot="public" static="no" mutable="no">
+        <type>const ns_core_api_t *</type>
+        <definition>const ns_core_api_t* ns_mfcc_cfg_t::api</definition>
+        <argsstring></argsstring>
+        <name>api</name>
+        <qualifiedname>ns_mfcc_cfg_t::api</qualifiedname>
+        <briefdescription>
+<para>API prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="66" column="25" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a2af1b32283920443980eae8dfdb27bea" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* ns_mfcc_cfg_t::arena</definition>
+        <argsstring></argsstring>
+        <name>arena</name>
+        <qualifiedname>ns_mfcc_cfg_t::arena</qualifiedname>
+        <briefdescription>
+<para>Pointer to arena (must be allocated by caller) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="67" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a5eaacd966dc3886d62dbe9ec594e8758" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::sample_frequency</definition>
+        <argsstring></argsstring>
+        <name>sample_frequency</name>
+        <qualifiedname>ns_mfcc_cfg_t::sample_frequency</qualifiedname>
+        <briefdescription>
+<para>Sample frequency of audio data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="68" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1aef1cd18362c77aeeafac80cda01e74bd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::num_fbank_bins</definition>
+        <argsstring></argsstring>
+        <name>num_fbank_bins</name>
+        <qualifiedname>ns_mfcc_cfg_t::num_fbank_bins</qualifiedname>
+        <briefdescription>
+<para>Number of filterbank bins. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="69" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a828379fa435e8735bce5d1644caa4b82" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::low_freq</definition>
+        <argsstring></argsstring>
+        <name>low_freq</name>
+        <qualifiedname>ns_mfcc_cfg_t::low_freq</qualifiedname>
+        <briefdescription>
+<para>Low frequency cutoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="70" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a65c9d8249d0bb3cf13ba3c60ec20b9a6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::high_freq</definition>
+        <argsstring></argsstring>
+        <name>high_freq</name>
+        <qualifiedname>ns_mfcc_cfg_t::high_freq</qualifiedname>
+        <briefdescription>
+<para>High frequency cutoff. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="71" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a58e98d3cdaf5ac7d9beddea67d5ca5bc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::num_frames</definition>
+        <argsstring></argsstring>
+        <name>num_frames</name>
+        <qualifiedname>ns_mfcc_cfg_t::num_frames</qualifiedname>
+        <briefdescription>
+<para>Number of frames. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="72" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a5e38ac83b77663c3dd2a1fffb4000e8f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::num_coeffs</definition>
+        <argsstring></argsstring>
+        <name>num_coeffs</name>
+        <qualifiedname>ns_mfcc_cfg_t::num_coeffs</qualifiedname>
+        <briefdescription>
+<para>Number of MFCC coefficients. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="73" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a38975c674095e94cbbc002741cf760c2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::num_dec_bits</definition>
+        <argsstring></argsstring>
+        <name>num_dec_bits</name>
+        <qualifiedname>ns_mfcc_cfg_t::num_dec_bits</qualifiedname>
+        <briefdescription>
+<para>Number of decimation bits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="74" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1aa6b700f388c90632edb67346277ac29c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::frame_shift_ms</definition>
+        <argsstring></argsstring>
+        <name>frame_shift_ms</name>
+        <qualifiedname>ns_mfcc_cfg_t::frame_shift_ms</qualifiedname>
+        <briefdescription>
+<para>Not used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="75" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a54fff5dbff8921ba3148c14834b64bc7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::frame_len_ms</definition>
+        <argsstring></argsstring>
+        <name>frame_len_ms</name>
+        <qualifiedname>ns_mfcc_cfg_t::frame_len_ms</qualifiedname>
+        <briefdescription>
+<para>Not used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="76" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1af58f6c765ad396307f7350436acb354d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::frame_len</definition>
+        <argsstring></argsstring>
+        <name>frame_len</name>
+        <qualifiedname>ns_mfcc_cfg_t::frame_len</qualifiedname>
+        <briefdescription>
+<para>Frame length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="77" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a6d70913efd74e42996b60952f96cbd73" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_mfcc_cfg_t::frame_len_pow2</definition>
+        <argsstring></argsstring>
+        <name>frame_len_pow2</name>
+        <qualifiedname>ns_mfcc_cfg_t::frame_len_pow2</qualifiedname>
+        <briefdescription>
+<para>Frame length to nearest power of 2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="78" column="14" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a6455051c6d328fd488be953459e8647c" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* ns_mfcc_cfg_t::mfccFrame</definition>
+        <argsstring></argsstring>
+        <name>mfccFrame</name>
+        <qualifiedname>ns_mfcc_cfg_t::mfccFrame</qualifiedname>
+        <briefdescription>
+<para>pointer to MFCC frame (set internally) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="79" column="11" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1ac9d922836bf2dd1c6f3890cf83340d15" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* ns_mfcc_cfg_t::mfccBuffer</definition>
+        <argsstring></argsstring>
+        <name>mfccBuffer</name>
+        <qualifiedname>ns_mfcc_cfg_t::mfccBuffer</qualifiedname>
+        <briefdescription>
+<para>pointer to MFCC buffer (set internally) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="80" column="11" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1aa903932e57c65ebfb334e4ac9542b14f" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* ns_mfcc_cfg_t::mfccEnergies</definition>
+        <argsstring></argsstring>
+        <name>mfccEnergies</name>
+        <qualifiedname>ns_mfcc_cfg_t::mfccEnergies</qualifiedname>
+        <briefdescription>
+<para>pointer to MFCC energies (set internally) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="81" column="11" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a0b5c44656af892c53d5fd5a190a64f9d" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* ns_mfcc_cfg_t::mfccWindowFunction</definition>
+        <argsstring></argsstring>
+        <name>mfccWindowFunction</name>
+        <qualifiedname>ns_mfcc_cfg_t::mfccWindowFunction</qualifiedname>
+        <briefdescription>
+<para>pointer to MFCC window function (set internally) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="82" column="11" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1ac59ac3c0bf98da2f24138d52266263ad" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* ns_mfcc_cfg_t::mfccDCTMatrix</definition>
+        <argsstring></argsstring>
+        <name>mfccDCTMatrix</name>
+        <qualifiedname>ns_mfcc_cfg_t::mfccDCTMatrix</qualifiedname>
+        <briefdescription>
+<para>pointer to MFCC DCT matrix (set internally) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="83" column="11" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__mfcc__cfg__t_1a9fe97da912e6e8f54590d041c3de23b4" prot="public" static="no" mutable="no">
+        <type><ref refid="structns__fbanks__cfg__t" kindref="compound">ns_fbanks_cfg_t</ref></type>
+        <definition>ns_fbanks_cfg_t ns_mfcc_cfg_t::fbc</definition>
+        <argsstring></argsstring>
+        <name>fbc</name>
+        <qualifiedname>ns_mfcc_cfg_t::fbc</qualifiedname>
+        <briefdescription>
+<para>Filterbank config (set internally) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="84" column="21" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Config and state for MFCC calculator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>ns_fbanks_cfg_t</label>
+        <link refid="structns__fbanks__cfg__t"/>
+      </node>
+      <node id="1">
+        <label>ns_mfcc_cfg_t</label>
+        <link refid="structns__mfcc__cfg__t"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>fbc</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" line="65" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio_mfcc.h" bodystart="65" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structns__mfcc__cfg__t_1a56fbde00798a0495e6e2f2b0086e338b" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>api</name></member>
+      <member refid="structns__mfcc__cfg__t_1a2af1b32283920443980eae8dfdb27bea" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>arena</name></member>
+      <member refid="structns__mfcc__cfg__t_1a9fe97da912e6e8f54590d041c3de23b4" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>fbc</name></member>
+      <member refid="structns__mfcc__cfg__t_1af58f6c765ad396307f7350436acb354d" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>frame_len</name></member>
+      <member refid="structns__mfcc__cfg__t_1a54fff5dbff8921ba3148c14834b64bc7" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>frame_len_ms</name></member>
+      <member refid="structns__mfcc__cfg__t_1a6d70913efd74e42996b60952f96cbd73" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>frame_len_pow2</name></member>
+      <member refid="structns__mfcc__cfg__t_1aa6b700f388c90632edb67346277ac29c" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>frame_shift_ms</name></member>
+      <member refid="structns__mfcc__cfg__t_1a65c9d8249d0bb3cf13ba3c60ec20b9a6" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>high_freq</name></member>
+      <member refid="structns__mfcc__cfg__t_1a828379fa435e8735bce5d1644caa4b82" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>low_freq</name></member>
+      <member refid="structns__mfcc__cfg__t_1ac9d922836bf2dd1c6f3890cf83340d15" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>mfccBuffer</name></member>
+      <member refid="structns__mfcc__cfg__t_1ac59ac3c0bf98da2f24138d52266263ad" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>mfccDCTMatrix</name></member>
+      <member refid="structns__mfcc__cfg__t_1aa903932e57c65ebfb334e4ac9542b14f" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>mfccEnergies</name></member>
+      <member refid="structns__mfcc__cfg__t_1a6455051c6d328fd488be953459e8647c" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>mfccFrame</name></member>
+      <member refid="structns__mfcc__cfg__t_1a0b5c44656af892c53d5fd5a190a64f9d" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>mfccWindowFunction</name></member>
+      <member refid="structns__mfcc__cfg__t_1a5e38ac83b77663c3dd2a1fffb4000e8f" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>num_coeffs</name></member>
+      <member refid="structns__mfcc__cfg__t_1a38975c674095e94cbbc002741cf760c2" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>num_dec_bits</name></member>
+      <member refid="structns__mfcc__cfg__t_1aef1cd18362c77aeeafac80cda01e74bd" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>num_fbank_bins</name></member>
+      <member refid="structns__mfcc__cfg__t_1a58e98d3cdaf5ac7d9beddea67d5ca5bc" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>num_frames</name></member>
+      <member refid="structns__mfcc__cfg__t_1a5eaacd966dc3886d62dbe9ec594e8758" prot="public" virt="non-virtual"><scope>ns_mfcc_cfg_t</scope><name>sample_frequency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

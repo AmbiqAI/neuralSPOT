@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="ns__free__tests_8h" kind="file" language="C++">
+    <compoundname>ns_free_tests.h</compoundname>
+    <includes refid="ns__malloc_8h" local="yes">ns_malloc.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ns_malloc.h</label>
+        <link refid="ns__malloc_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h</label>
+        <link refid="ns__free__tests_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FreeRTOS.h</label>
+      </node>
+      <node id="4">
+        <label>am_bsp.h</label>
+      </node>
+      <node id="5">
+        <label>am_mcu_apollo.h</label>
+      </node>
+      <node id="6">
+        <label>am_util.h</label>
+      </node>
+      <node id="7">
+        <label>portable.h</label>
+      </node>
+      <node id="8">
+        <label>portmacro.h</label>
+      </node>
+      <node id="9">
+        <label>rtos.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="ns__free__tests_8h_1a3278c1695b8d9e13478a886e078000e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_tests_pre_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_tests_pre_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="2" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="7" bodyend="9" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="2" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__free__tests_8h_1a0b93bcd7802dc8e5c8f1cedcce2eadd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_tests_post_test_hook</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_tests_post_test_hook</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="3" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="10" bodyend="12" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="3" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__free__tests_8h_1a9d4564b086cb3bf09b396bd828f9ae97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_test_basic</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_test_basic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="4" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="15" bodyend="29" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="4" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__free__tests_8h_1a22e451b25d135280421517d70515edb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_test_null_pointer</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_test_null_pointer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="5" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="31" bodyend="36" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="5" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__free__tests_8h_1a0435cc3bac47e3d850ca141a2c77e1f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_test_twice</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_test_twice</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="6" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="39" bodyend="45" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="6" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__free__tests_8h_1a57f96cf9512e09975af41744ee3daa67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_test_non_malloced_pointer</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_test_non_malloced_pointer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="7" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="48" bodyend="54" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="7" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="ns__free__tests_8h_1af9693b828d4186643603edf9fbd1c10c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ns_free_test_memory_fragmentation</definition>
+        <argsstring>()</argsstring>
+        <name>ns_free_test_memory_fragmentation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" line="8" column="6" bodyfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.c" bodystart="56" bodyend="84" declfile="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h" declline="8" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;ns_malloc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_tests_pre_test_hook();</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_tests_post_test_hook();</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_test_basic();</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_test_null_pointer();</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_test_twice();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_test_non_malloced_pointer();</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ns_free_test_memory_fragmentation();</highlight></codeline>
+    </programlisting>
+    <location file="neuralSPOT/neuralspot/ns-utils/tests/ns_free_tests.h"/>
+  </compounddef>
+</doxygen>

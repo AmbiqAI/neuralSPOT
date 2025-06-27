@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__audadc__cfg__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_audadc_cfg_t</compoundname>
+    <includes refid="ns__audio_8h" local="no">ns_audio.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__audadc__cfg__t_1ae51535495120115947217e204b7841c2" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-audio_1ga9008718d4339654a156c32dfc490928c" kindref="member">ns_audio_clksel_e</ref></type>
+        <definition>ns_audio_clksel_e ns_audadc_cfg_t::clock</definition>
+        <argsstring></argsstring>
+        <name>clock</name>
+        <qualifiedname>ns_audadc_cfg_t::clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="112" column="23" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__audadc__cfg__t_1abaff3aebd5296f73fa8112959d02acb4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_audadc_cfg_t::low_power_mode</definition>
+        <argsstring></argsstring>
+        <name>low_power_mode</name>
+        <qualifiedname>ns_audadc_cfg_t::low_power_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="113" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__audadc__cfg__t_1af6f4c38ece0ef84dc134ecd4125e884a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_audadc_cfg_t::repeating_trigger_mode</definition>
+        <argsstring></argsstring>
+        <name>repeating_trigger_mode</name>
+        <qualifiedname>ns_audadc_cfg_t::repeating_trigger_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="114" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__audadc__cfg__t_1a906e708a650fab905afbb94ba3303625" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ns_audadc_cfg_t::dcmp_enable</definition>
+        <argsstring></argsstring>
+        <name>dcmp_enable</name>
+        <qualifiedname>ns_audadc_cfg_t::dcmp_enable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="115" column="10" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__audadc__cfg__t_1a98d04eb977f351370feca5e65885f35d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ns_audadc_cfg_t::left_gain</definition>
+        <argsstring></argsstring>
+        <name>left_gain</name>
+        <qualifiedname>ns_audadc_cfg_t::left_gain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="116" column="9" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__audadc__cfg__t_1a780a7e4707d5582056d52285b8e00a66" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ns_audadc_cfg_t::right_gain</definition>
+        <argsstring></argsstring>
+        <name>right_gain</name>
+        <qualifiedname>ns_audadc_cfg_t::right_gain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="117" column="9" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>AUDADC Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="111" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="111" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structns__audadc__cfg__t_1ae51535495120115947217e204b7841c2" prot="public" virt="non-virtual"><scope>ns_audadc_cfg_t</scope><name>clock</name></member>
+      <member refid="structns__audadc__cfg__t_1a906e708a650fab905afbb94ba3303625" prot="public" virt="non-virtual"><scope>ns_audadc_cfg_t</scope><name>dcmp_enable</name></member>
+      <member refid="structns__audadc__cfg__t_1a98d04eb977f351370feca5e65885f35d" prot="public" virt="non-virtual"><scope>ns_audadc_cfg_t</scope><name>left_gain</name></member>
+      <member refid="structns__audadc__cfg__t_1abaff3aebd5296f73fa8112959d02acb4" prot="public" virt="non-virtual"><scope>ns_audadc_cfg_t</scope><name>low_power_mode</name></member>
+      <member refid="structns__audadc__cfg__t_1af6f4c38ece0ef84dc134ecd4125e884a" prot="public" virt="non-virtual"><scope>ns_audadc_cfg_t</scope><name>repeating_trigger_mode</name></member>
+      <member refid="structns__audadc__cfg__t_1a780a7e4707d5582056d52285b8e00a66" prot="public" virt="non-virtual"><scope>ns_audadc_cfg_t</scope><name>right_gain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

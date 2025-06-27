@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__cache__dump__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_cache_dump_t</compoundname>
+    <includes refid="ns__perf__profile_8h" local="no">ns_perf_profile.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__cache__dump__t_1aae8eb8c684fb394cb3fdd7f13ee6decd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::daccess</definition>
+        <argsstring></argsstring>
+        <name>daccess</name>
+        <qualifiedname>ns_cache_dump_t::daccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="32" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1ad5c20a9c4bc96ed66d6c8bec028fde32" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::dtaglookup</definition>
+        <argsstring></argsstring>
+        <name>dtaglookup</name>
+        <qualifiedname>ns_cache_dump_t::dtaglookup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="33" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1a5b321c54f12ae23e000905ebc9d32711" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::dhitslookup</definition>
+        <argsstring></argsstring>
+        <name>dhitslookup</name>
+        <qualifiedname>ns_cache_dump_t::dhitslookup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="34" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1acf964f66db8a32c58ad3a21de93ca940" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::dhitsline</definition>
+        <argsstring></argsstring>
+        <name>dhitsline</name>
+        <qualifiedname>ns_cache_dump_t::dhitsline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="35" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1a636dd76dcc6c2e4bbde97e53ad37450e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::iaccess</definition>
+        <argsstring></argsstring>
+        <name>iaccess</name>
+        <qualifiedname>ns_cache_dump_t::iaccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="36" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1a0baa1ca577a86470e28d3437260752a7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::itaglookup</definition>
+        <argsstring></argsstring>
+        <name>itaglookup</name>
+        <qualifiedname>ns_cache_dump_t::itaglookup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="37" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1adb6f0172922a9b5609dc57ef61f56b91" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::ihitslookup</definition>
+        <argsstring></argsstring>
+        <name>ihitslookup</name>
+        <qualifiedname>ns_cache_dump_t::ihitslookup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="38" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__cache__dump__t_1a5c9f6e8eb6392b6af29a43f16396de32" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ns_cache_dump_t::ihitsline</definition>
+        <argsstring></argsstring>
+        <name>ihitsline</name>
+        <qualifiedname>ns_cache_dump_t::ihitsline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="39" column="14" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Struct to capture a snapshot of the cache performance counters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" line="31" column="1" bodyfile="neuralSPOT/neuralspot/ns-utils/includes-api/ns_perf_profile.h" bodystart="31" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structns__cache__dump__t_1aae8eb8c684fb394cb3fdd7f13ee6decd" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>daccess</name></member>
+      <member refid="structns__cache__dump__t_1acf964f66db8a32c58ad3a21de93ca940" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>dhitsline</name></member>
+      <member refid="structns__cache__dump__t_1a5b321c54f12ae23e000905ebc9d32711" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>dhitslookup</name></member>
+      <member refid="structns__cache__dump__t_1ad5c20a9c4bc96ed66d6c8bec028fde32" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>dtaglookup</name></member>
+      <member refid="structns__cache__dump__t_1a636dd76dcc6c2e4bbde97e53ad37450e" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>iaccess</name></member>
+      <member refid="structns__cache__dump__t_1a5c9f6e8eb6392b6af29a43f16396de32" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>ihitsline</name></member>
+      <member refid="structns__cache__dump__t_1adb6f0172922a9b5609dc57ef61f56b91" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>ihitslookup</name></member>
+      <member refid="structns__cache__dump__t_1a0baa1ca577a86470e28d3437260752a7" prot="public" virt="non-virtual"><scope>ns_cache_dump_t</scope><name>itaglookup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

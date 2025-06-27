@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.4" xml:lang="en-US">
+  <compounddef id="structns__pdm__cfg__t" kind="struct" language="C++" prot="public">
+    <compoundname>ns_pdm_cfg_t</compoundname>
+    <includes refid="ns__audio_8h" local="no">ns_audio.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structns__pdm__cfg__t_1ab5bb45e7fdf5a91177ef9a5641ec682c" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-audio_1ga9008718d4339654a156c32dfc490928c" kindref="member">ns_audio_clksel_e</ref></type>
+        <definition>ns_audio_clksel_e ns_pdm_cfg_t::clock</definition>
+        <argsstring></argsstring>
+        <name>clock</name>
+        <qualifiedname>ns_pdm_cfg_t::clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="135" column="23" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pdm__cfg__t_1a26ae32b8dea047f88d565efc1f238338" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-audio_1gad3d7ced85672c74a7b7ef73d3a9d2038" kindref="member">ns_audio_pdm_clock_e</ref></type>
+        <definition>ns_audio_pdm_clock_e ns_pdm_cfg_t::clock_freq</definition>
+        <argsstring></argsstring>
+        <name>clock_freq</name>
+        <qualifiedname>ns_pdm_cfg_t::clock_freq</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="136" column="26" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pdm__cfg__t_1a5f8f4d4a82b16c48968c3a0a40978f2a" prot="public" static="no" mutable="no">
+        <type><ref refid="group__ns-audio_1ga46da474306eafc3495f66abd00206cb2" kindref="member">ns_audio_pdm_micsel_e</ref></type>
+        <definition>ns_audio_pdm_micsel_e ns_pdm_cfg_t::mic</definition>
+        <argsstring></argsstring>
+        <name>mic</name>
+        <qualifiedname>ns_pdm_cfg_t::mic</qualifiedname>
+        <briefdescription>
+<para>VoS Kit breakout board PDM mic slot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="137" column="27" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pdm__cfg__t_1af0e547ee2822137f0bfad7fa1667114c" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t ns_pdm_cfg_t::numBytes</definition>
+        <argsstring></argsstring>
+        <name>numBytes</name>
+        <qualifiedname>ns_pdm_cfg_t::numBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="138" column="13" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pdm__cfg__t_1adb458aa694471f28951cd0078e19e154" prot="public" static="no" mutable="no">
+        <type>am_hal_pdm_gain_e</type>
+        <definition>am_hal_pdm_gain_e ns_pdm_cfg_t::left_gain</definition>
+        <argsstring></argsstring>
+        <name>left_gain</name>
+        <qualifiedname>ns_pdm_cfg_t::left_gain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="139" column="23" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structns__pdm__cfg__t_1aa0f8ee4fa2a55b615f98e1a9c2a8fb67" prot="public" static="no" mutable="no">
+        <type>am_hal_pdm_gain_e</type>
+        <definition>am_hal_pdm_gain_e ns_pdm_cfg_t::right_gain</definition>
+        <argsstring></argsstring>
+        <name>right_gain</name>
+        <qualifiedname>ns_pdm_cfg_t::right_gain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="140" column="23" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>PDM Configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" line="134" column="1" bodyfile="neuralSPOT/neuralspot/ns-audio/includes-api/ns_audio.h" bodystart="134" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structns__pdm__cfg__t_1ab5bb45e7fdf5a91177ef9a5641ec682c" prot="public" virt="non-virtual"><scope>ns_pdm_cfg_t</scope><name>clock</name></member>
+      <member refid="structns__pdm__cfg__t_1a26ae32b8dea047f88d565efc1f238338" prot="public" virt="non-virtual"><scope>ns_pdm_cfg_t</scope><name>clock_freq</name></member>
+      <member refid="structns__pdm__cfg__t_1adb458aa694471f28951cd0078e19e154" prot="public" virt="non-virtual"><scope>ns_pdm_cfg_t</scope><name>left_gain</name></member>
+      <member refid="structns__pdm__cfg__t_1a5f8f4d4a82b16c48968c3a0a40978f2a" prot="public" virt="non-virtual"><scope>ns_pdm_cfg_t</scope><name>mic</name></member>
+      <member refid="structns__pdm__cfg__t_1af0e547ee2822137f0bfad7fa1667114c" prot="public" virt="non-virtual"><scope>ns_pdm_cfg_t</scope><name>numBytes</name></member>
+      <member refid="structns__pdm__cfg__t_1aa0f8ee4fa2a55b615f98e1a9c2a8fb67" prot="public" virt="non-virtual"><scope>ns_pdm_cfg_t</scope><name>right_gain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

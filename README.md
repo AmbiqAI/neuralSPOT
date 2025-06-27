@@ -83,8 +83,7 @@ Autodeploy is highly configurable and also **capable of automatically measuring 
 ## NeuralSPOT Structure and Directories
 NeuralSPOT consists of the neuralspot [libraries](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot), required external components, [tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools), [applications](https://github.com/AmbiqAI/neuralSPOT/tree/main/apps), and [documentation](https://github.com/AmbiqAI/neuralSPOT/tree/main/docs).
 
-![image-20250627104626036](/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/images/ns-layercake.png)
-
+![Layers](./docs/images/ns-layercake.png)
 
 
 The directory structure reflects the code structure:

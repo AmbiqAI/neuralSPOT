@@ -5,9 +5,9 @@ This example directory contains sample code demonstrating how to use the ns-feat
 Additionally, the example provides a Python script for displaying the orientation of the sensor in real time. This script utilizes the quaternion values computed by ns-features to visualize the orientation of the sensor graphically.
 
 ## Installation and Setup
-Before using the examples, ensure you have the necessary Python-based PC-side software installed by following the [instructions here.](../../neuralspot/ns-rpc/README.md).
+Before using the examples, ensure you have the necessary Python-based PC-side software installed by following the [instructions here.](../../../neuralspot/ns-rpc/README.md).
 
-> **Note for Windows Users:** If you are using Windows, refer to our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md) for additional instructions.
+> **Note for Windows Users:** If you are using Windows, refer to our [Windows eRPC application note](../../../docs/Application-Note-neuralSPOT-and-Windows.md) for additional instructions.
 
 Additionally, make sure you have the following Python libraries installed:
 

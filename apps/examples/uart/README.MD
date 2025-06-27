@@ -33,8 +33,8 @@ The Python script performs the following steps:
 
 ```bash
 $> cd .../neuralSPOT
-$> make TARGET=uart deploy
-$> cd examples/uart/src
+$> make EXAMPLE=examples/uart deploy
+$> cd apps/examples/uart/src
 $> python uart_test.py
 ```
 

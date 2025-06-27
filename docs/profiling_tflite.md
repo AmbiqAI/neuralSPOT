@@ -6,7 +6,6 @@ This document offers a quick guide to using neuralSPOT's Autodeploy tool to prof
 
 - [Autodeploy Usage](../tools/README.md) - installation and usage of Autodeploy and other neuralSPOT tools
 - [From TF to EVB](./From TF to EVB - testing, profiling, and deploying AI models.md)  - deep dive into Autodeploy
-- [Apollo5 and NeuralSPOT](./apollo51evb_quick_guide.md) - Apollo5 NeuralSPOT Quick Guide
 - [Optimization Basics](optimizing_using_neuralspot.md) - Very basic power optimization notes
 
 ### Basics

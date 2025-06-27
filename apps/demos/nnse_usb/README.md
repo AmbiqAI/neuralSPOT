@@ -39,7 +39,7 @@ With the firmware deploy, follow this link on a PC using the Chrome browser: [Au
 
 The webpage should look something like this:
 
-![image-20231106120630313](../../docs/images/audio-ble-dashboard.png)
+![image-20231106120630313](../../../docs/images/audio-ble-dashboard.png)
 
 Click on the 'Pair and start listening...' button to bring up a list of compatible WebUSB devices. Once paired, the web dashboard will play the audio (click the play button to allow the browser to actually play the stream) and show corresponding waveforms and spectrograms.
 

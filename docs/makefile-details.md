@@ -38,7 +38,7 @@ Besides targets, NeuralSPOT has a standard set of compile-time switches to help 
 > `$> git update-index --assume-unchanged make/local_overrides.mk`
 
 ## NeuralSPOT Nests
-The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It only includes static libraries, related header files, and a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](docs/Developing_with_NeuralSPOT.md).
+The Nest is an automatically created directory with everything you need to get TF and AmbiqSuite running together and ready to start developing AI features for your application. It only includes static libraries, related header files, and a basic application stub with a main(). Nests are designed to accomodate various development flows - for a deeper discussion, see [Developing with neuralSPOT](./Developing_with_NeuralSPOT.md).
 
 ### Building Nest
 Before building a nest, you must first build NeuralSPOT for your desired target. By default, the nest will be created in NeuralSPOT's root directory - set NESTDIR to change where it is built.

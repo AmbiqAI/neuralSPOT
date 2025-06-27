@@ -4,7 +4,7 @@ This application instantiates the MLPerf Image Classification benchmark model us
 
 #### Relevant neuralSPOT Documents
 
-[WebUSB neuralSPOT Library](../../neuralspot/ns-usb/README.md)
+[WebUSB neuralSPOT Library](../../../neuralspot/ns-usb/README.md)
 
 [Guide to using Autodeploy](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.md)
 

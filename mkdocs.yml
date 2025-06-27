@@ -9,6 +9,7 @@ use_directory_urls: False
 exclude_docs: |
   extern/*
   projects/*
+  apps/experiments/*
 
 nav:
   - Home: docs/index.md
@@ -162,6 +163,13 @@ plugins:
             EXTRACT_ALL: No
         ns-ble:
           src-dirs: neuralSPOT/neuralspot/ns-ble
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
+        ns-i2c:
+          src-dirs: neuralSPOT/neuralspot/ns-i2c
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"

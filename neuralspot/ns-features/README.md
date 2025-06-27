@@ -21,6 +21,6 @@ The library offers functions to compute quaternion values and Euler angles from 
 
 Example for using ns-features:
 
-- [Quaternion visualization](../../examples/quaternion/README.md)
+- [Quaternion visualization](../../apps/examples/quaternion/README.md)
 
 

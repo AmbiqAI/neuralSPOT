@@ -4,7 +4,7 @@ This library simplifies the use of USB to create CDC and WebUSB Devices. It is u
 
 ## Creating a WebUSB Device
 
-Creating a WebUSB can be done in a handful of instructions. See the [Image Classification example](../../examples/ic/README.md) for a application using this library.
+Creating a WebUSB can be done in a handful of instructions. See the [Image Classification example](../../apps/demos/ic/README.md) for a application using this library.
 
 #### Init Configs
 

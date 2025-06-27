@@ -50,11 +50,11 @@ neuralSPOT offers a number of tools and libraries to help optimize AI features:
 
 ### The Data Ingestion Libraries
 
-The Audio library takes advantage of Apollo4 Plus' highly efficient audio peripherals to capture audio for AI inference. It supports several interprocess communication mechanisms to make the captured data available to the AI feature - one of these is a 'ring buffer' model which ping-pongs captured data buffers to facilitate in-place processing by feature extraction code. The basic_tf_stub example includes ring buffer [initialization](../examples/basic_tf_stub/src/basic_audio.h) and [usage](../examples/basic_tf_stub/src/basic_tf_stub.cc) examples.
+The Audio library takes advantage of Apollo4 Plus' highly efficient audio peripherals to capture audio for AI inference. It supports several interprocess communication mechanisms to make the captured data available to the AI feature - one of these is a 'ring buffer' model which ping-pongs captured data buffers to facilitate in-place processing by feature extraction code. The basic_tf_stub example includes ring buffer [initialization](../apps/basic_tf_stub/src/basic_audio.h) and [usage](../apps/basic_tf_stub/src/basic_tf_stub.cc) examples.
 
 ### Power Configuration Library
 
-The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example, such as [here](../examples/rpc_client/src/rpc_client.cc). It is typically called once, during initialization. 
+The neuralSPOT Power Control library is a part of the [ns-peripheral](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-peripherals) component, and is used by every neuralSPOT example. It is typically called once, during initialization. 
 
 > **NOTE** This is useful during feature development and optimization, but most AI features are meant to be integrated into a larger application which usually dictates power configuration.
 

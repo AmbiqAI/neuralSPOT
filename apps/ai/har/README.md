@@ -3,7 +3,7 @@ This example implements a simple HAR model. It collects data from an IMU acceler
 
 The model classifies the last 10 seconds of movement every 2s.
 
-To use this model, you'll need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)).
+To use this model, you'll need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../../neuralspot/ns-i2c/README.md)).
 
 ## Required Hardware and Configuration
 This example is requires the following hardware:

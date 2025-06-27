@@ -9,6 +9,7 @@ use_directory_urls: False
 exclude_docs: |
   extern/*
   projects/*
+  apps/experiments/*
 
 nav:
   - Home: docs/index.md
@@ -25,28 +26,52 @@ nav:
     - Nests: docs/NeuralSPOT_Nests.md
   - Tools:
     - Automatic Testing, profiling, and deploying: "docs/From TF to EVB - testing, profiling, and deploying AI models.md"
+    - Autodeploy User Guide: tools/autodeploy.readme.md
+    - Batched Autodeploy User Guide: tools/ns_ad_batch.readme.md
     - Tools Overview: tools/README.md
   - Application Notes:
     - neuralSPOT on Windows: docs/Application-Note-neuralSPOT-and-Windows.md
+    - neuralSPOT on Linux: docs/NeuralSPOT_RPC_and_AutoDeploy_on_Linux.md
     - Optimizing Using NeuralSPOT: docs/optimizing_using_neuralspot.md
     - Release Notes: docs/release_notes.md
     - Developer Notes: docs/developer_notes.md
     - Edge Impulse Support: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
   - Examples:
-    - Keyword Spotting: examples/basic_tf_stub/README.md
-    - Human Activity Recognition: examples/har/README.md
-    - RPC Client: examples/rpc_client/README.md
-    - RPC Server: examples/rpc_server/README.md
-    - WebBLE: examples/web_ble/README.md
-    - Data Collection: examples/mpu_data_collection/README.md
+    - Kitchen Sink: apps/basic_tf_stub/README.md
+    - AI Examples:
+      - Keyword Spotting: apps/ai/kws/README.md
+      - Human Activity Recognition: apps/ai/har/README.md
+    - SDK Exmaples:
+      - ICM Inertial Sensor: apps/examples/icm/README.md
+      - Audio Capture: apps/ai/kws/README.md
+      - RPC EVB to PC: apps/examples/rpc_evb_to_pc/README.md
+      - RPC PC to EVB: apps/examples/rpc_pc_to_evb/README.md
+      - TFLM Profling: apps/examples/tflm_profiling/README.md
+      - PMU Profiling: apps/examples/pmu_profiling/README.md
+      - Quaternion Feature Extraction: apps/examples/quaternion/README.md
+      - UART: apps/examples/uart/README.md
+      - BLE: apps/demos/nnse/README.md
+      - WebUSB: apps/demos/nnse_usb/README.md
+      - Arducam: apps/examples/vision/README.md
+    - Demos:
+      - Image Classification: apps/demos/ic/README.md
+      - Speaker Identification: apps/demos/nnid/README.md
+      - Neural Network Speech Enhancement: apps/demos/nnse/README.md
+      - Neural Network Speech Enhancement over USB: apps/demos/nnse_usb/README.md
   - Libraries:
     - Audio: neuralspot/ns-audio/README.md
     - Bluetooth: neuralspot/ns-ble/README.md
     - i2c: neuralspot/ns-i2c/README.md
+    - SPI: neuralspot/ns-spi/README.md
     - RPC: neuralspot/ns-rpc/README.md
-    # - USB: neuralspot/ns-usb/README.md
+    - USB: neuralspot/ns-usb/README.md
+    - BLE: neuralspot/ns-ble/README.md
+    - IMU: neuralspot/ns-imu/README.md
+    - Feature Extraction: neuralspot/ns-features/README.md
     - Power: neuralspot/ns-peripherals/README.md
-    - Performance Utilities: neuralspot/ns-utils/README.md
+    - Buttons: neuralspot/ns-peripherals/README.md
+    - Utilities: neuralspot/ns-utils/README.md
+    - NNSP: neuralspot/ns-nnsp/README.md
   - Code Documentation:
     - Audio:
       - Files: ns-audio/files.md
@@ -72,6 +97,12 @@ nav:
       - Functions: ns-i2c/functions.md
       - Structs: ns-i2c/annotated.md
       - Variables: ns-i2c/variables.md
+    - spi:
+      - Files: ns-spi/files.md
+      - Modules: ns-spi/modules.md
+      - Functions: ns-spi/functions.md
+      - Structs: ns-spi/annotated.md
+      - Variables: ns-spi/variables.md
     - Utilities:
       - Files: ns-utils/files.md
       - Modules: ns-utils/modules.md
@@ -144,6 +175,13 @@ plugins:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
+        ns-spi:
+          src-dirs: neuralSPOT/neuralspot/ns-spi
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
         ns-power:
           src-dirs: neuralSPOT/neuralspot/ns-peripherals
           full-doc: True
@@ -186,7 +224,13 @@ plugins:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
-
+        ns-camera:
+          src-dirs: neuralSPOT/neuralspot/ns-camera
+          full-doc: True
+          doxy-cfg:
+            FILE_PATTERNS: "*.h *.c *.cc"
+            RECURSIVE: True
+            EXTRACT_ALL: No
 
 theme:
   name: material
@@ -222,4 +266,4 @@ theme:
     - content.tabs.link
 
 copyright: |
-  &copy; 2023 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>
+  &copy; 2023-2025 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>

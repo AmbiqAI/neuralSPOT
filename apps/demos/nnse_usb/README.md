@@ -1,5 +1,5 @@
 # Speech-Enhancing Bluetooth Microphone Demo
-This example shows how to use [Ambiq's NNSE](https://github.com/AmbiqAI/nnse) to create a 'Speech Enhancing BLE Microphone'. NNSE is Ambiq's AI speech de-noiser, a real-time AI model that removes background noise (such as the noise from a hair-dryer) from human speech.
+This example shows how to use [Ambiq's NNSE](https://github.com/AmbiqAI/nnse) to create a 'Speech Enhancing USB Microphone'. NNSE is Ambiq's AI speech de-noiser, a real-time AI model that removes background noise (such as the noise from a hair-dryer) from human speech.
 
 ```mermaid
 sequenceDiagram
@@ -16,28 +16,32 @@ sequenceDiagram
     WebUSB->>+Chrome-on-PC: 80 byte Opus Audio
 ```
 
-The demo needs a WebUSB-enabled device (Apollo5, Apollo4 Plus KXR/KBR Blue), a microphone, and a PC or laptop running Chrome. It supports both PDM and AUDADC microphones, but is configured for PDM by default. To switch to AUDADC, uncomment this line in nnse_usb/src/nnse_usb.cc:
+## Hardware Requirements
+1. Apollo4 Plus or Apollo510 EVB
+2. VOSKit PDM or analog microphone (AP4 only)
+3. PC or laptop running Chrome
+
+This demo supports both PDM and AUDADC microphones, but is configured for PDM by default. To switch to AUDADC, uncomment this line in nnse_usb/src/nnse_usb.cc:
 
 ```c
 // #define USE_AUDADC // Uncomment this to use the AUDADC instead of the PDM
-``````
+```
 
-Running the demo.
-
+## Running the demo
 First, flash
 ```bash
 $> make clean
 $> make -j
-$> make TARGET=nnse deploy
+$> make EXAMPLE=demos/nnse_usb deploy
 ```
 
-With the firmware deploy, follow this link on a PC using the Chrome browser: [Audio WebBLE Demo](https://ambiqai.github.io/web-ble-dashboards/audio/)
+With the firmware deploy, follow this link on a PC using the Chrome browser: [Audio WebBLE Demo](https://ambiqai.github.io/web-ble-dashboards/nnse-usb/)
 
 The webpage should look something like this:
 
-![image-20231106120630313](../../docs/images/audio-ble-dashboard.png)
+![image-20231106120630313](../../../docs/images/audio-ble-dashboard.png)
 
-Click on the 'Pair and start listening...' button to bring up a list of compatible bluetooth devices - one should be labeled 'Packet': that is the BLE device created by the NNSE firmware. Once paired, the web dashboard will play the audio (click the play button to allow the browser to actually play the stream) and show corresponding waveforms and spectrograms.
+Click on the 'Pair and start listening...' button to bring up a list of compatible WebUSB devices. Once paired, the web dashboard will play the audio (click the play button to allow the browser to actually play the stream) and show corresponding waveforms and spectrograms.
 
 Once everything is working and audio is streaming, you can turn de-noising on and off by pressing Button0 on the EVB.
 

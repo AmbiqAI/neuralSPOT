@@ -34,7 +34,7 @@ You'll need to install some laptop-side software.
 $> cd .../neuralSPOT
 $> pip install .
 ```
-> *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
+> *NOTE* for Windows, see our [Windows eRPC application note](../../../docs/Application-Note-neuralSPOT-and-Windows.md)
 
 ## Required Hardware and Configuration
 This example is requires the following hardware:

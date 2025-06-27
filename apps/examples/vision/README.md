@@ -4,9 +4,9 @@ This example illustrates two neuralSPOT features: capturing images from an Arduc
 
 #### Relevant neuralSPOT Library Documents 
 
-[WebUSB neuralSPOT Library](../../neuralspot/ns-usb/README.md)
+[WebUSB neuralSPOT Library](../../../neuralspot/ns-usb/README.md)
 
-[Camera neuralSPOT Library](../../neuralspot/ns-camera/README.md)
+[Camera neuralSPOT Library](../../../neuralspot/ns-camera/README.md)
 
 ## Running The Demo
 

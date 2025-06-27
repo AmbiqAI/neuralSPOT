@@ -16,26 +16,30 @@ sequenceDiagram
     BLE->>+Chrome-on-PC: 80 byte Opus Audio
 ```
 
-The demo needs a BLE-enabled device (Apollo4 Plus KXR/KBR Blue, or Apollo4 Lite Blue), a microphone, and a PC or laptop running Chrome. It supports both PDM and AUDADC microphones, but is configured for PDM by default. To switch to AUDADC, uncomment this line in nnse/src/nnse.cc:
+## Hardware Requirements
+1. Apollo4-family EVB with BLE (Plus KXR/KBR, or Lite Blue)
+2. VOSKit PDM or analog microphone
+3. BLE-capable PC or laptop running Chrome
+
+This demo supports both PDM and AUDADC microphones, but is configured for PDM by default. To switch to AUDADC, uncomment this line in nnse/src/nnse.cc:
 
 ```c
 // #define USE_AUDADC // Uncomment this to use the AUDADC instead of the PDM
-``````
+```
 
-Running the demo.
-
+## Running the demo
 First, flash
 ```bash
 $> make clean
 $> make -j
-$> make TARGET=nnse deploy
+$> make EXAMPLE=demos/nnse deploy
 ```
 
-With the firmware deploy, follow this link on a PC using the Chrome browser: [Audio WebBLE Demo](https://ambiqai.github.io/web-ble-dashboards/audio/)
+With the firmware deploy, follow this link on a PC using the Chrome browser: [Audio WebBLE Demo](https://ambiqai.github.io/web-ble-dashboards/nnse/)
 
 The webpage should look something like this:
 
-![image-20231106120630313](../../docs/images/audio-ble-dashboard.png)
+![image-20231106120630313](../../../docs/images/audio-ble-dashboard.png)
 
 Click on the 'Pair and start listening...' button to bring up a list of compatible bluetooth devices - one should be labeled 'Packet': that is the BLE device created by the NNSE firmware. Once paired, the web dashboard will play the audio (click the play button to allow the browser to actually play the stream) and show corresponding waveforms and spectrograms.
 

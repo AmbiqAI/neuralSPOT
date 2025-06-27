@@ -6,12 +6,8 @@ Below is an overview of the scripts available in this directory and a brief desc
 |--------------------------|---------------------------------------------------------------------------------------------------------------------|
 | `ns_autodeploy.py`       | Deploys TFLite models to an EVB including binary creation, profiling, power measurement, and library generation.      |
 | `ns_tflite_analyze.py`   | Analyzes TFLite models to estimate MAC counts, memory reads/writes, and layer statistics; outputs reports in CSV/Excel.|
-| `generic_data.py`        | eRPC server/client for handling generic data transfer (audio, sensor data, etc.) between EVB and PC.                |
 | `ns_ad_batch.py`         | Batch deployment of multiple models using YAML configuration files.                                                 |
 | `ns_test.py`             | Automated testing framework for NeuralSPOT using configuration files and command-line arguments.                      |
-| `measurer.py`            | Measures power consumption (using a Joulescope or similar) and sends data via ZMQ for visualization or logging.       |
-| `opus_receive.py`        | Receives and decodes Opus-encoded audio data from the EVB and writes decoded PCM data to a WAV file.                  |
-| `plotter.py`             | Dash-based web application that displays live performance and power metrics graphs using Plotly.                      |
 
 ---
 
@@ -36,24 +32,10 @@ This directory contains a collection of utility scripts that support various tas
 - **`ns_test.py`**  
   Runs automated tests for the NeuralSPOT project. It uses a configuration file (INI format) along with command-line parameters parsed via `pydantic_argparse` to generate and run tests.
 
-- **`generic_data.py`**  
-  Implements an eRPC server and client for handling generic data operations between the EVB and PC. This tool supports:
-  - Audio capture (32-bit stereo or 16-bit mono PCM) and writing to WAV files.
-  - MPU6050 sensor data capture and logging to CSV.
-  - Remote procedure calls for data fetching, computation (e.g., MFCC calculation), and printing.
-  
 - **`ns_ad_batch.py`**  
   Batch deploys multiple neural network models defined in a YAML configuration file. For each model, it builds the appropriate `ns_autodeploy` command and executes it with support for retries and logging.
   See the ad_batch [Usage Guide](./ns_ad_batch.readme.md) for more details
    
-- **`measurer.py`**  
-  Measures power consumption (using a Joulescope or similar power measurement tool) during model inference. The script packs the measurement data using MessagePack and sends it over a ZMQ PUB socket (port 5556) for further processing or visualization.
-  
-- **`opus_receive.py`**  
-  Receives Opus-encoded audio data sent over a serial connection via eRPC, decodes the Opus frames into PCM, and writes the output to a WAV file.
-
-- **`plotter.py`**  
-  A Dash-based web application that subscribes to power and performance data (via ZMQ) and displays live graphs (e.g., latency and energy consumption). It uses Plotly for real-time data visualization.
 
 ---
 
@@ -61,7 +43,7 @@ This directory contains a collection of utility scripts that support various tas
 
 ns_autodeploy can be installed using pip:
 ```bash
-cd ..
+cd .../neuralSPOT
 pip install .
 ```
 

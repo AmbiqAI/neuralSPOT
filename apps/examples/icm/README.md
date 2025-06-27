@@ -109,4 +109,4 @@ This example is based on Ambiq’s Human Activity Recognition (HAR) model, demon
 
 ---
 
-For more details on the IMU driver API, see [neuralspot/ns-imu/includes-api/ns\_imu.h](../../neuralspot/ns-imu/includes-api/ns_imu.h).
+For more details on the IMU driver API, see [neuralspot/ns-imu/includes-api/ns\_imu.h](../../../neuralspot/ns-imu/includes-api/ns_imu.h).

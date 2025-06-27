@@ -243,6 +243,7 @@ NeuralSPOT's documentation in automatically generated from the repository using 
 command (`mkdocs gh-deploy`), and have to do so manually:
 
 ```bash
+pip install mkdocs mkdocs-material mkdocs-glightbox mkdoxy
 cd ..
 cp neuralSPOT/mkdocs.yml .
 mkdocs build

@@ -87,6 +87,10 @@ else
 		modules      += apps/examples/rpc_pc_to_evb
 		ifeq ($(BOARD),apollo510)
 			modules      += apps/examples/icm
+			modules	     += apps/mlperf/keyword_spotting
+			modules 	 += apps/mlperf/anomaly_detection
+			modules	     += apps/mlperf/image_classification
+			modules      += apps/mlperf/person_detection
 		endif
 
 		ifeq ($(BLE_SUPPORTED),1)

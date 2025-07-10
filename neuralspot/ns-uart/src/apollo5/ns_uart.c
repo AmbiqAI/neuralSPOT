@@ -76,16 +76,25 @@ void uart_done(uint32_t ui32ErrorStatus, void *pvContext)
 
 uint32_t init_uart(am_hal_uart_config_t *uart_config)
 {
-    NS_TRY(am_hal_uart_initialize(0, &phUART), "Failed to initialize the UART");
+#if EE_CFG_ENERGY_MODE==1
+    NS_TRY(am_hal_uart_initialize(2, &phUART), "Failed to initialize the UART");
+#else
+    NS_TRY((am_hal_uart_initialize(AM_BSP_UART_PRINT_INST, &phUART)), "Failed to initialize the UART");
+#endif
     NS_TRY(am_hal_uart_power_control(phUART, AM_HAL_SYSCTRL_WAKE, false), "Failed to power the UART");
     NS_TRY(am_hal_uart_configure(phUART, uart_config),  "Failed to configure the UART");
 
-    NS_TRY(am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_TX, g_AM_BSP_GPIO_COM_UART_TX), "Failed to configure UART TX pin");
-    NS_TRY(am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_RX, g_AM_BSP_GPIO_COM_UART_RX), "Failed to configure UART RX pin");
-
-    // Enable interrupts.
+#if EE_CFG_ENERGY_MODE==1
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_UART2_TX, g_AM_BSP_GPIO_UART2_TX);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_UART2_RX, g_AM_BSP_GPIO_UART2_RX);
+    NVIC_SetPriority((IRQn_Type)(UART2_IRQn + AM_BSP_UART_PRINT_INST), AM_IRQ_PRIORITY_DEFAULT);
+    NVIC_EnableIRQ((IRQn_Type)(UART2_IRQn + AM_BSP_UART_PRINT_INST));
+#else
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_TX, g_AM_BSP_GPIO_COM_UART_TX);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_COM_UART_RX, g_AM_BSP_GPIO_COM_UART_RX);
     NVIC_SetPriority((IRQn_Type)(UART0_IRQn + AM_BSP_UART_PRINT_INST), AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ((IRQn_Type)(UART0_IRQn + AM_BSP_UART_PRINT_INST));
+#endif
     am_hal_uart_interrupt_enable(phUART, (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_TX | AM_HAL_UART_INT_RX_TMOUT));
     return AM_HAL_STATUS_SUCCESS;
 }

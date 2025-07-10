@@ -141,7 +141,7 @@ NESTSOURCEDIR := apps/$(NESTEGG)/src
 # -----------------------------------------------------------------------------
 
 ifndef TF_VERSION
-  TF_VERSION := helios_rt_v1_2_0
+  TF_VERSION := helios_rt_v1_3_0
 endif
 
 SR_VERSION     := R7.70a

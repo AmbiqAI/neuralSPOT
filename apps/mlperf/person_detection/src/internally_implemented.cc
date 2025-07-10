@@ -29,7 +29,6 @@ replaced by a fixed-size array.
 // Command buffer (incoming commands from host)
 char volatile g_cmd_buf[EE_CMD_SIZE + 1];
 size_t volatile g_cmd_pos = 0u;
-extern am_devices_led_t g_DebugLed;
 
 // Generic buffer to db input.
 uint8_t gp_buff[MAX_DB_INPUT_SIZE];
@@ -185,7 +184,6 @@ void ee_infer(size_t n, size_t n_warmup) {
   }
   th_printf("m-warmup-done\r\n");
   th_printf("m-infer-start-%d\r\n", n);
-  am_devices_led_off(&g_DebugLed, 0);
   th_timestamp();
   th_pre();
   while (n-- > 0) {
@@ -193,7 +191,6 @@ void ee_infer(size_t n, size_t n_warmup) {
   }
   th_post();
   th_timestamp();
-  am_devices_led_on(&g_DebugLed, 0);
   th_printf("m-infer-done\r\n");
   th_results();
 }

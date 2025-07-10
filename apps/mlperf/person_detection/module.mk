@@ -1,4 +1,4 @@
-local_app_name := keyword_spotting
+local_app_name := person_detection
 # local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/api/*.cc)

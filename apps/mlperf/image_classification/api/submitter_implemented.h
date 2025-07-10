@@ -49,8 +49,8 @@ methods from th_libc.h and all testharness methods from th_lib.h are here.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uart.h>
-#include <timer.h>
+#include "ns_uart.h"
+#include "ns_timer.h"
 
 /// \brief required core API
 void th_load_tensor();

@@ -53,7 +53,9 @@ extern "C" {
     #include "hci_drv_apollo.h"
     #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
         #include "hci_drv_apollo3.h"
-    #else
+    #elif defined(AM_PART_APOLLO5B)
+        #include "hci_drv_em9305.h"
+    #else 
         #include "hci_drv_cooper.h"
     #endif
     #include "hci_handler.h"

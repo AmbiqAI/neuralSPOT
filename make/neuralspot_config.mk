@@ -166,6 +166,8 @@ else ifeq ($(EVB),blue_kxr_evb)
   BLE_PRESENT := 1
 else ifeq ($(ARCH),apollo3)
   BLE_PRESENT := 1
+else ifeq ($(PLATFORM), apollo510_evb)
+  BLE_PRESENT := 1
 else
   BLE_PRESENT := 0
 endif
@@ -207,6 +209,11 @@ else ifeq ($(AS_VERSION),R4.4.1)
     BLE_SUPPORTED := 1
   endif
 else ifeq ($(AS_VERSION),R4.5.0)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
+else ifeq ($(AS_VERSION),R5.3.0)
   ifeq ($(BLE_PRESENT),1)
     DEFINES += NS_BLE_SUPPORTED
     BLE_SUPPORTED := 1

@@ -251,7 +251,7 @@ int main(void) {
     // Only turn HP while doing codec and AI
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
-    // ns_itm_printf_enable();
+    ns_itm_printf_enable();
 
     ns_audio_init(&audio_config);
     ns_peripheral_button_init(&button_config_nnsp);

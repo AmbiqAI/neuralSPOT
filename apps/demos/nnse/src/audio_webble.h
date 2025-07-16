@@ -20,14 +20,14 @@
 // development needed.
 #define WEBBLE_WSF_BUFFER_POOLS 4
 #define WEBBLE_WSF_BUFFER_SIZE                                                                     \
-    (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 280 * 14) / sizeof(uint32_t)
+    (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 600 * 14) / sizeof(uint32_t)
 
 static uint32_t webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE];
 static wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS] = {
     {16, 8}, // 16 bytes, 8 buffers
     {32, 4},
     {64, 6},
-    {280, 14}};
+    {600, 14}};
 
 static ns_ble_pool_config_t webbleWsfBuffers = {
     .pool = webbleWSFBufferPool,

@@ -14,6 +14,7 @@ const ns_core_api_t ns_ble_V0_0_1 = {.apiId = NS_BLE_API_ID, .version = NS_BLE_V
 
 // *** Globals
 ns_ble_control_t g_ns_ble_control;
+static dmConnId_t currentConnId = 0;
 
 // *** Generic Default Configurations
 
@@ -29,21 +30,30 @@ static appSlaveCfg_t ns_ble_default_SlaveCfg = {
 };
 
 /*! configurable parameters for security */
+// static appSecCfg_t ns_ble_default_SecCfg = {
+//     DM_AUTH_BOND_FLAG | DM_AUTH_SC_FLAG,
+//     /*! Authentication and bonding flags */ // TODO SECURE vs non-secure
+//     0,                                      /*! Initiator key distribution flags */
+//     DM_KEY_DIST_LTK,                        /*! Responder key distribution flags */
+//     FALSE,                                  /*! TRUE if Out-of-band pairing data is present */
+//     FALSE                                   /*! TRUE to initiate security upon connection */
+// };
+
 static appSecCfg_t ns_ble_default_SecCfg = {
-    DM_AUTH_BOND_FLAG | DM_AUTH_SC_FLAG,
-    /*! Authentication and bonding flags */ // TODO SECURE vs non-secure
-    0,                                      /*! Initiator key distribution flags */
-    DM_KEY_DIST_LTK,                        /*! Responder key distribution flags */
-    FALSE,                                  /*! TRUE if Out-of-band pairing data is present */
-    FALSE                                   /*! TRUE to initiate security upon connection */
+    0,          /* <-- no DM_AUTH_BOND_FLAG / DM_AUTH_SC_FLAG */
+    0,
+    0,
+    FALSE,
+    FALSE
 };
 
 /*! configurable parameters for connection parameter update */
 static appUpdateCfg_t ns_ble_default_UpdateCfg = {
     3100, /*! Connection idle period in ms before attempting */
     // 3000, /*! Connection idle period in ms before attempting */
-    8,   /*! 7.5ms */
-    18,  /*! 15ms */
+    // 8,   /*! 7.5ms */
+    // 18,  /*! 15ms */
+    24, 40,    /* 30 – 50 ms */
     0,   /*! Connection latency */
     600, /*! Supervision timeout in 10ms units */
     5    /*! Number of update attempts before giving up */
@@ -307,6 +317,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
         break;
 
     case DM_CONN_OPEN_IND:
+        currentConnId = pMsg->dm.connOpen.handle;
         ns_ble_generic_conn_open((dmEvt_t *)pMsg);
         uiEvent = APP_UI_CONN_OPEN;
         break;
@@ -615,7 +626,7 @@ void ns_ble_new_handler_init(wsfHandlerId_t handlerId) {
 static void ns_ble_generic_new_handle_cnf(attEvt_t *pMsg){};
 
 void ns_ble_send_value(ns_ble_characteristic_t *c, attEvt_t *pMsg) {
-    dmConnId_t connId = 1;
+    dmConnId_t connId = 1; //currentConnId;
     // ns_lp_printf("ns_ble_send_value");
     if (AttsCccEnabled(connId, c->indicationTimer.msg.status)) {
         int ret = AttsSetAttr(c->valueHandle, c->valueLen, c->applicationValue);
@@ -687,6 +698,7 @@ bool ns_ble_new_proc_msg(ns_ble_msg_t *pMsg) {
     // ns_lp_printf("ns_ble_new_proc_msg: %d\n", pMsg->hdr.event);
     switch (pMsg->hdr.event) {
     case DM_CONN_OPEN_IND:
+        currentConnId = pMsg->dm.connOpen.handle;
         ns_ble_generic_conn_open((dmEvt_t *)pMsg);
         DmConnSetDataLen(1, 251, 0x848);
         break;

@@ -24,13 +24,14 @@ in th_results is copied from the original in EEMBC.
 #include "ns_ambiqsuite_harness.h"
 #include "submitter_implemented.h"
 
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+// #include <cstdarg>
+// #include <cstdio>
+// #include <cstdlib>
+// #include <cstring>
 
 #include "tensorflow/lite/micro/debug_log.h"
-#include "internally_implemented.h"
+
+
 am_hal_uart_config_t am_uart_config =
 {
     // Standard UART settings: 115200-8-N-1
@@ -47,7 +48,7 @@ am_hal_uart_config_t am_uart_config =
     .eRXFifoLevel = AM_HAL_UART_FIFO_LEVEL_16,
 };
 
-static ns_uart_config_t uart_config = {
+ns_uart_config_t uart_config = {
     .api=&ns_uart_V0_0_1,
     .uart_config = &am_uart_config,
     .tx_blocking = true,
@@ -55,12 +56,6 @@ static ns_uart_config_t uart_config = {
 };
 static ns_uart_handle_t uart_handle = NULL;
 static char txbuffer[256];
-
-ns_timer_config_t basic_tickTimer = {
-    .api = &ns_timer_V1_0_0,
-    .timer = NS_TIMER_COUNTER,
-    .enableInterrupt = true,
-};
 
 static void uart_stdio_print(char *pcBuf)
 {
@@ -70,10 +65,10 @@ static void uart_stdio_print(char *pcBuf)
     // We ignore the return count since the prototype is void.
 }
 
-void th_command_ready(char volatile *p_command) {
-  p_command = p_command;
-  ee_serial_command_parser_callback((char *)p_command);
-}
+// void th_command_ready(char volatile *p_command) {
+//   p_command = p_command;
+//   ee_serial_command_parser_callback((char *)p_command);
+// }
 
 char *th_strncpy(char *dest, const char *src, size_t n) {
   return strncpy(dest, src, n);
@@ -115,41 +110,14 @@ void th_serialport_initialize(void) {
   am_util_stdio_printf_init(uart_stdio_print);
 }
 
-void th_timestamp(void) {
-# if EE_CFG_ENERGY_MODE==1
-  // timestampPin = 0;
-  am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_CLEAR);
-  for (int i=0; i<100'000; ++i) {
-    asm("nop");
-  }
-  am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
-
-# else
-  unsigned long microSeconds = 0ul;
-  /* USER CODE 2 BEGIN */
-  microSeconds = ns_us_ticker_read(&basic_tickTimer);
-  /* USER CODE 2 END */
-  /* This message must NOT be changed. */
-  th_printf(EE_MSG_TIMESTAMP, microSeconds);
-# endif  
-}
-
-void th_timestamp_initialize(void) {
-#if EE_CFG_ENERGY_MODE==1
-    // Configure the timer pin
-    am_hal_gpio_pinconfig(22, am_hal_gpio_pincfg_output);
-#else
-  /* USER CODE 1 BEGIN */
-  // Setting up BOTH perf and energy here
-  NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
-#endif
-  /* USER CODE 1 END */
-  /* This message must NOT be changed. */
-  th_printf(EE_MSG_TIMESTAMP_MODE);
-  /* Always call the timestamp on initialize so that the open-drain output
-     is set to "1" (so that we catch a falling edge) */
-  th_timestamp();
-}
+// void th_timestamp(void) {
+//   am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_CLEAR);
+//   for (int i=0; i<100'000; ++i) {
+//     asm("nop");
+//   }
+//   am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
+ 
+// }
 
 // extern "C" void DebugLog(const char* s) {
 // #ifndef TF_LITE_STRIP_ERROR_STRINGS

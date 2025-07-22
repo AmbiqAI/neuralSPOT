@@ -15,7 +15,6 @@ limitations under the License.
 /// NeuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
-#include "am_devices_led.h"
 #include "internally_implemented.h"
 #include "submitter_implemented.h"
 

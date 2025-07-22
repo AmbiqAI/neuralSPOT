@@ -19,6 +19,25 @@ am_hal_uart_config_t g_sUartConfig =
     .eRXFifoLevel = AM_HAL_UART_FIFO_LEVEL_16,
 };
 
+// am_hal_gpio_pincfg_t my_AM_BSP_GPIO_UART2_TX =
+// {
+//     .GP.cfg_b.uFuncSel             = AM_HAL_PIN_46_UART2TX,
+//     .GP.cfg_b.eGPInput             = AM_HAL_GPIO_PIN_INPUT_NONE,
+//     .GP.cfg_b.eGPRdZero            = AM_HAL_GPIO_PIN_RDZERO_READPIN,
+//     .GP.cfg_b.eIntDir              = AM_HAL_GPIO_PIN_INTDIR_NONE,
+//     .GP.cfg_b.eGPOutCfg            = AM_HAL_GPIO_PIN_OUTCFG_PUSHPULL,
+//     .GP.cfg_b.eDriveStrength       = AM_HAL_GPIO_PIN_DRIVESTRENGTH_EXT_1P0X,
+//     .GP.cfg_b.ePullup              = AM_HAL_GPIO_PIN_PULLUP_1_5K,
+//     .GP.cfg_b.uNCE                 = 0,
+//     .GP.cfg_b.eCEpol               = AM_HAL_GPIO_PIN_CEPOL_ACTIVELOW,
+//     .GP.cfg_b.uRsvd_0              = 0,
+//     .GP.cfg_b.ePowerSw             = AM_HAL_GPIO_PIN_POWERSW_NONE,
+//     .GP.cfg_b.eForceInputEn        = AM_HAL_GPIO_PIN_FORCEEN_NONE,
+//     .GP.cfg_b.eForceOutputEn       = AM_HAL_GPIO_PIN_FORCEEN_NONE,
+//     .GP.cfg_b.uRsvd_1              = 0,
+// };
+
+
 ns_uart_transaction_t g_sUartTransaction =
 {
     .status = 0,

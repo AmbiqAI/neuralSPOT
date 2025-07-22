@@ -1,6 +1,6 @@
 local_app_name := streaming_wakeword
 
-# local_src := $(wildcard $(subdirectory)/src/*.c)
+local_src := $(wildcard $(subdirectory)/src/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
 local_src += $(wildcard $(subdirectory)/api/*.cc)
 local_src += $(wildcard $(subdirectory)/model/*.cc)

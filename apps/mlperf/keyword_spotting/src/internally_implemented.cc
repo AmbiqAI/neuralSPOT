@@ -184,6 +184,7 @@ void ee_infer(size_t n, size_t n_warmup) {
   }
   th_printf("m-warmup-done\r\n");
   th_printf("m-infer-start-%d\r\n", n);
+  ns_delay_us(100000); // wait for the timestamp pin to be set
   th_timestamp();
   th_pre();
   while (n-- > 0) {

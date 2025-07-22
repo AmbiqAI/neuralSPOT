@@ -31,7 +31,6 @@ in th_results is copied from the original in EEMBC.
 
 #include "tensorflow/lite/micro/debug_log.h"
 #include "internally_implemented.h"
-
 am_hal_uart_config_t am_uart_config =
 {
     // Standard UART settings: 115200-8-N-1
@@ -60,7 +59,7 @@ static char txbuffer[256];
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
-    .enableInterrupt = false,
+    .enableInterrupt = true,
 };
 
 static void uart_stdio_print(char *pcBuf)
@@ -119,16 +118,16 @@ void th_serialport_initialize(void) {
 void th_timestamp(void) {
 # if EE_CFG_ENERGY_MODE==1
   // timestampPin = 0;
-  am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_CLEAR);
+  am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_CLEAR);
   for (int i=0; i<100'000; ++i) {
     asm("nop");
   }
-  am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_SET);
+  am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
 
 # else
   unsigned long microSeconds = 0ul;
   /* USER CODE 2 BEGIN */
-  microSeconds = us_ticker_read(AM_TIMER);
+  microSeconds = ns_us_ticker_read(&basic_tickTimer);
   /* USER CODE 2 END */
   /* This message must NOT be changed. */
   th_printf(EE_MSG_TIMESTAMP, microSeconds);
@@ -136,9 +135,14 @@ void th_timestamp(void) {
 }
 
 void th_timestamp_initialize(void) {
+#if EE_CFG_ENERGY_MODE==1
+    // Configure the timer pin
+    am_hal_gpio_pinconfig(22, am_hal_gpio_pincfg_output);
+#else
   /* USER CODE 1 BEGIN */
   // Setting up BOTH perf and energy here
   NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
+#endif
   /* USER CODE 1 END */
   /* This message must NOT be changed. */
   th_printf(EE_MSG_TIMESTAMP_MODE);

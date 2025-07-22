@@ -61,10 +61,26 @@ ns_timer_config_t basic_tickTimer = {
     .timer = NS_TIMER_COUNTER,
     .enableInterrupt = true,
 };
+// am_hal_gpio_pincfg_t timestamp_gpio_pincfg_output;                                                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.uFuncSel         = 3;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.eGPInput         = AM_HAL_GPIO_PIN_INPUT_NONE;              
+// timestamp_gpio_pincfg_output.GP.cfg_b.eGPRdZero        = AM_HAL_GPIO_PIN_RDZERO_READPIN;         
+// timestamp_gpio_pincfg_output.GP.cfg_b.eIntDir          = AM_HAL_GPIO_PIN_INTDIR_LO2HI;            
+// timestamp_gpio_pincfg_output.GP.cfg_b.eGPOutCfg        = AM_HAL_GPIO_PIN_OUTCFG_OPENDRAIN;         
+// timestamp_gpio_pincfg_output.GP.cfg_b.eDriveStrength   = AM_HAL_GPIO_CFG_SLEWRATENONE | AM_HAL_GPIO_PIN_DRIVESTRENGTH_1P0X;
+// timestamp_gpio_pincfg_output.GP.cfg_b.ePullup          = AM_HAL_GPIO_PIN_PULLUP_1_5K;             
+// timestamp_gpio_pincfg_output.GP.cfg_b.uNCE             = 0;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.eCEpol           = 0;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.uRsvd_0          = 0;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.ePowerSw         = 0;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.eForceInputEn    = 0;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.eForceOutputEn   = 0;                                       
+// timestamp_gpio_pincfg_output.GP.cfg_b.uRsvd_1          = 0;                                       
 
 static void uart_stdio_print(char *pcBuf)
 {
     // Send the entire null-terminated string over UART:
+
     size_t len = strlen(pcBuf);
     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
     // We ignore the return count since the prototype is void.
@@ -118,11 +134,10 @@ void th_serialport_initialize(void) {
 void th_timestamp(void) {
 # if EE_CFG_ENERGY_MODE==1
   // timestampPin = 0;
-  am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_CLEAR);
-  for (int i=0; i<100'000; ++i) {
-    asm("nop");
-  }
-  am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
+  ns_delay_us(100000);
+  am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_CLEAR);
+  ns_delay_us(100000);
+  am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_SET);
 
 # else
   unsigned long microSeconds = 0ul;
@@ -136,8 +151,25 @@ void th_timestamp(void) {
 
 void th_timestamp_initialize(void) {
 #if EE_CFG_ENERGY_MODE==1
+    am_hal_gpio_pincfg_t timestamp_gpio_pincfg_output;                                                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.uFuncSel         = 3;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.eGPInput         = AM_HAL_GPIO_PIN_INPUT_NONE;              
+    timestamp_gpio_pincfg_output.GP.cfg_b.eGPRdZero        = AM_HAL_GPIO_PIN_RDZERO_READPIN;         
+    timestamp_gpio_pincfg_output.GP.cfg_b.eIntDir          = AM_HAL_GPIO_PIN_INTDIR_LO2HI;            
+    timestamp_gpio_pincfg_output.GP.cfg_b.eGPOutCfg        = AM_HAL_GPIO_PIN_OUTCFG_PUSHPULL;         
+    timestamp_gpio_pincfg_output.GP.cfg_b.eDriveStrength   = AM_HAL_GPIO_CFG_SLEWRATENONE | AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P1X;
+    timestamp_gpio_pincfg_output.GP.cfg_b.ePullup          = AM_HAL_GPIO_PIN_PULLUP_NONE;             
+    timestamp_gpio_pincfg_output.GP.cfg_b.uNCE             = 0;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.eCEpol           = 0;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.uRsvd_0          = 0;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.ePowerSw         = 0;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.eForceInputEn    = 0;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.eForceOutputEn   = 0;                                       
+    timestamp_gpio_pincfg_output.GP.cfg_b.uRsvd_1          = 0;                                       
     // Configure the timer pin
-    am_hal_gpio_pinconfig(22, am_hal_gpio_pincfg_output);
+    am_hal_gpio_pinconfig(29, timestamp_gpio_pincfg_output);
+    // am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_TRISTATE_OUTPUT_EN);
+    am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_SET);   // release→line goes to “1”
 #else
   /* USER CODE 1 BEGIN */
   // Setting up BOTH perf and energy here

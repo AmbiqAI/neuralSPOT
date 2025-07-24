@@ -50,12 +50,18 @@ def generateInputAndOutputTensors(params, mc, md):
     mc.update_from_validation(inExamples, outExamples)
 
 
-def generatePowerBinary(params, mc, md, cpu_mode):
+def generatePowerBinary(params, mc, md, cpu_mode, aot):
     # The following 5 lines find the paths relative to the cwd
     model_path = params.destination_rootdir + "/" + params.model_name
     d = os.path.join(params.neuralspot_rootdir, model_path)
     relative_build_path = os.path.relpath(d, params.neuralspot_rootdir)
+    # n_module and n_aot are module names, n is the filename base
+    n_module = params.model_name + "_power"
+    n_aot = params.model_name
     n = params.model_name + "_power"
+    if aot:
+        n = n + "_aot"
+
     adds, addsLen = mc.modelStructureDetails.getAddList()
     if params.joulescope or params.onboard_perf:
         generateInputAndOutputTensors(params, mc, md)
@@ -80,7 +86,8 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         ev3 = "PMU_EVENT3_NA"
 
     rm = {
-        "NS_AD_NAME": n,
+        "NS_AD_NAME_AOT": n_aot, # only used when aot is True
+        "NS_AD_NAME": n_module,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
         "NS_AD_MODEL_LOCATION": f"NS_AD_{params.model_location}",
         "NS_AD_ARENA_LOCATION": f"NS_AD_{params.arena_location}",
@@ -102,62 +109,73 @@ def generatePowerBinary(params, mc, md, cpu_mode):
         "NS_AD_PMU_EVENT_3": ev3,
         "NS_AD_PERF_NAME": params.model_name,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
+        "NS_AD_AOT": "1" if aot else "0",
     }
-    print(
-        f"[NS] Compiling, deploying, and measuring {cpu_mode} power, model location = {params.model_location}, arena location = {params.arena_location}."
-    )
+    if aot:
+        print(f"[NS] Compiling, deploying, and measuring AOT power, model location = {params.model_location}, arena location = {params.arena_location}.")
+    else:  
+        print(
+            f"[NS] Compiling, deploying, and measuring {cpu_mode} power, model location = {params.model_location}, arena location = {params.arena_location}."
+        )
 
     # Make destination directory
     os.makedirs(f"{d}/{n}", exist_ok=True)
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
-    # os.system(f"mkdir -p {d}/{n}")
-    # os.system(f"mkdir -p {d}/{n}/src")
-
     template_directory = pkg_resources.resource_filename(__name__, "templates")
-
+    print(f"[NS] Template directory: {template_directory}")
     # Generate files from template
-    createFromTemplate(
-        template_directory + "/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
-    )
-    createFromTemplate(
-        template_directory + "/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
-    )
-    createFromTemplate(
-        template_directory + "/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
-    )
     createFromTemplate(
         template_directory + "/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
     )
+
     createFromTemplate(
-        template_directory + "/perf/template_power.mk", f"{d}/{n}/module.mk", rm
+        template_directory + "/common/template_api.h", f"{d}/{n}/src/{n}_api.h", rm
     )
 
-    # Copy needed files
-    createFromTemplate(
-        template_directory + "/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
-    )
+    # The following files are for TFLM, not AOT
+    if not aot:
+        createFromTemplate(
+            template_directory + "/common/template_ns_model.cc", f"{d}/{n}/src/{n}_model.cc", rm
+        )
+        createFromTemplate(
+            template_directory + "/common/template_model_metadata.h", f"{d}/{n}/src/{n}_model.h", rm
+        )
 
-    postfix = ""
-    if params.model_location == "SRAM":
-        loc = "const" # will be compied over to SRAM
-        postfix = "_for_sram"
-    elif params.model_location == "MRAM":
-        loc = "const"
-    elif params.model_location == "PSRAM":
-        loc = "const" # needs to be copied to PSRAM from MRAM
+        createFromTemplate(
+            template_directory + "/perf/template_power.mk", f"{d}/{n}/module.mk", rm
+        )
+
+        # Copy needed files
+        createFromTemplate(
+            template_directory + "/common/template_ns_model.h", f"{d}/{n}/src/ns_model.h", rm
+        )
+
+        postfix = ""
+        if params.model_location == "SRAM":
+            loc = "const" # will be compied over to SRAM
+            postfix = "_for_sram"
+        elif params.model_location == "MRAM":
+            loc = "const"
+        elif params.model_location == "PSRAM":
+            loc = "const" # needs to be copied to PSRAM from MRAM
+        else:
+            loc = ""
+
+        # Generate model weight file
+        xxd_c_dump(
+            src_path=params.tflite_filename,
+            dst_path=f"{d}/{n}/src/{n}_model_data.h",
+            var_name=f"{n}_model{postfix}",
+            chunk_len=12,
+            is_header=True,
+            loc=loc,
+        )
     else:
-        loc = ""
-
-    # Generate model weight file
-    xxd_c_dump(
-        src_path=params.tflite_filename,
-        dst_path=f"{d}/{n}/src/{n}_model_data.h",
-        var_name=f"{n}_model{postfix}",
-        chunk_len=12,
-        is_header=True,
-        loc=loc,
-    )
+        # AOT files were already generated by HeliosAOT, point to them
+        createFromTemplate(
+            template_directory + "/perf/template_power_aot.mk", f"{d}/{n}/module.mk", rm
+        )
 
     # Generate input/output tensor example data
     flatInput = [
@@ -175,6 +193,8 @@ def generatePowerBinary(params, mc, md, cpu_mode):
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
     rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
+    # length of output tensor array
+    rm["NS_AD_OUTPUT_TENSOR_LEN"] = len(flatOutput)
     createFromTemplate(
         template_directory + "/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",

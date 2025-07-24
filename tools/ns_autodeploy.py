@@ -14,9 +14,26 @@ from time import sleep
 from typing import Callable, List
 
 import numpy as np
-import pydantic_argparse
+import argparse
 import yaml
 from pydantic import BaseModel, Field
+
+# ---------------------------------------------------------------------------
+# Optional HeliosAOT import --------------------------------------------------
+# ---------------------------------------------------------------------------
+HeliosConvertArgs = None  # type: ignore  # populated only if import succeeds
+AotModel = None  # type: ignore
+try:
+    import helios_aot  # noqa: F401  – side‑effect import for pkg resources
+    from helios_aot.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
+    from helios_aot.aot_model import AotModel  # type: ignore
+
+    helios_aot_available = True
+    print("Helios AOT support is available")
+except (ImportError, OSError, RuntimeError) as e:
+    helios_aot_available = False
+    print(f"Helios AOT support is not available: {e}")
+    
 
 # External modules – behaviour must stay identical; keep import locations
 from neuralspot.tools.autodeploy.gen_library import generateModelLib
@@ -46,6 +63,56 @@ import neuralspot.tools.ns_platform as ns_platform
 __all__ = ["main", "Params"]  # For external reuse & unit‑test import
 
 # ---------------------------------------------------------------------------
+# 0. Utility helpers ---------------------------------------------------------
+# ---------------------------------------------------------------------------
+
+def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
+    """Clone **ns‑cmsis‑nn** into *destination_rootdir* if missing.
+
+    Parameters
+    ----------
+    destination_rootdir: str
+        The directory where the repository should be cloned (typically
+        *Params.destination_rootdir*).
+
+    Returns
+    -------
+    Path
+        The path to the local *ns‑cmsis‑nn* checkout.
+    """
+    ns_cmsis_nn_path = Path(destination_rootdir) / "ns-cmsis-nn"
+    if ns_cmsis_nn_path.exists():
+        print(f"[NS] ns-cmsis-nn repository already exists at {ns_cmsis_nn_path}")
+        return ns_cmsis_nn_path
+
+    print(f"[NS] Cloning ns-cmsis-nn into {ns_cmsis_nn_path}…")
+    result = subprocess.run(
+        [
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "https://github.com/AmbiqAI/ns-cmsis-nn.git",
+            str(ns_cmsis_nn_path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        log.error("Failed to clone ns-cmsis-nn: %s", result.stderr.strip())
+        raise RuntimeError("ns-cmsis-nn clone failed")
+    return ns_cmsis_nn_path
+
+
+def _load_yaml_config(path: str | Path | None) -> dict:
+    """Load a YAML file if provided, else return an empty dict."""
+    if not path:
+        return {}
+    with open(path, "r", encoding="utf-8") as handle:
+        return yaml.safe_load(handle) or {}
+
+
+# ---------------------------------------------------------------------------
 # 1. Declarative configuration model (unchanged)
 # ---------------------------------------------------------------------------
 class Params(BaseModel):
@@ -73,6 +140,18 @@ class Params(BaseModel):
     create_ambiqsuite_example: bool = Field(
         False, description="Create AmbiqSuite example based on TFlite file"
     )
+
+    if helios_aot_available:
+        create_aot_profile: bool = Field(
+            False,
+            description="Add a Helios AOT profiling and benchmarking pass",
+        )
+
+        helios_aot_config: str = Field(
+            "auto",
+            description="Helios AOT configuration YAML file (or 'auto')",
+        ) 
+
     joulescope: bool = Field(
         False,
         description="Measure power consumption of the model on the EVB using Joulescope",
@@ -186,12 +265,49 @@ class Params(BaseModel):
     # ------------------------------------------------------------------
     @classmethod
     def parser(cls):
-        """Return a *pydantic‑argparse* parser that mirrors the legacy CLI."""
-        return pydantic_argparse.ArgumentParser(
-            model=cls,
+        """
+        Return an `argparse.ArgumentParser` with a **parse_typed_args()** helper
+        so that the public API (and the test‑suite) stay identical.
+        """
+        class _TypedParser(argparse.ArgumentParser):
+            def parse_typed_args(self, args=None) -> "Params":          # noqa: D401
+                ns = super().parse_args(args=args)
+                return cls.model_validate(vars(ns))                     # ← Pydantic v2
+
+        p = _TypedParser(
             prog="Evaluate TFLite model against EVB instantiation",
             description="Evaluate TFLite model",
         )
+
+        # Auto‑generate flags from the model fields
+        for name, field in cls.model_fields.items():                    # v2 API
+            arg = f"--{name.replace('_', '-')}"
+            help_txt = field.description or ""
+
+            # Boolean flags – support `--flag` / `--no-flag`
+            if field.annotation is bool:
+                if field.default is True:
+                    p.add_argument(
+                        f"--no-{name.replace('_', '-')}",
+                        dest=name,
+                        action="store_false",
+                        default=argparse.SUPPRESS,
+                        help=f"Disable {help_txt}" if help_txt else argparse.SUPPRESS,
+                    )
+                else:   # default == False
+                    p.add_argument(
+                        arg,
+                        dest=name,
+                        action="store_true",
+                        default=argparse.SUPPRESS,
+                        help=help_txt,
+                    )
+                continue
+
+            # Non‑bools – let Pydantic handle coercion, so keep the raw string
+            p.add_argument(arg, default=argparse.SUPPRESS, help=help_txt)
+
+        return p
 
 # ---------------------------------------------------------------------------
 # 2. Pure helper functions
@@ -210,10 +326,10 @@ def _merge_params(cli: Params) -> Params:
     yaml_params = _load_yaml_config(cli.configfile)
     default_params = Params()  # defaults
 
-    merged = default_params.dict()
+    merged = default_params.model_dump()
     merged.update(yaml_params)
     # CLI wins last
-    merged.update(cli.dict(exclude_unset=True))
+    merged.update(cli.model_dump(exclude_unset=True))
     return Params(**merged)
 
 
@@ -221,6 +337,7 @@ def _setup_logging(verbosity: int) -> None:
     """Configure root logger mapping legacy verbosity levels."""
     level = log.DEBUG if verbosity > 2 else log.INFO if verbosity > 1 else log.WARNING
     log.basicConfig(level=level, format="%(levelname)s: %(message)s")
+
 
 # ---------------------------------------------------------------------------
 # Results class – encapsulates all profiling results
@@ -238,6 +355,12 @@ class adResults:
         self.powerMinPerfJoules = 0
         self.powerMaxPerfWatts = 0
         self.powerMinPerfWatts = 0
+        self.powerAotMaxPerfInferenceTime = 0
+        self.powerAotMinPerfInferenceTime = 0
+        self.powerAotMaxPerfJoules = 0
+        self.powerAotMinPerfJoules = 0
+        self.powerAotMaxPerfWatts = 0
+        self.powerAotMinPerfWatts = 0
         self.powerIterations = p.runs_power
         # self.stats_filename = p.stats_filename
         self.model_name = p.model_name
@@ -245,6 +368,11 @@ class adResults:
         self.toolchain = p.toolchain
         self.model_size = 0
         self.arena_size = 0
+
+        # HeliosAOT extras --------------------------------------------------
+        self.aot_success: bool = False
+        self.aot_module_path: Optional[str] = None
+        self.aot_error: Optional[str] = None
 
     def print(self):
         print("")
@@ -285,6 +413,26 @@ class adResults:
             print(
                 f"[Power]   LP Inference Avg Power (mW): {self.powerMinPerfWatts:0.3f}"
             )
+            if self.p.create_aot_profile:
+                # Both HP and LP are measured
+                print(
+                    f"[Power]   AOT HP Inference Time (ms):      {self.powerAotMaxPerfInferenceTime:0.3f}"
+                )
+                print(
+                    f"[Power]   AOT HP Inference Energy (uJ):    {self.powerAotMaxPerfJoules:0.3f}"
+                )
+                print(
+                    f"[Power]   AOT HP Inference Avg Power (mW): {self.powerAotMaxPerfWatts:0.3f}"
+                )
+                print(
+                    f"[Power]   AOT LP Inference Time (ms):      {self.powerAotMinPerfInferenceTime:0.3f}"
+                )
+                print(
+                    f"[Power]   AOT LP Inference Energy (uJ):    {self.powerAotMinPerfJoules:0.3f}"
+                )
+                print(
+                    f"[Power]   AOT LP Inference Avg Power (mW): {self.powerAotMinPerfWatts:0.3f}"
+                )
         print(
             f"""
 Notes:
@@ -344,21 +492,36 @@ Notes:
         self.profileTotalCycles = profileTotalCycles
         self.profileTotalLayers = profileTotalLayers
 
-    def setPower(self, cpu_mode, mSeconds, uJoules, mWatts):
-        if cpu_mode == "LP":
-            self.powerMinPerfInferenceTime = mSeconds
-            self.powerMinPerfJoules = uJoules
-            self.powerMinPerfWatts = mWatts
+    def setPower(self, cpu_mode, mSeconds, uJoules, mWatts, aot=False):
+        if aot:
+            if cpu_mode == "LP":
+                self.powerAotMinPerfInferenceTime = mSeconds
+                self.powerAotMinPerfJoules = uJoules
+                self.powerAotMinPerfWatts = mWatts
+            else:
+                self.powerAotMaxPerfInferenceTime = mSeconds
+                self.powerAotMaxPerfJoules = uJoules
+                self.powerAotMaxPerfWatts = mWatts
         else:
-            self.powerMaxPerfInferenceTime = mSeconds
-            self.powerMaxPerfJoules = uJoules
-            self.powerMaxPerfWatts = mWatts
+            if cpu_mode == "LP":
+                self.powerMinPerfInferenceTime = mSeconds
+                self.powerMinPerfJoules = uJoules
+                self.powerMinPerfWatts = mWatts
+            else:
+                self.powerMaxPerfInferenceTime = mSeconds
+                self.powerMaxPerfJoules = uJoules
+                self.powerMaxPerfWatts = mWatts
 
     def setModelSize(self, model_size):
         self.model_size = model_size
 
     def setArenaSize(self, arena_size):
         self.arena_size = arena_size
+
+    def setAot(self, success: bool, module_path: Optional[str] = None, error: Optional[str] = None):
+        self.aot_success = success
+        self.aot_module_path = module_path
+        self.aot_error = error
 
 # ---------------------------------------------------------------------------
 # 3. Core runner class – encapsulates *all* mutating state
@@ -387,6 +550,9 @@ class AutoDeployRunner:
 
         if self.p.create_binary:
             self._create_and_finetune_binary()
+
+        if self.p.create_aot_profile:
+            self._generate_helios_aot()
 
         if self.p.create_profile:
             self._characterize_model()
@@ -468,10 +634,6 @@ class AutoDeployRunner:
         self.mc = ModelConfiguration(self.p)
         self.md = ModelDetails(interpreter)
 
-        # adResults is untouched – keep legacy import‑side‑effects intact
-        # from ns_autodeploy import adResults  # noqa: WPS433 – cyclic import okay (legacy)
-        # from neuralspot.tools.autodeploy.ns_autodeploy import adResults  # noqa: WPS433 – cyclic import okay (legacy)
-
         self.results = adResults(self.p)
         self.results.setModelSize(self.model_size)
 
@@ -539,7 +701,7 @@ class AutoDeployRunner:
             self.p.arena_location = "SRAM"
 
         if not self.p.nocompile_mode:
-            create_validation_binary(self.p, True, self.mc)
+            create_validation_binary(self.p, self.mc, baseline=True, aot=False)
         client = rpc_connect_as_client(self.p)
         configModel(self.p, client, self.md)
         stats = getModelStats(self.p, client)
@@ -560,11 +722,6 @@ class AutoDeployRunner:
             if self.model_size + self.mc.arena_size_k > self.platform_cfg.GetDTCMSize():
                 print("[NS] Model plus Arena do not fit in Data TCM. Moving model to MRAM.")
                 self.p.model_location = "MRAM"
-
-        # if not self.p.nocompile_mode:
-        #     create_validation_binary(self.p, False, self.mc)
-        # client = rpc_connect_as_client(self.p)
-        # configModel(self.p, client, self.md)
 
         # Persist pickles
         for path, obj in ((self._mc_pkl, self.mc), (self._md_pkl, self.md)):
@@ -593,7 +750,7 @@ class AutoDeployRunner:
                 self.p.model_location = "MRAM"
 
         if not self.p.nocompile_mode:
-            create_validation_binary(self.p, False, self.mc)
+            create_validation_binary(self.p, self.mc, baseline=False, aot=False)
         client = rpc_connect_as_client(self.p)
         configModel(self.p, client, self.md)
 
@@ -619,6 +776,17 @@ class AutoDeployRunner:
             overall_pmu_stats,
         )
         self.results.setProfile(time_us, macs, cycles, layers)
+        # TODO: Add AOT profile
+        # if self.p.create_aot_profile:
+        #     # HeliosAOT has already generated base source files,
+        #     # run create, validate, and get stats using the AOT model
+        #     if not self.p.nocompile_mode:
+        #         create_validation_binary(self.p, self.mc, baseline=True, aot=True)
+        #     client = rpc_connect_as_client(self.p)
+        #     configModel(self.p, client, self.md)
+        #     stats = getModelStats(self.p, client)
+        #     self.mc.update_from_stats(stats, self.md)
+            
 
         # Write updated pickles + result summary
         with open(self._mc_pkl, "wb") as fh:
@@ -633,6 +801,48 @@ class AutoDeployRunner:
                 idx,
                 repr(np.array(tensor_diffs).mean(axis=0)),
             )
+
+    def _generate_helios_aot(self) -> None:
+        print(f"\n[NS] *** Stage [{self._stage}/{self._total_stages}]: Generate HeliosAOT module")
+        self._stage += 1
+
+        try:
+            # Ensure supporting libraries are present --------------------
+            _fetch_ns_cmsis_nn(self.p.destination_rootdir)
+
+            # Determine configuration path ------------------------------
+            cfg_path = self.p.helios_aot_config
+            if cfg_path == "auto":
+                cfg_path = os.path.splitext(self.p.tflite_filename)[0] + ".yaml"
+                if not Path(cfg_path).exists():
+                    raise FileNotFoundError(
+                        "HeliosAOT config file not provided and 'auto' path does not exist."
+                    )
+
+            # Prepare ConvertArgs instance -------------------------------
+            convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
+            print(convert_args)
+            # Override model_path/output/module_name dynamically ---------
+            convert_args.model_path = Path(self.p.tflite_filename)
+            
+            # Put code in same directory as validator and perf, but under its own subdirectory
+            default_output = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
+            convert_args.output_path = default_output
+            convert_args.module_name = f"{self.p.model_name}"
+            convert_args.prefix = f"{self.p.model_name}"
+            print("new args")
+            print(convert_args)
+            # Invoke HeliosAOT programmatically --------------------------
+            aot_model = AotModel(config=convert_args)  # type: ignore
+            aot_model.initialize()
+            aot_model.convert()
+
+            self.results.setAot(True, module_path=str(convert_args.output_path.resolve()))
+            print("[AOT] HeliosAOT conversion completed successfully")
+        except Exception as exc:  # broad catch → propagate clean error message
+            err_msg = str(exc)
+            self.results.setAot(False, error=err_msg)
+            print(f"[AOT] HeliosAOT conversion failed – {err_msg}")
 
     # ------------------------------------------------------------------
     def _load_pickled_artifacts(self) -> None:
@@ -666,18 +876,23 @@ class AutoDeployRunner:
         self._stage += 1
 
         cpu_modes = ["LP", "HP"] if self.p.cpu_mode == "auto" else [self.p.cpu_mode]
+        runtime_modes = ["tflm"]
+        if self.p.create_aot_profile:
+            runtime_modes.append("aot")
+
         for mode in cpu_modes:
-            generatePowerBinary(self.p, self.mc, self.md, mode)
-            if self.p.joulescope:
-                td, i, v, p_, c, e = measurePower(self.p)
-                energy_uJ = (e["value"] / self.p.runs_power) * 1_000_000
-                time_ms = (td.total_seconds() * 1000) / self.p.runs_power
-                power_mW = (e["value"] / td.total_seconds()) * 1000
-                self.results.setPower(cpu_mode=mode, mSeconds=time_ms, uJoules=energy_uJ, mWatts=power_mW)
-                log.info("Model Power Measurement in %s mode: %.3f ms, %.3f uJ (avg %.3f mW)", mode, time_ms, energy_uJ, power_mW)
-            else:
-                sleep(10)  # legacy delay to allow SWO capture
-                log.info("Onboard perf run in %s mode completed (see SWO output)", mode)
+            for runtime_mode in runtime_modes:
+                generatePowerBinary(self.p, self.mc, self.md, mode, aot=runtime_mode == "aot")
+                if self.p.joulescope:
+                    td, i, v, p_, c, e = measurePower(self.p)
+                    energy_uJ = (e["value"] / self.p.runs_power) * 1_000_000
+                    time_ms = (td.total_seconds() * 1000) / self.p.runs_power
+                    power_mW = (e["value"] / td.total_seconds()) * 1000
+                    self.results.setPower(cpu_mode=mode, mSeconds=time_ms, uJoules=energy_uJ, mWatts=power_mW, aot=runtime_mode == "aot")
+                    log.info("Model Power Measurement in %s mode: %.3f ms, %.3f uJ (avg %.3f mW)", mode, time_ms, energy_uJ, power_mW)
+                else:
+                    sleep(10)  # legacy delay to allow SWO capture
+                    log.info("Onboard perf run in %s mode completed (see SWO output)", mode)
 
     # ------------------------------------------------------------------
     def _generate_library(self) -> None:  # Stage 4/5
@@ -699,6 +914,7 @@ class AutoDeployRunner:
             self.p.create_binary,
             self.p.create_profile,
             self.p.create_library,
+            self.p.create_aot_profile,
             self.p.joulescope or self.p.onboard_perf,
             self.p.create_ambiqsuite_example,
         )

@@ -8,7 +8,8 @@ import pkg_resources
 import erpc
 import numpy as np
 import pandas as pd
-import tensorflow as tf
+# import tensorflow as tf
+import ai_edge_litert as tflite
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
     ModelDetails,
@@ -966,7 +967,7 @@ def create_mut_modelinit(tflm_dir, mc):
     )
 
 
-def create_mut_main(params, tflm_dir, mc):
+def create_mut_main(params, tflm_dir, mc, aot):
     # make directory for tflm_validator
     os.makedirs(tflm_dir + "/src/", exist_ok=True)
 
@@ -975,9 +976,9 @@ def create_mut_main(params, tflm_dir, mc):
     rm = {
         "NS_AD_NAME": params.model_name,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
+        "NS_AD_AOT": aot,
     }
     createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
-    # shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.cc")
 
     template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.h")
     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
@@ -989,10 +990,13 @@ def create_mut_main(params, tflm_dir, mc):
     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
 
 
-def create_validation_binary(params, baseline, mc):
-    # tflm_dir = params.tflm_src_path
-    tflm_dir = params.destination_rootdir + "/" + params.model_name + "/tflm_validator"
-    create_mut_main(params, tflm_dir, mc)
+def create_validation_binary(params, mc, baseline, aot):
+    if aot:
+        subdir = "aot_validator"
+    else:
+        subdir = "tflm_validator"
+    validator_dir = params.destination_rootdir + "/" + params.model_name + "/" + subdir
+    create_mut_main(params, validator_dir, mc, aot)
 
     # map model location parameter to linker locations
     if params.model_location == "SRAM":
@@ -1002,11 +1006,11 @@ def create_validation_binary(params, baseline, mc):
     else:
         loc = ""
 
-    if not params.model_location == "PSRAM":
+    if not params.model_location == "PSRAM" and not aot:
         # if baseline:
         xxd_c_dump(
             src_path=params.tflite_filename,
-            dst_path=tflm_dir + "/src/mut_model_data.h",
+            dst_path=validator_dir + "/src/mut_model_data.h",
             var_name="mut_model",
             chunk_len=12,
             is_header=True,
@@ -1017,19 +1021,23 @@ def create_validation_binary(params, baseline, mc):
         print(
             f"[NS] Compiling and deploying Baseline image: arena size = {mc.arena_size_k}k, arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
         )
+    elif aot:
+        print(
+            f"[NS] Compiling and deploying AOT image: arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
+        )
     else:
         print(
             f"[NS] Compiling and deploying Tuned image:    arena size = {mc.arena_size_k}k, arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
         )
 
-    create_mut_metadata(params, tflm_dir, mc)
-    create_mut_modelinit(tflm_dir, mc)
+    create_mut_metadata(params, validator_dir, mc)
+    create_mut_modelinit(validator_dir, mc)
     compile_and_deploy(params, mc, first_time=baseline)
     time.sleep(3)
 
 
 def get_interpreter(params):
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
-    interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
+    interpreter = tflite.interpreter.Interpreter(model_path=params.tflite_filename)
     interpreter.allocate_tensors()
     return interpreter

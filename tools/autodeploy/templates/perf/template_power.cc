@@ -17,6 +17,7 @@
 #define NS_PROFILER_PMU_EVENT_3 NS_AD_PMU_EVENT_3
 #endif
 
+#include <string.h>
 #include "ns_core.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
@@ -29,16 +30,35 @@
 // #else
 #include "ns_power_profile.h"
 // #endif
+#if NS_AD_AOT == 1
+#include "NS_AD_NAME_AOT_model.h"
+#include "NS_AD_NAME_aot_api.h"
+#include "NS_AD_NAME_aot_example_tensors.h"
+#else
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_example_tensors.h"
 #include "ns_model.h"
+#endif
 
 #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
 #include "ns_peripherals_psram.h"
 #endif
 
 // TFLM Config
+#if NS_AD_AOT == 1
+static NS_AD_NAME_AOT_model_context_t model = {
+    .input_data = {NS_AD_NAME_example_input_tensors},
+    // .input_len = NS_AD_NAME_AOT_inputs_len,
+    .output_data = {NS_AD_NAME_output_tensors},
+    // .output_len = {NS_AD_NAME_AOT_outputs_len},
+    .callback = NULL,
+    .user_data = NULL
+};
+#else
 static ns_model_state_t model;
+#endif
+
+
 volatile int example_status = 0; // Prevent the compiler from optimizing out while loops
 
 typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } myState_e;
@@ -90,10 +110,12 @@ ns_psram_config_t psram_cfg = {
 };
 #endif
 
+#if NS_AD_AOT == 0
 int tf_invoke() {
     model.interpreter->Invoke();
     return 0;
 }
+#endif
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
@@ -124,7 +146,15 @@ int main(void) {
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");
 
+#if NS_AD_AOT == 1
+    // Initialize the model
+    // Memcpy input and output tensor length arrays to context
+    memcpy(model.input_len, NS_AD_NAME_AOT_inputs_len, sizeof(NS_AD_NAME_AOT_inputs_len));
+    memcpy(model.output_len, NS_AD_NAME_AOT_outputs_len, sizeof(NS_AD_NAME_AOT_outputs_len));
+    int status = NS_AD_NAME_AOT_model_init(&model); // model init with minimal defaults
+#else
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
+#endif
     if (status == NS_AD_NAME_STATUS_FAILURE) {
         while (1)
             ns_lp_printf("Model init failed.\n");
@@ -136,18 +166,21 @@ int main(void) {
     // Note that the model handle is not meant to be opaque, the structure is defined
     // in ns_model.h, and contains state, config details, and model structure information
 
+#if NS_AD_AOT == 0
     // Get data about input and output tensors
     int numInputs = model.numInputTensors;
 
     // Initialize input tensors
     int offset = 0;
     for (int i = 0; i < numInputs; i++) {
+
         memcpy(
             model.model_input[i]->data.int8, ((char *)NS_AD_NAME_example_input_tensors) + offset,
             model.model_input[i]->bytes);
         offset += model.model_input[i]->bytes;
     }
     ns_lp_printf("Input tensors initialized.\n");
+#endif
 
 #if NS_AD_JS_PRESENT == 0
     // If no Joulescope, start running the model without waiting for a trigger
@@ -194,7 +227,10 @@ int main(void) {
             for (int i = 0; i < 1; i++) { // Only 1 run needed for onboard_perf mode
 #endif // NS_AD_JS_PRESENT
             // for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
+#if NS_AD_AOT == 0
                 model.interpreter->Invoke();
+#else
+                NS_AD_NAME_AOT_model_run(&model);
 #ifdef NS_MLPROFILE
                 if (i == 0) {
                     ns_stop_perf_profiler();
@@ -204,6 +240,8 @@ int main(void) {
                     // ns_lp_printf("Number of layers: %d\n", num_layers);
                 }
 #endif // NS_MLPROFILE
+#endif
+
             // ns_lp_printf("Model run %d complete.\n", i);
             }
             // ns_lp_printf("Model run complete.\n");
@@ -231,8 +269,12 @@ int main(void) {
             // will be different for the runs below, so the mapping of PMU events to layers must be 
             // adjusted.
 
+#if NS_AD_AOT == 0
             ns_characterize_model(tf_invoke);
             ns_parse_pmu_stats(num_layers, model.rv_count);
+#else
+            //ns_characterize_model(NS_AD_NAME_model_run);
+#endif
 
 #endif // AM_PART_APOLLO5B
             while (1);   // hang

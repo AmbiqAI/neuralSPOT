@@ -4,7 +4,7 @@ import shutil
 import struct
 import sys
 import time
-import pkg_resources
+import importlib.resources
 import erpc
 import numpy as np
 import pandas as pd
@@ -164,6 +164,7 @@ class ModelConfiguration:
         self.events = -1
         self.modelStructureDetails = ModelStructureDetails(params.tflite_filename, params.model_name)
         self.rv_count = self.modelStructureDetails.rv_count
+        self.aot_layers = 0
 
     def update_from_stats(self, stats, md):
         self.arena_size = stats[0]  # in bytes
@@ -942,7 +943,7 @@ def create_mut_metadata(params, tflm_dir, mc):
             mc.rv_count,
         )
     )
-    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    template_directory = str(importlib.resources.files(__name__) / "templates")
 
     createFromTemplate(
         template_directory + "/validator/template_mut_metadata.h",
@@ -959,7 +960,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
     }
-    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    template_directory = str(importlib.resources.files(__name__) / "templates")
     createFromTemplate(
         template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
@@ -972,7 +973,7 @@ def create_mut_main(params, tflm_dir, mc, aot):
     os.makedirs(tflm_dir + "/src/", exist_ok=True)
 
     # Copy template main.cc to tflm_dir
-    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.cc")
+    template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.cc")
     rm = {
         "NS_AD_NAME": params.model_name,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
@@ -980,13 +981,13 @@ def create_mut_main(params, tflm_dir, mc, aot):
     }
     createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
 
-    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.h")
+    template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.h")
     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
 
-    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.mk")
+    template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.mk")
     shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
 
-    template_file = pkg_resources.resource_filename(__name__, "templates/common/template_ns_model.h")
+    template_file = str(importlib.resources.files(__name__) / "templates/common/template_ns_model.h")
     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
 
 

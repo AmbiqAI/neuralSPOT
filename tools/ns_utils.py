@@ -5,7 +5,7 @@ import pickle
 import sys
 import time
 import serial.tools.list_ports
-import pkg_resources
+import importlib.resources
 import yaml
 import numpy as np
 import logging as log
@@ -160,7 +160,7 @@ def read_pmu_definitions(params):
 
     if params.pmu_config_file == "default":
         # Read PMU definitions from yaml file
-        yaml_path = pkg_resources.resource_filename(__name__, 'autodeploy/profiles/ns_pmu_default.yaml')
+        yaml_path = str(importlib.resources.files(__name__) / 'autodeploy/profiles/ns_pmu_default.yaml')
     else:
         yaml_path = params.pmu_config_file
 

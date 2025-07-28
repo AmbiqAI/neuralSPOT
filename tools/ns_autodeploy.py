@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging as log
 import os
+import warnings
 from pathlib import Path
 from time import sleep
 from typing import Callable, List
@@ -17,6 +18,9 @@ import numpy as np
 import argparse
 import yaml
 from pydantic import BaseModel, Field
+
+# Suppress Pydantic warnings about protected namespace conflicts
+warnings.filterwarnings("ignore", message="Field.*has conflict with protected namespace.*")
 
 # ---------------------------------------------------------------------------
 # Optional HeliosAOT import --------------------------------------------------
@@ -471,13 +475,17 @@ Notes:
 
         if self.p.resultlog_file != "none":
             if not os.path.exists(self.p.resultlog_file):
+                # Create AOT columns if aot is enabled
+                aot_columns = ""
+                if self.p.create_aot_profile:
+                    aot_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW)"
                 with open(self.p.resultlog_file, "w") as f:
                     f.write(
-                        "Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run, ID\n"
+                        f"Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run, ID{aot_columns}\n"
                     )
             with open(self.p.resultlog_file, "a") as f:
                 f.write(
-                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.p.ambiqsuite_version},{d1}, {self.p.run_log_id}\n"
+                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.powerAotMaxPerfInferenceTime},{self.powerAotMaxPerfJoules},{self.powerAotMaxPerfWatts},{self.powerAotMinPerfInferenceTime},{self.powerAotMinPerfJoules},{self.powerAotMinPerfWatts},{self.p.ambiqsuite_version},{d1},{self.p.run_log_id}\n"
                 )
 
     def setProfile(
@@ -551,14 +559,14 @@ class AutoDeployRunner:
         if self.p.create_binary:
             self._create_and_finetune_binary()
 
-        if self.p.create_aot_profile:
-            self._generate_helios_aot()
-
         if self.p.create_profile:
             self._characterize_model()
 
         if not self.p.create_binary and not self.p.create_profile:
             self._load_pickled_artifacts()
+
+        if self.p.create_aot_profile:
+            self._generate_helios_aot()
 
         if self.p.joulescope or self.p.onboard_perf:
             self._characterize_power_or_onboard_perf()
@@ -830,12 +838,29 @@ class AutoDeployRunner:
             convert_args.output_path = default_output
             convert_args.module_name = f"{self.p.model_name}"
             convert_args.prefix = f"{self.p.model_name}"
+
+            # put model and arena in specified locations
+            from helios_aot.defines import OperatorAttributeRule
+            convert_args.operator_attributes = [
+                OperatorAttributeRule(
+                    type="*",
+                    attributes={"weights_memory": self.p.model_location.lower(), "scratch_memory": self.p.arena_location.lower()},
+                )
+            ]
+
             print("new args")
             print(convert_args)
             # Invoke HeliosAOT programmatically --------------------------
             aot_model = AotModel(config=convert_args)  # type: ignore
             aot_model.initialize()
             aot_model.convert()
+            # Get the number of layers
+            layers = len(aot_model.operators)
+            # store it in mc
+            self.mc.aot_layers = layers
+            print("[AOT] Operations:")
+            for op in aot_model.operators:
+                print(f"  {op.ident}, {op.name}")
 
             self.results.setAot(True, module_path=str(convert_args.output_path.resolve()))
             print("[AOT] HeliosAOT conversion completed successfully")

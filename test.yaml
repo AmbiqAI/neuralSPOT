@@ -8,7 +8,4 @@ prefix: nnse
 memory_planner: greedy
 include_test: true
 verbose: 1
-operator_attributes:
-  - type: CONV_2D
-    attributes:
-      memory: tcm
+

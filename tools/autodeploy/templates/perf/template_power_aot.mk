@@ -1,4 +1,4 @@
-local_app_name := NS_AD_NAME
+local_app_name := NS_AD_NAME_aot
 local_src := $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.c)
 local_src += $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.cc)
 local_src += $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.cpp)

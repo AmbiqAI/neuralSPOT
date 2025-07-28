@@ -1,14 +1,14 @@
 # Ambiq Platform knowledgebase class
 import yaml
 import math
-import pkg_resources
+import importlib.resources
 
 class AmbiqPlatform:
     def __init__(self, params):
         self.platform = params.platform
 
         # Load the ns_platform yaml file
-        yaml_path = pkg_resources.resource_filename(__name__, 'ns_platform.yaml')
+        yaml_path = str(importlib.resources.files(__name__) / 'ns_platform.yaml')
         with open(yaml_path, "r") as f:
             self.platform_config = yaml.safe_load(f)
 

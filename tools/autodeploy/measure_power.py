@@ -6,7 +6,7 @@ import shutil
 import signal
 import time
 import traceback
-import pkg_resources
+import importlib.resources
 import numpy as np
 from joulescope import scan
 from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions
@@ -88,6 +88,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     rm = {
         "NS_AD_NAME_AOT": n_aot, # only used when aot is True
         "NS_AD_NAME": n_module,
+        "NS_AD_AOT_LAYERS": mc.aot_layers,
         "NS_AD_ARENA_SIZE": mc.arena_size_k + params.arena_size_scratch_buffer_padding,
         "NS_AD_MODEL_LOCATION": f"NS_AD_{params.model_location}",
         "NS_AD_ARENA_LOCATION": f"NS_AD_{params.arena_location}",
@@ -122,7 +123,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     os.makedirs(f"{d}/{n}", exist_ok=True)
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
-    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    template_directory = str(importlib.resources.files(__name__) / "templates")
     print(f"[NS] Template directory: {template_directory}")
     # Generate files from template
     createFromTemplate(
@@ -249,12 +250,12 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     #     print("Makefile successfully built power measurement binary")
 
     # Do one more reset
-    time.sleep(3)
+    time.sleep(6)
     os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1")
     if (params.model_location == "PSRAM" or params.arena_location == "PSRAM"):
         time.sleep(10) # wait for PSRAM to be ready
     else:
-        time.sleep(3)
+        time.sleep(10)
 
 
 # Joulescope-specific Code
@@ -345,7 +346,7 @@ def measurePower(params):
     statistics_queue = queue.Queue()  # resynchronize to main thread
     startTime = 0
     stopTime = 0
-
+    print("Starting power measurement...")
     def stop_fn(*args, **kwargs):
         nonlocal _quit
         _quit = True

@@ -55,6 +55,11 @@ def build_command(model, args):
     cmd.extend(["--tflite", model_path])
     # cmd.extend(["--tflite-filename", model["tflite_filename"]])
 
+    if args.aot:
+        cmd.append("--create-aot-profile")
+        cmd.append("--helios-aot-config")
+        cmd.append("test.yaml")
+
     # Optionally set model name.
     if "model_name" in model:
         cmd.extend(["--model-name", model["model_name"]])
@@ -123,6 +128,13 @@ def main():
         type=str,
         required=True,
         help="Path to store per-model profile results."
+    )
+    parser.add_argument(
+        "--aot",
+        action="store_true",
+        required=False,
+        default=False,
+        help="Run AOT."
     )
     parser.add_argument(
         "--joulescope",

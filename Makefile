@@ -87,11 +87,7 @@ else
 		modules      += apps/examples/rpc_pc_to_evb
 		ifeq ($(BOARD),apollo510)
 			modules      += apps/examples/icm
-			modules	     += apps/mlperf/keyword_spotting
-			modules 	 += apps/mlperf/anomaly_detection
-			modules	     += apps/mlperf/image_classification
-			modules      += apps/mlperf/person_detection
-			modules      += apps/mlperf/streaming_wakeword
+
 		endif
 
 		ifeq ($(BLE_SUPPORTED),1)
@@ -143,8 +139,7 @@ objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
-CFLAGS += -O0
-
+CFLAGS     += -Ofast
 .PHONY: all
 all:
 

@@ -68,10 +68,9 @@ int main(int argc, char *argv[]) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
+    NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
-    // setup_i2s_buffers();
     i2s_init();
-
     ns_interrupt_master_enable();
     th_serialport_initialize();
     ns_timer_init(&basic_tickTimer);
@@ -94,8 +93,14 @@ static void gpio_init() {
     am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_CLEAR);
     set_processing_pin_high();
     // wakeword detected pin
-    am_hal_gpio_pinconfig(36, am_hal_gpio_pincfg_output); // not sure if I have to make the speed slower. It is 0 on ST code.
-    am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);
+    am_hal_gpio_pincfg_t ww_det_out = am_hal_gpio_pincfg_output;
+    // ww_det_out.GP.cfg_b.uFuncSel = AM_HAL_PIN_36_GPIO;
+    // ww_det_out.GP.cfg_b.eDriveStrength = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P1X;
+    // ww_det_out.GP.cfg_b.ePowerSw = AM_HAL_GPIO_PIN_POWERSW_VSS;
+    am_hal_gpio_pinconfig(36, ww_det_out);
+    am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
+    // am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
+    // am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);
 
 }
 

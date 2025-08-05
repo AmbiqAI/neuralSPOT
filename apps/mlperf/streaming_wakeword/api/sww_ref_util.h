@@ -13,7 +13,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-// #include "sww_model.h"
+#include "str_ww_ref_model_power_api.h"
+#include "arm_math_types.h"
+#include "ns_model.h"
 
 
 #define EE_FW_VERSION "MLPerf Tiny Firmware V0.1.0"
@@ -51,7 +53,7 @@ typedef enum { EE_STATUS_OK = 0, EE_STATUS_ERROR } ee_status_t;
 
 #define EE_ERR_CMD "e-[Unknown command: %s]\r\n"
 
-#define TH_VENDOR_NAME_STRING "ML Commons"
+#define TH_VENDOR_NAME_STRING "Ambiq"
 
 
 #define SWW_WINLEN_SAMPLES 1024
@@ -91,9 +93,8 @@ void set_processing_pin_high(void);
 void set_processing_pin_low(void);
 void infer_static_wav(char *cmd_args[]);
 
-// ai_error aiInit(void);
-void setup_i2s_buffers();
-// void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp);
+int sww_model_init();
+void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp);
 void extract_features_on_chunk(char *cmd_args[]);
 
 #endif /* INC_SWW_UTIL_H_ */

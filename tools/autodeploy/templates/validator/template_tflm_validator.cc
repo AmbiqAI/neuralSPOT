@@ -15,7 +15,14 @@
 
 #include "mut_model_metadata.h"
 
-#include "tflm_ns_model.h"
+#if NS_AD_AOT == 1
+    #include "NS_AD_NAME_AOT_model.h"
+    #include "NS_AD_NAME_AOT_api.h"
+    // #include "NS_AD_NAME_example_tensors.h"
+#else
+    #include "tflm_ns_model.h"
+#endif
+
 #if (TFLM_MODEL_LOCATION == NS_AD_PSRAM) or (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
     #include "ns_peripherals_psram.h"
 #endif
@@ -106,6 +113,20 @@ ns_incoming_tensor_details_u inputTensorDetails[NS_MAX_INPUT_TENSORS];
 ns_incoming_tensor_details_u outputTensorDetails[NS_MAX_OUTPUT_TENSORS];
 extern int tflm_validator_model_init(ns_model_state_t *ms);
 
+#if NS_AD_AOT == 1
+/* ------------------------------------------------------------------ *
+ *  Helios‑AOT static context                                         *
+ * ------------------------------------------------------------------ */
+static NS_AD_INPUT_TENSOR_TYPE aot_input_tensors[NS_AD_INPUT_TENSOR_LEN];
+static NS_AD_OUTPUT_TENSOR_TYPE aot_output_tensors[NS_AD_OUTPUT_TENSOR_LEN];
+
+static NS_AD_NAME_AOT_model_context_t aot_model = {
+    .input_data  = {aot_input_tensors},
+    .output_data = {aot_output_tensors},
+    .callback    = NULL,
+    .user_data   = NULL};
+#endif
+
 #ifdef NS_MLPROFILE
 // Timer is used for TF profiling
 ns_timer_config_t basic_tickTimer = {
@@ -161,6 +182,7 @@ const ns_perf_mac_count_t basic_mac = {
  * @return status
  */
 status configureModel(const dataBlock *in) {
+    int status;
     ns_lp_printf("[INFO] PC requested model initialization\n");
 
     // Grab incoming buffer, decode into config struct
@@ -193,6 +215,7 @@ status configureModel(const dataBlock *in) {
     // uint32_t inputTensorLengths[numInputTensors]
     // uint32_t outputTensorLengths[numPutputTensors]
 
+#if NS_AD_AOT == 0
     tflm.runtime = TFLM;
     tflm.model_array = mut_model;
     tflm.arena = tensor_arena;
@@ -202,7 +225,9 @@ status configureModel(const dataBlock *in) {
     tflm.rv_count = TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES;
     tflm.numInputTensors = mut_cfg.config.num_input_tensors;
     tflm.numOutputTensors = mut_cfg.config.num_output_tensors;
+#endif
 
+    // This is common to both TFLM and AOT
     memcpy(
         &inputTensorDetails, in->buffer.data + sizeof(mut_cfg),
         4 * mut_cfg.config.num_input_tensors);
@@ -210,21 +235,29 @@ status configureModel(const dataBlock *in) {
         &outputTensorDetails,
         in->buffer.data + sizeof(mut_cfg) + (4 * mut_cfg.config.num_input_tensors),
         4 * mut_cfg.config.num_output_tensors);
-
-#ifdef NS_MLPROFILE
-    ns_lp_printf("[INFO] Initializing Profiler\n");
-    tflm.tickTimer = &basic_tickTimer;
-    tflm.mac_estimates = &basic_mac;
-    #ifdef AM_PART_APOLLO5B
-    tflm.pmu = &pmu_cfg;
+// Microprofiler stuff is TODO for AOT 
+#if NS_AD_AOT == 0      
+    #ifdef NS_MLPROFILE
+        ns_lp_printf("[INFO] Initializing Profiler\n");
+        tflm.tickTimer = &basic_tickTimer;
+        tflm.mac_estimates = &basic_mac;
+        #ifdef AM_PART_APOLLO5B
+        tflm.pmu = &pmu_cfg;
+        #endif
+    #else
+        tflm.tickTimer = NULL;
     #endif
-#else
-    tflm.tickTimer = NULL;
 #endif
     ns_lp_printf("[INFO] Initializing Model\n");
-    int status = tflm_validator_model_init(&tflm);
+
+    #if NS_AD_AOT == 1
+        status = NS_AD_NAME_AOT_model_init(&aot_model);
+        mut_stats.stats.computed_arena_size = 0;   /* Not meaningful for AOT */
+    #else
+        status = tflm_validator_model_init(&tflm);
+        mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
+    #endif
     ns_lp_printf("[INFO] Model Initialized status = %d\n", status);
-    mut_stats.stats.computed_arena_size = tflm.computed_arena_size;
     ns_lp_printf("[INFO] Input Size %d \n", tflm.interpreter->inputs_size());
     ns_lp_printf("[INFO] Output Size %d \n", tflm.interpreter->outputs_size());
 
@@ -251,9 +284,15 @@ status incomingTensorChunk(const dataBlock *in) {
         input_tensor_offset);
     // Get latest chunk, copy into next spot in raw
     // tensor
+    #if NS_AD_AOT == 0
     memcpy(
         tflm.model_input[0]->data.int8 + input_tensor_offset, in->buffer.data,
         in->buffer.dataLength);
+    #else
+        memcpy(
+            aot_input_tensors + input_tensor_offset, in->buffer.data,
+            in->buffer.dataLength);
+    #endif
     input_tensor_offset += in->buffer.dataLength;
     input_tensor_is_chunked = true;
     return ns_rpc_data_success;
@@ -541,7 +580,7 @@ int tf_invoke() {
 
 bool full_characterization_done = false;
 
-status infer_on_tflm(const dataBlock *in, dataBlock *res) {
+status infer(const dataBlock *in, dataBlock *res) {
     uint32_t outputSize;
     char msg_full[] = "FullTensor\0";
     char msg_part[] = "PartTensor\0";
@@ -550,7 +589,7 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
 
     uint8_t *resultBuffer;
     char *msg_store;
-    ns_lp_printf("[INFO] infer_on_tflm platform %d\n", mut_stats.stats.platform);
+    ns_lp_printf("[INFO] infer() platform %d\n", mut_stats.stats.platform);
 
     // If the output tensor is greater than 3000, we need to chunk it
     if (mut_cfg.config.output_length < (TFLM_VALIDATOR_RX_BUFSIZE - 1000)) {
@@ -619,13 +658,23 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
 
     // 'in' contains the input tensors, treat as homogeneous block
     if (input_tensor_is_chunked == false) {
+        #if NS_AD_AOT == 0
         memcpy(tflm.model_input[0]->data.int8, in->buffer.data, in->buffer.dataLength);
+        #else
+        memcpy(
+            aot_input_tensors + input_tensor_offset, in->buffer.data,
+            in->buffer.dataLength);
+        #endif
     } // else it is already in the input tensor
 
     TfLiteStatus invoke_status = kTfLiteOk;
     // Run the normal way, collecting only defined stats (for PMU, that is 4 32b event counters)
     ns_lp_printf("[INFO] Invoking model with %d byte tensor\n", in->buffer.dataLength);
+    #if NS_AD_AOT == 0
     invoke_status = tflm.interpreter->Invoke();
+    #else
+    invoke_status = NS_AD_NAME_AOT_model_invoke(&aot_model);
+    #endif
     ns_lp_printf("[INFO] Invoke platform %d\n", mut_stats.stats.platform);
 
     if (invoke_status != kTfLiteOk) {
@@ -634,7 +683,7 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
         return ns_rpc_data_failure;
     }
     ns_lp_printf("[INFO] Invoke successful\n");
-
+#if NS_AD_AOT == 0
     if ((mut_cfg.config.profile_mut == 1) && (invokes_so_far == mut_cfg.config.profile_warmup)) {
         ns_lp_printf(
             "[INFO] requested warmup %d,  invokes_so_far %d", mut_cfg.config.profile_warmup,
@@ -655,6 +704,7 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
         }
         #endif
     }
+#endif
     ns_lp_printf("[INFO] after profiler successful\n");
 
     // Prep the return block with output tensor
@@ -672,9 +722,15 @@ status infer_on_tflm(const dataBlock *in, dataBlock *res) {
 
     int offset = 0;
     for (uint32_t t = 0; t < mut_cfg.config.num_output_tensors; t++) {
+        #if NS_AD_AOT == 0
         memcpy(
             destination + offset, tflm.model_output[t]->data.int8,
             outputTensorDetails[t].details.tensorSizeBytes);
+        #else
+        memcpy(
+            destination + offset, aot_output_tensors[t],
+            outputTensorDetails[t].details.tensorSizeBytes);
+        #endif
         offset += outputTensorDetails[t].details.tensorSizeBytes;
     }
     // ns_lp_printf("[INFO] output memcpy successful\n");
@@ -779,7 +835,7 @@ int main(void) {
     #endif
         .sendBlockToEVB_cb = decodeIncomingSendblock,
         .fetchBlockFromEVB_cb = decodeIncomingFetchblock,
-        .computeOnEVB_cb = infer_on_tflm,
+        .computeOnEVB_cb = infer,
     #if (NS_VALIDATOR_RPC_TRANSPORT == NS_AD_RPC_TRANSPORT_UART)
         .transport = NS_RPC_TRANSPORT_UART
     #else

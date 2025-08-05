@@ -8,4 +8,3 @@ prefix: nnse
 memory_planner: greedy
 include_test: true
 verbose: 1
-

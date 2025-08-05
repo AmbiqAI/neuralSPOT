@@ -9,7 +9,7 @@ import importlib.resources
 import yaml
 import numpy as np
 import logging as log
-
+from contextlib import contextmanager
 import erpc
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
@@ -340,6 +340,45 @@ def get_armclang_version():
     print("armclang version found: ", match.group(1))
     return match.group(1)
 
+@contextmanager
+def suppress_os_stdio():
+    """
+    Redirects the OS stdout (fd=1) and stderr (fd=2) to /dev/null, then restores them on exit.
+    Suppresses all output **unless** an exception is raised, in which case it will be logged.
+
+    Example:
+        with suppress_os_stdio():
+            noisy_function()
+    """
+    # 1) Flush Python buffers
+    sys.stdout.flush()
+    sys.stderr.flush()
+
+    # 2) Duplicate original FDs so we can restore them later
+    orig_stdout_fd = os.dup(sys.stdout.fileno())
+    orig_stderr_fd = os.dup(sys.stderr.fileno())
+
+    try:
+        # 3) Open /dev/null and redirect
+        devnull_fd = os.open(os.devnull, os.O_RDWR)
+        os.dup2(devnull_fd, sys.stdout.fileno())
+        os.dup2(devnull_fd, sys.stderr.fileno())
+        os.close(devnull_fd)
+
+        # 4) Enter user’s block
+        yield
+
+    except Exception:
+        # 5) An error occurred! Log it (the FDs are still /dev/null at this moment).
+        logging.exception("Error inside suppressed stdout/stderr block")
+        raise
+
+    finally:
+        # 6) Restore original FDs no matter what
+        os.dup2(orig_stdout_fd, sys.stdout.fileno())
+        os.dup2(orig_stderr_fd, sys.stderr.fileno())
+        os.close(orig_stdout_fd)
+        os.close(orig_stderr_fd)
 
 if __name__ == "__main__":
     version = get_armclang_version()

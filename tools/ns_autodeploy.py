@@ -12,7 +12,9 @@ import os
 import warnings
 from pathlib import Path
 from time import sleep
+import shutil
 from typing import Callable, List
+import importlib
 
 import numpy as np
 import argparse
@@ -33,10 +35,10 @@ try:
     from helios_aot.aot_model import AotModel  # type: ignore
 
     helios_aot_available = True
-    print("Helios AOT support is available")
+    print("[NS] HeliosAOT module is available")
 except (ImportError, OSError, RuntimeError) as e:
     helios_aot_available = False
-    print(f"Helios AOT support is not available: {e}")
+    # print(f"Helios AOT support is not available: {e}")
     
 
 # External modules – behaviour must stay identical; keep import locations
@@ -63,6 +65,30 @@ from neuralspot.tools.ns_utils import (
     get_armclang_version,
 )
 import neuralspot.tools.ns_platform as ns_platform
+
+# Suppress TensorFlow logging messages
+log.getLogger("tensorflow").setLevel(log.ERROR)
+log.getLogger("tflite").setLevel(log.ERROR)
+log.getLogger("tensorflow.lite").setLevel(log.ERROR)
+
+# Suppress specific TensorFlow messages
+warnings.filterwarnings("ignore", message=".*Created TensorFlow Lite XNNPACK delegate.*")
+
+# More comprehensive TensorFlow logging suppression
+import logging
+for logger_name in ["tensorflow", "tflite", "tensorflow.lite", "tensorflow.python"]:
+    logging.getLogger(logger_name).setLevel(logging.ERROR)
+
+# Also suppress at the root logger level for TensorFlow messages
+class TensorFlowFilter(logging.Filter):
+    def filter(self, record):
+        return not any(msg in record.getMessage() for msg in [
+            "Created TensorFlow Lite XNNPACK delegate",
+            "XNNPACK delegate"
+        ])
+
+# Apply the filter to the root logger
+logging.getLogger().addFilter(TensorFlowFilter())
 
 __all__ = ["main", "Params"]  # For external reuse & unit‑test import
 
@@ -565,7 +591,7 @@ class AutoDeployRunner:
         if not self.p.create_binary and not self.p.create_profile:
             self._load_pickled_artifacts()
 
-        if self.p.create_aot_profile:
+        if self.p.create_aot_profile and not self.p.create_profile:
             self._generate_helios_aot()
 
         if self.p.joulescope or self.p.onboard_perf:
@@ -627,6 +653,10 @@ class AutoDeployRunner:
         if self.p.tflite_filename == "undefined":
             raise ValueError("TFLite filename must be specified")
 
+        # --- If aot_config is auto, set it to tools/base_aot.yaml
+        if self.p.helios_aot_config == "auto":
+            self.p.helios_aot_config = str(importlib.resources.files(__name__) / "base_aot.yaml")
+
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")
 
@@ -664,7 +694,7 @@ class AutoDeployRunner:
                 self.p.max_arena_size = pc.GetMaxPsramArenaSize()
             else:
                 self.p.max_arena_size = pc.GetMaxArenaSize()
-            print(f"[NS] Max {self.p.arena_location if self.p.arena_location != 'auto' else ''} Arena Size for {self.p.platform}: {self.p.max_arena_size} KB")
+            print(f"[NS] Max {self.p.arena_location if self.p.arena_location != 'auto' else 'SRAM'} Arena Size for {self.p.platform}: {self.p.max_arena_size} KB")
         else:
             pc.CheckArenaSize(self.p.max_arena_size, self.p.arena_location)
 
@@ -764,6 +794,8 @@ class AutoDeployRunner:
 
         differences = validateModel(self.p, client, get_interpreter(self.p), self.md, self.mc)
         stats = getModelStats(self.p, client)
+        # pretty-print the differences
+        log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences).mean(axis=0)))
         stats_file_base = Path(self.p.destination_rootdir) / self.p.model_name / f"{self.p.model_name}_stats"
         pmu_csv_header = ""
         overall_pmu_stats: List[List[int]] = []
@@ -784,16 +816,34 @@ class AutoDeployRunner:
             overall_pmu_stats,
         )
         self.results.setProfile(time_us, macs, cycles, layers)
-        # TODO: Add AOT profile
-        # if self.p.create_aot_profile:
-        #     # HeliosAOT has already generated base source files,
-        #     # run create, validate, and get stats using the AOT model
-        #     if not self.p.nocompile_mode:
-        #         create_validation_binary(self.p, self.mc, baseline=True, aot=True)
-        #     client = rpc_connect_as_client(self.p)
-        #     configModel(self.p, client, self.md)
-        #     stats = getModelStats(self.p, client)
-        #     self.mc.update_from_stats(stats, self.md)
+        # ----  Run an AOT profiling pass (optional) ----------------------
+        if self.p.create_aot_profile:
+            if not self.p.nocompile_mode:
+                self._generate_helios_aot()
+                create_validation_binary(self.p, self.mc, baseline=False, aot=True)
+
+            client = rpc_connect_as_client(self.p)
+            configModel(self.p, client, self.md)
+
+            differences_aot = validateModel(self.p, client, get_interpreter(self.p),
+                              self.md, self.mc)
+            stats_aot = getModelStats(self.p, client)
+            
+            # pretty-print the differences  
+            log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences_aot).mean(axis=0)))
+            
+            # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
+            if not np.array_equal(differences, differences_aot):
+                log.warning("Model Output Comparison: TFLM and AOT differences are not identical. TFLM differences: %s, AOT differences: %s", repr(np.array(differences).mean(axis=0)), repr(np.array(differences_aot).mean(axis=0)))
+            else:
+                print("[NS] AOT/TFLM output tensor comparison: Identical")
+
+            printStats(self.p,           # prints to console / log
+                       self.mc,
+                       stats_aot,
+                       str(stats_file_base) + "_aot",
+                       pmu_csv_header,
+                       overall_pmu_stats)
             
 
         # Write updated pickles + result summary
@@ -811,8 +861,11 @@ class AutoDeployRunner:
             )
 
     def _generate_helios_aot(self) -> None:
-        print(f"\n[NS] *** Stage [{self._stage}/{self._total_stages}]: Generate HeliosAOT module")
-        self._stage += 1
+        print(f"[NS] Generate HeliosAOT source code")
+        # erase any existing AOT source code
+        aot_dir = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
+        if aot_dir.exists():
+            shutil.rmtree(aot_dir)
 
         try:
             # Ensure supporting libraries are present --------------------
@@ -829,7 +882,7 @@ class AutoDeployRunner:
 
             # Prepare ConvertArgs instance -------------------------------
             convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
-            print(convert_args)
+            # print(convert_args)
             # Override model_path/output/module_name dynamically ---------
             convert_args.model_path = Path(self.p.tflite_filename)
             
@@ -848,8 +901,8 @@ class AutoDeployRunner:
                 )
             ]
 
-            print("new args")
-            print(convert_args)
+            # print("new args")
+            # print(convert_args)
             # Invoke HeliosAOT programmatically --------------------------
             aot_model = AotModel(config=convert_args)  # type: ignore
             aot_model.initialize()
@@ -858,16 +911,16 @@ class AutoDeployRunner:
             layers = len(aot_model.operators)
             # store it in mc
             self.mc.aot_layers = layers
-            print("[AOT] Operations:")
-            for op in aot_model.operators:
-                print(f"  {op.ident}, {op.name}")
+            # print("[AOT] Operations:")
+            # for op in aot_model.operators:
+            #     print(f"  {op.ident}, {op.name}")
 
             self.results.setAot(True, module_path=str(convert_args.output_path.resolve()))
-            print("[AOT] HeliosAOT conversion completed successfully")
+            print("[NS] HeliosAOT generation completed successfully")
         except Exception as exc:  # broad catch → propagate clean error message
             err_msg = str(exc)
             self.results.setAot(False, error=err_msg)
-            print(f"[AOT] HeliosAOT conversion failed – {err_msg}")
+            print(f"[NS] HeliosAOT generation failed – {err_msg}")
 
     # ------------------------------------------------------------------
     def _load_pickled_artifacts(self) -> None:
@@ -939,7 +992,7 @@ class AutoDeployRunner:
             self.p.create_binary,
             self.p.create_profile,
             self.p.create_library,
-            self.p.create_aot_profile,
+            # self.p.create_aot_profile,
             self.p.joulescope or self.p.onboard_perf,
             self.p.create_ambiqsuite_example,
         )

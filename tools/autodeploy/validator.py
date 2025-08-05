@@ -8,7 +8,7 @@ import importlib.resources
 import erpc
 import numpy as np
 import pandas as pd
-# import tensorflow as tf
+
 import ai_edge_litert as tflite
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
@@ -20,7 +20,8 @@ from neuralspot.tools.ns_utils import (
     printDataBlock,
     reset_dut,
     xxd_c_dump,
-    read_pmu_definitions
+    read_pmu_definitions,
+    suppress_os_stdio
 )
 from tabulate import tabulate
 from tqdm import tqdm
@@ -28,7 +29,6 @@ from neuralspot.tools.utils.tflite_helpers import CreateAddFromSnakeOpName
 from pathlib import Path
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 import yaml
-
 
 modelConfigPreambleSize = 7  # number of uint32_t words
 modelStatPreambleSize = 7+128  # number of uint32_t words
@@ -438,6 +438,10 @@ def validateModel(params, client, interpreter, md, mc):
     for i in tqdm(range(runs)):
         inExamples = []
         # Generate or load data
+        # Create and store in MC a seed for the random number generator
+        np.random.seed(i)
+        mc.random_seed = i
+
         if params.random_data:
             # Generate random input
             if md.inputTensors[0].type == np.int8:
@@ -880,7 +884,7 @@ def compile_and_deploy(params, mc, first_time=False):
 
 
 
-def create_mut_metadata(params, tflm_dir, mc):
+def create_mut_metadata(params, tflm_dir, mc, aot):
     """
     Create mut_model_metadata.h, a config header for examples/tflm_validator. Can be
      used to create the default (large buffer) configuration or a version tuned on
@@ -933,6 +937,7 @@ def create_mut_metadata(params, tflm_dir, mc):
         "NS_AD_PMU_EVENT_2": ev2,
         "NS_AD_PMU_EVENT_3": ev3,
         "NS_AD_TRANSPORT": f"NS_AD_RPC_TRANSPORT_{params.transport}",
+        "NS_AD_AOT_VALUE": 1 if aot else 0,
     }
     log.info(
         "Create metadata file with %dk arena size, %dk padding, RPC RX/TX buffer %d, RV Count %d"
@@ -977,14 +982,19 @@ def create_mut_main(params, tflm_dir, mc, aot):
     rm = {
         "NS_AD_NAME": params.model_name,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
-        "NS_AD_AOT": aot,
     }
     createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
 
     template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.h")
     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
 
-    template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.mk")
+    if aot:
+        mk_name = "template_aot_validator.mk"
+    else:
+        mk_name = "template_tflm_validator.mk"
+    
+    template_file = str(importlib.resources.files(__name__) /
+                        f"templates/validator/{mk_name}")
     shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
 
     template_file = str(importlib.resources.files(__name__) / "templates/common/template_ns_model.h")
@@ -1031,7 +1041,7 @@ def create_validation_binary(params, mc, baseline, aot):
             f"[NS] Compiling and deploying Tuned image:    arena size = {mc.arena_size_k}k, arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
         )
 
-    create_mut_metadata(params, validator_dir, mc)
+    create_mut_metadata(params, validator_dir, mc, aot)
     create_mut_modelinit(validator_dir, mc)
     compile_and_deploy(params, mc, first_time=baseline)
     time.sleep(3)
@@ -1039,6 +1049,7 @@ def create_validation_binary(params, mc, baseline, aot):
 
 def get_interpreter(params):
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
-    interpreter = tflite.interpreter.Interpreter(model_path=params.tflite_filename)
-    interpreter.allocate_tensors()
-    return interpreter
+    with suppress_os_stdio():
+        interpreter = tflite.interpreter.Interpreter(model_path=params.tflite_filename)
+        interpreter.allocate_tensors()
+        return interpreter

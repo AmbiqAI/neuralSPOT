@@ -6,11 +6,60 @@ import shutil
 import signal
 import time
 import traceback
+import warnings
 import importlib.resources
 import numpy as np
 from joulescope import scan
 from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions
 import yaml
+
+# Suppress Joulescope packet index warnings
+
+
+# Suppress all warnings from joulescope-related modules
+for logger_name in ["joulescope", "pyjoulescope_driver", "jsdrv"]:
+    log.getLogger(logger_name).setLevel(log.ERROR)
+
+# Also suppress warnings at the system level for joulescope modules
+# warnings.filterwarnings("ignore", module="joulescope")
+# warnings.filterwarnings("ignore", module="pyjoulescope_driver")
+# warnings.filterwarnings("ignore", module="jsdrv")
+
+# Suppress Joulescope atexit cleanup errors
+import sys
+import atexit
+
+def suppress_joulescope_atexit_errors():
+    """Suppress Joulescope atexit cleanup errors that occur during program shutdown"""
+    import warnings
+    warnings.filterwarnings("ignore", message=".*jsdrv_unsubscribe failed.*")
+    warnings.filterwarnings("ignore", message=".*jsdrv_publish timed out.*")
+    warnings.filterwarnings("ignore", message=".*NOT_FOUND.*")
+
+# Register the suppression function to run at exit
+atexit.register(suppress_joulescope_atexit_errors)
+
+# Monkey patch Joulescope device close to handle cleanup errors gracefully
+def safe_device_close(original_close):
+    """Wrapper around device.close() that suppresses cleanup errors"""
+    def wrapper(self, *args, **kwargs):
+        try:
+            return original_close(self, *args, **kwargs)
+        except (TimeoutError, RuntimeError) as exc:
+            if "jsdrv_unsubscribe failed" in str(exc) or "jsdrv_publish timed out" in str(exc):
+                # Silently ignore these cleanup errors
+                pass
+            else:
+                # Re-raise other errors
+                raise
+    return wrapper
+
+# Apply the monkey patch if joulescope is available
+try:
+    from joulescope.v1.device import Device
+    Device.close = safe_device_close(Device.close)
+except ImportError:
+    pass
 
 
 def generateInputAndOutputTensors(params, mc, md):
@@ -124,7 +173,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
     template_directory = str(importlib.resources.files(__name__) / "templates")
-    print(f"[NS] Template directory: {template_directory}")
+
     # Generate files from template
     createFromTemplate(
         template_directory + "/perf/template_power.cc", f"{d}/{n}/src/{n}.cc", rm
@@ -332,7 +381,12 @@ def joulescope_power_on():
             #     device.parameter_set("io_voltage", "3.3V")
             # else:
             device.parameter_set("io_voltage", "1.8V")
-            device.close()
+            try:
+                device.close()
+            except (TimeoutError, RuntimeError) as exc:
+                log.warning(f"Failed to close Joulescope device during initialization: {exc}")
+            except Exception as exc:
+                log.warning(f"Failed to close Joulescope device during initialization: {exc}")
         return True
     except Exception as exc:
         log.error(f"Failed to initialize Joulescope (likely collision with Joulescope app): {exc}")
@@ -346,7 +400,7 @@ def measurePower(params):
     statistics_queue = queue.Queue()  # resynchronize to main thread
     startTime = 0
     stopTime = 0
-    print("Starting power measurement...")
+    # print("Starting power measurement...")
     def stop_fn(*args, **kwargs):
         nonlocal _quit
         _quit = True
@@ -387,12 +441,12 @@ def measurePower(params):
                     if gpi == 3:
                         device.parameter_set("gpo0", "0")  # clear trigger to EVB
                         state = "getting_ready"
-                        print("[NS] Waiting for trigger to be acknowledged...", end="")
+                        # print("[NS] Waiting for trigger to be acknowledged...", end="")
                 elif state == "getting_ready":
                     if gpi == 0:
                         state = "collecting"
                         device.statistics_accumulators_clear()
-                        print("Collecting...", end="")
+                        # print("Collecting...", end="")
                         startTime = datetime.datetime.now()
                 elif state == "collecting":
                     if gpi != 0:
@@ -400,7 +454,7 @@ def measurePower(params):
                         # print ("Elapsed inference time: %d" % (stopTime - startTime))
                         td = stopTime - startTime
                         state = "reporting"
-                        print("Done collecting.")
+                        # print("Done collecting.")
 
                 elif state == "quit":
                     state = "start"
@@ -417,6 +471,14 @@ def measurePower(params):
 
     finally:
         for device in devices:
-            device.stop()
-            device.close()
+            try:
+                device.stop()
+            except Exception as exc:
+                log.warning(f"Failed to stop Joulescope device: {exc}")
+            try:
+                device.close()
+            except (TimeoutError, RuntimeError) as exc:
+                log.warning(f"Failed to close Joulescope device (timeout/not found): {exc}")
+            except Exception as exc:
+                log.warning(f"Failed to close Joulescope device: {exc}")
         return td, i, v, p, c, e

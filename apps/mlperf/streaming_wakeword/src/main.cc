@@ -94,14 +94,8 @@ static void gpio_init() {
     set_processing_pin_high();
     // wakeword detected pin
     am_hal_gpio_pincfg_t ww_det_out = am_hal_gpio_pincfg_output;
-    // ww_det_out.GP.cfg_b.uFuncSel = AM_HAL_PIN_36_GPIO;
-    // ww_det_out.GP.cfg_b.eDriveStrength = AM_HAL_GPIO_PIN_DRIVESTRENGTH_0P1X;
-    // ww_det_out.GP.cfg_b.ePowerSw = AM_HAL_GPIO_PIN_POWERSW_VSS;
     am_hal_gpio_pinconfig(36, ww_det_out);
     am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
-    // am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
-    // am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);
-
 }
 
 static void i2s_init(void)

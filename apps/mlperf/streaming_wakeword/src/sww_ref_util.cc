@@ -57,29 +57,24 @@ size_t g_cmd_pos = 0u;
 uint32_t g_int16s_read = 0;
 // chunk should be a 'window-stride' long = 32ms stride * 16kS/s * 2B/sample = 1024
 // then double because we receive stereo (2 samples per time point)
-uint32_t g_i2s_chunk_size_bytes = 2048;
+uint32_t g_i2s_chunk_size_bytes = 1024;
 uint32_t g_i2s_status = AM_HAL_STATUS_SUCCESS; // status of the last I2S operation
 // two ping-pong byte buffers for DMA transfers from I2S port.
-int16_t g_i2s_buffer0[2048/sizeof(int16_t)] __attribute__((aligned(32)));
-int16_t g_i2s_buffer1[2048/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 static int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
 static int8_t  g_model_input  [SWW_MODEL_INPUT_SIZE];
 
-// int16_t *g_i2s_current_buff = g_i2s_buffer0; // will be either g_i2s_buffer0 or g_i2s_buffer1
-int g_i2s_buff_sel = 0;  // 0 for buffer0, 1 for buffer1
+
 uint8_t g_gp_buffer[G_GP_BUFF_BYTES]; // general-purpose buffer; for capturing a waveform or activations.
 uint32_t g_gp_buff_bytes = G_GP_BUFF_BYTES;
 int16_t * g_wav_record = NULL;;
 int8_t *g_act_buff = NULL;
 
-int g_buffer_alloc_success=0;
-
 // length in (16b) samples, but I2S receives stereo, so actual length in time will be 1/2 this
 uint32_t g_i2s_wav_len = 0;
 uint32_t g_first_frame = 1;
 
-
-// int16_t *g_wav_block_buff = NULL; // hold most recent SWW_WINLEN_SAMPLES for feature extraction
 LogBuffer g_log = { .buffer = {0}, .current_pos = 0 };
 
 
@@ -91,7 +86,7 @@ uint32_t g_act_idx = 0;
 am_hal_i2s_transfer_t sTransfer0 = {
     .ui32RxTargetAddr        = (uint32_t)&g_i2s_buffer0[0],
     .ui32RxTargetAddrReverse = (uint32_t)&g_i2s_buffer1[0],
-	.ui32RxTotalCount        = 512,
+	.ui32RxTotalCount        = 256,
     .ui32TxTargetAddr        = 0,
     .ui32TxTargetAddrReverse = 0,
 	.ui32TxTotalCount        = 0,
@@ -245,58 +240,11 @@ void ee_serial_callback(char c) {
 }
 
 
-
-
-// /* Global handle to reference the instantiated C-model */
-// // static ai_handle sww_model = AI_HANDLE_NULL;
-
-// /* Global c-array to handle the activations buffer */
-// AI_ALIGNED(32)
-// static ai_i8 activations[AI_SWW_MODEL_DATA_ACTIVATIONS_SIZE];
-
-// /* Array to store the data of the input tensor */
-// AI_ALIGNED(32)
-// static ai_i8 in_data[AI_SWW_MODEL_IN_1_SIZE];
-// /* or static ai_i8 in_data[AI_SWW_MODEL_DATA_IN_1_SIZE_BYTES]; */
-
-// /* c-array to store the data of the output tensor */
-// AI_ALIGNED(32)
-// static ai_i8 out_data[AI_SWW_MODEL_OUT_1_SIZE];
-// /* static ai_i8 out_data[AI_SWW_MODEL_DATA_OUT_1_SIZE_BYTES]; */
-
-// /* Array of pointer to manage the model's input/output tensors */
-// static ai_buffer *ai_input;
-// static ai_buffer *ai_output;
-
-
-// Model initialization function
 int sww_model_init() {
     int status = str_ww_ref_model_power_minimal_init(&model); // model init with minimal defaults
 	return status;
 }
 
-
-
-// /*
-//  * Run inference
-//  */
-// ai_error aiRun(const void *in_data, void *out_data) {
-//   ai_i32 n_batch;
-//   ai_error err;
-
-//   /* 1 - Update IO handlers with the data payload */
-//   ai_input[0].data = AI_HANDLE_PTR(in_data);
-//   ai_output[0].data = AI_HANDLE_PTR(out_data);
-
-//   /* 2 - Perform the inference */
-//   n_batch = ai_sww_model_run(sww_model, &ai_input[0], &ai_output[0]);
-//   if (n_batch != 1) {
-//       err = ai_sww_model_get_error(sww_model);
-
-//   };
-
-//   return err;
-// }
 
 void run_model_on_test_data(char *cmd_args[]) {
 //	acquire_and_process_data(in_data);
@@ -898,12 +846,6 @@ void extract_features_on_chunk(char *cmd_args[]) {
 
 }
 
-static const size_t win_len_bytes    = SWW_WINLEN_SAMPLES  * sizeof(int16_t);
-static const size_t stride_bytes     = SWW_WINSTRIDE_SAMPLES * sizeof(int16_t);
-// pointers in bytes
-static uint8_t *win_buf = (uint8_t*)g_wav_block_buff;
-
-
 static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	// feature_buff is used internally as a 2nd internal scratch space,
 	// in the FFT domain, so it needs to be winlen_samples long, even though
@@ -911,7 +853,6 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	// be improved with a refactored compute_lfbe_f32().
 	static float32_t feature_buff[SWW_WINLEN_SAMPLES];
 	static float32_t dsp_buff[SWW_WINLEN_SAMPLES];
-	static uint8_t *i2s_buf = (uint8_t*)idle_buffer;
 	static int num_calls = 0;  // jhdbg
 
 	TfLiteTensor *input_tensor = model.model_input[0];
@@ -921,38 +862,19 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	set_processing_pin_high(); // start of processing, used for duty cycle measurement
 
 
-
-	// th_printf("raw idle buffer: [");
-	// for(int j = 0; j < SWW_WINSTRIDE_SAMPLES; j++){
-	// 	th_printf("%d, ", idle_buffer[j]);
-	// }
-	// th_printf("]\r\n");
-
-	// 1) slide the old window down by stride_bytes
-	memmove(win_buf, win_buf + stride_bytes, win_len_bytes - stride_bytes);
-
-	// 2) copy in exactly stride_bytes new data from I2S
-	memcpy(win_buf + (win_len_bytes - stride_bytes), i2s_buf, stride_bytes);
-
     // g_wav_block_buff[SWW_WINSTRIDE_SAMPLES:<end>]  are old samples to be
     // shifted to the beginning of the clip. After this block,
     // g_wav_block_buff[0:(winlen-winstride)] is populated
-    // for(int i=SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
-    // 	g_wav_block_buff[i-SWW_WINSTRIDE_SAMPLES] = g_wav_block_buff[i];
-    // }
+    for(int i=SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
+    	g_wav_block_buff[i-SWW_WINSTRIDE_SAMPLES] = g_wav_block_buff[i];
+    }
 
-    // // // Now fill in g_wav_block_buff[(winlen-winstride):] with winstride new samples
-	// for(int i=SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
-	// 	// 2* is because the I2S buffer is in stereo
-	// 	g_wav_block_buff[i] = idle_buffer[2*(i-(SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES))];
-	// }
+    // // Now fill in g_wav_block_buff[(winlen-winstride):] with winstride new samples
+	for(int i=SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
+		// 2* is because the I2S buffer is in stereo
+		g_wav_block_buff[i] = idle_buffer[(i-(SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES))];
+	}
 
-	// th_printf("initial input data: [");
-	// for(int i=0;i<512;i++) {
-	// 	th_printf("%d, ", g_wav_block_buff[i]);
-	// }
-	// th_printf("]\r\n");
-	// compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
 	compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
 
 	// shift current features in g_model_input[] and add new ones.
@@ -962,7 +884,7 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	for(int i=0;i<NUM_MEL_FILTERS;i++) {
 		g_model_input[i+SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS] = (int8_t)(feature_buff[i]/input_scale_factor-128);
 	}
-	// th_printf("input data: [:");
+
 	for(int i=0;i<AI_SWW_MODEL_IN_1_SIZE;i++){
 		in_data[i] = (int8_t)g_model_input[i];
 	}
@@ -974,9 +896,9 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 
 	TfLiteTensor * output = model.model_output[0];
 	memcpy(out_data, output->data.int8, AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
-	// th_printf("output = %d\r\n", out_data[0]);
 
-	if( out_data[0] > DETECT_THRESHOLD || g_first_frame) {
+
+	if(out_data[0] > 120 || g_first_frame) {
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);
         ns_delay_us(1);
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
@@ -990,6 +912,7 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
     num_calls++;
     set_processing_pin_low();  // end of processing, used for duty cycle measurement
 }
+
 
 extern "C" void am_dspi2s0_isr(void)
 {

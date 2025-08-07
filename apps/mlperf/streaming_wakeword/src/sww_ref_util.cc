@@ -898,7 +898,7 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	memcpy(out_data, output->data.int8, AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
 
 
-	if(out_data[0] > 120 || g_first_frame) {
+	if(out_data[0] > DETECT_THRESHOLD || g_first_frame) {
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);
         ns_delay_us(1);
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);

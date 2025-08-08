@@ -13,56 +13,56 @@ limitations under the License.
 /// \brief Main function to run benchmark on device.
 
 /// NeuralSPOT Includes
-#include "ns_ambiqsuite_harness.h"
-#include "ns_peripherals_power.h"
-#include "submitter_implemented.h"
-
-#include "am_hal_i2s.h"
-#include "am_hal_gpio.h"
-#include "ns_uart.h"
 #include "sww_ref_util.h"
-#define I2S_MODULE_0                (0)
+#include "main.h"
 
+void my_rx_cb(ns_uart_transaction_t *t)
+{
+    uart_doorbell = true;
+    int c;
+    c = th_getchar();
+    ee_serial_callback(c);
+    uart_doorbell = false;
+}
 
-void        *pI2SHandle;
-#define     I2S_CHUNK_SAMPLES      2048
-extern int16_t g_i2s_buffer0[I2S_CHUNK_SAMPLES];
-extern int16_t g_i2s_buffer1[I2S_CHUNK_SAMPLES];
-extern int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
+int16_t local_buf[512]__attribute__((aligned(32))) = {0};
 
-//*****************************************************************************
-//
-// I2S configurations:
-//  - 2 channels
-//  - Standard I2S format
-//  - 32 bits word width
-//  - 24 bits bit-depth
-//  - sample rate:
-//    * HFRC   15625Hz
-//    * PLL    48000Hz
-//    * NCO    48000Hz
-//    * HF2ADJ 48000Hz
-//
-//*****************************************************************************
-extern am_hal_i2s_io_signal_t g_sI2SIOConfig;
+extern "C" void am_dspi2s0_isr(void)
+{
+    uint32_t status;
+    am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
+    am_hal_i2s_interrupt_clear(pI2SHandle, status);
 
-extern am_hal_i2s_data_format_t g_sI2SDataConfig;
+    if (!(status & AM_HAL_I2S_INT_RXDMACPL))
+        return;
 
-extern am_hal_i2s_config_t g_sI2S0Config;
+    int16_t * dma_buf = (int16_t*)am_hal_i2s_dma_get_buffer(pI2SHandle, AM_HAL_I2S_XFER_RX);
+    memcpy(local_buf, dma_buf, 512 * sizeof(int16_t));
+    am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
+    switch (g_i2s_state)
+    {
+        case FileCapture:
+            i2s_doorbell = false;
+            process_chunk_and_cont_capture(local_buf);
+            break;
 
-// Ping pong buffer settings.
-extern am_hal_i2s_transfer_t sTransfer0;
+        case Streaming:
+            i2s_doorbell = false;
+            process_chunk_and_cont_streaming(local_buf);
+            break;
 
-ns_timer_config_t basic_tickTimer = {
-    .api = &ns_timer_V1_0_0,
-    .timer = NS_TIMER_COUNTER,
-    .enableInterrupt = true,
-};
+        case Stopping:
+            th_printf("Streaming stopped\r\n");
+            g_i2s_state = Idle;
+            i2s_doorbell = false;
+            break;
 
-static void gpio_init();
-static void i2s_init(void);
-// void setup_i2s_buffers();
-void th_timestamp();
+        default:
+            i2s_doorbell = false;
+            break;
+    }
+    i2s_doorbell = true;
+}
 int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
@@ -76,9 +76,31 @@ int main(int argc, char *argv[]) {
     ns_timer_init(&basic_tickTimer);
     th_timestamp();
     while (1) {
-        int c;
-        c = th_getchar();
-        ee_serial_callback(c);
+        if(i2s_doorbell) {
+            // switch (g_i2s_state)
+            // {
+            //     case FileCapture:
+            //         i2s_doorbell = false;
+            //         process_chunk_and_cont_capture(local_buf);
+            //         break;
+
+            //     case Streaming:
+            //         i2s_doorbell = false;
+            //         process_chunk_and_cont_streaming(local_buf);
+            //         break;
+
+            //     case Stopping:
+            //         th_printf("Streaming stopped\r\n");
+            //         g_i2s_state = Idle;
+            //         i2s_doorbell = false;
+            //         break;
+
+            //     default:
+            //         i2s_doorbell = false;
+            //         break;
+            // }
+        }
+        ns_deep_sleep();
     }
     return 0;
 }
@@ -124,4 +146,32 @@ void th_timestamp(void) {
         __asm__ volatile("nop");
     }
     am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
+}
+
+void th_serialport_initialize(void) {
+  NS_TRY(ns_uart_init(&uart_config, &uart_handle), 
+          "Failed to initialize UART for serial port");
+  ns_uart_register_callbacks(uart_handle, my_rx_cb, NULL);
+  am_util_stdio_printf_init(uart_stdio_print);
+}
+
+static char th_getchar() { 
+  char data;
+  ns_uart_blocking_receive_data(&uart_config, &data, 1);
+  return data; 
+}
+
+void th_printf(const char *p_fmt, ...) {
+  va_list args;
+  va_start(args, p_fmt);
+  (void)th_vprintf(p_fmt, args); /* ignore return */
+  va_end(args);
+}
+
+static void uart_stdio_print(char *pcBuf)
+{
+    // Send the entire null-terminated string over UART:
+    size_t len = strlen(pcBuf);
+    ns_uart_blocking_send_data(&uart_config, pcBuf, len);
+    // We ignore the return count since the prototype is void.
 }

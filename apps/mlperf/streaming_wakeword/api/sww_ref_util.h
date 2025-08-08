@@ -92,7 +92,8 @@ void th_timestamp(void);
 void set_processing_pin_high(void);
 void set_processing_pin_low(void);
 void infer_static_wav(char *cmd_args[]);
-
+void process_chunk_and_cont_capture(int16_t *idle_buffer);
+void process_chunk_and_cont_streaming(int16_t *idle_buffer);
 int sww_model_init();
 void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp);
 void extract_features_on_chunk(char *cmd_args[]);

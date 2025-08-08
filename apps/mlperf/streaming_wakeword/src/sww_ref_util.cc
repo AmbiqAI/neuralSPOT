@@ -16,7 +16,7 @@
 #include "sww_ref_util.h"
 #include "submitter_implemented.h"
 #include "feature_extraction.h"
-#include "main.h"
+// #include "main.h"
 #include "ns_ambiqsuite_harness.h"
 
 #include "ns_malloc.h"
@@ -26,29 +26,12 @@
 #define  MAX_CMD_TOKENS 8 // maximum number of tokens in a command, including the command and arguments
 #define AI_SWW_MODEL_IN_1_SIZE (1200)
 #define AI_SWW_MODEL_OUT_1_SIZE (3)
-static volatile i2s_state_t g_i2s_state = Idle;
+extern volatile i2s_state_t g_i2s_state;
 static ns_model_state_t model;
-am_hal_i2s_io_signal_t g_sI2SIOConfig =
-{
-    .sFsyncPulseCfg =
-    {
-        .eFsyncPulseType = AM_HAL_I2S_FSYNC_PULSE_ONE_SUBFRAME,
-    },
-    .eFyncCpol = AM_HAL_I2S_IO_FSYNC_CPOL_LOW,
-    .eRxCpol   = AM_HAL_I2S_IO_RX_CPOL_RISING,
-};
-
-am_hal_i2s_data_format_t g_sI2SDataConfig =
-{
-    .ePhase                   = AM_HAL_I2S_DATA_PHASE_SINGLE,
-    .ui32ChannelNumbersPhase1 = 2,
-	.eChannelLenPhase1        = AM_HAL_I2S_FRAME_WDLEN_32BITS,
-    .eDataDelay               = 0x1,
-    .eSampleLenPhase1         = AM_HAL_I2S_SAMPLE_LENGTH_16BITS,
-    .eDataJust                = AM_HAL_I2S_DATA_JUSTIFIED_LEFT,
-};
-
-
+extern void th_printf(const char *p_fmt, ...);
+extern int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern am_hal_i2s_config_t g_sI2S0Config;
 // Command buffer (incoming commands from host)
 char g_cmd_buf[EE_CMD_SIZE + 1];
 size_t g_cmd_pos = 0u;
@@ -60,8 +43,6 @@ uint32_t g_int16s_read = 0;
 uint32_t g_i2s_chunk_size_bytes = 1024;
 uint32_t g_i2s_status = AM_HAL_STATUS_SUCCESS; // status of the last I2S operation
 // two ping-pong byte buffers for DMA transfers from I2S port.
-int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
-int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 static int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
 static int8_t  g_model_input  [SWW_MODEL_INPUT_SIZE];
 
@@ -81,29 +62,6 @@ LogBuffer g_log = { .buffer = {0}, .current_pos = 0 };
 extern void *pI2SHandle;
 
 uint32_t g_act_idx = 0;
-
-// Ping pong buffer settings.
-am_hal_i2s_transfer_t sTransfer0 = {
-    .ui32RxTargetAddr        = (uint32_t)&g_i2s_buffer0[0],
-    .ui32RxTargetAddrReverse = (uint32_t)&g_i2s_buffer1[0],
-	.ui32RxTotalCount        = 256,
-    .ui32TxTargetAddr        = 0,
-    .ui32TxTargetAddrReverse = 0,
-	.ui32TxTotalCount        = 0,
-};
-
-am_hal_i2s_config_t g_sI2S0Config =
-{
-
-    .eMode  = AM_HAL_I2S_IO_MODE_SLAVE,
-    .eXfer  = AM_HAL_I2S_XFER_RX,
-    .eClock = eAM_HAL_I2S_CLKSEL_HFRC_3MHz,
-    .eDiv3  = 0,
-    .eASRC  = 0,
-    .eData  = &g_sI2SDataConfig,
-    .eIO    = &g_sI2SIOConfig,
-	.eTransfer = &sTransfer0
-};
 
 void print_vals_int16(const int16_t *buffer, uint32_t num_vals)
 {
@@ -734,7 +692,7 @@ void infer_static_wav(char *cmd_args[]) {
 }
 
 // Prototype now takes the buffer pointer instead of an SAI handle.
-static void process_chunk_and_cont_capture(int16_t *idle_buffer)
+void process_chunk_and_cont_capture(int16_t *idle_buffer)
 {
     int reading_complete = 0;
 
@@ -846,7 +804,7 @@ void extract_features_on_chunk(char *cmd_args[]) {
 
 }
 
-static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
+void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	// feature_buff is used internally as a 2nd internal scratch space,
 	// in the FFT domain, so it needs to be winlen_samples long, even though
 	// ultimately it will only hold NUM_MEL_FILTERS values.  This can probably
@@ -913,44 +871,6 @@ static void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
     set_processing_pin_low();  // end of processing, used for duty cycle measurement
 }
 
-
-extern "C" void am_dspi2s0_isr(void)
-{
-    uint32_t status;
-
-    // 1. Grab & clear status
-    am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
-    am_hal_i2s_interrupt_clear(pI2SHandle,  status);
-
-    // 3. Act only on a full‑buffer RX completion
-    if (!(status & AM_HAL_I2S_INT_RXDMACPL)) {
-        return;
-	}
-
-    // 4. Obtain the buffer the DMA just finished
-    int16_t *idle_buf = (int16_t *) am_hal_i2s_dma_get_buffer(pI2SHandle, AM_HAL_I2S_XFER_RX);
-
-    am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
-
-	switch (g_i2s_state)
-    {
-        case FileCapture:
-            process_chunk_and_cont_capture(idle_buf);
-            break;
-
-        case Streaming:
-            process_chunk_and_cont_streaming(idle_buf);
-            break;
-
-        case Stopping:
-            th_printf("Streaming stopped\r\n");
-            g_i2s_state = Idle;
-            break;
-
-        default:
-            break;
-    }
-}
 
 void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp)
 {

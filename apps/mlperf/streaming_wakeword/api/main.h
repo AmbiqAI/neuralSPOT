@@ -15,69 +15,103 @@
 // ==============================================================================*/
 // /// \file
 // /// \brief C++ implementations of submitter_implemented.h
+#include "ns_ambiqsuite_harness.h"
+#include "ns_peripherals_power.h"
 
-// #include "am_mcu_apollo.h"
-// #include "am_bsp.h"
-// #include "am_util.h"
-// #include "ns_uart.h"
-// #include "ns_timer.h"
-// #include "ns_ambiqsuite_harness.h"
-// #include "submitter_implemented.h"
-// #include "am_hal_i2s.h"
-// #include "am_hal_gpio.h"
-// #include "ns_uart.h"
+#include "am_hal_i2s.h"
+#include "am_hal_gpio.h"
+#include "ns_uart.h"
+#define I2S_MODULE_0                (0)
+#include "am_mcu_apollo.h"
+#include "am_bsp.h"
+#include "am_util.h"
 
-// // #include <cstdarg>
-// // #include <cstdio>
-// // #include <cstdlib>
-// // #include <cstring>
+void        *pI2SHandle;
+int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+volatile i2s_state_t g_i2s_state = Idle;
 
-// #include "tensorflow/lite/micro/debug_log.h"
-// #include "internally_implemented.h"
+am_hal_i2s_io_signal_t g_sI2SIOConfig =
+{
+    .sFsyncPulseCfg =
+    {
+        .eFsyncPulseType = AM_HAL_I2S_FSYNC_PULSE_ONE_SUBFRAME,
+    },
+    .eFyncCpol = AM_HAL_I2S_IO_FSYNC_CPOL_LOW,
+    .eRxCpol   = AM_HAL_I2S_IO_RX_CPOL_RISING,
+};
 
-// static void uart_stdio_print(char *pcBuf)
-// {
-//     // Send the entire null-terminated string over UART:
-//     size_t len = strlen(pcBuf);
-//     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
-//     // We ignore the return count since the prototype is void.
-// }
+am_hal_i2s_data_format_t g_sI2SDataConfig =
+{
+    .ePhase                   = AM_HAL_I2S_DATA_PHASE_SINGLE,
+    .ui32ChannelNumbersPhase1 = 2,
+	.eChannelLenPhase1        = AM_HAL_I2S_FRAME_WDLEN_32BITS,
+    .eDataDelay               = 0x1,
+    .eSampleLenPhase1         = AM_HAL_I2S_SAMPLE_LENGTH_16BITS,
+    .eDataJust                = AM_HAL_I2S_DATA_JUSTIFIED_LEFT,
+};
 
-// void th_command_ready(char volatile *p_command) {
-//   p_command = p_command;
-//   ee_serial_command_parser_callback((char *)p_command);
-// }
+// Ping pong buffer settings.
+am_hal_i2s_transfer_t sTransfer0 = {
+    .ui32RxTargetAddr        = (uint32_t)&g_i2s_buffer0[0],
+    .ui32RxTargetAddrReverse = (uint32_t)&g_i2s_buffer1[0],
+	.ui32RxTotalCount        = 256,
+    .ui32TxTargetAddr        = 0,
+    .ui32TxTargetAddrReverse = 0,
+	.ui32TxTotalCount        = 0,
+};
 
-// char *th_strncpy(char *dest, const char *src, size_t n) {
-//   return strncpy(dest, src, n);
-// }
+am_hal_i2s_config_t g_sI2S0Config =
+{
 
-// size_t th_strnlen(const char *str, size_t maxlen) {
-//   return strnlen(str, maxlen);
-// }
+    .eMode  = AM_HAL_I2S_IO_MODE_SLAVE,
+    .eXfer  = AM_HAL_I2S_XFER_RX,
+    .eClock = eAM_HAL_I2S_CLKSEL_HFRC_3MHz,
+    .eDiv3  = 0,
+    .eASRC  = 0,
+    .eData  = &g_sI2SDataConfig,
+    .eIO    = &g_sI2SIOConfig,
+	.eTransfer = &sTransfer0
+};
 
-// char *th_strcat(char *dest, const char *src) { return strcat(dest, src); }
+volatile  bool uart_doorbell = false;
+volatile bool i2s_doorbell = false;
+ns_timer_config_t basic_tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = true,
+};
+am_hal_uart_config_t am_uart_config =
+{
+    // Standard UART settings: 115200-8-N-1
+#if EE_CFG_ENERGY_MODE == 1
+    .ui32BaudRate = 9600,
+#else
+    .ui32BaudRate = 115200,
+#endif
+    .eDataBits = AM_HAL_UART_DATA_BITS_8,
+    .eParity = AM_HAL_UART_PARITY_NONE,
+    .eStopBits = AM_HAL_UART_ONE_STOP_BIT,
+    .eFlowControl = AM_HAL_UART_FLOW_CTRL_NONE,
+    .eTXFifoLevel = AM_HAL_UART_FIFO_LEVEL_16,
+    .eRXFifoLevel = AM_HAL_UART_FIFO_LEVEL_16,
+};
 
-// char *th_strtok(char *str1, const char *sep) { return strtok(str1, sep); }
+ns_uart_config_t uart_config = {
+    .api=&ns_uart_V0_0_1,
+    .uart_config = &am_uart_config,
+    .tx_blocking = true,
+    .rx_blocking = true,
+};
+static ns_uart_handle_t uart_handle = NULL;
+static char txbuffer[256];
 
-// int th_atoi(const char *str) { return atoi(str); }
 
-// void *th_memset(void *b, int c, size_t len) { return memset(b, c, len); }
-
-// void *th_memcpy(void *dst, const void *src, size_t n) {
-//   return memcpy(dst, src, n);
-// }
-
-// int th_vprintf(const char *format, va_list ap) { return am_util_stdio_vprintf(format, ap); }
-// void th_printf(const char *p_fmt, ...) {
-//   va_list args;
-//   va_start(args, p_fmt);
-//   (void)th_vprintf(p_fmt, args); /* ignore return */
-//   va_end(args);
-// }
-
-// void th_serialport_initialize(void) {
-//   NS_TRY(ns_uart_init(&uart_config, &uart_handle), 
-//           "Failed to initialize UART for serial port");
-//   am_util_stdio_printf_init(uart_stdio_print);
-// }
+static void uart_stdio_print(char *pcBuf);
+int th_vprintf(const char *format, va_list ap) { return am_util_stdio_vprintf(format, ap); }
+static void gpio_init();
+static void th_serialport_initialize(void);
+static void i2s_init(void);
+void th_timestamp();
+static char th_getchar();
+void th_printf(const char *p_fmt, ...);

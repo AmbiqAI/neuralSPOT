@@ -39,28 +39,6 @@ extern "C" void am_dspi2s0_isr(void)
     int16_t * dma_buf = (int16_t*)am_hal_i2s_dma_get_buffer(pI2SHandle, AM_HAL_I2S_XFER_RX);
     memcpy(local_buf, dma_buf, 512 * sizeof(int16_t));
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
-    switch (g_i2s_state)
-    {
-        case FileCapture:
-            i2s_doorbell = false;
-            process_chunk_and_cont_capture(local_buf);
-            break;
-
-        case Streaming:
-            i2s_doorbell = false;
-            process_chunk_and_cont_streaming(local_buf);
-            break;
-
-        case Stopping:
-            th_printf("Streaming stopped\r\n");
-            g_i2s_state = Idle;
-            i2s_doorbell = false;
-            break;
-
-        default:
-            i2s_doorbell = false;
-            break;
-    }
     i2s_doorbell = true;
 }
 int main(int argc, char *argv[]) {
@@ -77,30 +55,30 @@ int main(int argc, char *argv[]) {
     th_timestamp();
     while (1) {
         if(i2s_doorbell) {
-            // switch (g_i2s_state)
-            // {
-            //     case FileCapture:
-            //         i2s_doorbell = false;
-            //         process_chunk_and_cont_capture(local_buf);
-            //         break;
+            switch (g_i2s_state)
+            {
+                case FileCapture:
+                    i2s_doorbell = false;
+                    process_chunk_and_cont_capture(local_buf);
+                    break;
 
-            //     case Streaming:
-            //         i2s_doorbell = false;
-            //         process_chunk_and_cont_streaming(local_buf);
-            //         break;
+                case Streaming:
+                    i2s_doorbell = false;
+                    process_chunk_and_cont_streaming(local_buf);
+                    break;
 
-            //     case Stopping:
-            //         th_printf("Streaming stopped\r\n");
-            //         g_i2s_state = Idle;
-            //         i2s_doorbell = false;
-            //         break;
+                case Stopping:
+                    th_printf("Streaming stopped\r\n");
+                    g_i2s_state = Idle;
+                    i2s_doorbell = false;
+                    break;
 
-            //     default:
-            //         i2s_doorbell = false;
-            //         break;
-            // }
+                default:
+                    i2s_doorbell = false;
+                    break;
+            }
         }
-        ns_deep_sleep();
+        // ns_deep_sleep();
     }
     return 0;
 }

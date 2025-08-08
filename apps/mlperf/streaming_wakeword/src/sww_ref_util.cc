@@ -14,7 +14,7 @@
 #include <math.h>
 
 #include "sww_ref_util.h"
-#include "submitter_implemented.h"
+
 #include "feature_extraction.h"
 // #include "main.h"
 #include "ns_ambiqsuite_harness.h"
@@ -393,7 +393,6 @@ void stop_detection(char *cmd_args[]) {
 		g_i2s_state = Idle;
 		th_timestamp(); // this timestamp will stop the measurement of power
 		th_printf("Streaming stopped.\r\n");
-
 		th_printf("target activations: \r\n");
 		print_vals_int8(g_act_buff, g_act_idx); // jhdbg
 		g_act_buff = NULL;

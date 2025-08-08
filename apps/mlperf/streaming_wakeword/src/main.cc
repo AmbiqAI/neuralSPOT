@@ -27,6 +27,7 @@ int16_t local_buf[512] __attribute__((aligned(32))) = {0};
 
 extern "C" void am_dspi2s0_isr(void)
 {
+    th_printf("-");
     uint32_t status;
     am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
     am_hal_i2s_interrupt_clear(pI2SHandle, status);
@@ -39,11 +40,12 @@ extern "C" void am_dspi2s0_isr(void)
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
     i2s_doorbell = true;
 }
+
 int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
     i2s_init();
@@ -56,17 +58,17 @@ int main(int argc, char *argv[]) {
             switch (g_i2s_state)
             {
                 case FileCapture:
-                    i2s_doorbell = false;
                     process_chunk_and_cont_capture(local_buf);
+                    i2s_doorbell = false;
                     break;
 
                 case Streaming:
-                    i2s_doorbell = false;
                     process_chunk_and_cont_streaming(local_buf);
+                    i2s_doorbell = false;
                     break;
 
                 case Stopping:
-                    ns_lp_printf("Streaming stopped\r\n");
+                    th_printf("Streaming stopped\r\n");
                     g_i2s_state = Idle;
                     i2s_doorbell = false;
                     break;
@@ -75,8 +77,9 @@ int main(int argc, char *argv[]) {
                     i2s_doorbell = false;
                     break;
             }
+        th_printf("+");
         }
-        // ns_deep_sleep();
+        ns_deep_sleep();
     }
     return 0;
 }
@@ -107,7 +110,7 @@ static void i2s_init(void)
 
     if (AM_HAL_STATUS_SUCCESS != am_hal_i2s_configure(pI2SHandle, &g_sI2S0Config))
     {
-        ns_lp_printf("ERROR: Invalid I2S0 configuration.\nNote: For Apollo5 Rev.B0, I2S can only use PLL as the clock source.\n");
+        th_printf("ERROR: Invalid I2S0 configuration.\nNote: For Apollo5 Rev.B0, I2S can only use PLL as the clock source.\n");
     }
 
     am_hal_i2s_enable(pI2SHandle);
@@ -128,26 +131,26 @@ void th_serialport_initialize(void) {
   NS_TRY(ns_uart_init(&uart_config, &uart_handle), 
           "Failed to initialize UART for serial port");
   ns_uart_register_callbacks(uart_handle, my_rx_cb, NULL);
-//   am_util_stdio_printf_init(uart_stdio_print);
+  am_util_stdio_printf_init(uart_stdio_print);
 }
 
 static char th_getchar() { 
   char data;
-  ns_uart_blocking_receive_data(&uart_config, &data, 1);
+  ns_uart_nonblocking_receive_data(&uart_config, &data, 1);
   return data; 
 }
 
-// void ns_lp_printf(const char *p_fmt, ...) {
-//   va_list args;
-//   va_start(args, p_fmt);
-//   (void)th_vprintf(p_fmt, args); /* ignore return */
-//   va_end(args);
-// }
+void th_printf(const char *p_fmt, ...) {
+  va_list args;
+  va_start(args, p_fmt);
+  (void)th_vprintf(p_fmt, args); /* ignore return */
+  va_end(args);
+}
 
-// static void uart_stdio_print(char *pcBuf)
-// {
-//     // Send the entire null-terminated string over UART:
-//     size_t len = strlen(pcBuf);
-//     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
-//     // We ignore the return count since the prototype is void.
-// }
+static void uart_stdio_print(char *pcBuf)
+{
+    // Send the entire null-terminated string over UART:
+    size_t len = strlen(pcBuf);
+    ns_uart_blocking_send_data(&uart_config, pcBuf, len);
+    // We ignore the return count since the prototype is void.
+}

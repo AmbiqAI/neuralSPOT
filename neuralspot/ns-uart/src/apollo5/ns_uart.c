@@ -60,13 +60,28 @@ void am_uart2_isr(void) {
     am_hal_uart_interrupt_status_get(phUART, &ui32Status, true);
     am_hal_uart_interrupt_clear(phUART, ui32Status);
     am_hal_uart_interrupt_service(phUART, ui32Status);
+
+    ns_uart_config_t * ctx = &ns_uart_config;
+
     // Set the data available flag if RX interrupt is set
-    if (ui32Status & AM_HAL_UART_INT_RX)
+    if (ui32Status & (AM_HAL_UART_INT_RX | AM_HAL_UART_INT_RX_TMOUT))
     {
+        g_sUartTransaction.status = AM_HAL_UART_INT_RX;
+        if (ctx->rx_cb != NULL)
+        {
+            ctx->rx_cb(&g_sUartTransaction);
+        }
         g_DataAvailable = true;
     }
+    else if (ui32Status & AM_HAL_UART_INT_TX)
+    {
+        g_sUartTransaction.status = AM_HAL_UART_INT_TX;
+        if (ctx->tx_cb != NULL)
+        {
+            ctx->tx_cb(&g_sUartTransaction);
+        }
+    }
 }
-
 
 // non blocking callback function
 void uart_done(uint32_t ui32ErrorStatus, void *pvContext)

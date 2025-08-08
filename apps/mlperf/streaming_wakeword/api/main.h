@@ -101,7 +101,7 @@ ns_uart_config_t uart_config = {
     .api=&ns_uart_V0_0_1,
     .uart_config = &am_uart_config,
     .tx_blocking = true,
-    .rx_blocking = true,
+    .rx_blocking = false,
 };
 static ns_uart_handle_t uart_handle = NULL;
 static char txbuffer[256];

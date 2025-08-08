@@ -28,7 +28,7 @@
 #define AI_SWW_MODEL_OUT_1_SIZE (3)
 extern volatile i2s_state_t g_i2s_state;
 static ns_model_state_t model;
-// extern void ns_lp_printf(const char *p_fmt, ...);
+extern void th_printf(const char *p_fmt, ...);
 extern int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern am_hal_i2s_config_t g_sI2S0Config;
@@ -68,7 +68,7 @@ void print_vals_int16(const int16_t *buffer, uint32_t num_vals)
 	const int vals_per_line = 16;
 	char end_char;
 
-	ns_lp_printf("[");
+	th_printf("[");
 	for(uint32_t i=0;i<num_vals;i+= vals_per_line)
 	{
 		for(int j=0;j<vals_per_line;j++)
@@ -78,9 +78,9 @@ void print_vals_int16(const int16_t *buffer, uint32_t num_vals)
 			{
 				break;
 			}
-			ns_lp_printf("%d%c ", buffer[i+j], end_char);
+			th_printf("%d%c ", buffer[i+j], end_char);
 		}
-		ns_lp_printf("\r\n");
+		th_printf("\r\n");
 	}
 }
 
@@ -90,7 +90,7 @@ void print_vals_int8(const int8_t *buffer, uint32_t num_vals)
 	const int vals_per_line = 16;
 	char end_char;
 
-	ns_lp_printf("[");
+	th_printf("[");
 	for(uint32_t i=0;i<num_vals;i+= vals_per_line)
 	{
 		for(int j=0;j<vals_per_line;j++)
@@ -100,18 +100,18 @@ void print_vals_int8(const int8_t *buffer, uint32_t num_vals)
 			{
 				break;
 			}
-			ns_lp_printf("%d%c ", buffer[i+j], end_char);
+			th_printf("%d%c ", buffer[i+j], end_char);
 		}
-		ns_lp_printf("\r\n");
+		th_printf("\r\n");
 	}
-	ns_lp_printf("]\r\n");
-	//	ns_lp_printf("]\r\n==== Done ====\r\n");
+	th_printf("]\r\n");
+	//	th_printf("]\r\n==== Done ====\r\n");
 }
 
 void print_bytes(const uint8_t *buffer, uint32_t num_bytes)
 {
 	const int vals_per_line = 16;
-	ns_lp_printf("[");
+	th_printf("[");
 	for(uint32_t i=0;i<num_bytes;i+= vals_per_line)
 	{
 		for(int j=0;j<vals_per_line;j++)
@@ -120,11 +120,11 @@ void print_bytes(const uint8_t *buffer, uint32_t num_bytes)
 			{
 				break;
 			}
-			ns_lp_printf("0x%X, ", buffer[i+j]);
+			th_printf("0x%X, ", buffer[i+j]);
 		}
-		ns_lp_printf("\r\n");
+		th_printf("\r\n");
 	}
-	ns_lp_printf("]\r\n==== Done ====\r\n");
+	th_printf("]\r\n==== Done ====\r\n");
 }
 
 
@@ -132,7 +132,7 @@ void print_vals_float(const float *buffer, uint32_t num_vals)
 {
 	const int vals_per_line = 8;
 	char end_char; // don't add a ',' after the last value, because it breaks JSON
-	ns_lp_printf("[");
+	th_printf("[");
 	for(uint32_t i=0;i<num_vals;i+= vals_per_line)
 	{
 		for(int j=0;j<vals_per_line;j++)
@@ -142,12 +142,12 @@ void print_vals_float(const float *buffer, uint32_t num_vals)
 			{
 				break;
 			}
-			ns_lp_printf("%3.5e%c ", buffer[i+j], end_char);
+			th_printf("%3.5e%c ", buffer[i+j], end_char);
 		}
-		ns_lp_printf("\r\n");
+		th_printf("\r\n");
 	}
-	// ns_lp_printf("]\r\n==== Done ====\r\n");
-	 ns_lp_printf("]\r\n\r\n");
+	// th_printf("]\r\n==== Done ====\r\n");
+	 th_printf("]\r\n\r\n");
 }
 void log_printf(LogBuffer *log, const char *format, ...) {
     va_list args;
@@ -209,7 +209,7 @@ void run_model_on_test_data(char *cmd_args[]) {
 	const int8_t *input_source=NULL;
 	uint16_t timer_start, timer_stop, timer_diff;
 
-	ns_lp_printf("In run_model. about to run model\r\n");
+	th_printf("In run_model. about to run model\r\n");
 	// if (strcmp(cmd_args[1], "class0") == 0) {
 	// 	input_source = test_input_class0;
 	// }
@@ -220,7 +220,7 @@ void run_model_on_test_data(char *cmd_args[]) {
 	// 	input_source = test_input_class2;
 	// }
 	// else {
-	// 	ns_lp_printf("Unknown input tensor name, defaulting to test_input_class0\r\n");
+	// 	th_printf("Unknown input tensor name, defaulting to test_input_class0\r\n");
 	// 	input_source = test_input_class0;
 	// }
 	// for(int i=0;i<AI_SWW_MODEL_IN_1_SIZE;i++){
@@ -233,13 +233,13 @@ void run_model_on_test_data(char *cmd_args[]) {
 	// timer_stop = __HAL_TIM_GET_COUNTER(&htim16);
 	// set_processing_pin_low();
 	// timer_diff = timer_stop-timer_start;
-	// ns_lp_printf("TIM16: aiRun took (%u : %u) = %u TIM16 cycles\r\n", timer_start, timer_stop, timer_diff);
+	// th_printf("TIM16: aiRun took (%u : %u) = %u TIM16 cycles\r\n", timer_start, timer_stop, timer_diff);
 
-	// ns_lp_printf("Output = [");
+	// th_printf("Output = [");
 	// for(int i=0;i<AI_SWW_MODEL_OUT_1_SIZE;i++){
-	// 	ns_lp_printf("%02d, ", out_data[i]);
+	// 	th_printf("%02d, ", out_data[i]);
 	// }
-	ns_lp_printf("]\r\n");
+	th_printf("]\r\n");
 }
 
 void load_or_print_buff(char *cmd_args[]) {
@@ -256,19 +256,19 @@ void load_or_print_buff(char *cmd_args[]) {
 	int buff_size = g_i2s_chunk_size_bytes;
 
 	if (cmd_args[1] == NULL) {
-		ns_lp_printf("Error: db requires a sub-command: 'db load <Nbytes>'; 'db print [Nbytes]', 'db <hexstring>'\r\n");
+		th_printf("Error: db requires a sub-command: 'db load <Nbytes>'; 'db print [Nbytes]', 'db <hexstring>'\r\n");
 	}
 	else if (strcmp(cmd_args[1], "load") == 0) {
 		transfer_size = atoi(cmd_args[2]);
 		if (transfer_size == 0) {
-			ns_lp_printf("Error: Transfer size (%s) must be valid int; greater than 0.\r\n", cmd_args[2]);
-			ns_lp_printf("Usage: 'db load N'; N>0\r\n");
+			th_printf("Error: Transfer size (%s) must be valid int; greater than 0.\r\n", cmd_args[2]);
+			th_printf("Usage: 'db load N'; N>0\r\n");
 			db_state = 0;
 			return;
 		}
 		db_state = 1;
 		bytes_loaded = 0;
-		ns_lp_printf("Expecting %d bytes\r\n", transfer_size);
+		th_printf("Expecting %d bytes\r\n", transfer_size);
 		return;
 	}
 	else if (isxdigit((int)cmd_args[1][0])) { // e.g. `db ff001234` actually loads the data`
@@ -276,12 +276,12 @@ void load_or_print_buff(char *cmd_args[]) {
 		uint8_t next_byte = 0;
 
 		if (db_state != 1) {
-			ns_lp_printf("Error: Must issue db load <Nbytes> command before transmitting data.\r\n");
+			th_printf("Error: Must issue db load <Nbytes> command before transmitting data.\r\n");
 			return;
 		}
 		if (num_chars % 2 != 0) {
-			ns_lp_printf("Error: number of hex digits in data string must be even. Received %d\r\n", num_chars);
-			ns_lp_printf("Still waiting for data\r\n");
+			th_printf("Error: number of hex digits in data string must be even. Received %d\r\n", num_chars);
+			th_printf("Still waiting for data\r\n");
 			return;
 		}
 		char tmp_str[3] = {'\0', '\0', '\0'};
@@ -291,8 +291,8 @@ void load_or_print_buff(char *cmd_args[]) {
 			tmp_str[1] = cmd_args[1][i++];
 
 			if (!isxdigit((int)tmp_str[0]) || !isxdigit((int)tmp_str[1])) {
-				ns_lp_printf("Error: Received non-hex digit in character pair '%s' at location %d\r\n", tmp_str, i);
-				ns_lp_printf("Canceling segment upload. Still waiting for data\r\n");
+				th_printf("Error: Received non-hex digit in character pair '%s' at location %d\r\n", tmp_str, i);
+				th_printf("Canceling segment upload. Still waiting for data\r\n");
 				return;
 			}
 			next_byte = (uint8_t) strtol(tmp_str, NULL, 16);
@@ -300,21 +300,21 @@ void load_or_print_buff(char *cmd_args[]) {
 
 			if(bytes_loaded >= buff_size || bytes_loaded >= transfer_size) {
 				db_state = 0;
-				ns_lp_printf("m-load-done\r\n");
+				th_printf("m-load-done\r\n");
 				return;
 			}
 		}
-		ns_lp_printf("%d bytes received\r\n", bytes_loaded);
+		th_printf("%d bytes received\r\n", bytes_loaded);
 	}
 	else if (strcmp(cmd_args[1], "getptr") == 0) {
-		ns_lp_printf("m-buff-ptr-%d\r\n", bytes_loaded);
+		th_printf("m-buff-ptr-%d\r\n", bytes_loaded);
 	}
 	else if (strcmp(cmd_args[1], "setptr") == 0) {
 		if (cmd_args[2] != NULL) {
 			bytes_loaded = atoi(cmd_args[2]);
 		}
 		else {
-			ns_lp_printf("Error: setptr requires a numeric argument: 'db setptr 123%%'");
+			th_printf("Error: setptr requires a numeric argument: 'db setptr 123%%'");
 		}
 	}
 	else if (strcmp(cmd_args[1], "print") == 0) {
@@ -325,14 +325,14 @@ void load_or_print_buff(char *cmd_args[]) {
 		if (bytes_to_print <= 0 || bytes_to_print > buff_size) {
 			bytes_to_print = buff_size;
 		}
-		ns_lp_printf("m-buffer-");
+		th_printf("m-buffer-");
 		for(int i=0; i<bytes_to_print; i++){
-			ns_lp_printf("%02x", byte_buff[i]);
+			th_printf("%02x", byte_buff[i]);
 			if( i < bytes_to_print-1) {
-				ns_lp_printf("-");
+				th_printf("-");
 			}
 			else {
-				ns_lp_printf("\r\n");
+				th_printf("\r\n");
 			}
 		}
 	}
@@ -347,7 +347,7 @@ void load_or_print_buff(char *cmd_args[]) {
 		print_vals_int16((int16_t *)byte_buff, vals_to_print);
 	}
 	else {
-		ns_lp_printf("Error: db: Unrecognized sub-command %s\r\n", cmd_args[1]);
+		th_printf("Error: db: Unrecognized sub-command %s\r\n", cmd_args[1]);
 	}
 }
 void run_extraction(char *cmd_args[]) {
@@ -372,13 +372,13 @@ void run_extraction(char *cmd_args[]) {
 	// compute_lfbe_f32(test_wav_marvin+offset, test_out, dsp_buff);
 	// timer_stop = __HAL_TIM_GET_COUNTER(&htim16);
 
-	ns_lp_printf("TIM16: compute_lfbe_f32 took (%lu : %lu) = %lu TIM16 cycles\r\n", timer_start, timer_stop, timer_stop-timer_start);
-	ns_lp_printf("\r\n{\r\n");
-	ns_lp_printf("\"Input\": ");
+	th_printf("TIM16: compute_lfbe_f32 took (%lu : %lu) = %lu TIM16 cycles\r\n", timer_start, timer_stop, timer_stop-timer_start);
+	th_printf("\r\n{\r\n");
+	th_printf("\"Input\": ");
 	print_vals_int16(test_wav_marvin+offset, 1024);
-	ns_lp_printf(",\r\n \"Output\": ");
+	th_printf(",\r\n \"Output\": ");
 	print_vals_float(test_out, 40);
-	ns_lp_printf("}\r\n");
+	th_printf("}\r\n");
 }
 
 void stop_detection(char *cmd_args[]) {
@@ -392,8 +392,8 @@ void stop_detection(char *cmd_args[]) {
 		am_hal_i2s_disable(pI2SHandle);
 		g_i2s_state = Idle;
 		th_timestamp(); // this timestamp will stop the measurement of power
-		ns_lp_printf("Streaming stopped.\r\n");
-		ns_lp_printf("target activations: \r\n");
+		th_printf("Streaming stopped.\r\n");
+		th_printf("target activations: \r\n");
 		print_vals_int8(g_act_buff, g_act_idx); // jhdbg
 		g_act_buff = NULL;
 		break;
@@ -403,30 +403,30 @@ void stop_detection(char *cmd_args[]) {
 		am_hal_i2s_disable(pI2SHandle);
 		g_i2s_state = Idle;
 		g_wav_record = NULL;
-		ns_lp_printf("Wav capture stopped.\r\n");
+		th_printf("Wav capture stopped.\r\n");
 		break;
 	case Idle:
-		ns_lp_printf("I2S is already idle.  Ignoring stop request\r\n");
+		th_printf("I2S is already idle.  Ignoring stop request\r\n");
 		break;
 	case Stopping:
-		ns_lp_printf("Stop already requested.\r\n");
+		th_printf("Stop already requested.\r\n");
 		break;
 	default:
-		ns_lp_printf("Unknown state %d detected. Requesting stop.\r\n", g_i2s_state);
+		th_printf("Unknown state %d detected. Requesting stop.\r\n", g_i2s_state);
 		g_i2s_state = Stopping;
 	}
 }
 
 void start_detection(char *cmd_args[]) {
 	if(g_i2s_state != Idle) {
-		 ns_lp_printf("I2S Rx currently in progress. Ignoring request\r\n");
+		 th_printf("I2S Rx currently in progress. Ignoring request\r\n");
 	}
 	else {
 		 g_i2s_state = Streaming;
 
 		 g_act_buff = (int8_t *)g_gp_buffer;
 		 if( !g_act_buff ) {
-			 ns_lp_printf("WARNING:  Activation buffer malloc failed.  Activation logging will not work.\r\n");
+			 th_printf("WARNING:  Activation buffer malloc failed.  Activation logging will not work.\r\n");
 		 }
 		 g_int16s_read = 0; // jhdbg -- only needed when we're capturing the waveform in addition to detecting
 		 g_first_frame = 1; // on the first frame of a recording we pulse the detection GPIO to synchronize timing.
@@ -434,7 +434,7 @@ void start_detection(char *cmd_args[]) {
 		 memset(g_act_buff, 0, g_gp_buff_bytes);
 		 g_act_idx = 0;
 
-		 ns_lp_printf("Listening for I2S data ... \r\n");
+		 th_printf("Listening for I2S data ... \r\n");
 
 		 // these memsets are not really needed, but they make it easier to tell
 		 // if the write never happened.
@@ -455,36 +455,36 @@ void start_detection(char *cmd_args[]) {
 
 
 		 g_i2s_status = am_hal_i2s_dma_transfer_start(pI2SHandle, &g_sI2S0Config);
-		 ns_lp_printf("DMA receive initiated.\r\n");
+		 th_printf("DMA receive initiated.\r\n");
 	}
 }
 
 void i2s_capture(char *cmd_args[]) {
 	if(g_i2s_state != Idle ) {
-		 ns_lp_printf("I2S Rx currently in progress. Ignoring request\r\n");
+		 th_printf("I2S Rx currently in progress. Ignoring request\r\n");
 		 return;
 	}
 
 	if (cmd_args[1]) {
 		g_i2s_wav_len = atoi(cmd_args[1]);
 		if( g_i2s_wav_len > g_gp_buff_bytes/2) {
-			ns_lp_printf("Requested length %lu exceeds available memory. Capturing %lu samples\r\n",
+			th_printf("Requested length %lu exceeds available memory. Capturing %lu samples\r\n",
 					g_i2s_wav_len, g_gp_buff_bytes/2);
 			g_i2s_wav_len = g_gp_buff_bytes/4;
 		}
 	}
 	else {
 		g_i2s_wav_len = g_gp_buff_bytes/2; // 2 bytes/sample
-		ns_lp_printf("No length specified.  Capturing %lu samples\r\n", g_i2s_wav_len);
+		th_printf("No length specified.  Capturing %lu samples\r\n", g_i2s_wav_len);
 	}
 
 	g_i2s_state = FileCapture;
 	g_int16s_read = 0;
 	g_wav_record = (int16_t *)g_gp_buffer; // g_gp_buff_bytes bytes
 	if( !g_wav_record ) {
-		ns_lp_printf("WARNING: Recording buffer has no allocated memory. I2S Capture will fail.\r\n");
+		th_printf("WARNING: Recording buffer has no allocated memory. I2S Capture will fail.\r\n");
 	}
-	ns_lp_printf("Listening for I2S data ... \r\n");
+	th_printf("Listening for I2S data ... \r\n");
 	memset(g_wav_record, 0, g_gp_buff_bytes); // *2 b/c wav_len is int16s
 	// these memsets are not really needed, but they make it easier to tell
 	// if the write never happened.
@@ -493,8 +493,8 @@ void i2s_capture(char *cmd_args[]) {
 
 	g_i2s_status = am_hal_i2s_dma_transfer_start(pI2SHandle, &g_sI2S0Config);
 	// you can also check hsai->State
-	// ns_lp_printf("DMA receive initiated. status=%lu, state=%d\r\n", g_i2s_status, hsai_BlockA1.State);
-	ns_lp_printf("    Status: 0=OK, 1=Error, 2=Busy, 3=Timeout; State: 0=Reset, 1=Ready, 2=Busy (internal process), 18=Busy (Tx), 34=Busy (Rx)\r\n");
+	// th_printf("DMA receive initiated. status=%lu, state=%d\r\n", g_i2s_status, hsai_BlockA1.State);
+	th_printf("    Status: 0=OK, 1=Error, 2=Busy, 3=Timeout; State: 0=Reset, 1=Ready, 2=Busy (internal process), 18=Busy (Tx), 34=Busy (Rx)\r\n");
 }
 
 void print_help(char *cmd_args[]) {
@@ -511,25 +511,25 @@ void print_help(char *cmd_args[]) {
 	"help        -- Print this help message\r\n%"
 	;
 
-	ns_lp_printf(help_message);
+	th_printf(help_message);
 }
 
 void print_and_clear_log(char *cmd_args[]) {
-	ns_lp_printf("Log contents[cp=%u]:\r\n<%s>\r\n", g_log.current_pos, g_log.buffer);
+	th_printf("Log contents[cp=%u]:\r\n<%s>\r\n", g_log.current_pos, g_log.buffer);
 	memset(g_log.buffer, 0, LOG_BUFFER_SIZE);
 	g_log.current_pos = 0;
 }
 
 void print_state(char *cmd_args[]) {
-	//  ns_lp_printf("g_i2s_status=%lu, SAI state=%d\r\n", g_i2s_status, hsai_BlockA1.State);
-	 ns_lp_printf("    Status: 0=OK, 1=Error, 2=Busy, 3=Timeout; State: 0=Reset, 1=Ready, 2=Busy (internal process), 18=Busy (Tx), 34=Busy (Rx)\r\n");
-	 ns_lp_printf("g_i2s_state = %d, g_int16s_read=%lu\r\n", g_i2s_state, g_int16s_read);
+	//  th_printf("g_i2s_status=%lu, SAI state=%d\r\n", g_i2s_status, hsai_BlockA1.State);
+	 th_printf("    Status: 0=OK, 1=Error, 2=Busy, 3=Timeout; State: 0=Reset, 1=Ready, 2=Busy (internal process), 18=Busy (Tx), 34=Busy (Rx)\r\n");
+	 th_printf("g_i2s_state = %d, g_int16s_read=%lu\r\n", g_i2s_state, g_int16s_read);
 }
 
 void process_command(char *full_command) {
 	char *cmd_args[MAX_CMD_TOKENS] = {NULL};
 
-    ns_lp_printf("Received command: %s\r\n", full_command);
+    th_printf("Received command: %s\r\n", full_command);
 
     // Split the command on spaces, so cmd_args[0] is the command itself
     char* token = strtok(full_command, " ");
@@ -545,17 +545,17 @@ void process_command(char *full_command) {
     // Uncomment this block to print out the sub-commands individually for debugging.
     //    // print out the command and args 1 by 1 (for debug; remove later)
 	//    for(int i=0;i<MAX_CMD_TOKENS && cmd_args[i] != NULL;i++) {
-	//        ns_lp_printf("[%d]: %p=>%s\r\n", i, (void *)cmd_args[i], cmd_args[i]);
+	//        th_printf("[%d]: %p=>%s\r\n", i, (void *)cmd_args[i], cmd_args[i]);
 	//    }
 
 	// full_command should be "<command> <arg1> <arg2>" (command and args delimited by spaces)
 	// put the command and arguments into the array cmd_arg[]
 	if (strcmp(cmd_args[0], "name") == 0) {
-		ns_lp_printf(EE_MSG_NAME, EE_DEVICE_NAME, TH_VENDOR_NAME_STRING);
+		th_printf(EE_MSG_NAME, EE_DEVICE_NAME, TH_VENDOR_NAME_STRING);
 	}
 	else if (strcmp(cmd_args[0], "profile") == 0) {
-	    ns_lp_printf("m-profile-[%s]\r\n", EE_FW_VERSION);
-	    ns_lp_printf("m-model-[%s]\r\n", TH_MODEL_VERSION);
+	    th_printf("m-profile-[%s]\r\n", EE_FW_VERSION);
+	    th_printf("m-model-[%s]\r\n", TH_MODEL_VERSION);
 	}
 	else if(strcmp(cmd_args[0], "run_model") == 0) {
 		run_model_on_test_data(cmd_args);
@@ -601,12 +601,12 @@ void process_command(char *full_command) {
 		extract_features_on_chunk(cmd_args);
 	}
 	else if(cmd_args[0] == 0) {
-		ns_lp_printf("Empty command (only a %% read).  Type 'help%%' for help\r\n"); // %% => %
+		th_printf("Empty command (only a %% read).  Type 'help%%' for help\r\n"); // %% => %
 	}
 	else {
-		ns_lp_printf("Unrecognized command %s\r\n", full_command);
+		th_printf("Unrecognized command %s\r\n", full_command);
 	}
-	ns_lp_printf(EE_MSG_READY);
+	th_printf(EE_MSG_READY);
 }
 
 static int8_t in_data[AI_SWW_MODEL_IN_1_SIZE] __attribute__((aligned(32)));;
@@ -636,7 +636,7 @@ void infer_static_wav(char *cmd_args[]) {
 	offset = atoi(cmd_args[1]);
 	wav_ptr = test_wav_long + offset;
 	wav_len = test_wav_long_len-offset;
-	ns_lp_printf("Infering on static wav with offset = %d\r\n", offset);
+	th_printf("Infering on static wav with offset = %d\r\n", offset);
 
 	num_steps = (wav_len - (SWW_WINLEN_SAMPLES - SWW_WINSTRIDE_SAMPLES))/SWW_WINSTRIDE_SAMPLES;
 	TfLiteTensor *input_tensor = model.model_input[0];
@@ -666,9 +666,9 @@ void infer_static_wav(char *cmd_args[]) {
 			in_data[i] = (int8_t)g_model_input[i];
 		}
 		// print out the newest vector of features as int8
-		ns_lp_printf("(");
+		th_printf("(");
 		print_vals_int8(g_model_input+SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS, NUM_MEL_FILTERS);
-		ns_lp_printf(", ");
+		th_printf(", ");
 		TfLiteTensor* t = model.interpreter->input(0);
 		memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
 		/*  Call inference engine */
@@ -678,15 +678,15 @@ void infer_static_wav(char *cmd_args[]) {
            output->data.int8,
            AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
 		if( out_data[0] > DETECT_THRESHOLD || g_first_frame) {
-			ns_lp_printf("[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);
+			th_printf("[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);
 			log_printf(&g_log, "[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);
 			g_first_frame = 0;
 		}
 		else if( out_data[0] > 100) {
-			ns_lp_printf("[%d]: Near miss (%d). \r\n", idx_step, out_data[0]);
+			th_printf("[%d]: Near miss (%d). \r\n", idx_step, out_data[0]);
 		}
 
-		ns_lp_printf("%d), \r\n", out_data[0]);
+		th_printf("%d), \r\n", out_data[0]);
 	}
 }
 
@@ -718,7 +718,7 @@ void process_chunk_and_cont_capture(int16_t *idle_buffer)
            g_i2s_chunk_size_bytes);
     if (reading_complete)
     {
-        ns_lp_printf("DMA Receive completed %lu int16s read out of %lu requested\r\n",
+        th_printf("DMA Receive completed %lu int16s read out of %lu requested\r\n",
                   g_int16s_read, g_i2s_wav_len);
         print_vals_int16(g_wav_record, g_int16s_read);
 
@@ -789,16 +789,16 @@ void extract_features_on_chunk(char *cmd_args[]) {
 
     num_calls++;
 
-	ns_lp_printf("m-features-[");
+	th_printf("m-features-[");
 	for(int i=0;i<NUM_MEL_FILTERS;i++) {
-		ns_lp_printf("%+3d", (int8_t)(feature_buff[i]/input_scale_factor-128));
+		th_printf("%+3d", (int8_t)(feature_buff[i]/input_scale_factor-128));
 		if( i < NUM_MEL_FILTERS -1){
-			ns_lp_printf(", ");
+			th_printf(", ");
 		}
 	}
-	ns_lp_printf("]\r\n");
+	th_printf("]\r\n");
 
-	ns_lp_printf("m-activations-[%+3d, %+3d, %+3d]\r\n", out_data[0], out_data[1], out_data[2]);
+	th_printf("m-activations-[%+3d, %+3d, %+3d]\r\n", out_data[0], out_data[1], out_data[2]);
 
 
 }
@@ -912,7 +912,7 @@ void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp)
 	arm_rfft_fast_instance_f32 rfft_s;
 	op_result = arm_rfft_fast_init_f32(&rfft_s, block_length);
 	if (op_result != ARM_MATH_SUCCESS) {
-		ns_lp_printf("Error %d in arm_rfft_fast_init_f32", op_result);
+		th_printf("Error %d in arm_rfft_fast_init_f32", op_result);
 	}
 	arm_rfft_fast_f32(&rfft_s,pTmp,pDst,0); // use config rfft_s; FFT(pTmp) => pDst, ifft=0
 

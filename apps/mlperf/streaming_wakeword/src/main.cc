@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
                     break;
 
                 case Stopping:
-                    th_printf("Streaming stopped\r\n");
+                    ns_lp_printf("Streaming stopped\r\n");
                     g_i2s_state = Idle;
                     i2s_doorbell = false;
                     break;
@@ -107,7 +107,7 @@ static void i2s_init(void)
 
     if (AM_HAL_STATUS_SUCCESS != am_hal_i2s_configure(pI2SHandle, &g_sI2S0Config))
     {
-        th_printf("ERROR: Invalid I2S0 configuration.\nNote: For Apollo5 Rev.B0, I2S can only use PLL as the clock source.\n");
+        ns_lp_printf("ERROR: Invalid I2S0 configuration.\nNote: For Apollo5 Rev.B0, I2S can only use PLL as the clock source.\n");
     }
 
     am_hal_i2s_enable(pI2SHandle);
@@ -128,7 +128,7 @@ void th_serialport_initialize(void) {
   NS_TRY(ns_uart_init(&uart_config, &uart_handle), 
           "Failed to initialize UART for serial port");
   ns_uart_register_callbacks(uart_handle, my_rx_cb, NULL);
-  am_util_stdio_printf_init(uart_stdio_print);
+//   am_util_stdio_printf_init(uart_stdio_print);
 }
 
 static char th_getchar() { 
@@ -137,17 +137,17 @@ static char th_getchar() {
   return data; 
 }
 
-void th_printf(const char *p_fmt, ...) {
-  va_list args;
-  va_start(args, p_fmt);
-  (void)th_vprintf(p_fmt, args); /* ignore return */
-  va_end(args);
-}
+// void ns_lp_printf(const char *p_fmt, ...) {
+//   va_list args;
+//   va_start(args, p_fmt);
+//   (void)th_vprintf(p_fmt, args); /* ignore return */
+//   va_end(args);
+// }
 
-static void uart_stdio_print(char *pcBuf)
-{
-    // Send the entire null-terminated string over UART:
-    size_t len = strlen(pcBuf);
-    ns_uart_blocking_send_data(&uart_config, pcBuf, len);
-    // We ignore the return count since the prototype is void.
-}
+// static void uart_stdio_print(char *pcBuf)
+// {
+//     // Send the entire null-terminated string over UART:
+//     size_t len = strlen(pcBuf);
+//     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
+//     // We ignore the return count since the prototype is void.
+// }

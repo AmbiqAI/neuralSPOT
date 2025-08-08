@@ -18,14 +18,12 @@ limitations under the License.
 
 void my_rx_cb(ns_uart_transaction_t *t)
 {
-    uart_doorbell = true;
     int c;
     c = th_getchar();
     ee_serial_callback(c);
-    uart_doorbell = false;
 }
 
-int16_t local_buf[512]__attribute__((aligned(32))) = {0};
+int16_t local_buf[512] __attribute__((aligned(32))) = {0};
 
 extern "C" void am_dspi2s0_isr(void)
 {

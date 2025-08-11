@@ -954,10 +954,10 @@ class AutoDeployRunner:
         self._stage += 1
 
         cpu_modes = ["LP", "HP"] if self.p.cpu_mode == "auto" else [self.p.cpu_mode]
-        runtime_modes = ["tflm"]
-        if self.p.create_aot_profile:
-            runtime_modes.append("aot")
-
+        # runtime_modes = ["tflm"]
+        # if self.p.create_aot_profile:
+        #     runtime_modes.append("aot")
+        runtime_modes = ["aot"]
         for mode in cpu_modes:
             for runtime_mode in runtime_modes:
                 generatePowerBinary(self.p, self.mc, self.md, mode, aot=runtime_mode == "aot")

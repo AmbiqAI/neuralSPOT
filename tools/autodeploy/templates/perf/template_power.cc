@@ -51,9 +51,12 @@ ns_timer_config_t tickTimer = {
 };
 #if NS_AD_AOT == 1
 
-// PMU Accumulator for AOT Models (each layer has NS_NUM_PMU_MAP_SIZE counters, and different counters are captured per run)
+// PMU Map has 71 entries - hardcoded since sizeof() doesn't work with extern arrays
+#define NS_PMU_MAP_ENTRIES 71
+
+// PMU Accumulator for AOT Models (each layer has NS_PMU_MAP_ENTRIES counters, and different counters are captured per run)
 typedef struct {
-    uint32_t pmu_events[80];
+    uint32_t pmu_events[NS_PMU_MAP_ENTRIES];
     uint32_t pmu_events_index; // index of the next pmu event to capture
 } pmu_accumulator_t;
 
@@ -74,9 +77,10 @@ static void aot_callback(
         uint32_t counter_index = pmu_accumulator[op].pmu_events_index;
         for (int i = 0; i < 4; i++) {
             // Create the events
+            ns_lp_printf("op %d: Creating event %d for counter %d\n", op, ns_pmu_map[counter_index].eventId, counter_index);
             ns_pmu_event_create(&(pmu_cfg.events[i]), ns_pmu_map[counter_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
             counter_index++;
-            if (counter_index >= NS_NUM_PMU_MAP_SIZE) {
+            if (counter_index >= NS_PMU_MAP_ENTRIES) {
                 break;
             }
         }
@@ -88,17 +92,19 @@ static void aot_callback(
         // Accumulate the counters
         ns_pmu_get_counters(&pmu_cfg);
         ns_pmu_print_counters(&pmu_cfg);
+        int sigh = pmu_accumulator[op].pmu_events_index;
         for (int i = 0; i < 4; i++) {
             pmu_accumulator[op].pmu_events[pmu_accumulator[op].pmu_events_index] = pmu_cfg.counter[i].counterValue;
+            // ns_lp_printf("op %d: Accumulating counter %d: %d, %d\n", op, i, pmu_accumulator[op].pmu_events_index, pmu_cfg.counter[i].counterValue);
             pmu_accumulator[op].pmu_events_index++;
-            if (pmu_accumulator[op].pmu_events_index >= NS_NUM_PMU_MAP_SIZE) {
+            if (pmu_accumulator[op].pmu_events_index >= NS_PMU_MAP_ENTRIES) {
                 break;
             }
         }
         // for debug, print the counters
-        for (int i = 0; i < 4; i++) {
-            ns_lp_printf("Counter %d: %d\n", i, pmu_accumulator[op].pmu_events[i]);
-        }
+        // for (int i = 0; i < 4; i++) {
+        //     ns_lp_printf("Counter %d: %d\n", i, pmu_accumulator[op].pmu_events[sigh + i]);
+        // }
     }
 }
 
@@ -107,14 +113,13 @@ static NS_AD_NAME_AOT_model_context_t model = {
     // .input_len = NS_AD_NAME_AOT_inputs_len,
     .output_data = {NS_AD_NAME_output_tensors},
     // .output_len = {NS_AD_NAME_AOT_outputs_len},
-    .callback = NULL, //aot_callback,
+    #if NS_AD_JS_PRESENT == 0
+    .callback = aot_callback, //aot_callback,
+    #else
+    .callback = NULL,
+    #endif
     .user_data = NULL
 };
-
-
-
-
-
 #else
 static ns_model_state_t model;
 #endif
@@ -128,10 +133,12 @@ typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } m
 static int volatile joulescopeTrigger = 0;
 
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
-extern ns_pmu_config_t ns_microProfilerPMU;
-extern ns_profiler_sidecar_t ns_microProfilerSidecar;
-#endif
+    #ifdef AM_PART_APOLLO5B
+    extern ns_pmu_config_t ns_microProfilerPMU;
+        #if NS_AD_AOT == 0
+        extern ns_profiler_sidecar_t ns_microProfilerSidecar;
+        #endif
+    #endif
 #endif
 
 // Button Peripheral Config Struct
@@ -218,6 +225,13 @@ int main(void) {
     memcpy(model.input_len, NS_AD_NAME_AOT_inputs_len, sizeof(NS_AD_NAME_AOT_inputs_len));
     memcpy(model.output_len, NS_AD_NAME_AOT_outputs_len, sizeof(NS_AD_NAME_AOT_outputs_len));
     int status = NS_AD_NAME_AOT_model_init(&model); // model init with minimal defaults
+    pmu_cfg.api = &ns_pmu_V1_0_0;
+    ns_pmu_reset_config(&pmu_cfg);
+
+    // reset the accumulator
+    for (int i = 0; i < NS_AD_AOT_LAYERS; i++) {
+        pmu_accumulator[i].pmu_events_index = 0;
+    }
 #else
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
 #endif
@@ -302,10 +316,6 @@ int main(void) {
             // for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
 #if NS_AD_AOT == 0
                 model.interpreter->Invoke();
-#else
-                // ns_lp_printf("Running AOT model...\n");
-                NS_AD_NAME_AOT_model_run(&model);
-                // ns_lp_printf("AOT model run complete.\n");
 #ifdef NS_MLPROFILE
                 if (i == 0) {
                     ns_stop_perf_profiler();
@@ -315,6 +325,11 @@ int main(void) {
                     // ns_lp_printf("Number of layers: %d\n", num_layers);
                 }
 #endif // NS_MLPROFILE
+#else
+                // ns_lp_printf("Running AOT model...\n");
+                NS_AD_NAME_AOT_model_run(&model);
+                // ns_lp_printf("AOT model run complete.\n");
+
 #endif
                 // if ((runs <= 5) || (runs == 10) || (runs % 100 == 0)) {
                 //     end_time = ns_us_ticker_read(&tickTimer);
@@ -350,9 +365,23 @@ int main(void) {
 
 #if NS_AD_AOT == 0
             ns_characterize_model(tf_invoke);
+            ns_lp_printf("Model characterization complete.\n");
             ns_parse_pmu_stats(num_layers, model.rv_count);
+            ns_lp_printf("Model pmu print complete.\n");
 #else
             //ns_characterize_model(NS_AD_NAME_model_run);
+            for (int i = 0; i < NS_PMU_MAP_ENTRIES/4; i++) {
+                NS_AD_NAME_AOT_model_run(&model);
+            }
+            ns_lp_printf("AOT model characterization complete.\n");
+            // print the pmu stats
+            for (int op = 0; op < NS_AD_AOT_LAYERS; op++) {
+                ns_lp_printf("Layer %d: ", op);
+                for (int i = 0; i < NS_PMU_MAP_ENTRIES; i++) {
+                    ns_lp_printf("%d ", pmu_accumulator[op].pmu_events[i]);
+                }
+                ns_lp_printf("\n");
+            }
 #endif
 
 #endif // AM_PART_APOLLO5B

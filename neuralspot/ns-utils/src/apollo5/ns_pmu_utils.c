@@ -373,7 +373,7 @@ uint32_t ns_pmu_print_counters(ns_pmu_config_t *cfg) {
         if (cfg->events[i].enabled) {
             uint32_t mapIndex = cfg->counter[i].mapIndex;
             // ns_lp_printf("Counter %s (%s): 0x%x\n", ns_pmu_map[mapIndex].regname, ns_pmu_map[mapIndex].description, cfg->counter[i].counterValue);
-            ns_lp_printf("%d, \t%s, \t \"%s\"\n", cfg->counter[i].counterValue, ns_pmu_map[mapIndex].regname, ns_pmu_map[mapIndex].description);
+            ns_lp_printf("%d %d, \t%s, \t \"%s\"\n", i, cfg->counter[i].counterValue, ns_pmu_map[mapIndex].regname, ns_pmu_map[mapIndex].description);
 
         }
     }

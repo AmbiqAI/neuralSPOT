@@ -21,7 +21,7 @@
 #include "am_hal_i2s.h"
 #include "am_hal_gpio.h"
 #include "ns_uart.h"
-#define I2S_MODULE_0                (0)
+#define I2S_MODULE_0 0
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
@@ -66,7 +66,7 @@ am_hal_i2s_config_t g_sI2S0Config =
 
     .eMode  = AM_HAL_I2S_IO_MODE_SLAVE,
     .eXfer  = AM_HAL_I2S_XFER_RX,
-    .eClock = eAM_HAL_I2S_CLKSEL_HFRC_3MHz,
+    .eClock = eAM_HAL_I2S_CLKSEL_PLL_FOUT4,
     .eDiv3  = 0,
     .eASRC  = 0,
     .eData  = &g_sI2SDataConfig,
@@ -115,3 +115,4 @@ static void i2s_init(void);
 void th_timestamp();
 static char th_getchar();
 void th_printf(const char *p_fmt, ...);
+void helper_sleep(void);

@@ -20,6 +20,7 @@ void my_rx_cb(ns_uart_transaction_t *t)
 {
     int c;
     c = th_getchar();
+    th_printf("1\n"); // debug print
     ee_serial_callback(c);
 }
 
@@ -45,14 +46,18 @@ int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
+    // am_bsp_low_power_init();
+    // am_hal_cachectrl_icache_enable();
+    // am_hal_cachectrl_dcache_enable(true);
+
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
-    i2s_init();
-    ns_interrupt_master_enable();
     th_serialport_initialize();
+    i2s_init();
     ns_timer_init(&basic_tickTimer);
     th_timestamp();
+    ns_interrupt_master_enable();
     while (1) {
         if(i2s_doorbell) {
             switch (g_i2s_state)
@@ -80,6 +85,7 @@ int main(int argc, char *argv[]) {
         th_printf("+");
         }
         ns_deep_sleep();
+        // helper_sleep();
     }
     return 0;
 }
@@ -101,6 +107,7 @@ static void gpio_init() {
 
 static void i2s_init(void)
 {
+    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_SYSPLL, 24576000, NULL);
     // Configure the necessary pins.
     am_bsp_i2s_pins_enable(I2S_MODULE_0, false);
     // Configure I2S0
@@ -114,8 +121,11 @@ static void i2s_init(void)
     }
 
     am_hal_i2s_enable(pI2SHandle);
-    am_hal_i2s_dma_configure(pI2SHandle, &g_sI2S0Config, &sTransfer0);
+    NVIC_SetPriority(I2S0_IRQn, AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ(I2S0_IRQn);
+
+    am_hal_i2s_dma_configure(pI2SHandle, &g_sI2S0Config, &sTransfer0);
+
 }
 
 
@@ -149,8 +159,50 @@ void th_printf(const char *p_fmt, ...) {
 
 static void uart_stdio_print(char *pcBuf)
 {
-    // Send the entire null-terminated string over UART:
     size_t len = strlen(pcBuf);
     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
-    // We ignore the return count since the prototype is void.
 }
+
+// void helper_sleep(void)
+// {
+//     // #if (USE_SLEEP_MODE > USE_SLEEP_MODE_NONE)
+//     #if defined(AM_PART_APOLLO5A)
+//     PWRCTRL->PWRCNTDEFVAL_b.PWRDEFVALDEVSTMC = 12;
+//     #endif
+
+//     // Disable Interrupt and check whether all expected interrupt has been
+//     // received. Only enter sleep if we are still expecting interrupt. This is
+//     // to prevent entering sleep after all expected interrupt has been received.
+//     uint32_t ui32Critical = am_hal_interrupt_master_disable();
+//     uint32_t status;
+//     am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
+//     // Check for all expected interrupt
+//     if (status & (AM_HAL_I2S_INT_RXDMACPL | AM_HAL_UART_INT_RX | AM_HAL_UART_INT_RX_TMOUT))
+//     {
+//         // Recover master interrupt
+//         am_hal_interrupt_master_set(ui32Critical);
+
+//         // All expected interrupt is received. Return without sleep
+//         return;
+//     }
+
+//     // //Wait for ITM to be idle and turn it off
+//     // while (!am_hal_itm_print_not_busy() || !am_hal_itm_not_busy());
+//     // am_bsp_itm_printf_disable();
+
+//     //Power Off ROM and OTP so that MCU can enter Deep Sleep
+//     am_hal_pwrctrl_rom_disable();
+//     am_hal_pwrctrl_periph_disable(AM_HAL_PWRCTRL_PERIPH_OTP);
+
+//     // Enter deep sleep
+//     am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
+
+//     // MCU Wakeup: re-enable itm printf
+//     // am_bsp_itm_printf_enable();
+
+
+//     // Recover master interrupt
+//     am_hal_interrupt_master_set(ui32Critical);
+
+//     // #endif //(USE_SLEEP_MODE > USE_SLEEP_MODE_NONE)
+// }

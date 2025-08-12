@@ -27,8 +27,8 @@
 #include "am_util.h"
 
 void        *pI2SHandle;
-AM_SHARED_RW   int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
-AM_SHARED_RW   int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 volatile i2s_state_t g_i2s_state = Idle;
 
 am_hal_i2s_io_signal_t g_sI2SIOConfig =
@@ -66,7 +66,7 @@ am_hal_i2s_config_t g_sI2S0Config =
 
     .eMode  = AM_HAL_I2S_IO_MODE_SLAVE,
     .eXfer  = AM_HAL_I2S_XFER_RX,
-    .eClock = eAM_HAL_I2S_CLKSEL_HFRC_3MHz,
+    .eClock = eAM_HAL_I2S_CLKSEL_PLL_FOUT4,
     .eDiv3  = 0,
     .eASRC  = 0,
     .eData  = &g_sI2SDataConfig,
@@ -104,7 +104,6 @@ ns_uart_config_t uart_config = {
     .rx_blocking = false,
 };
 static ns_uart_handle_t uart_handle = NULL;
-static char txbuffer[256];
 
 
 static void uart_stdio_print(char *pcBuf);

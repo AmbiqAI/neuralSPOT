@@ -29,8 +29,8 @@
 extern volatile i2s_state_t g_i2s_state;
 static ns_model_state_t model;
 extern void th_printf(const char *p_fmt, ...);
-extern AM_SHARED_RW  int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
-extern AM_SHARED_RW  int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern am_hal_i2s_config_t g_sI2S0Config;
 // Command buffer (incoming commands from host)
 char g_cmd_buf[EE_CMD_SIZE + 1];
@@ -849,7 +849,9 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	TfLiteTensor* t = model.interpreter->input(0);
 	memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
 	/*  Call inference engine */
+	am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 	model.interpreter->Invoke();
+	am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 
 	TfLiteTensor * output = model.model_output[0];
 	memcpy(out_data, output->data.int8, AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));

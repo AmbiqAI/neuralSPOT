@@ -141,7 +141,7 @@ NESTSOURCEDIR := apps/$(NESTEGG)/src
 # -----------------------------------------------------------------------------
 
 ifndef TF_VERSION
-  TF_VERSION := helios_rt_v1_2_0
+  TF_VERSION := helios_rt_v1_3_0
 endif
 
 SR_VERSION     := R7.70a
@@ -165,6 +165,8 @@ else ifeq ($(EVB),blue_kbr_evb)
 else ifeq ($(EVB),blue_kxr_evb)
   BLE_PRESENT := 1
 else ifeq ($(ARCH),apollo3)
+  BLE_PRESENT := 1
+else ifeq ($(PLATFORM), apollo510_evb)
   BLE_PRESENT := 1
 else
   BLE_PRESENT := 0
@@ -207,6 +209,11 @@ else ifeq ($(AS_VERSION),R4.4.1)
     BLE_SUPPORTED := 1
   endif
 else ifeq ($(AS_VERSION),R4.5.0)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
+else ifeq ($(AS_VERSION),R5.3.0)
   ifeq ($(BLE_PRESENT),1)
     DEFINES += NS_BLE_SUPPORTED
     BLE_SUPPORTED := 1
@@ -257,7 +264,7 @@ DEFINES += NS_TFSTRUCTURE_RECENT
 
 MLPROFILE := 0
 TFLM_VALIDATOR := 0
-TFLM_VALIDATOR_MAX_EVENTS := 40
+# TFLM_VALIDATOR_MAX_EVENTS := 40
 
 DEFINES += OPUS_ARM_INLINE_ASM
 DEFINES += OPUS_ARM_ASM
@@ -276,7 +283,9 @@ ifeq ($(TFLM_VALIDATOR),1)
   DEFINES += NS_TFLM_VALIDATOR
 endif
 
-DEFINES += NS_PROFILER_RPC_EVENTS_MAX=$(TFLM_VALIDATOR_MAX_EVENTS)
+ifdef TFLM_VALIDATOR_MAX_EVENTS
+	DEFINES += NS_PROFILER_RPC_EVENTS_MAX=$(TFLM_VALIDATOR_MAX_EVENTS)
+endif
 
 # TinyUSB settings
 ifeq ($(ARCH),apollo5)

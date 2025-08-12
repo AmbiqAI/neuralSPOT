@@ -243,7 +243,7 @@ MicroProfiler::LogCsv() const {
         #endif
 
     // Capture statistics for Validator if enabled
-    #ifdef NS_TFLM_VALIDATOR
+    #ifdef NS_MLPROFILE
         if (i < NS_PROFILER_RPC_EVENTS_MAX) {
             #ifdef AM_PART_APOLLO5B
             memcpy(&ns_profiler_events_stats[i].pmu_delta, pmu, sizeof(ns_pmu_counters_t));

@@ -27,8 +27,8 @@
 #include "am_util.h"
 
 void        *pI2SHandle;
-AM_SHARED_RW int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
-AM_SHARED_RW int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+AM_SHARED_RW   int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+AM_SHARED_RW   int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 volatile i2s_state_t g_i2s_state = Idle;
 
 am_hal_i2s_io_signal_t g_sI2SIOConfig =

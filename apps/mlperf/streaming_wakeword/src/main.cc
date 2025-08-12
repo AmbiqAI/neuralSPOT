@@ -25,10 +25,17 @@ void my_rx_cb(ns_uart_transaction_t *t)
 }
 
 int16_t local_buf[512] __attribute__((aligned(32))) = {0};
+am_hal_cachectrl_range_t dcache_range {
+    .ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
+    .ui32Size = 1024
+};
+am_hal_cachectrl_range_t dcache_range1 {
+    .ui32StartAddr = (uint32_t)&g_i2s_buffer1[0],
+    .ui32Size = 1024
+};
 
 extern "C" void am_dspi2s0_isr(void)
 {
-    th_printf("-");
     uint32_t status;
     am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
     am_hal_i2s_interrupt_clear(pI2SHandle, status);
@@ -37,6 +44,8 @@ extern "C" void am_dspi2s0_isr(void)
         return;
 
     int16_t * dma_buf = (int16_t*)am_hal_i2s_dma_get_buffer(pI2SHandle, AM_HAL_I2S_XFER_RX);
+    am_hal_cachectrl_dcache_invalidate(&dcache_range, false);
+    am_hal_cachectrl_dcache_invalidate(&dcache_range1, false);
     memcpy(local_buf, dma_buf, 512 * sizeof(int16_t));
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
     i2s_doorbell = true;
@@ -54,12 +63,12 @@ int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
-    am_bsp_low_power_init();
+    NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
+    // am_bsp_low_power_init();
     am_hal_pwrctrl_sram_config(&SRAMMemCfg);
-    am_hal_cachectrl_icache_enable();
-    am_hal_cachectrl_dcache_enable(true);
-    
+    // am_hal_cachectrl_icache_enable();
+    // am_hal_cachectrl_dcache_enable(true);
+
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
     th_serialport_initialize();
@@ -91,9 +100,8 @@ int main(int argc, char *argv[]) {
                     i2s_doorbell = false;
                     break;
             }
-        th_printf("+");
         }
-        // ns_deep_sleep();
+        ns_deep_sleep();
     }
     return 0;
 }

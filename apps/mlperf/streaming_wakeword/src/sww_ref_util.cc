@@ -29,8 +29,8 @@
 extern volatile i2s_state_t g_i2s_state;
 static ns_model_state_t model;
 extern void th_printf(const char *p_fmt, ...);
-extern AM_SHARED_RW int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
-extern AM_SHARED_RW int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern AM_SHARED_RW  int16_t g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern AM_SHARED_RW  int16_t g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern am_hal_i2s_config_t g_sI2S0Config;
 // Command buffer (incoming commands from host)
 char g_cmd_buf[EE_CMD_SIZE + 1];

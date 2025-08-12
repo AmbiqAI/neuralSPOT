@@ -860,7 +860,6 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
         ns_delay_us(1);
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
         g_first_frame = 0;
-		g_ww_count++;
 	}
 
     if ( g_act_idx < (g_gp_buff_bytes/sizeof(g_act_buff[0])) ) {

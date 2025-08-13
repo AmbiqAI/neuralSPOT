@@ -139,7 +139,7 @@ objects      = $(filter-out $(mains),$(call source-to-object,$(sources)))
 
 CFLAGS     += $(addprefix -D,$(pp_defines))
 CFLAGS     += $(addprefix -I ,$(includes_api))
-CFLAGS     += -Ofast
+CFLAGS     += -Ofast -fno-strict-aliasing
 .PHONY: all
 all:
 

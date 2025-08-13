@@ -23,7 +23,11 @@ void my_rx_cb(ns_uart_transaction_t *t)
     ee_serial_callback(c);
 }
 
-int16_t local_buf[512] __attribute__((aligned(32))) = {0};
+static int16_t local_buf[2][512] __attribute__((aligned(32)));
+static volatile uint8_t wr_idx = 0;   // ISR writes
+static volatile uint8_t rd_idx = 1;   // main reads
+static volatile uint8_t ready=0;
+static volatile uint32_t overrun_count = 0;
 am_hal_cachectrl_range_t dcache_range {
     .ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
     .ui32Size = 1024
@@ -45,18 +49,19 @@ extern "C" void am_dspi2s0_isr(void)
     int16_t * dma_buf = (int16_t*)am_hal_i2s_dma_get_buffer(pI2SHandle, AM_HAL_I2S_XFER_RX);
     am_hal_cachectrl_dcache_invalidate(&dcache_range, false);
     am_hal_cachectrl_dcache_invalidate(&dcache_range1, false);
-    memcpy(local_buf, dma_buf, 512 * sizeof(int16_t));
+    if (ready >= 2) {
+        // Backlog full: DROP this frame (don't publish/flip) and record it.
+        overrun_count++;
+    } else {
+        memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
+        __DMB();                 // ensure data is visible before publish
+        rd_idx = wr_idx;         // publish
+        wr_idx ^= 1;             // flip writer
+        ready++;                 // 1 or 2
+    }
+
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
-    i2s_doorbell = true;
 }
-// am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
-//     .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_3M,
-//     .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_3M,
-//     // .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_NONE,
-//     .eActiveWithGFX   = AM_HAL_PWRCTRL_SRAM_NONE,
-//     .eActiveWithDISP  = AM_HAL_PWRCTRL_SRAM_NONE,          
-//     .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_3M
-// };      
 
 void ns_power_memory_config(const ns_power_config_t *pCfg) {
     // configure SRAM & other memories
@@ -92,7 +97,7 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
         #endif
         .bKeepNVMOnInDeepSleep     = false
     };
- 
+
     am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
  
 #if defined(AM_PART_APOLLO5A)
@@ -124,11 +129,8 @@ int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_mlperf_mode2), "Power Init Failed.\n");
-    // am_bsp_low_power_init();
-    ns_power_memory_config(&ns_mlperf_mode2);
-    // am_hal_cachectrl_icache_enable();
-    // am_hal_cachectrl_dcache_enable(true);
+    NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
+    ns_power_memory_config(&ns_mlperf_mode3);
 
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
@@ -137,28 +139,31 @@ int main(int argc, char *argv[]) {
     ns_timer_init(&basic_tickTimer);
     th_timestamp();
     ns_interrupt_master_enable();
-    while (1) {
-        if(i2s_doorbell) {
-            switch (g_i2s_state)
-            {
-                case FileCapture:
-                    process_chunk_and_cont_capture(local_buf);
-                    i2s_doorbell = false;
-                    break;
+    for (;;) {
+        // consume all pending frames safely
+        while (1) {
+            uint8_t idx;
+            NVIC_DisableIRQ(I2S0_IRQn);
+            if (ready == 0) {
+                NVIC_EnableIRQ(I2S0_IRQn);
+                break;
+            }
+            idx = rd_idx;
+            ready--;
+            NVIC_EnableIRQ(I2S0_IRQn);
 
+            __DMB();
+            switch (g_i2s_state) {
                 case Streaming:
-                    process_chunk_and_cont_streaming(local_buf);
-                    i2s_doorbell = false;
+                    process_chunk_and_cont_streaming(local_buf[idx]);
                     break;
-
+                case FileCapture:
+                    process_chunk_and_cont_capture(local_buf[idx]);
+                    break;
                 case Stopping:
-                    th_printf("Streaming stopped\r\n");
                     g_i2s_state = Idle;
-                    i2s_doorbell = false;
                     break;
-
                 default:
-                    i2s_doorbell = false;
                     break;
             }
         }

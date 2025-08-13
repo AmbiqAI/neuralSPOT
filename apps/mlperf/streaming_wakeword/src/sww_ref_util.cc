@@ -199,7 +199,9 @@ void ee_serial_callback(char c) {
 
 
 int sww_model_init() {
-    int status = str_ww_ref_model_power_minimal_init(&model); // model init with minimal defaults
+    int status = str_ww_ref_model_power_minimal_init(&str_ww_ref_model_model_ctx); // model init with minimal defaults
+    // int32_t status;
+    // status = str_ww_ref_model_model_init(&str_ww_ref_model_model_ctx);
 	return status;
 }
 
@@ -672,7 +674,7 @@ void infer_static_wav(char *cmd_args[]) {
 		TfLiteTensor* t = model.interpreter->input(0);
 		memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
 		/*  Call inference engine */
-		model.interpreter->Invoke();
+		str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
 		TfLiteTensor * output = model.model_output[0];
 		memcpy(out_data,
            output->data.int8,
@@ -729,76 +731,76 @@ void process_chunk_and_cont_capture(int16_t *idle_buffer)
 
 
 void extract_features_on_chunk(char *cmd_args[]) {
-	// feature_buff is used internally as a 2nd internal scratch space,
-	// in the FFT domain, so it needs to be winlen_samples long, even though
-	// ultimately it will only hold NUM_MEL_FILTERS values.  This can probably
-	// be improved with a refactored compute_lfbe_f32().
-	static float32_t feature_buff[SWW_WINLEN_SAMPLES];
-	static float32_t dsp_buff[SWW_WINLEN_SAMPLES];
-	static int num_calls=0;
+	// // feature_buff is used internally as a 2nd internal scratch space,
+	// // in the FFT domain, so it needs to be winlen_samples long, even though
+	// // ultimately it will only hold NUM_MEL_FILTERS values.  This can probably
+	// // be improved with a refactored compute_lfbe_f32().
+	// static float32_t feature_buff[SWW_WINLEN_SAMPLES];
+	// static float32_t dsp_buff[SWW_WINLEN_SAMPLES];
+	// static int num_calls=0;
 
-	TfLiteTensor *input_tensor = model.model_input[0];
-	float32_t input_scale_factor = input_tensor->params.scale;
-
-
-	if( num_calls == 0) {
-		for(int i=0;i<SWW_MODEL_INPUT_SIZE;i++) {
-			g_model_input[i] = 0;
-		}
-	}
-
-	// wav samples should be in g_i2s_buffer0
-
-    // g_wav_block_buff[SWW_WINSTRIDE_SAMPLES:<end>]  are old samples to be
-    // shifted to the beginning of the clip. After this block,
-    // g_wav_block_buff[0:(winlen-winstride)] is populated
-    for(int i=SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
-    	g_wav_block_buff[i-SWW_WINSTRIDE_SAMPLES] = g_wav_block_buff[i];
-    }
-
-    // Now fill in g_wav_block_buff[(winlen-winstride):] with winstride new samples
-	for(int i=SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
-		// no 2* here because UART transmits mono, unlike I2S buffer, which is in stereo
-		g_wav_block_buff[i] = g_i2s_buffer0[i-(SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES)];
-	}
-
-	compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
-
-	// shift current features in g_model_input[] and add new ones.
-	for(int i=0;i<SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS;i++) {
-		g_model_input[i] = g_model_input[i+NUM_MEL_FILTERS];
-	}
-
-	for(int i=0;i<NUM_MEL_FILTERS;i++) {
-		g_model_input[i+SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS] = (int8_t)(feature_buff[i]/input_scale_factor-128);
-	}
-
-	for(int i=0;i<AI_SWW_MODEL_IN_1_SIZE;i++){
-		in_data[i] = (int8_t)g_model_input[i];
-	}
-	TfLiteTensor* t = model.interpreter->input(0);
-	memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
-
-	/*  Call inference engine */
-	model.interpreter->Invoke();
-	TfLiteTensor * output = model.model_output[0];
-	memcpy(out_data,
-		output->data.int8,
-		AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
+	// TfLiteTensor *input_tensor = model.model_input[0];
+	// float32_t input_scale_factor = input_tensor->params.scale;
 
 
-    num_calls++;
+	// if( num_calls == 0) {
+	// 	for(int i=0;i<SWW_MODEL_INPUT_SIZE;i++) {
+	// 		g_model_input[i] = 0;
+	// 	}
+	// }
 
-	th_printf("m-features-[");
-	for(int i=0;i<NUM_MEL_FILTERS;i++) {
-		th_printf("%+3d", (int8_t)(feature_buff[i]/input_scale_factor-128));
-		if( i < NUM_MEL_FILTERS -1){
-			th_printf(", ");
-		}
-	}
-	th_printf("]\r\n");
+	// // wav samples should be in g_i2s_buffer0
 
-	th_printf("m-activations-[%+3d, %+3d, %+3d]\r\n", out_data[0], out_data[1], out_data[2]);
+    // // g_wav_block_buff[SWW_WINSTRIDE_SAMPLES:<end>]  are old samples to be
+    // // shifted to the beginning of the clip. After this block,
+    // // g_wav_block_buff[0:(winlen-winstride)] is populated
+    // for(int i=SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
+    // 	g_wav_block_buff[i-SWW_WINSTRIDE_SAMPLES] = g_wav_block_buff[i];
+    // }
+
+    // // Now fill in g_wav_block_buff[(winlen-winstride):] with winstride new samples
+	// for(int i=SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES;i<SWW_WINLEN_SAMPLES;i++) {
+	// 	// no 2* here because UART transmits mono, unlike I2S buffer, which is in stereo
+	// 	g_wav_block_buff[i] = g_i2s_buffer0[i-(SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES)];
+	// }
+
+	// compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
+
+	// // shift current features in g_model_input[] and add new ones.
+	// for(int i=0;i<SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS;i++) {
+	// 	g_model_input[i] = g_model_input[i+NUM_MEL_FILTERS];
+	// }
+
+	// for(int i=0;i<NUM_MEL_FILTERS;i++) {
+	// 	g_model_input[i+SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS] = (int8_t)(feature_buff[i]/input_scale_factor-128);
+	// }
+
+	// for(int i=0;i<AI_SWW_MODEL_IN_1_SIZE;i++){
+	// 	in_data[i] = (int8_t)g_model_input[i];
+	// }
+	// TfLiteTensor* t = model.interpreter->input(0);
+	// memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
+
+	// /*  Call inference engine */
+	// model.interpreter->Invoke();
+	// TfLiteTensor * output = model.model_output[0];
+	// memcpy(out_data,
+	// 	output->data.int8,
+	// 	AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
+
+
+    // num_calls++;
+
+	// th_printf("m-features-[");
+	// for(int i=0;i<NUM_MEL_FILTERS;i++) {
+	// 	th_printf("%+3d", (int8_t)(feature_buff[i]/input_scale_factor-128));
+	// 	if( i < NUM_MEL_FILTERS -1){
+	// 		th_printf(", ");
+	// 	}
+	// }
+	// th_printf("]\r\n");
+
+	// th_printf("m-activations-[%+3d, %+3d, %+3d]\r\n", out_data[0], out_data[1], out_data[2]);
 
 
 }
@@ -815,7 +817,7 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	TfLiteTensor *input_tensor = model.model_input[0];
 	float32_t input_scale_factor = input_tensor->params.scale;
 	int32_t zero_point = input_tensor->params.zero_point;
-
+	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 	set_processing_pin_high(); // start of processing, used for duty cycle measurement
 
 
@@ -849,10 +851,7 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	TfLiteTensor* t = model.interpreter->input(0);
 	memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
 	/*  Call inference engine */
-	am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
-	model.interpreter->Invoke();
-	am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
-
+	str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
 	TfLiteTensor * output = model.model_output[0];
 	memcpy(out_data, output->data.int8, AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
 
@@ -870,6 +869,7 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 
     num_calls++;
     set_processing_pin_low();  // end of processing, used for duty cycle measurement
+	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 }
 
 

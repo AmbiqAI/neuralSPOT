@@ -75,7 +75,7 @@ am_hal_i2s_config_t g_sI2S0Config =
 };
 
 volatile  bool uart_doorbell = false;
-volatile bool i2s_doorbell = false;
+// volatile bool i2s_doorbell = false;
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
@@ -105,6 +105,23 @@ ns_uart_config_t uart_config = {
 };
 static ns_uart_handle_t uart_handle = NULL;
 
+// str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
+//     .input_data = {
+//         input,
+//     },
+//     .input_len = {
+//         str_ww_ref_model_input_len
+//     },
+//     .output_data = {
+//         output,
+//     },
+//     .output_len = {
+//         str_ww_ref_model_output_len
+//     },
+//     // This is optional, but useful for profiling or debugging
+//     .callback = str_ww_ref_model_model_operator_cb,
+//     .user_data = NULL
+// };
 
 static void uart_stdio_print(char *pcBuf);
 int th_vprintf(const char *format, va_list ap) { return am_util_stdio_vprintf(format, ap); }

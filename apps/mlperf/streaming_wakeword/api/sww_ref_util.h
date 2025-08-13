@@ -13,9 +13,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include "str_ww_ref_model_power_api.h"
+// #include "str_ww_ref_model_power_api.h"
 #include "arm_math_types.h"
-#include "ns_model.h"
+// #include "ns_model.h"
 
 
 #define EE_FW_VERSION "MLPerf Tiny Firmware V0.1.0"

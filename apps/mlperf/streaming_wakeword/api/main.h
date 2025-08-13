@@ -17,7 +17,7 @@
 // /// \brief C++ implementations of submitter_implemented.h
 #include "ns_ambiqsuite_harness.h"
 #include "ns_peripherals_power.h"
-
+#include "str_ww_ref_model_model.h"
 #include "am_hal_i2s.h"
 #include "am_hal_gpio.h"
 #include "ns_uart.h"
@@ -104,24 +104,6 @@ ns_uart_config_t uart_config = {
     .rx_blocking = false,
 };
 static ns_uart_handle_t uart_handle = NULL;
-
-// str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
-//     .input_data = {
-//         input,
-//     },
-//     .input_len = {
-//         str_ww_ref_model_input_len
-//     },
-//     .output_data = {
-//         output,
-//     },
-//     .output_len = {
-//         str_ww_ref_model_output_len
-//     },
-//     // This is optional, but useful for profiling or debugging
-//     .callback = str_ww_ref_model_model_operator_cb,
-//     .user_data = NULL
-// };
 
 static void uart_stdio_print(char *pcBuf);
 int th_vprintf(const char *format, va_list ap) { return am_util_stdio_vprintf(format, ap); }

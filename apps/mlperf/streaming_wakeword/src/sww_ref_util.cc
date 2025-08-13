@@ -16,7 +16,7 @@
 #include "sww_ref_util.h"
 
 #include "feature_extraction.h"
-// #include "main.h"
+#include "main.h"
 #include "ns_ambiqsuite_harness.h"
 
 #include "ns_malloc.h"
@@ -27,7 +27,7 @@
 #define AI_SWW_MODEL_IN_1_SIZE (1200)
 #define AI_SWW_MODEL_OUT_1_SIZE (3)
 extern volatile i2s_state_t g_i2s_state;
-static ns_model_state_t model;
+// static ns_model_state_t model;
 extern void th_printf(const char *p_fmt, ...);
 extern int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
@@ -46,7 +46,6 @@ uint32_t g_i2s_status = AM_HAL_STATUS_SUCCESS; // status of the last I2S operati
 static int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
 static int8_t  g_model_input  [SWW_MODEL_INPUT_SIZE];
 
-
 uint8_t g_gp_buffer[G_GP_BUFF_BYTES]; // general-purpose buffer; for capturing a waveform or activations.
 uint32_t g_gp_buff_bytes = G_GP_BUFF_BYTES;
 int16_t * g_wav_record = NULL;;
@@ -62,6 +61,27 @@ LogBuffer g_log = { .buffer = {0}, .current_pos = 0 };
 extern void *pI2SHandle;
 
 uint32_t g_act_idx = 0;
+
+static int8_t in_data[AI_SWW_MODEL_IN_1_SIZE] __attribute__((aligned(32)));;
+static int8_t out_data[AI_SWW_MODEL_OUT_1_SIZE] __attribute__((aligned(32)));
+
+str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
+    .input_data = {
+        in_data,
+    },
+    .input_len = {
+        AI_SWW_MODEL_IN_1_SIZE
+    },
+    .output_data = {
+        out_data,
+    },
+    .output_len = {
+        AI_SWW_MODEL_OUT_1_SIZE
+    },
+    // This is optional, but useful for profiling or debugging
+    // .callback = str_ww_ref_model_model_operator_cb,
+    .user_data = NULL
+};
 
 void print_vals_int16(const int16_t *buffer, uint32_t num_vals)
 {
@@ -611,9 +631,6 @@ void process_command(char *full_command) {
 	th_printf(EE_MSG_READY);
 }
 
-static int8_t in_data[AI_SWW_MODEL_IN_1_SIZE] __attribute__((aligned(32)));;
-static int8_t out_data[AI_SWW_MODEL_OUT_1_SIZE] __attribute__((aligned(32)));
-
 
 void set_processing_pin_high(void) {
  am_hal_gpio_state_write(29, AM_HAL_GPIO_OUTPUT_SET);
@@ -671,14 +688,14 @@ void infer_static_wav(char *cmd_args[]) {
 		th_printf("(");
 		print_vals_int8(g_model_input+SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS, NUM_MEL_FILTERS);
 		th_printf(", ");
-		TfLiteTensor* t = model.interpreter->input(0);
-		memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
+		// TfLiteTensor* t = model.interpreter->input(0);
+		// memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
 		/*  Call inference engine */
 		str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
-		TfLiteTensor * output = model.model_output[0];
-		memcpy(out_data,
-           output->data.int8,
-           AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
+		// TfLiteTensor * output = model.model_output[0];
+		// memcpy(out_data,
+        //    output->data.int8,
+        //    AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
 		if( out_data[0] > DETECT_THRESHOLD || g_first_frame) {
 			th_printf("[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);
 			log_printf(&g_log, "[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);

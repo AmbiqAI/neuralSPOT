@@ -12,11 +12,10 @@
 #include <stdint.h>
 #include <ctype.h>
 #include <math.h>
-
+#include "str_ww_ref_model_model.h"
 #include "sww_ref_util.h"
 
 #include "feature_extraction.h"
-#include "main.h"
 #include "ns_ambiqsuite_harness.h"
 
 #include "ns_malloc.h"
@@ -27,7 +26,6 @@
 #define AI_SWW_MODEL_IN_1_SIZE (1200)
 #define AI_SWW_MODEL_OUT_1_SIZE (3)
 extern volatile i2s_state_t g_i2s_state;
-// static ns_model_state_t model;
 extern void th_printf(const char *p_fmt, ...);
 extern int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
@@ -64,19 +62,22 @@ uint32_t g_act_idx = 0;
 
 static int8_t in_data[AI_SWW_MODEL_IN_1_SIZE] __attribute__((aligned(32)));;
 static int8_t out_data[AI_SWW_MODEL_OUT_1_SIZE] __attribute__((aligned(32)));
+int32_t sww_input_len = str_ww_ref_model_inputs_len[0];
+int32_t sww_output_len = str_ww_ref_model_outputs_len[0];
+
 
 str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
     .input_data = {
         in_data,
     },
     .input_len = {
-        AI_SWW_MODEL_IN_1_SIZE
+        sww_input_len,
     },
     .output_data = {
         out_data,
     },
     .output_len = {
-        AI_SWW_MODEL_OUT_1_SIZE
+        sww_output_len,
     },
     // This is optional, but useful for profiling or debugging
     // .callback = str_ww_ref_model_model_operator_cb,
@@ -219,9 +220,7 @@ void ee_serial_callback(char c) {
 
 
 int sww_model_init() {
-    int status = str_ww_ref_model_power_minimal_init(&str_ww_ref_model_model_ctx); // model init with minimal defaults
-    // int32_t status;
-    // status = str_ww_ref_model_model_init(&str_ww_ref_model_model_ctx);
+    int status = str_ww_ref_model_model_init(&str_ww_ref_model_model_ctx); // model init with minimal defaults
 	return status;
 }
 
@@ -658,10 +657,10 @@ void infer_static_wav(char *cmd_args[]) {
 	th_printf("Infering on static wav with offset = %d\r\n", offset);
 
 	num_steps = (wav_len - (SWW_WINLEN_SAMPLES - SWW_WINSTRIDE_SAMPLES))/SWW_WINSTRIDE_SAMPLES;
-	TfLiteTensor *input_tensor = model.model_input[0];
+	// TfLiteTensor *input_tensor = model.model_input[0];
 
 	// extract the input scale factor from the (file-global) ai_input
-	float32_t input_scale_factor = input_tensor->params.scale;
+	float32_t input_scale_factor = str_ww_ref_model_inputs_scale[0];
 
 	// initialize model input buffer to 0s.
 	for(int i=0;i<SWW_MODEL_INPUT_SIZE;i++) {
@@ -688,14 +687,9 @@ void infer_static_wav(char *cmd_args[]) {
 		th_printf("(");
 		print_vals_int8(g_model_input+SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS, NUM_MEL_FILTERS);
 		th_printf(", ");
-		// TfLiteTensor* t = model.interpreter->input(0);
-		// memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
+
 		/*  Call inference engine */
 		str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
-		// TfLiteTensor * output = model.model_output[0];
-		// memcpy(out_data,
-        //    output->data.int8,
-        //    AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
 		if( out_data[0] > DETECT_THRESHOLD || g_first_frame) {
 			th_printf("[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);
 			log_printf(&g_log, "[%d]: Detection (%d).  g_first_frame=%lu\r\n", idx_step, out_data[0], g_first_frame);
@@ -831,9 +825,9 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	static float32_t dsp_buff[SWW_WINLEN_SAMPLES];
 	static int num_calls = 0;  // jhdbg
 
-	TfLiteTensor *input_tensor = model.model_input[0];
-	float32_t input_scale_factor = input_tensor->params.scale;
-	int32_t zero_point = input_tensor->params.zero_point;
+	// TfLiteTensor *input_tensor = model.model_input[0];
+	float32_t input_scale_factor = str_ww_ref_model_inputs_scale[0];
+	int32_t zero_point = str_ww_ref_model_inputs_zero_point[0];
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 	set_processing_pin_high(); // start of processing, used for duty cycle measurement
 
@@ -865,13 +859,8 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 		in_data[i] = (int8_t)g_model_input[i];
 	}
 
-	TfLiteTensor* t = model.interpreter->input(0);
-	memcpy(t->data.int8, in_data, AI_SWW_MODEL_IN_1_SIZE);
 	/*  Call inference engine */
 	str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
-	TfLiteTensor * output = model.model_output[0];
-	memcpy(out_data, output->data.int8, AI_SWW_MODEL_OUT_1_SIZE * sizeof(int8_t));
-
 
 	if(out_data[0] > DETECT_THRESHOLD || g_first_frame) {
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);

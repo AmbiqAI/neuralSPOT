@@ -446,7 +446,9 @@ __NO_RETURN void Reset_Handler(void)
  *----------------------------------------------------------------------------*/
 void HardFault_Handler(void)
 {
-    while(1);
+    volatile uint32_t cfsr = SCB->CFSR, hfsr = SCB->HFSR, bfar = SCB->BFAR, mmfar = SCB->MMFAR;
+    __BKPT(0);
+    while (1) { }
 }
 
 /*----------------------------------------------------------------------------

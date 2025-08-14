@@ -21,14 +21,10 @@ limitations under the License.
 int main(int argc, char *argv[]) {
   ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
   NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-  NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
+  NS_TRY(ns_power_config(&ns_mlperf_mode2), "Power Init Failed.\n");
   ns_interrupt_master_enable();
-  NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed.");
   ee_benchmark_initialize();
   while (1) {
-    int c;
-    c = th_getchar();
-    ee_serial_callback(c);
   }
   return 0;
 }

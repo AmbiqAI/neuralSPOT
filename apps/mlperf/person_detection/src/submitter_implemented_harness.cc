@@ -31,11 +31,19 @@ in th_results is copied from the original in EEMBC.
 
 #include "tensorflow/lite/micro/debug_log.h"
 #include "internally_implemented.h"
+
+void my_rx_cb(ns_uart_transaction_t *t)
+{
+    int c;
+    c = th_getchar();
+    ee_serial_callback(c);
+}
+
 am_hal_uart_config_t am_uart_config =
 {
     // Standard UART settings: 115200-8-N-1
 #if EE_CFG_ENERGY_MODE == 1
-    .ui32BaudRate = 9600,
+    .ui32BaudRate = 115200,
 #else
     .ui32BaudRate = 115200,
 #endif
@@ -59,7 +67,7 @@ static char txbuffer[256];
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
-    .enableInterrupt = true,
+    .enableInterrupt = false,
 };
 
 static void uart_stdio_print(char *pcBuf)
@@ -105,21 +113,21 @@ void th_printf(const char *p_fmt, ...) {
 
 char th_getchar() { 
   char data;
-  ns_uart_blocking_receive_data(&uart_config, &data, 1);
+  ns_uart_nonblocking_receive_data(&uart_config, &data, 1);
   return data; 
 }
 
 void th_serialport_initialize(void) {
   NS_TRY(ns_uart_init(&uart_config, &uart_handle), 
           "Failed to initialize UART for serial port");
+  ns_uart_register_callbacks(uart_handle, my_rx_cb, NULL);
   am_util_stdio_printf_init(uart_stdio_print);
 }
 
 void th_timestamp(void) {
 # if EE_CFG_ENERGY_MODE==1
-  // timestampPin = 0;
   am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_CLEAR);
-  for (int i=0; i<100'000; ++i) {
+  for (int i=0; i<100000; ++i) {
     asm("nop");
   }
   am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
@@ -138,6 +146,7 @@ void th_timestamp_initialize(void) {
 #if EE_CFG_ENERGY_MODE==1
     // Configure the timer pin
     am_hal_gpio_pinconfig(22, am_hal_gpio_pincfg_output);
+    // am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
 #else
   /* USER CODE 1 BEGIN */
   // Setting up BOTH perf and energy here
@@ -148,7 +157,6 @@ void th_timestamp_initialize(void) {
   th_printf(EE_MSG_TIMESTAMP_MODE);
   /* Always call the timestamp on initialize so that the open-drain output
      is set to "1" (so that we catch a falling edge) */
-  th_timestamp();
 }
 
 // extern "C" void DebugLog(const char* s) {

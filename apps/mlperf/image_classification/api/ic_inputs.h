@@ -14,7 +14,7 @@ limitations under the License.
 
 #ifndef V0_1_IC_IC_INPUTS_H_
 #define V0_1_IC_IC_INPUTS_H_
-
+#include <stdint.h>
 #include <cstdio>
 
 #include "ic_model_settings.h"

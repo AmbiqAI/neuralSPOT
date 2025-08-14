@@ -845,7 +845,7 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 		g_wav_block_buff[i] = idle_buffer[(i-(SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES))];
 	}
 
-	compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
+	// compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
 
 	// shift current features in g_model_input[] and add new ones.
 	for(int i=0;i<SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS;i++) {
@@ -860,7 +860,7 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	}
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 	/*  Call inference engine */
-	str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
+	// str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 
 	if(out_data[0] > DETECT_THRESHOLD || g_first_frame) {

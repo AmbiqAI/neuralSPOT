@@ -858,9 +858,10 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	for(int i=0;i<AI_SWW_MODEL_IN_1_SIZE;i++){
 		in_data[i] = (int8_t)g_model_input[i];
 	}
-
+	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
 	/*  Call inference engine */
 	str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
+	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 
 	if(out_data[0] > DETECT_THRESHOLD || g_first_frame) {
 		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);

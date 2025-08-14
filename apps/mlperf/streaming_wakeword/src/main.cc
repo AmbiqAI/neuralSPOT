@@ -82,7 +82,7 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
         #endif
         #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510)
         #if ALL_RETAIN
-                .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM128K_DTCM256K,
+                .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
                 .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
         #else
                 .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
@@ -129,12 +129,12 @@ int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_mlperf_mode3), "Power Init Failed.\n");
-    ns_power_memory_config(&ns_mlperf_mode3);
-
+    th_serialport_initialize();
+    NS_TRY(ns_power_config(&ns_mlperf_mode2), "Power Init Failed.\n");
+    ns_power_memory_config(&ns_mlperf_mode2);
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
-    th_serialport_initialize();
+
     i2s_init();
     ns_timer_init(&basic_tickTimer);
     th_timestamp();

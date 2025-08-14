@@ -43,7 +43,7 @@ am_hal_uart_config_t am_uart_config =
 {
     // Standard UART settings: 115200-8-N-1
 #if EE_CFG_ENERGY_MODE == 1
-    .ui32BaudRate = 9600,
+    .ui32BaudRate = 115200,
 #else
     .ui32BaudRate = 115200,
 #endif

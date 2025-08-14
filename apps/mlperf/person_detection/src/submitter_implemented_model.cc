@@ -103,18 +103,18 @@ void th_final_initialize(void) {
   if (runner->arena_used_bytes() > kTensorArenaSize)
     th_printf("arena used size %d, but allocated %d\r\n", runner->arena_used_bytes(), kTensorArenaSize);
   
-  // After initializing the model, set perf or power mode
-  #if EE_CFG_ENERGY_MODE==1
-    //ns_power_config(&ns_mlperf_recommended_default);
-    ns_power_config(&ns_mlperf_mode1);
+  // // After initializing the model, set perf or power mode
+  // #if EE_CFG_ENERGY_MODE==1
+  //   //ns_power_config(&ns_mlperf_recommended_default);
+  //   ns_power_config(&ns_mlperf_mode1);
 
-  #else
-    #ifdef AM_MLPERF_PERFORMANCE_MODE
-      ns_power_config(&ns_development_default);
-    #else
-      ns_power_config(&ns_mlperf_mode2);
-    #endif
-  #endif
+  // #else
+  //   #ifdef AM_MLPERF_PERFORMANCE_MODE
+  //     ns_power_config(&ns_development_default);
+  //   #else
+  //     ns_power_config(&ns_mlperf_mode2);
+  //   #endif
+  // #endif
 
 }
 

@@ -29,8 +29,13 @@ ns_pdm_cfg_t ns_pdm_default = {
     .clock_freq = NS_AUDIO_PDM_CLK_750KHZ,
     .mic = NS_AUDIO_PDM_MICBOARD_0,
     .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
+    #if defined(AM_PART_APOLLO5B)
+    .left_gain = AM_HAL_PDM_GAIN_P180DB,
+    .right_gain = AM_HAL_PDM_GAIN_P180DB,
+    #else
     .left_gain = AM_HAL_PDM_GAIN_0DB,
     .right_gain = AM_HAL_PDM_GAIN_0DB,
+    #endif
 };
 
 void pdm_trigger_dma(ns_audio_config_t *config) {

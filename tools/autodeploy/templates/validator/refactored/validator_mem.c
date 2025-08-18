@@ -67,15 +67,17 @@ void ns_mem_set_psram_base(uint8_t* base){
 #endif
 }
 
+#if NS_AD_AOT == 0
 uint8_t* ns_mem_model_ptr(void){
 #if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   ns_lp_printf("shouldn't be here\n");
   return s_model_ptr;
 #else
-  ns_lp_printf("should be here 0x%x\n", mut_model);
+//   ns_lp_printf("should be here 0x%x\n", mut_model);
   return (uint8_t*)mut_model;  // const ok for reads; firmware places correctly
 #endif
 }
+#endif
 
 uint8_t* ns_mem_arena_ptr(void){ return s_arena_ptr; }
 uint32_t ns_mem_arena_size(void){ return s_arena_size; }

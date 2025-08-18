@@ -7,8 +7,8 @@
 #include "ns_rpc_generic_data.h"
 #include "ns_debug_log.h"
 
-#include "tflm_validator.h"              // ns_incoming_config_t / ns_outgoing_stats_t
-#include "mut_model_metadata.h"          // buffer sizes & locations, NS_AD_AOT
+#include "../tflm_validator.h"              // ns_incoming_config_t / ns_outgoing_stats_t
+#include "../mut_model_metadata.h"          // buffer sizes & locations, NS_AD_AOT
 #include "validator_mem.h"               // scratch + model/arena helpers
 
 // RPC handlers implemented in validator_rpc.c
@@ -24,25 +24,78 @@ NS_SRAM_BSS ns_outgoing_stats_t  mut_stats;
 NS_SRAM_BSS uint8_t aot_v_cdc_rx_ff_buf[TFLM_VALIDATOR_RX_BUFSIZE] __attribute__((aligned(4)));
 NS_SRAM_BSS uint8_t aot_v_cdc_tx_ff_buf[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
 
+#if (configAPPLICATION_ALLOCATED_HEAP == 1)
+size_t ucHeapSize = (NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024;
+NS_SRAM_BSS uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((aligned(4)));
+#endif
+
+// -------------------------- Optional profiling bits -------------------------
+#ifdef NS_MLPROFILE
+ns_timer_config_t s_tickTimer = { .api = &ns_timer_V1_0_0, .timer = NS_TIMER_COUNTER, .enableInterrupt = false };
+#ifdef AM_PART_APOLLO5B
+ns_pmu_config_t   s_pmu_cfg;
+#endif
+#endif
+
 // Provide a stats hook implementation expected by validator_rpc.c
 void vrpc_on_after_invoke(void) {
-  // For AOT we currently do not collect TFLM profiler events.
-  mut_stats.stats.captured_events = 0;
-  mut_stats.stats.pmu_count = 0;
+  // AOT uses a runtime callback to mark per-op boundaries and measure time.
+  // Export per-layer time (microseconds) through the normal stats path.
+  extern uint32_t    ns_aot_layer_count(void);
+  extern const uint32_t* ns_aot_layer_elapsed_us(void);
+  const uint32_t n = ns_aot_layer_count();
+  const uint32_t* us = ns_aot_layer_elapsed_us();
+
+  // Guard against overflow of the stats buffer; truncate if ever needed.
+  const uint32_t bytes = n * sizeof(uint32_t);
+  const uint32_t max_bytes = sizeof(mut_stats.stats.stat_buffer);
+  const uint32_t to_copy = (bytes <= max_bytes) ? bytes : max_bytes;
+
+  // Describe the payload to the host: one 32-bit value per layer in order.
+  mut_stats.stats.captured_events = n;
+  mut_stats.stats.computed_stat_per_event_size = sizeof(uint32_t);
+  memset(mut_stats.stats.csv_header, 0, sizeof(mut_stats.stats.csv_header));
+  
+  // Simple CSV header understood by the host side: "layer,us"
+  const char *hdr = "layer,us";
+  memcpy(mut_stats.stats.csv_header, hdr, strlen(hdr));
   memset(mut_stats.stats.stat_buffer, 0, sizeof(mut_stats.stats.stat_buffer));
-  memset(mut_stats.stats.csv_header,  0, sizeof(mut_stats.stats.csv_header));
-  // computed_stat_per_event_size set to a benign default
-  mut_stats.stats.computed_stat_per_event_size = sizeof(uint32_t) * 16u;
+  memcpy((void*)mut_stats.stats.stat_buffer, (const void*)us, to_copy);
+
+  #ifdef AM_PART_APOLLO5B
+  // If the host asked for full PMU capture, advertise PMU availability so that
+  // the fetch path can switch to per-layer PMU streaming after FullStats.
+  if (mut_cfg.config.full_pmu_stats == 1) {
+    mut_stats.stats.pmu_count = NS_NUM_PMU_MAP_SIZE;
+  } else {
+    mut_stats.stats.pmu_count = 0;
+  }
+#else
+  mut_stats.stats.pmu_count = 0;
+#endif
+
 }
 
 int main(void) {
   ns_core_config_t core_cfg = {.api = &ns_core_V1_0_0};
-  NS_TRY(ns_core_init(&core_cfg), "Core init failed
-");
-  NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed
-");
+  NS_TRY(ns_core_init(&core_cfg), "Core init failed");
+  NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed");
   ns_itm_printf_enable();
-
+#ifdef NS_MLPROFILE
+  // Timer for profiling timestamps
+  NS_TRY(ns_timer_init(&s_tickTimer), "Timer init failed");
+#ifdef AM_PART_APOLLO5B
+  // Minimal PMU setup; detailed event selection handled in debug log module
+  s_pmu_cfg.api = &ns_pmu_V1_0_0;
+  ns_pmu_reset_config(&s_pmu_cfg);
+  // Map 4 events (the exact mapping can be overridden in the metadata header)
+  ns_pmu_event_create(&s_pmu_cfg.events[0], NS_PROFILER_PMU_EVENT_0, NS_PMU_EVENT_COUNTER_SIZE_32);
+  ns_pmu_event_create(&s_pmu_cfg.events[1], NS_PROFILER_PMU_EVENT_1, NS_PMU_EVENT_COUNTER_SIZE_32);
+  ns_pmu_event_create(&s_pmu_cfg.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
+  ns_pmu_event_create(&s_pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);
+  ns_pmu_init(&s_pmu_cfg);
+#endif
+#endif
   ns_mem_init_defaults();
 
 #if (TFLM_MODEL_LOCATION == NS_AD_PSRAM) || (TFLM_ARENA_LOCATION == NS_AD_PSRAM)

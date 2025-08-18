@@ -32,7 +32,7 @@ extern "C" {
 #define NS_PROFILER_MAX_EVENTS 2048
 #endif
 
-#if defined(NS_MLPROFILE) and not defined(NS_PROFILER_RPC_EVENTS_MAX)
+#if defined(NS_MLPROFILE) && !defined(NS_PROFILER_RPC_EVENTS_MAX)
 #define NS_PROFILER_RPC_EVENTS_MAX NS_PROFILER_MAX_EVENTS
 #endif
 // #define NS_PROFILER_RPC_EVENTS_MAX 128

@@ -1,3 +1,116 @@
+/*
+ * ============================================================================
+ * validator_rpc.c — Call flow overview & interaction with validator.py
+ * ============================================================================
+ *
+ * This file implements the EVB-side RPC glue used by the Python tool
+ * tools/autodeploy/validator.py. The Python script drives the EVB using three
+ * RPCs exposed by the Generic Data Operations service:
+ *
+ *   - sendBlockToEVB(dataBlock in)         → decodeIncomingSendblock()
+ *   - fetchBlockFromEVB(out dataBlock ret) → decodeIncomingFetchblock()
+ *   - computeOnEVB(dataBlock in, out dataBlock ret) → infer()
+ *
+ * The wire object is a dataBlock with:
+ *   cmd      : semantic opcode (generic_cmd, write_cmd, read)
+ *   dType    : element type (we treat payload as bytes)
+ *   length   : payload length
+ *   buffer   : payload
+ *   description : short ASCII tag (e.g., "FullTensor", "PartStats", …)
+ *
+ * ------------------------- High-level sequence (TFLM/AOT) -------------------
+ * 1) (optional) Model Streaming (PSRAM builds only)
+ *    validator.py → send_model_to_evb()      → cmd=read
+ *       sendBlockToEVB(ModelChunk)           → decodeIncomingSendblock()
+ *       -> vrpc_incoming_model_chunk(): writes PSRAM via vrpc_model_write()
+ *       Repeats until full model transferred.
+ *
+ * 2) Configure runtime
+ *    validator.py → configModel()            → cmd=generic_cmd
+ *       sendBlockToEVB(Config)
+ *       → decodeIncomingSendblock()
+ *         -> vrpc_configure_model():
+ *            - Copies mut_cfg and the variable-length input/output size arrays
+ *              into g_in_details[] / g_out_details[].
+ *            - Binds the runtime via ns_get_runtime_api() (TFLM or AOT).
+ *            - Calls rt->init(num_inputs, num_outputs, profile, warmup, &s_tickTimer).
+ *            - Precomputes total output bytes and resets all chunk state.
+ *            - Updates mut_stats.stats.computed_arena_size (TFLM) via rt->arena_used_bytes().
+ *
+ * 3) Inference
+ *    validator.py → validateModel()
+ *      3a) Input handling
+ *          - If the input tensor fits in a single block:
+ *              computeOnEVB(cmd=generic_cmd, buffer=<full input>)
+ *          - If the input tensor exceeds the RPC payload size:
+ *              sendLongInputTensor(): multiple sendBlockToEVB() with cmd=write_cmd
+ *                → decodeIncomingSendblock() → vrpc_incoming_tensor_chunk()
+ *                  Uses rt->map_input_writable(0, &cap) and appends in place.
+ *              Then computeOnEVB(cmd=generic_cmd, buffer=empty) to trigger invoke.
+ *
+ *      3b) Invoke path (infer())
+ *          infer(in, out):
+ *            - If in->cmd == write_cmd and an output chunk is in progress,
+ *              return the next output chunk (PartTensor/LastTensor).
+ *            - Else (normal invoke):
+ *                • If the input was not pre-chunked, call rt->set_input(0, …).
+ *                • Call rt->invoke().
+ *                • If profiling enabled and warmups reached, call rt->get_stats_hook()
+ *                  (TFLM: flushes profiler CSV and stops PMU snapshot).
+ *                • Call vrpc_on_after_invoke() to translate profiler buffers into
+ *                  mut_stats (captured_events, csv_header, etc.).
+ *                • Pack outputs:
+ *                    – If total output bytes ≤ TX capacity, assemble into TX scratch
+ *                      and return a single "FullTensor".
+ *                    – Otherwise, stage into a hold buffer and return first "PartTensor",
+ *                      initializing g_out_chunk for subsequent chunk reads.
+ *
+ * 4) Statistics fetch
+ *    validator.py → getModelStats()
+ *      fetchBlockFromEVB(ret):
+ *        → decodeIncomingFetchblock():
+ *            - If no stats chunk is active:
+ *                vrpc_get_stats_full(): copies mut_stats.bytes into TX scratch.
+ *                Returns "FullStats" if it fits, else "PartStats" and primes
+ *                g_out_chunk to continue on subsequent fetches.
+ *              When FullStats fit in a single transfer and Full-PMU was requested,
+ *              AP5 builds prime the per-layer PMU stream here by setting
+ *              mut_stats.stats.pmu_events_per_layer and internal iterators.
+ *            - If a stats chunk is active: vrpc_get_stats_chunk() returns the next
+ *              "PartStats"/"LastStats".
+ *
+ * 5) (AP5 only, optional) Full PMU per-layer stream
+ *    validator.py → getPMUStats()  (called after FullStats when full_pmu_capture is set)
+ *      Repeated fetchBlockFromEVB() calls retrieve per-layer PMU snapshots.
+ *      This file primes the PMU stream after a single-packet FullStats response;
+ *      platform-specific code (profiler/PMU modules) populates the PMU payload
+ *      and tags the response "FullPMUStats".
+ *
+ * ------------------------------ Chunking notes ------------------------------
+ *  - ns_chunk_t tracks progress for both output tensors and stats. The RX/TX
+ *    payload ceiling is derived from the scratch buffer size with a safety
+ *    margin (VRPC_TX_MARGIN).
+ *  - Weak scratch providers (vrpc_tx_scratch / vrpc_out_hold_buf) can be
+ *    overridden by validator_mem.c to avoid dynamic allocation and to place
+ *    buffers in fast memory.
+ *
+ * ------------------------------ Runtime binding -----------------------------
+ *  - This RPC layer is runtime-agnostic. The concrete runtime (TFLM or AOT)
+ *    provides its ns_validator_rt_api_t implementation:
+ *       TFLM → validator_runtime_tflm.cc
+ *       AOT  → validator_runtime_aot.c
+ *    vrpc_configure_model() obtains the vtable via ns_get_runtime_api().
+ *
+ * Any changes to command semantics or chunking thresholds must stay in sync
+ * with validator.py’s calls:
+ *   - send_model_to_evb()          ↔ vrpc_incoming_model_chunk()
+ *   - configModel()                ↔ vrpc_configure_model()
+ *   - sendLongInputTensor()        ↔ vrpc_incoming_tensor_chunk()
+ *   - validateModel() (invoke)     ↔ infer()
+ *   - getModelStats()              ↔ decodeIncomingFetchblock() / stats helpers
+ *   - getPMUStats() (AP5 Full PMU) ↔ PMU priming here; payload filled by PMU code
+ */
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
@@ -11,6 +124,13 @@
 #include "ns_debug_log.h"
 #include "ns_malloc.h"
 #include "../tflm_validator.h"        // ns_incoming_config_t, ns_outgoing_stats_t, tensor detail unions
+#include "../mut_model_metadata.h"
+
+// PMU helpers (AP5 only)
+#ifdef AM_PART_APOLLO5B
+#include "ns_pmu_utils.h"
+#include "ns_pmu_map.h"
+#endif
 
 // -----------------------------------------------------------------------------
 // Configuration macros
@@ -66,6 +186,13 @@ static bool       g_output_chunked = false;
 static uint32_t   g_warmups_seen = 0;
 static uint32_t   g_out_total_size = 0;   // total bytes across all outputs
 
+
+// PMU full-layer mode book-keeping
+//  - g_pmu_events_per_layer mirrors mut_stats.stats.pmu_events_per_layer when active
+//  - g_pmu_layer_iter is the layer currently being served in FullPMUStats responses
+static uint32_t g_pmu_events_per_layer = 0;  // 0 => normal stats mode
+static uint32_t g_pmu_layer_iter = 0;
+
 // Details arrays filled at configure time
 static ns_incoming_tensor_details_u g_in_details[NS_MAX_INPUT_TENSORS];
 static ns_incoming_tensor_details_u g_out_details[NS_MAX_OUTPUT_TENSORS];
@@ -73,12 +200,14 @@ static ns_incoming_tensor_details_u g_out_details[NS_MAX_OUTPUT_TENSORS];
 // Input staging offset (when chunking directly into mapped input buffer)
 static uint32_t g_input_offset = 0;
 
-// PMU full-layer mode book-keeping (delegated to stats path; kept here for API parity)
-static uint32_t g_pmu_events_per_layer = 0;  // 0 => normal stats
-static uint32_t g_pmu_layer_iter = 0;
-
 // Runtime binding
 static const ns_validator_rt_api_t* g_rt = NULL;
+
+#ifdef AM_PART_APOLLO5B
+// One-time full characterization (ns_characterize_model) after warmups
+static bool g_full_characterization_done = false;
+static int vrpc_invoke_cb(void){ return (g_rt && g_rt->invoke) ? g_rt->invoke() : -1; }
+#endif
 
 // Externs from the existing firmware (declared in header)
 extern ns_incoming_config_t mut_cfg;
@@ -140,6 +269,7 @@ static status vrpc_configure_model(const dataBlock* in){
   }
   // Copy fixed preamble
   memcpy(&mut_cfg, in->buffer.data, sizeof(mut_cfg));
+  ns_lp_printf("mut_cfg.config.full_pmu_stats %d\n", mut_cfg.config.full_pmu_stats);
 
   uint32_t need = sizeof(mut_cfg) + 4u*(mut_cfg.config.num_input_tensors + mut_cfg.config.num_output_tensors);
   if (in->buffer.dataLength != need){
@@ -234,14 +364,23 @@ static status vrpc_get_stats_full(dataBlock* out){
 
   // Fill out block
   vrpc_fill_block(out, generic_cmd, payload, to_send, (to_send == statSize) ? "FullStats" : "PartStats");
-  ns_lp_printf("fill block done\n");
-  ns_lp_printf("to_send %d, statSize %d\n", to_send, statSize);
+//   ns_lp_printf("fill block done\n");
+//   ns_lp_printf("to_send %d, statSize %d\n", to_send, statSize);
   ns_rpc_genericDataOperations_printDatablock(out);
   // If we chunked, prime chunk state for subsequent fetches
   if (to_send < statSize){
     ns_chunk_begin(&g_out_chunk, statSize, txmax);
     // We just sent first chunk
     ns_chunk_advance(&g_out_chunk, to_send);
+  } else {
+#ifdef AM_PART_APOLLO5B
+    // Full stats fit in one block; if Full PMU requested, prime PMU stream now.
+    if (mut_cfg.config.full_pmu_stats == 1) {
+      mut_stats.stats.pmu_events_per_layer = NS_NUM_PMU_MAP_SIZE;
+      g_pmu_events_per_layer = mut_stats.stats.pmu_events_per_layer;
+      g_pmu_layer_iter = 0;
+    }
+#endif
   }
   return ns_rpc_data_success;
 }
@@ -253,8 +392,49 @@ static status vrpc_get_stats_chunk(dataBlock* out){
   memcpy(payload, mut_stats.bytes + g_out_chunk.progressed, n);
   vrpc_fill_block(out, write_cmd, payload, n, ns_chunk_done(&g_out_chunk) ? "LastStats" : "PartStats");
   ns_chunk_advance(&g_out_chunk, n);
+  // If that was the final stats chunk and Full PMU is requested, switch to PMU layer stream
+#ifdef AM_PART_APOLLO5B
+  if (!g_out_chunk.active && (mut_cfg.config.full_pmu_stats == 1)) {
+    // Inform host how many PMU counters per layer and prime first layer
+    mut_stats.stats.pmu_events_per_layer = NS_NUM_PMU_MAP_SIZE;
+    g_pmu_events_per_layer = mut_stats.stats.pmu_events_per_layer;
+    g_pmu_layer_iter = 0;
+  }
+#endif
   return ns_rpc_data_success;
 }
+
+// Serve a single layer's PMU counters as "FullPMUStats" (AP5 only)
+#ifdef AM_PART_APOLLO5B
+static status vrpc_get_pmu_layer(dataBlock* out){
+  // Prepare union view for pmu payload
+  // Populate CSV header and layer index, then fetch counters
+  ns_set_pmu_header();
+  memcpy(mut_stats.pmu_stats.csv_header, ns_profiler_pmu_header, sizeof(mut_stats.pmu_stats.csv_header));
+  mut_stats.pmu_stats.layer = g_pmu_layer_iter;
+  ns_get_layer_counters(
+      g_pmu_layer_iter,
+      TFLM_VALIDATOR_MAC_ESTIMATE_COUNT,
+      TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES,
+      mut_stats.pmu_stats.pmu_event_counters);
+
+  // Marshal just the PMU struct portion of the union
+  uint32_t pmu_size = (uint32_t)sizeof(mut_stats.pmu_stats);
+  uint8_t* payload = vrpc_tx_scratch();
+  if (pmu_size > vrpc_tx_scratch_size()) { return ns_rpc_data_failure; }
+  memcpy(payload, mut_stats.bytes, pmu_size);
+  vrpc_fill_block(out, generic_cmd, payload, pmu_size, "FullPMUStats");
+
+  // Advance layer; stop PMU mode after last layer
+  g_pmu_layer_iter++;
+  if (g_pmu_layer_iter >= TFLM_VALIDATOR_MAC_ESTIMATE_COUNT){
+    g_pmu_layer_iter = 0;
+    g_pmu_events_per_layer = 0;
+  }
+  return ns_rpc_data_success;
+}
+#endif
+
 
 status decodeIncomingFetchblock(dataBlock* out){
   ns_lp_printf("decodeIncomingFetchblock\n");
@@ -270,6 +450,15 @@ status decodeIncomingFetchblock(dataBlock* out){
 #endif
   mut_stats.stats.computed_stat_buffer_size = sizeof(mut_stats.bytes);
 
+#ifdef AM_PART_APOLLO5B
+  // If Full PMU mode is active, serve PMU stats one layer per fetch
+  if (g_pmu_events_per_layer != 0){
+    // computed_stat_per_event_size already reflects profiler events;
+    // pmu_events_per_layer is communicated in the stats payload.
+    return vrpc_get_pmu_layer(out);
+  }
+#endif
+  
   if (!g_out_chunk.active) {
     ns_lp_printf("get stats full\n");
     status rc = vrpc_get_stats_full(out);
@@ -286,7 +475,7 @@ status decodeIncomingFetchblock(dataBlock* out){
 // computeOnEVB handler (invoke path + output chunking)
 // -----------------------------------------------------------------------------
 status infer(const dataBlock* in, dataBlock* out){
-  ns_lp_printf("infer\n");
+//   ns_lp_printf("infer\n");
   // If host asks for next output chunk (by calling compute with write_cmd)
   if (in->cmd == write_cmd && g_output_chunked && g_out_chunk.active){
     uint32_t n = ns_chunk_next(&g_out_chunk);
@@ -306,7 +495,6 @@ status infer(const dataBlock* in, dataBlock* out){
     }
   }
 
-
   if (g_rt->invoke() != 0){
     static const char err[] = "Invoke failed";
     ns_lp_printf("Invoke failed\n");
@@ -318,8 +506,23 @@ status infer(const dataBlock* in, dataBlock* out){
     ns_lp_printf("get_stats_hook\n");
     g_rt->get_stats_hook();
   }
-  ns_lp_printf("get_stats_hook done\n");
-  ns_lp_printf("Invoke done\n");
+
+#ifdef AM_PART_APOLLO5B
+  // On AP5, if Full PMU is requested, run a one-time full characterization
+  // (mirrors ns_characterize_model(tf_invoke) in the original template).
+  // Do this after the warmups when profiling is enabled so per-layer data exists.
+  if (!g_full_characterization_done &&
+      (mut_cfg.config.full_pmu_stats == 1) &&
+      (mut_cfg.config.profile_mut == 1) &&
+      (g_warmups_seen == mut_cfg.config.profile_warmup)) {
+    ns_lp_printf("Running full PMU characterization\n");
+    (void)ns_characterize_model(vrpc_invoke_cb);
+    g_full_characterization_done = true;
+  }
+#endif
+
+//   ns_lp_printf("get_stats_hook done\n");
+//   ns_lp_printf("Invoke done\n");
   // Prepare output payload ---------------------------------------------
   vrpc_on_after_invoke();
   g_out_total_size = vrpc_sum_output_bytes();

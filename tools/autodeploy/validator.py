@@ -578,7 +578,7 @@ def validateModel(params, client, interpreter, md, mc):
     return differences
 
 
-def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_stats):
+def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_stats, aot=False):
     """
     Stats are from these structs in EVB-land:
     typedef struct {
@@ -591,7 +591,6 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         ns_profiler_event_stats_t stat_buffer[NS_PROFILER_RPC_EVENTS_MAX];
     } ns_mut_stats_t;
 
-    Where:
     typedef struct {
         #ifdef AM_PART_APOLLO5B
         ns_pmu_counters_t pmu_delta;
@@ -629,30 +628,63 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         uint32_t lsucnt;
         uint32_t foldcnt;
     } ns_perf_counters_t;
+
     """
     # computed_arena_size = stats[0] # in bytes
     computed_stat_buffer_size = stats[1]  # in bytes
-    computed_stat_per_event_size = (
-        stats[2] // 4
-    )  # stats[2] is in bytes, convert to uint32
-    pmu_count = stats[3]  # generally one event per model layer
-    pmu_events_per_layer = stats[4]  # generally one event per model layer
-    captured_events = stats[5]  # generally one event per model layer
-    platform = stats[6]  # AP3, AP4, AP5, etc
+    # computed_stat_per_event_size = (
+    #     stats[2] // 4
+    # )  # stats[2] is in bytes, convert to uint32
+    # pmu_count = stats[3]  # generally one event per model layer
+    # pmu_events_per_layer = stats[4]  # generally one event per model layer
+    # captured_events = stats[5]  # generally one event per model layer
+    # platform = stats[6]  # AP3, AP4, AP5, etc
+    # NOTE: ns_mut_stats_t preamble layout (uint32 words):
+    # [0] computed_arena_size
+    # [1] computed_stat_buffer_size
+    # [2] computed_stat_per_event_size (bytes)
+    # [3] pmu_count
+    # [4] pmu_events_per_layer
+    # [5] captured_events
+    # [6] platform
+    computed_stat_per_event_size = stats[2] // 4  # convert bytes to uint32 words
+    pmu_count = stats[3]
+    pmu_events_per_layer = stats[4]
+    captured_events = stats[5]
+    platform = stats[6]
+
 
     # If full PMU, use PMU header, othwerwise extract from stats array
-    if params.full_pmu_capture:
-        log.info("Including Full PMU Capture")
-        csv_header = pmu_csv_header
+    # if params.full_pmu_capture:
+    #     log.info("Including Full PMU Capture")
+    #     csv_header = pmu_csv_header
+    # else:
+    #     if aot:
+    #         csv_header = "layer,us"
+    #     else:
+    #         csv_header = stats[7:7 + 128] # 512 bytes
+    #         # convert csv words to bytes
+    #         csv_header = struct.pack("<" + "I" * 128, *csv_header)
+    #         # find the null terminator
+    #         csv_header = csv_header.split(b"\x00")[0]
+    #         # convert null-terminated array to string
+    #         csv_header = "".join([chr(c) for c in csv_header])
+    #         # print(csv_header)
+    # Build the CSV header string
+    if aot:
+        # AOT FullStats carry only per-layer time (us) in stat_buffer with header "layer,us".
+        # When full PMU is requested, we augment the header to include timing + PMU counters.
+        if params.full_pmu_capture:
+            csv_header = "layer,us," + pmu_csv_header
+        else:
+            csv_header = "layer,us"
     else:
-        csv_header = stats[7:7 + 128] # 512 bytes
-        # convert csv words to bytes
+        # TFLM path (unchanged): decode CSV header from stats blob
+        csv_header = stats[7:7 + 128]  # 512 bytes as 128 words
         csv_header = struct.pack("<" + "I" * 128, *csv_header)
-        # find the null terminator
         csv_header = csv_header.split(b"\x00")[0]
-        # convert null-terminated array to string
         csv_header = "".join([chr(c) for c in csv_header])
-        # print(csv_header)
+    
     # print(stats)
     log.info(
         "Decoding statistics. Number of events = %d, buff_size = %d size = %d platform %d arraylen %d"
@@ -685,6 +717,65 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     totalMacs = 0
     totalTime = 0
     totalCycles = 0
+
+    # If AOT, pre-extract per-layer times now (each event = 1 uint32 us)
+    if aot:
+        # Each event is exactly one uint32 = elapsed microseconds
+        available_events = (len(stats) - offset) // max(1, computed_stat_per_event_size)
+        if captured_events > available_events:
+            captured_events = available_events
+            log.warning(
+                "AOT: Truncating events to %d based on payload size", captured_events
+            )
+
+        # Pull per-layer us timings
+        aot_us = [stats[offset + i] for i in range(captured_events)]
+        totalTime = int(sum(aot_us))
+
+        # Build table rows. If Full PMU was requested, append PMU counters.
+        if params.full_pmu_capture:
+            # Header already includes PMU names via pmu_csv_header
+            for i in range(captured_events):
+                row = [i, aot_us[i]]
+                # overall_pmu_stats[i] is a flat list of counters for layer i
+                row.extend(list(overall_pmu_stats[i]))
+                table.append(row)
+        else:
+            for i in range(captured_events):
+                table.append([i, aot_us[i]])
+
+        # Print/Log the table
+        if params.joulescope or params.onboard_perf:
+            log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
+        else:
+            print(tabulate(table, headers="firstrow", tablefmt="simple"))
+
+        # Summary for AOT: only total time (MACs unknown / not applicable)
+        msg = f"[NS] Model Performance Analysis (AOT): Total Inference Time {totalTime} us, layers {captured_events}"
+        if params.joulescope or params.onboard_perf:
+            log.info(msg)
+        else:
+            print(msg)
+
+        log.info(
+            "Model Performance Analysis: Per-layer performance statistics saved to: %s",
+            stats_filename,
+        )
+        np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
+        df = pd.DataFrame(table[1:], columns=table[0])
+        df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
+        df.to_excel(stats_filename + ".xlsx", index=False)
+
+        if params.profile_results_path != "none":
+            import datetime, os, shutil
+            unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            unique_name = unique_name.replace(" ", "_").replace(".", "_")
+            os.makedirs(params.profile_results_path, exist_ok=True)
+            shutil.copy(stats_filename + ".csv", os.path.join(params.profile_results_path, unique_name + ".csv"))
+            shutil.copy(stats_filename + ".xlsx", os.path.join(params.profile_results_path, unique_name + ".xlsx"))
+
+        return totalCycles, totalMacs, totalTime, captured_events, pmu_events_per_layer
+ 
 
     for i in range(captured_events):
         row = []
@@ -1011,7 +1102,7 @@ def create_mut_modelinit(tflm_dir, mc):
 #     template_file = str(importlib.resources.files(__name__) / "templates/common/template_ns_model.h")
 #     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
 
-def create_mut_main(params, tflm_dir, mc, aot):
+def create_mut_main(params, tflm_dir, mc, md, aot):
     """
     New generator that installs the refactored validator sources:
       - Common runtime/RPC/memory/chunk headers & sources
@@ -1051,10 +1142,26 @@ def create_mut_main(params, tflm_dir, mc, aot):
     # --- Runtime-specific files ---
     if aot:
         # AOT main + glue live under refactor/aot/
-        shutil.copyfile(os.path.join(tmpl_aot, "aot_validator_main.c"),
-                        os.path.join(refactor_aot, "aot_validator_main.c"))
-        shutil.copyfile(os.path.join(tmpl_aot, "validator_runtime_aot.c"),
-                        os.path.join(refactor_aot, "validator_runtime_aot.c"))
+        typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
+        flatInput = [
+            np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist
+        ]
+        flatOutput = [
+            np.array(element).tolist() for sublist in mc.exampleTensors.outputTensors for element in sublist
+        ]
+        rm = {
+            "NS_AD_NAME": params.model_name,
+            "NS_AD_INPUT_TENSOR_TYPE": typeMap[str(md.inputTensors[0].type)],
+            "NS_AD_OUTPUT_TENSOR_TYPE": typeMap[str(md.outputTensors[0].type)],
+            "NS_AD_INPUT_TENSOR_LEN": len(flatInput),
+            "NS_AD_OUTPUT_TENSOR_LEN": len(flatOutput),
+        }
+        createFromTemplate(os.path.join(tmpl_aot, "aot_validator_main.c"),
+                           os.path.join(refactor_dir, "aot_validator_main.c"),
+                           rm)
+        createFromTemplate(os.path.join(tmpl_aot, "validator_runtime_aot.c"),
+                           os.path.join(refactor_dir, "validator_runtime_aot.c"),
+                           rm)
     else:
         # TFLM main + glue live directly in refactor/
         # Apply template to tflm_validator_main.c
@@ -1090,13 +1197,13 @@ def create_mut_main(params, tflm_dir, mc, aot):
         mk_template = str(tmpl_root / "templates/validator/template_tflm_validator.mk")
         shutil.copyfile(mk_template, f"{tflm_dir}/module.mk")
 
-def create_validation_binary(params, mc, baseline, aot):
+def create_validation_binary(params, mc, md, baseline, aot):
     if aot:
         subdir = "aot_validator"
     else:
         subdir = "tflm_validator"
     validator_dir = params.destination_rootdir + "/" + params.model_name + "/" + subdir
-    create_mut_main(params, validator_dir, mc, aot)
+    create_mut_main(params, validator_dir, mc, md, aot)
 
     # map model location parameter to linker locations
     if params.model_location == "SRAM":

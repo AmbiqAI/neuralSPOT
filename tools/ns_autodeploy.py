@@ -740,7 +740,7 @@ class AutoDeployRunner:
             self.p.arena_location = "SRAM"
 
         if not self.p.nocompile_mode:
-            create_validation_binary(self.p, self.mc, baseline=True, aot=False)
+            create_validation_binary(self.p, self.mc, self.md, baseline=True, aot=False)
         client = rpc_connect_as_client(self.p)
         configModel(self.p, client, self.md)
         stats = getModelStats(self.p, client)
@@ -789,7 +789,7 @@ class AutoDeployRunner:
                 self.p.model_location = "MRAM"
 
         if not self.p.nocompile_mode:
-            create_validation_binary(self.p, self.mc, baseline=False, aot=False)
+            create_validation_binary(self.p, self.mc, self.md, baseline=False, aot=False)
         client = rpc_connect_as_client(self.p)
         configModel(self.p, client, self.md)
 
@@ -823,64 +823,65 @@ class AutoDeployRunner:
         if self.p.create_aot_profile:
             if not self.p.nocompile_mode:
                 self._generate_helios_aot()
-            #     create_validation_binary(self.p, self.mc, baseline=False, aot=True)
+                create_validation_binary(self.p, self.mc, self.md, baseline=False, aot=True)
 
-            # client = rpc_connect_as_client(self.p)
-            # print("[NS] AOT rpc_connect_as_client done")
-            # configModel(self.p, client, self.md)
-            # print("[NS] AOT configModel done")
-            # differences_aot = validateModel(self.p, client, get_interpreter(self.p),
-            #                   self.md, self.mc)
-            # print(f"[DEBUG] AOT differences: {differences_aot}")
-            # stats_aot = getModelStats(self.p, client)
+            client = rpc_connect_as_client(self.p)
+            print("[NS] AOT rpc_connect_as_client done")
+            configModel(self.p, client, self.md)
+            print("[NS] AOT configModel done")
+            differences_aot = validateModel(self.p, client, get_interpreter(self.p),
+                              self.md, self.mc)
+            print(f"[DEBUG] AOT differences: {differences_aot}")
+            stats_aot = getModelStats(self.p, client)
             
-            # # pretty-print the differences  
-            # log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences_aot).mean(axis=0)))
+            # pretty-print the differences  
+            log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences_aot).mean(axis=0)))
             
-            # # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
-            # print(f"[DEBUG] TFLM differences shape: {np.array(differences).shape}")
-            # print(f"[DEBUG] AOT differences shape: {np.array(differences_aot).shape}")
-            # print(f"[DEBUG] TFLM differences: {differences}")
-            # print(f"[DEBUG] AOT differences: {differences_aot}")
-            # print(f"[DEBUG] TFLM differences type: {type(differences)}")
-            # print(f"[DEBUG] AOT differences type: {type(differences_aot)}")
+            # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
+            print(f"[DEBUG] TFLM differences shape: {np.array(differences).shape}")
+            print(f"[DEBUG] AOT differences shape: {np.array(differences_aot).shape}")
+            print(f"[DEBUG] TFLM differences: {differences}")
+            print(f"[DEBUG] AOT differences: {differences_aot}")
+            print(f"[DEBUG] TFLM differences type: {type(differences)}")
+            print(f"[DEBUG] AOT differences type: {type(differences_aot)}")
             
-            # # Convert to numpy arrays for comparison
-            # differences_np = np.array(differences)
-            # differences_aot_np = np.array(differences_aot)
+            # Convert to numpy arrays for comparison
+            differences_np = np.array(differences)
+            differences_aot_np = np.array(differences_aot)
             
-            # print(f"[DEBUG] TFLM differences numpy shape: {differences_np.shape}")
-            # print(f"[DEBUG] AOT differences numpy shape: {differences_aot_np.shape}")
-            # print(f"[DEBUG] TFLM differences numpy: {differences_np}")
-            # print(f"[DEBUG] AOT differences numpy: {differences_aot_np}")
+            print(f"[DEBUG] TFLM differences numpy shape: {differences_np.shape}")
+            print(f"[DEBUG] AOT differences numpy shape: {differences_aot_np.shape}")
+            print(f"[DEBUG] TFLM differences numpy: {differences_np}")
+            print(f"[DEBUG] AOT differences numpy: {differences_aot_np}")
             
-            # # Check if shapes are equal
-            # shapes_equal = differences_np.shape == differences_aot_np.shape
-            # print(f"[DEBUG] Shapes equal: {shapes_equal}")
+            # Check if shapes are equal
+            shapes_equal = differences_np.shape == differences_aot_np.shape
+            print(f"[DEBUG] Shapes equal: {shapes_equal}")
             
-            # # Check if values are equal
-            # values_equal = np.array_equal(differences_np, differences_aot_np)
-            # print(f"[DEBUG] Values equal: {values_equal}")
+            # Check if values are equal
+            values_equal = np.array_equal(differences_np, differences_aot_np)
+            print(f"[DEBUG] Values equal: {values_equal}")
             
-            # if not values_equal:
-            #     # Show where they differ
-            #     if shapes_equal:
-            #         diff_mask = differences_np != differences_aot_np
-            #         print(f"[DEBUG] Difference mask: {diff_mask}")
-            #         print(f"[DEBUG] Where they differ: {np.where(diff_mask)}")
-            #         print(f"[DEBUG] TFLM values where different: {differences_np[diff_mask]}")
-            #         print(f"[DEBUG] AOT values where different: {differences_aot_np[diff_mask]}")
+            if not values_equal:
+                # Show where they differ
+                if shapes_equal:
+                    diff_mask = differences_np != differences_aot_np
+                    print(f"[DEBUG] Difference mask: {diff_mask}")
+                    print(f"[DEBUG] Where they differ: {np.where(diff_mask)}")
+                    print(f"[DEBUG] TFLM values where different: {differences_np[diff_mask]}")
+                    print(f"[DEBUG] AOT values where different: {differences_aot_np[diff_mask]}")
                 
-            #     log.warning("Model Output Comparison: TFLM and AOT differences are not identical. TFLM differences: %s, AOT differences: %s", repr(np.array(differences).mean(axis=0)), repr(np.array(differences_aot).mean(axis=0)))
-            # else:
-            #     print("[NS] AOT/TFLM output tensor comparison: Identical")
+                log.warning("Model Output Comparison: TFLM and AOT differences are not identical. TFLM differences: %s, AOT differences: %s", repr(np.array(differences).mean(axis=0)), repr(np.array(differences_aot).mean(axis=0)))
+            else:
+                print("[NS] AOT/TFLM output tensor comparison: Identical")
 
-            # printStats(self.p,           # prints to console / log
-            #            self.mc,
-            #            stats_aot,
-            #            str(stats_file_base) + "_aot",
-            #            pmu_csv_header,
-            #            overall_pmu_stats)
+            printStats(self.p,           # prints to console / log
+                       self.mc,
+                       stats_aot,
+                       str(stats_file_base) + "_aot",
+                       pmu_csv_header,
+                       overall_pmu_stats,
+                       aot=True)
             
 
         # Write updated pickles + result summary

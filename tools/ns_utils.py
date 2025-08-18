@@ -57,6 +57,7 @@ def xxd_c_dump(
     chunk_len: int = 12,
     is_header: bool = True,
     loc: str = "const",
+    align_language: str = "cpp"
 ):
     """Generate C like char array of hex values from binary source. Equivalent to `xxd -i src_path > dst_path`
         but with added features to provide # columns and variable name.
@@ -82,8 +83,12 @@ def xxd_c_dump(
             prefix = "AM_SHARED_RW"
         else: # TCM
             prefix = "NS_PUT_IN_TCM"
-
-        wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
+        
+        if align_language == "cpp":
+            wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
+        else:
+            wfp.write(f"{prefix} unsigned char {var_name}[] __attribute__((aligned(16))) = {{{os.linesep}")
+        
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"

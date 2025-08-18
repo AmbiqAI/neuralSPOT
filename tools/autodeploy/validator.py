@@ -233,7 +233,7 @@ def configModel(params, client, md):
         prof_enable = 1  # convert to int just to be explicit for serialization
     else:
         prof_enable = 0
-
+    print(f"[DEBUG] Configuring model with prof_enable {prof_enable}")
     # Send the model before config
     if params.model_location == "PSRAM":
         log.info("Sending model to EVB over RPC")
@@ -266,7 +266,7 @@ def configModel(params, client, md):
         *inputTensorByteLengths,
         *outputTensorByteLengths,
     )
-    # print("Config il %d, ol %d" % (inputLength, outputLength))
+    print("Config il %d, ol %d" % (md.totalInputTensorBytes, md.totalOutputTensorBytes))
     configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
@@ -288,7 +288,7 @@ def configModel(params, client, md):
             retries -= 1
         else:
             break
-
+    print(f"[DEBUG] Configuring model with prof_enable {prof_enable} done")
     if status != 0:
         print("[ERROR] Model Configuration Send Status = %d" % status)
         print(
@@ -574,6 +574,7 @@ def validateModel(params, client, interpreter, md, mc):
             # Input is from local TF, output is from EVB
             mc.update_from_validation(inExamples, outExamples)
 
+
     return differences
 
 
@@ -798,7 +799,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     return totalCycles, totalMacs, totalTime, captured_events, pmu_events_per_layer
 
 
-def compile_and_deploy(params, mc, first_time=False):
+def compile_and_deploy(params, mc, first_time=False, aot=False):
    # The following lines find the paths relative to the cwd
     model_path = params.destination_rootdir + "/" + params.model_name
     d = os.path.join(params.neuralspot_rootdir, model_path)
@@ -822,9 +823,13 @@ def compile_and_deploy(params, mc, first_time=False):
     else:
         # toolchain is gcc, which is default
         ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
-
+    example = "tflm_validator"
     if first_time:
         makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make clean >{ws3} 2>&1 ")
+    else:
+        # The first time (create-binary) we only create the TFLM binary, otherwise we honor the aot flag
+        if aot:
+            example = "aot_validator"
 
     if (params.tflm_location == "ITCM"):
         itcm = "TFLM_IN_ITCM=1"
@@ -839,11 +844,11 @@ def compile_and_deploy(params, mc, first_time=False):
 
         if params.verbosity > 3:
             print(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
             )
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")
@@ -851,22 +856,22 @@ def compile_and_deploy(params, mc, first_time=False):
             # print(f"cd .. {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1")
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
     else:
         if params.verbosity > 3:
             print (
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE=tflm_validator deploy")
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE={example} deploy")
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE={example} deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")           
         else:
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
@@ -958,6 +963,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
 
 
 def create_mut_modelinit(tflm_dir, mc):
+    print(f"[DEBUG] Creating mut_model_init.cc")
     adds, addsLen = mc.modelStructureDetails.getAddList()
     rm = {
         "NS_AD_NAME": "tflm_validator",
@@ -973,33 +979,116 @@ def create_mut_modelinit(tflm_dir, mc):
     )
 
 
+# def create_mut_main(params, tflm_dir, mc, aot):
+#     # make directory for tflm_validator
+#     os.makedirs(tflm_dir + "/src/", exist_ok=True)
+
+#     # Copy template main.cc to tflm_dir
+#     template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.cc")
+    #     rm = {
+    #         "NS_AD_NAME": params.model_name,
+    #         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
+    #     }
+#     createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
+
+#     template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.h")
+#     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
+
+#     if aot:
+#         mk_name = "template_aot_validator.mk"
+#         template_file = str(importlib.resources.files(__name__) / "templates/validator/template_aot_validator.mk")
+#         # process the template file
+#         rm = {
+#             "NS_AD_NAME_AOT": params.model_name,
+#         }
+#         createFromTemplate(template_file, f"{tflm_dir}/module.mk", rm)
+#     else:
+#         mk_name = "template_tflm_validator.mk"
+#         template_file = str(importlib.resources.files(__name__) /
+#                             f"templates/validator/{mk_name}")
+#         shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
+
+#     template_file = str(importlib.resources.files(__name__) / "templates/common/template_ns_model.h")
+#     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
+
 def create_mut_main(params, tflm_dir, mc, aot):
-    # make directory for tflm_validator
-    os.makedirs(tflm_dir + "/src/", exist_ok=True)
-
-    # Copy template main.cc to tflm_dir
-    template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.cc")
-    rm = {
-        "NS_AD_NAME": params.model_name,
-        "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
-    }
-    createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
-
-    template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.h")
-    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
-
+    """
+    New generator that installs the refactored validator sources:
+      - Common runtime/RPC/memory/chunk headers & sources
+      - TFLM main + runtime glue   → src/refactor/
+      - AOT  main + runtime glue   → src/refactor/aot/
+    Also installs:
+      - tflm_validator.h (structures shared with RPC)
+      - tflm_ns_model.h  (ns model helpers used by TFLM runtime)
+      - module.mk (already globs src/refactor/*)
+    """
+    # Base dirs
+    src_dir        = os.path.join(tflm_dir, "src")
+    refactor_dir   = os.path.join(src_dir, "refactor")
+    refactor_aot   = os.path.join(refactor_dir, "aot")
+    os.makedirs(refactor_dir, exist_ok=True)
     if aot:
-        mk_name = "template_aot_validator.mk"
+        os.makedirs(refactor_aot, exist_ok=True)
+
+    # Paths to our template tree
+    tmpl_root   = importlib.resources.files(__name__)
+    tmpl_common = str(tmpl_root / "templates/validator/refactored")
+    tmpl_tflm   = os.path.join(tmpl_common, "tflm")
+    tmpl_aot    = os.path.join(tmpl_common, "aot")
+
+    # --- Common refactor files (headers + sources) ---
+    for fname in [
+        "validator_chunk.c",
+        "validator_chunk.h",
+        "validator_mem.c",
+        "validator_mem.h",
+        "validator_rpc.c",
+        "validator_runtime_iface.h",
+    ]:
+        shutil.copyfile(os.path.join(tmpl_common, fname),
+                        os.path.join(refactor_dir, fname))
+
+    # --- Runtime-specific files ---
+    if aot:
+        # AOT main + glue live under refactor/aot/
+        shutil.copyfile(os.path.join(tmpl_aot, "aot_validator_main.c"),
+                        os.path.join(refactor_aot, "aot_validator_main.c"))
+        shutil.copyfile(os.path.join(tmpl_aot, "validator_runtime_aot.c"),
+                        os.path.join(refactor_aot, "validator_runtime_aot.c"))
     else:
-        mk_name = "template_tflm_validator.mk"
-    
-    template_file = str(importlib.resources.files(__name__) /
-                        f"templates/validator/{mk_name}")
-    shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
+        # TFLM main + glue live directly in refactor/
+        # Apply template to tflm_validator_main.c
+        rm = {
+            "NS_AD_NAME": params.model_name,
+            "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
+            "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)        
+            .replace("[", "")
+            .replace("]", ""),
+        }
+        createFromTemplate(os.path.join(tmpl_tflm, "tflm_validator_main.c"),
+                           os.path.join(refactor_dir, "tflm_validator_main.c"),
+                           rm)
+        # shutil.copyfile(os.path.join(tmpl_tflm, "tflm_validator_main.c"),
+        #                 os.path.join(refactor_dir, "tflm_validator_main.c"))
+        shutil.copyfile(os.path.join(tmpl_tflm, "validator_runtime_tflm.cc"),
+                        os.path.join(refactor_dir, "validator_runtime_tflm.cc"))
 
-    template_file = str(importlib.resources.files(__name__) / "templates/common/template_ns_model.h")
-    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
+    # --- Headers used by the new sources ---
+    # tflm_validator.h (structs used by both mains and RPC)
+    shutil.copyfile(str(tmpl_root / "templates/validator/template_tflm_validator.h"),
+                    os.path.join(src_dir, "tflm_validator.h"))
+    # ns model helper for TFLM runtime glue
+    shutil.copyfile(str(tmpl_root / "templates/common/template_ns_model.h"),
+                    os.path.join(src_dir, "tflm_ns_model.h"))
 
+    # --- Makefile (already includes src/refactor/* in both variants) ---
+    if aot:
+        mk_template = str(tmpl_root / "templates/validator/template_aot_validator.mk")
+        rm = {"NS_AD_NAME_AOT": params.model_name}
+        createFromTemplate(mk_template, f"{tflm_dir}/module.mk", rm)
+    else:
+        mk_template = str(tmpl_root / "templates/validator/template_tflm_validator.mk")
+        shutil.copyfile(mk_template, f"{tflm_dir}/module.mk")
 
 def create_validation_binary(params, mc, baseline, aot):
     if aot:
@@ -1026,6 +1115,7 @@ def create_validation_binary(params, mc, baseline, aot):
             chunk_len=12,
             is_header=True,
             loc=loc,
+            align_language="c"
         )
 
     if baseline:
@@ -1043,7 +1133,7 @@ def create_validation_binary(params, mc, baseline, aot):
 
     create_mut_metadata(params, validator_dir, mc, aot)
     create_mut_modelinit(validator_dir, mc)
-    compile_and_deploy(params, mc, first_time=baseline)
+    compile_and_deploy(params, mc, first_time=baseline, aot=aot)
     time.sleep(3)
 
 

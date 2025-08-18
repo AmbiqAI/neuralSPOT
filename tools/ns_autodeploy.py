@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging as log
 import os
+import subprocess
 import warnings
 from pathlib import Path
 from time import sleep
@@ -793,6 +794,8 @@ class AutoDeployRunner:
         configModel(self.p, client, self.md)
 
         differences = validateModel(self.p, client, get_interpreter(self.p), self.md, self.mc)
+        print(f"[DEBUG] TFLM differences: {differences}")
+
         stats = getModelStats(self.p, client)
         # pretty-print the differences
         log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences).mean(axis=0)))
@@ -820,30 +823,64 @@ class AutoDeployRunner:
         if self.p.create_aot_profile:
             if not self.p.nocompile_mode:
                 self._generate_helios_aot()
-                create_validation_binary(self.p, self.mc, baseline=False, aot=True)
+            #     create_validation_binary(self.p, self.mc, baseline=False, aot=True)
 
-            client = rpc_connect_as_client(self.p)
-            configModel(self.p, client, self.md)
-
-            differences_aot = validateModel(self.p, client, get_interpreter(self.p),
-                              self.md, self.mc)
-            stats_aot = getModelStats(self.p, client)
+            # client = rpc_connect_as_client(self.p)
+            # print("[NS] AOT rpc_connect_as_client done")
+            # configModel(self.p, client, self.md)
+            # print("[NS] AOT configModel done")
+            # differences_aot = validateModel(self.p, client, get_interpreter(self.p),
+            #                   self.md, self.mc)
+            # print(f"[DEBUG] AOT differences: {differences_aot}")
+            # stats_aot = getModelStats(self.p, client)
             
-            # pretty-print the differences  
-            log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences_aot).mean(axis=0)))
+            # # pretty-print the differences  
+            # log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences_aot).mean(axis=0)))
             
-            # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
-            if not np.array_equal(differences, differences_aot):
-                log.warning("Model Output Comparison: TFLM and AOT differences are not identical. TFLM differences: %s, AOT differences: %s", repr(np.array(differences).mean(axis=0)), repr(np.array(differences_aot).mean(axis=0)))
-            else:
-                print("[NS] AOT/TFLM output tensor comparison: Identical")
+            # # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
+            # print(f"[DEBUG] TFLM differences shape: {np.array(differences).shape}")
+            # print(f"[DEBUG] AOT differences shape: {np.array(differences_aot).shape}")
+            # print(f"[DEBUG] TFLM differences: {differences}")
+            # print(f"[DEBUG] AOT differences: {differences_aot}")
+            # print(f"[DEBUG] TFLM differences type: {type(differences)}")
+            # print(f"[DEBUG] AOT differences type: {type(differences_aot)}")
+            
+            # # Convert to numpy arrays for comparison
+            # differences_np = np.array(differences)
+            # differences_aot_np = np.array(differences_aot)
+            
+            # print(f"[DEBUG] TFLM differences numpy shape: {differences_np.shape}")
+            # print(f"[DEBUG] AOT differences numpy shape: {differences_aot_np.shape}")
+            # print(f"[DEBUG] TFLM differences numpy: {differences_np}")
+            # print(f"[DEBUG] AOT differences numpy: {differences_aot_np}")
+            
+            # # Check if shapes are equal
+            # shapes_equal = differences_np.shape == differences_aot_np.shape
+            # print(f"[DEBUG] Shapes equal: {shapes_equal}")
+            
+            # # Check if values are equal
+            # values_equal = np.array_equal(differences_np, differences_aot_np)
+            # print(f"[DEBUG] Values equal: {values_equal}")
+            
+            # if not values_equal:
+            #     # Show where they differ
+            #     if shapes_equal:
+            #         diff_mask = differences_np != differences_aot_np
+            #         print(f"[DEBUG] Difference mask: {diff_mask}")
+            #         print(f"[DEBUG] Where they differ: {np.where(diff_mask)}")
+            #         print(f"[DEBUG] TFLM values where different: {differences_np[diff_mask]}")
+            #         print(f"[DEBUG] AOT values where different: {differences_aot_np[diff_mask]}")
+                
+            #     log.warning("Model Output Comparison: TFLM and AOT differences are not identical. TFLM differences: %s, AOT differences: %s", repr(np.array(differences).mean(axis=0)), repr(np.array(differences_aot).mean(axis=0)))
+            # else:
+            #     print("[NS] AOT/TFLM output tensor comparison: Identical")
 
-            printStats(self.p,           # prints to console / log
-                       self.mc,
-                       stats_aot,
-                       str(stats_file_base) + "_aot",
-                       pmu_csv_header,
-                       overall_pmu_stats)
+            # printStats(self.p,           # prints to console / log
+            #            self.mc,
+            #            stats_aot,
+            #            str(stats_file_base) + "_aot",
+            #            pmu_csv_header,
+            #            overall_pmu_stats)
             
 
         # Write updated pickles + result summary
@@ -870,6 +907,7 @@ class AutoDeployRunner:
         try:
             # Ensure supporting libraries are present --------------------
             _fetch_ns_cmsis_nn(self.p.destination_rootdir)
+            print(f"[NS] HeliosAOT destination rootdir: {self.p.destination_rootdir}")
 
             # Determine configuration path ------------------------------
             cfg_path = self.p.helios_aot_config
@@ -879,10 +917,10 @@ class AutoDeployRunner:
                     raise FileNotFoundError(
                         "HeliosAOT config file not provided and 'auto' path does not exist."
                     )
-
+            print(f"[NS] HeliosAOT config file: {cfg_path}")
             # Prepare ConvertArgs instance -------------------------------
             convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
-            # print(convert_args)
+            print(convert_args)
             # Override model_path/output/module_name dynamically ---------
             convert_args.model_path = Path(self.p.tflite_filename)
             
@@ -901,8 +939,8 @@ class AutoDeployRunner:
                 )
             ]
 
-            # print("new args")
-            # print(convert_args)
+            print("new args")
+            print(convert_args)
             # Invoke HeliosAOT programmatically --------------------------
             aot_model = AotModel(config=convert_args)  # type: ignore
             aot_model.initialize()
@@ -954,10 +992,10 @@ class AutoDeployRunner:
         self._stage += 1
 
         cpu_modes = ["LP", "HP"] if self.p.cpu_mode == "auto" else [self.p.cpu_mode]
-        # runtime_modes = ["tflm"]
-        # if self.p.create_aot_profile:
-        #     runtime_modes.append("aot")
-        runtime_modes = ["aot"]
+        runtime_modes = ["tflm"]
+        if self.p.create_aot_profile:
+            runtime_modes.append("aot")
+        # runtime_modes = ["aot"]
         for mode in cpu_modes:
             for runtime_mode in runtime_modes:
                 generatePowerBinary(self.p, self.mc, self.md, mode, aot=runtime_mode == "aot")

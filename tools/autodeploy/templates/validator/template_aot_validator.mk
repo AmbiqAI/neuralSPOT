@@ -7,10 +7,14 @@ local_src += $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src
 local_src += $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.s)
 
 # -------- Validator sources -------------------------------------------------
-local_src += $(wildcard $(subdirectory)/src/*.c)
-local_src += $(wildcard $(subdirectory)/src/*.cc)
-local_src += $(wildcard $(subdirectory)/src/*.cpp)
-local_src += $(wildcard $(subdirectory)/src/*.s)
+local_src += $(wildcard $(subdirectory)/src/refactor/*.c)
+local_src += $(wildcard $(subdirectory)/src/refactor/*.cc)
+local_src += $(wildcard $(subdirectory)/src/refactor/*.cpp)
+local_src += $(wildcard $(subdirectory)/src/refactor/*.s)
+local_src += $(wildcard $(subdirectory)/src/refactor/aot/*.c)
+local_src += $(wildcard $(subdirectory)/src/refactor/aot/*.cc)
+local_src += $(wildcard $(subdirectory)/src/refactor/aot/*.cpp)
+local_src += $(wildcard $(subdirectory)/src/refactor/aot/*.s)
 
 # -------- CMSIS‑NN (needed by AOT kernels) ----------------------------------
 local_src += $(wildcard $(subdirectory)/../../ns-cmsis-nn/Source/ActivationFunctions/*.c)

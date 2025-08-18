@@ -162,7 +162,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
         "NS_AD_AOT": "1" if aot else "0",
     }
     if aot:
-        print(f"[NS] Compiling, deploying, and measuring AOT power, model location = {params.model_location}, arena location = {params.arena_location}.")
+        print(f"[NS] Compiling, deploying, and measuring AOT {cpu_mode} power, model location = {params.model_location}, arena location = {params.arena_location}.")
     else:  
         print(
             f"[NS] Compiling, deploying, and measuring {cpu_mode} power, model location = {params.model_location}, arena location = {params.arena_location}."

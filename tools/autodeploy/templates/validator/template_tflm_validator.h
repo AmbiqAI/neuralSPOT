@@ -8,8 +8,8 @@
 #include "ns_debug_log.h"
 #include "ns_pmu_map.h"
 
-#include <cstdlib>
-#include <cstring>
+// #include <cstdlib>
+// #include <cstring>
 
 typedef struct {
     uint32_t profile_mut; ///> 1 -> enable ML Profiling and reporting
@@ -40,9 +40,21 @@ typedef union {
 #define NS_MUT_STATS_PLATFORM_AP4 4
 #define NS_MUT_STATS_PLATFORM_AP5 5
 
+// Memory locations for model and arena
+#define NS_AD_TCM   0
+#define NS_AD_PSRAM 1
+#define NS_AD_SRAM  2
+#define NS_AD_MRAM  3
+
+#define NS_AD_RPC_TRANSPORT_UART 0
+#define NS_AD_RPC_TRANSPORT_USB 1
+
 #ifdef AM_PART_APOLLO5B
 #define NS_NUM_PMU_EVENTS NS_NUM_PMU_MAP_SIZE
 #endif 
+
+#define NS_MAX_INPUT_TENSORS 10
+#define NS_MAX_OUTPUT_TENSORS 10
 
 typedef struct {
     uint32_t computed_arena_size;

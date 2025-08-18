@@ -71,8 +71,12 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     ns_lp_printf("Target initialized.\n");
     // Map the model into a usable data structure. This doesn't involve any
     // copying or parsing, it's a very lightweight operation.
+    ns_lp_printf("Model array 0x%x\n", ms->model_array);
     ms->model = tflite::GetModel(ms->model_array);
+    ns_lp_printf("Model mapped 1.\n");
+    ns_lp_printf("Model version %d\n", ms->model->version());
     if (ms->model->version() != TFLITE_SCHEMA_VERSION) {
+        ns_lp_printf("Model provided is schema version %d not equal to supported version %d.\n", ms->model->version(), TFLITE_SCHEMA_VERSION);
         TF_LITE_REPORT_ERROR(
             ms->error_reporter,
             "Model provided is schema version %d not equal "
@@ -80,7 +84,7 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
             ms->model->version(), TFLITE_SCHEMA_VERSION);
         return NS_STATUS_FAILURE;
     }
-    ns_lp_printf("Model mapped.\n");
+    ns_lp_printf("Model mapped 2.\n");
 #ifdef NS_TFSTRUCTURE_RECENT
     static tflite::MicroMutableOpResolver<NS_AD_NUM_OPS> resolver;
 #else

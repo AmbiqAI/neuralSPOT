@@ -1,0 +1,29 @@
+#pragma once
+#include <stdint.h>
+#include "../tflm_validator.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// Initialize defaults; call early in main(). For PSRAM builds, also call
+// ns_mem_set_psram_base() once PSRAM is initialized.
+void     ns_mem_init_defaults(void);
+
+// Model storage and tensor arena (addresses depend on build-time location macros)
+uint8_t* ns_mem_model_ptr(void);
+uint8_t* ns_mem_arena_ptr(void);
+uint32_t ns_mem_arena_size(void);
+
+// When PSRAM is used, set the base address so model/arena pointers are valid.
+void     ns_mem_set_psram_base(uint8_t* base);
+
+// Strong overrides for weak scratch providers used by RPC layer
+uint8_t* vrpc_tx_scratch(void);
+uint32_t vrpc_tx_scratch_size(void);
+uint8_t* vrpc_out_hold_buf(void);
+int      vrpc_model_write(uint32_t offset, const void* data, uint32_t len);
+
+#ifdef __cplusplus
+}
+#endif

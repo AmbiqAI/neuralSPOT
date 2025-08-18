@@ -1,0 +1,41 @@
+#pragma once
+#include <stdint.h>
+#include <stdbool.h>
+#include "../tflm_validator.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct {
+  uint32_t total;        // total payload bytes
+  uint32_t progressed;   // bytes sent/received so far
+  uint32_t max_chunk;    // max payload per chunk (bytes)
+  bool     active;       // whether chunking is in progress
+} ns_chunk_t;
+
+static inline void ns_chunk_reset(ns_chunk_t* c){ c->total=0; c->progressed=0; c->max_chunk=0; c->active=false; }
+
+static inline void ns_chunk_begin(ns_chunk_t* c, uint32_t total, uint32_t max_chunk){
+  c->total = total; c->progressed = 0; c->max_chunk = max_chunk; c->active = (total > max_chunk);
+}
+
+static inline uint32_t ns_chunk_remaining(const ns_chunk_t* c){
+  return (c->total > c->progressed) ? (c->total - c->progressed) : 0u;
+}
+
+static inline uint32_t ns_chunk_next(const ns_chunk_t* c){
+  uint32_t rem = ns_chunk_remaining(c);
+  return (rem > c->max_chunk) ? c->max_chunk : rem;
+}
+
+static inline void ns_chunk_advance(ns_chunk_t* c, uint32_t n){
+  c->progressed += n;
+  if (c->progressed >= c->total) { c->progressed = c->total; c->active = false; }
+}
+
+static inline bool ns_chunk_done(const ns_chunk_t* c){ return ns_chunk_remaining(c) == 0u; }
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif

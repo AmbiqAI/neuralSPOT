@@ -25,6 +25,7 @@
 #include "ns_peripherals_button.h"
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
+#include "ns_pmu_accumulator.h"
 #include "ns_timer.h"
 // #ifdef AM_PART_APOLLO5B
 // #include "ns_pp.h"
@@ -52,58 +53,92 @@ ns_timer_config_t tickTimer = {
 #if NS_AD_AOT == 1
 
 // PMU Map has 71 entries - hardcoded since sizeof() doesn't work with extern arrays
-#define NS_PMU_MAP_ENTRIES 71
+#define NS_PMU_MAP_ENTRIES NS_PMU_MAP_SIZE
+
+static uint32_t aot_matrix_store[NS_AD_AOT_LAYERS * NS_PMU_MAP_SIZE];
+static ns_pmu_accm_t aot_matrix;
 
 // PMU Accumulator for AOT Models (each layer has NS_PMU_MAP_ENTRIES counters, and different counters are captured per run)
-typedef struct {
-    uint32_t pmu_events[NS_PMU_MAP_ENTRIES];
-    uint32_t pmu_events_index; // index of the next pmu event to capture
-} pmu_accumulator_t;
+// typedef struct {
+//     uint32_t pmu_events[NS_PMU_MAP_ENTRIES];
+//     uint32_t pmu_events_index; // index of the next pmu event to capture
+// } pmu_accumulator_t;
 
-static pmu_accumulator_t pmu_accumulator[NS_AD_AOT_LAYERS]; // one accumulator per layer
+// static pmu_accumulator_t pmu_accumulator[NS_AD_AOT_LAYERS]; // one accumulator per layer
 static ns_pmu_config_t pmu_cfg;
 
 // AOT Callback
-static void aot_callback(
-    int32_t op,
-    NS_AD_NAME_AOT_operator_state_e state,
-    int32_t status,
-    void *user_data
-) {
+// static void aot_callback(
+//     int32_t op,
+//     NS_AD_NAME_AOT_operator_state_e state,
+//     int32_t status,
+//     void *user_data
+// ) {
 
-    // If the operator is starting, set up the next set of counters to capture
-    if (state == NS_AD_NAME_AOT_model_state_started) {
-        am_util_pmu_enable();
-        uint32_t counter_index = pmu_accumulator[op].pmu_events_index;
-        for (int i = 0; i < 4; i++) {
-            // Create the events
-            ns_lp_printf("op %d: Creating event %d for counter %d\n", op, ns_pmu_map[counter_index].eventId, counter_index);
-            ns_pmu_event_create(&(pmu_cfg.events[i]), ns_pmu_map[counter_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
-            counter_index++;
-            if (counter_index >= NS_PMU_MAP_ENTRIES) {
-                break;
-            }
-        }
-        ns_pmu_init(&pmu_cfg);    
+//     // If the operator is starting, set up the next set of counters to capture
+//     if (state == NS_AD_NAME_AOT_model_state_started) {
+//         am_util_pmu_enable();
+//         uint32_t counter_index = pmu_accumulator[op].pmu_events_index;
+//         for (int i = 0; i < 4; i++) {
+//             // Create the events
+//             ns_lp_printf("op %d: Creating event %d for counter %d\n", op, ns_pmu_map[counter_index].eventId, counter_index);
+//             ns_pmu_event_create(&(pmu_cfg.events[i]), ns_pmu_map[counter_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+//             counter_index++;
+//             if (counter_index >= NS_PMU_MAP_ENTRIES) {
+//                 break;
+//             }
+//         }
+//         ns_pmu_init(&pmu_cfg);    
+//     }
+
+//     // If the operator is finished, capture the counters
+//     if (state == NS_AD_NAME_AOT_model_state_finished) {
+//         // Accumulate the counters
+//         ns_pmu_get_counters(&pmu_cfg);
+//         ns_pmu_print_counters(&pmu_cfg);
+//         int sigh = pmu_accumulator[op].pmu_events_index;
+//         for (int i = 0; i < 4; i++) {
+//             pmu_accumulator[op].pmu_events[pmu_accumulator[op].pmu_events_index] = pmu_cfg.counter[i].counterValue;
+//             // ns_lp_printf("op %d: Accumulating counter %d: %d, %d\n", op, i, pmu_accumulator[op].pmu_events_index, pmu_cfg.counter[i].counterValue);
+//             pmu_accumulator[op].pmu_events_index++;
+//             if (pmu_accumulator[op].pmu_events_index >= NS_PMU_MAP_ENTRIES) {
+//                 break;
+//             }
+//         }
+//         // for debug, print the counters
+//         // for (int i = 0; i < 4; i++) {
+//         //     ns_lp_printf("Counter %d: %d\n", i, pmu_accumulator[op].pmu_events[sigh + i]);
+//         // }
+//     }
+// }
+static bool aot_characterizating = false;
+static void aot_callback(int32_t op,
+                         NS_AD_NAME_AOT_operator_state_e state,
+                         int32_t status,
+                         void *user_data)
+{
+    if (!aot_characterizating) {
+        return;
     }
 
-    // If the operator is finished, capture the counters
+    if (state == NS_AD_NAME_AOT_model_state_started) {
+        // if (op == 0 && aot_matrix.id == 0xFF)
+        //     aot_matrix = ns_pmu_accm_create(NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE, aot_matrix_store);
+
+        ns_pmu_accm_op_begin(aot_matrix, op);
+    }
+
     if (state == NS_AD_NAME_AOT_model_state_finished) {
-        // Accumulate the counters
-        ns_pmu_get_counters(&pmu_cfg);
-        ns_pmu_print_counters(&pmu_cfg);
-        int sigh = pmu_accumulator[op].pmu_events_index;
-        for (int i = 0; i < 4; i++) {
-            pmu_accumulator[op].pmu_events[pmu_accumulator[op].pmu_events_index] = pmu_cfg.counter[i].counterValue;
-            // ns_lp_printf("op %d: Accumulating counter %d: %d, %d\n", op, i, pmu_accumulator[op].pmu_events_index, pmu_cfg.counter[i].counterValue);
-            pmu_accumulator[op].pmu_events_index++;
-            if (pmu_accumulator[op].pmu_events_index >= NS_PMU_MAP_ENTRIES) {
-                break;
-            }
-        }
-        // for debug, print the counters
-        // for (int i = 0; i < 4; i++) {
-        //     ns_lp_printf("Counter %d: %d\n", i, pmu_accumulator[op].pmu_events[sigh + i]);
+        ns_pmu_accm_op_end(aot_matrix, op);
+
+        // if (op == AOT_LAYERS - 1) {
+        //     ns_pmu_accm_inference_end(aot_matrix);
+
+        //     if (ns_pmu_accm_complete(aot_matrix)) {
+        //         uint32_t *m; ns_pmu_accm_get(aot_matrix, &m);
+        //         dump_csv(m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
+        //         ns_pmu_accm_destroy(aot_matrix);
+        //     }
         // }
     }
 }
@@ -229,9 +264,9 @@ int main(void) {
     ns_pmu_reset_config(&pmu_cfg);
 
     // reset the accumulator
-    for (int i = 0; i < NS_AD_AOT_LAYERS; i++) {
-        pmu_accumulator[i].pmu_events_index = 0;
-    }
+    // for (int i = 0; i < NS_AD_AOT_LAYERS; i++) {
+    //     pmu_accumulator[i].pmu_events_index = 0;
+    // }
 #else
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
 #endif
@@ -369,19 +404,34 @@ int main(void) {
             ns_parse_pmu_stats(num_layers, model.rv_count);
             ns_lp_printf("Model pmu print complete.\n");
 #else
-            //ns_characterize_model(NS_AD_NAME_model_run);
-            for (int i = 0; i < NS_PMU_MAP_ENTRIES/4; i++) {
+            aot_characterizating = true;
+            ns_lp_printf("Creating AOT matrix...\n");
+            aot_matrix = ns_pmu_accm_create(NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE, aot_matrix_store);
+
+            do {
+                ns_lp_printf("Running AOT model...\n");
+                ns_pmu_accm_inference_begin(aot_matrix);
                 NS_AD_NAME_AOT_model_run(&model);
-            }
+                ns_pmu_accm_inference_end(aot_matrix);
+            } while (!ns_pmu_accm_complete(aot_matrix));
+            ns_lp_printf("AOT model run complete.\n");
+            uint32_t *m; ns_pmu_accm_get(aot_matrix, &m);
+            ns_lp_printf("AOT matrix complete.\n");
+            ns_pmu_accmprint_matrix(aot_matrix, m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
+            ns_lp_printf("AOT matrix print complete.\n");
+            // dump_csv(m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
+            ns_pmu_accm_destroy(aot_matrix);
+            aot_characterizating = false;
+
             ns_lp_printf("AOT model characterization complete.\n");
-            // print the pmu stats
-            for (int op = 0; op < NS_AD_AOT_LAYERS; op++) {
-                ns_lp_printf("Layer %d: ", op);
-                for (int i = 0; i < NS_PMU_MAP_ENTRIES; i++) {
-                    ns_lp_printf("%d ", pmu_accumulator[op].pmu_events[i]);
-                }
-                ns_lp_printf("\n");
-            }
+            // // print the pmu stats
+            // for (int op = 0; op < NS_AD_AOT_LAYERS; op++) {
+            //     ns_lp_printf("Layer %d: ", op);
+            //     for (int i = 0; i < NS_PMU_MAP_ENTRIES; i++) {
+            //         ns_lp_printf("%d ", pmu_accumulator[op].pmu_events[i]);
+            //     }
+            //     ns_lp_printf("\n");
+            // }
 #endif
 
 #endif // AM_PART_APOLLO5B

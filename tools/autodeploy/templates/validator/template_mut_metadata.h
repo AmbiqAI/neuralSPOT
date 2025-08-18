@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __MUT_MODEL_METADATA_H
 #define __MUT_MODEL_METADATA_H
 #include "ns_ambiqsuite_harness.h"
@@ -13,9 +14,6 @@
 #define NS_AD_AOT NS_AD_AOT_VALUE   /* 0 = TFLM, 1 = AOT */
 
 #define TFLM_VALIDATOR_MAC_ESTIMATE_COUNT NS_AD_MAC_ESTIMATE_COUNT
-const uint32_t tflm_validator_mac_estimates[TFLM_VALIDATOR_MAC_ESTIMATE_COUNT] = {
-    NS_AD_MAC_ESTIMATE_LIST};
-const int tflm_validator_number_of_estimates = TFLM_VALIDATOR_MAC_ESTIMATE_COUNT;
 
 #ifdef AM_PART_APOLLO5B
 #define NS_PROFILER_PMU_EVENT_0 NS_AD_PMU_EVENT_0

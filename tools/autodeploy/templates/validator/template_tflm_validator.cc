@@ -16,8 +16,8 @@
 #include "mut_model_metadata.h"
 
 #if NS_AD_AOT == 1
-    #include "NS_AD_NAME_AOT_model.h"
-    #include "NS_AD_NAME_AOT_api.h"
+    #include "NS_AD_NAME_model.h"
+    // #include "NS_AD_NAME_AOT_api.h"
     // #include "NS_AD_NAME_example_tensors.h"
 #else
     #include "tflm_ns_model.h"

@@ -1,0 +1,57 @@
+#pragma once
+#include <stdint.h>
+#include <stddef.h>
+#include "../tflm_validator.h"
+#include "ns_timer.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/** C ABI for validator runtimes (TFLM or AOT).
+ *  Implemented by:
+ *    - validator_runtime_tflm.cc  (C++)
+ *    - validator_runtime_aot.c    (C)
+ */
+typedef struct ns_validator_rt_api_s {
+  /** Initialize runtime with counts and profiling flags.
+   *  Returns 0 on success.
+   */
+  int  (*init)(uint32_t num_inputs,
+               uint32_t num_outputs,
+               uint32_t profile_enabled,
+               uint32_t warmup_count,
+               ns_timer_config_t *tickTimer);
+
+  /** Copy a full input tensor into the runtime (index usually 0). */
+  int  (*set_input)(uint32_t idx, const void* data, uint32_t len);
+
+  /** Obtain a direct writable pointer to an input tensor buffer for chunked writes.
+   *  If supported, returns non-NULL and writes the capacity (bytes) to *capacity_out.
+   *  If not supported, returns NULL.
+   */
+  void* (*map_input_writable)(uint32_t idx, uint32_t* capacity_out);
+
+  /** Invoke the model. Returns 0 on success. */
+  int  (*invoke)(void);
+
+  /** Copy a full output tensor out of the runtime into dst. */
+  int  (*get_output)(uint32_t idx, void* dst, uint32_t len);
+
+  /** Obtain a read-only pointer to an output tensor for zero-copy chunking (optional).
+   *  If supported, returns non-NULL and writes the size (bytes) to *size_out. Otherwise NULL.
+   */
+  const void* (*map_output_readonly)(uint32_t idx, uint32_t* size_out);
+
+  /** Hook that lets the runtime capture/flush profiling stats (may be NULL). */
+  void (*get_stats_hook)(void);
+
+  /** Return arena bytes used (0 for AOT where not meaningful). */
+  uint32_t (*arena_used_bytes)(void);
+} ns_validator_rt_api_t;
+
+/** Provided by the selected runtime unit at link time. */
+const ns_validator_rt_api_t* ns_get_runtime_api(void);
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif

@@ -14,6 +14,7 @@
 #include <math.h>
 #include "str_ww_ref_model_model.h"
 #include "sww_ref_util.h"
+#include "ns_perf_profile.h"
 
 #include "feature_extraction.h"
 #include "ns_ambiqsuite_harness.h"
@@ -83,6 +84,57 @@ str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
     // .callback = str_ww_ref_model_model_operator_cb,
     .user_data = NULL
 };
+
+// ===== DWT accumulators for streaming profile window =====
+static uint64_t g_cyc_total=0, g_lsu_total=0;
+static uint64_t g_cyc_slide=0, g_lsu_slide=0;
+static uint64_t g_cyc_feat =0, g_lsu_feat =0;
+static uint64_t g_cyc_pack =0, g_lsu_pack =0;
+static uint64_t g_cyc_infer=0, g_lsu_infer=0;
+
+static uint32_t g_frame_count=0;
+static const uint32_t g_report_every = 200u;
+#define CORE_CLOCK_HZ 96000000u
+
+static void sww_perf_report_and_reset(void) {
+    const uint32_t frames = g_report_every;          // we reset exactly at this cadence
+    if (frames == 0) return;
+
+    th_printf("\r\n=== DWT summary over %lu frames ===\r\n", (unsigned long)frames);
+
+    // Helpers to print each row
+    auto avg_cyc = [frames](uint64_t cyc)->uint64_t { return frames ? (cyc / frames) : 0; };
+    auto avg_us  = [](uint64_t avg_cycles)->double { return (double)avg_cycles / (double)CORE_CLOCK_HZ * 1e6; };
+    auto share   = [](uint64_t part, uint64_t tot)->double { return tot ? (100.0 * (double)part / (double)tot) : 0.0; };
+    auto lsu_pct = [](uint64_t lsu, uint64_t cyc)->double { return cyc ? (100.0 * (double)lsu / (double)cyc) : 0.0; };
+
+    const uint64_t tot = g_cyc_total;
+
+    uint64_t a; double u, p, l;
+
+    a = avg_cyc(g_cyc_feat);  u = avg_us(a); p = share(g_cyc_feat, tot); l = lsu_pct(g_lsu_feat, g_cyc_feat);
+    th_printf("features:      avg %lu cyc (%.2f us) | share %.1f%% | LSU %.1f%%\r\n", (unsigned long)a, u, p, l);
+
+    a = avg_cyc(g_cyc_slide); u = avg_us(a); p = share(g_cyc_slide, tot); l = lsu_pct(g_lsu_slide, g_cyc_slide);
+    th_printf("slide_window:  avg %lu cyc (%.2f us) | share %.1f%% | LSU %.1f%%\r\n", (unsigned long)a, u, p, l);
+
+    a = avg_cyc(g_cyc_pack);  u = avg_us(a); p = share(g_cyc_pack,  tot); l = lsu_pct(g_lsu_pack,  g_cyc_pack);
+    th_printf("pack_features: avg %lu cyc (%.2f us) | share %.1f%% | LSU %.1f%%\r\n", (unsigned long)a, u, p, l);
+
+    a = avg_cyc(g_cyc_infer); u = avg_us(a); p = share(g_cyc_infer, tot); l = lsu_pct(g_lsu_infer, g_cyc_infer);
+    th_printf("inference:     avg %lu cyc (%.2f us) | share %.1f%% | LSU %.1f%%\r\n", (unsigned long)a, u, p, l);
+
+    a = avg_cyc(g_cyc_total); u = avg_us(a);
+    th_printf("TOTAL:         avg %lu cyc (%.2f us)\r\n", (unsigned long)a, u);
+
+    // Reset window accumulators & frame counter
+    g_cyc_total=g_lsu_total=0;
+    g_cyc_slide=g_lsu_slide=0;
+    g_cyc_feat=g_lsu_feat=0;
+    g_cyc_pack=g_lsu_pack=0;
+    g_cyc_infer=g_lsu_infer=0;
+    g_frame_count = 0;
+}
 
 void print_vals_int16(const int16_t *buffer, uint32_t num_vals)
 {
@@ -816,7 +868,11 @@ void extract_features_on_chunk(char *cmd_args[]) {
 
 }
 
+
 void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
+	// ns_perf_counters_t s_total,e_total,d_total;
+	// ns_capture_perf_profiler(&s_total);
+	
 	// feature_buff is used internally as a 2nd internal scratch space,
 	// in the FFT domain, so it needs to be winlen_samples long, even though
 	// ultimately it will only hold NUM_MEL_FILTERS values.  This can probably
@@ -828,9 +884,13 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	// TfLiteTensor *input_tensor = model.model_input[0];
 	float32_t input_scale_factor = str_ww_ref_model_inputs_scale[0];
 	int32_t zero_point = str_ww_ref_model_inputs_zero_point[0];
+
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+	
 	set_processing_pin_high(); // start of processing, used for duty cycle measurement
 
+	// ns_perf_counters_t s1, e1, d1;
+	// ns_capture_perf_profiler(&s1);
 
     // g_wav_block_buff[SWW_WINSTRIDE_SAMPLES:<end>]  are old samples to be
     // shifted to the beginning of the clip. After this block,
@@ -844,8 +904,25 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 		// 2* is because the I2S buffer is in stereo
 		g_wav_block_buff[i] = idle_buffer[(i-(SWW_WINLEN_SAMPLES-SWW_WINSTRIDE_SAMPLES))];
 	}
+	// ns_capture_perf_profiler(&e1);
+	// ns_delta_perf(&s1, &e1, &d1);
+	// g_cyc_slide += d1.cyccnt;
+	// g_lsu_slide += d1.lsucnt;
 
-	// compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
+	// ns_perf_counters_t s2, e2, d2;
+	// ns_capture_perf_profiler(&s2);
+
+	compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
+	
+	// ns_capture_perf_profiler(&e2);
+	// ns_delta_perf(&s2,&e2,&d2);
+	// g_cyc_feat += d2.cyccnt;
+	// g_lsu_feat += d2.lsucnt;
+
+
+	// // ---- pack_features ----
+	// ns_perf_counters_t s3,e3,d3;
+	// ns_capture_perf_profiler(&s3);
 
 	// shift current features in g_model_input[] and add new ones.
 	for(int i=0;i<SWW_MODEL_INPUT_SIZE-NUM_MEL_FILTERS;i++) {
@@ -858,9 +935,23 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	for(int i=0;i<AI_SWW_MODEL_IN_1_SIZE;i++){
 		in_data[i] = (int8_t)g_model_input[i];
 	}
+
+	// ns_capture_perf_profiler(&e3);
+	// ns_delta_perf(&s3,&e3,&d3);
+	// g_cyc_pack += d3.cyccnt;
+	// g_lsu_pack += d3.lsucnt;
+
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+
 	/*  Call inference engine */
-	// str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
+	// ns_perf_counters_t s4,e4,d4;
+	// ns_capture_perf_profiler(&s4);
+	str_ww_ref_model_model_run(&str_ww_ref_model_model_ctx);
+	// ns_capture_perf_profiler(&e4);
+	// ns_delta_perf(&s4,&e4,&d4);
+	// g_cyc_infer += d4.cyccnt;
+	// g_lsu_infer += d4.lsucnt;
+
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 
 	if(out_data[0] > DETECT_THRESHOLD || g_first_frame) {
@@ -877,6 +968,16 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
     num_calls++;
     set_processing_pin_low();  // end of processing, used for duty cycle measurement
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+
+	// ns_capture_perf_profiler(&e_total);
+	// ns_delta_perf(&s_total,&e_total,&d_total);
+	// g_cyc_total += d_total.cyccnt;
+	// g_lsu_total += d_total.lsucnt;
+
+	// g_frame_count++;
+	// if (g_frame_count % g_report_every == 0) {
+	// 	sww_perf_report_and_reset();
+	// }
 }
 
 

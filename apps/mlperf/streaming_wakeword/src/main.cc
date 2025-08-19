@@ -15,7 +15,11 @@ limitations under the License.
 /// NeuralSPOT Includes
 #include "sww_ref_util.h"
 #include "main.h"
-
+#include "ns_perf_profile.h"
+#include "ns_pmu_map.h"
+#include "ns_ambiqsuite_harness.h"
+#include "ns_pmu_utils.h"
+static void dump_trace(const char* tag);
 void my_rx_cb(ns_uart_transaction_t *t)
 {
     int c;
@@ -129,15 +133,16 @@ int main(int argc, char *argv[]) {
     uint32_t uart_status;
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    th_serialport_initialize();
     NS_TRY(ns_power_config(&ns_mlperf_mode2), "Power Init Failed.\n");
     ns_power_memory_config(&ns_mlperf_mode2);
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
-
     i2s_init();
     ns_timer_init(&basic_tickTimer);
     th_timestamp();
+    ns_itm_printf_enable();
+    ns_perf_enable_pcsamp();
+    th_serialport_initialize();
     ns_interrupt_master_enable();
     for (;;) {
         // consume all pending frames safely
@@ -155,7 +160,10 @@ int main(int argc, char *argv[]) {
             __DMB();
             switch (g_i2s_state) {
                 case Streaming:
+                    ns_init_perf_profiler();
+                    ns_start_perf_profiler();
                     process_chunk_and_cont_streaming(local_buf[idx]);
+                    ns_stop_perf_profiler();
                     break;
                 case FileCapture:
                     process_chunk_and_cont_capture(local_buf[idx]);
@@ -167,7 +175,7 @@ int main(int argc, char *argv[]) {
                     break;
             }
         }
-        ns_deep_sleep();
+        // ns_deep_sleep();
     }
     return 0;
 }
@@ -252,3 +260,16 @@ static void uart_stdio_print(char *pcBuf)
     size_t len = strlen(pcBuf);
     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
 }
+
+// static void dump_trace(const char* tag) {
+//   th_printf("[%s] DEMCR=0x%08lx DWT->CTRL=0x%08lx SPPR=%lu ACPR=%lu\n",
+//          tag,
+//          (unsigned long)CoreDebug->DEMCR,
+//          (unsigned long)DWT->CTRL,
+//          (unsigned long)TPI->SPPR,
+//          (unsigned long)TPI->ACPR);
+//     unsigned long demcr = (unsigned long)CoreDebug->DEMCR;
+//     unsigned long ctrl = (unsigned long)DWT->CTRL;
+//     unsigned long sppr = (unsigned long)TPI->SPPR;
+//     unsigned long acpr = (unsigned long)TPI->ACPR;
+// }

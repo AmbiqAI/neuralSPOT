@@ -79,7 +79,7 @@ volatile  bool uart_doorbell = false;
 ns_timer_config_t basic_tickTimer = {
     .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
-    .enableInterrupt = true,
+    .enableInterrupt = false,
 };
 am_hal_uart_config_t am_uart_config =
 {

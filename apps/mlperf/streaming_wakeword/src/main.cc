@@ -19,7 +19,76 @@ limitations under the License.
 #include "ns_pmu_map.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_pmu_utils.h"
-static void dump_trace(const char* tag);
+
+static volatile uint64_t g_cyc_isr = 0, g_lsu_isr = 0;
+static volatile uint64_t g_cyc_proc = 0, g_lsu_proc = 0;
+static ns_perf_counters_t g_wall_start;
+static uint32_t g_frame_count=0;
+#define REPORT_EVERY 200
+#define CORE_CLOCK_HZ 96000000u
+
+static void sww_perf_report_and_reset(void)
+{
+    // --- Atomic snapshot/reset to avoid tearing while ISR runs ---
+    NVIC_DisableIRQ(I2S0_IRQn);
+
+    ns_perf_counters_t wall_now, wall_d;
+    ns_capture_perf_profiler(&wall_now);
+    ns_delta_perf(&g_wall_start, &wall_now, &wall_d);
+
+    // Snap current window accumulators
+    const uint64_t proc_cyc  = g_cyc_proc;
+    const uint64_t isr_cyc   = g_cyc_isr;
+    const uint64_t proc_lsu  = g_lsu_proc;
+    const uint64_t isr_lsu   = g_lsu_isr;
+    const uint32_t frames    = g_frame_count;
+
+    // Reset for next window
+    g_cyc_proc = g_lsu_proc = 0;
+    g_cyc_isr  = g_lsu_isr  = 0;
+    g_frame_count = 0;
+    g_wall_start = wall_now;
+
+    NVIC_EnableIRQ(I2S0_IRQn);
+    // --- End atomic section ---
+
+    // Helpers (keep it simple)
+    const double wall_us  = (double)wall_d.cyccnt * 1e6 / (double)CORE_CLOCK_HZ;
+    const double proc_us  = (double)proc_cyc     * 1e6 / (double)CORE_CLOCK_HZ;
+    const double isr_us   = (double)isr_cyc      * 1e6 / (double)CORE_CLOCK_HZ;
+    double idle_us        = wall_us - proc_us - isr_us;
+    if (idle_us < 0.0) idle_us = 0.0;
+
+    const double pct = (wall_us > 0.0) ? (100.0 / wall_us) : 0.0;
+
+    const double avg_proc_us_per_frame = (frames ? (proc_us / (double)frames) : 0.0);
+    const double avg_isr_us_per_frame  = (frames ? (isr_us  / (double)frames) : 0.0);
+    const double avg_idle_us_per_frame = (frames ? (idle_us / (double)frames) : 0.0);
+
+    const double proc_share = proc_us * pct;
+    const double isr_share  = isr_us  * pct;
+    const double idle_share = idle_us * pct;
+
+    const double proc_lsu_pct = (proc_cyc ? (100.0 * (double)proc_lsu / (double)proc_cyc) : 0.0);
+    const double isr_lsu_pct  = (isr_cyc  ? (100.0 * (double)isr_lsu  / (double)isr_cyc)  : 0.0);
+
+    th_printf("\r\n=== System profile over %lu frames ===\r\n", (unsigned long)frames);
+
+    th_printf("processing():  avg %.4f us/frame | share %.1f%% | LSU %.1f%%\r\n",
+              avg_proc_us_per_frame, proc_share, proc_lsu_pct);
+
+    th_printf("I2S ISR:       avg %.4f us/frame | share %.1f%% | LSU %.1f%%\r\n",
+              avg_isr_us_per_frame,  isr_share,  isr_lsu_pct);
+
+    th_printf("idle(main):    avg %.4f us/frame | share %.1f%%\r\n",
+              avg_idle_us_per_frame, idle_share);
+
+    // Optional sanity line: average wall per frame
+    const double avg_wall_us_per_frame = (frames ? (wall_us / (double)frames) : 0.0);
+    th_printf("TOTAL (wall):  avg %.4f us/frame\r\n", avg_wall_us_per_frame);
+}
+
+
 void my_rx_cb(ns_uart_transaction_t *t)
 {
     int c;
@@ -43,6 +112,10 @@ am_hal_cachectrl_range_t dcache_range1 {
 
 extern "C" void am_dspi2s0_isr(void)
 {
+    // Start timing as soon as we enter
+    ns_perf_counters_t s_isr, e_isr, d_isr;
+    ns_capture_perf_profiler(&s_isr);
+
     uint32_t status;
     am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
     am_hal_i2s_interrupt_clear(pI2SHandle, status);
@@ -55,6 +128,7 @@ extern "C" void am_dspi2s0_isr(void)
     am_hal_cachectrl_dcache_invalidate(&dcache_range1, false);
     if (ready >= 2) {
         // Backlog full: DROP this frame (don't publish/flip) and record it.
+        th_printf("I2S overrun detected. Dropping frame.\r\n");
         overrun_count++;
     } else {
         memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
@@ -65,7 +139,13 @@ extern "C" void am_dspi2s0_isr(void)
     }
 
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
+    
+    ns_capture_perf_profiler(&e_isr);
+    ns_delta_perf(&s_isr, &e_isr, &d_isr);
+    g_cyc_isr += d_isr.cyccnt;
+    g_lsu_isr += d_isr.lsucnt;
 }
+
 
 void ns_power_memory_config(const ns_power_config_t *pCfg) {
     // configure SRAM & other memories
@@ -137,12 +217,13 @@ int main(int argc, char *argv[]) {
     ns_power_memory_config(&ns_mlperf_mode2);
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
-    i2s_init();
-    ns_timer_init(&basic_tickTimer);
-    th_timestamp();
-    ns_itm_printf_enable();
-    ns_perf_enable_pcsamp();
+
+    ns_init_perf_profiler();
+    ns_start_perf_profiler();	
+    ns_capture_perf_profiler(&g_wall_start);
+
     th_serialport_initialize();
+    i2s_init();
     ns_interrupt_master_enable();
     for (;;) {
         // consume all pending frames safely
@@ -158,12 +239,22 @@ int main(int argc, char *argv[]) {
             NVIC_EnableIRQ(I2S0_IRQn);
 
             __DMB();
+            
+            ns_perf_counters_t s_proc, e_proc, d_proc;
+
             switch (g_i2s_state) {
                 case Streaming:
-                    ns_init_perf_profiler();
-                    ns_start_perf_profiler();
+                    ns_capture_perf_profiler(&s_proc);
                     process_chunk_and_cont_streaming(local_buf[idx]);
-                    ns_stop_perf_profiler();
+                    ns_capture_perf_profiler(&e_proc);
+                    ns_delta_perf(&s_proc, &e_proc, &d_proc);
+                    g_cyc_proc += d_proc.cyccnt;
+                    g_lsu_proc += d_proc.lsucnt;
+
+                    g_frame_count++;
+                    if ((g_frame_count % REPORT_EVERY) == 0) {
+                        sww_perf_report_and_reset();
+                    }
                     break;
                 case FileCapture:
                     process_chunk_and_cont_capture(local_buf[idx]);
@@ -260,16 +351,3 @@ static void uart_stdio_print(char *pcBuf)
     size_t len = strlen(pcBuf);
     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
 }
-
-// static void dump_trace(const char* tag) {
-//   th_printf("[%s] DEMCR=0x%08lx DWT->CTRL=0x%08lx SPPR=%lu ACPR=%lu\n",
-//          tag,
-//          (unsigned long)CoreDebug->DEMCR,
-//          (unsigned long)DWT->CTRL,
-//          (unsigned long)TPI->SPPR,
-//          (unsigned long)TPI->ACPR);
-//     unsigned long demcr = (unsigned long)CoreDebug->DEMCR;
-//     unsigned long ctrl = (unsigned long)DWT->CTRL;
-//     unsigned long sppr = (unsigned long)TPI->SPPR;
-//     unsigned long acpr = (unsigned long)TPI->ACPR;
-// }

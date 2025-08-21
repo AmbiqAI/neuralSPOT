@@ -47,7 +47,7 @@ static uint32_t s_layer_elapsed_us[AOT_MAX_LAYERS];
 
 #ifdef AM_PART_APOLLO5B
 // Accumulator matrix for per-op PMU characterization
-static uint32_t       s_accm_store[TFLM_VALIDATOR_MAC_ESTIMATE_COUNT * NS_PMU_MAP_ENTRIES];
+static uint32_t       s_accm_store[AOT_MAX_LAYERS * NS_PMU_MAP_ENTRIES];
 static ns_pmu_accm_t  s_accm;
 #endif
 
@@ -90,7 +90,6 @@ static void aot_profiler_cb(int32_t op,
 
 static int aot_init(uint32_t num_inputs, uint32_t num_outputs, uint32_t profile, uint32_t warmup, ns_timer_config_t *tickTimer){
   (void)num_inputs; (void)num_outputs; (void)profile; (void)warmup;
-  (void)num_inputs; (void)num_outputs; (void)profile; (void)warmup;
   s_tick = tickTimer;
   memset(s_layer_elapsed_us, 0, sizeof(s_layer_elapsed_us));
   memset(s_layer_start_us,   0, sizeof(s_layer_start_us));
@@ -99,7 +98,7 @@ static int aot_init(uint32_t num_inputs, uint32_t num_outputs, uint32_t profile,
   int rc = NS_AD_NAME_model_init(&s_ctx);
 #ifdef AM_PART_APOLLO5B
   // Create an accumulator matrix and enable callback-based op stamping
-  s_accm = ns_pmu_accm_create(TFLM_VALIDATOR_MAC_ESTIMATE_COUNT, NS_PMU_MAP_ENTRIES, s_accm_store);
+  s_accm = ns_pmu_accm_create(AOT_LAST_IDENTIFIER, NS_PMU_MAP_ENTRIES, s_accm_store);
 #endif
   return (rc == 0) ? 0 : -1;
 }
@@ -117,7 +116,7 @@ static void* aot_map_input(uint32_t idx, uint32_t* cap_out){
 }
 
 static int aot_invoke(void){
-  ns_lp_printf("aot_invoke\n");
+  // ns_lp_printf("aot_invoke\n");
   // Reset per-layer timing before each run
   memset(s_layer_elapsed_us, 0, sizeof(s_layer_elapsed_us));
 #ifdef AM_PART_APOLLO5B
@@ -151,7 +150,7 @@ static void aot_get_stats_hook(void){
 }
 
 // Accessors used by the AOT validator main to marshal timing results
-uint32_t ns_aot_layer_count(void){ return (uint32_t)AOT_MAX_LAYERS; }
+uint32_t ns_aot_layer_count(void){ return (uint32_t)AOT_LAST_IDENTIFIER+1; }
 const uint32_t* ns_aot_layer_elapsed_us(void){ return s_layer_elapsed_us; }
 
 static const ns_validator_rt_api_t kAPI_AOT = {

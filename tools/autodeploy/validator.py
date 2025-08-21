@@ -233,7 +233,7 @@ def configModel(params, client, md):
         prof_enable = 1  # convert to int just to be explicit for serialization
     else:
         prof_enable = 0
-    print(f"[DEBUG] Configuring model with prof_enable {prof_enable}")
+    # print(f"[DEBUG] Configuring model with prof_enable {prof_enable}")
     # Send the model before config
     if params.model_location == "PSRAM":
         log.info("Sending model to EVB over RPC")
@@ -266,13 +266,13 @@ def configModel(params, client, md):
         *inputTensorByteLengths,
         *outputTensorByteLengths,
     )
-    print("Config il %d, ol %d" % (md.totalInputTensorBytes, md.totalOutputTensorBytes))
+    # print("Config il %d, ol %d" % (md.totalInputTensorBytes, md.totalOutputTensorBytes))
     configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
         cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
         buffer=configBytes,
-        length=9,
+        length=len(configBytes),
     )
 
     # This is the first RPC call after flashing the firmware, and sometimes the reset doesn't 'take'.
@@ -288,7 +288,7 @@ def configModel(params, client, md):
             retries -= 1
         else:
             break
-    print(f"[DEBUG] Configuring model with prof_enable {prof_enable} done")
+    # print(f"[DEBUG] Configuring model with prof_enable {prof_enable} done")
     if status != 0:
         print("[ERROR] Model Configuration Send Status = %d" % status)
         print(
@@ -432,8 +432,10 @@ def validateModel(params, client, interpreter, md, mc):
     differences = (
         []
     )  # accumulator for per-output differences between local and EVB models
+    golden_output_tensors = []
     for i in range(md.numOutputs):
         differences.append([])
+        golden_output_tensors.append([])
 
     for i in tqdm(range(runs)):
         inExamples = []
@@ -566,6 +568,7 @@ def validateModel(params, client, interpreter, md, mc):
                 )  # Capture outputs for AutoGen
 
             differences[otIndex].append(local_output_data - out_array)
+            golden_output_tensors[otIndex].append(local_output_data)
             otOffset += ot.bytes
             otIndex += 1
 
@@ -575,7 +578,19 @@ def validateModel(params, client, interpreter, md, mc):
             mc.update_from_validation(inExamples, outExamples)
 
 
-    return differences
+    return differences, golden_output_tensors
+
+
+def prune_for_aot(pmu_csv_header):
+    # AOT headers start the same way as TFLM (Event,Tag,uSecond), but then skip all the columns
+    # until the first PMU counter column.
+    # The amount of columns will vary, so search for the first PMU counter column and return the header from that point on
+    # The first PMU counter header is ARM_PMU_SW_INCR, and can appear anywhere as uSeconds
+    columns = pmu_csv_header.split(",")
+    for i, column in enumerate(columns):
+        if column == "ARM_PMU_SW_INCR":
+            return ",".join(columns[i:])
+    return pmu_csv_header
 
 
 def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_stats, aot=False):
@@ -630,15 +645,8 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     } ns_perf_counters_t;
 
     """
-    # computed_arena_size = stats[0] # in bytes
     computed_stat_buffer_size = stats[1]  # in bytes
-    # computed_stat_per_event_size = (
-    #     stats[2] // 4
-    # )  # stats[2] is in bytes, convert to uint32
-    # pmu_count = stats[3]  # generally one event per model layer
-    # pmu_events_per_layer = stats[4]  # generally one event per model layer
-    # captured_events = stats[5]  # generally one event per model layer
-    # platform = stats[6]  # AP3, AP4, AP5, etc
+
     # NOTE: ns_mut_stats_t preamble layout (uint32 words):
     # [0] computed_arena_size
     # [1] computed_stat_buffer_size
@@ -653,37 +661,24 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     captured_events = stats[5]
     platform = stats[6]
 
-
-    # If full PMU, use PMU header, othwerwise extract from stats array
-    # if params.full_pmu_capture:
-    #     log.info("Including Full PMU Capture")
-    #     csv_header = pmu_csv_header
-    # else:
-    #     if aot:
-    #         csv_header = "layer,us"
-    #     else:
-    #         csv_header = stats[7:7 + 128] # 512 bytes
-    #         # convert csv words to bytes
-    #         csv_header = struct.pack("<" + "I" * 128, *csv_header)
-    #         # find the null terminator
-    #         csv_header = csv_header.split(b"\x00")[0]
-    #         # convert null-terminated array to string
-    #         csv_header = "".join([chr(c) for c in csv_header])
-    #         # print(csv_header)
     # Build the CSV header string
     if aot:
         # AOT FullStats carry only per-layer time (us) in stat_buffer with header "layer,us".
         # When full PMU is requested, we augment the header to include timing + PMU counters.
         if params.full_pmu_capture:
-            csv_header = "layer,us," + pmu_csv_header
+            csv_header = "Event,Tag,uSeconds," + prune_for_aot(pmu_csv_header)
         else:
-            csv_header = "layer,us"
+            csv_header = "Event,Tag,uSeconds"
     else:
         # TFLM path (unchanged): decode CSV header from stats blob
-        csv_header = stats[7:7 + 128]  # 512 bytes as 128 words
-        csv_header = struct.pack("<" + "I" * 128, *csv_header)
-        csv_header = csv_header.split(b"\x00")[0]
-        csv_header = "".join([chr(c) for c in csv_header])
+        if params.full_pmu_capture:
+            log.info("Including Full PMU Capture")
+            csv_header = pmu_csv_header
+        else:
+            csv_header = stats[7:7 + 128]  # 512 bytes as 128 words
+            csv_header = struct.pack("<" + "I" * 128, *csv_header)
+            csv_header = csv_header.split(b"\x00")[0]
+            csv_header = "".join([chr(c) for c in csv_header])
     
     # print(stats)
     log.info(
@@ -731,18 +726,17 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         # Pull per-layer us timings
         aot_us = [stats[offset + i] for i in range(captured_events)]
         totalTime = int(sum(aot_us))
-
         # Build table rows. If Full PMU was requested, append PMU counters.
         if params.full_pmu_capture:
             # Header already includes PMU names via pmu_csv_header
-            for i in range(captured_events):
-                row = [i, aot_us[i]]
+            for i in range(len(mc.aot_layer_identifiers)):
+                row = [mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[mc.aot_layer_identifiers[i]]]
                 # overall_pmu_stats[i] is a flat list of counters for layer i
-                row.extend(list(overall_pmu_stats[i]))
+                row.extend(list(overall_pmu_stats[mc.aot_layer_identifiers[i]]))
                 table.append(row)
         else:
-            for i in range(captured_events):
-                table.append([i, aot_us[i]])
+            for i in range(len(mc.aot_layer_identifiers)):
+                table.append([mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[mc.aot_layer_identifiers[i]]])
 
         # Print/Log the table
         if params.joulescope or params.onboard_perf:
@@ -768,7 +762,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
 
         if params.profile_results_path != "none":
             import datetime, os, shutil
-            unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            unique_name = f"{params.model_name}_{params.platform}_AOT_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
             unique_name = unique_name.replace(" ", "_").replace(".", "_")
             os.makedirs(params.profile_results_path, exist_ok=True)
             shutil.copy(stats_filename + ".csv", os.path.join(params.profile_results_path, unique_name + ".csv"))
@@ -818,7 +812,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
                 row.append(mc.modelStructureDetails.stride_w[i])
                 row.append(mc.modelStructureDetails.dilation_h[i])
                 row.append(mc.modelStructureDetails.dilation_w[i])
-                # log.info(f"Full PMU Capture, {len(overall_pmu_stats)} layers")
+                log.info(f"Full PMU Capture, {len(overall_pmu_stats)} layers")
                 for event in overall_pmu_stats[i]:
                     row.append(event)
             else:
@@ -877,8 +871,11 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     # if params.profile_results_path is not 'none', copy the files to the specified directory with a unique name based on platform, model, tf version, compiler, and timestamp
     if params.profile_results_path != "none":
         # create a unique name for the directory
-        import datetime
-        unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        import datetime, os, shutil
+        if aot:
+            unique_name = f"{params.model_name}_{params.platform}_AOT_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        else:
+            unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
         # make it safe by removing spaces and . from the name
         unique_name = unique_name.replace(" ", "_").replace(".", "_")
         os.makedirs(params.profile_results_path, exist_ok=True)
@@ -1034,6 +1031,8 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
         "NS_AD_PMU_EVENT_3": ev3,
         "NS_AD_TRANSPORT": f"NS_AD_RPC_TRANSPORT_{params.transport}",
         "NS_AD_AOT_VALUE": 1 if aot else 0,
+        "NS_AD_AOT_NUM_LAYERS": mc.aot_layers if aot else 0,
+        "NS_AD_AOT_LAST_IDENTIFIER": mc.aot_layer_last_identifier if aot else 0,
     }
     log.info(
         "Create metadata file with %dk arena size, %dk padding, RPC RX/TX buffer %d, RV Count %d"
@@ -1054,7 +1053,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
 
 
 def create_mut_modelinit(tflm_dir, mc):
-    print(f"[DEBUG] Creating mut_model_init.cc")
+    # print(f"[DEBUG] Creating mut_model_init.cc")
     adds, addsLen = mc.modelStructureDetails.getAddList()
     rm = {
         "NS_AD_NAME": "tflm_validator",
@@ -1069,38 +1068,6 @@ def create_mut_modelinit(tflm_dir, mc):
         rm,
     )
 
-
-# def create_mut_main(params, tflm_dir, mc, aot):
-#     # make directory for tflm_validator
-#     os.makedirs(tflm_dir + "/src/", exist_ok=True)
-
-#     # Copy template main.cc to tflm_dir
-#     template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.cc")
-    #     rm = {
-    #         "NS_AD_NAME": params.model_name,
-    #         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
-    #     }
-#     createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
-
-#     template_file = str(importlib.resources.files(__name__) / "templates/validator/template_tflm_validator.h")
-#     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
-
-#     if aot:
-#         mk_name = "template_aot_validator.mk"
-#         template_file = str(importlib.resources.files(__name__) / "templates/validator/template_aot_validator.mk")
-#         # process the template file
-#         rm = {
-#             "NS_AD_NAME_AOT": params.model_name,
-#         }
-#         createFromTemplate(template_file, f"{tflm_dir}/module.mk", rm)
-#     else:
-#         mk_name = "template_tflm_validator.mk"
-#         template_file = str(importlib.resources.files(__name__) /
-#                             f"templates/validator/{mk_name}")
-#         shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
-
-#     template_file = str(importlib.resources.files(__name__) / "templates/common/template_ns_model.h")
-#     shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
 
 def create_mut_main(params, tflm_dir, mc, md, aot):
     """

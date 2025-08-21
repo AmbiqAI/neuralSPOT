@@ -149,6 +149,12 @@
   #endif
 #endif
 
+#if NS_AD_AOT == 1
+#define VALIDATOR_LAYER_COUNT AOT_NUM_LAYERS
+#else
+#define VALIDATOR_LAYER_COUNT TFLM_VALIDATOR_MAC_ESTIMATE_COUNT
+#endif
+
 // -----------------------------------------------------------------------------
 // Weak hooks for memory/scratch access. Provide strong definitions elsewhere
 // (e.g., validator_mem.c) to avoid dynamic allocation.
@@ -238,9 +244,7 @@ static inline void vrpc_fill_block(dataBlock* blk,
 
 static uint32_t vrpc_sum_output_bytes(void){
   uint32_t total = 0;
-  ns_lp_printf("num_output_tensors %d\n", mut_cfg.config.num_output_tensors);
   for (uint32_t t=0; t<mut_cfg.config.num_output_tensors; ++t){
-    ns_lp_printf("g_out_details[%d].details.tensorSizeBytes %d\n", t, g_out_details[t].details.tensorSizeBytes);
     total += g_out_details[t].details.tensorSizeBytes;
   }
   return total;
@@ -269,7 +273,6 @@ static status vrpc_configure_model(const dataBlock* in){
   }
   // Copy fixed preamble
   memcpy(&mut_cfg, in->buffer.data, sizeof(mut_cfg));
-  ns_lp_printf("mut_cfg.config.full_pmu_stats %d\n", mut_cfg.config.full_pmu_stats);
 
   uint32_t need = sizeof(mut_cfg) + 4u*(mut_cfg.config.num_input_tensors + mut_cfg.config.num_output_tensors);
   if (in->buffer.dataLength != need){
@@ -294,7 +297,7 @@ static status vrpc_configure_model(const dataBlock* in){
     ns_lp_printf("[ERROR] runtime init failed\n");
     return ns_rpc_data_failure;
   }
-
+  ns_lp_printf("runtime init done\n");
   // Precompute output total and reset chunk state
   g_out_total_size = vrpc_sum_output_bytes();
   ns_chunk_reset(&g_in_chunk);
@@ -303,10 +306,10 @@ static status vrpc_configure_model(const dataBlock* in){
   g_output_chunked = false;
   g_input_offset = 0;
   g_warmups_seen = 0;
-
+  ns_lp_printf("reset session state done\n");
   // Update arena usage (TFLM) — AOT may report 0
   mut_stats.stats.computed_arena_size = g_rt->arena_used_bytes ? g_rt->arena_used_bytes() : 0;
-
+  ns_lp_printf("arena used bytes %d\n", mut_stats.stats.computed_arena_size);
   // Platform field filled later in getStatistics()
   return ns_rpc_data_success;
 }
@@ -343,7 +346,6 @@ static status vrpc_incoming_model_chunk(const dataBlock* in){
 // Public: sendBlock handler (drop-in replacement name)
 // -----------------------------------------------------------------------------
 status decodeIncomingSendblock(const dataBlock* in){
-  ns_lp_printf("decodeIncomingSendblock cmd %d\n", in->cmd);
   if (in->cmd == generic_cmd) return vrpc_configure_model(in);
   if (in->cmd == write_cmd)   return vrpc_incoming_tensor_chunk(in);
   return vrpc_incoming_model_chunk(in);
@@ -364,9 +366,8 @@ static status vrpc_get_stats_full(dataBlock* out){
 
   // Fill out block
   vrpc_fill_block(out, generic_cmd, payload, to_send, (to_send == statSize) ? "FullStats" : "PartStats");
-//   ns_lp_printf("fill block done\n");
-//   ns_lp_printf("to_send %d, statSize %d\n", to_send, statSize);
-  ns_rpc_genericDataOperations_printDatablock(out);
+
+//   ns_rpc_genericDataOperations_printDatablock(out);
   // If we chunked, prime chunk state for subsequent fetches
   if (to_send < statSize){
     ns_chunk_begin(&g_out_chunk, statSize, txmax);
@@ -414,7 +415,7 @@ static status vrpc_get_pmu_layer(dataBlock* out){
   mut_stats.pmu_stats.layer = g_pmu_layer_iter;
   ns_get_layer_counters(
       g_pmu_layer_iter,
-      TFLM_VALIDATOR_MAC_ESTIMATE_COUNT,
+      VALIDATOR_LAYER_COUNT,
       TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES,
       mut_stats.pmu_stats.pmu_event_counters);
 
@@ -427,7 +428,7 @@ static status vrpc_get_pmu_layer(dataBlock* out){
 
   // Advance layer; stop PMU mode after last layer
   g_pmu_layer_iter++;
-  if (g_pmu_layer_iter >= TFLM_VALIDATOR_MAC_ESTIMATE_COUNT){
+  if (g_pmu_layer_iter >= VALIDATOR_LAYER_COUNT){
     g_pmu_layer_iter = 0;
     g_pmu_events_per_layer = 0;
   }
@@ -437,7 +438,6 @@ static status vrpc_get_pmu_layer(dataBlock* out){
 
 
 status decodeIncomingFetchblock(dataBlock* out){
-  ns_lp_printf("decodeIncomingFetchblock\n");
   // Stamp platform & computed sizes each time (keeps parity with original code)
 #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP3;
@@ -462,12 +462,9 @@ status decodeIncomingFetchblock(dataBlock* out){
   if (!g_out_chunk.active) {
     ns_lp_printf("get stats full\n");
     status rc = vrpc_get_stats_full(out);
-    ns_lp_printf("get stats full done %d\n", rc);
     return rc;
   }
-  ns_lp_printf("get stats chunk, g_out_chunk.active %d\n", g_out_chunk.active);
   status rc = vrpc_get_stats_chunk(out);
-  ns_lp_printf("get stats chunk done\n");
   return rc;
 }
 

@@ -42,7 +42,7 @@
 int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
-    tflite::MicroErrorReporter micro_error_reporter;
+    static tflite::MicroErrorReporter micro_error_reporter;
     ms->error_reporter = &micro_error_reporter;
 
 #ifdef NS_MLPROFILE

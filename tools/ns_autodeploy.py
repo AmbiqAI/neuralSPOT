@@ -508,7 +508,7 @@ Notes:
                     aot_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW)"
                 with open(self.p.resultlog_file, "w") as f:
                     f.write(
-                        f"Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run, ID{aot_columns}\n"
+                        f"Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW){aot_columns}, AS Version, Date Run, ID\n"
                     )
             with open(self.p.resultlog_file, "a") as f:
                 f.write(
@@ -557,6 +557,30 @@ Notes:
         self.aot_success = success
         self.aot_module_path = module_path
         self.aot_error = error
+
+    def setAotDifferences(self, golden_output_tensors_aot, differences_np, differences_aot_np, differences):
+        self.aot_golden_output_tensors_aot = golden_output_tensors_aot
+        self.aot_differences_np = differences_np
+        self.aot_differences_aot_np = differences_aot_np
+        self.aot_differences = differences
+
+        if self.p.profile_results_path != "none":
+            # Create a time-stamped model-unique file with the differences
+            import datetime
+            diff_file = self.p.profile_results_path + "/aot_diffs_" + self.model_name + "_" + datetime.date.today().strftime("%Y%m%d_%H%M%S") + ".txt"
+            with open(diff_file, "a") as f:
+                # Print the magnitude of the differences between Golden Output Tensors, TFLM and AOT as a percentage of the Golden Output Tensors values
+                # f.write("Magnitude of differences between Expected Outputs and TFLM as percentage of Expected Outputs\n")
+                # f.write(f"{differences_np / golden_output_tensors_aot * 100}\n")
+                # f.write("Magnitude of differences between Expected Outputs and AOT as percentage of Expected Outputs\n")
+                # f.write(f"{differences_aot_np / golden_output_tensors_aot * 100}\n")
+
+                f.write("\nDifferences between TF and TFLM\n")
+                f.write(f"{differences_np}\n")
+                f.write("\nDifferences between TF and AOT\n")
+                f.write(f"{differences_aot_np}\n")
+                f.write("\nDifferences between TFLM and AOT\n")
+                f.write(f"{differences}\n")
 
 # ---------------------------------------------------------------------------
 # 3. Core runner class – encapsulates *all* mutating state
@@ -726,6 +750,11 @@ class AutoDeployRunner:
             print("[NS WARNING] Model is too large for performance or example generation – disabling those stages")
             self.p.joulescope = self.p.onboard_perf = self.p.create_ambiqsuite_example = self.p.create_library = False
 
+        # AOT can't use PSRAM, so if PSRAM is selected, disable AOT
+        if self.p.arena_location == "PSRAM" or self.p.model_location == "PSRAM":
+            self.p.create_aot_profile = False
+            print("[WARNING] AOT disabled because PSRAM is selected")
+
     # ------------------------------------------------------------------
     #   Stage helpers (names map 1‑to‑1 with original comments)
     # ------------------------------------------------------------------
@@ -793,12 +822,23 @@ class AutoDeployRunner:
         client = rpc_connect_as_client(self.p)
         configModel(self.p, client, self.md)
 
-        differences = validateModel(self.p, client, get_interpreter(self.p), self.md, self.mc)
-        print(f"[DEBUG] TFLM differences: {differences}")
+        differences, _ = validateModel(self.p, client, get_interpreter(self.p), self.md, self.mc)
+        # print(f"[DEBUG] TFLM differences: {differences}")
+        # print(f"[DEBUG] TFLM golden output tensors: {golden_output_tensors}")
 
         stats = getModelStats(self.p, client)
         # pretty-print the differences
-        log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences).mean(axis=0)))
+
+        # Calculate mean differences for each output tensor
+        for idx, tensor_diffs in enumerate(differences):
+            if tensor_diffs:  # Check if there are any differences for this tensor
+                # Convert list of arrays to numpy array and calculate mean
+                tensor_diffs_array = np.array(tensor_diffs)
+                mean_diff = tensor_diffs_array.mean(axis=0)
+                log.info("Model Output Comparison: Mean difference per output label in tensor(%d): %s", idx, repr(mean_diff))
+            else:
+                log.info("Model Output Comparison: No differences for tensor(%d)", idx)
+        
         stats_file_base = Path(self.p.destination_rootdir) / self.p.model_name / f"{self.p.model_name}_stats"
         pmu_csv_header = ""
         overall_pmu_stats: List[List[int]] = []
@@ -823,65 +863,60 @@ class AutoDeployRunner:
         if self.p.create_aot_profile:
             if not self.p.nocompile_mode:
                 self._generate_helios_aot()
-                create_validation_binary(self.p, self.mc, self.md, baseline=False, aot=True)
+                if self.results.aot_success:
+                    create_validation_binary(self.p, self.mc, self.md, baseline=False, aot=True)
+                else:
+                    print("[NS] AOT generation failed, skipping AOT profiling")
 
-            client = rpc_connect_as_client(self.p)
-            print("[NS] AOT rpc_connect_as_client done")
-            configModel(self.p, client, self.md)
-            print("[NS] AOT configModel done")
-            differences_aot = validateModel(self.p, client, get_interpreter(self.p),
-                              self.md, self.mc)
-            print(f"[DEBUG] AOT differences: {differences_aot}")
-            stats_aot = getModelStats(self.p, client)
-            
-            # pretty-print the differences  
-            log.info("Model Output Comparison: Mean difference per output label in tensor(0): %s", repr(np.array(differences_aot).mean(axis=0)))
-            
-            # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
-            print(f"[DEBUG] TFLM differences shape: {np.array(differences).shape}")
-            print(f"[DEBUG] AOT differences shape: {np.array(differences_aot).shape}")
-            print(f"[DEBUG] TFLM differences: {differences}")
-            print(f"[DEBUG] AOT differences: {differences_aot}")
-            print(f"[DEBUG] TFLM differences type: {type(differences)}")
-            print(f"[DEBUG] AOT differences type: {type(differences_aot)}")
-            
-            # Convert to numpy arrays for comparison
-            differences_np = np.array(differences)
-            differences_aot_np = np.array(differences_aot)
-            
-            print(f"[DEBUG] TFLM differences numpy shape: {differences_np.shape}")
-            print(f"[DEBUG] AOT differences numpy shape: {differences_aot_np.shape}")
-            print(f"[DEBUG] TFLM differences numpy: {differences_np}")
-            print(f"[DEBUG] AOT differences numpy: {differences_aot_np}")
-            
-            # Check if shapes are equal
-            shapes_equal = differences_np.shape == differences_aot_np.shape
-            print(f"[DEBUG] Shapes equal: {shapes_equal}")
-            
-            # Check if values are equal
-            values_equal = np.array_equal(differences_np, differences_aot_np)
-            print(f"[DEBUG] Values equal: {values_equal}")
-            
-            if not values_equal:
-                # Show where they differ
-                if shapes_equal:
-                    diff_mask = differences_np != differences_aot_np
-                    print(f"[DEBUG] Difference mask: {diff_mask}")
-                    print(f"[DEBUG] Where they differ: {np.where(diff_mask)}")
-                    print(f"[DEBUG] TFLM values where different: {differences_np[diff_mask]}")
-                    print(f"[DEBUG] AOT values where different: {differences_aot_np[diff_mask]}")
+            if self.results.aot_success:
+                client = rpc_connect_as_client(self.p)
+                print("[NS] AOT rpc_connect_as_client done")
+                configModel(self.p, client, self.md)
+                print("[NS] AOT configModel done")
+                differences_aot, golden_output_tensors_aot = validateModel(self.p, client, get_interpreter(self.p),
+                                self.md, self.mc)
+                # print(f"[DEBUG] AOT differences: {differences_aot}")
+                stats_aot = getModelStats(self.p, client)
                 
-                log.warning("Model Output Comparison: TFLM and AOT differences are not identical. TFLM differences: %s, AOT differences: %s", repr(np.array(differences).mean(axis=0)), repr(np.array(differences_aot).mean(axis=0)))
-            else:
-                print("[NS] AOT/TFLM output tensor comparison: Identical")
+                # pretty-print the differences  
+                # Calculate mean differences for each output tensor (AOT)
+                for idx, tensor_diffs in enumerate(differences_aot):
+                    if tensor_diffs:  # Check if there are any differences for this tensor
+                        # Convert list of arrays to numpy array and calculate mean
+                        tensor_diffs_array = np.array(tensor_diffs)
+                        mean_diff = tensor_diffs_array.mean(axis=0)
+                        log.info("Model Output Comparison (AOT): Mean difference per output label in tensor(%d): %s", idx, repr(mean_diff))
+                    else:
+                        log.info("Model Output Comparison (AOT): No differences for tensor(%d)", idx)
+                
+                # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
+                # Compare each output tensor separately since they may have different shapes
+                all_tensors_equal = True
+                for idx, (tflm_tensor_diffs, aot_tensor_diffs) in enumerate(zip(differences, differences_aot)):
+                    if len(tflm_tensor_diffs) != len(aot_tensor_diffs):
+                        log.warning(f"[NS] Tensor {idx}: Different number of runs (TFLM: {len(tflm_tensor_diffs)}, AOT: {len(aot_tensor_diffs)})")
+                        all_tensors_equal = False
+                        continue
+                    
+                    # Compare each run for this tensor
+                    for run_idx, (tflm_run, aot_run) in enumerate(zip(tflm_tensor_diffs, aot_tensor_diffs)):
+                        if not np.array_equal(tflm_run, aot_run):
+                            log.warning(f"[NS] Tensor {idx}, Run {run_idx}: TFLM and AOT outputs differ")
+                            all_tensors_equal = False
+                
+                if not all_tensors_equal:
+                    self.results.setAotDifferences(golden_output_tensors_aot, differences, differences_aot, differences)
+                    log.warning("[NS] Model Output Comparison: TFLM and AOT differences are not identical. Report will be generated.")
+                else:
+                    print("[NS] AOT/TFLM output tensor comparison: Identical")
 
-            printStats(self.p,           # prints to console / log
-                       self.mc,
-                       stats_aot,
-                       str(stats_file_base) + "_aot",
-                       pmu_csv_header,
-                       overall_pmu_stats,
-                       aot=True)
+                printStats(self.p,           # prints to console / log
+                        self.mc,
+                        stats_aot,
+                        str(stats_file_base) + "_aot",
+                        pmu_csv_header,
+                        overall_pmu_stats,
+                        aot=True)
             
 
         # Write updated pickles + result summary
@@ -905,61 +940,87 @@ class AutoDeployRunner:
         if aot_dir.exists():
             shutil.rmtree(aot_dir)
 
-        try:
-            # Ensure supporting libraries are present --------------------
-            _fetch_ns_cmsis_nn(self.p.destination_rootdir)
-            print(f"[NS] HeliosAOT destination rootdir: {self.p.destination_rootdir}")
+        # Ensure supporting libraries are present --------------------
+        _fetch_ns_cmsis_nn(self.p.destination_rootdir)
+        print(f"[NS] HeliosAOT destination rootdir: {self.p.destination_rootdir}")
 
-            # Determine configuration path ------------------------------
-            cfg_path = self.p.helios_aot_config
-            if cfg_path == "auto":
-                cfg_path = os.path.splitext(self.p.tflite_filename)[0] + ".yaml"
-                if not Path(cfg_path).exists():
-                    raise FileNotFoundError(
-                        "HeliosAOT config file not provided and 'auto' path does not exist."
-                    )
-            print(f"[NS] HeliosAOT config file: {cfg_path}")
-            # Prepare ConvertArgs instance -------------------------------
-            convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
-            print(convert_args)
-            # Override model_path/output/module_name dynamically ---------
-            convert_args.model_path = Path(self.p.tflite_filename)
-            
-            # Put code in same directory as validator and perf, but under its own subdirectory
-            default_output = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
-            convert_args.output_path = default_output
-            convert_args.module_name = f"{self.p.model_name}"
-            convert_args.prefix = f"{self.p.model_name}"
-
-            # put model and arena in specified locations
-            from helios_aot.defines import OperatorAttributeRule
-            convert_args.operator_attributes = [
-                OperatorAttributeRule(
-                    type="*",
-                    attributes={"weights_memory": self.p.model_location.lower(), "scratch_memory": self.p.arena_location.lower()},
+        # Determine configuration path ------------------------------
+        cfg_path = self.p.helios_aot_config
+        if cfg_path == "auto":
+            cfg_path = os.path.splitext(self.p.tflite_filename)[0] + ".yaml"
+            if not Path(cfg_path).exists():
+                raise FileNotFoundError(
+                    "HeliosAOT config file not provided and 'auto' path does not exist."
                 )
-            ]
+        print(f"[NS] HeliosAOT config file: {cfg_path}")
+        # Prepare ConvertArgs instance -------------------------------
+        convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
+        # print(convert_args)
+        # Override model_path/output/module_name dynamically ---------
+        convert_args.model_path = Path(self.p.tflite_filename)
+        
+        # Put code in same directory as validator and perf, but under its own subdirectory
+        default_output = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
+        convert_args.output_path = default_output
+        convert_args.module_name = f"{self.p.model_name}"
+        convert_args.prefix = f"{self.p.model_name}"
 
-            print("new args")
-            print(convert_args)
-            # Invoke HeliosAOT programmatically --------------------------
-            aot_model = AotModel(config=convert_args)  # type: ignore
+        # put model and arena in specified locations
+        from helios_aot.defines import OperatorAttributeRule
+        convert_args.operator_attributes = [
+            OperatorAttributeRule(
+                type="*",
+                attributes={"weights_memory": self.p.model_location.lower(), "scratch_memory": self.p.arena_location.lower()},
+            )
+        ]
+
+        # print("new args")
+        # print(convert_args)
+        # Invoke HeliosAOT programmatically --------------------------
+        aot_model = AotModel(config=convert_args)  # type: ignore
+        print(f"[NS] HeliosAOT model: {aot_model}")
+        
+        # Try to initialize and convert, but handle any exceptions gracefully
+        # Temporarily override sys.exit to prevent HeliosAOT from killing the process
+        import sys
+        original_exit = sys.exit
+        
+        def safe_exit(code):
+            # Don't actually exit, just raise an exception that we can catch
+            raise RuntimeError(f"HeliosAOT requested exit with code {code}")
+        
+        try:
+            sys.exit = safe_exit
             aot_model.initialize()
+            print(f"[NS] HeliosAOT model initialized")
             aot_model.convert()
-            # Get the number of layers
-            layers = len(aot_model.operators)
-            # store it in mc
-            self.mc.aot_layers = layers
-            # print("[AOT] Operations:")
-            # for op in aot_model.operators:
-            #     print(f"  {op.ident}, {op.name}")
+            print(f"[NS] HeliosAOT model converted")
+        except Exception as e:
+            print(f"[NS] HeliosAOT model failed: {e}")
+            # Don't re-raise - just set the error and continue
+            self.results.setAot(False, error=str(e))
+            print(f"[NS] HeliosAOT generation failed – {e}")
+            # Disable AOT so the rest of the script can run
+            self.p.create_aot_profile = False
+            print("[WARNING] AOT disabled because HeliosAOT generation failed")
+            return  # Exit this method but continue with the rest of the script
+        finally:
+            # Restore the original sys.exit
+            sys.exit = original_exit
+        
+        # Get the number of layers
+        layers = len(aot_model.operators)
+        # store it in mc
+        self.mc.aot_layers = layers
+        self.mc.aot_layer_last_identifier = aot_model.operators[-1].ident
+        self.mc.aot_layer_names = [op.name for op in aot_model.operators]
+        self.mc.aot_layer_identifiers = [op.ident for op in aot_model.operators]
+        # print("[AOT] Operations:")
+        # for op in aot_model.operators:
+        #     print(f"  {op.ident}, {op.name}")
 
-            self.results.setAot(True, module_path=str(convert_args.output_path.resolve()))
-            print("[NS] HeliosAOT generation completed successfully")
-        except Exception as exc:  # broad catch → propagate clean error message
-            err_msg = str(exc)
-            self.results.setAot(False, error=err_msg)
-            print(f"[NS] HeliosAOT generation failed – {err_msg}")
+        self.results.setAot(True, module_path=str(convert_args.output_path.resolve()))
+        print("[NS] HeliosAOT generation completed successfully")
 
     # ------------------------------------------------------------------
     def _load_pickled_artifacts(self) -> None:

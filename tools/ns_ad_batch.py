@@ -57,8 +57,6 @@ def build_command(model, args):
 
     if args.aot:
         cmd.append("--create-aot-profile")
-        cmd.append("--helios-aot-config")
-        cmd.append("test.yaml")
 
     # Optionally set model name.
     if "model_name" in model:

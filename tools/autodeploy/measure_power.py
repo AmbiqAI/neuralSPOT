@@ -394,8 +394,8 @@ def joulescope_power_on():
     
 def measurePower(params):
     global state
-    global i, v, p, c, e
-    i, v, p, c, e = 0, 0, 0, 0, 0   
+    global i, v, p, c, e, td
+    i, v, p, c, e, td = 0, 0, 0, 0, 0, 0   
     _quit = False
     statistics_queue = queue.Queue()  # resynchronize to main thread
     startTime = 0

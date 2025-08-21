@@ -1,9 +1,6 @@
 local_app_name := tflm_validator
 local_src := $(wildcard $(subdirectory)/src/refactor/*.c)
 local_src += $(wildcard $(subdirectory)/src/*.cc)
-local_src += $(wildcard $(subdirectory)/src/refactor/*.cc)
-local_src += $(wildcard $(subdirectory)/src/refactor/*.cpp)
-local_src += $(wildcard $(subdirectory)/src/refactor/*.s)
 local_bin := $(BINDIR)/$(subdirectory)
 # includes_api += $(subdirectory)/ns_model_includes
 # local_src += $(wildcard $(subdirectory)/ns_model/*.cc)

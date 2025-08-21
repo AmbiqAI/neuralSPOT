@@ -2,6 +2,8 @@
 
 The ns_autodeploy script is a all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs.
 
+> **Note**: Intel Macs are no longer supported due to liteRT being unavailable for that platform.
+
 ![image-20230331153515132](../docs/images/autodeploy-flow.png)
 
 *NOTE*: For a detailed description of how AutoDeploy can be used to characterize a TFLite model on Apollo EVBs, see [the application note](../docs/From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md).
@@ -105,6 +107,28 @@ The model used as an example above (efficientnet-lite0-int8) needs 1.6MBs for th
 ns_autodeploy --platform apollo510_evb --tflite-filename .../efficientnet-lite0-int8.tflite --runs 1 --model-location PSRAM --arena-location SRAM
 ```
 
+### Helios AOT Support (experimental)
+Autodeploy has experimental support for Ambiq's ahead-of-time AI runtime compiler, HeliosAOT. When HeliosAOT is installed, the user can add it to the Validation and Performance phases via the `--create-aot-profile` command line parameter.
+
+> **NOTE**: helios-aot support is *experimental*. AOT does not yet support the full breadth of TF operations and numerics, so some model conversions will fail. In these cases, ns_autodeploy will note the error and run the rest of the TFLM phases.
+
+#### Connecting neuralSPOT to HeliosAOT
+1. Install HeliosAOT by cloning and following the HeliosAOT installation instructions.
+2. In neuralSPOT, add HeliosAOT to the environment (see below)
+3. If all goes well, invoking ns_autodeploy will print `[NS] HeliosAOT module is available`
+
+```bash
+$> cd .../neuralSPOT
+$> uv sync # if this hasn't been installed yet
+$> source .venv/bin/activate # or Windows equivalent, if venv hasn't been activated yet
+$> uv add ../helios-aot # Substitute your path to helios-aot
+```
+
+When `--create-aot-profile` is enabled, ns_autodeploy will:
+1. Invoke helios-aot to generate the runtime for the specified tflite
+2. Run the AOT model after the TFLM model and 1) compare the output tensors for the same inputs, 2) characterize performance using DWT or PMU counters
+3. If `--joulescope` is enabled, run AOT versions of the model and measure power and latency using joulescope
+4. if `--onboard-perf` is enabled, run AOT versions of the onboard perf firmware
 
 ### Autodeploy Command Line Options
 
@@ -114,60 +138,53 @@ $ ns_autodeploy --help
 Evaluate TFLite model
 
 optional arguments:
-  --seed SEED           Random Seed (default: 42)
-  --platform PLATFORM   Platform to deploy model on (e.g. apollo4p_evb, apollo510_evb...) (default: apollo510_evb)
-  --toolchain TOOLCHAIN
-                        Compiler to use (supported: gcc, arm) (default: gcc)
-  --no-create-binary    Create a neuralSPOT Validation EVB image based on TFlite file (default: True)
-  --no-create-profile   Profile the performance of the model on the EVB (default: True)
-  --create-library      Create minimal static library based on TFlite file (default: False)
-  --create-ambiqsuite-example
-                        Create AmbiqSuite example based on TFlite file (default: False)
-  --joulescope          Measure power consumption of the model on the EVB using Joulescope (default: False)
-  --onboard-perf        Capture and print performance measurements on EVB (default: False)
-  --full-pmu-capture    Capture full PMU data during performance measurements on EVB (default: False)
-  --tflite-filename TFLITE_FILENAME
-                        Name of tflite model to be analyzed (default: undefined)
-  --configfile CONFIGFILE
-                        Optional configuration file for parameters (default: )
-  --pmu-config-file PMU_CONFIG_FILE
-                        M55 PMU configuration override file for peformance profiling (default: default)
-  --model-location MODEL_LOCATION
-                        Where the model is stored on the EVB (Auto, TCM, SRAM, MRAM, or PSRAM) (default: auto)
-  --arena-location ARENA_LOCATION
-                        Where the arena is stored on the EVB (auto, TCM, SRAM, or PSRAM) (default: auto)
-  --max-arena-size MAX_ARENA_SIZE
-                        Maximum KB to be allocated for TF arena, 0 for auto (default: 0)
+  --seed SEED                           Random Seed (default: 42)
+  --platform PLATFORM                   Platform to deploy model on (e.g. apollo4p_evb, apollo510_evb...) (default: apollo510_evb)
+  --toolchain TOOLCHAIN                 Compiler to use (supported: gcc, arm) (default: gcc)
+  --no-create-binary                    Disable Create a neuralSPOT Validation EVB image based on TFlite file (default: True)
+  --no-create-profile                   Disable Profile the performance of the model on the EVB (default: True)
+  --create-library                      Create minimal static library based on TFlite file (default: False)
+  --create-ambiqsuite-example           Create AmbiqSuite example based on TFlite file (default: False)
+  --create-aot-profile                  Add a Helios AOT profiling and benchmarking pass (default: False)
+  --helios-aot-config HELIOS_AOT_CONFIG Helios AOT configuration YAML file (or 'auto') (default: auto)
+  --joulescope                          Measure power consumption of the model on the EVB using Joulescope (default: False)
+  --onboard-perf                        Capture and print performance measurements on EVB (default: False)
+  --full-pmu-capture                    Capture full PMU data during performance measurements on EVB (default: False)
+  --tflite-filename TFLITE_FILENAME     Name of tflite model to be analyzed (default: undefined)
+  --configfile CONFIGFILE               Optional configuration file for parameters (default: )
+  --pmu-config-file PMU_CONFIG_FILE     M55 PMU configuration override file for peformance profiling (default: default)
+  --model-location MODEL_LOCATION       Where the model is stored on the EVB (Auto, TCM, SRAM, MRAM, or PSRAM) (default: auto)
+  --tflm-location TFLM_LOCATION         Where the TFLM library is stored on the EVB (auto, MRAM, or ITCM (M55 only)) (default: auto)
+  --arena-location ARENA_LOCATION       Where the arena is stored on the EVB (auto, TCM, SRAM, or PSRAM) (default: auto)
+  --max-arena-size MAX_ARENA_SIZE       Maximum KB to be allocated for TF arena, 0 for auto (default: 0)
   --arena-size-scratch-buffer-padding ARENA_SIZE_SCRATCH_BUFFER_PADDING
-                        (TFLM Workaround) Padding to be added to arena size to account for scratch buffer (in KB) (default: 0)
+                                        (TFLM Workaround) Padding to be added to arena size to account for scratch buffer (in KB) (default: 0)
   --resource-variable-count RESOURCE_VARIABLE_COUNT
-                        Maximum ResourceVariables needed by model (typically used by RNNs) (default: 0)
-  --no-random-data      Use random input tensor data (default: True)
-  --dataset DATASET     Name of dataset if --random_data is not set (default: dataset.pkl)
-  --runs RUNS           Number of inferences to run for characterization (default: 10)
-  --runs-power RUNS_POWER
-                        Number of inferences to run for power measurement (default: 200)
-  --cpu-mode CPU_MODE   CPU Mode for joulescope and onboard_perf modes - can be auto, LP (low power), or HP (high performance) (default: auto)
-  --model-name MODEL_NAME
-                        Name of model to be used in generated library, 'auto' to use TFLite filename base (default: auto)
+                                        Maximum ResourceVariables needed by model (typically used by RNNs) (default: 0)
+  --no-random-data                      Disable Use random input tensor data (default: True)
+  --dataset DATASET                     Name of dataset if --random_data is not set (default: dataset.pkl)
+  --runs RUNS                           Number of inferences to run for characterization (default: 10)
+  --runs-power RUNS_POWER               Number of inferences to run for power measurement (default: 200)
+  --cpu-mode CPU_MODE                   CPU Mode for joulescope and onboard_perf modes - can be auto, LP (low power), or HP (high performance) (default: auto)
+  --model-name MODEL_NAME               Name of model to be used in generated library, 'auto' to use TFLite filename base (default: auto)
   --destination-rootdir DESTINATION_ROOTDIR
-                        Directory where generated library will be placed, 'auto' to place in neuralSPOT/projects/autodeploy (default: auto)
+                                        Directory where generated library will be placed, 'auto' to place in neuralSPOT/projects/autodeploy (default: auto)
   --neuralspot-rootdir NEURALSPOT_ROOTDIR
-                        Path to root neuralSPOT directory, 'auto' to autodetect if run within neuralSPOT (default: auto)
-  --resultlog-file RESULTLOG_FILE
-                        Path and Filename to store running log results. If none, result is not recorded. (default: none)
+                                        Path to root neuralSPOT directory, 'auto' to autodetect if run within neuralSPOT (default: auto)
+  --resultlog-file RESULTLOG_FILE       Path and Filename to store running log results. If none, result is not recorded. (default: none)
   --profile-results-path PROFILE_RESULTS_PATH
-                        Path to store per-model profile results in addition to the file in the working directory. If none, the additional result file is not generated. (default: none)
+                                        Path to store per-model profile results in addition to the file in the working directory. If none, the additional result file is not generated. (default: none)
   --ambiqsuite-version AMBIQSUITE_VERSION
-                        AmbiqSuite version used to generate minimal example, 'auto' for latest (default: auto)
+                                        AmbiqSuite version used to generate minimal example, 'auto' for latest (default: auto)
   --tensorflow-version TENSORFLOW_VERSION
-                        Tensorflow version used to generate minimal example, 'auto' for latest (default: auto)
-  --profile-warmup PROFILE_WARMUP
-                        How many inferences to profile (default: 1)
-  --verbosity VERBOSITY
-                        Verbosity level (0-4) (default: 1)
-  --transport TRANSPORT
-                        RPC transport, 'auto' for autodetect. Can set to USB or UART. (default: auto)
+                                        Tensorflow version used to generate minimal example, 'auto' for latest (default: auto)
+  --profile-warmup PROFILE_WARMUP       How many inferences to profile (default: 1)
+  --verbosity VERBOSITY                 Verbosity level (0-4) (default: 1)
+  --nocompile-mode                      Prevents compile and flash, meant for GDB debug (default: False)
+  --run-log-id RUN_LOG_ID               Run ID for the run log. If none, no ID is included in report. (default: none)
+  --transport TRANSPORT                 RPC transport, 'auto' for autodetect. Can set to USB or UART. (default: auto)
+  --tty TTY                             Serial device, 'auto' for autodetect (default: auto)
+  --baud BAUD                           Baud rate, 'auto' for autodetect (default: auto)
 ```
 
 ### Caveats

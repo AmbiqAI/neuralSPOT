@@ -1082,7 +1082,7 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
     """
     # Base dirs
     src_dir        = os.path.join(tflm_dir, "src")
-    refactor_dir   = os.path.join(src_dir, "refactor")
+    refactor_dir   = src_dir #os.path.join(src_dir, "refactor")
     refactor_aot   = os.path.join(refactor_dir, "aot")
     os.makedirs(refactor_dir, exist_ok=True)
     if aot:
@@ -1090,7 +1090,7 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
 
     # Paths to our template tree
     tmpl_root   = importlib.resources.files(__name__)
-    tmpl_common = str(tmpl_root / "templates/validator/refactored")
+    tmpl_common = str(tmpl_root / "templates/validator")
     tmpl_tflm   = os.path.join(tmpl_common, "tflm")
     tmpl_aot    = os.path.join(tmpl_common, "aot")
 
@@ -1108,7 +1108,7 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
 
     # --- Runtime-specific files ---
     if aot:
-        # AOT main + glue live under refactor/aot/
+        # AOT main + glue live under aot/
         typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
         flatInput = [
             np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist

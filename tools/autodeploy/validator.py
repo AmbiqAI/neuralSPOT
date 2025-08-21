@@ -4,11 +4,12 @@ import shutil
 import struct
 import sys
 import time
-import pkg_resources
+import importlib.resources
 import erpc
 import numpy as np
 import pandas as pd
-import tensorflow as tf
+
+import ai_edge_litert as tflite
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
     ModelDetails,
@@ -19,7 +20,8 @@ from neuralspot.tools.ns_utils import (
     printDataBlock,
     reset_dut,
     xxd_c_dump,
-    read_pmu_definitions
+    read_pmu_definitions,
+    suppress_os_stdio
 )
 from tabulate import tabulate
 from tqdm import tqdm
@@ -27,7 +29,6 @@ from neuralspot.tools.utils.tflite_helpers import CreateAddFromSnakeOpName
 from pathlib import Path
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 import yaml
-
 
 modelConfigPreambleSize = 7  # number of uint32_t words
 modelStatPreambleSize = 7+128  # number of uint32_t words
@@ -163,6 +164,7 @@ class ModelConfiguration:
         self.events = -1
         self.modelStructureDetails = ModelStructureDetails(params.tflite_filename, params.model_name)
         self.rv_count = self.modelStructureDetails.rv_count
+        self.aot_layers = 0
 
     def update_from_stats(self, stats, md):
         self.arena_size = stats[0]  # in bytes
@@ -231,7 +233,7 @@ def configModel(params, client, md):
         prof_enable = 1  # convert to int just to be explicit for serialization
     else:
         prof_enable = 0
-
+    # print(f"[DEBUG] Configuring model with prof_enable {prof_enable}")
     # Send the model before config
     if params.model_location == "PSRAM":
         log.info("Sending model to EVB over RPC")
@@ -264,13 +266,13 @@ def configModel(params, client, md):
         *inputTensorByteLengths,
         *outputTensorByteLengths,
     )
-    # print("Config il %d, ol %d" % (inputLength, outputLength))
+    # print("Config il %d, ol %d" % (md.totalInputTensorBytes, md.totalOutputTensorBytes))
     configBlock = GenericDataOperations_PcToEvb.common.dataBlock(
         description="Model Config",
         dType=GenericDataOperations_PcToEvb.common.dataType.uint8_e,
         cmd=GenericDataOperations_PcToEvb.common.command.generic_cmd,
         buffer=configBytes,
-        length=9,
+        length=len(configBytes),
     )
 
     # This is the first RPC call after flashing the firmware, and sometimes the reset doesn't 'take'.
@@ -286,7 +288,7 @@ def configModel(params, client, md):
             retries -= 1
         else:
             break
-
+    # print(f"[DEBUG] Configuring model with prof_enable {prof_enable} done")
     if status != 0:
         print("[ERROR] Model Configuration Send Status = %d" % status)
         print(
@@ -430,12 +432,18 @@ def validateModel(params, client, interpreter, md, mc):
     differences = (
         []
     )  # accumulator for per-output differences between local and EVB models
+    golden_output_tensors = []
     for i in range(md.numOutputs):
         differences.append([])
+        golden_output_tensors.append([])
 
     for i in tqdm(range(runs)):
         inExamples = []
         # Generate or load data
+        # Create and store in MC a seed for the random number generator
+        np.random.seed(i)
+        mc.random_seed = i
+
         if params.random_data:
             # Generate random input
             if md.inputTensors[0].type == np.int8:
@@ -560,6 +568,7 @@ def validateModel(params, client, interpreter, md, mc):
                 )  # Capture outputs for AutoGen
 
             differences[otIndex].append(local_output_data - out_array)
+            golden_output_tensors[otIndex].append(local_output_data)
             otOffset += ot.bytes
             otIndex += 1
 
@@ -568,10 +577,23 @@ def validateModel(params, client, interpreter, md, mc):
             # Input is from local TF, output is from EVB
             mc.update_from_validation(inExamples, outExamples)
 
-    return differences
+
+    return differences, golden_output_tensors
 
 
-def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_stats):
+def prune_for_aot(pmu_csv_header):
+    # AOT headers start the same way as TFLM (Event,Tag,uSecond), but then skip all the columns
+    # until the first PMU counter column.
+    # The amount of columns will vary, so search for the first PMU counter column and return the header from that point on
+    # The first PMU counter header is ARM_PMU_SW_INCR, and can appear anywhere as uSeconds
+    columns = pmu_csv_header.split(",")
+    for i, column in enumerate(columns):
+        if column == "ARM_PMU_SW_INCR":
+            return ",".join(columns[i:])
+    return pmu_csv_header
+
+
+def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_stats, aot=False):
     """
     Stats are from these structs in EVB-land:
     typedef struct {
@@ -584,7 +606,6 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         ns_profiler_event_stats_t stat_buffer[NS_PROFILER_RPC_EVENTS_MAX];
     } ns_mut_stats_t;
 
-    Where:
     typedef struct {
         #ifdef AM_PART_APOLLO5B
         ns_pmu_counters_t pmu_delta;
@@ -622,30 +643,43 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         uint32_t lsucnt;
         uint32_t foldcnt;
     } ns_perf_counters_t;
-    """
-    # computed_arena_size = stats[0] # in bytes
-    computed_stat_buffer_size = stats[1]  # in bytes
-    computed_stat_per_event_size = (
-        stats[2] // 4
-    )  # stats[2] is in bytes, convert to uint32
-    pmu_count = stats[3]  # generally one event per model layer
-    pmu_events_per_layer = stats[4]  # generally one event per model layer
-    captured_events = stats[5]  # generally one event per model layer
-    platform = stats[6]  # AP3, AP4, AP5, etc
 
-    # If full PMU, use PMU header, othwerwise extract from stats array
-    if params.full_pmu_capture:
-        log.info("Including Full PMU Capture")
-        csv_header = pmu_csv_header
+    """
+    computed_stat_buffer_size = stats[1]  # in bytes
+
+    # NOTE: ns_mut_stats_t preamble layout (uint32 words):
+    # [0] computed_arena_size
+    # [1] computed_stat_buffer_size
+    # [2] computed_stat_per_event_size (bytes)
+    # [3] pmu_count
+    # [4] pmu_events_per_layer
+    # [5] captured_events
+    # [6] platform
+    computed_stat_per_event_size = stats[2] // 4  # convert bytes to uint32 words
+    pmu_count = stats[3]
+    pmu_events_per_layer = stats[4]
+    captured_events = stats[5]
+    platform = stats[6]
+
+    # Build the CSV header string
+    if aot:
+        # AOT FullStats carry only per-layer time (us) in stat_buffer with header "layer,us".
+        # When full PMU is requested, we augment the header to include timing + PMU counters.
+        if params.full_pmu_capture:
+            csv_header = "Event,Tag,uSeconds," + prune_for_aot(pmu_csv_header)
+        else:
+            csv_header = "Event,Tag,uSeconds"
     else:
-        csv_header = stats[7:7 + 128] # 512 bytes
-        # convert csv words to bytes
-        csv_header = struct.pack("<" + "I" * 128, *csv_header)
-        # find the null terminator
-        csv_header = csv_header.split(b"\x00")[0]
-        # convert null-terminated array to string
-        csv_header = "".join([chr(c) for c in csv_header])
-        # print(csv_header)
+        # TFLM path (unchanged): decode CSV header from stats blob
+        if params.full_pmu_capture:
+            log.info("Including Full PMU Capture")
+            csv_header = pmu_csv_header
+        else:
+            csv_header = stats[7:7 + 128]  # 512 bytes as 128 words
+            csv_header = struct.pack("<" + "I" * 128, *csv_header)
+            csv_header = csv_header.split(b"\x00")[0]
+            csv_header = "".join([chr(c) for c in csv_header])
+    
     # print(stats)
     log.info(
         "Decoding statistics. Number of events = %d, buff_size = %d size = %d platform %d arraylen %d"
@@ -678,6 +712,64 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     totalMacs = 0
     totalTime = 0
     totalCycles = 0
+
+    # If AOT, pre-extract per-layer times now (each event = 1 uint32 us)
+    if aot:
+        # Each event is exactly one uint32 = elapsed microseconds
+        available_events = (len(stats) - offset) // max(1, computed_stat_per_event_size)
+        if captured_events > available_events:
+            captured_events = available_events
+            log.warning(
+                "AOT: Truncating events to %d based on payload size", captured_events
+            )
+
+        # Pull per-layer us timings
+        aot_us = [stats[offset + i] for i in range(captured_events)]
+        totalTime = int(sum(aot_us))
+        # Build table rows. If Full PMU was requested, append PMU counters.
+        if params.full_pmu_capture:
+            # Header already includes PMU names via pmu_csv_header
+            for i in range(len(mc.aot_layer_identifiers)):
+                row = [mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[mc.aot_layer_identifiers[i]]]
+                # overall_pmu_stats[i] is a flat list of counters for layer i
+                row.extend(list(overall_pmu_stats[mc.aot_layer_identifiers[i]]))
+                table.append(row)
+        else:
+            for i in range(len(mc.aot_layer_identifiers)):
+                table.append([mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[mc.aot_layer_identifiers[i]]])
+
+        # Print/Log the table
+        if params.joulescope or params.onboard_perf:
+            log.info(tabulate(table, headers="firstrow", tablefmt="simple"))
+        else:
+            print(tabulate(table, headers="firstrow", tablefmt="simple"))
+
+        # Summary for AOT: only total time (MACs unknown / not applicable)
+        msg = f"[NS] Model Performance Analysis (AOT): Total Inference Time {totalTime} us, layers {captured_events}"
+        if params.joulescope or params.onboard_perf:
+            log.info(msg)
+        else:
+            print(msg)
+
+        log.info(
+            "Model Performance Analysis: Per-layer performance statistics saved to: %s",
+            stats_filename,
+        )
+        np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
+        df = pd.DataFrame(table[1:], columns=table[0])
+        df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
+        df.to_excel(stats_filename + ".xlsx", index=False)
+
+        if params.profile_results_path != "none":
+            import datetime, os, shutil
+            unique_name = f"{params.model_name}_{params.platform}_AOT_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            unique_name = unique_name.replace(" ", "_").replace(".", "_")
+            os.makedirs(params.profile_results_path, exist_ok=True)
+            shutil.copy(stats_filename + ".csv", os.path.join(params.profile_results_path, unique_name + ".csv"))
+            shutil.copy(stats_filename + ".xlsx", os.path.join(params.profile_results_path, unique_name + ".xlsx"))
+
+        return totalCycles, totalMacs, totalTime, captured_events, pmu_events_per_layer
+ 
 
     for i in range(captured_events):
         row = []
@@ -720,7 +812,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
                 row.append(mc.modelStructureDetails.stride_w[i])
                 row.append(mc.modelStructureDetails.dilation_h[i])
                 row.append(mc.modelStructureDetails.dilation_w[i])
-                # log.info(f"Full PMU Capture, {len(overall_pmu_stats)} layers")
+                log.info(f"Full PMU Capture, {len(overall_pmu_stats)} layers")
                 for event in overall_pmu_stats[i]:
                     row.append(event)
             else:
@@ -779,8 +871,11 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     # if params.profile_results_path is not 'none', copy the files to the specified directory with a unique name based on platform, model, tf version, compiler, and timestamp
     if params.profile_results_path != "none":
         # create a unique name for the directory
-        import datetime
-        unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        import datetime, os, shutil
+        if aot:
+            unique_name = f"{params.model_name}_{params.platform}_AOT_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        else:
+            unique_name = f"{params.model_name}_{params.platform}_{params.tensorflow_version}_{params.ambiqsuite_version}_{params.toolchain}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
         # make it safe by removing spaces and . from the name
         unique_name = unique_name.replace(" ", "_").replace(".", "_")
         os.makedirs(params.profile_results_path, exist_ok=True)
@@ -792,7 +887,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     return totalCycles, totalMacs, totalTime, captured_events, pmu_events_per_layer
 
 
-def compile_and_deploy(params, mc, first_time=False):
+def compile_and_deploy(params, mc, first_time=False, aot=False):
    # The following lines find the paths relative to the cwd
     model_path = params.destination_rootdir + "/" + params.model_name
     d = os.path.join(params.neuralspot_rootdir, model_path)
@@ -816,9 +911,13 @@ def compile_and_deploy(params, mc, first_time=False):
     else:
         # toolchain is gcc, which is default
         ps = f"PLATFORM={params.platform} AS_VERSION={params.ambiqsuite_version} TF_VERSION={params.tensorflow_version}"
-
+    example = "tflm_validator"
     if first_time:
         makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make clean >{ws3} 2>&1 ")
+    else:
+        # The first time (create-binary) we only create the TFLM binary, otherwise we honor the aot flag
+        if aot:
+            example = "aot_validator"
 
     if (params.tflm_location == "ITCM"):
         itcm = "TFLM_IN_ITCM=1"
@@ -833,11 +932,11 @@ def compile_and_deploy(params, mc, first_time=False):
 
         if params.verbosity > 3:
             print(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
             )
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")
@@ -845,22 +944,22 @@ def compile_and_deploy(params, mc, first_time=False):
             # print(f"cd .. {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1")
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
     else:
         if params.verbosity > 3:
             print (
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE=tflm_validator deploy")
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE={example} deploy")
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE=tflm_validator deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE={example} deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")           
         else:
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE=tflm_validator deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
@@ -878,7 +977,7 @@ def compile_and_deploy(params, mc, first_time=False):
 
 
 
-def create_mut_metadata(params, tflm_dir, mc):
+def create_mut_metadata(params, tflm_dir, mc, aot):
     """
     Create mut_model_metadata.h, a config header for examples/tflm_validator. Can be
      used to create the default (large buffer) configuration or a version tuned on
@@ -931,6 +1030,9 @@ def create_mut_metadata(params, tflm_dir, mc):
         "NS_AD_PMU_EVENT_2": ev2,
         "NS_AD_PMU_EVENT_3": ev3,
         "NS_AD_TRANSPORT": f"NS_AD_RPC_TRANSPORT_{params.transport}",
+        "NS_AD_AOT_VALUE": 1 if aot else 0,
+        "NS_AD_AOT_NUM_LAYERS": mc.aot_layers if aot else 0,
+        "NS_AD_AOT_LAST_IDENTIFIER": mc.aot_layer_last_identifier if aot else 0,
     }
     log.info(
         "Create metadata file with %dk arena size, %dk padding, RPC RX/TX buffer %d, RV Count %d"
@@ -941,7 +1043,7 @@ def create_mut_metadata(params, tflm_dir, mc):
             mc.rv_count,
         )
     )
-    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    template_directory = str(importlib.resources.files(__name__) / "templates")
 
     createFromTemplate(
         template_directory + "/validator/template_mut_metadata.h",
@@ -951,6 +1053,7 @@ def create_mut_metadata(params, tflm_dir, mc):
 
 
 def create_mut_modelinit(tflm_dir, mc):
+    # print(f"[DEBUG] Creating mut_model_init.cc")
     adds, addsLen = mc.modelStructureDetails.getAddList()
     rm = {
         "NS_AD_NAME": "tflm_validator",
@@ -958,7 +1061,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
     }
-    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    template_directory = str(importlib.resources.files(__name__) / "templates")
     createFromTemplate(
         template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
@@ -966,33 +1069,108 @@ def create_mut_modelinit(tflm_dir, mc):
     )
 
 
-def create_mut_main(params, tflm_dir, mc):
-    # make directory for tflm_validator
-    os.makedirs(tflm_dir + "/src/", exist_ok=True)
+def create_mut_main(params, tflm_dir, mc, md, aot):
+    """
+    New generator that installs the refactored validator sources:
+      - Common runtime/RPC/memory/chunk headers & sources
+      - TFLM main + runtime glue   → src/refactor/
+      - AOT  main + runtime glue   → src/refactor/aot/
+    Also installs:
+      - tflm_validator.h (structures shared with RPC)
+      - tflm_ns_model.h  (ns model helpers used by TFLM runtime)
+      - module.mk (already globs src/refactor/*)
+    """
+    # Base dirs
+    src_dir        = os.path.join(tflm_dir, "src")
+    refactor_dir   = src_dir #os.path.join(src_dir, "refactor")
+    refactor_aot   = os.path.join(refactor_dir, "aot")
+    os.makedirs(refactor_dir, exist_ok=True)
+    if aot:
+        os.makedirs(refactor_aot, exist_ok=True)
 
-    # Copy template main.cc to tflm_dir
-    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.cc")
-    rm = {
-        "NS_AD_NAME": params.model_name,
-        "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
-    }
-    createFromTemplate(template_file, f"{tflm_dir}/src/tflm_validator.cc", rm)
-    # shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.cc")
+    # Paths to our template tree
+    tmpl_root   = importlib.resources.files(__name__)
+    tmpl_common = str(tmpl_root / "templates/validator")
+    tmpl_tflm   = os.path.join(tmpl_common, "tflm")
+    tmpl_aot    = os.path.join(tmpl_common, "aot")
 
-    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.h")
-    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_validator.h")
+    # --- Common refactor files (headers + sources) ---
+    for fname in [
+        "validator_chunk.c",
+        "validator_chunk.h",
+        "validator_mem.c",
+        "validator_mem.h",
+        "validator_rpc.c",
+        "validator_runtime_iface.h",
+    ]:
+        shutil.copyfile(os.path.join(tmpl_common, fname),
+                        os.path.join(refactor_dir, fname))
 
-    template_file = pkg_resources.resource_filename(__name__, "templates/validator/template_tflm_validator.mk")
-    shutil.copyfile(template_file, f"{tflm_dir}/module.mk")
+    # --- Runtime-specific files ---
+    if aot:
+        # AOT main + glue live under aot/
+        typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
+        flatInput = [
+            np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist
+        ]
+        flatOutput = [
+            np.array(element).tolist() for sublist in mc.exampleTensors.outputTensors for element in sublist
+        ]
+        rm = {
+            "NS_AD_NAME": params.model_name,
+            "NS_AD_INPUT_TENSOR_TYPE": typeMap[str(md.inputTensors[0].type)],
+            "NS_AD_OUTPUT_TENSOR_TYPE": typeMap[str(md.outputTensors[0].type)],
+            "NS_AD_INPUT_TENSOR_LEN": len(flatInput),
+            "NS_AD_OUTPUT_TENSOR_LEN": len(flatOutput),
+        }
+        createFromTemplate(os.path.join(tmpl_aot, "aot_validator_main.c"),
+                           os.path.join(refactor_dir, "aot_validator_main.c"),
+                           rm)
+        createFromTemplate(os.path.join(tmpl_aot, "validator_runtime_aot.c"),
+                           os.path.join(refactor_dir, "validator_runtime_aot.c"),
+                           rm)
+    else:
+        # TFLM main + glue live directly in refactor/
+        # Apply template to tflm_validator_main.c
+        rm = {
+            "NS_AD_NAME": params.model_name,
+            "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
+            "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)        
+            .replace("[", "")
+            .replace("]", ""),
+        }
+        createFromTemplate(os.path.join(tmpl_tflm, "tflm_validator_main.c"),
+                           os.path.join(refactor_dir, "tflm_validator_main.c"),
+                           rm)
+        # shutil.copyfile(os.path.join(tmpl_tflm, "tflm_validator_main.c"),
+        #                 os.path.join(refactor_dir, "tflm_validator_main.c"))
+        shutil.copyfile(os.path.join(tmpl_tflm, "validator_runtime_tflm.cc"),
+                        os.path.join(refactor_dir, "validator_runtime_tflm.cc"))
 
-    template_file = pkg_resources.resource_filename(__name__, "templates/common/template_ns_model.h")
-    shutil.copyfile(template_file, f"{tflm_dir}/src/tflm_ns_model.h")
+    # --- Headers used by the new sources ---
+    # tflm_validator.h (structs used by both mains and RPC)
+    shutil.copyfile(str(tmpl_root / "templates/validator/template_tflm_validator.h"),
+                    os.path.join(src_dir, "tflm_validator.h"))
+    # ns model helper for TFLM runtime glue
+    shutil.copyfile(str(tmpl_root / "templates/common/template_ns_model.h"),
+                    os.path.join(src_dir, "tflm_ns_model.h"))
 
+    # --- Makefile (already includes src/refactor/* in both variants) ---
+    if aot:
+        mk_template = str(tmpl_root / "templates/validator/template_aot_validator.mk")
+        rm = {"NS_AD_NAME_AOT": params.model_name}
+        createFromTemplate(mk_template, f"{tflm_dir}/module.mk", rm)
+    else:
+        mk_template = str(tmpl_root / "templates/validator/template_tflm_validator.mk")
+        shutil.copyfile(mk_template, f"{tflm_dir}/module.mk")
 
-def create_validation_binary(params, baseline, mc):
-    # tflm_dir = params.tflm_src_path
-    tflm_dir = params.destination_rootdir + "/" + params.model_name + "/tflm_validator"
-    create_mut_main(params, tflm_dir, mc)
+def create_validation_binary(params, mc, md, baseline, aot):
+    if aot:
+        subdir = "aot_validator"
+    else:
+        subdir = "tflm_validator"
+    validator_dir = params.destination_rootdir + "/" + params.model_name + "/" + subdir
+    create_mut_main(params, validator_dir, mc, md, aot)
 
     # map model location parameter to linker locations
     if params.model_location == "SRAM":
@@ -1002,34 +1180,40 @@ def create_validation_binary(params, baseline, mc):
     else:
         loc = ""
 
-    if not params.model_location == "PSRAM":
+    if not params.model_location == "PSRAM" and not aot:
         # if baseline:
         xxd_c_dump(
             src_path=params.tflite_filename,
-            dst_path=tflm_dir + "/src/mut_model_data.h",
+            dst_path=validator_dir + "/src/mut_model_data.h",
             var_name="mut_model",
             chunk_len=12,
             is_header=True,
             loc=loc,
+            align_language="c"
         )
 
     if baseline:
         print(
             f"[NS] Compiling and deploying Baseline image: arena size = {mc.arena_size_k}k, arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
         )
+    elif aot:
+        print(
+            f"[NS] Compiling and deploying AOT image: arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
+        )
     else:
         print(
             f"[NS] Compiling and deploying Tuned image:    arena size = {mc.arena_size_k}k, arena location = {params.arena_location} model_location = {params.model_location}, Resource Variables count = {mc.rv_count}"
         )
 
-    create_mut_metadata(params, tflm_dir, mc)
-    create_mut_modelinit(tflm_dir, mc)
-    compile_and_deploy(params, mc, first_time=baseline)
+    create_mut_metadata(params, validator_dir, mc, aot)
+    create_mut_modelinit(validator_dir, mc)
+    compile_and_deploy(params, mc, first_time=baseline, aot=aot)
     time.sleep(3)
 
 
 def get_interpreter(params):
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
-    interpreter = tf.lite.Interpreter(model_path=params.tflite_filename)
-    interpreter.allocate_tensors()
-    return interpreter
+    with suppress_os_stdio():
+        interpreter = tflite.interpreter.Interpreter(model_path=params.tflite_filename)
+        interpreter.allocate_tensors()
+        return interpreter

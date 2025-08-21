@@ -5,11 +5,11 @@ import pickle
 import sys
 import time
 import serial.tools.list_ports
-import pkg_resources
+import importlib.resources
 import yaml
 import numpy as np
 import logging as log
-
+from contextlib import contextmanager
 import erpc
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
 
@@ -57,6 +57,7 @@ def xxd_c_dump(
     chunk_len: int = 12,
     is_header: bool = True,
     loc: str = "const",
+    align_language: str = "cpp"
 ):
     """Generate C like char array of hex values from binary source. Equivalent to `xxd -i src_path > dst_path`
         but with added features to provide # columns and variable name.
@@ -82,8 +83,12 @@ def xxd_c_dump(
             prefix = "AM_SHARED_RW"
         else: # TCM
             prefix = "NS_PUT_IN_TCM"
-
-        wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
+        
+        if align_language == "cpp":
+            wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
+        else:
+            wfp.write(f"{prefix} unsigned char {var_name}[] __attribute__((aligned(16))) = {{{os.linesep}")
+        
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"
@@ -160,7 +165,7 @@ def read_pmu_definitions(params):
 
     if params.pmu_config_file == "default":
         # Read PMU definitions from yaml file
-        yaml_path = pkg_resources.resource_filename(__name__, 'autodeploy/profiles/ns_pmu_default.yaml')
+        yaml_path = str(importlib.resources.files(__name__) / 'autodeploy/profiles/ns_pmu_default.yaml')
     else:
         yaml_path = params.pmu_config_file
 
@@ -340,6 +345,45 @@ def get_armclang_version():
     print("armclang version found: ", match.group(1))
     return match.group(1)
 
+@contextmanager
+def suppress_os_stdio():
+    """
+    Redirects the OS stdout (fd=1) and stderr (fd=2) to /dev/null, then restores them on exit.
+    Suppresses all output **unless** an exception is raised, in which case it will be logged.
+
+    Example:
+        with suppress_os_stdio():
+            noisy_function()
+    """
+    # 1) Flush Python buffers
+    sys.stdout.flush()
+    sys.stderr.flush()
+
+    # 2) Duplicate original FDs so we can restore them later
+    orig_stdout_fd = os.dup(sys.stdout.fileno())
+    orig_stderr_fd = os.dup(sys.stderr.fileno())
+
+    try:
+        # 3) Open /dev/null and redirect
+        devnull_fd = os.open(os.devnull, os.O_RDWR)
+        os.dup2(devnull_fd, sys.stdout.fileno())
+        os.dup2(devnull_fd, sys.stderr.fileno())
+        os.close(devnull_fd)
+
+        # 4) Enter user’s block
+        yield
+
+    except Exception:
+        # 5) An error occurred! Log it (the FDs are still /dev/null at this moment).
+        logging.exception("Error inside suppressed stdout/stderr block")
+        raise
+
+    finally:
+        # 6) Restore original FDs no matter what
+        os.dup2(orig_stdout_fd, sys.stdout.fileno())
+        os.dup2(orig_stderr_fd, sys.stderr.fileno())
+        os.close(orig_stdout_fd)
+        os.close(orig_stderr_fd)
 
 if __name__ == "__main__":
     version = get_armclang_version()

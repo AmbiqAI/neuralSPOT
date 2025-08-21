@@ -1,14 +1,14 @@
 # Ambiq Platform knowledgebase class
 import yaml
 import math
-import pkg_resources
+import importlib.resources
 
 class AmbiqPlatform:
     def __init__(self, params):
         self.platform = params.platform
 
         # Load the ns_platform yaml file
-        yaml_path = pkg_resources.resource_filename(__name__, 'ns_platform.yaml')
+        yaml_path = str(importlib.resources.files(__name__) / 'ns_platform.yaml')
         with open(yaml_path, "r") as f:
             self.platform_config = yaml.safe_load(f)
 
@@ -37,7 +37,7 @@ class AmbiqPlatform:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8) - 85) # 85K holdback
         else:
             self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8))
-        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 60)) # 50K holdback
+        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 150)) # 50K holdback
         self.platform_config["mram"] = int(math.ceil(self.platform_config["mram"] * .8))
 
     def GetSupportsUsb(self):

@@ -24,6 +24,10 @@ The YAML file should have a top-level key `models` that contains a list of model
 - `model_name` (optional): Name to be used for the model.
 - `unsupported_platforms` (optional): A list of platform strings on which the model should **not** be deployed.
 - `arena_size_scratch_buffer_padding` (optional): A numeric value to pass to the `--arena-size-scratch-buffer-padding` parameter.
+- `runs_power` (optional): Number of power measurement runs to perform.
+- `arena_location` (optional): Memory location for the arena (e.g., `NS_AD_TCM`, `NS_AD_SRAM`, `NS_AD_PSRAM`, `NS_AD_MRAM`).
+- `model_location` (optional): Memory location for the model (e.g., `NS_AD_TCM`, `NS_AD_SRAM`, `NS_AD_PSRAM`, `NS_AD_MRAM`).
+- `id` (optional): Run log ID for tracking purposes.
 
 ### Example `models.yaml`
 
@@ -34,10 +38,17 @@ models:
     unsupported_platforms:
       - apollo4p_evb
     arena_size_scratch_buffer_padding: 5
+    runs_power: 10
+    arena_location: "NS_AD_PSRAM"
+    model_location: "NS_AD_SRAM"
+    id: 1
 
   - tflite_filename: "model2.tflite"
     unsupported_platforms:
       - apollo510_evb
+    arena_location: "NS_AD_TCM"
+    model_location: "NS_AD_PSRAM"
+    id: 2
 ```
 
 ## Usage
@@ -45,7 +56,7 @@ models:
 Run the script by providing the YAML file and the required command-line arguments:
 
 ```bash
-python3 deploy_models.py models.yaml \
+python3 ns_ad_batch.py models.yaml \
   --platform apollo510_evb \
   --toolchain gcc \
   --resultlog-file /path/to/result.log \
@@ -61,9 +72,12 @@ python3 deploy_models.py models.yaml \
 - **Global Options:**
   - `--platform`: Target platform (e.g. `apollo4p_evb`, `apollo510_evb`, etc.).
   - `--toolchain`: Target toolchain (e.g. `gcc`, `arm`).
+  - `--tflm-version`: Target neuralSPOT TFLM version (default: "auto").
   - `--resultlog-file`: Path and filename where the deployment log will be stored.
   - `--profile-results-path`: Directory where per-model profile results will be stored.
+  - `--aot`: Run AOT (Ahead-of-Time compilation) instead of TFLM.
   - `--joulescope`: Enable power consumption measurement using Joulescope.
+  - `--model-directory`: Directory where the models are located (default: "../model_perf_tests/models/").
 
 ## Behavior
 
@@ -73,7 +87,12 @@ python3 deploy_models.py models.yaml \
 2. **Command Construction**:  
    The script builds the `ns_autodeploy` command by combining global parameters with per-model parameters:
    - Adds `--arena-size-scratch-buffer-padding` if specified.
+   - Adds `--runs-power` if specified.
+   - Adds `--arena-location` if specified.
+   - Adds `--model-location` if specified.
+   - Adds `--run-log-id` if specified.
    - If the platform string contains "apollo5", the script automatically adds the `--full-pmu-capture` flag.
+   - If `--aot` is specified, adds `--create-aot-profile`.
 
 3. **Timeout and Retry**:  
    Each model deployment is given 15 minutes (900 seconds) to complete. If `ns_autodeploy` does not complete in this time, it is terminated and retried once. If the second attempt also times out, the script moves on to the next model.

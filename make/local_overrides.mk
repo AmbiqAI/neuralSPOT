@@ -36,7 +36,7 @@ TF_VERSION := helios_rt_v1_3_0
 
 # CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
 
-# TOOLCHAIN := arm
+TOOLCHAIN := arm
 # EXAMPLE := nnse2
 # TARGET := nnse2
 # GCC13_EXPERIMENTAL  := 1

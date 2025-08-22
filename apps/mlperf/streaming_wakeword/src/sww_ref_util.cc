@@ -12,13 +12,13 @@
 #include <stdint.h>
 #include <ctype.h>
 #include <math.h>
+#include "am_hal_cachectrl.h"
 #include "str_ww_ref_model_model.h"
 #include "sww_ref_util.h"
 
 
 #include "feature_extraction.h"
 #include "ns_ambiqsuite_harness.h"
-
 #include "ns_malloc.h"
 #include "fixed_data.h"
 
@@ -404,80 +404,88 @@ void run_extraction(char *cmd_args[]) {
 }
 
 void stop_detection(char *cmd_args[]) {
-	switch(g_i2s_state) {
-	// the stopping/idle combination may not be necessary, but it was originally set up
-	// to go to Stopping then wait for the current transaction to complete before Idle.
-	// But sometimes the current transaction never completes, leaving the program hung.
-	case Streaming:
-		g_i2s_state = Stopping;
-		g_i2s_status = am_hal_i2s_dma_transfer_complete(pI2SHandle);
-		am_hal_i2s_disable(pI2SHandle);
-		g_i2s_state = Idle;
-		th_timestamp(); // this timestamp will stop the measurement of power
-		th_printf("Streaming stopped.\r\n");
-		th_printf("target activations: \r\n");
-		print_vals_int8(g_act_buff, g_act_idx); // jhdbg
-		g_act_buff = NULL;
-		break;
-	case FileCapture:
-		g_i2s_state = Stopping;
-		g_i2s_status = am_hal_i2s_dma_transfer_complete(pI2SHandle);
-		am_hal_i2s_disable(pI2SHandle);
-		g_i2s_state = Idle;
-		g_wav_record = NULL;
-		th_printf("Wav capture stopped.\r\n");
-		break;
-	case Idle:
-		th_printf("I2S is already idle.  Ignoring stop request\r\n");
-		break;
-	case Stopping:
-		th_printf("Stop already requested.\r\n");
-		break;
-	default:
-		th_printf("Unknown state %d detected. Requesting stop.\r\n", g_i2s_state);
-		g_i2s_state = Stopping;
-	}
+switch(g_i2s_state) {
+// the stopping/idle combination may not be necessary, but it was originally set up
+// to go to Stopping then wait for the current transaction to complete before Idle.
+// But sometimes the current transaction never completes, leaving the program hung.
+case Streaming:
+	g_i2s_state = Stopping;
+	g_i2s_status = am_hal_i2s_dma_transfer_complete(pI2SHandle);
+	am_hal_i2s_disable(pI2SHandle);
+	g_i2s_state = Idle;
+	th_timestamp(); // this timestamp will stop the measurement of power
+	th_printf("Streaming stopped.\r\n");
+	th_printf("target activations: \r\n");
+	print_vals_int8(g_act_buff, g_act_idx); // jhdbg
+	g_act_buff = NULL;
+	break;
+case FileCapture:
+	g_i2s_state = Stopping;
+	g_i2s_status = am_hal_i2s_dma_transfer_complete(pI2SHandle);
+	am_hal_i2s_disable(pI2SHandle);
+	g_i2s_state = Idle;
+	g_wav_record = NULL;
+	th_printf("Wav capture stopped.\r\n");
+	break;
+case Idle:
+	th_printf("I2S is already idle.  Ignoring stop request\r\n");
+	break;
+case Stopping:
+	th_printf("Stop already requested.\r\n");
+	break;
+default:
+	th_printf("Unknown state %d detected. Requesting stop.\r\n", g_i2s_state);
+	g_i2s_state = Stopping;
+}
 }
 
 void start_detection(char *cmd_args[]) {
 	if(g_i2s_state != Idle) {
-		 th_printf("I2S Rx currently in progress. Ignoring request\r\n");
+			th_printf("I2S Rx currently in progress. Ignoring request\r\n");
 	}
 	else {
-		 g_i2s_state = Streaming;
+		g_i2s_state = Streaming;
 
-		 g_act_buff = (int8_t *)g_gp_buffer;
-		 if( !g_act_buff ) {
-			 th_printf("WARNING:  Activation buffer malloc failed.  Activation logging will not work.\r\n");
-		 }
-		 g_int16s_read = 0; // jhdbg -- only needed when we're capturing the waveform in addition to detecting
-		 g_first_frame = 1; // on the first frame of a recording we pulse the detection GPIO to synchronize timing.
+		g_act_buff = (int8_t *)g_gp_buffer;
+		if( !g_act_buff ) {
+			th_printf("WARNING:  Activation buffer malloc failed.  Activation logging will not work.\r\n");
+		}
+		g_int16s_read = 0; // jhdbg -- only needed when we're capturing the waveform in addition to detecting
+		g_first_frame = 1; // on the first frame of a recording we pulse the detection GPIO to synchronize timing.
 
-		 memset(g_act_buff, 0, g_gp_buff_bytes);
-		 g_act_idx = 0;
+		memset(g_act_buff, 0, g_gp_buff_bytes);
+		g_act_idx = 0;
 
-		 th_printf("Listening for I2S data ... \r\n");
+		th_printf("Listening for I2S data ... \r\n");
 
-		 // these memsets are not really needed, but they make it easier to tell
-		 // if the write never happened.
-		 memset(g_i2s_buffer0, 0xFF, g_i2s_chunk_size_bytes);
-		 memset(g_i2s_buffer1, 0xFF, g_i2s_chunk_size_bytes);
+		// these memsets are not really needed, but they make it easier to tell
+		// if the write never happened.
+		memset(g_i2s_buffer0, 0xFF, g_i2s_chunk_size_bytes);
+		memset(g_i2s_buffer1, 0xFF, g_i2s_chunk_size_bytes);
 
-		 // first several cycles won't fully populate g_model_input, so initialize
-		 // it with 0s to avoid unpredictable detections at the beginning
-		 memset(g_model_input, 0x00, SWW_MODEL_INPUT_SIZE*sizeof(int8_t));
-		 memset(g_wav_block_buff, 0x00, SWW_WINLEN_SAMPLES*sizeof(int16_t));
+		// first several cycles won't fully populate g_model_input, so initialize
+		// it with 0s to avoid unpredictable detections at the beginning
+		memset(g_model_input, 0x00, SWW_MODEL_INPUT_SIZE*sizeof(int8_t));
+		memset(g_wav_block_buff, 0x00, SWW_WINLEN_SAMPLES*sizeof(int16_t));
 
-		 th_timestamp(); // this timestamp will start the measurement of power
-		 set_processing_pin_low();  // end of processing, used for duty cycle measurement
-		 // pulse processing pin for 1us to align the duty cycle, energy measurements, and detections
-		 set_processing_pin_high();  // end of processing, used for duty cycle measurement
-		 ns_delay_us(1);
-		 set_processing_pin_low();  // end of processing, used for duty cycle measurement
-
-
-		 g_i2s_status = am_hal_i2s_dma_transfer_start(pI2SHandle, &g_sI2S0Config);
-		 th_printf("DMA receive initiated.\r\n");
+		th_timestamp(); // this timestamp will start the measurement of power
+		set_processing_pin_low();  // end of processing, used for duty cycle measurement
+		// pulse processing pin for 1us to align the duty cycle, energy measurements, and detections
+		set_processing_pin_high();  // end of processing, used for duty cycle measurement
+		ns_delay_us(1);
+		set_processing_pin_low();  // end of processing, used for duty cycle measurement
+		am_hal_cachectrl_range_t dcache_range {
+			.ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
+			.ui32Size = 1024
+		};
+		am_hal_cachectrl_range_t dcache_range1 {
+		.ui32StartAddr = (uint32_t)&g_i2s_buffer1[0],
+		.ui32Size = 1024
+		};	
+		am_hal_cachectrl_dcache_invalidate(&dcache_range, true);
+		am_hal_cachectrl_dcache_invalidate(&dcache_range1, true);
+		g_i2s_status = am_hal_i2s_dma_transfer_start(pI2SHandle, &g_sI2S0Config);
+		th_printf("DMA receive initiated.\r\n");
 	}
 }
 
@@ -907,9 +915,9 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	// am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
 
 	if(out_data[0] > DETECT_THRESHOLD || g_first_frame) {
-		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_SET);
+		am_hal_gpio_state_write(62, AM_HAL_GPIO_OUTPUT_CLEAR);
         ns_delay_us(1);
-		am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
+		am_hal_gpio_state_write(62, AM_HAL_GPIO_OUTPUT_SET);
         g_first_frame = 0;
 	}
 

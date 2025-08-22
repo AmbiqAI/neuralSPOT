@@ -27,67 +27,7 @@ static uint32_t g_frame_count=0;
 #define REPORT_EVERY 200
 #define CORE_CLOCK_HZ 96000000u
 
-static void sww_perf_report_and_reset(void)
-{
-    // --- Atomic snapshot/reset to avoid tearing while ISR runs ---
-    NVIC_DisableIRQ(I2S0_IRQn);
-
-    ns_perf_counters_t wall_now, wall_d;
-    ns_capture_perf_profiler(&wall_now);
-    ns_delta_perf(&g_wall_start, &wall_now, &wall_d);
-
-    // Snap current window accumulators
-    const uint64_t proc_cyc  = g_cyc_proc;
-    const uint64_t isr_cyc   = g_cyc_isr;
-    const uint64_t proc_lsu  = g_lsu_proc;
-    const uint64_t isr_lsu   = g_lsu_isr;
-    const uint32_t frames    = g_frame_count;
-
-    // Reset for next window
-    g_cyc_proc = g_lsu_proc = 0;
-    g_cyc_isr  = g_lsu_isr  = 0;
-    g_frame_count = 0;
-    g_wall_start = wall_now;
-
-    NVIC_EnableIRQ(I2S0_IRQn);
-    // --- End atomic section ---
-
-    // Helpers (keep it simple)
-    const double wall_us  = (double)wall_d.cyccnt * 1e6 / (double)CORE_CLOCK_HZ;
-    const double proc_us  = (double)proc_cyc     * 1e6 / (double)CORE_CLOCK_HZ;
-    const double isr_us   = (double)isr_cyc      * 1e6 / (double)CORE_CLOCK_HZ;
-    double idle_us        = wall_us - proc_us - isr_us;
-    if (idle_us < 0.0) idle_us = 0.0;
-
-    const double pct = (wall_us > 0.0) ? (100.0 / wall_us) : 0.0;
-
-    const double avg_proc_us_per_frame = (frames ? (proc_us / (double)frames) : 0.0);
-    const double avg_isr_us_per_frame  = (frames ? (isr_us  / (double)frames) : 0.0);
-    const double avg_idle_us_per_frame = (frames ? (idle_us / (double)frames) : 0.0);
-
-    const double proc_share = proc_us * pct;
-    const double isr_share  = isr_us  * pct;
-    const double idle_share = idle_us * pct;
-
-    const double proc_lsu_pct = (proc_cyc ? (100.0 * (double)proc_lsu / (double)proc_cyc) : 0.0);
-    const double isr_lsu_pct  = (isr_cyc  ? (100.0 * (double)isr_lsu  / (double)isr_cyc)  : 0.0);
-
-    th_printf("\r\n=== System profile over %lu frames ===\r\n", (unsigned long)frames);
-
-    th_printf("processing():  avg %.4f us/frame | share %.1f%% | LSU %.1f%%\r\n",
-              avg_proc_us_per_frame, proc_share, proc_lsu_pct);
-
-    th_printf("I2S ISR:       avg %.4f us/frame | share %.1f%% | LSU %.1f%%\r\n",
-              avg_isr_us_per_frame,  isr_share,  isr_lsu_pct);
-
-    th_printf("idle(main):    avg %.4f us/frame | share %.1f%%\r\n",
-              avg_idle_us_per_frame, idle_share);
-
-    // Optional sanity line: average wall per frame
-    const double avg_wall_us_per_frame = (frames ? (wall_us / (double)frames) : 0.0);
-    th_printf("TOTAL (wall):  avg %.4f us/frame\r\n", avg_wall_us_per_frame);
-}
-
+static void sww_perf_report_and_reset(void);
 
 void my_rx_cb(ns_uart_transaction_t *t)
 {
@@ -101,20 +41,16 @@ static volatile uint8_t wr_idx = 0;   // ISR writes
 static volatile uint8_t rd_idx = 1;   // main reads
 static volatile uint8_t ready=0;
 static volatile uint32_t overrun_count = 0;
+
 am_hal_cachectrl_range_t dcache_range {
     .ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
     .ui32Size = 1024
-};
-am_hal_cachectrl_range_t dcache_range1 {
-    .ui32StartAddr = (uint32_t)&g_i2s_buffer1[0],
-    .ui32Size = 1024
-};
-
+    };
 extern "C" void am_dspi2s0_isr(void)
 {
     // Start timing as soon as we enter
-    ns_perf_counters_t s_isr, e_isr, d_isr;
-    ns_capture_perf_profiler(&s_isr);
+    // ns_perf_counters_t s_isr, e_isr, d_isr;
+    // ns_capture_perf_profiler(&s_isr);
 
     uint32_t status;
     am_hal_i2s_interrupt_status_get(pI2SHandle, &status, true);
@@ -124,26 +60,27 @@ extern "C" void am_dspi2s0_isr(void)
         return;
 
     int16_t * dma_buf = (int16_t*)am_hal_i2s_dma_get_buffer(pI2SHandle, AM_HAL_I2S_XFER_RX);
+    dcache_range.ui32StartAddr = (uint32_t)dma_buf;
     am_hal_cachectrl_dcache_invalidate(&dcache_range, false);
-    am_hal_cachectrl_dcache_invalidate(&dcache_range1, false);
-    if (ready >= 2) {
-        // Backlog full: DROP this frame (don't publish/flip) and record it.
-        th_printf("I2S overrun detected. Dropping frame.\r\n");
-        overrun_count++;
-    } else {
+
+    // if (ready >= 2) {
+    //     // Backlog full: DROP this frame (don't publish/flip) and record it.
+    //     // th_printf("I2S overrun detected. Dropping frame.\r\n");
+    //     overrun_count++;
+    // } else {
         memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
         __DMB();                 // ensure data is visible before publish
         rd_idx = wr_idx;         // publish
         wr_idx ^= 1;             // flip writer
         ready++;                 // 1 or 2
-    }
+    // }
 
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
     
-    ns_capture_perf_profiler(&e_isr);
-    ns_delta_perf(&s_isr, &e_isr, &d_isr);
-    g_cyc_isr += d_isr.cyccnt;
-    g_lsu_isr += d_isr.lsucnt;
+    // ns_capture_perf_profiler(&e_isr);
+    // ns_delta_perf(&s_isr, &e_isr, &d_isr);
+    // g_cyc_isr += d_isr.cyccnt;
+    // g_lsu_isr += d_isr.lsucnt;
 }
 
 
@@ -218,43 +155,42 @@ int main(int argc, char *argv[]) {
     NS_TRY(sww_model_init(), "Model init failed.\n");
     gpio_init();
 
-    ns_init_perf_profiler();
-    ns_start_perf_profiler();	
-    ns_capture_perf_profiler(&g_wall_start);
+    // ns_init_perf_profiler();
+    // ns_start_perf_profiler();	
+    // ns_capture_perf_profiler(&g_wall_start);
 
     th_serialport_initialize();
     i2s_init();
+    th_timestamp();
     ns_interrupt_master_enable();
     for (;;) {
         // consume all pending frames safely
         while (1) {
-            uint8_t idx;
             NVIC_DisableIRQ(I2S0_IRQn);
             if (ready == 0) {
                 NVIC_EnableIRQ(I2S0_IRQn);
                 break;
             }
-            idx = rd_idx;
+            uint8_t idx = rd_idx;
             ready--;
             NVIC_EnableIRQ(I2S0_IRQn);
-
             __DMB();
             
-            ns_perf_counters_t s_proc, e_proc, d_proc;
+            // ns_perf_counters_t s_proc, e_proc, d_proc;
 
             switch (g_i2s_state) {
                 case Streaming:
-                    ns_capture_perf_profiler(&s_proc);
+                    // ns_capture_perf_profiler(&s_proc);
                     process_chunk_and_cont_streaming(local_buf[idx]);
-                    ns_capture_perf_profiler(&e_proc);
-                    ns_delta_perf(&s_proc, &e_proc, &d_proc);
-                    g_cyc_proc += d_proc.cyccnt;
-                    g_lsu_proc += d_proc.lsucnt;
+                    // ns_capture_perf_profiler(&e_proc);
+                    // ns_delta_perf(&s_proc, &e_proc, &d_proc);
+                    // g_cyc_proc += d_proc.cyccnt;
+                    // g_lsu_proc += d_proc.lsucnt;
 
-                    g_frame_count++;
-                    if ((g_frame_count % REPORT_EVERY) == 0) {
-                        sww_perf_report_and_reset();
-                    }
+                    // g_frame_count++;
+                    // if ((g_frame_count % REPORT_EVERY) == 0) {
+                    //     sww_perf_report_and_reset();
+                    // }
                     break;
                 case FileCapture:
                     process_chunk_and_cont_capture(local_buf[idx]);
@@ -266,7 +202,7 @@ int main(int argc, char *argv[]) {
                     break;
             }
         }
-        // ns_deep_sleep();
+        ns_deep_sleep();
     }
     return 0;
 }
@@ -282,14 +218,14 @@ static void gpio_init() {
     set_processing_pin_high();
     // wakeword detected pin
     am_hal_gpio_pincfg_t ww_det_out = am_hal_gpio_pincfg_output;
-    am_hal_gpio_pinconfig(36, ww_det_out);
-    am_hal_gpio_state_write(36, AM_HAL_GPIO_OUTPUT_CLEAR);
+    am_hal_gpio_pinconfig(62, ww_det_out);
+    am_hal_gpio_state_write(62, AM_HAL_GPIO_OUTPUT_SET);
 }
 
 static void i2s_init(void)
 {
     // pll clock
-    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_SYSPLL, 24576000, NULL);
+    // am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_SYSPLL, 24576000, NULL);
 
     // hfrc2 clock
     // am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC2, AM_HAL_CLKMGR_HFRC2_FREQ_ADJ_196P608MHZ, NULL);
@@ -350,4 +286,66 @@ static void uart_stdio_print(char *pcBuf)
 {
     size_t len = strlen(pcBuf);
     ns_uart_blocking_send_data(&uart_config, pcBuf, len);
+}
+
+
+static void sww_perf_report_and_reset(void)
+{
+    // --- Atomic snapshot/reset to avoid tearing while ISR runs ---
+    NVIC_DisableIRQ(I2S0_IRQn);
+
+    ns_perf_counters_t wall_now, wall_d;
+    ns_capture_perf_profiler(&wall_now);
+    ns_delta_perf(&g_wall_start, &wall_now, &wall_d);
+
+    // Snap current window accumulators
+    const uint64_t proc_cyc  = g_cyc_proc;
+    const uint64_t isr_cyc   = g_cyc_isr;
+    const uint64_t proc_lsu  = g_lsu_proc;
+    const uint64_t isr_lsu   = g_lsu_isr;
+    const uint32_t frames    = g_frame_count;
+
+    // Reset for next window
+    g_cyc_proc = g_lsu_proc = 0;
+    g_cyc_isr  = g_lsu_isr  = 0;
+    g_frame_count = 0;
+    g_wall_start = wall_now;
+
+    NVIC_EnableIRQ(I2S0_IRQn);
+    // --- End atomic section ---
+
+    // Helpers (keep it simple)
+    const double wall_us  = (double)wall_d.cyccnt * 1e6 / (double)CORE_CLOCK_HZ;
+    const double proc_us  = (double)proc_cyc     * 1e6 / (double)CORE_CLOCK_HZ;
+    const double isr_us   = (double)isr_cyc      * 1e6 / (double)CORE_CLOCK_HZ;
+    double idle_us        = wall_us - proc_us - isr_us;
+    if (idle_us < 0.0) idle_us = 0.0;
+
+    const double pct = (wall_us > 0.0) ? (100.0 / wall_us) : 0.0;
+
+    const double avg_proc_us_per_frame = (frames ? (proc_us / (double)frames) : 0.0);
+    const double avg_isr_us_per_frame  = (frames ? (isr_us  / (double)frames) : 0.0);
+    const double avg_idle_us_per_frame = (frames ? (idle_us / (double)frames) : 0.0);
+
+    const double proc_share = proc_us * pct;
+    const double isr_share  = isr_us  * pct;
+    const double idle_share = idle_us * pct;
+
+    const double proc_lsu_pct = (proc_cyc ? (100.0 * (double)proc_lsu / (double)proc_cyc) : 0.0);
+    const double isr_lsu_pct  = (isr_cyc  ? (100.0 * (double)isr_lsu  / (double)isr_cyc)  : 0.0);
+
+    th_printf("\r\n=== System profile over %lu frames ===\r\n", (unsigned long)frames);
+
+    th_printf("processing():  avg %.4f us/frame | share %.1f%% | LSU %.1f%%\r\n",
+              avg_proc_us_per_frame, proc_share, proc_lsu_pct);
+
+    th_printf("I2S ISR:       avg %.4f us/frame | share %.1f%% | LSU %.1f%%\r\n",
+              avg_isr_us_per_frame,  isr_share,  isr_lsu_pct);
+
+    th_printf("idle(main):    avg %.4f us/frame | share %.1f%%\r\n",
+              avg_idle_us_per_frame, idle_share);
+
+    // Optional sanity line: average wall per frame
+    const double avg_wall_us_per_frame = (frames ? (wall_us / (double)frames) : 0.0);
+    th_printf("TOTAL (wall):  avg %.4f us/frame\r\n", avg_wall_us_per_frame);
 }

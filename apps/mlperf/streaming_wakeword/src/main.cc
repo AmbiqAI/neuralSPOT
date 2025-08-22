@@ -37,6 +37,7 @@ void my_rx_cb(ns_uart_transaction_t *t)
 }
 
 static int16_t local_buf[2][512] __attribute__((aligned(32)));
+static int16_t local_buf2[2][512] __attribute__((aligned(32)));
 static volatile uint8_t wr_idx = 0;   // ISR writes
 static volatile uint8_t rd_idx = 1;   // main reads
 static volatile uint8_t ready=0;
@@ -44,7 +45,7 @@ static volatile uint32_t overrun_count = 0;
 
 am_hal_cachectrl_range_t dcache_range {
     .ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
-    .ui32Size = 1024
+    .ui32Size = 2048
     };
 extern "C" void am_dspi2s0_isr(void)
 {
@@ -69,6 +70,7 @@ extern "C" void am_dspi2s0_isr(void)
     //     overrun_count++;
     // } else {
         memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
+        memcpy(local_buf2[wr_idx], (dma_buf+512), 512*sizeof(int16_t));
         __DMB();                 // ensure data is visible before publish
         rd_idx = wr_idx;         // publish
         wr_idx ^= 1;             // flip writer
@@ -182,6 +184,7 @@ int main(int argc, char *argv[]) {
                 case Streaming:
                     // ns_capture_perf_profiler(&s_proc);
                     process_chunk_and_cont_streaming(local_buf[idx]);
+                    process_chunk_and_cont_streaming(local_buf2[idx]);
                     // ns_capture_perf_profiler(&e_proc);
                     // ns_delta_perf(&s_proc, &e_proc, &d_proc);
                     // g_cyc_proc += d_proc.cyccnt;

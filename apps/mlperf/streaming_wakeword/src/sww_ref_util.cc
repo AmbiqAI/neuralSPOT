@@ -28,8 +28,8 @@
 #define AI_SWW_MODEL_OUT_1_SIZE (3)
 extern volatile i2s_state_t g_i2s_state;
 extern void th_printf(const char *p_fmt, ...);
-extern int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
-extern int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t AM_SHARED_RW g_i2s_buffer0[2048/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t AM_SHARED_RW g_i2s_buffer1[2048/sizeof(int16_t)] __attribute__((aligned(32)));
 extern am_hal_i2s_config_t g_sI2S0Config;
 // Command buffer (incoming commands from host)
 char g_cmd_buf[EE_CMD_SIZE + 1];
@@ -476,12 +476,12 @@ void start_detection(char *cmd_args[]) {
 		set_processing_pin_low();  // end of processing, used for duty cycle measurement
 		am_hal_cachectrl_range_t dcache_range {
 			.ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
-			.ui32Size = 1024
+			.ui32Size = 2048
 		};
 		am_hal_cachectrl_range_t dcache_range1 {
 		.ui32StartAddr = (uint32_t)&g_i2s_buffer1[0],
-		.ui32Size = 1024
-		};	
+		.ui32Size = 2048
+		};
 		am_hal_cachectrl_dcache_invalidate(&dcache_range, true);
 		am_hal_cachectrl_dcache_invalidate(&dcache_range1, true);
 		g_i2s_status = am_hal_i2s_dma_transfer_start(pI2SHandle, &g_sI2S0Config);

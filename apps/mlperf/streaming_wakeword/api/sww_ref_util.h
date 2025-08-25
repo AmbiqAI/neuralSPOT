@@ -81,21 +81,21 @@ typedef enum {
 } i2s_state_t;
 
 
-void print_vals_int16(const int16_t *buffer, uint32_t num_vals);
-void print_bytes(const uint8_t *buffer, uint32_t num_bytes);
-void print_vals_float(const float *buffer, uint32_t num_vals);
-void log_printf(LogBuffer *log, const char *format, ...);
+// void print_vals_int16(const int16_t *buffer, uint32_t num_vals);
+// void print_bytes(const uint8_t *buffer, uint32_t num_bytes);
+// void print_vals_float(const float *buffer, uint32_t num_vals);
+// void log_printf(LogBuffer *log, const char *format, ...);
 
 void process_command(char *full_command);
 void ee_serial_callback(char c);
 void th_timestamp(void);
 void set_processing_pin_high(void);
 void set_processing_pin_low(void);
-void infer_static_wav(char *cmd_args[]);
+// void infer_static_wav(char *cmd_args[]);
 void process_chunk_and_cont_capture(int16_t *idle_buffer);
 void process_chunk_and_cont_streaming(int16_t *idle_buffer);
 int sww_model_init();
 void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp);
-void extract_features_on_chunk(char *cmd_args[]);
+// void extract_features_on_chunk(char *cmd_args[]);
 
 #endif /* INC_SWW_UTIL_H_ */

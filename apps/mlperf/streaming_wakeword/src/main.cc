@@ -46,7 +46,9 @@ static volatile uint32_t overrun_count = 0;
 am_hal_cachectrl_range_t dcache_range {
     .ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
     .ui32Size = 2048
-    };
+};
+
+
 extern "C" void am_dspi2s0_isr(void)
 {
     // Start timing as soon as we enter
@@ -64,18 +66,18 @@ extern "C" void am_dspi2s0_isr(void)
     dcache_range.ui32StartAddr = (uint32_t)dma_buf;
     am_hal_cachectrl_dcache_invalidate(&dcache_range, false);
 
-    // if (ready >= 2) {
-    //     // Backlog full: DROP this frame (don't publish/flip) and record it.
-    //     // th_printf("I2S overrun detected. Dropping frame.\r\n");
-    //     overrun_count++;
-    // } else {
-        memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
-        memcpy(local_buf2[wr_idx], (dma_buf+512), 512*sizeof(int16_t));
-        __DMB();                 // ensure data is visible before publish
-        rd_idx = wr_idx;         // publish
-        wr_idx ^= 1;             // flip writer
-        ready++;                 // 1 or 2
-    // }
+    if(ready >= 2) {
+        overrun_count++;
+        // we have an overrun, drop this buffer
+        am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
+        return;
+    }
+    memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
+    memcpy(local_buf2[wr_idx], (dma_buf+512), 512*sizeof(int16_t));
+    __DMB();                 // ensure data is visible before publish
+    rd_idx = wr_idx;         // publish
+    wr_idx ^= 1;             // flip writer
+    ready++;                 // 1 or 2
 
     am_hal_i2s_interrupt_service(pI2SHandle, status, &g_sI2S0Config);
     

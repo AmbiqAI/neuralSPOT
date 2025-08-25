@@ -180,11 +180,11 @@ binary_name = $(lastword $(subst /, ,$(EXAMPLE)))
 ifeq ($(EXAMPLE),all)
 	binary_name = basic_tf_stub
 endif
-# $(info binary_name: $(binary_name))
+$(info binary_name: $(binary_name))
 deploy_target = $(filter %$(binary_name).bin, $(examples))
 # $(info deploy_target: $(deploy_target))
 # $(info TARGET: $(TARGET))
-# $(info examples: $(examples))
+$(info examples: $(examples))
 
 $(bindirs):
 	$(Q) $(MKD) -p $@
@@ -312,6 +312,7 @@ $(JLINK_RESET_CF):
 	$(Q) echo "sleep 250" >> $@
 	$(Q) echo "r0" >> $@
 	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "r" >> $@
 	$(Q) echo "Exit" >> $@
 
 .PHONY: reset

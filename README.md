@@ -63,10 +63,19 @@ See our [Windows application note](https://github.com/AmbiqAI/neuralSPOT/blob/ma
 
 NeuralSPOT includes Autodeploy, a tool to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).
 
+### Using UV (recommended)
 ```bash
-cd .../neuralSPOT # neuralSPOT's root directory
-pip install .
-ns_autodeploy --tflite-filename mymodel.tflite
+$> cd .../neuralSPOT # neuralSPOT's root directory
+$> uv sync
+$> source .venv/bin/activate
+$> ns_autodeploy --tflite-filename mymodel.tflite
+```
+
+### Using PIP
+```bash
+$> cd .../neuralSPOT # neuralSPOT's root directory
+$> pip install .
+$> ns_autodeploy --tflite-filename mymodel.tflite
 ```
 
 This one invocation will:

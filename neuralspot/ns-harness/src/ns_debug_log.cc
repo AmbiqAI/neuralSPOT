@@ -70,6 +70,7 @@ ns_TFDebugLogInit(ns_debug_log_init_t *cfg) {
     #ifdef AM_PART_APOLLO5B
     // The micro_profiler needs access to a global, so copy it in
     if (cfg->pmu != NULL) {
+        ns_lp_printf("ns_TFDebugLogInit: cfg->pmu %p\n", cfg->pmu);
         memcpy(&ns_microProfilerPMU, cfg->pmu, sizeof(ns_pmu_config_t));
         am_util_pmu_enable();
     }

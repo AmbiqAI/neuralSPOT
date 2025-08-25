@@ -13,6 +13,8 @@
 #ifndef NS_PMU_UTILS_H
 #define NS_PMU_UTILS_H
 
+#include "ns_core.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

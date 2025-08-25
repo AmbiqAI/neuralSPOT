@@ -2,7 +2,7 @@ import logging as log
 import os
 import shutil
 import glob
-import pkg_resources
+import importlib.resources
 
 import numpy as np
 from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
@@ -10,7 +10,7 @@ from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
 
 def generateModelLib(params, mc, md, ambiqsuite=False):
 
-    template_directory = pkg_resources.resource_filename(__name__, "templates")
+    template_directory = str(importlib.resources.files(__name__) / "templates")
     # Get the  base path of neuralSPOT
 
     if ambiqsuite:

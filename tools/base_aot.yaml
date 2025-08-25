@@ -1,0 +1,10 @@
+model_path: ../../../model_perf_tests/models/kws/kws_ref_model_aligned.tflite
+# model_path: ../model_perf_tests/models/nnse_simpleLSTM_8x8bit.tflite
+
+output_path: ./out_dir
+module_name: nnse_aot
+module_type: neuralspot
+prefix: nnse
+memory_planner: greedy
+include_test: true
+verbose: 1

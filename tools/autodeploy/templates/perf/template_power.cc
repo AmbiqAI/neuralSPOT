@@ -17,6 +17,7 @@
 #define NS_PROFILER_PMU_EVENT_3 NS_AD_PMU_EVENT_3
 #endif
 
+#include <string.h>
 #include "ns_core.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_energy_monitor.h"
@@ -24,21 +25,141 @@
 #include "ns_peripherals_button.h"
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
+#include "ns_pmu_accumulator.h"
+#include "ns_timer.h"
 // #ifdef AM_PART_APOLLO5B
 // #include "ns_pp.h"
 // #else
 #include "ns_power_profile.h"
 // #endif
+#if NS_AD_AOT == 1
+#include "NS_AD_NAME_AOT_model.h"
+#include "NS_AD_NAME_aot_api.h"
+#include "NS_AD_NAME_aot_example_tensors.h"
+#else
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_example_tensors.h"
 #include "ns_model.h"
+#endif
 
 #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
 #include "ns_peripherals_psram.h"
 #endif
+ns_timer_config_t tickTimer = {
+    .api = &ns_timer_V1_0_0,
+    .timer = NS_TIMER_COUNTER,
+    .enableInterrupt = false,
+};
+#if NS_AD_AOT == 1
 
-// TFLM Config
+// PMU Map has 71 entries - hardcoded since sizeof() doesn't work with extern arrays
+#define NS_PMU_MAP_ENTRIES NS_PMU_MAP_SIZE
+
+static uint32_t aot_matrix_store[NS_AD_AOT_LAYERS * NS_PMU_MAP_SIZE];
+static ns_pmu_accm_t aot_matrix;
+
+// PMU Accumulator for AOT Models (each layer has NS_PMU_MAP_ENTRIES counters, and different counters are captured per run)
+// typedef struct {
+//     uint32_t pmu_events[NS_PMU_MAP_ENTRIES];
+//     uint32_t pmu_events_index; // index of the next pmu event to capture
+// } pmu_accumulator_t;
+
+// static pmu_accumulator_t pmu_accumulator[NS_AD_AOT_LAYERS]; // one accumulator per layer
+static ns_pmu_config_t pmu_cfg;
+
+// AOT Callback
+// static void aot_callback(
+//     int32_t op,
+//     NS_AD_NAME_AOT_operator_state_e state,
+//     int32_t status,
+//     void *user_data
+// ) {
+
+//     // If the operator is starting, set up the next set of counters to capture
+//     if (state == NS_AD_NAME_AOT_model_state_started) {
+//         am_util_pmu_enable();
+//         uint32_t counter_index = pmu_accumulator[op].pmu_events_index;
+//         for (int i = 0; i < 4; i++) {
+//             // Create the events
+//             ns_lp_printf("op %d: Creating event %d for counter %d\n", op, ns_pmu_map[counter_index].eventId, counter_index);
+//             ns_pmu_event_create(&(pmu_cfg.events[i]), ns_pmu_map[counter_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
+//             counter_index++;
+//             if (counter_index >= NS_PMU_MAP_ENTRIES) {
+//                 break;
+//             }
+//         }
+//         ns_pmu_init(&pmu_cfg);    
+//     }
+
+//     // If the operator is finished, capture the counters
+//     if (state == NS_AD_NAME_AOT_model_state_finished) {
+//         // Accumulate the counters
+//         ns_pmu_get_counters(&pmu_cfg);
+//         ns_pmu_print_counters(&pmu_cfg);
+//         int sigh = pmu_accumulator[op].pmu_events_index;
+//         for (int i = 0; i < 4; i++) {
+//             pmu_accumulator[op].pmu_events[pmu_accumulator[op].pmu_events_index] = pmu_cfg.counter[i].counterValue;
+//             // ns_lp_printf("op %d: Accumulating counter %d: %d, %d\n", op, i, pmu_accumulator[op].pmu_events_index, pmu_cfg.counter[i].counterValue);
+//             pmu_accumulator[op].pmu_events_index++;
+//             if (pmu_accumulator[op].pmu_events_index >= NS_PMU_MAP_ENTRIES) {
+//                 break;
+//             }
+//         }
+//         // for debug, print the counters
+//         // for (int i = 0; i < 4; i++) {
+//         //     ns_lp_printf("Counter %d: %d\n", i, pmu_accumulator[op].pmu_events[sigh + i]);
+//         // }
+//     }
+// }
+static bool aot_characterizating = false;
+static void aot_callback(int32_t op,
+                         NS_AD_NAME_AOT_operator_state_e state,
+                         int32_t status,
+                         void *user_data)
+{
+    if (!aot_characterizating) {
+        return;
+    }
+
+    if (state == NS_AD_NAME_AOT_model_state_started) {
+        // if (op == 0 && aot_matrix.id == 0xFF)
+        //     aot_matrix = ns_pmu_accm_create(NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE, aot_matrix_store);
+
+        ns_pmu_accm_op_begin(aot_matrix, op);
+    }
+
+    if (state == NS_AD_NAME_AOT_model_state_finished) {
+        ns_pmu_accm_op_end(aot_matrix, op);
+
+        // if (op == AOT_LAYERS - 1) {
+        //     ns_pmu_accm_inference_end(aot_matrix);
+
+        //     if (ns_pmu_accm_complete(aot_matrix)) {
+        //         uint32_t *m; ns_pmu_accm_get(aot_matrix, &m);
+        //         dump_csv(m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
+        //         ns_pmu_accm_destroy(aot_matrix);
+        //     }
+        // }
+    }
+}
+
+static NS_AD_NAME_AOT_model_context_t model = {
+    .input_data = {NS_AD_NAME_example_input_tensors},
+    // .input_len = NS_AD_NAME_AOT_inputs_len,
+    .output_data = {NS_AD_NAME_output_tensors},
+    // .output_len = {NS_AD_NAME_AOT_outputs_len},
+    #if NS_AD_JS_PRESENT == 0
+    .callback = aot_callback, //aot_callback,
+    #else
+    .callback = NULL,
+    #endif
+    .user_data = NULL
+};
+#else
 static ns_model_state_t model;
+#endif
+
+
 volatile int example_status = 0; // Prevent the compiler from optimizing out while loops
 
 typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } myState_e;
@@ -47,10 +168,12 @@ typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } m
 static int volatile joulescopeTrigger = 0;
 
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
-extern ns_pmu_config_t ns_microProfilerPMU;
-extern ns_profiler_sidecar_t ns_microProfilerSidecar;
-#endif
+    #ifdef AM_PART_APOLLO5B
+    extern ns_pmu_config_t ns_microProfilerPMU;
+        #if NS_AD_AOT == 0
+        extern ns_profiler_sidecar_t ns_microProfilerSidecar;
+        #endif
+    #endif
 #endif
 
 // Button Peripheral Config Struct
@@ -90,10 +213,16 @@ ns_psram_config_t psram_cfg = {
 };
 #endif
 
+#if NS_AD_AOT == 0
 int tf_invoke() {
     model.interpreter->Invoke();
     return 0;
 }
+#endif
+
+uint32_t start_time = 0;
+uint32_t end_time = 0;
+uint32_t runs = 0;
 
 int main(void) {
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
@@ -117,14 +246,30 @@ int main(void) {
     ns_itm_printf_enable();
 #endif // NS_AD_JS_PRESENT == 0
 
-    // am_bsp_itm_printf_enable();
+    ns_itm_printf_enable();
+    // ns_timer_init(&tickTimer);
 
     ns_interrupt_master_enable();
 
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");
 
+#if NS_AD_AOT == 1
+    // Initialize the model
+    // Memcpy input and output tensor length arrays to context
+    memcpy(model.input_len, NS_AD_NAME_AOT_inputs_len, sizeof(NS_AD_NAME_AOT_inputs_len));
+    memcpy(model.output_len, NS_AD_NAME_AOT_outputs_len, sizeof(NS_AD_NAME_AOT_outputs_len));
+    int status = NS_AD_NAME_AOT_model_init(&model); // model init with minimal defaults
+    pmu_cfg.api = &ns_pmu_V1_0_0;
+    ns_pmu_reset_config(&pmu_cfg);
+
+    // reset the accumulator
+    // for (int i = 0; i < NS_AD_AOT_LAYERS; i++) {
+    //     pmu_accumulator[i].pmu_events_index = 0;
+    // }
+#else
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
+#endif
     if (status == NS_AD_NAME_STATUS_FAILURE) {
         while (1)
             ns_lp_printf("Model init failed.\n");
@@ -136,18 +281,21 @@ int main(void) {
     // Note that the model handle is not meant to be opaque, the structure is defined
     // in ns_model.h, and contains state, config details, and model structure information
 
+#if NS_AD_AOT == 0
     // Get data about input and output tensors
     int numInputs = model.numInputTensors;
 
     // Initialize input tensors
     int offset = 0;
     for (int i = 0; i < numInputs; i++) {
+
         memcpy(
             model.model_input[i]->data.int8, ((char *)NS_AD_NAME_example_input_tensors) + offset,
             model.model_input[i]->bytes);
         offset += model.model_input[i]->bytes;
     }
     ns_lp_printf("Input tensors initialized.\n");
+#endif
 
 #if NS_AD_JS_PRESENT == 0
     // If no Joulescope, start running the model without waiting for a trigger
@@ -165,7 +313,7 @@ int main(void) {
     joulescopeTrigger = true;
     ns_lp_printf("No Joulescope, starting model without trigger.\n");
 #endif
-
+    ns_lp_printf("Starting model...\n");
     // Event loop
     while (1) {
         switch (state) {
@@ -188,12 +336,20 @@ int main(void) {
         case RUNNING:
             ns_lp_printf("Running...\n");
             ns_set_power_monitor_state(0);
+
+            
 #if NS_AD_JS_PRESENT != 0
             for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
+                            // On first, and %100 runs, capture the start time
+            // if ((runs <= 5) || (runs == 10) || (runs % 100 == 0)) {
+            //     start_time = ns_us_ticker_read(&tickTimer);
+            //     ns_lp_printf("Start time: %d us\n", start_time);
+            // }
 #else
             for (int i = 0; i < 1; i++) { // Only 1 run needed for onboard_perf mode
 #endif // NS_AD_JS_PRESENT
             // for (int i = 0; i < NS_AD_POWER_RUNS; i++) {
+#if NS_AD_AOT == 0
                 model.interpreter->Invoke();
 #ifdef NS_MLPROFILE
                 if (i == 0) {
@@ -204,7 +360,18 @@ int main(void) {
                     // ns_lp_printf("Number of layers: %d\n", num_layers);
                 }
 #endif // NS_MLPROFILE
-            // ns_lp_printf("Model run %d complete.\n", i);
+#else
+                // ns_lp_printf("Running AOT model...\n");
+                NS_AD_NAME_AOT_model_run(&model);
+                // ns_lp_printf("AOT model run complete.\n");
+
+#endif
+                // if ((runs <= 5) || (runs == 10) || (runs % 100 == 0)) {
+                //     end_time = ns_us_ticker_read(&tickTimer);
+                //     ns_lp_printf("Model run %d complete. Time: %d us\n", runs, end_time - start_time);
+                // }
+                // runs++;
+                // ns_lp_printf("Model run %d complete.\n", i);
             }
             // ns_lp_printf("Model run complete.\n");
             // ns_delay_us(1100000);
@@ -231,8 +398,41 @@ int main(void) {
             // will be different for the runs below, so the mapping of PMU events to layers must be 
             // adjusted.
 
+#if NS_AD_AOT == 0
             ns_characterize_model(tf_invoke);
+            ns_lp_printf("Model characterization complete.\n");
             ns_parse_pmu_stats(num_layers, model.rv_count);
+            ns_lp_printf("Model pmu print complete.\n");
+#else
+            aot_characterizating = true;
+            ns_lp_printf("Creating AOT matrix...\n");
+            aot_matrix = ns_pmu_accm_create(NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE, aot_matrix_store);
+
+            do {
+                ns_lp_printf("Running AOT model...\n");
+                ns_pmu_accm_inference_begin(aot_matrix);
+                NS_AD_NAME_AOT_model_run(&model);
+                ns_pmu_accm_inference_end(aot_matrix);
+            } while (!ns_pmu_accm_complete(aot_matrix));
+            ns_lp_printf("AOT model run complete.\n");
+            uint32_t *m; ns_pmu_accm_get(aot_matrix, &m);
+            ns_lp_printf("AOT matrix complete.\n");
+            ns_pmu_accmprint_matrix(aot_matrix, m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
+            ns_lp_printf("AOT matrix print complete.\n");
+            // dump_csv(m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
+            ns_pmu_accm_destroy(aot_matrix);
+            aot_characterizating = false;
+
+            ns_lp_printf("AOT model characterization complete.\n");
+            // // print the pmu stats
+            // for (int op = 0; op < NS_AD_AOT_LAYERS; op++) {
+            //     ns_lp_printf("Layer %d: ", op);
+            //     for (int i = 0; i < NS_PMU_MAP_ENTRIES; i++) {
+            //         ns_lp_printf("%d ", pmu_accumulator[op].pmu_events[i]);
+            //     }
+            //     ns_lp_printf("\n");
+            // }
+#endif
 
 #endif // AM_PART_APOLLO5B
             while (1);   // hang

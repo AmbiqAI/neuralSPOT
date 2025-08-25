@@ -92,7 +92,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
                 if verbose:
                     if opcodeName in unoptimized_ops:
                         print(
-                            f"[NS] Static Analysis Warning: {opcodeName} is not in optimized in mainstream TFLM, consider using Ambiq NS-TFLM"
+                            f"[NS] Static Analysis Warning: {opcodeName} is not in optimized in mainstream TFLM, consider using Ambiq HeliosRT"
                         )
                         # remove the opcode from the list
                         unoptimized_ops.remove(opcodeName)

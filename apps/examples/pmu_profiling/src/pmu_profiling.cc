@@ -156,8 +156,6 @@ int main(void) {
 
     // Characterize the function by repeatedly calling it and checking different PMU counters every time
     ns_lp_printf("\nStarting full PMU capture - multiple passes...\n");
-    ns_lp_printf("Counter Value, Counter Name, Counter Description\n"); // header
-
     // This function prints results as it goes
     ns_pmu_characterize_function(func_to_be_profiled, &pmu_config);
 

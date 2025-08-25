@@ -22,7 +22,8 @@ typedef struct {
 extern uint32_t g_ns_pmu_map_length;
 #define NS_NUM_PMU_MAP_SIZE (g_ns_pmu_map_length/sizeof(ns_pmu_map_t))
 extern const ns_pmu_map_t ns_pmu_map[];
-#define NS_PMU_MAP_SIZE (sizeof(ns_pmu_map) / sizeof(ns_pmu_map_t))
+#define NS_PMU_MAP_SIZE 71 
+// (sizeof(ns_pmu_map) / sizeof(ns_pmu_map_t))
 #else
 #define NS_NUM_PMU_MAP_SIZE 0
 #endif

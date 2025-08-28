@@ -26,6 +26,8 @@ static ns_perf_counters_t g_wall_start;
 static uint32_t g_frame_count=0;
 #define REPORT_EVERY 200
 #define CORE_CLOCK_HZ 96000000u
+const uint32_t block_length=SWW_WINLEN_SAMPLES;
+arm_rfft_fast_instance_f32 rfft_s;
 
 static void sww_perf_report_and_reset(void);
 
@@ -45,7 +47,7 @@ static volatile uint32_t overrun_count = 0;
 
 am_hal_cachectrl_range_t dcache_range {
     .ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
-    .ui32Size = 2048
+    .ui32Size = 1024
 };
 
 
@@ -73,7 +75,7 @@ extern "C" void am_dspi2s0_isr(void)
         return;
     }
     memcpy(local_buf[wr_idx], dma_buf, 512*sizeof(int16_t));
-    memcpy(local_buf2[wr_idx], (dma_buf+512), 512*sizeof(int16_t));
+    // memcpy(local_buf2[wr_idx], (dma_buf+512), 512*sizeof(int16_t));
     __DMB();                 // ensure data is visible before publish
     rd_idx = wr_idx;         // publish
     wr_idx ^= 1;             // flip writer
@@ -163,10 +165,16 @@ int main(int argc, char *argv[]) {
     // ns_start_perf_profiler();	
     // ns_capture_perf_profiler(&g_wall_start);
 
-    th_serialport_initialize();
-    i2s_init();
-    th_timestamp();
+	/* RFFT based implementation */
+	arm_rfft_fast_init_f32(&rfft_s, block_length);
+    arm_status op_result;
+	if (op_result != ARM_MATH_SUCCESS) {
+		th_printf("Error %d in arm_rfft_fast_init_f32", op_result);
+	}
     ns_interrupt_master_enable();
+    i2s_init();
+    th_serialport_initialize();
+    th_timestamp();
     for (;;) {
         // consume all pending frames safely
         while (1) {
@@ -186,7 +194,7 @@ int main(int argc, char *argv[]) {
                 case Streaming:
                     // ns_capture_perf_profiler(&s_proc);
                     process_chunk_and_cont_streaming(local_buf[idx]);
-                    process_chunk_and_cont_streaming(local_buf2[idx]);
+                    // process_chunk_and_cont_streaming(local_buf2[idx]);
                     // ns_capture_perf_profiler(&e_proc);
                     // ns_delta_perf(&s_proc, &e_proc, &d_proc);
                     // g_cyc_proc += d_proc.cyccnt;
@@ -261,9 +269,7 @@ static void i2s_init(void)
 
 void th_timestamp(void) {
     am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_CLEAR);
-    for (int i=0; i<100000; ++i) {
-        __asm__ volatile("nop");
-    }
+    ns_delay_us(1);
     am_hal_gpio_state_write(22, AM_HAL_GPIO_OUTPUT_SET);
 }
 

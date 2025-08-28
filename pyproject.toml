@@ -50,7 +50,7 @@ neuralspot = ""
 neuralspot = ["tools/autodeploy/templates/**/*", "tools/ns_platform.yaml", "tools/autodeploy/profiles/ns_pmu_default.yaml"]
 
 [tool.uv.sources]
-helios-aot = { path = "../../helios-aot" }
+helios-aot = { path = "../helios-aot" }
 
 [project.scripts]
 ns_autodeploy = "neuralspot.tools.ns_autodeploy:main"

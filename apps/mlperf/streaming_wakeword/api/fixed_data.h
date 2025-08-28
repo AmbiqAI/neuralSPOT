@@ -9,7 +9,7 @@
 #define MODEL_TEST_INPUTS_H_
 #include <stdint.h>
 #include "arm_math.h"
-
+#include "ns_ambiqsuite_harness.h"
 extern const int8_t test_input_class0[1200];
 extern const int8_t test_input_class1[1200];
 extern const int8_t test_input_class2[1200];

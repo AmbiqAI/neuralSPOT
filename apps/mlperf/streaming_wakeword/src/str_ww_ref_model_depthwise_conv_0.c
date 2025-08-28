@@ -35,16 +35,16 @@
 #endif
 
 // Input dimensions: input shape is [1, H_IN, W_IN, C_IN]
-static const cmsis_nn_dims dw_0_input_dims = { .n = 1, .h = 30, .w = 1, .c = 40 };
+static const cmsis_nn_dims dw_0_input_dims = { .n = 1, .h = 1, .w = 30, .c = 40 };
 
 // Filter dimensions: weights shape is [1, H_FILT, W_FILT, C_OUT].
-static const cmsis_nn_dims dw_0_filter_dims = { .n = 1, .h = 3, .w = 1, .c = 40 };
+static const cmsis_nn_dims dw_0_filter_dims = { .n = 1, .h = 1, .w = 3, .c = 40 };
 
 // Bias dimensions: bias shape is [1, 1, 1, C_OUT].
 static const cmsis_nn_dims dw_0_bias_dims = { .n = 1, .h = 1, .w = 1, .c = 40 };
 
 // Output dimensions: output shape is [1, H_OUT, W_OUT, C_OUT].
-static const cmsis_nn_dims dw_0_output_dims = { .n = 1, .h = 28, .w = 1, .c = 40 };
+static const cmsis_nn_dims dw_0_output_dims = { .n = 1, .h = 1, .w = 28, .c = 40 };
 
 // Quantization parameters (per-channel quantization)
 static const int32_t dw_0_multiplier[40] = {

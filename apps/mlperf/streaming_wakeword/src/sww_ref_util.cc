@@ -28,8 +28,8 @@
 #define AI_SWW_MODEL_OUT_1_SIZE (3)
 extern volatile i2s_state_t g_i2s_state;
 extern void th_printf(const char *p_fmt, ...);
-extern int16_t AM_SHARED_RW g_i2s_buffer0[2048/sizeof(int16_t)] __attribute__((aligned(32)));
-extern int16_t AM_SHARED_RW g_i2s_buffer1[2048/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+extern int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 extern am_hal_i2s_config_t g_sI2S0Config;
 // Command buffer (incoming commands from host)
 char g_cmd_buf[EE_CMD_SIZE + 1];
@@ -39,10 +39,10 @@ size_t g_cmd_pos = 0u;
 uint32_t g_int16s_read = 0;
 // chunk should be a 'window-stride' long = 32ms stride * 16kS/s * 2B/sample = 1024
 // then double because we receive stereo (2 samples per time point)
-uint32_t g_i2s_chunk_size_bytes = 2048;
+uint32_t g_i2s_chunk_size_bytes = 1024;
 uint32_t g_i2s_status = AM_HAL_STATUS_SUCCESS; // status of the last I2S operation
 // two ping-pong byte buffers for DMA transfers from I2S port.
-static int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
+alignas(16) int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
 static int8_t  g_model_input  [SWW_MODEL_INPUT_SIZE];
 
 uint8_t g_gp_buffer[G_GP_BUFF_BYTES]; // general-purpose buffer; for capturing a waveform or activations.
@@ -54,7 +54,6 @@ int8_t *g_act_buff = NULL;
 uint32_t g_i2s_wav_len = 0;
 uint32_t g_first_frame = 1;
 
-
 extern void *pI2SHandle;
 
 uint32_t g_act_idx = 0;
@@ -65,7 +64,7 @@ int32_t sww_input_len = str_ww_ref_model_inputs_len[0];
 int32_t sww_output_len = str_ww_ref_model_outputs_len[0];
 am_hal_cachectrl_range_t start_det_dcache_range {
 	.ui32StartAddr = (uint32_t)&g_i2s_buffer0[0],
-	.ui32Size = 2048
+	.ui32Size = 1024
 };
 
 str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
@@ -85,6 +84,9 @@ str_ww_ref_model_model_context_t str_ww_ref_model_model_ctx = {
     // .callback = str_ww_ref_model_model_operator_cb,
     .user_data = NULL
 };
+
+extern  arm_rfft_fast_instance_f32 rfft_s;
+const uint32_t block_length=SWW_WINLEN_SAMPLES;
 
 void print_vals_int16(const int16_t *buffer, uint32_t num_vals)
 {
@@ -128,7 +130,7 @@ void print_vals_int8(const int8_t *buffer, uint32_t num_vals)
 		th_printf("\r\n");
 	}
 	th_printf("]\r\n");
-	//	th_printf("]\r\n==== Done ====\r\n");
+	th_printf("]\r\n==== Done ====\r\n");
 }
 
 
@@ -438,8 +440,8 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 	// in the FFT domain, so it needs to be winlen_samples long, even though
 	// ultimately it will only hold NUM_MEL_FILTERS values.  This can probably
 	// be improved with a refactored compute_lfbe_f32().
-	static float32_t feature_buff[SWW_WINLEN_SAMPLES];
-	static float32_t dsp_buff[SWW_WINLEN_SAMPLES];
+	alignas(16) NS_PUT_IN_TCM static float32_t feature_buff[SWW_WINLEN_SAMPLES];
+	alignas(16) NS_PUT_IN_TCM static float32_t dsp_buff[SWW_WINLEN_SAMPLES];
 	static int num_calls = 0;  // jhdbg
 
 	float32_t input_scale_factor = str_ww_ref_model_inputs_scale[0];
@@ -473,9 +475,7 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 
 	// ns_perf_counters_t s2, e2, d2;
 	// ns_capture_perf_profiler(&s2);
-
 	compute_lfbe_f32(g_wav_block_buff, feature_buff, dsp_buff);
-	
 	// ns_capture_perf_profiler(&e2);
 	// ns_delta_perf(&s2,&e2,&d2);
 	// g_cyc_feat += d2.cyccnt;
@@ -544,102 +544,80 @@ void process_chunk_and_cont_streaming(int16_t *idle_buffer) {
 // 	}
 }
 
+const float32_t inv_block_length=1.0/SWW_WINLEN_SAMPLES;
+const uint32_t spec_len = SWW_WINLEN_SAMPLES/2+1;
+const float32_t preemphasis_coef = 0.96875; // 1.0 - 2.0 ** -5;
+const float32_t power_offset = 52.0;
+const uint32_t num_filters = 40;
 
-void compute_lfbe_f32(const int16_t *pSrc, float32_t *pDst, float32_t *pTmp)
+// assumes: hamm_win_1024 is 16B aligned in TCM; rfft_s is static-initialized
+void compute_lfbe_f32(const int16_t * __restrict pSrc,
+                      float32_t    * __restrict pDst,  // reused later by FFT
+                      float32_t    * __restrict pTmp)  // scratch
 {
-	const uint32_t block_length=SWW_WINLEN_SAMPLES;
-	const float32_t inv_block_length=1.0/SWW_WINLEN_SAMPLES;
-	const uint32_t spec_len = SWW_WINLEN_SAMPLES/2+1;
-	const float32_t preemphasis_coef = 0.96875; // 1.0 - 2.0 ** -5;
-	const float32_t power_offset = 52.0;
-	const uint32_t num_filters = 40;
-	int i; // for looping
-	// to maintain continuity in pre-emphasis over segment boundaries
-	static float32_t last_value = 0.0;
-	arm_status op_result = ARM_MATH_SUCCESS;
+    const float32_t k = 1.0f / 32768.0f;           // int16 -> float
+    static float32_t last_x = 0.0f;                // cross-frame continuity
 
-	// convert int16_t pSrc to float32_t.  range [-32768:32767] => [-1.0,1.0)
-	// WINLEN - WINSTRIDE of these have already been converted once, so a little speedup
-	// could probably be gained by factoring this out into process_chunk_and_continue_streaming
-    for(i=0;i<block_length;i++){
-    	pDst[i] = ((float32_t)pSrc[i])/32768.0;
+    // 1) Convert + pre-emphasize + window  ==> time buffer for FFT in pTmp
+    float32_t prev = last_x;
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (int i = 0; i < block_length; ++i) {
+        float32_t x = (float32_t)pSrc[i] * k;      // convert
+        float32_t y = x - preemphasis_coef * prev; // pre-emphasis
+        pTmp[i] = y * hamm_win_1024[i];            // window
+        prev = x;
     }
+    last_x = (float32_t)pSrc[SWW_WINSTRIDE_SAMPLES - 1] * k;
 
-	// Apply pre-emphasis:  zero-pad input by 1, then x' = x[1:]-pe_coeff*x[:-1], so len(x')==len(x)
-	// Start by scaling w/ coeff; pTmp = preemphasis_coef * input
-	arm_scale_f32(pDst, preemphasis_coef, pTmp, block_length);
-	// calculate pDst[0] separately since it uses a value from the last segment
-	pDst[0] = pDst[0] - last_value*preemphasis_coef;
+    // 2) FFT: time pTmp -> packed complex pDst
+    arm_rfft_fast_f32(&rfft_s, pTmp, pDst, 0);
 
-	// in the next frame pDst[SWW_WINSTRIDE_SAMPLES-1] will be 1 sample older than the 1st sample,
-	// so it will be used in the pre-emphasis for pDst[0]
-	last_value = pDst[SWW_WINSTRIDE_SAMPLES-1];
+    // 3) Power spectrum directly (no sqrt then square)
+    float32_t *powspec = pTmp;                     // reuse scratch
+    powspec[0]        = pDst[0] * pDst[0];         // DC is real
+    powspec[block_length/2]      = pDst[1] * pDst[1];         // Nyquist is real
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (int kbin = 1; kbin < block_length/2; ++kbin) {
+        float32_t re = pDst[2*kbin];
+        float32_t im = pDst[2*kbin + 1];
+        powspec[kbin] = re*re + im*im;
+    }
+    arm_scale_f32(powspec, 1.0f/block_length, powspec, block_length/2 + 1);
 
-	// use pDst as a 2nd temp buffer pDst[1:] - pTmp => pDst[1:]
-	arm_sub_f32 (pDst+1, pTmp, pDst+1, block_length-1);
-
-	// apply hamming window to pDst and put results in pTmp.
-	arm_mult_f32(pDst, hamm_win_1024, pTmp, block_length);
-
-
-	/* RFFT based implementation */
-	arm_rfft_fast_instance_f32 rfft_s;
-	op_result = arm_rfft_fast_init_f32(&rfft_s, block_length);
-	if (op_result != ARM_MATH_SUCCESS) {
-		th_printf("Error %d in arm_rfft_fast_init_f32", op_result);
-	}
-	arm_rfft_fast_f32(&rfft_s,pTmp,pDst,0); // use config rfft_s; FFT(pTmp) => pDst, ifft=0
-
-	// Now we need to take the magnitude of the spectrum.  For block_length=1024, it will be 513 elements
-	// we'll use pTmp as an array of block_length/2+1 real values.
-	// the N/2th element is real and stuck in pDst[1] (where fft[0].imag=0 should be)
-	// move that to pTmp[block_length/2]
-	pTmp[block_length/2] = pDst[1]; // real value corresponding to fsamp/2
-	pDst[1] = 0; // so now pDst[0,1] = real,imag elements at f=0 (always real, so imag=0)
-	arm_cmplx_mag_f32(pDst,pTmp,block_length/2); // mag(pDst) => pTmp.  pTmp[512] already set.
-
-	//    powspec = (1 / data_config['window_size_samples']) * tf.square(magspec)
-	arm_mult_f32(pTmp, pTmp,pDst, spec_len); // pDst[0:513] = pTmp[0:513]^2
-	arm_scale_f32(pDst, inv_block_length, pTmp, spec_len);
-
-
-	// The original lin2mel matrix is spec_len x num_filters, where each column holds one mel filter,
-	// lin2mel_packed_<X>x<Y> has all the non-zero elements packed together in one 1D array
-	// _filter_starts are the locations in each *original* column where the non-zero elements start
-	// _filter_lens is how many non-zero elements are in each original column
-	// So the i_th filter start in lin2mel_packed at sum(_filter_lens[:i])
-	// And the corresponding spectrum segment starts at linear_spectrum[_filter_starts[i]]
-	int lin2mel_coeff_idx = 0;
-	/* Apply MEL filters; linear spectrum is now in pTmp[0:spec_len], put mel spectrum in pDst[0:num_filters] */
-	for(i=0; i<num_filters; i++)
-	{
-		arm_dot_prod_f32 (pTmp+lin2mel_513x40_filter_starts[i],
-				lin2mel_packed_513x40+lin2mel_coeff_idx,
-				lin2mel_513x40_filter_lens[i],
-				pDst+i);
-
-		lin2mel_coeff_idx += lin2mel_513x40_filter_lens[i];
-	}
-
-	//    powspec_max = tf.reduce_max(input_tensor=powspec)
-	//    powspec = tf.clip_by_value(powspec, 1e-30, powspec_max) # prevent -infinity on log
-	for(i=0;i<num_filters;i++){
+    // 4) Mel filterbank (packed sparse)
+    int idx = 0;
+    for (int m = 0; m < 40; ++m) {
+        arm_dot_prod_f32(powspec + lin2mel_513x40_filter_starts[m],
+                         lin2mel_packed_513x40 + idx,
+                         lin2mel_513x40_filter_lens[m],
+                         pDst + m);
+        idx += lin2mel_513x40_filter_lens[m];
+    }
+	
+	#pragma clang loop vectorize(enable) interleave(enable)
+    // 5) floor → log10 → offset/scale → clip
+	for(int i=0;i<num_filters;i++){
 		pDst[i] = (pDst[i] > 1e-30) ? pDst[i] : 1e-30;
 	}
+	// const float32x4_t vmin = vdupq_n_f32(1e-30f);
+	// for (int m = 0; m +3 < num_filters; m+=4) {
+	// 	float32x4_t x = vldrwq_f32(&pDst[m]);
+	// 	x = vmaxnmq_f32(x, vmin); // max(x, 1e-30f)
+	// 	vstrwq_f32(&pDst[m], x); // store back
 
-	for(i=0; i<num_filters; i++){
-		pDst[i] = 10*log10(pDst[i]);
+	// }
+	#pragma clang loop vectorize(enable) interleave(enable)
+    for (int m = 0; m < num_filters; ++m) {
+		pDst[m] = 10 * log10(pDst[m]);
 	}
 
-	//log_mel_spec = (log_mel_spec + power_offset - 32 + 32.0) / 64.0
-	arm_offset_f32 (pDst, power_offset, pDst, num_filters);
-	arm_scale_f32(pDst, (1.0/64.0), pTmp, num_filters);
+	const float32_t s = 1.0f/64.0f;
+	const float32_t b = power_offset * s;
 
-
-	//log_mel_spec = tf.clip_by_value(log_mel_spec, 0, 1)
-	for(i=0; i<num_filters; i++){
-		pDst[i] = (pTmp[i] < 0.0) ? 0.0 : ((pTmp[i] > 1.0) ? 1.0 : pTmp[i]);
+	#pragma clang loop vectorize(enable) interleave(enable)
+	for (int m = 0; m < 40; ++m) {
+		float32_t y = pDst[m] * s + b;   // (x + power_offset) * (1/64)
+		// clip to [0,1]
+		pDst[m] = fminf(fmaxf(y, 0.f), 1.f);
 	}
 }
-
-

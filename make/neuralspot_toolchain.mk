@@ -128,7 +128,7 @@ else ifeq ($(TOOLCHAIN),arm)
 
   CFLAGS += \
     --target=arm-arm-none-eabi \
-    -mcpu=$(CPU) \
+    -mcpu=$(CPU)+fp+mve \
     $(FPU_FLAG) \
     -mfloat-abi=$(FABI) \
     -c \
@@ -137,7 +137,9 @@ else ifeq ($(TOOLCHAIN),arm)
     -fshort-enums \
     -fshort-wchar \
     -gdwarf-4 \
-    -Ofast \
+    -O3 \
+    -ffast-math \
+    -fno-math-errno\
     -ffunction-sections \
     -Wno-packed \
     -Wno-missing-variable-declarations \
@@ -299,6 +301,7 @@ ifeq ($(ENERGY_MODE),1)
   DEFINES += ENERGYMODE
 endif
 
+# DEFINES += ARM_MATH_MVEF ARM_MATH_HELIUM ARM_MATH_LOOPUNROLL
 
 # -----------------------------------------------------------------------------
 # 5) QUIET‐BUILD SUPPORT
@@ -311,6 +314,12 @@ else
   Q := @
 endif
 
+$(info ==== neuralspot_toolchain.mk ====)
+$(info TOOLCHAIN:   $(TOOLCHAIN))
+$(info CC:          $(CC))
+$(info CFLAGS:      $(CFLAGS))
+$(info LFLAGS:      $(LFLAGS))
+$(info LINKER_FILE: $(LINKER_FILE))
 
 # -----------------------------------------------------------------------------
 # 6) MARK DEFAULT RULES

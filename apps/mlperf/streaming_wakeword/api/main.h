@@ -25,11 +25,13 @@
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
-
+#include "arm_math_types.h"
+#include "arm_math.h"
 void        *pI2SHandle;
-int16_t AM_SHARED_RW g_i2s_buffer0[2048/sizeof(int16_t)] __attribute__((aligned(32)));
-int16_t AM_SHARED_RW g_i2s_buffer1[2048/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t AM_SHARED_RW g_i2s_buffer0[1024/sizeof(int16_t)] __attribute__((aligned(32)));
+int16_t AM_SHARED_RW g_i2s_buffer1[1024/sizeof(int16_t)] __attribute__((aligned(32)));
 volatile i2s_state_t g_i2s_state = Idle;
+
 
 am_hal_i2s_io_signal_t g_sI2SIOConfig =
 {
@@ -55,7 +57,7 @@ am_hal_i2s_data_format_t g_sI2SDataConfig =
 am_hal_i2s_transfer_t sTransfer0 = {
     .ui32RxTargetAddr        = (uint32_t)&g_i2s_buffer0[0],
     .ui32RxTargetAddrReverse = (uint32_t)&g_i2s_buffer1[0],
-	.ui32RxTotalCount        = 512,
+	.ui32RxTotalCount        = 256,
     .ui32TxTargetAddr        = 0,
     .ui32TxTargetAddrReverse = 0,
 	.ui32TxTotalCount        = 0,

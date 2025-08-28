@@ -277,7 +277,7 @@ void ns_platform_deep_sleep(void) {
     //     g_ns_state.cryptoCurrentlyEnabled = false;
     // }
 
-    am_hal_sysctrl_sleep(AM_HAL_SYSCTRL_SLEEP_DEEP);
+    am_hal_sysctrl_sleep(1);
 
     // if (g_ns_state.tempcoWantsToBeEnabled) { // isr turns ADC on
     // }

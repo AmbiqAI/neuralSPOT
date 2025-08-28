@@ -39,7 +39,7 @@ try:
     print("[NS] HeliosAOT module is available")
 except (ImportError, OSError, RuntimeError) as e:
     helios_aot_available = False
-    # print(f"Helios AOT support is not available: {e}")
+    print(f"Helios AOT support is not available: {e}")
     
 
 # External modules – behaviour must stay identical; keep import locations
@@ -679,8 +679,8 @@ class AutoDeployRunner:
             raise ValueError("TFLite filename must be specified")
 
         # --- If aot_config is auto, set it to tools/base_aot.yaml
-        if self.p.helios_aot_config == "auto":
-            self.p.helios_aot_config = str(importlib.resources.files(__name__) / "base_aot.yaml")
+        # if self.p.helios_aot_config == "auto":
+        #     self.p.helios_aot_config = str(importlib.resources.files(__name__) / "base_aot.yaml")
 
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")

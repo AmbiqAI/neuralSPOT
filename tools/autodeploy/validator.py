@@ -8,8 +8,7 @@ import importlib.resources
 import erpc
 import numpy as np
 import pandas as pd
-
-import ai_edge_litert as tflite
+import ai_edge_litert.interpreter as tflite
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
     ModelDetails,
@@ -1214,6 +1213,6 @@ def create_validation_binary(params, mc, md, baseline, aot):
 def get_interpreter(params):
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
     with suppress_os_stdio():
-        interpreter = tflite.interpreter.Interpreter(model_path=params.tflite_filename)
+        interpreter = tflite.Interpreter(model_path=params.tflite_filename)
         interpreter.allocate_tensors()
         return interpreter

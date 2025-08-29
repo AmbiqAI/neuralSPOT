@@ -226,7 +226,8 @@ int AudioPipe_wrapper_frameProc(
         tmp_16s,
         pcm_output,
         0,
-        NN_DIM_OUT);
+        NN_DIM_OUT,
+        params_nn3_se.fftsize);
     return 0;
 }
 

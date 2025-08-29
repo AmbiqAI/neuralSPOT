@@ -69,7 +69,8 @@ void se_post_proc(
     int16_t *pt_nn_est, // tfmask
     int16_t *pt_se_out, // output
     int start_bin,      // start bin
-    int nn_dim_out);       // NN output dimension
+    int nn_dim_out, // number of bins for nn output
+    int fftsize);       
 #ifdef __cplusplus
 }
 #endif

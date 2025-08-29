@@ -211,7 +211,8 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
                 (int16_t *)glob_nn_output,
                  pt_inst->pt_se_out,
                 pt_inst->pt_params->start_bin,
-                NNSPClass_get_nnOut_dim(pt_inst));
+                NNSPClass_get_nnOut_dim(pt_inst),
+                pt_inst->pt_params->fftsize);
 
             break;
         }
@@ -247,13 +248,15 @@ void se_post_proc(
         int16_t *pt_nn_est, 
         int16_t *pt_se_out,
         int start_bin,
-        int nn_dim_out
-    ) {
+        int nn_dim_out,
+        int fftsize)
+{
     FeatureClass *pt_feat = (FeatureClass *) pt_feat_t;
     stftModule *pt_stft_state = &(pt_feat->state_stftModule);
     int32_t *spec = pt_stft_state->spec;
     int64_t tmp;
-
+    int qbit_spec;
+    int num_bins = (fftsize >> 1) + 1;
     for (int i = 0; i < start_bin; i++) {
         spec[2 * i] = 0;
         spec[2 * i + 1] = 0;
@@ -268,12 +271,20 @@ void se_post_proc(
         spec[2 * i + 1] = (int32_t)tmp;
     }
 
-    for (int i = start_bin + nn_dim_out; i < 257; i++) {
+    for (int i = start_bin + nn_dim_out; i < num_bins; i++) {
         spec[2 * i] = 0;
         spec[2 * i + 1] = 0;
     }
-
-    stftModule_synthesize_arm(pt_stft_state, spec, pt_se_out);
+    if (fftsize==128)
+        qbit_spec = 23;
+    else if (fftsize==256)
+        qbit_spec = 22;
+    else if (fftsize == 512)
+        qbit_spec = 21;
+    else if (fftsize == 1024)
+        qbit_spec = 20;
+    stftModule_synthesize_arm(
+        pt_stft_state, spec, pt_se_out, qbit_spec);
 }
 
 void s2i_post_proc(NNSPClass *pt_inst, int32_t *pt_nn_est, int16_t *pt_trigger) {

@@ -15,10 +15,10 @@
 #endif
 #define LOG10_2POW_N15_Q15 (-147963)
 int32_t GLOBAL_PSPEC[512];
-extern const int16_t mcombfltrBank_coeff_nfilt69_fftsize512[];
-extern const int16_t mfltrBank_coeff_nfilt72_fftsize512[];
-extern const int16_t mfltrBank_coeff_nfilt40_fftsize512[];
-extern const int16_t mfltrBank_coeff_nfilt22_fftsize256[];
+// extern const int16_t mcombfltrBank_coeff_nfilt69_fftsize512[];
+// extern const int16_t mfltrBank_coeff_nfilt72_fftsize512[];
+// extern const int16_t mfltrBank_coeff_nfilt40_fftsize512[];
+// extern const int16_t mfltrBank_coeff_nfilt22_fftsize256[];
 
 void FeatureClass_construct(
         FeatureClass *ps, 
@@ -36,7 +36,7 @@ void FeatureClass_construct(
     stftModule_construct(&ps->state_stftModule, winsize, hopsize, fftsize, pt_stft_win_coeff);
     ps->pt_norm_mean = norm_mean;
     ps->pt_norm_stdR = norm_stdR;
-    ps->num_context = NUM_FEATURE_CONTEXT;
+    ps->num_context = 1; // for tflm model, we only use 1 context
     ps->dim_feat = num_mfltrBank;
     ps->qbit_output = qbit_output;
     ps->num_mfltrBank = num_mfltrBank;
@@ -119,13 +119,17 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     fprintf(file_pspec_c, "\n");
 #endif
     int32_t *pt_feature;
-    if (ps->num_mfltrBank ==257)
+    if (0)
+    // if (ps->num_mfltrBank ==257) // need to find the better condition
     {
+
         pt_feature = pspec;
     }
     else
-    {
+    {   
+
         melSpecProc(pspec, ps->feature, ps->p_melBanks, ps->num_mfltrBank);
+
         pt_feature = ps->feature;
     }
     #if AMBIQ_NNSP_DEBUG == 1

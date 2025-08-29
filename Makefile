@@ -77,7 +77,7 @@ else
 	ifeq ($(EXAMPLE),all)
 		modules      += examples/basic_tf_stub
 		modules      += examples/har
-		
+		modules      += examples/nnvad_tflm
 		modules	     += examples/uart
 		modules      += examples/rpc_server
 

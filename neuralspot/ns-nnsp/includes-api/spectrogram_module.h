@@ -46,7 +46,11 @@ int stftModule_analyze_arm(
     int32_t *spec,       // q21
     int16_t fftsize, int16_t *pt_qbit_out);
 
-int stftModule_synthesize_arm(void *ps_t, int32_t *spec, int16_t *output);
+int stftModule_synthesize_arm(
+    void *ps_t,
+    int32_t *spec,
+    int16_t *output,
+    int qbit_spec);
 #endif
 
 #ifdef __cplusplus

@@ -134,11 +134,21 @@ int stftModule_analyze_arm(
         &ps->fft_st,
         spec,          // fft_out, Q21
         glob_fft_buf); // fft_in,  Q30    
-
-    if (fftsize == 512)
-        *pt_qbit_out = 21;
-    else
+    
+    
+    if (fftsize==128)
+        *pt_qbit_out = 23;
+    else if (fftsize==256)
         *pt_qbit_out = 22;
+    else if (fftsize == 512)
+        *pt_qbit_out = 21;
+    else if (fftsize == 1024)
+        *pt_qbit_out = 20;
+
+    // if (fftsize == 512)
+    //     *pt_qbit_out = 21;
+    // else
+    //     *pt_qbit_out = 22;
     return 0;
 }
 
@@ -149,7 +159,8 @@ int stftModule_analyze_arm(
 int stftModule_synthesize_arm(
     void *ps_t,
     int32_t *spec,   // Q21
-    int16_t *output) // Q15
+    int16_t *output,
+    int qbit_spec) // Q15
 {
     int i;
     int64_t tmp64;
@@ -163,7 +174,7 @@ int stftModule_synthesize_arm(
 
     for (i = 0; i < ps->len_win; i++) {
         tmp64 = ((int64_t)ps->window[i]) * (int64_t)glob_fft_buf[i];
-        tmp64 >>= 21;
+        tmp64 >>= qbit_spec;
         tmp64 = (int64_t)ps->odataBuffer[i] + (int64_t)tmp64;
         tmp64 = MIN(MAX(tmp64, INT32_MIN), INT32_MAX);
         ps->odataBuffer[i] = (int32_t)tmp64;
@@ -243,10 +254,15 @@ int stftModule_analyze_arm(
         spec,          // fft_out, Q21
         glob_fft_buf); // fft_in,  Q30
 
-    if (fftsize == 512)
-        *pt_qbit_out = 21;
-    else
+    if (fftsize==128)
+        *pt_qbit_out = 23;
+    else if (fftsize==256)
         *pt_qbit_out = 22;
+    else if (fftsize == 512)
+        *pt_qbit_out = 21;
+    else if (fftsize == 1024)
+        *pt_qbit_out = 20;
+
     return 0;
 }
 
@@ -257,7 +273,8 @@ int stftModule_analyze_arm(
 int stftModule_synthesize_arm(
     void *ps_t,
     int32_t *spec,   // Q21
-    int16_t *output) // Q15
+    int16_t *output,
+    int qbit_spec) // Q15
 {
     int i;
     int64_t tmp64;
@@ -270,7 +287,7 @@ int stftModule_synthesize_arm(
 
     for (i = 0; i < ps->len_win; i++) {
         tmp64 = ((int64_t)ps->window[i]) * (int64_t)glob_fft_buf[i];
-        tmp64 >>= 21;
+        tmp64 >>= qbit_spec;
         tmp64 = (int64_t)ps->odataBuffer[i] + (int64_t)tmp64;
         tmp64 = MIN(MAX(tmp64, INT32_MIN), INT32_MAX);
         ps->odataBuffer[i] = (int32_t)tmp64;

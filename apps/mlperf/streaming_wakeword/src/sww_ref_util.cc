@@ -42,7 +42,7 @@ uint32_t g_int16s_read = 0;
 uint32_t g_i2s_chunk_size_bytes = 1024;
 uint32_t g_i2s_status = AM_HAL_STATUS_SUCCESS; // status of the last I2S operation
 // two ping-pong byte buffers for DMA transfers from I2S port.
-alignas(16) int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
+alignas(16) NS_PUT_IN_TCM int16_t g_wav_block_buff[SWW_WINLEN_SAMPLES];
 static int8_t  g_model_input  [SWW_MODEL_INPUT_SIZE];
 
 uint8_t g_gp_buffer[G_GP_BUFF_BYTES]; // general-purpose buffer; for capturing a waveform or activations.
@@ -582,6 +582,7 @@ void compute_lfbe_f32(const int16_t * __restrict pSrc,
         float32_t im = pDst[2*kbin + 1];
         powspec[kbin] = re*re + im*im;
     }
+
     arm_scale_f32(powspec, 1.0f/block_length, powspec, block_length/2 + 1);
 
     // 4) Mel filterbank (packed sparse)
@@ -593,8 +594,6 @@ void compute_lfbe_f32(const int16_t * __restrict pSrc,
                          pDst + m);
         idx += lin2mel_513x40_filter_lens[m];
     }
-	
-	#pragma clang loop vectorize(enable) interleave(enable)
     // 5) floor → log10 → offset/scale → clip
 	for(int i=0;i<num_filters;i++){
 		pDst[i] = (pDst[i] > 1e-30) ? pDst[i] : 1e-30;
@@ -614,6 +613,17 @@ void compute_lfbe_f32(const int16_t * __restrict pSrc,
 	const float32_t s = 1.0f/64.0f;
 	const float32_t b = power_offset * s;
 
+	// const float32x4_t v0 = vdupq_n_f32(0.0f); // min clip
+    // const float32x4_t v1 = vdupq_n_f32(1.0f); // max clilp
+    // const float32x4_t vb = vdupq_n_f32(b);
+
+	// for (int m = 0; m +3 < num_filters; m+=4) {
+	// 	float32x4_t x = vldrwq_f32(&pDst[m]);
+    //     x = vfmaq_n_f32(vb, x, s);           // x = vb + x*s
+    //     x = vmaxnmq_f32(x, v0);				// clamp min 0
+    //     x = vminnmq_f32(x, v1);				// clamp max 1
+    //     vstrwq_f32(&pDst[m], x);                        // store back
+	// }
 	#pragma clang loop vectorize(enable) interleave(enable)
 	for (int m = 0; m < 40; ++m) {
 		float32_t y = pDst[m] * s + b;   // (x + power_offset) * (1/64)

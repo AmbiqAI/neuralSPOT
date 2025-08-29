@@ -35,7 +35,7 @@
 #endif
 
 // Input dimensions: input shape is [1, H_IN, W_IN, C_IN]
-static const cmsis_nn_dims conv_5_input_dims = { .n = 1, .h = 15, .w = 1, .c = 128 };
+static const cmsis_nn_dims conv_5_input_dims = { .n = 1, .h = 1, .w = 15, .c = 128 };
 
 // Filter dimensions: weights shape is [C_OUT, H_FILT, W_FILT, C_IN].
 static const cmsis_nn_dims conv_5_filter_dims = { .n =  128, .h = 1, .w = 1, .c = 128 };
@@ -44,7 +44,7 @@ static const cmsis_nn_dims conv_5_filter_dims = { .n =  128, .h = 1, .w = 1, .c 
 static const cmsis_nn_dims conv_5_bias_dims = { .n = 1, .h = 1, .w = 1, .c = 128 };
 
 // Output dimensions: output shape is [1, H_OUT, W_OUT, C_OUT].
-static const cmsis_nn_dims conv_5_output_dims = { .n = 1, .h = 15, .w = 1, .c = 128 };
+static const cmsis_nn_dims conv_5_output_dims = { .n = 1, .h = 1, .w = 15, .c = 128 };
 
 // Quantization parameters (per-channel quantization)
 static const int32_t conv_5_multiplier[128] = {

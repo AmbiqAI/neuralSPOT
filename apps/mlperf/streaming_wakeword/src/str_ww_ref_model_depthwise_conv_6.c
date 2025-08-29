@@ -35,10 +35,10 @@
 #endif
 
 // Input dimensions: input shape is [1, H_IN, W_IN, C_IN]
-static const cmsis_nn_dims dw_6_input_dims = { .n = 1, .h = 15, .w = 1, .c = 128 };
+static const cmsis_nn_dims dw_6_input_dims = { .n = 1, .h = 1, .w = 15, .c = 128 };
 
 // Filter dimensions: weights shape is [1, H_FILT, W_FILT, C_OUT].
-static const cmsis_nn_dims dw_6_filter_dims = { .n = 1, .h = 15, .w = 1, .c = 128 };
+static const cmsis_nn_dims dw_6_filter_dims = { .n = 1, .h = 1, .w = 15, .c = 128 };
 
 // Bias dimensions: bias shape is [1, 1, 1, C_OUT].
 static const cmsis_nn_dims dw_6_bias_dims = { .n = 1, .h = 1, .w = 1, .c = 128 };

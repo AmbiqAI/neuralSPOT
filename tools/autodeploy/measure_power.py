@@ -207,7 +207,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
             postfix = "_for_sram"
         elif params.model_location == "MRAM":
             loc = "const"
-        elif params.model_location == "PSRAM":
+        elif params.model_location == "PSRAM" or params.model_location == "NVM":
             loc = "const" # needs to be copied to PSRAM from MRAM
         else:
             loc = ""

@@ -52,6 +52,13 @@ class AmbiqPlatform:
         else:
             raise ValueError(f"Platform {self.platform} does not have PSRAM arena size defined")
     
+
+    def GetMaxNVMSize(self):
+        if "nvm" in self.platform_config:
+            return self.platform_config["nvm"]
+        else:
+            raise ValueError(f"Platform {self.platform} does not have NVM size defined")
+
     def GetDTCMSize(self):
         return self.platform_config["dtcm"]
     

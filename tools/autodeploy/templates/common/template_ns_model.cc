@@ -23,6 +23,9 @@
 #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
     #include "ns_peripherals_psram.h"
 #endif
+#if (NS_AD_MODEL_LOCATION == NS_AD_NVM)
+    #include "ns_nvm.h"
+#endif
 #include "NS_AD_NAME_model_data.h"
 #include "ns_model.h"
 
@@ -46,6 +49,9 @@
 
 #if (NS_AD_NAME_MODEL_LOCATION == NS_AD_PSRAM)
     unsigned char *NS_AD_NAME_model_psram;
+#elif (NS_AD_NAME_MODEL_LOCATION == NS_AD_NVM)
+    // unsigned char *NS_AD_NAME_model_nvm; // Model resides in NVM
+    extern ns_nvm_config_t nvm_cfg;
 #elif (NS_AD_NAME_MODEL_LOCATION == NS_AD_SRAM)
     AM_SHARED_RW alignas(16) static unsigned char NS_AD_NAME_model[NS_AD_NAME_model_for_sram_LEN];
 #endif
@@ -138,10 +144,57 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
     // Copy to SRAM
     memcpy(NS_AD_NAME_model, NS_AD_NAME_model_for_sram, NS_AD_NAME_model_for_sram_len);
     ms->model_array = NS_AD_NAME_model;
+#elif (NS_AD_NAME_MODEL_LOCATION == NS_AD_NVM)
+    // Flash the model image from MRAM (linked blob) into external NVM, then enable XIP.
+    // Destination offset within XIP aperture (can be overridden at build time).
+    #ifndef NS_AD_NVM_MODEL_OFFSET
+    #define NS_AD_NVM_MODEL_OFFSET 0u
+    #endif
+    uint32_t const dst_base = (uint32_t)nvm_cfg.xip_base_address + (uint32_t)NS_AD_NVM_MODEL_OFFSET;
+
+    // Safety: bail out if model cannot possibly fit.
+    if (NS_AD_NAME_model_len > nvm_cfg.size_bytes) {
+        ns_lp_printf("NVM model too large: %u > %u bytes\n", (unsigned)NS_AD_NAME_model_len, (unsigned)nvm_cfg.size_bytes);
+        return NS_AD_NAME_STATUS_FAILURE;
+    }
+
+    // Ensure XIP is disabled before erase/program.
+    (void)ns_nvm_disable_xip();
+
+    // Erase necessary sectors covering [dst_base, dst_base + model_len).
+    #define NS_NVM_SECTOR_SIZE   (128u * 1024u)  // IS25WX064 sector size (128KB)
+    uint32_t erase_start = dst_base & ~(NS_NVM_SECTOR_SIZE - 1u);
+    uint32_t erase_end   = (dst_base + (uint32_t)NS_AD_NAME_model_len + NS_NVM_SECTOR_SIZE - 1u) & ~(NS_NVM_SECTOR_SIZE - 1u);
+    for (uint32_t a = erase_start; a < erase_end; a += NS_NVM_SECTOR_SIZE) {
+        uint32_t rc = ns_nvm_sector_erase(a);
+        if (rc) {
+            ns_lp_printf("NVM sector erase failed at 0x%08x (rc=%u)\n", (unsigned)a, (unsigned)rc);
+            return NS_AD_NAME_STATUS_FAILURE;
+        }
+    }
+
+    // Program the image in manageable chunks.
+    const uint8_t *src = (const uint8_t *)NS_AD_NAME_model;
+    uint32_t       rem = (uint32_t)NS_AD_NAME_model_len;
+    uint32_t       off = 0;
+    const uint32_t CHUNK = 4096u;
+    while (rem) {
+        uint32_t now = (rem > CHUNK) ? CHUNK : rem;
+        uint32_t rc  = ns_nvm_write(dst_base + off, src + off, now, true);
+        if (rc) {
+            ns_lp_printf("NVM write failed at 0x%08x (rc=%u)\n", (unsigned)(dst_base + off), (unsigned)rc);
+            return NS_AD_NAME_STATUS_FAILURE;
+        }
+        off += now; rem -= now;
+    }
+    // Re-enable XIP so code can execute/read directly.
+    if (ns_nvm_enable_xip()) { return NS_AD_NAME_STATUS_FAILURE; }
+    ms->model_array = (unsigned char *)(dst_base);
 #else
     ms->model_array = NS_AD_NAME_model;
 #endif
 
+    ns_lp_printf("Model array pointer: 0x%x\n", (uint32_t)ms->model_array);
 #ifdef NS_MLPROFILE
 
     ms->tickTimer = &basic_tickTimer;

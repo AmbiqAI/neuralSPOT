@@ -31,6 +31,7 @@
 #define NS_AD_PSRAM 1
 #define NS_AD_SRAM  2
 #define NS_AD_MRAM  3
+#define NS_AD_NVM   4   // External MSPI flash (e.g., IS25WX064)
 
 extern "C" {
 #endif

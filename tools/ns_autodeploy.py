@@ -204,7 +204,7 @@ class Params(BaseModel):
     )
 
     model_location: str = Field(
-        "auto", description="Where the model is stored on the EVB (Auto, TCM, SRAM, MRAM, or PSRAM)"
+        "auto", description="Where the model is stored on the EVB (Auto, TCM, SRAM, MRAM, NVM, or PSRAM)"
     )
     tflm_location: str = Field(
         "auto", description="Where the TFLM library is stored on the EVB (auto, MRAM, or ITCM (M55 only))"
@@ -750,10 +750,10 @@ class AutoDeployRunner:
             print("[NS WARNING] Model is too large for performance or example generation – disabling those stages")
             self.p.joulescope = self.p.onboard_perf = self.p.create_ambiqsuite_example = self.p.create_library = False
 
-        # AOT can't use PSRAM, so if PSRAM is selected, disable AOT
-        if self.p.arena_location == "PSRAM" or self.p.model_location == "PSRAM":
+        # AOT can't use PSRAM or NVM, so if PSRAM or NVM is selected, disable AOT
+        if self.p.arena_location == "PSRAM" or self.p.model_location == "PSRAM" or self.p.model_location == "NVM":
             self.p.create_aot_profile = False
-            print("[WARNING] AOT disabled because PSRAM is selected")
+            print("[WARNING] AOT disabled because PSRAM or NVM is selected")
 
     # ------------------------------------------------------------------
     #   Stage helpers (names map 1‑to‑1 with original comments)

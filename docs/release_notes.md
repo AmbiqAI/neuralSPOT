@@ -1,4 +1,4 @@
-# neuralSPOT Errata and Release Notes
+# neuralSPOT Release Notes
 
 
 
@@ -62,14 +62,42 @@
     - Deploys the binary
     - Characterizes the binary over RPC, comparing EVB inference results to PC-side python inference results
   - Human Activity Recognition example application, based on [HAR modelzoo](https://github.com/AmbiqAI/Human-Activity-Recognition).
+- NeuralSPOT Release 1.2 (major release) Dozens of new features, improvements, and optimizations
+  - Autodeploy Enchancements
+    - Adds support for all Apollo platforms and variants
+    - Adds HeliosRT support
+    - Adds experimental HeliosAOT support
+    - Adds control over model and arena memory placement
+    - Adds Very Large Model support on EVBs with PSRAM
+    - Adds batch profiling to run multiple autodeploys programmatically
+    - Adds over a dozen other new features (see tools/readme.md for details)
+  - Full Apollo510 Support
+    - MVE, BLE, and PMU support and optimizations
+    - All examples run on AP510, taking advantage of MVE and AP5 memory architecture
+  - Extensive performance profiling support
+    - Code profiling using DWT and stochastic profiling tools
+    - PMU (Apollo510 and later) sampling and parsing libraries
+  - Additional Hardware Support
+    - Arducam Mega integration with examples
+    - ICM-45605 (inertial motion sensor Mikrobus clickboard) support
+    - PSRAM (AP510 and AP4)
+    - RPC-over-UART to extend autodeploy and RPC to platforms without USB
+    - WebBLE and WebUSB integration to enable EVB<->Browser applications
+  - Over a dozen examples and applications
+    - 6 ready-to-use AI examples and applications
+    - 8 examples showcasing functionality such as profiling and RPC
+  - Integration with HeliosRT alongside TFLM
+  - Enhanced EdgeImpulse integration support
 
-- ns-audio 2.0.0 Release Notes
+
+- ns-audio 2.x.0 Release Notes
 
   - Version 2.0.0 adds features and fixes minor bugs. Taking advantage of these changes requires an API change, but backwards compatibility has been preserved via the API version feature. New features include:
 
     1. **PDM support**: PDM is now supported as an audio input source. Note that the EVB does not include digital microphones. PDM support has been tested with the VoS kit digital microphones.
 
     1. **Dual-channel support**: 2 channel audio can now be captured for both AUDADC and PDM sources
+  - Versions 2.1.0 adds gain setting support
 
 - ns-ble 0.0.1 Release Notes
   - The alpha release of ns-ble adds BLE server support for Bluetooth-enabled EVBs.

@@ -45,11 +45,17 @@
 #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
 #include "ns_peripherals_psram.h"
 #endif
+
+#if (NS_AD_MODEL_LOCATION == NS_AD_NVM)
+#include "ns_nvm.h"
+#endif
+
 ns_timer_config_t tickTimer = {
     .api = &ns_timer_V1_0_0,
     .timer = NS_TIMER_COUNTER,
     .enableInterrupt = false,
 };
+
 #if NS_AD_AOT == 1
 
 // PMU Map has 71 entries - hardcoded since sizeof() doesn't work with extern arrays
@@ -67,50 +73,6 @@ static ns_pmu_accm_t aot_matrix;
 // static pmu_accumulator_t pmu_accumulator[NS_AD_AOT_LAYERS]; // one accumulator per layer
 static ns_pmu_config_t pmu_cfg;
 
-// AOT Callback
-// static void aot_callback(
-//     int32_t op,
-//     NS_AD_NAME_AOT_operator_state_e state,
-//     int32_t status,
-//     void *user_data
-// ) {
-
-//     // If the operator is starting, set up the next set of counters to capture
-//     if (state == NS_AD_NAME_AOT_model_state_started) {
-//         am_util_pmu_enable();
-//         uint32_t counter_index = pmu_accumulator[op].pmu_events_index;
-//         for (int i = 0; i < 4; i++) {
-//             // Create the events
-//             ns_lp_printf("op %d: Creating event %d for counter %d\n", op, ns_pmu_map[counter_index].eventId, counter_index);
-//             ns_pmu_event_create(&(pmu_cfg.events[i]), ns_pmu_map[counter_index].eventId, NS_PMU_EVENT_COUNTER_SIZE_32);
-//             counter_index++;
-//             if (counter_index >= NS_PMU_MAP_ENTRIES) {
-//                 break;
-//             }
-//         }
-//         ns_pmu_init(&pmu_cfg);    
-//     }
-
-//     // If the operator is finished, capture the counters
-//     if (state == NS_AD_NAME_AOT_model_state_finished) {
-//         // Accumulate the counters
-//         ns_pmu_get_counters(&pmu_cfg);
-//         ns_pmu_print_counters(&pmu_cfg);
-//         int sigh = pmu_accumulator[op].pmu_events_index;
-//         for (int i = 0; i < 4; i++) {
-//             pmu_accumulator[op].pmu_events[pmu_accumulator[op].pmu_events_index] = pmu_cfg.counter[i].counterValue;
-//             // ns_lp_printf("op %d: Accumulating counter %d: %d, %d\n", op, i, pmu_accumulator[op].pmu_events_index, pmu_cfg.counter[i].counterValue);
-//             pmu_accumulator[op].pmu_events_index++;
-//             if (pmu_accumulator[op].pmu_events_index >= NS_PMU_MAP_ENTRIES) {
-//                 break;
-//             }
-//         }
-//         // for debug, print the counters
-//         // for (int i = 0; i < 4; i++) {
-//         //     ns_lp_printf("Counter %d: %d\n", i, pmu_accumulator[op].pmu_events[sigh + i]);
-//         // }
-//     }
-// }
 static bool aot_characterizating = false;
 static void aot_callback(int32_t op,
                          NS_AD_NAME_AOT_operator_state_e state,
@@ -122,32 +84,18 @@ static void aot_callback(int32_t op,
     }
 
     if (state == NS_AD_NAME_AOT_model_state_started) {
-        // if (op == 0 && aot_matrix.id == 0xFF)
-        //     aot_matrix = ns_pmu_accm_create(NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE, aot_matrix_store);
-
         ns_pmu_accm_op_begin(aot_matrix, op);
     }
 
     if (state == NS_AD_NAME_AOT_model_state_finished) {
         ns_pmu_accm_op_end(aot_matrix, op);
 
-        // if (op == AOT_LAYERS - 1) {
-        //     ns_pmu_accm_inference_end(aot_matrix);
-
-        //     if (ns_pmu_accm_complete(aot_matrix)) {
-        //         uint32_t *m; ns_pmu_accm_get(aot_matrix, &m);
-        //         dump_csv(m, NS_AD_AOT_LAYERS, NS_PMU_MAP_SIZE);
-        //         ns_pmu_accm_destroy(aot_matrix);
-        //     }
-        // }
     }
 }
 
 static NS_AD_NAME_AOT_model_context_t model = {
     .input_data = {NS_AD_NAME_example_input_tensors},
-    // .input_len = NS_AD_NAME_AOT_inputs_len,
     .output_data = {NS_AD_NAME_output_tensors},
-    // .output_len = {NS_AD_NAME_AOT_outputs_len},
     #if NS_AD_JS_PRESENT == 0
     .callback = aot_callback, //aot_callback,
     #else
@@ -157,7 +105,7 @@ static NS_AD_NAME_AOT_model_context_t model = {
 };
 #else
 static ns_model_state_t model;
-#endif
+#endif // NS_AD_AOT == 1
 
 
 volatile int example_status = 0; // Prevent the compiler from optimizing out while loops
@@ -213,6 +161,32 @@ ns_psram_config_t psram_cfg = {
 };
 #endif
 
+// NVM (IS25WX064)
+#if (NS_AD_MODEL_LOCATION == NS_AD_NVM)
+// Allow build-time overrides; provide sane defaults.
+#ifndef NS_AD_NVM_MSPI_MODULE
+#define NS_AD_NVM_MSPI_MODULE 1
+#endif
+#ifndef NS_AD_NVM_CHIP_SELECT
+#define NS_AD_NVM_CHIP_SELECT 0   // CE0
+#endif
+ns_nvm_config_t nvm_cfg = {
+    .api              = &ns_nvm_current_version,
+    .enable           = true,
+    .enable_xip       = true,                  // XIP for model-in-NVM use-cases
+    .mspi_module      = NS_AD_NVM_MSPI_MODULE, // 0..3
+    .chip_select      = NS_AD_NVM_CHIP_SELECT, // 0 (CE0) or 1 (CE1)
+    .iface            = NS_NVM_IF_OCTAL_1_8_8,   // default; override if needed
+    .clock_freq       = AM_HAL_MSPI_CLK_96MHZ,
+    .nbtxn_buf        = NULL,
+    .nbtxn_buf_len    = 0,
+    .scrambling_start = 0,
+    .scrambling_end   = 0,
+    .xip_base_address = 0, // filled by init
+    .size_bytes       = 0  // filled by init
+};
+#endif // NS_AD_MODEL_LOCATION == NS_AD_NVM
+
 #if NS_AD_AOT == 0
 int tf_invoke() {
     model.interpreter->Invoke();
@@ -237,19 +211,25 @@ int main(void) {
     ns_init_power_monitor_state();
     ns_set_power_monitor_state(NS_IDLE);
 
+
+
+    ns_interrupt_master_enable();
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
-        // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
-    #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
-        NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed\n");
-    #endif
 #if NS_AD_JS_PRESENT == 0
     ns_itm_printf_enable();
 #endif // NS_AD_JS_PRESENT == 0
 
-    ns_itm_printf_enable();
+    // ns_itm_printf_enable();
     // ns_timer_init(&tickTimer);
-
-    ns_interrupt_master_enable();
+        // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
+    #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
+        NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed\n");
+    #endif
+    #if (NS_AD_MODEL_LOCATION == NS_AD_NVM)
+        // Perform timing scan + init (and enable XIP if requested)
+        ns_lp_printf("Initializing NVM...\n");
+        NS_TRY(ns_nvm_init(&nvm_cfg), "NVM Init Failed\n");
+    #endif
 
     NS_TRY(ns_set_performance_mode(NS_AD_CPU_MODE), "Set CPU Perf mode failed.");
     NS_TRY(ns_peripheral_button_init(&joulescopeTrigger_config), "Button initialization failed.\n");

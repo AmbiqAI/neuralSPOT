@@ -25,11 +25,14 @@
 #include "ns_peripherals_button.h"
 #include "ns_timer.h"
 #include "ns_pmu_utils.h"
+#define __ARM_FEATURE_MVE 1
+#define __ARM_FEATURE_MVE_FLOAT 1
+#include "arm_mve.h"
 
 #define NS_PROFILER_PMU_EVENT_0 ARM_PMU_MVE_LDST_MULTI_RETIRED
 #define NS_PROFILER_PMU_EVENT_1 ARM_PMU_MVE_INT_MAC_RETIRED
 #define NS_PROFILER_PMU_EVENT_2 ARM_PMU_INST_RETIRED
-#define NS_PROFILER_PMU_EVENT_3 ARM_PMU_MVE_LD_CONTIG_RETIRED
+#define NS_PROFILER_PMU_EVENT_3 ARM_PMU_MVE_PRED
 
 ////////////////////////////////////////////////
 // Audio and MFCC Parameters
@@ -84,6 +87,24 @@ void tic() {
 
 uint32_t toc() { return ns_us_ticker_read(&tickTimer) - elapsedTime; }
 
+
+#define MAC_INSTRUCTIONS 10000000
+int64_t run_mve_mac_benchmark(void) {
+    int16x8_t a = vdupq_n_s16(2);
+    int16x8_t b = vdupq_n_s16(3);
+    int64_t acc = 0;
+
+    for (uint32_t i = 0; i < MAC_INSTRUCTIONS; i++) {
+        acc += vmlaldavq_s32(a, b); // Each = 8 MACs (int16 * int16 → int32), reduced to scalar
+    }
+    // ns_lp_printf("MACs: %d\n", MAC_INSTRUCTIONS);
+    volatile int64_t sink = acc;
+    return sink;
+}
+
+
+
+
 ////////////////////////////////////////////////
 // PMU config for profiling
 ns_pmu_config_t pmu_config;
@@ -95,11 +116,12 @@ float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
 // function to be prototyped 
 // (MFCC over 49 frames of synthetic audio)
 int func_to_be_profiled() {
-    for (int i = 0; i < NUM_FRAMES; i++) {
-        int32_t mfcc_buffer_head = i * MY_MFCC_NUM_MFCC_COEFFS;
-        ns_mfcc_compute(&mfcc_config, sinWave, &mfcc_buffer[mfcc_buffer_head]);
-    }
-    return 0; // *MUST* return a value, otherwise the compiler may optimize it out
+    // for (int i = 0; i < NUM_FRAMES; i++) {
+    //     int32_t mfcc_buffer_head = i * MY_MFCC_NUM_MFCC_COEFFS;
+    //     ns_mfcc_compute(&mfcc_config, sinWave, &mfcc_buffer[mfcc_buffer_head]);
+    // }
+    return (int)(run_mve_mac_benchmark());
+    // return 0; // *MUST* return a value, otherwise the compiler may optimize it out
 }
 
 /**

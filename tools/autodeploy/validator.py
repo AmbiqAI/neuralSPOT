@@ -8,7 +8,7 @@ import importlib.resources
 import erpc
 import numpy as np
 import pandas as pd
-
+from typing import Optional
 import ai_edge_litert as tflite
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
@@ -22,6 +22,14 @@ from neuralspot.tools.ns_utils import (
     xxd_c_dump,
     read_pmu_definitions,
     suppress_os_stdio
+)
+from neuralspot.tools.ns_mac_predictor import (
+    compute_counts as _mve_compute_counts,
+    FCSpec as _FCSpec,
+    Conv2DSpec as _Conv2DSpec,
+    DepthwiseConv2DSpec as _DWSpec,
+    ElementwiseSpec as _EltSpec,
+    ActivationSpec as _ActSpec,
 )
 from tabulate import tabulate
 from tqdm import tqdm
@@ -56,7 +64,14 @@ class ModelStructureDetails:
             self.overall_read_estimate_list,
             self.overall_write_estimate_list,
             self.output_magnitude_list,
-            self.input_magnitude_list
+            self.input_magnitude_list,
+            self.overall_input_dtype_list,
+            self.overall_output_dtype_list,
+            self.overall_weight_dtype_list,
+            self.overall_fused_activation_list,
+            self.overall_elem_bits_list,
+            self.overall_elem_vec_chunks_list,
+            self.overall_elem_predicated_list,
         ) = analyze_tflite_file(tflite_filename, model_name)
 
         # Resource Variable Count corresponds to number of VAR_HANDLE ops in overallOpsNameList[0]
@@ -79,6 +94,11 @@ class ModelStructureDetails:
             self.write_estimate_list = self.overall_write_estimate_list[0]
             self.output_magnitude = self.output_magnitude_list[0]
             self.input_magnitude = self.input_magnitude_list[0]
+            # Analyzer elementwise hints (flattened)
+            self.elem_bits = self.overall_elem_bits_list[0]
+            self.elem_vec_chunks = self.overall_elem_vec_chunks_list[0]
+            self.elem_predicated = self.overall_elem_predicated_list[0]
+            self.fused_act = self.overall_fused_activation_list[0]
         elif graph_count == 2:
             self.macEstimates = []
             self.opsNameList = []
@@ -93,7 +113,10 @@ class ModelStructureDetails:
             self.write_estimate_list = []
             self.output_magnitude = []
             self.input_magnitude = []
-
+            self.elem_bits = []
+            self.elem_vec_chunks = []
+            self.elem_predicated = []
+            self.fused_act = []
             baseGraphIndex = 0
             for op in self.overallOpsNameList[0]:
                 self.macEstimates.append(self.overallMacEstimates[0][baseGraphIndex])
@@ -108,7 +131,10 @@ class ModelStructureDetails:
                 self.write_estimate_list.append(self.overall_write_estimate_list[0][baseGraphIndex])
                 self.output_magnitude.append(self.output_magnitude_list[0][baseGraphIndex])
                 self.input_magnitude.append(self.input_magnitude_list[0][baseGraphIndex])
-
+                self.elem_bits.append(self.overall_elem_bits_list[0][baseGraphIndex])
+                self.elem_vec_chunks.append(self.overall_elem_vec_chunks_list[0][baseGraphIndex])
+                self.elem_predicated.append(self.overall_elem_predicated_list[0][baseGraphIndex])
+                self.fused_act.append(self.overall_fused_activation_list[0][baseGraphIndex])
                 self.opsNameList.append(op)
                 if op == "CALL_ONCE":
                     # insert the subgraph
@@ -125,7 +151,10 @@ class ModelStructureDetails:
                     self.write_estimate_list.extend(self.overall_write_estimate_list[1])
                     self.output_magnitude.extend(self.output_magnitude_list[1])
                     self.input_magnitude.extend(self.input_magnitude_list[1])
-
+                    self.elem_bits.extend(self.overall_elem_bits_list[1])
+                    self.elem_vec_chunks.extend(self.overall_elem_vec_chunks_list[1])
+                    self.elem_predicated.extend(self.overall_elem_predicated_list[1])
+                    self.fused_act.extend(self.overall_fused_activation_list[1])
                 baseGraphIndex += 1
 
         self.layers = len(self.opsNameList)
@@ -592,6 +621,791 @@ def prune_for_aot(pmu_csv_header):
             return ",".join(columns[i:])
     return pmu_csv_header
 
+# ---------------------------------------------------------------------------
+# Helpers: analysis-ready Excel emission + dtype derivation
+# ---------------------------------------------------------------------------
+# def derive_elem_bits_per_layer(mc, md):
+def derive_elem_bits_per_layer(mc):
+    """
+    Best-effort dtype per layer (8/16/32). Replace with analyzer-derived per-op dtype if available.
+    Defaults to 8-bit unless float32 or int16 is detected in model tensors.
+    """
+    import numpy as _np
+    # Heuristic: prefer output tensor dtype if any is not int8
+    bits = 8
+    # try:
+        # t = md.outputTensors[0].type
+        # if t is _np.float32:
+        #     bits = 32
+        # elif t is _np.int16:
+        #     bits = 16
+        # else:
+        #     # Keep 8 as default for int8/uint8 paths
+        #     bits = 8
+    # except Exception:
+    #     bits = 8
+    return [bits] * len(getattr(mc.modelStructureDetails, "opsNameList", []))
+
+def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
+    """
+    Write an analysis-ready XLSX with two tabs:
+      - Sheet 'Data'   : raw EVB stats exactly as provided in 'df' (no derived columns)
+      - Sheet 'Derived': all predicted and calculated columns (formulas referencing Data!)
+      - Sheet 'Config' : named CoreMHz cell
+    """
+    from contextlib import suppress
+    import math
+
+    
+    # ---------------------------
+    # 1) Data sheet (raw only)
+    # ---------------------------
+    df_data = df.copy()
+    # Ensure key numeric columns are numeric in the raw dataframe (helps cached values)
+    _num_cols_data = [
+        "uSeconds", "EST_MAC", "ARM_PMU_CPU_CYCLES",
+        "ARM_PMU_INST_RETIRED", "ARM_PMU_MVE_INST_RETIRED",
+        "ARM_PMU_MVE_INT_MAC_RETIRED", "ARM_PMU_MVE_FP_MAC_RETIRED",
+        "ARM_PMU_L1D_CACHE", "ARM_PMU_L1D_CACHE_REFILL",
+        "ARM_PMU_L1I_CACHE", "ARM_PMU_L1I_CACHE_REFILL",
+        "ARM_PMU_STALL_FRONTEND", "ARM_PMU_STALL_BACKEND", "ARM_PMU_STALL",
+    ]
+
+    for _c in _num_cols_data:
+        if _c in df_data.columns:
+            df_data[_c] = pd.to_numeric(df_data[_c], errors="coerce")
+
+    # ---------------------------
+    # 2) Derived sheet skeleton
+    # ---------------------------
+    nrows = len(df_data.index)
+    # ElemBits values (list or default 8)
+    if elem_bits_per_layer and len(elem_bits_per_layer) == nrows:
+        _elem_bits_series = pd.Series(elem_bits_per_layer, dtype="float64")
+    else:
+        _elem_bits_series = pd.Series([8]*nrows, dtype="float64")
+
+    # Predictor outputs as values (computed from raw Data rows)
+    # (reuses the existing _predict_row helper below)
+    def _parse_shape_list(s: str) -> list[int]:
+        try:
+            toks = [t.strip() for t in str(s).replace("x", "*").split("*") if t.strip()]
+            return [int(t) for t in toks]
+        except Exception:
+            return []
+    def _predict_row(row) -> tuple[int, int, int]:
+        """Return (pred_int_mac, pred_vreduce_int, pred_pred_cycles) for a single Data row."""
+        try:
+            tag = str(row.get("Tag", "")).lower()
+            elem_bits = int(row.get("ElemBits", 8)) if pd.notna(row.get("ElemBits", np.nan)) else 8
+            # Use same width for activations & weights; swap in per-op widths here if available.
+            act_bits = elem_bits
+            w_bits = elem_bits
+
+            out_shape = _parse_shape_list(row.get("OUTPUT_SHAPE", ""))
+            filt_shape = _parse_shape_list(row.get("FILTER_SHAPE", ""))
+            # Default stride/dilation to 1 (predictor uses out_shape when present)
+            sh = int(row.get("STRIDE_H", 1)) if pd.notna(row.get("STRIDE_H", np.nan)) else 1
+            sw = int(row.get("STRIDE_W", 1)) if pd.notna(row.get("STRIDE_W", np.nan)) else 1
+            dh = int(row.get("DILATION_H", 1)) if pd.notna(row.get("DILATION_H", np.nan)) else 1
+            dw = int(row.get("DILATION_W", 1)) if pd.notna(row.get("DILATION_W", np.nan)) else 1
+            # Out type matches act_bits (8, 16, 32)
+            if act_bits == 8:
+                out_dtype = "int8"
+            elif act_bits == 16:
+                out_dtype = "int16"
+            elif act_bits == 32:
+                out_dtype = "int32"
+            else:
+                out_dtype = "int8"
+
+            # out_dtype = str(row.get("Output_DType", row.get("Output_DTYPE", "")) or "")
+
+            # Bail out with zeros if we lack shapes.
+            if not out_shape or not filt_shape:
+                return (0, 0, 0)
+            
+            # ---------------- Fused activation handling (conv/fc/dw) ----------------
+            def _act_from_row() -> Optional[_ActSpec]:
+                fa = str(row.get("FusedActivation", row.get("FUSED_ACT", "NONE")) or "NONE").upper()
+                if fa in ("NONE", "", "0", "NA"):
+                    return None
+                # Map knowns; clamp bounds not carried in table (leave None)
+                if fa in ("RELU", "RELU6", "RELU_N1_TO_1", "CLAMP"):
+                    return _ActSpec(type=fa.lower(), bits=None)
+                # Tanh/Logistic appear as separate ops, not a fused flag, but if they show up here, ignore (nonlinear, not modeled as fused in conv).
+                return _ActSpec(type="none")
+            
+            # Dispatch by op kind
+            if "depthwise" in tag:
+                # FILTER_SHAPE: Kh * Kw * Cin * DepthMultiplier
+                if len(filt_shape) < 4 or len(out_shape) < 4:
+                    return (0, 0, 0)
+                kh, kw, cin, dm = filt_shape[0], filt_shape[1], filt_shape[2], filt_shape[3]
+                n, ho, wo, co = out_shape[0], out_shape[1], out_shape[2], out_shape[3]
+                spec = _DWSpec(
+                    n=n, h=ho, w=wo, cin=cin, kh=kh, kw=kw,
+                    depth_multiplier=dm, stride=(sh, sw), dilation=(dh, dw),
+                    out_shape=(n, ho, wo, co),
+                )
+                d = _mve_compute_counts("depthwise_conv2d", act_bits, w_bits, dw=spec, activation=_act_from_row(), out_dtype=out_dtype)
+            elif "conv_2d" in tag or "conv2d" in tag:
+                # FILTER_SHAPE: Cout * Cin * Kh * Kw
+                if len(filt_shape) < 4 or len(out_shape) < 4:
+                    return (0, 0, 0)
+                cout, cin, kh, kw = filt_shape[0], filt_shape[1], filt_shape[2], filt_shape[3]
+                n, ho, wo, co = out_shape[0], out_shape[1], out_shape[2], out_shape[3]
+                # co may or may not equal cout (it should) – keep out_shape as truth
+                spec = _Conv2DSpec(
+                    n=n, h=ho, w=wo, cin=cin, kh=kh, kw=kw, cout=co,
+                    stride=(sh, sw), dilation=(dh, dw),
+                    out_shape=(n, ho, wo, co),
+                )
+                d = _mve_compute_counts("conv2d", act_bits, w_bits, conv2d=spec, activation=_act_from_row(), out_dtype=out_dtype)
+            elif "fully_connected" in tag or "fullyconnected" in tag or "fully" in tag:
+                # FILTER_SHAPE: Cout * Cin * 1 * 1  (common layout)
+                if len(filt_shape) < 2:
+                    return (0, 0, 0)
+                cout, cin = filt_shape[0], filt_shape[1]
+                n = out_shape[0] if len(out_shape) >= 1 else 1
+                spec = _FCSpec(batch=n, cin=cin, cout=cout)
+                d = _mve_compute_counts("fully_connected", act_bits, w_bits, fc=spec, activation=_act_from_row(), out_dtype=out_dtype)
+            else:
+                # -------- Elementwise / Pool / Mean path --------
+                # Recognize common eltwise ops in the tag
+                _elt_ops = [
+                    "add","sub","mul","div","maximum","minimum","abs","neg",
+                    "sqrt","rsqrt","exp","log","sin","cos","tanh","logistic",
+                    "relu","relu6","relu_n1_to_1","leaky_relu","hard_swish",
+                    "square","power","floor","ceil","round","clamp","pad","softmax"
+                ]
+                if any(op in tag for op in _elt_ops):
+                    # OUT_SHAPE for softmax bounds; otherwise used only to compute elems
+                    out_shape = _parse_shape_list(row.get("OUTPUT_SHAPE", ""))
+                    # elems: prefer product of OUTPUT_SHAPE; fallback to Output_Magnitude
+                    elems = 1
+                    if out_shape:
+                        for d in out_shape: elems *= d
+                    else:
+                        # tolerant to a couple name variants
+                        elems = int(row.get("Output_Magnitude", row.get("OUTPUT_MAGNITUDE", 0)) or 0)
+                    # Analyzer hints (optional)
+                    vec_chunks_hint = int(row.get("ElemVecChunks", 0) or 0)
+                    predicated_hint = int(row.get("ElemPredicatedInstrs", 0) or 0)
+                    out_dtype = str(row.get("Output_DType", row.get("Output_DTYPE","")) or "")
+                    # op name (upper) – strip extra tokens from Tag (e.g., "CONCATENATION" won’t match; returns default)
+                    op_name = tag.upper()
+                    # Build spec and call predictor
+                    elt_spec = _EltSpec(
+                        elems=elems,
+                        op_name=op_name,
+                        out_shape=tuple(out_shape) if len(out_shape)==4 else None,
+                        vec_chunks_hint=vec_chunks_hint if vec_chunks_hint>0 else None,
+                        predicated_hint=predicated_hint if predicated_hint>=0 else None,
+                        out_dtype=out_dtype,
+                        # clamp bounds not carried here; defaults are fine
+                    )
+                    d = _mve_compute_counts("elementwise", act_bits, w_bits, elementwise=elt_spec)
+                    return (
+                        int(d.get("MVE_INT_MAC_RETIRED", 0)),
+                        int(d.get("MVE_VREDUCE_INT_RETIRED", 0)),
+                        int(d.get("MVE_PRED", 0)),
+                    )
+                # MAX_POOL_2D
+                if "max_pool" in tag:
+                    out_shape = _parse_shape_list(row.get("OUTPUT_SHAPE", ""))
+                    elems = 1
+                    if out_shape:
+                        for d in out_shape: elems *= d
+                    else:
+                        elems = int(row.get("Output_Magnitude", row.get("OUTPUT_MAGNITUDE", 0)) or 0)
+                    vec_chunks_hint = int(row.get("ElemVecChunks", 0) or 0)
+                    predicated_hint = int(row.get("ElemPredicatedInstrs", 0) or 0)
+                    d = _mve_compute_counts("max_pool_2d", act_bits, w_bits,
+                                            pool_output_elems=elems,
+                                            pool_vec_chunks_hint=vec_chunks_hint if vec_chunks_hint>0 else None,
+                                            pool_predicated_hint=predicated_hint if predicated_hint>=0 else None)
+                    return (
+                        int(d.get("MVE_INT_MAC_RETIRED", 0)),
+                        int(d.get("MVE_VREDUCE_INT_RETIRED", 0)),
+                        int(d.get("MVE_PRED", 0)),
+                    )
+                # MEAN / REDUCE_MEAN / AVERAGE_POOL_2D
+                if "reduce_mean" in tag or "mean" in tag or "average_pool" in tag:
+                    out_shape = _parse_shape_list(row.get("OUTPUT_SHAPE", ""))
+                    elems = 1
+                    if out_shape:
+                        for d_ in out_shape: elems *= d_
+                    else:
+                        elems = int(row.get("Output_Magnitude", row.get("OUTPUT_MAGNITUDE", 0)) or 0)
+                    vec_chunks_hint = int(row.get("ElemVecChunks", 0) or 0)
+                    predicated_hint = int(row.get("ElemPredicatedInstrs", 0) or 0)
+                    # If reducer length known (future analyzer enhancement), pass via FILTER_SHAPE or a new column.
+                    # For now, try to parse a plausible K from FILTER_SHAPE if present (Kh*Kw*... or Co).
+                    filt = _parse_shape_list(row.get("FILTER_SHAPE", ""))
+                    reduce_len = None
+                    if filt:
+                        # crude heuristic: if filter has at least 2 dims, K≈Kh*Kw; else if 1 dim, use it
+                        if len(filt) >= 2:
+                            reduce_len = max(1, int(filt[0]*filt[1]))
+                        elif len(filt) == 1:
+                            reduce_len = max(1, int(filt[0]))
+                    d = _mve_compute_counts("mean", act_bits, w_bits,
+                                            pool_output_elems=elems,
+                                            pool_vec_chunks_hint=vec_chunks_hint if vec_chunks_hint>0 else None,
+                                            pool_predicated_hint=predicated_hint if predicated_hint>=0 else None,
+                                            mean_reduce_axis_len=reduce_len,
+                                            mean_out_shape=tuple(out_shape) if len(out_shape)==4 else None)
+                    return (
+                        int(d.get("MVE_INT_MAC_RETIRED", 0)),
+                        int(d.get("MVE_VREDUCE_INT_RETIRED", 0)),
+                        int(d.get("MVE_PRED", 0)),
+                    )
+
+                # Unknown op → no prediction
+                return (0, 0, 0)
+
+            return (
+                int(d.get("MVE_INT_MAC_RETIRED", 0)),
+                int(d.get("MVE_VREDUCE_INT_RETIRED", 0)),
+                int(d.get("MVE_PRED", 0)),
+            )
+        except Exception as e:
+            # print the exception error
+            print(f"foo exception: {e}")
+            print(f"foo exception: {tag}")
+            return (0, 0, 0)
+
+    # Reuse _predict_row defined below (no change)
+    preds = [ _predict_row(r) for _, r in df_data.iterrows() ]
+    if preds:
+        a, b, c = zip(*preds)
+        pred_intmac   = np.array(a, dtype="int64")
+        pred_vreduce  = np.array(b, dtype="int64")
+        pred_pred     = np.array(c, dtype="int64")
+    else:
+        pred_intmac = pred_vreduce = pred_pred = np.array([np.nan]*nrows)
+
+    # Create Derived dataframe (values-only columns here; formulas will be written with xlsxwriter)
+    df_derived = pd.DataFrame({
+        # For context/lookup
+        "Event": df_data["Event"] if "Event" in df_data.columns else pd.Series(range(nrows)),
+        "Tag":   df_data["Tag"]   if "Tag"   in df_data.columns else pd.Series([""]*nrows),
+        # Predictor (values)
+        "PRED_MVE_INT_MAC_RETIRED": pred_intmac,
+        "PRED_MVE_VREDUCE_INT_RETIRED": pred_vreduce,
+        "PRED_MVE_PRED": pred_pred,
+        # Derived helpers (values)
+        "ElemBits": _elem_bits_series,
+        "ElemBytes": _elem_bits_series/8.0,
+        # Pre-create empty formula columns so headers exist
+        "Cycles": "",
+        "MACs_per_cycle": "",
+        "MACs_per_second": "",
+        "Util_@8": "", "Util_@16": "", "Util_@32": "",
+        "PeakMACsPerCycle": "", "Util_%": "",
+        "IPC": "", "%Vectorized": "", "MVE_MAC_ratio": "",
+        "L1D_Hit": "", "L1I_Hit": "",
+        "FE_Stall%": "", "BE_Stall%": "", "Stall%": "",
+        "Read_Bytes": "", "Write_Bytes": "", "BW_Bytes_s": "", "MACs_per_Byte": "",
+        "OpKind": "", "Time_Share%": "", "INT_MAC_achv%": "", "VREDUCE_INT_achv%": "", "PRED_achv%": "",
+        "Flag": "",
+    })
+
+    def _parse_shape_list(s: str) -> list[int]:
+        try:
+            toks = [t.strip() for t in str(s).replace("x", "*").split("*") if t.strip() != ""]
+            return [int(t) for t in toks]
+        except Exception:
+            return []
+
+
+    # Guardrail: detect duplicate headers early (Excel may "repair" by dropping the table)
+    hdrs = df_data.columns.tolist()
+    dups = [h for h in set(hdrs) if hdrs.count(h) > 1]
+    if dups:
+        print(f"[NS][XLSX] WARNING: duplicate header names detected: {dups}. Excel may repair the file.")
+
+    # Choose engine locally
+    try:
+        import xlsxwriter  # noqa: F401
+        _engine = "xlsxwriter"
+    except Exception:
+        _engine = "openpyxl"
+
+
+    with pd.ExcelWriter(xlsx_path, engine=_engine) as ew:
+        # ---------------------------
+        # Write Data sheet (raw)
+        # ---------------------------
+        df_data.to_excel(ew, sheet_name="Data", index=False)
+        wb = ew.book
+        ws_data = ew.sheets["Data"]
+        # Force Excel to fully recalculate on open so formula cells don't show 0s
+        try:
+            wb.set_calc_mode("automatic")
+            wb.set_calc_on_load()
+        except Exception:
+            pass        
+        
+        # Config sheet + named CoreMHz
+        cfg = wb.add_worksheet("Config")
+        cfg.write("A1", "CoreMHz"); cfg.write_number("B1", float(core_mhz or 0.0))
+        wb.define_name("CoreMHz", "=Config!$B$1")
+
+        # Create Data table over full range
+        nrows, ncols = df_data.shape
+        first_row, first_col = 0, 0
+        last_row, last_col = nrows, ncols - 1
+        columns = [{"header": c} for c in df_data.columns]
+        ws_data.add_table(first_row, first_col, last_row, last_col,
+                          {"name": "DataTbl", "columns": columns, "style": "Table Style Medium 9"})
+        headers_data = df_data.columns.tolist()
+
+        def cidx(name):
+            with suppress(ValueError):
+                return headers_data.index(name)
+            return None
+
+        # A1 helpers -----------------------------------------------------
+        def col_letter(ci0):
+            # ci0 is 0-based index -> Excel column letters
+            ci = ci0 + 1
+            s = ""
+            while ci:
+                ci, r = divmod(ci-1, 26)
+                s = chr(65+r) + s
+            return s
+        def a1(ci0, r0):
+            # ci0: 0-based col, r0: 0-based row in worksheet
+            return f"{col_letter(ci0)}{r0+1}"
+
+        def a1d(col_name, r0):
+            """A1 on Data sheet for given column name/row index (1-based row)"""
+            ci = cidx(col_name)
+            return f"Data!{a1(ci, r0)}" if ci is not None else None
+        
+        # Precompute useful A1 ranges on Data
+        u_c = cidx("uSeconds")
+        u_rng = f"Data!{col_letter(u_c)}2:Data!{col_letter(u_c)}{nrows+1}" if u_c is not None else None
+
+        # ---------------------------
+        # Write Derived sheet
+        # ---------------------------
+        df_derived.to_excel(ew, sheet_name="Derived", index=False)
+        ws_der = ew.sheets["Derived"]
+        headers_der = df_derived.columns.tolist()
+        nrows_der, ncols_der = df_derived.shape
+        ws_der.add_table(0, 0, nrows_der, ncols_der - 1,
+                         {"name": "DerivedTbl",
+                          "columns": [{"header": c} for c in headers_der],
+                          "style": "Table Style Medium 9"})
+        pct_fmt = wb.add_format({"num_format": "0.00%"})
+        for name in headers_der:
+            if "%" in name:
+                ci = headers_der.index(name)
+                ws_der.set_column(ci, ci, None, pct_fmt)
+
+        def cidx_der(name):
+            with suppress(ValueError):
+                return headers_der.index(name)
+            return None
+        def a1der(ci0, r0):
+            return a1(ci0, r0)  # on Derived sheet
+        def a1nder(col_name, r0):
+            ci = cidx_der(col_name)
+            return a1(ci, r0) if ci is not None else None
+
+
+        # ---------- Precomputed cached values for derived columns ----------
+        _mhz = float(core_mhz or 0.0)
+        _us = df_data["uSeconds"] if "uSeconds" in df_data.columns else pd.Series([np.nan]*nrows)
+        _cycles_src = df_data["ARM_PMU_CPU_CYCLES"] if "ARM_PMU_CPU_CYCLES" in df_data.columns else None
+        _cycles_series = (_cycles_src if _cycles_src is not None else (_us * _mhz)).astype("float64")
+        _macs = df_data["EST_MAC"].astype("float64") if "EST_MAC" in df_data.columns else pd.Series([np.nan]*nrows)
+        _elem_bits = df_derived["ElemBits"].astype("float64")
+        _peak = _elem_bits.map({8:32, 16:16, 32:8}).fillna(np.nan)
+        _inst = df_data["ARM_PMU_INST_RETIRED"].astype("float64") if "ARM_PMU_INST_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
+        _mve = df_data["ARM_PMU_MVE_INST_RETIRED"].astype("float64") if "ARM_PMU_MVE_INST_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
+        _mve_int_mac = df_data["ARM_PMU_MVE_INT_MAC_RETIRED"].astype("float64") if "ARM_PMU_MVE_INT_MAC_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
+        _mve_fp_mac  = df_data["ARM_PMU_MVE_FP_MAC_RETIRED"].astype("float64")  if "ARM_PMU_MVE_FP_MAC_RETIRED"  in df_data.columns else pd.Series([np.nan]*nrows)
+        _l1d        = df_data["ARM_PMU_L1D_CACHE"].astype("float64")            if "ARM_PMU_L1D_CACHE"            in df_data.columns else pd.Series([np.nan]*nrows)
+        _l1d_refill = df_data["ARM_PMU_L1D_CACHE_REFILL"].astype("float64")     if "ARM_PMU_L1D_CACHE_REFILL"     in df_data.columns else pd.Series([np.nan]*nrows)
+        _l1i        = df_data["ARM_PMU_L1I_CACHE"].astype("float64")            if "ARM_PMU_L1I_CACHE"            in df_data.columns else pd.Series([np.nan]*nrows)
+        _l1i_refill = df_data["ARM_PMU_L1I_CACHE_REFILL"].astype("float64")     if "ARM_PMU_L1I_CACHE_REFILL"     in df_data.columns else pd.Series([np.nan]*nrows)
+        _fe_stall   = df_data["ARM_PMU_STALL_FRONTEND"].astype("float64")       if "ARM_PMU_STALL_FRONTEND"       in df_data.columns else pd.Series([np.nan]*nrows)
+        _be_stall   = df_data["ARM_PMU_STALL_BACKEND"].astype("float64")        if "ARM_PMU_STALL_BACKEND"        in df_data.columns else pd.Series([np.nan]*nrows)
+        _stall      = df_data["ARM_PMU_STALL"].astype("float64")                if "ARM_PMU_STALL"                in df_data.columns else pd.Series([np.nan]*nrows)
+        _us_total = float(_us.sum()) if "uSeconds" in df_data and pd.notna(_us).any() else np.nan
+        # For % achieved (actuals on Data, predictions are values on Derived)
+        _mve_vreduce = df_data["ARM_PMU_MVE_VREDUCE_INT_RETIRED"].astype("float64") if "ARM_PMU_MVE_VREDUCE_INT_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
+        _pred_cycles = df_data["ARM_PMU_MVE_PRED"].astype("float64") if "ARM_PMU_MVE_PRED" in df_data.columns else pd.Series([np.nan]*nrows)
+        
+        # Fill formulas into Derived (with cached results)
+        # def write_cache(ws, row_idx, col_name, formula, cached):
+        #     ci = cidx_der(col_name)
+        #     if ci is not None:
+        #         ws.write_formula(row_idx, ci, formula, None, cached)
+
+        def _write_formula_cached(ws, row_idx, col_name, formula, cached):
+            """
+            Write a formula and (optionally) a cached result.
+            IMPORTANT: Do NOT pass None/NaN/Inf as a cached value – XlsxWriter will
+            serialize the literal string 'None' (or invalid numeric), which causes Excel
+            to 'repair' the sheet on open. If cached isn't a real finite number, omit it.
+            """
+            ci = cidx_der(col_name)
+            if ci is None:
+                return
+            try:
+                is_bad = False
+                if cached is None:
+                    is_bad = True
+                elif isinstance(cached, float):
+                    import math
+                    if math.isnan(cached) or math.isinf(cached):
+                        is_bad = True
+                if is_bad:
+                    ws.write_formula(row_idx, ci, formula)
+                else:
+                    ws.write_formula(row_idx, ci, formula, None, cached)
+            except Exception as e:
+                print(f"Error writing formula {formula} for {col_name} at row {row_idx}: {e}")
+                raise e
+
+        # Build A1 formulas (no structured refs) --------------------------
+        HAS_CYC = "ARM_PMU_CPU_CYCLES" in headers_data
+        # Base (Cycles)
+        if HAS_CYC:
+            for r in range(1, nrows + 1):
+                _write_formula_cached(ws_der, r, "Cycles",
+                            f"={a1d('ARM_PMU_CPU_CYCLES', r)}",
+                            df_data.at[r-1, "ARM_PMU_CPU_CYCLES"])
+        else:
+            for r in range(1, nrows + 1):
+                _write_formula_cached(ws_der, r, "Cycles",
+                            f"={a1d('uSeconds', r)}*CoreMHz",
+                            (float(df_data.at[r-1, "uSeconds"])*_mhz) if ("uSeconds" in df_data.columns and pd.notna(df_data.at[r-1, "uSeconds"])) else None)
+
+        # Helpers per row
+        def f(col): return cidx_der(col)
+
+        for r in range(1, nrows + 1):
+            # A1 cell refs, this row
+            mac  = a1d("EST_MAC", r)
+            cyc  = a1nder("Cycles", r)
+            usec = a1d("uSeconds", r)
+            ebits = a1nder("ElemBits", r)
+            inst = a1d("ARM_PMU_INST_RETIRED", r)
+            mvei = a1d("ARM_PMU_MVE_INST_RETIRED", r)
+            mve_int_mac = a1d("ARM_PMU_MVE_INT_MAC_RETIRED", r)
+            mve_fp_mac  = a1d("ARM_PMU_MVE_FP_MAC_RETIRED", r)
+            mve_vreduce_int = a1d("ARM_PMU_MVE_VREDUCE_INT_RETIRED", r) if cidx("ARM_PMU_MVE_VREDUCE_INT_RETIRED") is not None else None
+            pred_cycles_a1  = a1d("ARM_PMU_MVE_PRED", r) if cidx("ARM_PMU_MVE_PRED") is not None else None
+            l1d = a1d("ARM_PMU_L1D_CACHE", r)
+            l1d_refill = a1d("ARM_PMU_L1D_CACHE_REFILL", r)
+            l1i = a1d("ARM_PMU_L1I_CACHE", r)
+            l1i_refill = a1d("ARM_PMU_L1I_CACHE_REFILL", r)
+            fe = a1d("ARM_PMU_STALL_FRONTEND", r)
+            be = a1d("ARM_PMU_STALL_BACKEND", r)
+            st = a1d("ARM_PMU_STALL", r)
+            pred_intmac_a1   = a1nder("PRED_MVE_INT_MAC_RETIRED", r)
+            pred_vreduce_a1  = a1nder("PRED_MVE_VREDUCE_INT_RETIRED", r)
+            pred_pred_a1     = a1nder("PRED_MVE_PRED", r)
+
+            # MACs/cycle, MACs/sec
+
+
+            _write_formula_cached(ws_der, r, "MACs_per_cycle",
+                f'=IF(AND({mac}>0,{cyc}>0),{mac}/{cyc},"")',
+                (_macs[r-1]/_cycles_series[r-1]) if (_macs[r-1]>0 and _cycles_series[r-1]>0) else None)
+            _write_formula_cached(ws_der, r, "MACs_per_second",
+                f'=IF({usec}>0,{mac}/({usec}/1E6),"")',
+                (_macs[r-1]/(_us[r-1]/1e6)) if (_macs[r-1]>0 and _us[r-1]>0) else None)
+
+
+            # Utilization + Peak
+            _write_formula_cached(ws_der, r, "Util_@8",  f'=IF({mac}>0,{mac}/{cyc}/8,"")',
+                (_macs[r-1]/_cycles_series[r-1]/8.0)  if (_macs[r-1]>0 and _cycles_series[r-1]>0) else None)
+            _write_formula_cached(ws_der, r, "Util_@16", f'=IF({mac}>0,{mac}/{cyc}/16,"")',
+                (_macs[r-1]/_cycles_series[r-1]/16.0) if (_macs[r-1]>0 and _cycles_series[r-1]>0) else None)
+            _write_formula_cached(ws_der, r, "Util_@32", f'=IF({mac}>0,{mac}/{cyc}/32,"")',
+                (_macs[r-1]/_cycles_series[r-1]/32.0) if (_macs[r-1]>0 and _cycles_series[r-1]>0) else None)
+
+            _write_formula_cached(ws_der, r, "PeakMACsPerCycle",
+                f'=IF({ebits}=8,8,IF({ebits}=16,4,IF({ebits}=32,2,"")))',
+                _peak[r-1] if pd.notna(_peak[r-1]) else None)
+            
+            _write_formula_cached(ws_der, r, "Util_%",
+                f'=IF(AND({mac}>0,{cyc}>0,{a1nder("PeakMACsPerCycle", r)}<>""),{mac}/{cyc}/{a1nder("PeakMACsPerCycle", r)},"")',
+                (_macs[r-1]/_cycles_series[r-1]/_peak[r-1]) if (_macs[r-1]>0 and _cycles_series[r-1]>0 and pd.notna(_peak[r-1]) and _peak[r-1]>0) else None)
+            
+            # IPC, Vectorization, MVE MAC ratio
+            if inst:
+                _write_formula_cached(ws_der, r, "IPC",
+                                 f'=IF(AND({inst}>0,{cyc}>0),{inst}/{cyc},"")',
+                                 (_inst[r-1]/_cycles_series[r-1]) if (_cycles_series[r-1]>0 and _inst[r-1]>0) else None)
+            if inst and mvei:
+                _write_formula_cached(ws_der, r, "%Vectorized",
+                                 f'=IF({inst}>0,{mvei}/{inst},"")',
+                                 (_mve[r-1]/_inst[r-1]) if (_inst[r-1] and _inst[r-1]>0) else None)
+            if mvei and mve_int_mac and mve_fp_mac:
+                _write_formula_cached(ws_der, r, "MVE_MAC_ratio",
+                                 f'=IF({mvei}>0,({mve_int_mac}+{mve_fp_mac})/{mvei},"")',
+                                 ((_mve_int_mac[r-1]+_mve_fp_mac[r-1])/_mve[r-1]) if (_mve[r-1] and _mve[r-1]>0) else None)
+            # Cache hit-rates
+            if l1d and l1d_refill:
+                _write_formula_cached(ws_der, r, "L1D_Hit",
+                                 f'=IF({l1d}>0,1-{l1d_refill}/{l1d},"")',
+                                 (1.0-(_l1d_refill[r-1]/_l1d[r-1])) if (_l1d[r-1] and _l1d[r-1]>0) else None)
+            if l1i and l1i_refill:
+                _write_formula_cached(ws_der, r, "L1I_Hit",
+                                 f'=IF({l1i}>0,1-{l1i_refill}/{l1i},"")',
+                                 (1.0-(_l1i_refill[r-1]/_l1i[r-1])) if (_l1i[r-1] and _l1i[r-1]>0) else None)
+            # Stalls
+            if fe:
+                _write_formula_cached(ws_der, r, "FE_Stall%",
+                                 f'=IF({cyc}>0,{fe}/{cyc},"")',
+                                 (_fe_stall[r-1]/_cycles_series[r-1]) if (_cycles_series[r-1]>0 and _fe_stall[r-1] >= 0) else None)
+            if be:
+                _write_formula_cached(ws_der, r, "BE_Stall%",
+                                 f'=IF({cyc}>0,{be}/{cyc},"")',
+                                 (_be_stall[r-1]/_cycles_series[r-1]) if (_cycles_series[r-1]>0 and _be_stall[r-1] >= 0) else None)
+            if st:
+                _write_formula_cached(ws_der, r, "Stall%",
+                                 f'=IF({cyc}>0,{st}/{cyc},"")',
+                                 (_stall[r-1]/_cycles_series[r-1]) if (_cycles_series[r-1]>0 and _stall[r-1] >= 0) else None)
+            # Bytes/intensity
+            if "read_estimate" in headers_data and "write_estimate" in headers_data:
+                re = a1d("read_estimate", r)
+                we = a1d("write_estimate", r)
+                eb = a1nder("ElemBytes", r)
+                rb = a1nder("Read_Bytes", r)    
+                wb_ = a1nder("Write_Bytes", r)
+                _write_formula_cached(ws_der, r, "Read_Bytes",  f'={re}*{eb}', re*eb)
+                _write_formula_cached(ws_der, r, "Write_Bytes", f'={we}*{eb}', we*eb)
+                _write_formula_cached(ws_der, r, "BW_Bytes_s",  f'=IF({usec}>0,({rb}+{wb_})/({usec}/1E6),"")', (rb+wb_)/(_us[r-1]/1e6))
+                if "EST_MAC" in headers_data:
+                    _write_formula_cached(ws_der, r, "MACs_per_Byte", f'=IF(({rb}+{wb_})>0,{mac}/({rb}+{wb_}),"")', mac/(rb+wb_))
+
+            else:
+                # put zeros in the columns
+                _write_formula_cached(ws_der, r, "Read_Bytes",  f'0', 0)
+                _write_formula_cached(ws_der, r, "Write_Bytes", f'0', 0)
+                _write_formula_cached(ws_der, r, "BW_Bytes_s",  f'0', 0)
+                _write_formula_cached(ws_der, r, "MACs_per_Byte", f'0', 0)
+                    
+            # OpKind
+            if "Tag" in headers_data:
+                tag = a1d("Tag", r)
+                _write_formula_cached(ws_der, r, "OpKind",
+                    f'=IFERROR(IF(ISNUMBER(SEARCH("DEPTHWISE",{tag})),"DWConv",'
+                    f'IF(ISNUMBER(SEARCH("CONV_2D",{tag})),"Conv",'
+                    f'IF(ISNUMBER(SEARCH("FULLY_CONNECTED",{tag})),"FC",'
+                    f'IF(ISNUMBER(SEARCH("POOL",{tag})),"Pool",'
+                    f'IF(OR(ISNUMBER(SEARCH("ADD",{tag})),ISNUMBER(SEARCH("MUL",{tag})),ISNUMBER(SEARCH("SUB",{tag})),ISNUMBER(SEARCH("RELU",{tag}))),"Elementwise","Other"))))),"Other")',
+                    f'IFERROR(IF(ISNUMBER(SEARCH("DEPTHWISE",{tag})),"DWConv",'
+                    f'IF(ISNUMBER(SEARCH("CONV_2D",{tag})),"Conv",'
+                    f'IF(ISNUMBER(SEARCH("FULLY_CONNECTED",{tag})),"FC",'
+                    f'IF(ISNUMBER(SEARCH("POOL",{tag})),"Pool",'
+                    f'IF(OR(ISNUMBER(SEARCH("ADD",{tag})),ISNUMBER(SEARCH("MUL",{tag})),ISNUMBER(SEARCH("SUB",{tag})),ISNUMBER(SEARCH("RELU",{tag}))),"Elementwise","Other"))))),"Other")')
+            # Time share
+            if u_rng:
+                _write_formula_cached(ws_der, r, "Time_Share%",
+                    f'=IFERROR({usec}/SUM({u_rng}),"")',
+                    (_us[r-1]/_us.sum()) if (_us.sum()>0 and _us[r-1]>=0) else None)
+
+            # -------------------- % Achieved vs Predicted (A1) --------------------
+            # INT MAC %
+            if cidx_der("INT_MAC_achv%") is not None and mve_int_mac and pred_intmac_a1:
+                _write_formula_cached(ws_der, r, "INT_MAC_achv%",
+                    f'=IF({pred_intmac_a1}>0,{mve_int_mac}/{pred_intmac_a1},"")',
+                    (_mve_int_mac[r-1]/df_derived.at[r-1,"PRED_MVE_INT_MAC_RETIRED"])
+                        if (pd.notna(_mve_int_mac[r-1]) and df_derived.at[r-1,"PRED_MVE_INT_MAC_RETIRED"]>0) else None)
+
+            # VREDUCE INT %
+            if cidx_der("VREDUCE_INT_achv%") is not None and mve_vreduce_int and pred_vreduce_a1:
+                _write_formula_cached(ws_der, r, "VREDUCE_INT_achv%",
+                    f'=IF({pred_vreduce_a1}>0,{mve_vreduce_int}/{pred_vreduce_a1},"")',
+                    (_mve_vreduce[r-1]/df_derived.at[r-1,"PRED_MVE_VREDUCE_INT_RETIRED"])
+                        if (pd.notna(_mve_vreduce[r-1]) and df_derived.at[r-1,"PRED_MVE_VREDUCE_INT_RETIRED"]>0) else None)
+
+            # PRED cycles %
+            if cidx_der("PRED_achv%") is not None and pred_cycles_a1 and pred_pred_a1:
+                _write_formula_cached(ws_der, r, "PRED_achv%",
+                    f'=IF({pred_pred_a1}>0,{pred_cycles_a1}/{pred_pred_a1},"")',
+                    (_pred_cycles[r-1]/df_derived.at[r-1,"PRED_MVE_PRED"])
+                        if (pd.notna(_pred_cycles[r-1]) and df_derived.at[r-1,"PRED_MVE_PRED"]>0) else None)
+
+            # Flag
+            required_flag_cols = ("Util_%","MACs_per_Byte","L1D_Hit","FE_Stall%","L1I_Hit","BE_Stall%","OpKind","Time_Share%","Flag")
+            if all(h in headers_der for h in required_flag_cols):
+                U   = cidx_der("Util_%");        MB  = cidx_der("MACs_per_Byte"); L1DH = cidx_der("L1D_Hit")
+                FE  = cidx_der("FE_Stall%");     LIH = cidx_der("L1I_Hit");       BEP  = cidx_der("BE_Stall%")
+                OP  = cidx_der("OpKind");        TS  = cidx_der("Time_Share%")
+                for r in range(1, nrows + 1):
+                    ws_der.write_formula(
+                        r, cidx_der("Flag"),
+                        ('=IF({u}<0.25,"Compute under-utilized",'
+                         'IF(AND(NOT(ISBLANK({mb})),{mb}<0.5,NOT(ISBLANK({l1})),{l1}<0.85),"Memory-bound",'
+                         'IF(OR(IFERROR({fe},0)>0.20,IFERROR({lih},1)<0.85),"Frontend stalls",'
+                         'IF(IFERROR({be},0)>0.25,"LSU stalls",'
+                         'IF(AND(IFERROR({op},"")="Elementwise",IFERROR({ts},0)>0.10),"Elementwise hotspot","")))))')
+                        .format(u=a1der(U,r), mb=a1der(MB,r), l1=a1der(L1DH,r),
+                                fe=a1der(FE,r), lih=a1der(LIH,r), be=a1der(BEP,r),
+                                op=a1der(OP,r), ts=a1der(TS,r)))
+
+
+        # Conditional formatting on Derived sheet
+        def rng_der(col_name):
+            ci = cidx_der(col_name)
+            return (1, ci, nrows, ci) if ci is not None else None
+        for h in ("Time_Share%","MACs_per_second", "Cycles"):
+            r = rng_der(h)
+            if r: ws_der.conditional_format(*r, {"type": "data_bar"})
+        for h in ("Util_%","L1D_Hit","L1I_Hit","INT_MAC_achv%","VREDUCE_INT_achv%","PRED_achv%", "IPC", "%Vectorized", "MVE_MAC_ratio", "Util_@", "MACs_per_cycle", "MACs_per_second"):
+            r = rng_der(h)
+            if r: ws_der.conditional_format(*r, {"type": "3_color_scale"})
+        for h in ("FE_Stall%","BE_Stall%","Stall%"):
+            r = rng_der(h)
+            if r: ws_der.conditional_format(*r, {"type": "3_color_scale",
+                'min_color': "#63BE7B",  # Green for lowest values
+                'mid_color': "#FFEB84",  # Yellow for middle values
+                'max_color': "#F8696B"   # Red for highest values
+            })
+        # ---------------------------------------------------------------
+        # 4) "Pivots" sheet: native pivots if available, else SUMIF/AVERAGEIF summaries
+        # ---------------------------------------------------------------
+        # Helper: formula-based “pivots” (works everywhere)
+        def _build_formula_pivots():
+            piv = wb.add_worksheet("Pivots")
+            try:
+                import xlsxwriter as _xw
+                _xw_ver = getattr(_xw, "__version__", "unknown")
+            except Exception:
+                _xw_ver = "unknown"
+            piv.write('A1', f'Pivot tables not available (engine={_engine}, xlsxwriter={_xw_ver}). Using formula-based summaries.')
+            pct = wb.add_format({"num_format": "0.00%"})
+            # Unique labels (computed here so we don't rely on Excel dynamic arrays)
+            opkinds = sorted([v for v in pd.unique(df_derived["OpKind"]) if isinstance(v, str) and v])
+            tags    = sorted([v for v in pd.unique(df_derived["Tag"])    if isinstance(v, str) and v])
+
+            # ---- 1) Time% by OpKind ----
+            piv.write_row('A3', ['OpKind','Sum Time_Share%','Avg Util_%'])
+            start = 3  # A4 is first data row (1-based)
+            for i, ok in enumerate(opkinds):
+                r = start + i
+                piv.write(r-1, 0, ok)  # 0-based row index
+                piv.write_formula(r-1, 1, f'=IFERROR(SUMIF(DerivedTbl[OpKind], $A{r}, DerivedTbl[Time_Share%]), "")')
+                piv.write_formula(r-1, 2, f'=IFERROR(AVERAGEIF(DerivedTbl[OpKind], $A{r}, DerivedTbl[Util_%]), "")')
+            piv.set_column(1, 2, None, pct)
+            piv.conditional_format(start-1, 1, start-2+len(opkinds), 1, {"type": "data_bar"})
+
+            # ---- 2) Top Offenders (by Tag) ----
+            piv.write_row('H3', ['Tag','Sum Time_Share%','Avg Util_%'])
+            startH = 3
+            for i, tg in enumerate(tags):
+                r = startH + i
+                piv.write(r-1, 7, tg)
+                piv.write_formula(r-1, 8, f'=IFERROR(SUMIF(DerivedTbl[Tag], $H{r}, DerivedTbl[Time_Share%]), "")')
+                piv.write_formula(r-1, 9, f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $H{r}, DerivedTbl[Util_%]), "")')
+            piv.set_column(8, 9, None, pct)
+            piv.conditional_format(startH-1, 8, startH-2+len(tags), 8, {"type": "data_bar"})
+
+            # Compute a base row to avoid overlap with block lengths
+            base = max(start - 1 + len(opkinds), startH - 1 + len(tags)) + 3
+
+            # ---- 3) Stall Hotspots ----
+            piv.write(base-1, 0, 'Stall Hotspots')
+            piv.write_row(base, 0, ['Tag','Avg FE_Stall%','Avg BE_Stall%','Avg Stall%','Sum Time_Share%'])
+            for i, tg in enumerate(tags):
+                r = base + 1 + i
+                piv.write(r, 0, tg)
+                piv.write_formula(r, 1, f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $A{r+1}, DerivedTbl[FE_Stall%]), "")')
+                piv.write_formula(r, 2, f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $A{r+1}, DerivedTbl[BE_Stall%]), "")')
+                piv.write_formula(r, 3, f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $A{r+1}, DerivedTbl[Stall%]), "")')
+                piv.write_formula(r, 4, f'=IFERROR(SUMIF(DerivedTbl[Tag], $A{r+1}, DerivedTbl[Time_Share%]), "")')
+            piv.set_column(1, 3, None, pct); piv.set_column(4, 4, None, pct)
+            piv.conditional_format(base+1, 1, base+len(tags), 3, {"type": "3_color_scale"})
+
+            # ---- 4) Memory-bound Candidates ----
+            base2 = base + len(tags) + 4
+            piv.write(base2-1, 7, 'Memory-bound Candidates')
+            piv.write_row(base2, 7, ['Tag','Avg MACs_per_Byte','Avg L1D_Hit','Avg L1I_Hit','Sum Time_Share%'])
+            for i, tg in enumerate(tags):
+                r = base2 + 1 + i
+                piv.write(r, 7, tg)
+                piv.write_formula(r, 8,  f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $H{r+1}, DerivedTbl[MACs_per_Byte]), "")')
+                piv.write_formula(r, 9,  f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $H{r+1}, DerivedTbl[L1D_Hit]), "")')
+                piv.write_formula(r, 10, f'=IFERROR(AVERAGEIF(DerivedTbl[Tag], $H{r+1}, DerivedTbl[L1I_Hit]), "")')
+                piv.write_formula(r, 11, f'=IFERROR(SUMIF(DerivedTbl[Tag], $H{r+1}, DerivedTbl[Time_Share%]), "")')
+            piv.set_column(9, 10, None, pct); piv.set_column(11, 11, None, pct)
+            piv.conditional_format(base2+1, 8, base2+len(tags), 8, {"type": "3_color_scale"})
+
+        # Try native pivots when the writer supports them; otherwise fall back.
+        try:
+            if (_engine == "xlsxwriter") and hasattr(wb, "add_pivot_table"):
+                piv = wb.add_worksheet("Pivots")
+                data_ref = f"Derived!A1:{col_letter(ncols_der-1)}{nrows_der+1}"
+                # Titles
+                piv.write('A1', 'Time% by OpKind')
+                piv.write('H1', 'Top Offenders (by Tag)')
+                piv.write('A20', 'Stall Hotspots')
+                piv.write('H20', 'Memory-bound Candidates')
+                # Pivot 1
+                wb.add_pivot_table({
+                    'name': 'pvt_TimeByOpKind',
+                    'data': data_ref,
+                    'location': 'Pivots!A3',
+                    'row_fields':    [{'name': 'OpKind'}],
+                    'data_fields':   [
+                        {'name': 'Time_Share%', 'function': 'sum', 'num_format': '0.00%'},
+                        {'name': 'Util_%',      'function': 'average', 'num_format': '0.00%'},
+                    ],
+                })
+                # Pivot 2
+                wb.add_pivot_table({
+                    'name': 'pvt_TopOffenders',
+                    'data': data_ref,
+                    'location': 'Pivots!H3',
+                    'row_fields':    [{'name': 'Tag'}],
+                    'data_fields':   [
+                        {'name': 'Time_Share%', 'function': 'sum', 'num_format': '0.00%'},
+                        {'name': 'Util_%',      'function': 'average', 'num_format': '0.00%'},
+                    ],
+                })
+                # Pivot 3
+                wb.add_pivot_table({
+                    'name': 'pvt_Stalls',
+                    'data': data_ref,
+                    'location': 'Pivots!A22',
+                    'row_fields':    [{'name': 'Tag'}],
+                    'data_fields':   [
+                        {'name': 'FE_Stall%',   'function': 'average', 'num_format': '0.00%'},
+                        {'name': 'BE_Stall%',   'function': 'average', 'num_format': '0.00%'},
+                        {'name': 'Stall%',      'function': 'average', 'num_format': '0.00%'},
+                        {'name': 'Time_Share%', 'function': 'sum',     'num_format': '0.00%'},
+                    ],
+                })
+                # Pivot 4
+                if all(h in headers_der for h in ("MACs_per_Byte","L1D_Hit","L1I_Hit")):
+                    wb.add_pivot_table({
+                        'name': 'pvt_Memory',
+                        'data': data_ref,
+                        'location': 'Pivots!H22',
+                        'row_fields':    [{'name': 'Tag'}],
+                        'data_fields':   [
+                            {'name': 'MACs_per_Byte', 'function': 'average'},
+                            {'name': 'L1D_Hit',        'function': 'average', 'num_format': '0.00%'},
+                            {'name': 'L1I_Hit',        'function': 'average', 'num_format': '0.00%'},
+                            {'name': 'Time_Share%',    'function': 'sum',     'num_format': '0.00%'},
+                        ],
+                    })
+            else:
+                _build_formula_pivots()
+        except Exception:
+            _build_formula_pivots()
+
 
 def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_stats, aot=False):
     """
@@ -705,7 +1519,9 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         )
 
     # convert csv header to table with elements separated by commas
-    csv_elements = csv_header.split(",")
+    # csv_elements = csv_header.split(",")
+    csv_elements = [tok.strip() for tok in csv_header.split(",")]
+
     table = [csv_elements]
     # print(csv_elements)
     # print(table)
@@ -758,7 +1574,10 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
         df = pd.DataFrame(table[1:], columns=table[0])
         df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
-        df.to_excel(stats_filename + ".xlsx", index=False)
+        # Use the same two-tab workbook so calculated columns sit on Derived
+        _elem_bits = derive_elem_bits_per_layer(mc)
+        _core_mhz = 250 # getattr(params, "core_mhz", 0)
+        _emit_analysis_workbook(stats_filename + ".xlsx", df, _core_mhz, _elem_bits)
 
         if params.profile_results_path != "none":
             import datetime, os, shutil
@@ -866,7 +1685,15 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     # Save as an excel file
     df = pd.DataFrame(table[1:], columns=table[0])
     df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
-    df.to_excel(stats_filename + ".xlsx", index=False)
+
+    # Save as an analysis-ready Excel workbook
+    df = pd.DataFrame(table[1:], columns=table[0])
+    df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
+    _elem_bits = derive_elem_bits_per_layer(mc)
+    _core_mhz = 250 #getattr(params, "core_mhz", 0)  # fallback, PMU cycles preferred
+    _emit_analysis_workbook(stats_filename + ".xlsx", df, _core_mhz, _elem_bits)
+
+    # df.to_excel(stats_filename + ".xlsx", index=False)
 
     # if params.profile_results_path is not 'none', copy the files to the specified directory with a unique name based on platform, model, tf version, compiler, and timestamp
     if params.profile_results_path != "none":
@@ -1210,10 +2037,10 @@ def create_validation_binary(params, mc, md, baseline, aot):
     compile_and_deploy(params, mc, first_time=baseline, aot=aot)
     time.sleep(3)
 
-
 def get_interpreter(params):
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
     with suppress_os_stdio():
-        interpreter = tflite.interpreter.Interpreter(model_path=params.tflite_filename)
+        from ai_edge_litert.interpreter import Interpreter
+        interpreter = Interpreter(model_path=params.tflite_filename)
         interpreter.allocate_tensors()
         return interpreter

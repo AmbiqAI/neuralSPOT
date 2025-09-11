@@ -207,7 +207,7 @@ void ns_pmu_reset_counters() {
 
 int ns_pmu_get_map_index(uint32_t eventId) {
     // iterate over the length of ns_pmu_map until we find the eventId
-    for (int i = 0; i<sizeof(ns_pmu_map); i++) {
+    for (int i = 0; i<NS_PMU_MAP_SIZE; i++) {
         // ns_lp_printf("Checking %d for 0x%x match\n", i, eventId);
         if (ns_pmu_map[i].eventId == eventId) {
             return i;
@@ -359,8 +359,17 @@ uint32_t ns_pmu_get_counters(ns_pmu_config_t *cfg) {
 
 void ns_delta_pmu(ns_pmu_counters_t *s, ns_pmu_counters_t *e, ns_pmu_counters_t *d) {
     for (int i = 0; i < 8; i++) {
-        // ns_lp_printf("%d. s %d, e %d, Delta %d\n", i, s->counterValue[i], e->counterValue[i], e->counterValue[i] - s->counterValue[i]);
-        d->counterValue[i] = e->counterValue[i] - s->counterValue[i];
+        uint32_t sv = s->counterValue[i];
+        uint32_t ev = e->counterValue[i];
+        if (ev >= sv) {
+            d->counterValue[i] = ev - sv;
+        } else {
+            // Counter was reset or start sample raced; treat delta as 'ev'.
+            ns_lp_printf("Error: e->counterValue[%d] < s->counterValue[%d]\n", i, i);
+            ns_lp_printf("e->counterValue[%d] = %u, s->counterValue[%d] = %u\n",
+                         i, ev, i, sv);
+            d->counterValue[i] = ev;
+        }
     }
 }
 

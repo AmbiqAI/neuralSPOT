@@ -36,6 +36,12 @@
 #include "NS_AD_NAME_AOT_model.h"
 #include "NS_AD_NAME_aot_api.h"
 #include "NS_AD_NAME_aot_example_tensors.h"
+// Memory locations for model and arena
+#define NS_AD_TCM   0
+#define NS_AD_PSRAM 1
+#define NS_AD_SRAM  2
+#define NS_AD_MRAM  3
+#define NS_AD_NVM   4   // External MSPI flash (e.g., IS25WX064)
 #else
 #include "NS_AD_NAME_api.h"
 #include "NS_AD_NAME_example_tensors.h"

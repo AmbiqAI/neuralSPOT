@@ -134,6 +134,20 @@ def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
         raise RuntimeError("ns-cmsis-nn clone failed")
     return ns_cmsis_nn_path
 
+    # Check out specific commit (8a1ae90c9c2ea1f9389ff69b6908099899dc6286)
+    print(f"[NS] Checking out commit 8a1ae90c9c2ea1f9389ff69b6908099899dc6286")
+    result = subprocess.run(
+        [
+            "git",
+            "checkout",
+            "8a1ae90c9c2ea1f9389ff69b6908099899dc6286",
+        ],
+        cwd=ns_cmsis_nn_path,
+    )
+    if result.returncode != 0:
+        log.error("Failed to checkout commit needed version: %s", result.stderr.strip())
+        raise RuntimeError("ns-cmsis-nn checkout failed")
+
 
 def _load_yaml_config(path: str | Path | None) -> dict:
     """Load a YAML file if provided, else return an empty dict."""
@@ -182,7 +196,17 @@ class Params(BaseModel):
             "auto",
             description="Helios AOT configuration YAML file (or 'auto')",
         ) 
+    else:
+        create_aot_profile: bool = Field(
+            False,
+            description="NOT SUPPORTED - Helios AOT is not available",
+        )
 
+        helios_aot_config: str = Field(
+            "auto",
+            description="NOT SUPPORTED - Helios AOT is not available",
+        )
+        
     joulescope: bool = Field(
         False,
         description="Measure power consumption of the model on the EVB using Joulescope",

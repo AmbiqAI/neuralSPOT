@@ -48,7 +48,7 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
     -fomit-frame-pointer \
     -fno-exceptions \
     -MMD -MP -Wall \
-    -g -O3 -ffast-math
+    -g -O3 -ffast-math 
 
   CCFLAGS := -fno-use-cxa-atexit
 

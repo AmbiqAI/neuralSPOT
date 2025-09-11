@@ -179,11 +179,10 @@ binary_name = $(lastword $(subst /, ,$(EXAMPLE)))
 ifeq ($(EXAMPLE),all)
 	binary_name = basic_tf_stub
 endif
-$(info binary_name: $(binary_name))
+
 deploy_target = $(filter %$(binary_name).bin, $(examples))
 # $(info deploy_target: $(deploy_target))
 # $(info TARGET: $(TARGET))
-$(info examples: $(examples))
 
 $(bindirs):
 	$(Q) $(MKD) -p $@

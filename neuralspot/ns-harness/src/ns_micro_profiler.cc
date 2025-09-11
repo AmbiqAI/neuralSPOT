@@ -78,7 +78,7 @@ MicroProfiler::BeginEvent(const char *tag) {
     // ns_lp_printf("Start PMUs for %d (%s)\n", num_events_, tag);
     ns_pmu_reset_counters();
     capture_pmu_counters(&(ns_microProfilerSidecar.pmu_snapshot[num_events_])); // this implicitly resets the counters
-
+    memset(&(ns_microProfilerSidecar.pmu_snapshot[num_events_]), 0, sizeof(ns_pmu_counters_t));
 
     #endif
 

@@ -32,14 +32,21 @@ HeliosConvertArgs = None  # type: ignore  # populated only if import succeeds
 AotModel = None  # type: ignore
 try:
     import helios_aot  # noqa: F401  – side‑effect import for pkg resources
-    from helios_aot.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
-    from helios_aot.aot_model import AotModel  # type: ignore
-
+    from helios_aot.cli.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
+    from helios_aot.converter import AotConverter as AotModel   # type: ignore
+    from helios_aot.utils import get_version as get_helios_aot_version
     helios_aot_available = True
-    print("[NS] HeliosAOT module is available")
+    helios_aot_version = get_helios_aot_version()
+    # Make sure the version is at least 0.5.0 (semantic versioning)
+    if helios_aot_version < "0.5.0":
+        print(f"[NS] HeliosAOT version is {helios_aot_version}, but must be at least 0.5.0")
+        helios_aot_available = False
+        print(f"[NS] HeliosAOT support is not available, version is too old")
+    else:
+        print(f"[NS] HeliosAOT module is available, version: {get_helios_aot_version()}")
 except (ImportError, OSError, RuntimeError) as e:
     helios_aot_available = False
-    # print(f"Helios AOT support is not available: {e}")
+    print(f"Helios AOT support is not available: {e}")
     
 
 # External modules – behaviour must stay identical; keep import locations
@@ -116,7 +123,7 @@ def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
         print(f"[NS] ns-cmsis-nn repository already exists at {ns_cmsis_nn_path}")
         return ns_cmsis_nn_path
 
-    print(f"[NS] Cloning ns-cmsis-nn into {ns_cmsis_nn_path}…")
+    print(f"[NS] Cloning ns-cmsis-nn into {ns_cmsis_nn_path}")
     result = subprocess.run(
         [
             "git",
@@ -135,18 +142,18 @@ def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
     return ns_cmsis_nn_path
 
     # Check out specific commit (8a1ae90c9c2ea1f9389ff69b6908099899dc6286)
-    print(f"[NS] Checking out commit 8a1ae90c9c2ea1f9389ff69b6908099899dc6286")
-    result = subprocess.run(
-        [
-            "git",
-            "checkout",
-            "8a1ae90c9c2ea1f9389ff69b6908099899dc6286",
-        ],
-        cwd=ns_cmsis_nn_path,
-    )
-    if result.returncode != 0:
-        log.error("Failed to checkout commit needed version: %s", result.stderr.strip())
-        raise RuntimeError("ns-cmsis-nn checkout failed")
+    # print(f"[NS] Checking out commit 8a1ae90c9c2ea1f9389ff69b6908099899dc6286")
+    # result = subprocess.run(
+    #     [
+    #         "git",
+    #         "checkout",
+    #         "8a1ae90c9c2ea1f9389ff69b6908099899dc6286",
+    #     ],
+    #     cwd=ns_cmsis_nn_path,
+    # )
+    # if result.returncode != 0:
+    #     log.error("Failed to checkout commit needed version: %s", result.stderr.strip())
+    #     raise RuntimeError("ns-cmsis-nn checkout failed")
 
 
 def _load_yaml_config(path: str | Path | None) -> dict:
@@ -431,6 +438,7 @@ class adResults:
 
     def print(self):
         print("")
+
         print((f"Characterization Report for {self.model_name}:"))
         print(
             f"[Profile] Per-Layer Statistics file:         {self.model_name}_stats.csv"
@@ -529,14 +537,14 @@ Notes:
                 # Create AOT columns if aot is enabled
                 aot_columns = ""
                 if self.p.create_aot_profile:
-                    aot_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW)"
+                    aot_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW), AOT Version"
                 with open(self.p.resultlog_file, "w") as f:
                     f.write(
                         f"Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW){aot_columns}, AS Version, Date Run, ID\n"
                     )
             with open(self.p.resultlog_file, "a") as f:
                 f.write(
-                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.powerAotMaxPerfInferenceTime},{self.powerAotMaxPerfJoules},{self.powerAotMaxPerfWatts},{self.powerAotMinPerfInferenceTime},{self.powerAotMinPerfJoules},{self.powerAotMinPerfWatts},{self.p.ambiqsuite_version},{d1},{self.p.run_log_id}\n"
+                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.powerAotMaxPerfInferenceTime},{self.powerAotMaxPerfJoules},{self.powerAotMaxPerfWatts},{self.powerAotMinPerfInferenceTime},{self.powerAotMinPerfJoules},{self.powerAotMinPerfWatts},{helios_aot_version},{self.p.ambiqsuite_version},{d1},{self.p.run_log_id}\n"
                 )
 
     def setProfile(
@@ -976,33 +984,70 @@ class AutoDeployRunner:
                 raise FileNotFoundError(
                     "HeliosAOT config file not provided and 'auto' path does not exist."
                 )
-        print(f"[NS] HeliosAOT config file: {cfg_path}")
+        # print(f"[NS] HeliosAOT config file: {cfg_path}")
         # Prepare ConvertArgs instance -------------------------------
         convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
+        # print("[NS] HeliosAOT convert args:")
         # print(convert_args)
         # Override model_path/output/module_name dynamically ---------
-        convert_args.model_path = Path(self.p.tflite_filename)
+        convert_args.model.path = Path(self.p.tflite_filename)
         
         # Put code in same directory as validator and perf, but under its own subdirectory
         default_output = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
-        convert_args.output_path = default_output
-        convert_args.module_name = f"{self.p.model_name}"
-        convert_args.prefix = f"{self.p.model_name}"
+        convert_args.module.path = default_output
+        convert_args.module.name = f"{self.p.model_name}"
+        convert_args.module.prefix = f"{self.p.model_name}"
+        convert_args.test.enabled = True
 
+        
+        # Memory Config
+        # Convert memory type to attribute
+        from helios_aot.attributes import AttributeRuleset
+        from helios_aot.memory import MemoryPlannerType
+        from helios_aot.platforms import MemoryType
+        from helios_aot.cli.defines import MemoryArgs, ConvertArgs
+        from helios_aot.air import AirModel  # for typing only
+
+        _memory_type_to_attribute = {
+            "TCM": MemoryType.DTCM,
+            "SRAM": MemoryType.SRAM,
+            "MRAM": MemoryType.MRAM,
+            "PSRAM": MemoryType.PSRAM,
+        }
+        arena_memory_type = _memory_type_to_attribute[self.p.arena_location]
+        model_memory_type = _memory_type_to_attribute[self.p.model_location]
         # put model and arena in specified locations
-        from helios_aot.defines import OperatorAttributeRule
-        convert_args.operator_attributes = [
-            OperatorAttributeRule(
-                type="*",
-                attributes={"weights_memory": self.p.model_location.lower(), "scratch_memory": self.p.arena_location.lower()},
-            )
-        ]
+        tensor_rules: list[AttributeRuleset] = [
+                # Scratch tensors to DTCM (for now)
+                AttributeRuleset(
+                    type="scratch",
+                    id=None,
+                    attributes={"memory": arena_memory_type}
+                ),
+                # PERSISTENT tensors are the 'arena'
+                AttributeRuleset(
+                    type="persistent",
+                    id=None,
+                    attributes={"memory": arena_memory_type}
+                ),
+                # Specific CONSTANT tensors are the 'model'
+                AttributeRuleset(
+                    type="constant",
+                    id=None,
+                    attributes={"memory": model_memory_type}
+                )
+            ]
 
-        # print("new args")
-        # print(convert_args)
+        # 2) Attach them to the memory section (choose your planner if you haven’t already).
+        convert_args.memory = MemoryArgs(
+            planner=MemoryPlannerType.greedy,
+            tensors=tensor_rules,
+            allocate_arenas=True,
+        )
+        print(f"[NS] HeliosAOT convert args: {convert_args}")
         # Invoke HeliosAOT programmatically --------------------------
         aot_model = AotModel(config=convert_args)  # type: ignore
-        print(f"[NS] HeliosAOT model: {aot_model}")
+        # print(f"[NS] HeliosAOT model: {aot_model}")
         
         # Try to initialize and convert, but handle any exceptions gracefully
         # Temporarily override sys.exit to prevent HeliosAOT from killing the process
@@ -1015,9 +1060,9 @@ class AutoDeployRunner:
         
         try:
             sys.exit = safe_exit
-            aot_model.initialize()
+            # aot_model.initialize()
             print(f"[NS] HeliosAOT model initialized")
-            aot_model.convert()
+            ctx = aot_model.convert()
             print(f"[NS] HeliosAOT model converted")
         except Exception as e:
             print(f"[NS] HeliosAOT model failed: {e}")
@@ -1032,18 +1077,25 @@ class AutoDeployRunner:
             # Restore the original sys.exit
             sys.exit = original_exit
         
-        # Get the number of layers
-        layers = len(aot_model.operators)
-        # store it in mc
-        self.mc.aot_layers = layers
-        self.mc.aot_layer_last_identifier = aot_model.operators[-1].ident
-        self.mc.aot_layer_names = [op.name for op in aot_model.operators]
-        self.mc.aot_layer_identifiers = [op.ident for op in aot_model.operators]
-        # print("[AOT] Operations:")
-        # for op in aot_model.operators:
-        #     print(f"  {op.ident}, {op.name}")
+        # --- Pull the AirModel from the context and derive operator info ---
+        air_model: AirModel | None = getattr(ctx, "model", None) or getattr(ctx, "air_model", None)
+        if air_model is None:
+            # If this triggers, we may need to adjust based on your CodeGenContext fields.
+            raise RuntimeError("HeliosAOT: CodeGenContext did not expose an AirModel (expected ctx.model).")
 
-        self.results.setAot(True, module_path=str(convert_args.output_path.resolve()))
+        # Prefer a topologically-sorted view if available
+        ops = air_model.topo_sort() if hasattr(air_model, "topo_sort") else list(getattr(air_model, "operators", []))
+
+        # Store layer stats
+        self.mc.aot_layers = len(ops)
+        self.mc.aot_layer_last_identifier = ops[-1].id if ops else None
+        self.mc.aot_layer_names = [op.op_type.name for op in ops]        # was: op.name
+        self.mc.aot_layer_identifiers = [op.id for op in ops]            # was: op.ident
+        # print("[AOT] Operations:")
+        # for op in ops:
+        #     print(f"  {op.id}, {op.op_type.name}")
+
+        self.results.setAot(True, module_path=str(convert_args.module.path.resolve()))
         print("[NS] HeliosAOT generation completed successfully")
 
     # ------------------------------------------------------------------

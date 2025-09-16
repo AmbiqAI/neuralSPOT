@@ -27,6 +27,9 @@
 
 // AOT generated headers
 #include "NS_AD_NAME_model.h"            // model types/macros
+#include "NS_AD_NAME_platform.h"         // platform macros
+#include "NS_AD_NAME_tensors.h"          // tensor sizes
+#include "NS_AD_NAME_context.h"          // model context
 // Some builds also provide an explicit API header; guard its availability
 #ifdef __has_include
 #  if __has_include("NS_AD_NAME_AOT_api.h")
@@ -48,8 +51,8 @@ static NS_AD_INPUT_TENSOR_TYPE  s_in_buf[NS_AD_INPUT_TENSOR_LEN];
 static NS_AD_OUTPUT_TENSOR_TYPE s_out_buf[NS_AD_OUTPUT_TENSOR_LEN];
 
 static NS_AD_NAME_model_context_t s_ctx = {
-  .input_data  = { s_in_buf },
-  .output_data = { s_out_buf },
+  // .input_data  = { s_in_buf },
+  // .output_data = { s_out_buf },
   .callback    = NULL,
   .user_data   = NULL,
 };
@@ -67,34 +70,20 @@ static uint32_t       s_accm_store[AOT_MAX_LAYERS * NS_PMU_MAP_ENTRIES];
 static ns_pmu_accm_t  s_accm;
 #endif
 
-// // Model runtime callback: marks op boundaries for the accumulator
-// static void aot_profiler_cb(int32_t op,
-//                             NS_AD_NAME_operator_state_e state,
-//                             int32_t status,
-//                             void *user_data) {
-//   (void)status; (void)user_data;
-//   if (state == NS_AD_NAME_model_state_started) {
-//     ns_pmu_accm_op_begin(s_accm, op);
-//   } else if (state == NS_AD_NAME_model_state_finished) {
-//     ns_pmu_accm_op_end(s_accm, op);
-//   }
-// }
-// #endif
-
 
 // Runtime callback: time per layer and (on AP5) PMU op boundaries
 static void aot_profiler_cb(int32_t op,
-                            NS_AD_NAME_operator_state_e state,
+                            NS_AD_NAME_operator_state_t state,
                             int32_t status,
                             void *user_data) {
   (void)status; (void)user_data;
   if ((op < 0) || (op >= (int32_t)AOT_MAX_LAYERS) || (s_tick == NULL)) return;
-  if (state == NS_AD_NAME_model_state_started) {
+  if (state == NS_AD_NAME_op_state_run_started) {
     s_layer_start_us[op] = ns_us_ticker_read(s_tick);
 #ifdef AM_PART_APOLLO5B
     ns_pmu_accm_op_begin(s_accm, op);
 #endif
-  } else if (state == NS_AD_NAME_model_state_finished) {
+  } else if (state == NS_AD_NAME_op_state_run_finished) {
     uint32_t now = ns_us_ticker_read(s_tick);
     s_layer_elapsed_us[op] += (now - s_layer_start_us[op]);
     ns_lp_printf("layer %d, elapsed %d\n", op, s_layer_elapsed_us[op]);
@@ -121,14 +110,15 @@ static int aot_init(uint32_t num_inputs, uint32_t num_outputs, uint32_t profile,
 
 static int aot_set_input(uint32_t idx, const void* data, uint32_t len){
   if (idx != 0) return -1; // current AOT glue supports single input
-  memcpy((void*)s_in_buf, data, len);
+  memcpy((void*)s_ctx.inputs[idx].data, data, len);
   return 0;
 }
 
 static void* aot_map_input(uint32_t idx, uint32_t* cap_out){
-  if (idx != 0) return NULL;
-  if (cap_out) *cap_out = (uint32_t)(sizeof(s_in_buf));
-  return (void*)s_in_buf;
+  // if (idx != 0) return NULL;
+  // if (cap_out) *cap_out = (uint32_t)NS_AD_NAME_input_0_size;
+  if (cap_out) *cap_out = 0xFFFFFFFFu; // caller knows exact size from config
+  return (void*)s_ctx.inputs[idx].data;
 }
 
 static int aot_invoke(void){
@@ -147,15 +137,16 @@ static int aot_invoke(void){
 }
 
 static int aot_get_output(uint32_t idx, void* dst, uint32_t len){
-  if (idx != 0) return -1;
-  memcpy(dst, (const void*)s_out_buf, len);
+  // if (idx != 0) return -1;
+  memcpy(dst, (const void*)s_ctx.outputs[idx].data, len);
   return 0;
 }
 
 static const void* aot_map_output(uint32_t idx, uint32_t* size_out){
-  if (idx != 0) return NULL;
-  if (size_out) *size_out = (uint32_t)sizeof(s_out_buf);
-  return (const void*)s_out_buf;
+  //  if (idx != 0) return NULL;
+  if (size_out) *size_out = 0xFFFFFFFFu; // caller knows exact size from config
+  //  if (size_out) *size_out = (uint32_t)NS_AD_NAME_output_0_size;
+  return (const void*)s_ctx.outputs[idx].data;
 }
 
 static uint32_t aot_arena_used_bytes(void){ return 0; }

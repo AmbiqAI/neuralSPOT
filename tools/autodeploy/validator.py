@@ -1546,13 +1546,19 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         if params.full_pmu_capture:
             # Header already includes PMU names via pmu_csv_header
             for i in range(len(mc.aot_layer_identifiers)):
-                row = [mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[mc.aot_layer_identifiers[i]]]
+                id_int = int(mc.aot_layer_identifiers[i])
+                row = [mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[id_int]]
                 # overall_pmu_stats[i] is a flat list of counters for layer i
-                row.extend(list(overall_pmu_stats[mc.aot_layer_identifiers[i]]))
+                row.extend(list(overall_pmu_stats[id_int]))
                 table.append(row)
         else:
             for i in range(len(mc.aot_layer_identifiers)):
-                table.append([mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[mc.aot_layer_identifiers[i]]])
+                # print(f"AOT Layer {i}: {mc.aot_layer_identifiers[i]}")
+                # print(f"{mc.aot_layer_names[i]}")
+                # print(f"{mc.aot_layer_identifiers[i]}")
+                id_int = int(mc.aot_layer_identifiers[i])
+                # print(f"{aot_us[id_int]}")
+                table.append([mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[id_int]])
 
         # Print/Log the table
         if params.joulescope or params.onboard_perf:

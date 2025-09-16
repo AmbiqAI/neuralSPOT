@@ -128,6 +128,17 @@ def select_best_candidate(candidates, cpu_family, is_freertos=False):
         # We may have multiple. Prompt user
         return pick_file_interactively(matches_cpu, hint="(multiple CPU variants matched)")
 
+    # We can't figure out - this is probably because the original is from an example, and these
+    # result in many similar matches. Compare all the files using semantic comparison, and sort by similarity.
+    # Then list them with similarity scores and let the user pick the most similar one interactively.
+    import difflib
+    import Levenshtein
+    best_match = None
+    best_similarity = 0
+
+    # Sort candidates by similarity
+    candidates.sort(key=lambda x: Levenshtein.ratio(x, candidates[0]))
+
     # If we cannot do an automatic selection, prompt the user among all
     return pick_file_interactively(candidates)
 

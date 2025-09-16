@@ -8,7 +8,7 @@ class AmbiqPlatform:
         self.platform = params.platform
 
         # Load the ns_platform yaml file
-        yaml_path = str(importlib.resources.files(__name__) / 'ns_platform.yaml')
+        yaml_path = str(importlib.resources.files(__package__) / 'ns_platform.yaml')
         with open(yaml_path, "r") as f:
             self.platform_config = yaml.safe_load(f)
 

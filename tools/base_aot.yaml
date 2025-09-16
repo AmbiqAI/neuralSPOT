@@ -1,10 +1,23 @@
-model_path: ../../../model_perf_tests/models/kws/kws_ref_model_aligned.tflite
-# model_path: ../model_perf_tests/models/nnse_simpleLSTM_8x8bit.tflite
+model:
+  # path: ../../../model_perf_tests/models/kws/kws_ref_model_aligned.tflite
+  path: ../model_perf_tests/models/nnse_simpleLSTM_8x8bit.tflite
 
-output_path: ./out_dir
-module_name: nnse_aot
-module_type: neuralspot
-prefix: nnse
-memory_planner: greedy
-include_test: true
+# output_path: ./out_dir
+module:
+  name: nnse_aot
+  type: neuralspot
+  prefix: nnse
+
+memory:
+  planner: greedy
+# include_test: true
+
+  # tensors:
+  #   - type: constant
+  #     id: null
+  #     attributes: { memory: SRAM }
+  #   - type: PERSISTENT
+  #     attributes: { memory: SRAM }
+  #   - type: SCRATCH
+  #     attributes: { memory: DTCM }
 verbose: 1

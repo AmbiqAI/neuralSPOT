@@ -16,7 +16,11 @@
 #define NS_PROFILER_PMU_EVENT_2 NS_AD_PMU_EVENT_2
 #define NS_PROFILER_PMU_EVENT_3 NS_AD_PMU_EVENT_3
 #endif
-
+#if defined(__ARM_FEATURE_MVE) || defined(__ARM_FEATURE_MVE_FP)
+extern "C++" {
+#include <arm_mve.h>
+}
+#endif
 #include <string.h>
 #include "ns_core.h"
 #include "ns_ambiqsuite_harness.h"
@@ -34,6 +38,9 @@
 // #endif
 #if NS_AD_AOT == 1
 #include "NS_AD_NAME_AOT_model.h"
+#include "NS_AD_NAME_AOT_platform.h"         // platform macros
+#include "NS_AD_NAME_AOT_tensors.h"          // tensor sizes
+#include "NS_AD_NAME_AOT_context.h"          // model context
 #include "NS_AD_NAME_aot_api.h"
 #include "NS_AD_NAME_aot_example_tensors.h"
 // Memory locations for model and arena
@@ -81,7 +88,7 @@ static ns_pmu_config_t pmu_cfg;
 
 static bool aot_characterizating = false;
 static void aot_callback(int32_t op,
-                         NS_AD_NAME_AOT_operator_state_e state,
+                         NS_AD_NAME_AOT_operator_state_t state,
                          int32_t status,
                          void *user_data)
 {
@@ -89,19 +96,19 @@ static void aot_callback(int32_t op,
         return;
     }
 
-    if (state == NS_AD_NAME_AOT_model_state_started) {
+    if (state == NS_AD_NAME_AOT_op_state_run_started) {
         ns_pmu_accm_op_begin(aot_matrix, op);
     }
 
-    if (state == NS_AD_NAME_AOT_model_state_finished) {
+    if (state == NS_AD_NAME_AOT_op_state_run_finished) {
         ns_pmu_accm_op_end(aot_matrix, op);
 
     }
 }
 
 static NS_AD_NAME_AOT_model_context_t model = {
-    .input_data = {NS_AD_NAME_example_input_tensors},
-    .output_data = {NS_AD_NAME_output_tensors},
+    // .input_data = {NS_AD_NAME_example_input_tensors},
+    // .output_data = {NS_AD_NAME_output_tensors},
     #if NS_AD_JS_PRESENT == 0
     .callback = aot_callback, //aot_callback,
     #else
@@ -243,9 +250,15 @@ int main(void) {
 #if NS_AD_AOT == 1
     // Initialize the model
     // Memcpy input and output tensor length arrays to context
-    memcpy(model.input_len, NS_AD_NAME_AOT_inputs_len, sizeof(NS_AD_NAME_AOT_inputs_len));
-    memcpy(model.output_len, NS_AD_NAME_AOT_outputs_len, sizeof(NS_AD_NAME_AOT_outputs_len));
+    // memcpy(model.outputs[0].data, NS_AD_NAME_AOT_outputs, sizeof(NS_AD_NAME_AOT_outputs));
+    // memcpy(model.input_len, NS_AD_NAME_AOT_inputs_len, sizeof(NS_AD_NAME_AOT_inputs_0_size));
+    // memcpy(model.output_len, NS_AD_NAME_AOT_outputs_len, sizeof(NS_AD_NAME_AOT_outputs_0_size));
+    ns_lp_printf("Initializing AOT model...\n");
     int status = NS_AD_NAME_AOT_model_init(&model); // model init with minimal defaults
+    memcpy(model.inputs[0].data, NS_AD_NAME_AOT_power_example_input_tensors, sizeof(NS_AD_NAME_AOT_power_example_input_tensors));
+
+    ns_lp_printf("AOT model init successful.\n");
+    ns_lp_printf("AOT input tensor copied to 0x%x\n", model.inputs[0].data);
     pmu_cfg.api = &ns_pmu_V1_0_0;
     ns_pmu_reset_config(&pmu_cfg);
 
@@ -258,10 +271,10 @@ int main(void) {
 #endif
     if (status == NS_AD_NAME_STATUS_FAILURE) {
         while (1)
-            ns_lp_printf("Model init failed.\n");
+            ns_lp_printf("TFLM Model init failed.\n");
         example_status = NS_AD_NAME_STATUS_INIT_FAILED; // hang
     }
-    ns_lp_printf("Model init successful.\n");
+    ns_lp_printf("TFLM Model init successful.\n");
 
     // At this point, the model is ready to use - init and allocations were successful
     // Note that the model handle is not meant to be opaque, the structure is defined
@@ -276,7 +289,7 @@ int main(void) {
     for (int i = 0; i < numInputs; i++) {
 
         memcpy(
-            model.model_input[i]->data.int8, ((char *)NS_AD_NAME_example_input_tensors) + offset,
+            model.model_input[i]->data.int8, ((char *)NS_AD_NAME_AOT_power_example_input_tensors) + offset,
             model.model_input[i]->bytes);
         offset += model.model_input[i]->bytes;
     }

@@ -30,12 +30,12 @@ warnings.filterwarnings("ignore", message="Field.*has conflict with protected na
 # ---------------------------------------------------------------------------
 HeliosConvertArgs = None  # type: ignore  # populated only if import succeeds
 AotModel = None  # type: ignore
+helios_aot_version = None
 try:
     import helios_aot  # noqa: F401  – side‑effect import for pkg resources
     from helios_aot.cli.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
     from helios_aot.converter import AotConverter as AotModel   # type: ignore
     from helios_aot.utils import get_version as get_helios_aot_version
-    helios_aot_available = True
     helios_aot_version = get_helios_aot_version()
     # Make sure the version is at least 0.5.0 (semantic versioning)
     if helios_aot_version < "0.5.0":
@@ -43,6 +43,7 @@ try:
         helios_aot_available = False
         print(f"[NS] HeliosAOT support is not available, version is too old")
     else:
+        helios_aot_available = True
         print(f"[NS] HeliosAOT module is available, version: {get_helios_aot_version()}")
 except (ImportError, OSError, RuntimeError) as e:
     helios_aot_available = False
@@ -710,6 +711,11 @@ class AutoDeployRunner:
         if self.p.tflite_filename == "undefined":
             raise ValueError("TFLite filename must be specified")
 
+        # --- If create_aot_profile is True and helios_aot_available = False, set it to False
+        if self.p.create_aot_profile and not helios_aot_available:
+            self.p.create_aot_profile = False
+            print("[WARNING] AOT disabled because HeliosAOT is not available")
+
         # --- If aot_config is auto, set it to tools/base_aot.yaml
         if self.p.helios_aot_config == "auto":
             self.p.helios_aot_config = str(importlib.resources.files(__name__) / "base_aot.yaml")
@@ -1137,8 +1143,17 @@ class AutoDeployRunner:
         for mode in cpu_modes:
             for runtime_mode in runtime_modes:
                 generatePowerBinary(self.p, self.mc, self.md, mode, aot=runtime_mode == "aot")
+                retries_left = 3
                 if self.p.joulescope:
-                    td, i, v, p_, c, e = measurePower(self.p)
+                    while retries_left > 0: 
+                        td, i, v, p_, c, e = measurePower(self.p)
+                        if e != 0:
+                            break
+                        retries_left -= 1
+                        sleep(1)
+                    if retries_left == 0:
+                        log.error("Joulescope driver failed to load, giving up")
+                        continue
                     energy_uJ = (e["value"] / self.p.runs_power) * 1_000_000
                     time_ms = (td.total_seconds() * 1000) / self.p.runs_power
                     power_mW = (e["value"] / td.total_seconds()) * 1000

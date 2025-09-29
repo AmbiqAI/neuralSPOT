@@ -28,7 +28,7 @@ uint8_t ns_cache_profiler_init(ns_cache_config_t *cfg) {
 
 // RX doesnt have cachectrl yet.
 // #ifndef AM_PART_APOLLO5A
-#if !defined(AM_PART_APOLLO5A) && !defined(AM_PART_APOLLO5B)
+#if !defined(AM_PART_APOLLO5A) && !defined(AM_PART_APOLLO5B) && !defined(AM_PART_APOLLO510L)
     char dummy = 0;
 
     if (cfg->enable) {
@@ -210,7 +210,7 @@ void ns_print_perf_profile(ns_perf_counters_t *c) {
 }
 // #endif
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 
 #define NS_DCU_SWO (                 \
      AM_HAL_DCU_CPUTRC_DWT_SWO | AM_HAL_DCU_CPUDBG_NON_INVASIVE |   \
@@ -394,4 +394,4 @@ int32_t ns_itm_pcsamp_enable(void)
     return i32RetValue;
 } // ns_itm_pcsamp_enable()
 
-#endif // AM_PART_APOLLO5B
+#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L

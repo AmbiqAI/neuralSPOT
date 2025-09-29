@@ -151,3 +151,54 @@ apollo510_evb:
     - usb
     - psram
     - mve
+
+apollo510b_evb:
+  name: apollo510_evb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo510
+  core: cortex-m55
+  mram: 4096
+  sram: 3072
+  dtcm: 512
+  itcm: 256
+  psram: 32168
+  psram-arena: 12000
+  psram-model: 20000
+  nvm: 8192
+
+  clock_lp: 96
+  clock_hp: 250
+  as_version: R5.3.0
+  tflm_version: helios_rt_v1_3_0
+  # tflm_version: Oct_08_2024_e86d97b6
+  features:
+    - mcu
+    - usb
+    - psram
+    - mve
+
+apollo510L_eb:
+  name: apollo510L_eb
+  supported_by_autodeploy: true
+  vendor: ambiq
+  mcu: apollo510L
+  core: cortex-m55
+  mram: 1984
+  sram: 1710
+  dtcm: 240
+  psram: 32168
+  psram-arena: 12000
+  psram-model: 20000
+  nvm: 8192
+
+  clock_lp: 96
+  clock_hp: 250
+  as_version: R5.2.alpha.1
+  tflm_version: helios_rt_v1_3_0
+  # tflm_version: Oct_08_2024_e86d97b6
+  features:
+    - mcu
+    - usb
+    - psram
+    - mve

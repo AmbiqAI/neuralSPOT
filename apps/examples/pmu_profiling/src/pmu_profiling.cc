@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef AM_PART_APOLLO5B
-#error "This example is only supported on Apollo5B"
+#if !defined(AM_PART_APOLLO5B) && !defined(AM_PART_APOLLO510B)
+#error "This example is only supported on Apollo5B or Apollo510B"
 #endif
 
 ////////////////////////////////////////////////

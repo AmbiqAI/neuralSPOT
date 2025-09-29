@@ -144,7 +144,7 @@ ns_timer_config_t basic_tickTimer = {
 uint32_t seStart, seEnd;
 uint32_t opusStart, opusEnd;
 uint32_t seLatencyCapturePeriod = 10;  // measure every 100 frames (1s)
-uint32_t opusLatencyCapturePeriod = 5; // measure every 100 frames (1s)
+uint32_t opusLatencyCapturePeriod = 5; // measure every 100 frames (1s)  
 uint32_t currentSESample = 0;
 uint32_t currentOpusSample = 0;
 
@@ -157,17 +157,14 @@ void audioTask(void *pvParameters) {
             g_intButtonPressed = 0;
         }
         if (g_audioReady) { // Every time audio frame is available (160 samples, 10ms)
-
             NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed. ");
             if (currentSESample == seLatencyCapturePeriod) {
                 seStart = ns_us_ticker_read(&basic_tickTimer);
             }
-
             // SE Model is stateful, so you have to call it with every frame
             // even if you don't want SE's output (otherwise it'll sound wierd for a bit at
             // the beginning)
             seCntrlClass_exec(&cntrl_inst, g_in16AudioDataBuffer, xmitBuffer + xmitWritePtr);
-
             if (currentSESample == seLatencyCapturePeriod) {
                 seEnd = ns_us_ticker_read(&basic_tickTimer);
                 seLatency = seEnd - seStart;
@@ -176,16 +173,13 @@ void audioTask(void *pvParameters) {
             } else {
                 currentSESample++;
             }
-
             if (!enableSE) {
                 // Overwrite the SE output with the original audio
                 memcpy(
                     xmitBuffer + xmitWritePtr, g_in16AudioDataBuffer,
                     LEN_STFT_HOP * sizeof(int16_t));
             }
-
             NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
-
             // Add it to our simple ring buffer
             xmitAvailable += 160;
             xmitWritePtr = (xmitWritePtr + 160) % XBUFSIZE;
@@ -258,7 +252,7 @@ int main(void) {
     ns_init_perf_profiler();
     ns_start_perf_profiler();
 
-    // Initialize the Opus encoder
+    // Initialize the Opus encoder 
     audio_enc_init(0);
 
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
@@ -270,7 +264,7 @@ int main(void) {
 
     // initialize neural nets controller
     seCntrlClass_init(&cntrl_inst);
-#ifdef DEF_ACC32BIT_OPT
+#ifdef DEF_ACC32BIT_OPT 
     ns_lp_printf("You are using \"32bit\" accumulator.\n");
 #else
     ns_lp_printf("You are using \"64bit\" accumulator.\n");

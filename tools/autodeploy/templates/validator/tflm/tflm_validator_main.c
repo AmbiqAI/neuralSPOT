@@ -23,7 +23,7 @@
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
 #include "ns_debug_log.h"
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
 #endif
@@ -74,7 +74,7 @@ NS_SRAM_BSS uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((
 // -------------------------- Optional profiling bits -------------------------
 #ifdef NS_MLPROFILE
 ns_timer_config_t s_tickTimer = { .api = &ns_timer_V1_0_0, .timer = NS_TIMER_COUNTER, .enableInterrupt = false };
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 ns_pmu_config_t   s_pmu_cfg;
 #endif
 #endif
@@ -84,7 +84,7 @@ ns_pmu_config_t   s_pmu_cfg;
 // We translate profiler buffers into mut_stats so the host can fetch them.
 void vrpc_on_after_invoke(void) {
   // Platform stamping handled in fetch handler; fill the rest here.
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   if (mut_cfg.config.full_pmu_stats == 1) {
     mut_stats.stats.pmu_count = NS_NUM_PMU_MAP_SIZE;
   } else {
@@ -176,7 +176,7 @@ ns_interrupt_master_enable();
 #ifdef NS_MLPROFILE
   // Timer for profiling timestamps
   NS_TRY(ns_timer_init(&s_tickTimer), "Timer init failed");
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   // Minimal PMU setup; detailed event selection handled in debug log module
   s_pmu_cfg.api = &ns_pmu_V1_0_0;
   ns_pmu_reset_config(&s_pmu_cfg);

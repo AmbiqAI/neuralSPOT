@@ -33,10 +33,10 @@ ns_TFDebugLog(const char *s) {
 #ifdef NS_MLPROFILE
 ns_timer_config_t *ns_microProfilerTimer;
 ns_cache_config_t ns_microProfiler_cache_config;
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 ns_pmu_config_t ns_microProfilerPMU;
 AM_SHARED_RW char ns_profiler_pmu_header[2048];
-#endif  // AM_PART_APOLLO5B
+#endif  // AM_PART_APOLLO5B || AM_PART_APOLLO510L
 AM_SHARED_RW ns_profiler_sidecar_t ns_microProfilerSidecar;
 AM_SHARED_RW ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
 AM_SHARED_RW char ns_profiler_csv_header[512];
@@ -67,7 +67,7 @@ ns_TFDebugLogInit(ns_debug_log_init_t *cfg) {
     }
     // ns_init_perf_profiler();
     // ns_start_perf_profiler();
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     // The micro_profiler needs access to a global, so copy it in
     if (cfg->pmu != NULL) {
         ns_lp_printf("ns_TFDebugLogInit: cfg->pmu %p\n", cfg->pmu);
@@ -91,7 +91,7 @@ ns_TFDebugLogInit(ns_debug_log_init_t *cfg) {
 uint32_t ns_characterize_model(invoke_fp func) {
     // Repeatedly run the model, capturing different PMU every time.
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     uint32_t map_index = 0;
     ns_lp_printf("Starting model characterization, capturing %d (%d/%d) PMU events per layer\n", NS_NUM_PMU_MAP_SIZE, g_ns_pmu_map_length, sizeof(ns_pmu_map_t));
     for (map_index = 0; map_index < NS_NUM_PMU_MAP_SIZE; map_index = map_index + 4) {
@@ -132,7 +132,7 @@ uint32_t ns_characterize_model(invoke_fp func) {
  * @return Index of the CALL_ONCE layer if found, otherwise -1.
  */
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B 
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) 
 static int32_t
 find_call_once_layer(uint32_t num_layers)
 {
@@ -146,14 +146,14 @@ find_call_once_layer(uint32_t num_layers)
     }
     return -1;
 }
-#endif // AM_PART_APOLLO5B
+#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L
 #endif // NS_MLPROFILE
 
 uint32_t ns_set_pmu_header(void) {
     // Set ns_profiler_csv_header to the PMU header
 
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     char name[50];
     snprintf(ns_profiler_pmu_header, 2048, "Event,Tag,uSeconds,EST_MAC,MAC_EQ,OUTPUT_MAG,OUTPUT_SHAPE,FILTER_SHAPE,STRIDE_H,STRIDE_W,DILATION_H,DILATION_W");
     // ns_lp_printf("Event,\"Tag\",\"uSeconds\",\"Est MACs\",\"MAC Eq\",\"Output Mag\",\"Output Shape\",\"Filter Shape\", \"Stride H\", \"Stride W\", \"Dilation H\", \"Dilation W\""); 
@@ -164,7 +164,7 @@ uint32_t ns_set_pmu_header(void) {
         // ns_lp_printf(",\"%s\"", name); 
     };
     // ns_lp_printf("\n");
-#endif // AM_PART_APOLLO5B
+#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L
 #endif // NS_MLPROFILE
 
     return NS_STATUS_SUCCESS;
@@ -199,7 +199,7 @@ ns_get_layer_counters(uint32_t layer,
                       uint32_t *out_counters)
 {
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     // 1. Find if a CALL_ONCE layer exists
     int32_t call_once_layer = find_call_once_layer(num_layers);
     // ns_lp_printf("[INFO] NS_GET_LAYER_COUNTERS: CALL_ONCE %d, layer %d num_layers %d, rv %d\n", call_once_layer, layer, num_layers, rv);
@@ -285,7 +285,7 @@ ns_get_layer_counters(uint32_t layer,
  */
 uint32_t ns_parse_pmu_stats(uint32_t num_layers, uint32_t rv) {
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     char name[50];
     uint32_t map_index = 0;
     int call_once_layer = -1;

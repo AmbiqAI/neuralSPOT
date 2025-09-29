@@ -145,8 +145,12 @@ void tud_suspend_cb(bool remote_wakeup_en) {
 // Invoked when usb bus is resumed
 void tud_resume_cb(void) { webusb_connected = false; }
 
-// Invoked when received new data
+// Invoked when received new data - the prototype changed for R5.1.0_rc27 and R5.2.alpha.1
+#if defined(NS_AMBIQSUITE_VERSION_R5_1_0_rc27) || defined(NS_AMBIQSUITE_VERSION_R5_2_alpha_1)
+void tud_vendor_rx_cb(uint8_t itf, uint8_t const* buffer, uint16_t bufsize) {
+#else
 void tud_vendor_rx_cb(uint8_t itf) {
+#endif
     (void)itf;
     uint32_t bytes_rx = 0;
 
@@ -193,10 +197,10 @@ bool tud_vendor_control_xfer_cb(
     uint8_t rhport, uint8_t stage, tusb_control_request_t const *request) {
     ns_tusb_desc_webusb_url_t * desc_url = ns_get_desc_url();
     // nothing to with DATA & ACK stage
-    // ns_lp_printf("tud_vendor_control_xfer_cb: %d\n", stage);
+    ns_lp_printf("tud_vendor_control_xfer_cb: %d\n", stage);
     if (stage != CONTROL_STAGE_SETUP)
         return true;
-    // ns_lp_printf("here: %d\n", stage);
+    ns_lp_printf("here: %d\n", stage);
     switch (request->bmRequestType_bit.type) {
     case TUSB_REQ_TYPE_VENDOR:
         // ns_lp_printf("TUSB_REQ_TYPE_VENDOR: \n");
@@ -226,7 +230,7 @@ bool tud_vendor_control_xfer_cb(
         break;
 
     case TUSB_REQ_TYPE_CLASS:
-        // ns_lp_printf("TUSB_REQ_TYPE_CLASS: \n");
+        ns_lp_printf("TUSB_REQ_TYPE_CLASS: \n");
 
         if (request->bRequest == WEBUSB_REQUEST_SET_CONTROL_LINE_STATE) {
             // Receive the webusb line state
@@ -289,7 +293,7 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     if (bufremain) {
         // Collects the amount of data that has not been written
     }
-    #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
     // ns_lp_printf("tud_vendor_write_flush, avail is %d\n", tud_vendor_write_available());
 

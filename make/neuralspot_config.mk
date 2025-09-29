@@ -40,6 +40,8 @@ TARGETS := \
   apollo4l_blue_evb \
   apollo5b_evb \
   apollo510_evb \
+  apollo510L_eb \
+  apollo510b_evb \
 
 # Where “nest” mode will copy source files
 NESTDIR := nest
@@ -63,12 +65,12 @@ endif
 # Split it into BOARD and EVB
 BOARD      := $(firstword $(subst _, ,$(PLATFORM)))
 
-# Pre-R5.3.0 SDKs put code under “apollo5b”; newer ones use “apollo510”
-ifneq ($(AS_VERSION),R5.3.0)
-  ifneq ($(filter apollo510,$(BOARD)),)
-    BOARD := apollo5b
-  endif
-endif
+# # Pre-R5.3.0 SDKs put code under “apollo5b”; newer ones use “apollo510”
+# ifneq ($(AS_VERSION),R5.3.0)
+#   ifneq ($(filter apollo510,$(BOARD)),)
+#     BOARD := apollo5b
+#   endif
+# endif
 
 EVB        := $(wordlist 2,$(words $(subst _, ,$(PLATFORM))),$(subst _, ,$(PLATFORM)))
 BOARDROOT  := $(BOARD)
@@ -166,14 +168,14 @@ else ifeq ($(EVB),blue_kxr_evb)
   BLE_PRESENT := 1
 else ifeq ($(ARCH),apollo3)
   BLE_PRESENT := 1
-else ifeq ($(PLATFORM), apollo510_evb)
+else ifeq ($(PLATFORM), apollo510b_evb)
   BLE_PRESENT := 1
 else
   BLE_PRESENT := 0
 endif
 
 # USB_PRESENT: only certain PARTs support USB
-ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510),$(PART))
+ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510 apollo510L apollo510b),$(PART))
   USB_PRESENT := 1
 else
   USB_PRESENT := 0
@@ -214,6 +216,18 @@ else ifeq ($(AS_VERSION),R4.5.0)
     BLE_SUPPORTED := 1
   endif
 else ifeq ($(AS_VERSION),R5.3.0)
+  ifeq ($(BLE_PRESENT),1)
+    DEFINES += NS_BLE_SUPPORTED
+    BLE_SUPPORTED := 1
+  endif
+else ifeq ($(AS_VERSION),R5.2.alpha.1)
+    ifeq ($(BLE_PRESENT),1)
+      DEFINES += NS_BLE_SUPPORTED
+      BLE_SUPPORTED := 1
+    else
+      BLE_SUPPORTED := 0
+    endif 
+else ifeq ($(AS_VERSION),R5.1.0_rc27)
   ifeq ($(BLE_PRESENT),1)
     DEFINES += NS_BLE_SUPPORTED
     BLE_SUPPORTED := 1

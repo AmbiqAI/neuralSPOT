@@ -30,10 +30,10 @@
     #include <arm_mve.h>
     #include "basic_mve.h"
 #endif
-int16_t glob_se_out[160];
+__attribute__((aligned(16))) int16_t glob_se_out[160];
 IIR_CLASS inst_dcrm;
-int16_t input_tmp[160];
-int32_t embd_nnid[64 * 5] = {
+__attribute__((aligned(16))) int16_t input_tmp[160];
+__attribute__((aligned(16))) int32_t embd_nnid[64 * 5] = {
     -1628, -1539, -4392, -560,  408,   -7558, 1119,  5851,  -1103, 8611,  -416,  5804,  -4506,
     -2787, -1700, 4906,  2866,  1750,  -235,  -5588, 1712,  6512,  -5315, 1418,  -3975, -4423,
     -2045, 9122,  -3814, 7408,  984,   -330,  1010,  -1376, -2152, 409,   -2607, -7301, -1874,
@@ -49,7 +49,7 @@ NNID_CLASS state_nnid = {
     .corr = {0, 0, 0, 0, 0}, // TODO
 };
 
-int32_t glob_nn_output[512];
+__attribute__((aligned(16))) int32_t glob_nn_output[512];
 int NNSPClass_init(
     NNSPClass *pt_inst, void *pt_net, void *pt_feat, char nn_id, const int32_t *pt_mean,
     const int32_t *pt_stdR, int16_t *pt_thresh_prob, int16_t *pt_th_count_trigger,
@@ -122,7 +122,6 @@ int16_t NNSPClass_get_nn_out_base16b(int16_t *output, int len) {
     return 0;
 }
 int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
-
     NNID_CLASS *pt_nnid = (NNID_CLASS *)pt_inst->pt_state_nnid;
     FeatureClass *pt_feat = (FeatureClass *)pt_inst->pt_feat;
     NeuralNetClass *pt_net = (NeuralNetClass *)pt_inst->pt_net;
@@ -132,7 +131,6 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
 #endif
     int16_t *pt_inputs;
 
-    
 
     if (pt_inst->nn_id == se_id) {
 
@@ -154,12 +152,11 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
         } else {
             pt_inputs = rawPCM;
         }
-        
         FeatureClass_execute(pt_feat, pt_inputs);
     } else {
         FeatureClass_execute(pt_feat, rawPCM);
-    }
 
+    }
     if (pt_inst->slides == 1) {
 #ifdef ENERGYMODE
         am_set_power_monitor_state(AM_AI_INFERING);
@@ -211,7 +208,6 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
                  pt_inst->pt_se_out,
                 pt_inst->pt_params->start_bin,
                 NNSPClass_get_nnOut_dim(pt_inst));
-
             break;
         }
 

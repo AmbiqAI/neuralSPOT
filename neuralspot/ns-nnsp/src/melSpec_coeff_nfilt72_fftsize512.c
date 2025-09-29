@@ -2,7 +2,7 @@
 #include "ambiq_nnsp_const.h"
 const int16_t num_mfltrBank_nfilt72 = 72;
 // const int16_t num_fft = 512;
-const int16_t mfltrBank_coeff_nfilt72_fftsize512[] = {
+__attribute__((aligned(16))) const int16_t mfltrBank_coeff_nfilt72_fftsize512[] = {
     0x0000, 0x0000, 0x7FFF,                                                                 // 0
     0x0001, 0x0001, 0x7FFF,                                                                 // 1
     0x0002, 0x0002, 0x7FFF,                                                                 // 2

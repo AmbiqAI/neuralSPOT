@@ -38,7 +38,7 @@ extern "C" {
     #include "tensorflow/lite/micro/micro_resource_variable.h"
     #endif
     extern const ns_perf_mac_count_t mac_estimates;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     extern ns_pmu_config_t s_pmu_cfg;
     #endif
 
@@ -86,7 +86,7 @@ extern "C" {
     #ifdef NS_MLPROFILE
       s_tflm.tickTimer = tickTimer;  // configured by app if profiling is enabled
       s_tflm.mac_estimates = &mac_estimates;
-      #ifdef AM_PART_APOLLO5B
+      #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
       s_tflm.pmu = &s_pmu_cfg;
       #endif
     #endif

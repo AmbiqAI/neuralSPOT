@@ -28,7 +28,7 @@ uint32_t ns_i2c_read_sequential_regs(
     am_hal_iom_transfer_t Transaction;
     Transaction.ui8Priority = 1;
     Transaction.ui32InstrLen = 1;
-#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     Transaction.ui64Instr = regAddr;
 #else
     Transaction.ui32Instr = (uint32_t)regAddr;
@@ -62,7 +62,7 @@ uint32_t ns_i2c_write_sequential_regs(
     am_hal_iom_transfer_t Transaction;
     Transaction.ui8Priority = 1;
     Transaction.ui32InstrLen = 1;
-#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     Transaction.ui64Instr = regAddr;
 #else
     Transaction.ui32Instr = (uint32_t)regAddr;

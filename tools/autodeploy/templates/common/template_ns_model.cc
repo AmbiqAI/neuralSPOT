@@ -9,7 +9,7 @@
  *
  */
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 #define NS_PROFILER_PMU_EVENT_0 ARM_PMU_MVE_LDST_MULTI_RETIRED
 #define NS_PROFILER_PMU_EVENT_1 ARM_PMU_MVE_INT_MAC_RETIRED
 #define NS_PROFILER_PMU_EVENT_2 ARM_PMU_INST_RETIRED
@@ -108,7 +108,7 @@ ns_perf_mac_count_t basic_mac = {
     .filter_shapes = (const char **)NS_AD_PERF_NAME_mac_filter_shapes
 };
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 ns_pmu_config_t basic_pmu_cfg;
 #endif
 
@@ -199,7 +199,7 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
 
     ms->tickTimer = &basic_tickTimer;
     ms->mac_estimates = &basic_mac;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 
     // PMU config for profiling
     basic_pmu_cfg.api = &ns_pmu_V1_0_0;
@@ -216,7 +216,7 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
 #else
     ms->tickTimer = NULL;
     ms->mac_estimates = NULL;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     ms->pmu = NULL;
     #endif
 #endif
@@ -240,7 +240,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     ns_debug_log_init_t cfg = {
         .t = ms->tickTimer,
         .m = ms->mac_estimates,
-        #ifdef AM_PART_APOLLO5B
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
         .pmu = ms->pmu,
         #endif
     };

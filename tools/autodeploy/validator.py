@@ -1758,7 +1758,7 @@ def compile_and_deploy(params, mc, first_time=False, aot=False):
         itcm = ""
 
     # If full PMU capture is enabled and the platform is AP5, we need to increase the stack size
-    if params.full_pmu_capture and (params.platform == "apollo510_evb"):
+    if params.full_pmu_capture and ((params.platform == "apollo510_evb") or (params.platform == "apollo510L_eb") or (params.platform == "apollo510b_evb")):
         itcm = itcm + " STACK_SIZE_IN_32B_WORDS=5120"
 
     if (params.create_profile) or (params.create_binary):
@@ -1801,11 +1801,14 @@ def compile_and_deploy(params, mc, first_time=False, aot=False):
         print("[ERROR] Make failed, return code %d" % makefile_result)
         exit("Make failed, return code %d" % makefile_result)
         return makefile_result
-    # time.sleep(10)
+    time.sleep(3)
+    # os.system(f"cd {params.neuralspot_rootdir} {ws1} make reset {ps}  >{ws3} 2>&1")
     # print("[NS] Resetting after flashing the firmware")
     # reset_dut(params)
-    time.sleep(3)
+    # time.sleep(6)
     # reset_dut()
+    # wait for key press
+    # input("Press Enter to continue...")
     return makefile_result
 
 
@@ -1833,7 +1836,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
         ns_ad_large_model = 0
 
     # If Apollo5, load PMU definitions
-    if params.platform in ["apollo510_eb", "apollo510_evb"] :
+    if params.platform in ["apollo510_eb", "apollo510_evb", "apollo510L_eb", "apollo510b_evb"] :
         pmu_defs = read_pmu_definitions(params)
         ev0 = pmu_defs["PMU_EVENT0"]["name"]
         ev1 = pmu_defs["PMU_EVENT1"]["name"]
@@ -2042,6 +2045,7 @@ def create_validation_binary(params, mc, md, baseline, aot):
     create_mut_modelinit(validator_dir, mc)
     compile_and_deploy(params, mc, first_time=baseline, aot=aot)
     time.sleep(3)
+
 
 def get_interpreter(params):
     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)

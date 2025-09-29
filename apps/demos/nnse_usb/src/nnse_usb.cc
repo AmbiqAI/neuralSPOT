@@ -370,7 +370,7 @@ int main(void) {
         sinWave[i] = (int16_t)(sin(2 * 3.14159 * 400 * i / SAMPLING_RATE) * 32767);
     }
 
-    #if defined(AM_PART_APOLLO5B)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
     data.platform = 2;
     #elif defined(AM_PART_APOLLO4P)
     data.platform = 1;

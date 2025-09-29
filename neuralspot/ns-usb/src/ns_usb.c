@@ -85,7 +85,7 @@ ns_timer_config_t g_ns_usbTimer = {
     .callback = ns_usb_service_callback};
 
 uint32_t ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
-
+    ns_lp_printf("ns_usb_init\n");
 #ifndef NS_DISABLE_API_VALIDATION
     if (cfg == NULL) {
         return NS_STATUS_INVALID_HANDLE;
@@ -99,7 +99,7 @@ uint32_t ns_usb_init(ns_usb_config_t *cfg, usb_handle_t *h) {
         return NS_STATUS_INVALID_CONFIG;
     }
 #endif
-
+    ns_lp_printf("ns_usb_init\n");
     usb_config.deviceType = cfg->deviceType;
     usb_config.rx_buffer = cfg->rx_buffer;
     usb_config.rx_bufferLength = cfg->rx_bufferLength;
@@ -133,9 +133,9 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     uint32_t retries = 100000;
     uint32_t block_retries = 15; // number of rx blocks we'll retry
 
-    // if (gGotUSBRx == 0)
-    //     ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
-    //             gGotUSBRx);
+    if (gGotUSBRx == 0)
+        ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
+                gGotUSBRx);
     // uint32_t before = tud_cdc_available();
     // uint8_t before_sem = gGotUSBRx;
     // ns_delay_us(10);
@@ -205,7 +205,7 @@ void ns_usb_handle_read_error(usb_handle_t h) {
 uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
-    // ns_lp_printf("NS USB  asked to send %d from 0x%x, \n", bufsize, (uint32_t)buffer);
+    ns_lp_printf("NS USB  asked to send %d from 0x%x, \n", bufsize, (uint32_t)buffer);
     // Make sure there is no pending data in the USB TX buffer
     // This is a blocking call, so we can be sure that the buffer is flushed
     while (tud_cdc_write_available() < usb_config.tx_bufferLength) {
@@ -227,7 +227,7 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
         ns_delay_us(1000);
         // ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
-    #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_cdc_write_flush();
     // tud_task(); // flush the write buffer
     // ns_lp_printf("NS _USB avail %d\n", tud_cdc_write_available());

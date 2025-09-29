@@ -2,6 +2,7 @@
 #include "am_bsp.h"
 #include "am_util.h"
 #include "ns_uart.h"
+#include "ns_ambiqsuite_harness.h"
 
 volatile uint32_t ui32LastError;
 bool g_bUARTdone = false;

@@ -52,7 +52,7 @@ ns_timer_config_t basic_tickTimer = {
     .enableInterrupt = false,
 };
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
 ns_pmu_config_t pmu_cfg;
 #endif
 
@@ -78,7 +78,7 @@ model_init(void) {
                                      .mac_count_map = kws_ref_model_mac_estimates};
 
     // Init the PMU config
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
     pmu_cfg.api = &ns_pmu_V1_0_0;
     ns_pmu_reset_config(&pmu_cfg);
     ns_pmu_event_create(&pmu_cfg.events[0], NS_PROFILER_PMU_EVENT_0, NS_PMU_EVENT_COUNTER_SIZE_32);
@@ -91,7 +91,7 @@ model_init(void) {
     ns_debug_log_init_t cfg = {
         .t = &basic_tickTimer,
         .m = &basic_mac,
-        #ifdef AM_PART_APOLLO5B
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
         .pmu = &pmu_cfg,
         #endif
     };

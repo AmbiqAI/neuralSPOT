@@ -90,7 +90,7 @@ void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps,
         .cpuUtilization = cpuUtilization
     };
     webusb_send_data((uint8_t *)&data, sizeof(usb_data_t));
-    #if defined(AM_PART_APOLLO5B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
 
         while (tud_vendor_write_available() < 14) {
@@ -182,7 +182,7 @@ int main(void) {
         uint8_t confidence = (uint8_t)((max + 127) * 100 / 255);
         // convert ips to uint8_t
         uint8_t fps = ips;
-        #ifdef AM_PART_APOLLO5B
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
         sendMessage(1, label, confidence, fps, 0, 0);
         #else
         sendMessage(0, label, confidence, fps, 0, 0);

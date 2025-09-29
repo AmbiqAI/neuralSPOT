@@ -907,6 +907,7 @@ void HciResetSequence(void)
 
   /* set resetting state */
   hciCb.resetting = TRUE;
+  HCI_TRACE_INFO0("reset sequence 2");
 
   /* start the reset sequence */
   hciCoreResetStart();

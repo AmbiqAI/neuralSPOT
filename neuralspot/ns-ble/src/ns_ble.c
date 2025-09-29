@@ -160,16 +160,46 @@ static const uint8_t ns_ble_generic_scan_data_disc[] = {
 static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
     dmEvt_t *pMsg;
     uint16_t len;
-    // ns_lp_printf("ns_ble_generic_DmCback\n");
+    // ns_lp_printf("ns_ble_generic_DmCback 0x%x\n", pDmEvt);
     len = DmSizeOfEvt(pDmEvt);
 
     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
-        memcpy(pMsg, pDmEvt, len);
+        // ns_lp_printf("ns_ble_generic_DmCback: pMsg = 0x%x\n", pMsg);
+        NS_SAFE_MEMCPY(pMsg, pDmEvt, len);
         // ns_lp_printf(
         // "ns_ble_generic_DmCback: pMsg->hdr.event = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
+
+// static inline void memcpy_u8(void *dst, const void *src, uint32_t n)
+// {
+//     uint8_t *d = (uint8_t *)dst;
+//     const uint8_t *s = (const uint8_t *)src;
+//     while (n--) { *d++ = *s++; }
+// }
+
+// #define ALIGNED4(p) ((((uintptr_t)(p)) & 3u) == 0)
+
+// static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt)
+// {
+//     dmEvt_t *pMsg;
+//     uint16_t len = DmSizeOfEvt(pDmEvt);
+
+//     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
+//         void *dst = pMsg;
+//         const void *src = pDmEvt;
+
+//         if (ALIGNED4(dst) && ALIGNED4(src) && (len >= 4)) {
+//             memcpy(dst, src, len);
+//         } else {
+//             memcpy_u8(dst, src, len);   // unaligned-safe
+//         }
+
+//         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
+//     }
+// }
+
 
 /*************************************************************************************************/
 /*!
@@ -184,12 +214,12 @@ static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 /*************************************************************************************************/
 static void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
+    // ns_lp_printf("ns_ble_generic_AttCback 0x%x\n", pEvt);
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
-        memcpy(pMsg, pEvt, sizeof(attEvt_t));
+        NS_SAFE_MEMCPY(pMsg, pEvt, sizeof(attEvt_t));
         pMsg->pValue = (uint8_t *)(pMsg + 1);
-        memcpy(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
-        // ns_lp_printf(
-        // "ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
+        NS_SAFE_MEMCPY(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
+        // ns_lp_printf("ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -208,7 +238,7 @@ static void ns_ble_generic_AttCback(attEvt_t *pEvt) {
 static void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     attsCccEvt_t *pMsg;
     appDbHdl_t dbHdl;
-    // ns_lp_printf("ns_ble_generic_CccCback\n");
+    // ns_lp_printf("ns_ble_generic_CccCback 0x%x\n", pEvt);
     /* if CCC not set from initialization and there's a device record */
     if ((pEvt->handle != ATT_HANDLE_NONE) &&
         ((dbHdl = AppDbGetHdl((dmConnId_t)pEvt->hdr.param)) != APP_DB_HDL_NONE)) {
@@ -216,9 +246,10 @@ static void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
         // ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
         AppDbSetCccTblValue(dbHdl, pEvt->idx, pEvt->value);
     }
-
+    ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
     if ((pMsg = WsfMsgAlloc(sizeof(attsCccEvt_t))) != NULL) {
-        memcpy(pMsg, pEvt, sizeof(attsCccEvt_t));
+        NS_SAFE_MEMCPY(pMsg, pEvt, sizeof(attsCccEvt_t));
+        ns_lp_printf("ns_ble_generic_CccCback: pMsg->handle = %d\n", pMsg->handle);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     } else {
         ns_lp_printf("ns_ble_generic_CccCback allocated failed\n");
@@ -567,7 +598,7 @@ void ns_ble_generic_init(
 
 #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
 void am_ble_isr(void) { HciDrvIntService(); }
-#elif defined(AM_PART_APOLLO5B)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 void
 GPIO_INT_ISR(void)
 {
@@ -607,7 +638,7 @@ void ns_ble_pre_init(void) {
 // Set NVICs for BLE
 #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     NVIC_SetPriority(BLE_IRQn, NVIC_configMAX_SYSCALL_INTERRUPT_PRIORITY);
-#elif defined(AM_PART_APOLLO5B)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 // Dont know yet.
 #else
     NVIC_SetPriority(COOPER_IOM_IRQn, 4);

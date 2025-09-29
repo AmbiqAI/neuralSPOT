@@ -14,11 +14,11 @@ int32_t M4_[] = {1, 0, 1,  0, 1, 0,  1, 0, 1, 0, 1,  0, -1, 0, -1, 0,
 
 int32_t M2_[] = {1, 0, 1, 0, 1, 0, -1, 0};
 
-COMPLEX32 ti[4];
-COMPLEX32 to[4];
-COMPLEX32 cinput[256];
+__attribute__((aligned(16))) COMPLEX32 ti[4];
+__attribute__((aligned(16))) COMPLEX32 to[4];
+__attribute__((aligned(16))) COMPLEX32 cinput[256];
 
-COMPLEX32 Xe[256];
+__attribute__((aligned(16))) COMPLEX32 Xe[256];
 COMPLEX32 *Xo = cinput;
 
 void rfft(int num_rfft, int32_t *input, void *output_) {

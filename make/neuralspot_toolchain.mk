@@ -131,13 +131,14 @@ else ifeq ($(TOOLCHAIN),arm)
     -mcpu=$(CPU) \
     $(FPU_FLAG) \
     -mfloat-abi=$(FABI) \
-    -c \
+    -c -g3 \
+    -Ofast \
     -fno-rtti \
     -funsigned-char \
     -fshort-enums \
     -fshort-wchar \
     -gdwarf-4 \
-    -Ofast \
+    -fno-omit-frame-pointer -funwind-tables \
     -ffunction-sections \
     -Wno-packed \
     -Wno-missing-variable-declarations \
@@ -250,7 +251,17 @@ ifeq ($(PART),apollo3)
   DEFINES += PART_APOLLO3
 endif
 
-ifneq ($(filter apollo5b apollo510,$(PART)),)
+ifeq ($(PART),apollo510L)
+  DEFINES += AM_PART_APOLLO510L
+  DEFINES += PART_APOLLO510L
+  DEFINES += ARMCM55
+else ifeq ($(PART),apollo510b)
+  DEFINES += AM_PART_APOLLO510B
+  DEFINES += PART_APOLLO510B
+  DEFINES += ARMCM55
+endif
+
+ifneq ($(filter apollo5b apollo510 apollo510b,$(PART)),)
   DEFINES += AM_PART_APOLLO5B
   DEFINES += AM_PART_APOLLO510
   DEFINES += ARMCM55
@@ -263,7 +274,6 @@ ifneq ($(filter apollo5b apollo510,$(PART)),)
     DEFINES += apollo510_evb
   endif
 endif
-
 DEFINES += AM_PACKAGE_BGA
 DEFINES += __FPU_PRESENT
 

@@ -5,7 +5,7 @@
 #include "ambiq_nnsp_debug.h"
 #if ARM_FFT == 0
     #include <stdint.h>
-const int32_t fft_tw_coeff[] = {
+__attribute__((aligned(16))) const int32_t fft_tw_coeff[] = {
     0x00007fff, 0x00007fff, 0x00007fff, 0x00007fff, 0x00007fff, 0xf9b87fd8, 0xfcdb7ff6, 0xf6957fa7,
     0x00007fff, 0xf3747f62, 0xf9b87fd8, 0xed377e9d, 0x00007fff, 0xed377e9d, 0xf6957fa7, 0xe3f47ce3,
     0x00007fff, 0xe7077d8a, 0xf3747f62, 0xdad77a7d, 0x00007fff, 0xe0e67c29, 0xf0547f09, 0xd1ee776c,
@@ -39,7 +39,7 @@ const int32_t fft_tw_coeff[] = {
     0x00007fff, 0xe7078275, 0x809d0c8b, 0x7a7ddad7, 0x00007fff, 0xed378162, 0x8058096a, 0x7ce3e3f4,
     0x00007fff, 0xf374809d, 0x80270647, 0x7e9ded37, 0x00007fff, 0xf9b88027, 0x80090324, 0x7fa7f695,
 };
-const int32_t rfft_tw_coeff[] = {
+__attribute__((aligned(16))) const int32_t rfft_tw_coeff[] = {
     0x00007fff, 0xfe6d7ffd, 0xfcdb7ff6, 0xfb497fe9, 0xf9b87fd8, 0xf8267fc2, 0xf6957fa7, 0xf5047f87,
     0xf3747f62, 0xf1e47f38, 0xf0547f09, 0xeec67ed5, 0xed377e9d, 0xebaa7e5f, 0xea1d7e1d, 0xe8927dd6,
     0xe7077d8a, 0xe57d7d39, 0xe3f47ce3, 0xe26c7c89, 0xe0e67c29, 0xdf607bc5, 0xdddc7b5d, 0xdc597aef,
@@ -73,7 +73,7 @@ const int32_t rfft_tw_coeff[] = {
     0xe7078275, 0xe8928229, 0xea1d81e2, 0xebaa81a0, 0xed378162, 0xeec6812a, 0xf05480f6, 0xf1e480c7,
     0xf374809d, 0xf5048078, 0xf6958058, 0xf826803d, 0xf9b88027, 0xfb498016, 0xfcdb8009, 0xfe6d8002,
 };
-const int16_t br_coeff[] = {
+__attribute__((aligned(16))) const int16_t br_coeff[] = {
     0,  128, 64,  192, 32, 160, 96,  224, 16, 144, 80,  208, 48, 176, 112, 240, 8,  136, 72,  200,
     40, 168, 104, 232, 24, 152, 88,  216, 56, 184, 120, 248, 4,  132, 68,  196, 36, 164, 100, 228,
     20, 148, 84,  212, 52, 180, 116, 244, 12, 140, 76,  204, 44, 172, 108, 236, 28, 156, 92,  220,

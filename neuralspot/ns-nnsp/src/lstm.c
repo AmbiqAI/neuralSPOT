@@ -6,11 +6,11 @@
 #if DEBUG_PRINT
     #include "extern_files.h"
 #endif
-int16_t I_STATES[4];
-int16_t J_STATES[4];
-int16_t F_STATES[4];
-int16_t O_STATES[4];
-int64_t tmp[4];
+__attribute__((aligned(16))) int16_t I_STATES[4];
+__attribute__((aligned(16))) int16_t J_STATES[4];
+__attribute__((aligned(16))) int16_t F_STATES[4];
+__attribute__((aligned(16))) int16_t O_STATES[4];
+__attribute__((aligned(16))) int64_t tmp[4];
 
 int lstm_8x16(
     int16_t *p_output, int8_t *p_kernel, int8_t *p_kernel_rec, int16_t *p_bias, int16_t *input,

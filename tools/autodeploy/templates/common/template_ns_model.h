@@ -64,7 +64,7 @@ typedef struct {
 #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
     const ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     ns_pmu_config_t *pmu;
     #else
     void *pmu;

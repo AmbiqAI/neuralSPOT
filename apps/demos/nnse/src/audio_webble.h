@@ -22,8 +22,8 @@
 #define WEBBLE_WSF_BUFFER_SIZE                                                                     \
     (WEBBLE_WSF_BUFFER_POOLS * 16 + 16 * 8 + 32 * 4 + 64 * 6 + 600 * 14) / sizeof(uint32_t)
 
-static uint32_t webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE];
-static wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS] = {
+alignas(16) static uint32_t webbleWSFBufferPool[WEBBLE_WSF_BUFFER_SIZE];
+alignas(16) static wsfBufPoolDesc_t webbleBufferDescriptors[WEBBLE_WSF_BUFFER_POOLS] = {
     {16, 8}, // 16 bytes, 8 buffers
     {32, 4},
     {64, 6},
@@ -108,6 +108,7 @@ int audioWebbleServiceInit(void) {
 
 void RadioTask(void *pvParameters) {
     NS_TRY(audioWebbleServiceInit(), "BLE Service Init failed.\n");
+    ns_delay_us(1000000);
     while (1) {
         wsfOsDispatcher();
     }

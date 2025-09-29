@@ -21,7 +21,7 @@
 #include "am_util.h"
 #include "ns_ambiqsuite_harness.h"
 
-#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)  || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)  || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 // AP3TODO
 #else
 

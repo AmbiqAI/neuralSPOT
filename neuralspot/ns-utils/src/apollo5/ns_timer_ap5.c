@@ -14,6 +14,7 @@
 #include "am_mcu_apollo.h"
 #include "am_util.h"
 #include "ns_core.h"
+#include "ns_ambiqsuite_harness.h"
 
 extern ns_timer_config_t *ns_timer_config[NS_TIMER_TEMPCO + 1];
 

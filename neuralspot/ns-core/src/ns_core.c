@@ -118,6 +118,19 @@ void ns_core_fail_loop() {
         ;
 }
 
+// Override for Apollo5 variants
+
+#if defined(ARMCM55)
+void am_gpio0_203f_isr(void) {
+    uint32_t ui32IntStatus;
+    // Clear the GPIO Interrupt (write to clear).
+    AM_CRITICAL_BEGIN
+    am_hal_gpio_interrupt_irq_status_get(GPIO0_203F_IRQn, true, &ui32IntStatus);
+    am_hal_gpio_interrupt_irq_clear(GPIO0_203F_IRQn, ui32IntStatus);
+    AM_CRITICAL_END
+    am_hal_gpio_interrupt_service(GPIO0_203F_IRQn, ui32IntStatus);
+}
+#endif
 
 int __wrap__write_r(struct _reent *r, int fd, const void *ptr, size_t len) {
     // For example, write each byte to UART here.

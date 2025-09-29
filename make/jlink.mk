@@ -1,37 +1,41 @@
 ifeq ($(ARCH),apollo4)
-# see: https://wiki.segger.com/Apollo4
-JLINK_DEVICE = AMAP42KK-KBR
-JLINK_IF_SPEED = 4000
-JLINK_PF_ADDR = 0x18000
-JLINK_CPUFREQ = 96105000
-JLINK_SWOFREQ = 1000000
-JLINK_CF = $(BINDIR)/flash_cmds.jlink
-JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
-JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
+  # see: https://wiki.segger.com/Apollo4
+  JLINK_DEVICE = AMAP42KK-KBR
+  JLINK_IF_SPEED = 4000
+  JLINK_PF_ADDR = 0x18000
+  JLINK_CPUFREQ = 96105000
+  JLINK_SWOFREQ = 1000000
+  JLINK_CF = $(BINDIR)/flash_cmds.jlink
+  JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
+  JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
 else ifeq ($(ARCH),apollo3)
-JLINK_DEVICE = AMA3B2KK-KCR
-JLINK_IF_SPEED = 4000
-JLINK_PF_ADDR = 0xc000
-JLINK_CPUFREQ = 48855000
-JLINK_SWOFREQ = 1000000
-JLINK_CF = $(BINDIR)/flash_cmds.jlink
-JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
-JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
+  JLINK_DEVICE = AMA3B2KK-KCR
+  JLINK_IF_SPEED = 4000
+  JLINK_PF_ADDR = 0xc000
+  JLINK_CPUFREQ = 48855000
+  JLINK_SWOFREQ = 1000000
+  JLINK_CF = $(BINDIR)/flash_cmds.jlink
+  JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
+  JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
 else ifeq ($(ARCH),apollo5)
-JLINK_IF_SPEED = 4000
-ifeq ($(BOOTLOADER),nbl)
-JLINK_PF_ADDR = 0x00400000
-JLINK_DEVICE = AMAP54KK-KBR-nbl
-else
-JLINK_PF_ADDR = 0x00410000
-JLINK_DEVICE = AP510NFA-CBR
+  JLINK_IF_SPEED = 4000
+  ifeq ($(BOOTLOADER),nbl)
+    JLINK_PF_ADDR = 0x00400000
+    JLINK_DEVICE = AMAP54KK-KBR-nbl
+  else
+    JLINK_PF_ADDR = 0x00410000
+  endif
+  ifeq ($(PLATFORM),apollo510L_eb)
+    JLINK_DEVICE = AP510L
+  else
+    JLINK_DEVICE = AP510NFA-CBR
+  endif
 endif
 JLINK_CPUFREQ = 96105000
 JLINK_SWOFREQ = 1000000
 JLINK_CF = $(BINDIR)/flash_cmds.jlink
 JLINK_RESET_CF = $(BINDIR)/reset_cmds.jlink
 JLINK_UNRESET_CF = $(BINDIR)/unreset_cmds.jlink
-endif
 
 ifeq ($(OS),Windows_NT) # for windows
   JLINK = JLink

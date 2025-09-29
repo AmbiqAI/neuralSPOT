@@ -39,7 +39,7 @@
 
 #define AOT_MAX_LAYERS  (TFLM_VALIDATOR_MAC_ESTIMATE_COUNT)
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 // PMU accumulator support for per-op callbacks
 #include "ns_pmu_accumulator.h"
 #include "ns_pmu_map.h"
@@ -64,7 +64,7 @@ static uint32_t s_layer_start_us[AOT_MAX_LAYERS];
 static uint32_t s_layer_elapsed_us[AOT_MAX_LAYERS];
 
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 // Accumulator matrix for per-op PMU characterization
 static uint32_t       s_accm_store[AOT_MAX_LAYERS * NS_PMU_MAP_ENTRIES];
 static ns_pmu_accm_t  s_accm;
@@ -80,14 +80,14 @@ static void aot_profiler_cb(int32_t op,
   if ((op < 0) || (op >= (int32_t)AOT_MAX_LAYERS) || (s_tick == NULL)) return;
   if (state == NS_AD_NAME_op_state_run_started) {
     s_layer_start_us[op] = ns_us_ticker_read(s_tick);
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     ns_pmu_accm_op_begin(s_accm, op);
 #endif
   } else if (state == NS_AD_NAME_op_state_run_finished) {
     uint32_t now = ns_us_ticker_read(s_tick);
     s_layer_elapsed_us[op] += (now - s_layer_start_us[op]);
     ns_lp_printf("layer %d, elapsed %d\n", op, s_layer_elapsed_us[op]);
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     ns_pmu_accm_op_end(s_accm, op);
 #endif
   }
@@ -101,7 +101,7 @@ static int aot_init(uint32_t num_inputs, uint32_t num_outputs, uint32_t profile,
   // Install the callback before init so the runtime can call it immediately
   s_ctx.callback = aot_profiler_cb;
   int rc = NS_AD_NAME_model_init(&s_ctx);
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   // Create an accumulator matrix and enable callback-based op stamping
   s_accm = ns_pmu_accm_create(AOT_LAST_IDENTIFIER, NS_PMU_MAP_ENTRIES, s_accm_store);
 #endif
@@ -125,12 +125,12 @@ static int aot_invoke(void){
   // ns_lp_printf("aot_invoke\n");
   // Reset per-layer timing before each run
   memset(s_layer_elapsed_us, 0, sizeof(s_layer_elapsed_us));
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   // Wrap the inference so the accumulator can aggregate properly
   ns_pmu_accm_inference_begin(s_accm);
 #endif
   int rc = (NS_AD_NAME_model_run(&s_ctx) == 0) ? 0 : -1;
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   ns_pmu_accm_inference_end(s_accm);
 #endif
   return rc;

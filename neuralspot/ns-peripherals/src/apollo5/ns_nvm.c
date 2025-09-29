@@ -47,12 +47,18 @@
  static am_devices_mspi_is25wx064_timing_config_t s_timing;
  
  /* Convenience: MSPI IRQs by module index */
+ #if defined(apollo510L_eb)
+ static const IRQn_Type s_mspi_irqs[] = {
+     MSPI0_IRQn, MSPI1_IRQn, MSPI2_IRQn
+ };
+ #else
  static const IRQn_Type s_mspi_irqs[] = {
      MSPI0_IRQn, MSPI1_IRQn, MSPI2_IRQn, MSPI3_IRQn
  };
+ #endif
  
  /* ===== Optional MPU setup for the DMA TCB buffer (mirrors examples) ===== */
- #if defined(apollo510_evb)
+ #if defined(apollo510_evb) || defined(apollo510L_eb)
  /* Configure MPU attributes for the DMATCB buffer to be normal write-back etc. */
  static am_hal_mpu_region_config_t sMPUCfg = {
      .ui32RegionNumber  = 6,
@@ -101,7 +107,11 @@
          case 0: return MSPI0_APERTURE_START_ADDR;
          case 1: return MSPI1_APERTURE_START_ADDR;
          case 2: return MSPI2_APERTURE_START_ADDR;
+ #ifndef apollo510L_eb
          default: return MSPI3_APERTURE_START_ADDR;
+ #else
+         default: return MSPI2_APERTURE_START_ADDR;
+ #endif
      }
  }
  

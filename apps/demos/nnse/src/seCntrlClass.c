@@ -72,7 +72,9 @@ void seCntrlClass_exec(seCntrlClass *pt_inst, int16_t *data_fr, int16_t *se_outp
     //         pcmbuf_chunk); // fetch input data to NN from voice bufffer
 
     // detected = NNSPClass_exec(pt_nnsp, data_fr);
+
     NNSPClass_exec(pt_nnsp, data_fr);
+
     memcpy(se_output, pt_nnsp->pt_se_out, SAMPLES_FRM_NNCNTRL_CLASS * sizeof(int16_t));
     // for (int i = 0; i < SAMPLES_FRM_NNCNTRL_CLASS; i++)
     //     se_output[i] = pt_nnsp->pt_se_out[i];

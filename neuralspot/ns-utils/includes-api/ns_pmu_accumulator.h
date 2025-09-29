@@ -39,7 +39,7 @@
  
  #ifndef NS_PMU_MAX_OPS
     // Match TFLM kMaxEvents
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
         #define NS_PMU_MAX_OPS 4096 /* rows / operators        */
     #else
         #define NS_PMU_MAX_OPS 2048

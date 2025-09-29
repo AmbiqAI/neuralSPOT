@@ -10,7 +10,7 @@
  *
  */
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
 #define NS_PROFILER_PMU_EVENT_0 ARM_PMU_MVE_INST_RETIRED
 #define NS_PROFILER_PMU_EVENT_1 ARM_PMU_MVE_INT_MAC_RETIRED
 #define NS_PROFILER_PMU_EVENT_2 ARM_PMU_INST_RETIRED
@@ -44,7 +44,7 @@ typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } m
 static int volatile joulescopeTrigger = 0;
 
 #ifdef NS_MLPROFILE
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
 extern ns_pmu_config_t ns_microProfilerPMU;
 extern ns_profiler_sidecar_t ns_microProfilerSidecar;
 #endif
@@ -145,27 +145,27 @@ int main(void) {
 
     // Dump out all Apollo power-related registers (optional)
     ns_lp_printf("Current power and performance register settings:\n");
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
     capture_snapshot(0);
     print_snapshot(0, false);
     #else
     ns_pp_ap5_snapshot(false, 0, false);
     ns_pp_ap5_snapshot(false, 0, true);
-    #endif // AM_PART_APOLLO5B
+    #endif // AM_PART_APOLLO5B || AM_PART_APOLLO510B
     ns_set_power_monitor_state(3); // GPIO to signal what phase of profiling we are in (optional)
 
     ns_lp_printf("First Run: basic capture\n");
     ns_set_power_monitor_state(0); // GPIO 00 indicates inference is under way
-    #ifndef AM_PART_APOLLO5B
+    #if !defined(AM_PART_APOLLO5B) && !defined(AM_PART_APOLLO510B)
         ns_reset_perf_counters(); // Reset performance counters
         ns_start_perf_profiler(); // Start the profiler
-    #endif // AM_PART_APOLLO5B
+    #endif // AM_PART_APOLLO5B || AM_PART_APOLLO510B
 
     model.interpreter->Invoke(); // Characterization via TFLM microProfiler
     
-    #ifndef AM_PART_APOLLO5B
+    #if !defined(AM_PART_APOLLO5B) && !defined(AM_PART_APOLLO510B)
         ns_stop_perf_profiler(); // Stop the profiler
-    #endif // AM_PART_APOLLO5B
+    #endif // AM_PART_APOLLO5B || AM_PART_APOLLO510B
 
     model.profiler->LogCsv(); // prints and also captures events in a buffer
 
@@ -175,7 +175,7 @@ int main(void) {
     ns_lp_printf("Number of layers: %d\n", num_layers);
     ns_set_power_monitor_state(2);
 
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
         ns_lp_printf("Full PMU profiling run - will run model many times to capture all PMU counters\n");
         ns_lp_printf("Each . is an Invoke of the model, capturing 4 distinct PMU counters.\n");
         
@@ -194,7 +194,7 @@ int main(void) {
         ns_characterize_model(tf_invoke);
         ns_lp_printf("\nPMU profiling .\n");
         ns_parse_pmu_stats(num_layers, model.rv_count); // Parse the PMU stats and print them out in CSV format
-    #endif // AM_PART_APOLLO5B
+    #endif // AM_PART_APOLLO5B || AM_PART_APOLLO510B
         
 
     while (1) {

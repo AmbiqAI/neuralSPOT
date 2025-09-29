@@ -18,7 +18,7 @@ typedef struct {
     const char description[120];
 } ns_pmu_map_t;
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 extern uint32_t g_ns_pmu_map_length;
 #define NS_NUM_PMU_MAP_SIZE (g_ns_pmu_map_length/sizeof(ns_pmu_map_t))
 extern const ns_pmu_map_t ns_pmu_map[];

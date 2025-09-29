@@ -120,7 +120,7 @@ am_devices_mspi_psram_config_t MSPI_PSRAM_HexCE1MSPIConfig =
     .ui32ScramblingEndAddr    = 0,
 };
 
-#if defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 am_hal_mspi_cpu_read_burst_t sCPURQCFG =
 {
     .eGQArbBais                         = AM_HAL_MSPI_GQARB_2_1_BAIS,
@@ -135,6 +135,8 @@ am_devices_mspi_psram_ddr_timing_config_t MSPIDdrTimingConfig;
 
 #ifdef apollo510_evb
 #define MSPI_TEST_MODULE              0
+#elif defined(apollo510L_eb)
+#define MSPI_TEST_MODULE              1
 #else
 #define MSPI_TEST_MODULE              3
 #endif
@@ -169,7 +171,9 @@ static const IRQn_Type mspi_interrupts[] =
     MSPI0_IRQn,
     MSPI1_IRQn,
     MSPI2_IRQn,
+#ifndef apollo510L_eb
     MSPI3_IRQn,
+#endif
 };
 
 #define psram_mspi_isr                                                          \

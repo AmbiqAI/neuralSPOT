@@ -651,6 +651,15 @@ class AutoDeployRunner:
 
         if self.p.create_aot_profile and not self.p.create_profile:
             self._generate_helios_aot()
+            # force results aot flag to true
+            self.results.p.create_aot_profile = True
+            if self.p.nocompile_mode:
+                client = rpc_connect_as_client(self.p)
+                print("[NS] AOT rpc_connect_as_client done")
+                configModel(self.p, client, self.md)
+                print("[NS] AOT configModel done")
+                differences_aot, golden_output_tensors_aot = validateModel(self.p, client, get_interpreter(self.p),
+                                self.md, self.mc)
 
         if self.p.joulescope or self.p.onboard_perf:
             self._characterize_power_or_onboard_perf()
@@ -1050,7 +1059,7 @@ class AutoDeployRunner:
             tensors=tensor_rules,
             allocate_arenas=True,
         )
-        print(f"[NS] HeliosAOT convert args: {convert_args}")
+        # print(f"[NS] HeliosAOT convert args: {convert_args}")
         # Invoke HeliosAOT programmatically --------------------------
         aot_model = AotModel(config=convert_args)  # type: ignore
         # print(f"[NS] HeliosAOT model: {aot_model}")

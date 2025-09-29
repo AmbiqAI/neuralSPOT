@@ -146,7 +146,7 @@
 #include "mut_model_metadata.h"
 
 // PMU helpers (AP5 only)
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
 #endif
@@ -159,7 +159,7 @@
 #endif
 
 #ifndef NS_OUTPUT_TENSOR_BUFFER_SIZE
-  #ifdef AM_PART_APOLLO5B
+  #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     #define NS_OUTPUT_TENSOR_BUFFER_SIZE 200000u
   #elif defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
     #define NS_OUTPUT_TENSOR_BUFFER_SIZE 20000u
@@ -228,7 +228,7 @@ static uint32_t g_input_offset = 0;
 // Runtime binding
 static const ns_validator_rt_api_t* g_rt = NULL;
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 // One-time full characterization (ns_characterize_model) after warmups
 static bool g_full_characterization_done = false;
 static int vrpc_invoke_cb(void){ return (g_rt && g_rt->invoke) ? g_rt->invoke() : -1; }
@@ -393,7 +393,7 @@ static status vrpc_get_stats_full(dataBlock* out){
     // We just sent first chunk
     ns_chunk_advance(&g_out_chunk, to_send);
   } else {
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     // Full stats fit in one block; if Full PMU requested, prime PMU stream now.
     if (mut_cfg.config.full_pmu_stats == 1) {
       mut_stats.stats.pmu_events_per_layer = NS_NUM_PMU_MAP_SIZE;
@@ -413,7 +413,7 @@ static status vrpc_get_stats_chunk(dataBlock* out){
   vrpc_fill_block(out, write_cmd, payload, n, ns_chunk_done(&g_out_chunk) ? "LastStats" : "PartStats");
   ns_chunk_advance(&g_out_chunk, n);
   // If that was the final stats chunk and Full PMU is requested, switch to PMU layer stream
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   if (!g_out_chunk.active && (mut_cfg.config.full_pmu_stats == 1)) {
     // Inform host how many PMU counters per layer and prime first layer
     mut_stats.stats.pmu_events_per_layer = NS_NUM_PMU_MAP_SIZE;
@@ -425,7 +425,7 @@ static status vrpc_get_stats_chunk(dataBlock* out){
 }
 
 // Serve a single layer's PMU counters as "FullPMUStats" (AP5 only)
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
 static status vrpc_get_pmu_layer(dataBlock* out){
   // Prepare union view for pmu payload
   // Populate CSV header and layer index, then fetch counters
@@ -462,14 +462,14 @@ status decodeIncomingFetchblock(dataBlock* out){
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP3;
 #elif defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L)
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP4;
-#elif defined(AM_PART_APOLLO5B)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP5;
 #else
   mut_stats.stats.platform = 0;
 #endif
   mut_stats.stats.computed_stat_buffer_size = sizeof(mut_stats.bytes);
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   // If Full PMU mode is active, serve PMU stats one layer per fetch
   if (g_pmu_events_per_layer != 0){
     // computed_stat_per_event_size already reflects profiler events;
@@ -523,7 +523,7 @@ status infer(const dataBlock* in, dataBlock* out){
     g_rt->get_stats_hook();
   }
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
   // On AP5, if Full PMU is requested, run a one-time full characterization
   // (mirrors ns_characterize_model(tf_invoke) in the original template).
   // Do this after the warmups when profiling is enabled so per-layer data exists.

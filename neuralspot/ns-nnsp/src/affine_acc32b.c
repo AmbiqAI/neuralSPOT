@@ -9,7 +9,7 @@
 #if ARM_OPTIMIZED == 1
     #include <cmsis_gcc.h>
 #endif
-int32_t accumulators_32b[4] = {0, 0, 0, 0};
+__attribute__((aligned(16))) int32_t accumulators_32b[4] = {0, 0, 0, 0};
 #if ARM_OPTIMIZED == 1
 int affine_Krows_8x16_acc32b(
     int16_t dim_output, int16_t **pp_output, int8_t **pp_kernel, int16_t **pp_bias, int16_t *input,
@@ -28,7 +28,7 @@ int affine_Krows_8x16_acc32b(
     int32_t *pi_32b = (int32_t *)input;
     int16_t in;
     int32_t in_32b;
-    int32_t acc32[4];
+    __attribute__((aligned(16))) int32_t acc32[4];
     int32_t kernel_val0;
     int32_t kernel_val1;
     int32_t sum0 = 0, sum1 = 0, sum2 = 0, sum3 = 0;
@@ -220,8 +220,8 @@ int affine_Krows_8x16_acc32b(
     int16_t *po = *pp_output;
     int16_t *pi = input;
     // int32_t nbit_out = 32;
-    int16_t in[2];
-    int32_t acc32[4];
+    __attribute__((aligned(16))) int16_t in[2];
+    __attribute__((aligned(16))) int32_t acc32[4];
     int i, j;
     int shift;
     int qbit_s;

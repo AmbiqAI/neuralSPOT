@@ -5,6 +5,9 @@ local_src += $(wildcard $(subdirectory)/src/*.s)
 ifeq ($(USB_PRESENT),1)
 local_src += $(wildcard $(subdirectory)/src/usb/*.c)
 endif
+ifeq ($(BLE_PRESENT),1)
+local_src += $(wildcard $(subdirectory)/src/ble/*.c)
+endif
 
 # $(info local_src is $(local_src))
 # $(info part is $(PART))

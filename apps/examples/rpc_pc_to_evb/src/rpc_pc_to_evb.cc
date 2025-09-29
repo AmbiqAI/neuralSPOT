@@ -131,7 +131,11 @@ int main(void) {
     // ----- Non-RPC Init ------
     // -- These are needed for the demo, not directly related to RPC
     ns_interrupt_master_enable();
-
+#ifndef NS_USB_PRESENT
+    ns_lp_printf("No USB on platform, using UART\n");
+#else
+    ns_lp_printf("USB on platform, using USB\n");
+#endif
     // -- Init the button handler, used in the example, not needed by RPC
     volatile int g_intButtonPressed = 0;
     ns_button_config_t button_config = {
@@ -173,7 +177,7 @@ int main(void) {
     NS_TRY(ns_rpc_genericDataOperations_init(&rpcConfig), "RPC Init Failed\n");
 
     ns_lp_printf("Ready to receive RPC Calls\n");
-
+    ns_delay_us(100000);
     // In the app loop we service USB and the RPC server
     // Any incoming RPC calls will result in calls to the
     // RPC handler functions defined above.

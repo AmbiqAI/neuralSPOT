@@ -13,7 +13,7 @@
 #include "ic_bench_model.h"
 #include "ic_bench_model_data.h"
 #include "ns_model.h"
-
+#include "ns_ambiqsuite_harness.h"
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 // #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
@@ -117,6 +117,7 @@ int ic_bench_init(ns_model_state_t *ms) {
 
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
+        ns_lp_printf("AllocateTensors() failed\n");
         return ic_bench_STATUS_FAILURE;
     }
 

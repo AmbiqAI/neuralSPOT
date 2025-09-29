@@ -10,10 +10,10 @@
     #include "fft_arm.h"
 #endif
 
-int16_t dataBuffer[LEN_FFT_NNSP];
-int32_t odataBuffer[LEN_FFT_NNSP];
-int32_t glob_spec[1026];
-int32_t glob_fft_buf[1026];
+__attribute__((aligned(16))) int16_t dataBuffer[LEN_FFT_NNSP];
+__attribute__((aligned(16))) int32_t odataBuffer[LEN_FFT_NNSP];
+__attribute__((aligned(16))) int32_t glob_spec[1026];
+__attribute__((aligned(16))) int32_t glob_fft_buf[1026];
 
 int stftModule_construct(
     stftModule *ps, int16_t len_win, int16_t hopsize, int16_t fftsize,
@@ -53,25 +53,21 @@ void spec2pspec(int32_t *y, int32_t *x, int len) {
 int stftModule_analyze(stftModule *ps, int16_t *x, int32_t *y) {
     int i;
     int32_t tmp;
-    static int32_t fft_in[LEN_FFT_NNSP];
+    static __attribute__((aligned(16))) int32_t fft_in[LEN_FFT_NNSP];
     for (i = 0; i < (ps->len_win - ps->hop); i++)
         ps->dataBuffer[i] = ps->dataBuffer[i + ps->hop];
-
     tmp = ps->len_win - ps->hop;
     for (i = 0; i < ps->hop; i++)
         ps->dataBuffer[i + tmp] = x[i];
-
     for (i = 0; i < ps->len_win; i++) {
         tmp = ((int32_t)ps->window[i] * (int32_t)ps->dataBuffer[i]);
         fft_in[i] = tmp >> 15; // Frac15
     }
-
     for (i = 0; i < (ps->len_fft - ps->len_win); i++) {
         fft_in[i + ps->len_win] = 0;
     }
     rfft(ps->len_fft, fft_in,
          (void *)y); // Frac15
-
     return 0;
 }
 #else
@@ -196,14 +192,12 @@ void spec2pspec_arm(
     int32_t *pt_spec = spec;
     int rshift = (qbit_in << 1) - 15;
     int32x4_t m1;
-
     for (i = 0; i < len; i++) {
         m1 = vldrwq_z_s32(pt_spec, 17); // 17= (1 << 4) + (1 << 0)
         pt_spec += 2;
         acc= vmlaldavq_s32(m1, m1);
         pspec[i] = (int32_t)MIN(MAX(acc >> rshift, INT32_MIN), INT32_MAX);
     }
-
     // ns_printf("spec\n");
     // for (i = 0; i < len*2; i++) {
     //     ns_printf("%d ", spec[i]);
@@ -215,34 +209,28 @@ int stftModule_analyze_arm(
     int16_t *fft_in_q16, // q15
     int32_t *spec,       // q21
     int16_t fftsize, int16_t *pt_qbit_out) {
-
     stftModule *ps = (stftModule *)ps_t;
-
-    move_data_16b(
+    // Print stftModule
+     move_data_16b(
         ps->dataBuffer+ps->hop,
         ps->dataBuffer,
         ps->len_win - ps->hop);
-
     move_data_16b(
         fft_in_q16,
         ps->dataBuffer+ps->len_win - ps->hop,
         ps->hop);
-
     vec16_vec16_mul_32b(
         glob_fft_buf,
         (int16_t*) ps->window,
         ps->dataBuffer,
         ps->len_win);
-
     set_zero_32b(
         glob_fft_buf+ps->len_win,
         ps->len_fft - ps->len_win);
-
     arm_fft_exec(
         &ps->fft_st,
         spec,          // fft_out, Q21
         glob_fft_buf); // fft_in,  Q30
-
     if (fftsize == 512)
         *pt_qbit_out = 21;
     else

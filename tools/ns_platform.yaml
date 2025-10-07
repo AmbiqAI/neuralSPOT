@@ -166,10 +166,9 @@ apollo510b_evb:
   psram-arena: 12000
   psram-model: 20000
   nvm: 8192
-
   clock_lp: 96
   clock_hp: 250
-  as_version: R5.3.0
+  as_version: R5.1.0_rc27
   tflm_version: helios_rt_v1_3_0
   # tflm_version: Oct_08_2024_e86d97b6
   features:

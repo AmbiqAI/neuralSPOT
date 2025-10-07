@@ -116,7 +116,7 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
                     .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
                     .eRetainDTCM    = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
             #endif
-        #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510)
+        #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510) || defined(AM_PART_APOLLO510B)
             #if ALL_RETAIN
                     .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
                     .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
@@ -206,7 +206,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 #endif
 
     am_bsp_low_power_init();
-
+    
     #define ELP_ON                              1
     am_hal_pwrctrl_pwrmodctl_cpdlp_t sDefaultCpdlpConfig =
     {
@@ -225,7 +225,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     am_hal_pwrctrl_pwrmodctl_cpdlp_config(sDefaultCpdlpConfig);
 
 
-    am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_DIS_PERIPHS_ALL, 0);
+    // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_DIS_PERIPHS_ALL, 0);
     // MCUCTRL->XTALCTRL = 0;
     // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_XTAL_PWDN_DEEPSLEEP, 0);
     am_hal_rtc_osc_select(AM_HAL_RTC_OSC_LFRC); // Use LFRC instead of XT

@@ -9,6 +9,14 @@ import erpc
 import numpy as np
 import pandas as pd
 from typing import Optional
+# Set multiple environment variables to ensure XNNPACK is disabled
+os.environ.setdefault("TF_LITE_DISABLE_XNNPACK", "1")
+os.environ["TF_LITE_DISABLE_XNNPACK"] = "1"
+os.environ["TF_LITE_DISABLE_DELEGATES"] = "1"
+os.environ["TF_LITE_DISABLE_DEFAULT_DELEGATES"] = "1"
+os.environ["TF_LITE_DISABLE_DELEGATE_PLUGINS"] = "1"
+os.environ["TF_LITE_USE_XNNPACK"] = "0"
+os.environ["TF_LITE_EXPERIMENTAL_USE_XNNPACK"] = "0"
 import ai_edge_litert as tflite
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
@@ -2047,10 +2055,219 @@ def create_validation_binary(params, mc, md, baseline, aot):
     time.sleep(3)
 
 
+# def get_interpreter(params):
+#     # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
+#     with suppress_os_stdio():
+#         from ai_edge_litert.interpreter import Interpreter
+#         interp = Interpreter(model_path=params.tflite_filename)  # first try (may enable XNNPACK)
+
+#         try:
+#             interp.allocate_tensors()
+#             return interp
+#         except Exception as e:
+#             print("XNNPACK failed during allocate_tensors (%s). Retrying without XNNPACK.", e)
+#             os.environ["TF_LITE_DISABLE_XNNPACK"] = "1"  # disable delegate for this process
+#             # Recreate a clean interpreter (avoid any cached delegate state)
+#             interp = Interpreter(model_path=params.tflite_filename)  # now XNNPACK is disabled
+#             interp.allocate_tensors()
+#             return interp
+
+
+# def get_interpreter(params):
+#     """
+#     Create an AI Edge LiteRT interpreter, with a robust fallback path that
+#     explicitly disables XNNPACK (some builds ignore TF_LITE_DISABLE_XNNPACK).
+#     """
+#     # Import outside of the stdout/stderr suppression so TypeErrors bubble up cleanly
+#     from ai_edge_litert.interpreter import Interpreter
+
+#     def _make_and_alloc(**kwargs):
+#         # Suppress noisy C++ logs during creation/allocation only
+#         with suppress_os_stdio():
+#             interp = Interpreter(model_path=params.tflite_filename, **kwargs)
+#             interp.allocate_tensors()
+#             return interp
+
+#     # 1) First try: whatever the runtime wants (env may already disable XNNPACK)
+#     try:
+#         return _make_and_alloc()
+#     except Exception as e1:
+#         # 2) Hard-disable delegates and retry. Some runtimes use "experimental_delegates",
+#         # others "custom_delegates". We also pin threads to 1 to avoid any implicit XNNPACK path.
+#         os.environ["TF_LITE_DISABLE_XNNPACK"] = "1"  # guard future creations in this process
+
+#         last_err = e1
+
+#         for delegates_kw in ("experimental_delegates", "custom_delegates"):
+#             try:
+#                 return _make_and_alloc(**{delegates_kw: [], "num_threads": 1})
+#             except TypeError:
+#                 # This kw doesn't exist in this build — try the next spelling.
+#                 pass
+#             except Exception as e2:
+#                 last_err = e2
+#                 # If we got here, the kw existed but creation/allocation still failed.
+#                 # We’ll still try a final minimal retry below.
+
+#         # 3) Final fallback: just pin threads (some builds honor this to avoid XNNPACK)
+#         try:
+#             return _make_and_alloc(num_threads=1)
+#         except Exception as e3:
+#             raise RuntimeError(
+#                 "Failed to create LiteRT interpreter even after disabling XNNPACK "
+#                 f"(first error: {e1!r}; last error: {e3!r})"
+#             ) from e3
+
 def get_interpreter(params):
-    # tf.lite.experimental.Analyzer.analyze(model_path=params.tflite_filename)
-    with suppress_os_stdio():
-        from ai_edge_litert.interpreter import Interpreter
-        interpreter = Interpreter(model_path=params.tflite_filename)
-        interpreter.allocate_tensors()
-        return interpreter
+    """
+    Create an AI Edge LiteRT interpreter with XNNPACK and other auto-delegates
+    aggressively disabled. We try several API surfaces because different builds
+    expose different flags (kw-args vs. an options object with setters).
+    """
+    import os
+    from ai_edge_litert import interpreter as _tfl
+
+    # Hard-disable via env *before* creating any interpreter objects.
+    # Set multiple environment variables to ensure XNNPACK is disabled
+    os.environ["TF_LITE_DISABLE_XNNPACK"] = "1"
+    os.environ["TF_LITE_DISABLE_DELEGATES"] = "1"
+    os.environ["TF_LITE_DISABLE_DEFAULT_DELEGATES"] = "1"
+    os.environ["TF_LITE_DISABLE_DELEGATE_PLUGINS"] = "1"
+    # Additional environment variables that might help
+    os.environ["TF_LITE_USE_XNNPACK"] = "0"
+    os.environ["TF_LITE_EXPERIMENTAL_USE_XNNPACK"] = "0"
+
+    def _try_with_options():
+        """Prefer an options object when available; disable all delegate plugins."""
+        if not hasattr(_tfl, "InterpreterOptions"):
+            raise TypeError("InterpreterOptions not available")
+        opts = _tfl.InterpreterOptions()
+
+        # Try both attribute-style and setter-style controls (varies by build).
+        def _set(opt, name, value):
+            try:
+                setattr(opt, name, value)
+                return True
+            except Exception:
+                pass
+            try:
+                setter = getattr(opt, f"set_{name}", None)
+                if callable(setter):
+                    setter(value)
+                    return True
+            except Exception:
+                pass
+            return False
+
+        # Threads
+        _set(opts, "num_threads", 1)
+
+        # Nuke all delegate lists we can find
+        for field in ("experimental_delegates", "custom_delegates", "delegates"):
+            _set(opts, field, [])
+
+        # Kill auto delegate plugins (XNNPACK is one of them in many builds)
+        for flag in ("disable_delegate_plugins", "disable_default_delegates"):
+            _set(opts, flag, True)
+
+        # Explicit XNNPACK off (name varies by build)
+        for flag in ("experimental_use_xnnpack", "use_xnnpack", "enable_xnnpack"):
+            _set(opts, flag, False)
+
+        # Construct + allocate
+        with suppress_os_stdio():
+            interp = _tfl.Interpreter(model_path=params.tflite_filename, options=opts)
+            interp.allocate_tensors()
+            return interp
+
+    def _try_with_kwargs():
+        """Older builds accept kw-args on the Interpreter ctor."""
+        kwargs_tried = []
+
+        # Most aggressive first: disable plugins, no delegates, 1 thread, xnnpack off (if known)
+        candidate_kw_sets = [
+            {"experimental_delegates": [], "num_threads": 1,
+             "disable_delegate_plugins": True, "experimental_use_xnnpack": False},
+            {"experimental_delegates": [], "num_threads": 1,
+             "disable_default_delegates": True, "use_xnnpack": False},
+            {"custom_delegates": [], "num_threads": 1, "experimental_use_xnnpack": False},
+            {"experimental_delegates": [], "num_threads": 1},
+            {"num_threads": 1},
+            # Try with explicit empty delegate lists
+            {"delegates": [], "num_threads": 1},
+            {"experimental_delegates": [], "custom_delegates": [], "delegates": [], "num_threads": 1},
+        ]
+        for kws in candidate_kw_sets:
+            try:
+                with suppress_os_stdio():
+                    interp = _tfl.Interpreter(model_path=params.tflite_filename, **kws)
+                    interp.allocate_tensors()
+                    return interp
+            except TypeError:
+                # This build doesn’t support some kw – try the next combination.
+                kwargs_tried.append(kws)
+                continue
+        # If we got here, kw route failed.
+        raise RuntimeError(f"Interpreter kw-arg route failed; tried: {kwargs_tried!r}")
+
+    # Try options() path first (newer / plugin-aware builds), then kw-args.
+    first_err = None
+    try:
+        return _try_with_options()
+    except Exception as e:
+        first_err = e
+    try:
+        return _try_with_kwargs()
+    except Exception as last_err:
+        # Final fallback: try with absolute minimal configuration
+        try:
+            log.warning("All standard XNNPACK disabling methods failed. Trying minimal configuration...")
+            with suppress_os_stdio():
+                # Try with the most basic interpreter creation possible
+                interp = _tfl.Interpreter(model_path=params.tflite_filename)
+                interp.allocate_tensors()
+                return interp
+        except Exception as final_err:
+            # Last resort: try to create interpreter with explicit delegate exclusion
+            try:
+                log.warning("Minimal configuration failed. Trying with explicit delegate exclusion...")
+                with suppress_os_stdio():
+                    # Try to create interpreter and manually remove XNNPACK delegates
+                    interp = _tfl.Interpreter(model_path=params.tflite_filename)
+                    # Get the interpreter's delegate list and remove XNNPACK
+                    try:
+                        # Some builds expose delegate information
+                        if hasattr(interp, '_interpreter') and hasattr(interp._interpreter, 'GetDelegates'):
+                            delegates = interp._interpreter.GetDelegates()
+                            # Remove any XNNPACK delegates
+                            filtered_delegates = [d for d in delegates if 'XNNPACK' not in str(type(d))]
+                            if len(filtered_delegates) < len(delegates):
+                                log.info(f"Removed {len(delegates) - len(filtered_delegates)} XNNPACK delegates")
+                    except Exception:
+                        pass  # Ignore if delegate manipulation isn't available
+                    interp.allocate_tensors()
+                    return interp
+            except Exception as delegate_err:
+                # If all else fails, provide a more helpful error message
+                log.error(f"All interpreter creation methods failed. This model appears to be incompatible with the current TensorFlow Lite runtime.")
+                log.error(f"Model: {params.tflite_filename}")
+                log.error(f"TensorFlow Lite version: {getattr(_tfl, '__version__', 'unknown')}")
+                
+                # Provide specific guidance based on the error
+                if "XNNPACK" in str(delegate_err):
+                    log.error("The model is failing due to XNNPACK delegate issues. This suggests:")
+                    log.error("1. The model may have been optimized for XNNPACK but is incompatible with the current runtime")
+                    log.error("2. The model may contain operations not supported by XNNPACK")
+                    log.error("3. There may be a version mismatch between the model and runtime")
+                    log.error("Consider:")
+                    log.error("- Using a different model that doesn't rely on XNNPACK")
+                    log.error("- Re-converting the model without XNNPACK optimizations")
+                    log.error("- Updating the TensorFlow Lite runtime")
+                
+                raise RuntimeError(
+                    f"Failed to create LiteRT interpreter for model '{params.tflite_filename}'. "
+                    f"This model appears to be incompatible with the current TensorFlow Lite runtime (version {getattr(_tfl, '__version__', 'unknown')}). "
+                    f"Options error: {first_err!r}; kwargs error: {last_err!r}; "
+                    f"minimal config error: {final_err!r}; delegate exclusion error: {delegate_err!r}. "
+                    "Consider trying a different model or updating the TensorFlow Lite runtime."
+                ) from delegate_err

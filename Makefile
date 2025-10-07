@@ -309,10 +309,14 @@ $(JLINK_RESET_CF):
 	@echo " Creating JLink command reset file... $(deploy_target)"
 	$(Q) echo "ExitOnError 1" > $@
 	$(Q) echo "r1" >> $@
-	$(Q) echo "sleep 250" >> $@
+	$(Q) echo "sleep 1250" >> $@
 	$(Q) echo "r0" >> $@
-	$(Q) echo "sleep 250" >> $@
-	$(Q) echo "r" >> $@
+	$(Q) echo "sleep 1250" >> $@
+	$(Q) echo "r1" >> $@
+	$(Q) echo "sleep 1250" >> $@
+	$(Q) echo "r0" >> $@
+	$(Q) echo "sleep 1250" >> $@	
+	# $(Q) echo "r" >> $@
 	$(Q) echo "Exit" >> $@
 
 .PHONY: reset

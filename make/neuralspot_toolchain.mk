@@ -131,14 +131,13 @@ else ifeq ($(TOOLCHAIN),arm)
     -mcpu=$(CPU) \
     $(FPU_FLAG) \
     -mfloat-abi=$(FABI) \
-    -c -g3 \
+    -c \
     -Ofast \
     -fno-rtti \
     -funsigned-char \
     -fshort-enums \
     -fshort-wchar \
     -gdwarf-4 \
-    -fno-omit-frame-pointer -funwind-tables \
     -ffunction-sections \
     -Wno-packed \
     -Wno-missing-variable-declarations \
@@ -155,6 +154,7 @@ else ifeq ($(TOOLCHAIN),arm)
     -Wno-parentheses-equality \
     -Wno-reserved-identifier \
     -MMD -MP
+    # -fno-omit-frame-pointer -funwind-tables \
 
   CCFLAGS += -fno-use-cxa-atexit
 

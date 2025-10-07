@@ -47,8 +47,10 @@ static int semver_compare(const ns_semver_t *c, const ns_semver_t *n) {
     if (c64 == n64) {
         return 0;
     } else if (c64 < n64) {
+        // ns_lp_printf("c64 < n64 c64: %d, n64: %d\n", c64, n64);
         return -1;
     } else {
+        // ns_lp_printf("c64 > n64 c64: %d, n64: %d\n", c64, n64);
         return 1;
     }
 }
@@ -65,6 +67,17 @@ extern uint32_t ns_core_check_api(
     const ns_core_api_t *submitted, const ns_core_api_t *oldest, const ns_core_api_t *newest) {
 
     // ns_lp_printf("submitted->apiId: %x\n", submitted->apiId);
+    // ns_lp_printf("submitted->major: %d\n", submitted->version.major);
+    // ns_lp_printf("submitted->minor: %d\n", submitted->version.minor);
+    // ns_lp_printf("submitted->revision: %d\n", submitted->version.revision);
+    // ns_lp_printf("oldest->apiId: %x\n", oldest->apiId);
+    // ns_lp_printf("oldest->major: %d\n", oldest->version.major);
+    // ns_lp_printf("oldest->minor: %d\n", oldest->version.minor);
+    // ns_lp_printf("oldest->revision: %d\n", oldest->version.revision);
+    // ns_lp_printf("newest->apiId: %x\n", newest->apiId);
+    // ns_lp_printf("newest->major: %d\n", newest->version.major);
+    // ns_lp_printf("newest->minor: %d\n", newest->version.minor);
+    // ns_lp_printf("newest->revision: %d\n", newest->version.revision);
     // ns_lp_printf("newest->apiId: %x\n", newest->apiId);
     if (submitted->apiId != newest->apiId) {
         return NS_STATUS_INVALID_VERSION;

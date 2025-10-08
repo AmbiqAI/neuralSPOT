@@ -375,7 +375,7 @@ def suppress_os_stdio():
 
     except Exception:
         # 5) An error occurred! Log it (the FDs are still /dev/null at this moment).
-        logging.exception("Error inside suppressed stdout/stderr block")
+        log.exception("Error inside suppressed stdout/stderr block")
         raise
 
     finally:

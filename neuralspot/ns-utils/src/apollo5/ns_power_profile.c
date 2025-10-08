@@ -423,7 +423,7 @@
      if (snapshotIndex < 0 || snapshotIndex >= 5)
      {
          // Out-of-bounds check; handle error as desired.
-         printf("ERROR: capture_snapshot called with invalid snapshot index %d\n", snapshotIndex);
+         ns_lp_printf("ERROR: capture_snapshot called with invalid snapshot index %d\n", snapshotIndex);
          return;
      }
  

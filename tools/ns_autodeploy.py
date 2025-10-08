@@ -9,6 +9,14 @@ from __future__ import annotations
 
 import logging as log
 import os
+# Set multiple environment variables to ensure XNNPACK is disabled
+os.environ.setdefault("TF_LITE_DISABLE_XNNPACK", "1")
+os.environ["TF_LITE_DISABLE_XNNPACK"] = "1"
+os.environ["TF_LITE_DISABLE_DELEGATES"] = "1"
+os.environ["TF_LITE_DISABLE_DEFAULT_DELEGATES"] = "1"
+os.environ["TF_LITE_DISABLE_DELEGATE_PLUGINS"] = "1"
+os.environ["TF_LITE_USE_XNNPACK"] = "0"
+os.environ["TF_LITE_EXPERIMENTAL_USE_XNNPACK"] = "0"
 import subprocess
 import warnings
 from pathlib import Path
@@ -57,6 +65,8 @@ from neuralspot.tools.autodeploy.measure_power import (
     joulescope_power_on,
     measurePower,
 )
+
+
 from neuralspot.tools.autodeploy.validator import (
     ModelConfiguration,
     configModel,
@@ -1010,6 +1020,7 @@ class AutoDeployRunner:
         # Put code in same directory as validator and perf, but under its own subdirectory
         default_output = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
         convert_args.module.path = default_output
+        convert_args.documentation.html = True
         convert_args.module.name = f"{self.p.model_name}"
         convert_args.module.prefix = f"{self.p.model_name}"
         convert_args.test.enabled = True
@@ -1032,6 +1043,10 @@ class AutoDeployRunner:
         arena_memory_type = _memory_type_to_attribute[self.p.arena_location]
         model_memory_type = _memory_type_to_attribute[self.p.model_location]
         # put model and arena in specified locations
+
+        # # override for now
+        # arena_memory_type = MemoryType.DTCM
+        
         tensor_rules: list[AttributeRuleset] = [
                 # Scratch tensors to DTCM (for now)
                 AttributeRuleset(

@@ -225,14 +225,17 @@ int main(void) {
     ns_set_power_monitor_state(NS_IDLE);
 
 
+    // ns_itm_printf_enable();
 
     ns_interrupt_master_enable();
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
-#if NS_AD_JS_PRESENT == 0
-    ns_itm_printf_enable();
-#endif // NS_AD_JS_PRESENT == 0
-
+    // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     // ns_itm_printf_enable();
+
+    #if NS_AD_JS_PRESENT == 0
+    ns_itm_printf_enable();
+    #endif // NS_AD_JS_PRESENT == 0
+    ns_lp_printf("Power Init Successful.\n");
     // ns_timer_init(&tickTimer);
         // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
     #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
@@ -299,6 +302,7 @@ int main(void) {
 #if NS_AD_JS_PRESENT == 0
     // If no Joulescope, start running the model without waiting for a trigger
     ns_lp_printf("Current power and performance register settings:\n");
+    // ns_delay_us(1000000);
     #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     capture_snapshot(0);
     print_snapshot(0, false);

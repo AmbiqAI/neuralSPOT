@@ -56,7 +56,7 @@ const ns_pmu_map_t ns_pmu_map[] = {
     {0x001A,"ARM_PMU_MEMORY_ERROR","Local memory error"},
     // {0x001B,"ARM_PMU_INST_SPEC","Instruction speculatively executed"},
     {0x001D,"ARM_PMU_BUS_CYCLES","Bus cycles"},
-    {0x001E,"ARM_PMU_CHAIN","For an odd numbered counter, increment when an overflow occurs on the preceding even-numbered counter on the same PE"},
+    // {0x001E,"ARM_PMU_CHAIN","For an odd numbered counter, increment when an overflow occurs on the preceding even-numbered counter on the same PE"},
     {0x001F,"ARM_PMU_L1D_CACHE_ALLOCATE","Level 1 data cache allocation without refill"},
     // {0x0020,"ARM_PMU_L2D_CACHE_ALLOCATE","Level 2 data cache allocation without refill"},
     {0x0021,"ARM_PMU_BR_RETIRED","Branch instruction architecturally executed"},
@@ -239,7 +239,14 @@ uint32_t ns_pmu_init(ns_pmu_config_t *cfg) {
 
     // Check API
     if (ns_core_check_api(cfg->api, &ns_pmu_oldest_supported_version, &ns_pmu_current_version) != NS_STATUS_SUCCESS) {
-        ns_lp_printf("Invalid API version\n");
+        ns_lp_printf("Invalid PMU API version\n");
+        // ns_lp_printf("Invalid PMU API version 0x%x\n", cfg->api->apiId);
+
+        // ns_lp_printf("PMU API ID: 0x%x\n", cfg->api->apiId);
+        // ns_lp_printf("PMU API Version Major: %d\n", cfg->api->version.major);
+        // ns_lp_printf("PMU API Version: Minor %d\n", cfg->api->version.minor);
+        // ns_lp_printf("PMU API Version: Revision %d\n", cfg->api->version.revision);
+        // ns_lp_printf("Cfg addr: 0x%x\n", cfg);
         return NS_STATUS_INVALID_VERSION;
     }
 

@@ -55,7 +55,7 @@
  
  /* ---------- Mandatory external symbols ---------------------------------- */
  #ifndef NS_PMU_MAP_SIZE                   /* comes from ns_pmu_map.h        */
- #define NS_PMU_MAP_SIZE 71
+ #define NS_PMU_MAP_SIZE 70
  #endif
  
  /* ---------- Helper macro ------------------------------------------------- */

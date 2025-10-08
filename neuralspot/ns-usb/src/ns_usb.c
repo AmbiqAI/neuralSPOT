@@ -134,8 +134,9 @@ uint32_t ns_usb_recieve_data(usb_handle_t handle, void *buffer, uint32_t bufsize
     uint32_t block_retries = 15; // number of rx blocks we'll retry
 
     if (gGotUSBRx == 0)
-        ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
-                gGotUSBRx);
+        // ns_lp_printf("Kicking off read of %d, have %d, sem %d \n", bufsize, tud_cdc_available(),
+        //         gGotUSBRx);
+        ns_delay_us(100);
     // uint32_t before = tud_cdc_available();
     // uint8_t before_sem = gGotUSBRx;
     // ns_delay_us(10);
@@ -205,7 +206,7 @@ void ns_usb_handle_read_error(usb_handle_t h) {
 uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
 
     uint32_t bytes_tx = 0;
-    ns_lp_printf("NS USB  asked to send %d from 0x%x, \n", bufsize, (uint32_t)buffer);
+    // ns_lp_printf("NS USB  asked to send %d from 0x%x, \n", bufsize, (uint32_t)buffer);
     // Make sure there is no pending data in the USB TX buffer
     // This is a blocking call, so we can be sure that the buffer is flushed
     while (tud_cdc_write_available() < usb_config.tx_bufferLength) {

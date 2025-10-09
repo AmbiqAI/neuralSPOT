@@ -85,6 +85,14 @@
  void     ns_pmu_accm_get     (ns_pmu_accm_t h, uint32_t **matrix);
  void     ns_pmu_accmprint_matrix(ns_pmu_accm_t h, uint32_t *matrix, uint16_t ops, uint16_t events);
  
+ /* Return a single layer (row) worth of counters into out[].
+  * Copies min(events, caller_capacity) entries starting at the given layer.
+  */
+ void     ns_pmu_accm_get_layer(ns_pmu_accm_t h,
+                                uint16_t     layer,
+                                uint32_t*    out,
+                                uint16_t
+                                     caller_capacity);
  #ifdef __cplusplus
  }
  #endif

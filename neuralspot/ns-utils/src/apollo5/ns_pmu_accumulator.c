@@ -211,3 +211,14 @@
          }
      }
  }
+
+ void ns_pmu_accm_get_layer(ns_pmu_accm_t h,
+                            uint16_t     layer,
+                            uint32_t*    out,
+                            uint16_t     caller_capacity)
+ {
+     acc_t *a = handle_to_acc(h);
+     if (!a || !out || layer >= a->ops) return;
+     uint16_t n = (caller_capacity < a->events) ? caller_capacity : a->events;
+     memcpy(out, &a->sum[layer * a->events], n * sizeof(uint32_t));
+ }

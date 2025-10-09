@@ -46,10 +46,11 @@ tools/autodeploy/templates/validator
 ### Runtimes (implement the same interface)
 
 * **`validator_runtime_aot.c`**
-  C runtime. Installs a model callback to stamp **op boundaries**; records per-layer timings and (AP5) PMU accumulator snapshots.
+  C runtime. Installs a model callback to stamp **op boundaries**; records per-layer timings and (AP5) PMU accumulator snapshots. Also implements a uniform PMU API (header, per-layer counters, and one-time full characterization) exposed via the runtime vtable.
 
 * **`validator_runtime_tflm.cc`**
-  C++ runtime. Owns `ns_model_state_t`, builds the interpreter from `ns_mem_model_ptr()` / arena, supports **resource variables**, and flushes profiler CSV via `tflm_stats_hook()`.
+  C++ runtime. Owns `ns_model_state_t`, builds the interpreter from `ns_mem_model_ptr()` / arena, supports **resource variables**, and flushes profiler CSV via `tflm_stats_hook()`. Implements the same PMU API using TFLM’s debug/profiler sidecar (CSV header, per-layer counters, and `ns_characterize_model()`).
+
 
 ### Core Glue
 

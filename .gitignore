@@ -8,6 +8,7 @@ _deps
 ./docs/doxygen/doxy_out/rtf
 ./make/local_overrides.mk
 ./examples/pproduct
+.cache
 *.tflite
 projects/autodeploy
 projects/tests

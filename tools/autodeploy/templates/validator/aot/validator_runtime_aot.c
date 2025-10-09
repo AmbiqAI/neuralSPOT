@@ -44,6 +44,9 @@
 #include "ns_pmu_accumulator.h"
 #include "ns_pmu_map.h"
 #define NS_PMU_MAP_ENTRIES NS_PMU_MAP_SIZE
+#else
+// Provide a portable default to compile on non-AP5 parts
+#define NS_PMU_MAP_ENTRIES 0
 #endif
 
 // Input/output backing storage (single IO tensors per current generator)
@@ -86,7 +89,7 @@ static void aot_profiler_cb(int32_t op,
   } else if (state == NS_AD_NAME_op_state_run_finished) {
     uint32_t now = ns_us_ticker_read(s_tick);
     s_layer_elapsed_us[op] += (now - s_layer_start_us[op]);
-    ns_lp_printf("layer %d, elapsed %d\n", op, s_layer_elapsed_us[op]);
+    // ns_lp_printf("layer %d, elapsed %d\n", op, s_layer_elapsed_us[op]);
 #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
     ns_pmu_accm_op_end(s_accm, op);
 #endif
@@ -160,6 +163,56 @@ static void aot_get_stats_hook(void){
 uint32_t ns_aot_layer_count(void){ return (uint32_t)AOT_LAST_IDENTIFIER+1; }
 const uint32_t* ns_aot_layer_elapsed_us(void){ return s_layer_elapsed_us; }
 
+// ---------------- PMU / characterization hooks (AOT) -----------------------
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+static void aot_pmu_get_header(char* dst, uint32_t max_len){
+  if (!dst || max_len == 0) return;
+  // Build "layer,<event0>,<event1>,..." from ns_pmu_map[].regname once
+  static bool built = false;
+  static char s_header[2048];
+  if (!built){
+    size_t off = 0;
+    const char *prefix = "layer";
+    memcpy(&s_header[off], prefix, strlen(prefix)); off += strlen(prefix);
+    for (uint16_t i = 0; i < NS_PMU_MAP_SIZE && off + 2 < sizeof(s_header); ++i){
+      s_header[off++] = ',';
+      const char *name = ns_pmu_map[i].regname;
+      while (*name && off + 1 < sizeof(s_header)) s_header[off++] = *name++;
+    }
+    s_header[off] = '\0';
+    built = true;
+  }
+  // Safe copy with NUL
+  uint32_t i = 0; while (i + 1 < max_len && s_header[i]) { dst[i] = s_header[i]; ++i; }
+  dst[i] = '\0';
+}
+static uint32_t aot_pmu_events_per_layer(void){
+  return NS_PMU_MAP_SIZE;
+}
+static int aot_pmu_get_layer_counters(uint32_t layer,
+                                      uint32_t layer_count,
+                                      uint32_t rv_max,
+                                      uint32_t* out_counters,
+                                      uint32_t out_capacity){
+  (void)layer_count; (void)rv_max;
+  if (!out_counters || out_capacity == 0) return -1;
+  ns_pmu_accm_get_layer(s_accm, (uint16_t)layer, out_counters, (uint16_t)out_capacity);
+  return 0;
+}
+static void aot_pmu_full_characterize(int (*invoke_cb)(void)){
+  // Iterate inferences until all event groups are accumulated.
+  while (!ns_pmu_accm_complete(s_accm)){
+    if (invoke_cb) (void)invoke_cb(); else (void)aot_invoke();
+  }
+}
+#else
+static void aot_pmu_get_header(char* dst, uint32_t max_len){ (void)dst; (void)max_len; }
+static uint32_t aot_pmu_events_per_layer(void){ return 0; }
+static int aot_pmu_get_layer_counters(uint32_t a,uint32_t b,uint32_t c,uint32_t*d,uint32_t e){ (void)a;(void)b;(void)c;(void)d;(void)e; return -1; }
+static void aot_pmu_full_characterize(int (*cb)(void)){ (void)cb; }
+#endif
+
+
 static const ns_validator_rt_api_t kAPI_AOT = {
   aot_init,
   aot_set_input,
@@ -168,7 +221,11 @@ static const ns_validator_rt_api_t kAPI_AOT = {
   aot_get_output,
   aot_map_output,
   aot_get_stats_hook,
-  aot_arena_used_bytes
+  aot_arena_used_bytes,
+  aot_pmu_get_header,
+  aot_pmu_events_per_layer,
+  aot_pmu_get_layer_counters,
+  aot_pmu_full_characterize
 };
 
 const ns_validator_rt_api_t* ns_get_runtime_api(void){ return &kAPI_AOT; }

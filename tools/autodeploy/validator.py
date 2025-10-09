@@ -401,6 +401,7 @@ def getPMUStats(params, client, layer, num_events_per_layer):
 
     # PMU stats for a single layer will always fit in one RPC block
     # Decode the stats
+    # print(f"[NS] stat_array: {stat_array}")
     fetched_layer = stat_array[0]
     if fetched_layer != layer:
         log.error(f"Expected layer {layer}, got layer {fetched_layer}")
@@ -410,9 +411,11 @@ def getPMUStats(params, client, layer, num_events_per_layer):
     csv_header = struct.pack("<" + "I" * 512, *csv_header)
     csv_header = csv_header.split(b"\x00")[0]
     csv_header = "".join([chr(c) for c in csv_header])
+    # print(f"[NS] csv_header: {csv_header}")
 
     # The rest of the stats are the PMU stats for the layer
     pmu_stats = stat_array[513:513+num_events_per_layer]
+    # print(f"[NS] pmu_stats: {pmu_stats}")
 
     # Print the stats
     # log.info(csv_header)

@@ -10,6 +10,10 @@ import warnings
 import importlib.resources
 import numpy as np
 from joulescope import scan
+
+import dataclasses
+from typing import Optional, Dict, Any, List, Tuple
+import threading
 from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions
 import yaml
 
@@ -316,61 +320,8 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
 
 # Joulescope-specific Code
 
-state = "start"  # waiting, collecting, reporting
-i = 0
-v = 0
-p = 0
-c = 0
-e = 0
 
-
-def statistics_callback(serial_number, stats):
-    global latest_values
-    global state
-    global i, v, p, c, e
-    """The function called for each statistics.
-
-    :param serial_number: The serial number producing with this update.
-    :param stats: The statistics data structure.
-    """
-    t = stats["time"]["range"]["value"][0]
-    i = stats["signals"]["current"]["µ"]
-    v = stats["signals"]["voltage"]["µ"]
-    p = stats["signals"]["power"]["µ"]
-    c = stats["accumulators"]["charge"]
-    e = stats["accumulators"]["energy"]
-
-    fmts = ["{x:.9f}", "{x:.3f}", "{x:.9f}", "{x:.9f}", "{x:.9f}"]
-    values = []
-    for k, fmt in zip([i, v, p, c, e], fmts):
-        value = fmt.format(x=k["value"])
-        value = f'{value} {k["units"]}'
-        values.append(value)
-    ", ".join(values)
-    # print(f"{serial_number} {t:.1f}: " + ', '.join(values))
-
-    if state == "reporting":
-        state = "quit"
-
-
-def statistics_callback_factory(device, queue):
-    def cbk(data, indicator=None):
-        serial_number = str(device).split(":")[-1]
-        queue.put((serial_number, data))
-
-    return cbk
-
-
-def handle_queue(q):
-    while True:
-        try:
-            args = q.get(block=False)
-            statistics_callback(*args)
-        except queue.Empty:
-            # print("Queue empty")
-            return  # no more data
-
-def joulescope_power_on():
+def joulescope_power_on_old():
     # Sometimes autodeploy is invoked with Joulescope powered off.
     # Ensure we can talk to joulescope and turn on the DUT power.
     devices = scan(config="auto")
@@ -399,93 +350,296 @@ def joulescope_power_on():
         log.error(f"Failed to initialize Joulescope (likely collision with Joulescope app): {exc}")
         return False
     
-def measurePower(params):
-    global state
-    global i, v, p, c, e, td
-    i, v, p, c, e, td = 0, 0, 0, 0, 0, 0   
-    _quit = False
-    statistics_queue = queue.Queue()  # resynchronize to main thread
-    startTime = 0
-    stopTime = 0
-    # print("Starting power measurement...")
-    def stop_fn(*args, **kwargs):
-        nonlocal _quit
-        _quit = True
 
-    # if params.platform in ["apollo3p_evb", "apollo_evb"]:
-    #     # AP3 needs 3.3v GPIO
-    #     print("Setting GPIO to 3.3V")
-    #     gpioVolts = "3.3V"
-    # else:
-    #     gpioVolts = "1.8V"
 
-    signal.signal(signal.SIGINT, stop_fn)  # also quit on CTRL-C
-    devices = scan(config="auto")
+
+def ensure_sensor_power_on(dev, retries: int = 3, delay_s: float = 0.1) -> bool:
+    """
+    Safely power on the Joulescope sensor.
+    - No-ops if it's already on.
+    - Verifies state after setting and retries a few times.
+
+    :return: True if sensor is on (or confirmed on), False otherwise.
+    """
+    def _is_on(val) -> bool:
+        # parameter_get may return 'on'/'off' or numeric 1/0
+        if isinstance(val, str):
+            return val.lower() == "on"
+        try:
+            return int(val) != 0
+        except Exception as exc:
+            log.debug("sensor_power get failed (%s); will attempt to enable.", exc)
+            return False
+
     try:
-        for device in devices:
-            cbk = statistics_callback_factory(device, statistics_queue)
-            device.statistics_callback_register(cbk, "sensor")
-            device.close()
-            try:
-                device.open()
-            except Exception as exc:
-                log.error(f"Failed to open device {device} (ensure Joulescope App is not running): {exc}")
-                return 0, 0, 0, 0, 0, 0            
-            device.parameter_set("reduction_frequency", "50 Hz")
-            if params.platform in ["apollo3p_evb", "apollo_evb"]:
-                device.parameter_set("io_voltage", "3.3V")
-            else:
-                device.parameter_set("io_voltage", "1.8V")
-            device.parameter_set("sensor_power", "on")
-            device.parameter_set("i_range", "auto")
-            device.parameter_set("v_range", "15V")
-            device.statistics_accumulators_clear()
-            device.parameter_set("gpo0", "1")  # send trigger to EVB
-        while not _quit:
-            for device in devices:
-                gpi = device.extio_status()["gpi_value"]["value"]
-                if state == "start":
-                    if gpi == 3:
-                        device.parameter_set("gpo0", "0")  # clear trigger to EVB
-                        state = "getting_ready"
-                        # print("[NS] Waiting for trigger to be acknowledged...", end="")
-                elif state == "getting_ready":
-                    if gpi == 0:
-                        state = "collecting"
-                        device.statistics_accumulators_clear()
-                        # print("Collecting...", end="")
-                        startTime = datetime.datetime.now()
-                elif state == "collecting":
-                    if gpi != 0:
-                        stopTime = datetime.datetime.now()
-                        # print ("Elapsed inference time: %d" % (stopTime - startTime))
-                        td = stopTime - startTime
-                        state = "reporting"
-                        # print("Done collecting.")
+        cur = dev.parameter_get("sensor_power")
+        if _is_on(cur):
+            log.debug("Sensor power already on.")
+            return True
+    except Exception as exc:
+        log.debug("sensor_power get failed (%s); will attempt to enable.", exc)
 
-                elif state == "quit":
-                    state = "start"
-                    stop_fn()
+    for attempt in range(1, retries + 1):
+        try:
+            dev.parameter_set("sensor_power", "on")
+        except Exception as exc:
+            log.debug("sensor_power set attempt %d failed: %s", attempt, exc)
+        time.sleep(delay_s)
+        try:
+            cur = dev.parameter_get("sensor_power")
+            if _is_on(cur):
+                return True
+        except Exception as exc:
+            log.debug("sensor_power get attempt %d failed: %s", attempt, exc)
+            pass
+    log.error(f"Failed to initialize Joulescope (likely collision with Joulescope app)")
+    return False
 
-                device.status()
+
+@dataclasses.dataclass
+class StatsSnapshot:
+    t0: float = 0.0           # measurement window start (monotonic)
+    t1: float = 0.0           # measurement window end (monotonic)
+    i_mean: Optional[float] = None
+    v_mean: Optional[float] = None
+    p_mean: Optional[float] = None
+    charge_c: Optional[float] = None
+    energy_j: Optional[float] = None
+    last_raw: Optional[Dict[str, Any]] = None  # last full stats payload (for debugging)
+
+
+class SafeStats:
+    """Thread-safe holder for the last stats received."""
+    def __init__(self):
+        self._lock = threading.Lock()
+        self._last: Optional[Dict[str, Any]] = None
+
+    def update(self, stats: Dict[str, Any]):
+        with self._lock:
+            self._last = stats
+
+    def get(self) -> Optional[Dict[str, Any]]:
+        with self._lock:
+            return self._last
+
+
+def _extract_mean(sig: Dict[str, Any]) -> Optional[float]:
+    # Support both keys: 'µ' (micro sign) and 'mean' to be defensive across API variants
+    if sig is None:
+        return None
+    if "µ" in sig and isinstance(sig["µ"], dict):
+        return sig["µ"].get("value")
+    if "mean" in sig and isinstance(sig["mean"], dict):
+        return sig["mean"].get("value")
+    return None
+
+
+def _extract_accum(stats: Dict[str, Any], key: str) -> Optional[float]:
+    acc = stats.get("accumulators", {})
+    if not isinstance(acc, dict):
+        return None
+    k = acc.get(key)
+    if isinstance(k, dict):
+        return k.get("value")
+    return None
+
+
+def _stats_callback_factory(device, sink: SafeStats):
+    """Keep callback tiny: just stash data for the main thread."""
+    def cbk(data, indicator=None):
+        # device may be a proxy; avoid heavy ops here
+        sink.update(data)
+    return cbk
+
+
+def _wait_for_gpi(device, predicate, timeout_s: float, poll_s: float = 0.01) -> bool:
+    """Poll GPI until predicate(extio_value) is True or timeout."""
+    t_end = time.monotonic() + timeout_s
+    while time.monotonic() < t_end:
+        try:
+            gpi_val = device.extio_status()["gpi_value"]["value"]
+        except Exception as exc:
+            log.warning("extio_status failed: %s", exc)
+            gpi_val = None
+        if gpi_val is not None and predicate(gpi_val):
+            return True
+        time.sleep(poll_s)
+    return False
+
+
+def measure_once(
+    reduction_frequency="50 Hz",
+    io_voltage="1.8V",
+    ack_level=3,
+    ready_level=0,
+    start_ack_timeout=5.0,
+    ready_timeout=5.0,
+    collect_timeout=300.0,
+) -> StatsSnapshot:
+    """
+    Perform one measurement:
+      1) Pulse GPO0 high to request start
+      2) Wait for GPI == ack_level (acknowledge)
+      3) Drop GPO0 low
+      4) Wait for GPI == ready_level (ready-to-start window)
+      5) Clear accumulators and mark t0
+      6) Collect until GPI != ready_level (done) or timeout
+    """
+    devices = scan(config="auto")
+    if not devices:
+        raise RuntimeError("No Joulescope devices found.")
+
+    if len(devices) > 1:
+        log.info("Multiple devices detected; using the first: %s", devices[0])
+
+    dev = devices[0]
+    sink = SafeStats()
+    cbk = _stats_callback_factory(dev, sink)
+
+    opened = False
+    cbk_registered = False
+    try:
+        dev.open()
+        opened = True
+
+        # Minimal, safe configuration
+        dev.parameter_set("sensor_power", "on")
+        dev.parameter_set("i_range", "auto")
+        dev.parameter_set("v_range", "15V")
+        dev.parameter_set("reduction_frequency", reduction_frequency)
+        dev.parameter_set("io_voltage", io_voltage)
+
+        # Register stats callback AFTER device is configured, BEFORE we start pulses
+        dev.statistics_callback_register(cbk, "sensor")
+        cbk_registered = True
+
+        # Ensure known GPO state
+        dev.parameter_set("gpo0", "0")
+        time.sleep(0.005)
+
+        # Pulse start: set high
+        dev.parameter_set("gpo0", "1")
+
+        # 1) Wait for acknowledge (both inputs high? caller passes ack_level=3)
+        if not _wait_for_gpi(dev, lambda g: g == ack_level, start_ack_timeout):
+            raise TimeoutError(f"Start acknowledge not observed on GPI within {start_ack_timeout}s")
+
+        # 2) Drop start line
+        dev.parameter_set("gpo0", "0")
+
+        # 3) Wait for ready window (usually both low)
+        if not _wait_for_gpi(dev, lambda g: g == ready_level, ready_timeout):
+            raise TimeoutError(f"Ready level {ready_level} not observed on GPI within {ready_timeout}s")
+
+        # 4) Clear accumulators & start timing
+        dev.statistics_accumulators_clear()
+        t0 = time.monotonic()
+
+        # 5) Collect until GPI != ready_level (operation done) or timeout
+        t_end = time.monotonic() + collect_timeout
+        while time.monotonic() < t_end:
+            gpi_val = dev.extio_status()["gpi_value"]["value"]
+            if gpi_val != ready_level:
+                break
+            # keep the loop light; stats arrive via callback
             time.sleep(0.01)
-            handle_queue(statistics_queue)
+        else:
+            raise TimeoutError(f"Collection exceeded timeout of {collect_timeout}s")
 
-    except:
-        log.error("Failed interacting with Joulescope")
-        traceback.print_exc()
-        return 0, 0, 0, 0, 0, 0
+        t1 = time.monotonic()
+
+        # Drain a tiny moment to ensure we have a recent stats snapshot
+        time.sleep(0.05)
+        last = sink.get()
+        if last is None:
+            # Stats can be delayed at very low reduction rates; try once more
+            time.sleep(0.2)
+            last = sink.get()
+        if last is None:
+            raise RuntimeError("No statistics were received from the device.")
+
+        snap = StatsSnapshot(
+            t0=t0,
+            t1=t1,
+            i_mean=_extract_mean((last.get("signals") or {}).get("current")),
+            v_mean=_extract_mean((last.get("signals") or {}).get("voltage")),
+            p_mean=_extract_mean((last.get("signals") or {}).get("power")),
+            charge_c=_extract_accum(last, "charge"),
+            energy_j=_extract_accum(last, "energy"),
+            last_raw=last,
+        )
+        return snap
 
     finally:
-        for device in devices:
+        # Always leave the device and driver in a clean state
+        try:
+            if cbk_registered:
+                dev.statistics_callback_unregister(cbk)
+        except Exception:
+            pass
+        try:
+            if opened:
+                # Best effort to leave outputs low
+                try:
+                    dev.parameter_set("gpo0", "0")
+                except Exception:
+                    pass
+                dev.stop()
+                dev.close()
+        except Exception:
+            pass
+
+def ensure_sensor_power_on_standalone(
+    all_devices: bool = False,
+    retries: int = 3,
+    delay_s: float = 0.1,
+) -> List[Tuple[str, bool]]:
+    """
+    Standalone power-on: scan, open device(s), ensure sensor power ON (noop if already on),
+    then close. Returns a list of (device_str, success) results.
+    """
+    devices = scan(config="auto")
+    if not devices:
+        raise RuntimeError("No Joulescope devices found.")
+
+    targets = devices if all_devices else [devices[0]]
+    results: List[Tuple[str, bool]] = []
+
+    for dev in targets:
+        opened = False
+        name = str(dev)
+        try:
+            dev.open()
+            opened = True
+            ok = ensure_sensor_power_on(dev, retries=retries, delay_s=delay_s)
+            results.append((name, ok))
+        except Exception as exc:
+            log.error("Failed power-on for %s: %s", name, exc)
+            results.append((name, False))
+        finally:
             try:
-                device.stop()
-            except Exception as exc:
-                log.warning(f"Failed to stop Joulescope device: {exc}")
-            try:
-                device.close()
-            except (TimeoutError, RuntimeError) as exc:
-                log.warning(f"Failed to close Joulescope device (timeout/not found): {exc}")
-            except Exception as exc:
-                log.warning(f"Failed to close Joulescope device: {exc}")
-        return td, i, v, p, c, e
+                if opened:
+                    dev.close()
+            except Exception:
+                pass
+
+    return results
+
+def joulescope_power_on():
+    result = ensure_sensor_power_on_standalone()
+    if not result[0][1]:
+        return False
+    return True
+
+
+def measurePower(params):
+    # Call measure_once and return the results as previously done
+    if params.platform in ["apollo3p_evb", "apollo_evb"]:
+        io_voltage = "3.3V"
+    else:
+        io_voltage = "1.8V"
+    snap = measure_once(io_voltage=io_voltage) 
+    # return td, i, v, p, c, e
+
+    total_seconds = snap.t1 - snap.t0
+    return total_seconds, snap.i_mean, snap.v_mean, snap.p_mean, snap.charge_c, snap.energy_j

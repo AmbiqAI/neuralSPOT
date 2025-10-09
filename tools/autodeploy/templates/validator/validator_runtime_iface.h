@@ -65,6 +65,28 @@ typedef struct ns_validator_rt_api_s {
 
   /** Return arena bytes used (0 for AOT where not meaningful). */
   uint32_t (*arena_used_bytes)(void);
+
+  /* --------------------------------------------------------------------------
+   * PMU / Characterization (optional; may be NULL when not supported)
+   * These make PMU behavior runtime-specific while keeping RPC glue generic.
+   * ------------------------------------------------------------------------*/
+  /** Copy a CSV header describing PMU counters into dst (NUL-terminated). */
+  void (*pmu_get_header)(char* dst, uint32_t max_len);
+  /** Number of PMU counters per layer the runtime can provide (0 if none). */
+  uint32_t (*pmu_events_per_layer)(void);
+  /** Fill out_counters[] with the PMU counters for 'layer'.
+   *  Returns 0 on success. out_capacity is the number of slots available.
+   */
+  int (*pmu_get_layer_counters)(uint32_t layer,
+                                uint32_t layer_count,
+                                uint32_t rv_max,
+                                uint32_t* out_counters,
+                                uint32_t out_capacity);
+  /** Perform a one-time “full characterization” run if the runtime needs it.
+   *  The runtime may ignore invoke_cb and call its own invoke path.
+   */
+  void (*pmu_full_characterize)(int (*invoke_cb)(void));
+
 } ns_validator_rt_api_t;
 
 /** Provided by the selected runtime unit at link time. */

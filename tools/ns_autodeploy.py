@@ -967,12 +967,23 @@ class AutoDeployRunner:
                 else:
                     print("[NS] AOT/TFLM output tensor comparison: Identical")
 
+                overall_pmu_stats_aot = []
+                pmu_csv_header_aot = ""
+                if self.p.full_pmu_capture:
+                    events_per_layer_aot = stats_aot[3]
+                    layers_aot = stats_aot[5]
+                    for layer in range(layers_aot):
+                        csv_header_aot, pmu_stats_aot = getPMUStats(self.p, client, layer, events_per_layer_aot)
+                        # print(f"[NS] AOT PMU stats for layer {layer}: {pmu_stats_aot}")
+                        pmu_csv_header_aot = csv_header_aot  # keep header once
+                        overall_pmu_stats_aot.append(pmu_stats_aot)
+
                 printStats(self.p,           # prints to console / log
                         self.mc,
                         stats_aot,
                         str(stats_file_base) + "_aot",
-                        pmu_csv_header,
-                        overall_pmu_stats,
+                        pmu_csv_header_aot,
+                        overall_pmu_stats_aot,
                         aot=True)
             
 
@@ -1178,9 +1189,9 @@ class AutoDeployRunner:
                     if retries_left == 0:
                         log.error("Joulescope driver failed to load, giving up")
                         continue
-                    energy_uJ = (e["value"] / self.p.runs_power) * 1_000_000
-                    time_ms = (td.total_seconds() * 1000) / self.p.runs_power
-                    power_mW = (e["value"] / td.total_seconds()) * 1000
+                    energy_uJ = (e / self.p.runs_power) * 1_000_000
+                    time_ms = (td * 1000) / self.p.runs_power
+                    power_mW = (e / td) * 1000
                     self.results.setPower(cpu_mode=mode, mSeconds=time_ms, uJoules=energy_uJ, mWatts=power_mW, aot=runtime_mode == "aot")
                     log.info("Model Power Measurement in %s mode: %.3f ms, %.3f uJ (avg %.3f mW)", mode, time_ms, energy_uJ, power_mW)
                 else:

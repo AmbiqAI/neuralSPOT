@@ -25,21 +25,21 @@ extern "C" {
 
 // Initialize defaults; call early in main(). For PSRAM builds, also call
 // ns_mem_set_psram_base() once PSRAM is initialized.
-void     ns_mem_init_defaults_p2f(void);
+void     ns_mem_init_defaults(void);
 
 // Model storage and tensor arena (addresses depend on build-time location macros)
-uint8_t* ns_mem_model_ptr_p2f(void);
-uint8_t* ns_mem_arena_ptr_p2f(void);
-uint32_t ns_mem_arena_size_p2f(void);
+uint8_t* ns_mem_model_ptr(void);
+uint8_t* ns_mem_arena_ptr(void);
+uint32_t ns_mem_arena_size(void);
 
 // When PSRAM is used, set the base address so model/arena pointers are valid.
-void     ns_mem_set_psram_base_p2f(uint8_t* base);
+void     ns_mem_set_psram_base(uint8_t* base);
 
 // Strong overrides for weak scratch providers used by RPC layer
-uint8_t* vrpc_tx_scratch_p2f(void);
-uint32_t vrpc_tx_scratch_size_p2f(void);
-uint8_t* vrpc_out_hold_buf_p2f(void);
-int      vrpc_model_write_p2f(uint32_t offset, const void* data, uint32_t len);
+uint8_t* vrpc_tx_scratch(void);
+uint32_t vrpc_tx_scratch_size(void);
+uint8_t* vrpc_out_hold_buf(void);
+int      vrpc_model_write(uint32_t offset, const void* data, uint32_t len);
 
 #ifdef __cplusplus
 }

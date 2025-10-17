@@ -18,12 +18,12 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "validator_mem_p2f.h"
-#include "mut_model_metadata_p2f.h"   // buffer sizes & locations
+#include "validator_mem.h"
+#include "mut_model_metadata.h"   // buffer sizes & locations
 
 // Generated model data when not streaming via PSRAM
-#if (TFLM_MODEL_LOCATION_P2F != NS_AD_PSRAM) && (NS_AD_AOT == 0)
-#include "mut_model_data_p2f.h"
+#if (TFLM_MODEL_LOCATION != NS_AD_PSRAM) && (NS_AD_AOT == 0)
+#include "mut_model_data.h"
 #endif
 
 // TX/RX sizes from metadata
@@ -41,21 +41,21 @@
 static NS_SRAM_BSS uint8_t s_tx_scratch[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
 static NS_SRAM_BSS uint8_t s_out_hold [NS_OUTPUT_TENSOR_BUFFER_SIZE] __attribute__((aligned(4)));
 
-uint8_t* vrpc_tx_scratch_p2f(void){ return s_tx_scratch; }
-uint32_t vrpc_tx_scratch_size_p2f(void){ return (uint32_t)sizeof(s_tx_scratch); }
-uint8_t* vrpc_out_hold_buf_p2f(void){ return s_out_hold; }
+uint8_t* vrpc_tx_scratch(void){ return s_tx_scratch; }
+uint32_t vrpc_tx_scratch_size(void){ return (uint32_t)sizeof(s_tx_scratch); }
+uint8_t* vrpc_out_hold_buf(void){ return s_out_hold; }
 
 // ---------------------- Model pointer and arena pointer ----------------------
-#if (TFLM_MODEL_LOCATION_P2F == NS_AD_PSRAM)
+#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
 static uint8_t* s_model_ptr = 0;   // set at runtime once PSRAM is ready
 // #else
 // extern const unsigned char mut_model[]; // from mut_model_data.h when not PSRAM
 #endif
 
-#if (TFLM_ARENA_LOCATION_P2F == NS_AD_PSRAM)
+#if (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
 static uint8_t* s_arena_ptr = 0;   // set at runtime after PSRAM base known
 static const uint32_t s_arena_size = 10u * 1024u * 1024u; // 10 MB, matches template
-#elif (TFLM_ARENA_LOCATION_P2F == NS_AD_SRAM)
+#elif (TFLM_ARENA_LOCATION == NS_AD_SRAM)
 NS_SRAM_BSS __attribute__((aligned(16))) static uint8_t s_arena[TFLM_VALIDATOR_ARENA_SIZE * 1024u];
 static uint8_t* s_arena_ptr = s_arena;
 static const uint32_t s_arena_size = (uint32_t)sizeof(s_arena);
@@ -65,41 +65,41 @@ static uint8_t* s_arena_ptr = s_arena;
 static const uint32_t s_arena_size = (uint32_t)sizeof(s_arena);
 #endif
 
-void ns_mem_init_defaults_p2f(void){
-#if (TFLM_MODEL_LOCATION_P2F == NS_AD_PSRAM)
+void ns_mem_init_defaults(void){
+#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   s_model_ptr = 0;  // must be set via ns_mem_set_psram_base()
 #endif
-#if (TFLM_ARENA_LOCATION_P2F == NS_AD_PSRAM)
+#if (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
   s_arena_ptr = 0;  // will be base + offset in app layer; we keep base here
 #endif
 }
 
-void ns_mem_set_psram_base_p2f(uint8_t* base){
-#if (TFLM_MODEL_LOCATION_P2F == NS_AD_PSRAM)
+void ns_mem_set_psram_base(uint8_t* base){
+#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   s_model_ptr = base;
 #endif
-#if (TFLM_ARENA_LOCATION_P2F == NS_AD_PSRAM)
+#if (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
   // leave 20MB for model as in template; arena starts at +20MB
   s_arena_ptr = base + (20u * 1024u * 1024u);
 #endif
 }
 
 #if NS_AD_AOT == 0
-uint8_t* ns_mem_model_ptr_p2f(void){
-#if (TFLM_MODEL_LOCATION_P2F == NS_AD_PSRAM)
+uint8_t* ns_mem_model_ptr(void){
+#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   return s_model_ptr;
 #else
-  return (uint8_t*)mut_model_p2f;  // const ok for reads; firmware places correctly
+  return (uint8_t*)mut_model;  // const ok for reads; firmware places correctly
 #endif
 }
 #endif
 
-uint8_t* ns_mem_arena_ptr_p2f(void){ return s_arena_ptr; }
-uint32_t ns_mem_arena_size_p2f(void){ return s_arena_size; }
+uint8_t* ns_mem_arena_ptr(void){ return s_arena_ptr; }
+uint32_t ns_mem_arena_size(void){ return s_arena_size; }
 
 // Allow host to stream model chunks into PSRAM-backed model buffer
-int vrpc_model_write_p2f(uint32_t offset, const void* data, uint32_t len){
-#if (TFLM_MODEL_LOCATION_P2F == NS_AD_PSRAM)
+int vrpc_model_write(uint32_t offset, const void* data, uint32_t len){
+#if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   if (!s_model_ptr) return -1;
   memcpy(s_model_ptr + offset, data, len);
   return 0;

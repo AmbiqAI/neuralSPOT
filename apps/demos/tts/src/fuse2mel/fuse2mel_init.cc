@@ -19,11 +19,7 @@ int fuse2mel_init(ns_model_state_t *self) {
     self->model_array = ns_mem_model_ptr_f2m();
     ns_printf("Model ptr: 0x%08x\n", 
         (uintptr_t)self->model_array);
-    uint8_t *model_bytes = (uint8_t *)self->model_array;
-    for (int i = 0; i < 16; i++) {
-        ns_lp_printf("model[%d] = 0x%02x\n", i, model_bytes[i]);
-    }
-    // Allocate tensor arena and set size
+
     self->arena = ns_mem_arena_ptr_f2m();
     self->arena_size = ns_mem_arena_size_f2m();
     ns_printf("Arena ptr: 0x%08x, size: %d bytes\n", 
@@ -34,13 +30,13 @@ int fuse2mel_init(ns_model_state_t *self) {
     self->rv_arena = s_var_arena;
     self->rv_arena_size = kVarArenaSize;
     self->rv_count = TFLM_VALIDATOR_MAX_RESOURCE_VARIABLES_F2M;
-
+    self->numInputTensors = 1;
+    self->numOutputTensors = 1;
     ns_lp_printf("Calling tflm_validator_model_init...\n");
     int rc = tflm_validator_model_init_f2m(self);
     if (rc != 0) { ns_lp_printf("Model init failed\n"); return 1; }
     // Set input/output tensor counts (replace with actual values if known)
-    self->numInputTensors = self->interpreter->inputs_size();
-    self->numOutputTensors = self->interpreter->outputs_size();
+    
 
     ns_lp_printf("Model has %d inputs and %d outputs\n", self->numInputTensors, self->numOutputTensors);
     int16_t nn_input_dim;

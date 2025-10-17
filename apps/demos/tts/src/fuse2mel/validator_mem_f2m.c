@@ -41,9 +41,9 @@
 static NS_SRAM_BSS uint8_t s_tx_scratch[TFLM_VALIDATOR_TX_BUFSIZE] __attribute__((aligned(4)));
 static NS_SRAM_BSS uint8_t s_out_hold [NS_OUTPUT_TENSOR_BUFFER_SIZE] __attribute__((aligned(4)));
 
-uint8_t* vrpc_tx_scratch_(void){ return s_tx_scratch; }
-uint32_t vrpc_tx_scratch_size(void){ return (uint32_t)sizeof(s_tx_scratch); }
-uint8_t* vrpc_out_hold_buf(void){ return s_out_hold; }
+// uint8_t* vrpc_tx_scratch_(void){ return s_tx_scratch; }
+// uint32_t vrpc_tx_scratch_size(void){ return (uint32_t)sizeof(s_tx_scratch); }
+// uint8_t* vrpc_out_hold_buf(void){ return s_out_hold; }
 
 // ---------------------- Model pointer and arena pointer ----------------------
 #if (TFLM_MODEL_LOCATION_F2M == NS_AD_PSRAM)
@@ -97,13 +97,13 @@ uint8_t* ns_mem_model_ptr_f2m(void){
 uint8_t* ns_mem_arena_ptr_f2m(void){ return s_arena_ptr; }
 uint32_t ns_mem_arena_size_f2m(void){ return s_arena_size; }
 
-// Allow host to stream model chunks into PSRAM-backed model buffer
-int vrpc_model_write(uint32_t offset, const void* data, uint32_t len){
-#if (TFLM_MODEL_LOCATION_F2M == NS_AD_PSRAM)
-  if (!s_model_ptr) return -1;
-  memcpy(s_model_ptr + offset, data, len);
-  return 0;
-#else
-  (void)offset; (void)data; (void)len; return -1; // not supported
-#endif
-}
+// // Allow host to stream model chunks into PSRAM-backed model buffer
+// int vrpc_model_write(uint32_t offset, const void* data, uint32_t len){
+// #if (TFLM_MODEL_LOCATION_F2M == NS_AD_PSRAM)
+//   if (!s_model_ptr) return -1;
+//   memcpy(s_model_ptr + offset, data, len);
+//   return 0;
+// #else
+//   (void)offset; (void)data; (void)len; return -1; // not supported
+// #endif
+// }

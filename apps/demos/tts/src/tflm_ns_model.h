@@ -87,9 +87,8 @@ typedef struct {
 } ns_model_state_t;
 
 extern int ns_model_init(ns_model_state_t *ms);
+extern int tflm_validator_model_init(ns_model_state_t *ms);
 extern int tflm_validator_model_init_f2m(ns_model_state_t *ms);
-extern int tflm_validator_model_init_p2f(ns_model_state_t *ms);
-
 #ifdef __cplusplus
 }
 #endif

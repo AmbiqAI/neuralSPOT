@@ -90,6 +90,22 @@ class DataServiceHandler(GenericDataOperations_EvbToPc.interface.Ievb_to_pc):
                 sf.write(
                     outFileNameMono, wData, samplerate=16000
                 )  # writes to the new file
+        elif (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
+            block.description == "Audio32bPCM_Mono_to_WAV"
+        ):
+            # Data is a 32-bit Mono PCM sample
+            data = struct.unpack("<" + "i" * (len(block.buffer) // 4), block.buffer)
+            data = np.array(data)
+
+            wData = data.astype(float) / 32768.0  # Normalize to [-1, 1] for 32-bit PCM
+           
+            outFileNameMono = outFileName + "_mono.wav"
+            if os.path.isfile(outFileNameMono):
+                with sf.SoundFile(outFileNameMono, mode="r+") as wfile:
+                    wfile.seek(0, sf.SEEK_END)
+                    wfile.write(wData)
+            else:
+                sf.write(outFileNameMono, wData, samplerate=22050)  # writes to the new file
 
         # MPU6050 capture handler
         elif (block.cmd == GenericDataOperations_EvbToPc.common.command.write_cmd) and (
@@ -215,7 +231,8 @@ if __name__ == "__main__":
     argParser.add_argument(
         "-t",
         "--tty",
-        default="/dev/tty.usbmodem1234561",
+        # default="/dev/tty.usbmodem1234561",
+        default="/dev/serial/by-id/usb-TinyUSB_TinyUSB_Device_123457-if00",
         help="Serial device (default value is None)",
     )
     argParser.add_argument(

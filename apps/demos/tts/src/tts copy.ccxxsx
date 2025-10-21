@@ -369,16 +369,23 @@ int GRIFFIN_LIN_algorithm_frame(int32_t *wavout) {
     int total_ptr = 80 * TIMESTEPS;
     int zero_out = pt_f2m->interpreter->output(0)->params.zero_point;
     float scale_out = pt_f2m->interpreter->output(0)->params.scale;
-    __attribute__((section(".sram_bss"))) static float phases[513*300];
-    float *pt_phase = phases;
+    float phase;
     int16_t *ptr = (int16_t*) pt_f2m->interpreter->output(0)->data.i16;
 
     float upscale = 32768.0f; // q10 for stft compen
     ns_lp_printf("scale = %f, upscale=%f\n", scale_out, upscale);
+
+    __attribute__((section(".sram_bss"))) static int32_t spec_tf[ (FFT_SIZE + 2) * TIMESTEPS];
+    __attribute__((section(".sram_bss"))) static float magnitudes[1 + (FFT_SIZE >> 1)];
+    
+    int32_t *pt_spec = spec_tf;
+    float *pt_mag = magnitudes;
+
+
+    // Initialize random phase and save magnitude
     for (int i = 0; i < TIMESTEPS; i++) {
         float *pt_mel_inv = (float*) mel_inv_const;
-        int32_t *pt_spec = stft_mod.spec;
-        
+        pt_spec = stft_mod.spec;
         for (int j = 0; j < ((FFT_SIZE >> 1) + 1); j++) {
 
             float mag_spec = 0.0f;
@@ -390,28 +397,26 @@ int GRIFFIN_LIN_algorithm_frame(int32_t *wavout) {
             }
             
             if (j==0 || j==512) // fix phase for DC and Nyquist
-                *pt_phase = 0.0f;
+                phase = 0.0f;
             else
             {
-                *pt_phase = (float) rand() / (float) RAND_MAX;
-                *pt_phase = *pt_phase * 2.0f * M_PI;
+                phase = (float) rand() / (float) RAND_MAX;
+                phase = phase * 2.0f * M_PI;
             }
-            
+            *pt_mag++ = mag_spec;
 
-            float real = mag_spec * cosf(*pt_phase);
-            float imag = mag_spec * sinf(*pt_phase);
-            pt_phase++;
+            float real = mag_spec * cosf(phase);
+            float imag = mag_spec * sinf(phase);
 
 
-            *pt_spec++ = (int32_t) (real * upscale); // Q(15 + 10) format
-            *pt_spec++ = (int32_t) (imag * upscale); // Q(15 + 10) format
+            *pt_spec++ = (int32_t) (real * upscale);
+            *pt_spec++ = (int32_t) (imag * upscale);
 
         }
-
-        // ns_lp_printf("Synthesize frame %d\n", i);
-
-
         ptr += 80;
+        ns_lp_printf("Synthesize frame %d\n", i);
+
+        
         // Initialization is done
         stftModule32b_synthesize_arm(
             &stft_mod,
@@ -420,6 +425,73 @@ int GRIFFIN_LIN_algorithm_frame(int32_t *wavout) {
             15);
 
     }
+    // // final synthesis
+    // pt_spec = spec_tf;
+    // int32_t *pt_wavout = wavout;
+    // for (int t = 0; t < TIMESTEPS; t++) {
+    //     // copy spectrum for frame t
+    //     memcpy(
+    //         stft_mod.spec,
+    //         pt_spec,
+    //         (FFT_SIZE + 2) * sizeof(int32_t));
+    //     pt_spec += (FFT_SIZE + 2);
+    //     // Synthesize frame
+    //     stftModule32b_synthesize_arm(
+    //         &stft_mod,
+    //         stft_mod.spec,
+    //         pt_wavout,
+    //         15);
+    //     pt_wavout += HOP_SIZE;
+    // }
+    // for (int i = 0 ; i < ITERS; i++) {
+    //     // ifft
+    //     pt_spec = spec_tf;
+    //     for (int t = 0; t < TIMESTEPS; t++) {
+    //         // copy spectrum for frame t
+    //         memcpy(
+    //             stft_mod.spec,
+    //             pt_spec,
+    //             (FFT_SIZE + 2) * sizeof(int32_t));
+    //         pt_spec += (FFT_SIZE + 2);
+    //         // Synthesize frame
+    //         stftModule32b_synthesize_arm(
+    //             &stft_mod,
+    //             stft_mod.spec,
+    //             wavout + t * HOP_SIZE,
+    //             15);
+    //     }
+
+
+    //     // fft
+    //     pt_spec = spec_tf;
+    //     pt_mag = magnitudes;
+    //     for (int i = 0; i < TIMESTEPS; i++) {
+    //         stftModule32b_analyze_arm(
+    //             &stft_mod,
+    //             wavout + i * HOP_SIZE,
+    //             stft_mod.spec,
+    //             FFT_SIZE,
+    //             15);
+    //         // keep the phase
+    //         float real;
+    //         float imag;
+    //         for (int j = 0; j < ((FFT_SIZE > 1) + 1); j++) {
+    //             real = (float) stft_mod.spec[2 * j] / upscale;
+    //             imag = (float) stft_mod.spec[2 * j + 1] / upscale;
+    //             float mag = sqrtf(real * real + imag * imag);
+    //             real = real / (mag + 1e-10f) * *pt_mag;
+    //             imag = imag / (mag + 1e-10f) * *pt_mag;
+    //             pt_mag++;
+                
+    //         }
+    //         *pt_spec++ = (int32_t) (real * upscale); // Q(15 + 10) format
+    //         *pt_spec++ = (int32_t) (imag * upscale); // Q(15 + 10) format
+
+    //     }
+    // }
+
+
+    
     return 0;
 }
 

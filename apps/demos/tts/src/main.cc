@@ -10,11 +10,6 @@
 #include "phone2fuse_init.h"
 #include "tflm_ns_model.h"
 
-#define NUM_TOKENS 31
-#define TIMESTEPS 300
-#define DIM_FUSE 128
-#define BYTES_INPUT_SIZE_F2M 76800
-
 volatile int g_intButtonPressed = 0;
 ns_button_config_t button_config = {
     .api = &ns_button_V1_0_0,
@@ -25,7 +20,7 @@ ns_button_config_t button_config = {
 
 // Block sent to PC
 
-static int32_t audioDataBuffer[256];
+static int32_t audioDataBuffer[HOP_SIZE];
 static binary_t binaryBlock = {
         .data = (uint8_t *)audioDataBuffer, // point this to audio buffer
         .dataLength = sizeof(audioDataBuffer)};
@@ -73,8 +68,8 @@ ns_rpc_config_t rpcConfig = {
 
 static dataBlock resultBlock;
 #include "ref_f2m.h"
-__attribute__((section(".sram_bss"))) int16_t mel[TIMESTEPS * 300];
-__attribute__((section(".sram_bss"))) int32_t wavout[TIMESTEPS * 256];
+__attribute__((section(".sram_bss"))) int16_t mel[TIMESTEPS * TIMESTEPS];
+__attribute__((section(".sram_bss"))) int32_t wavout[TIMESTEPS * HOP_SIZE];
 
 int main(void) {
     ns_core_config_t core_cfg = {.api = &ns_core_V1_0_0};
@@ -86,38 +81,26 @@ int main(void) {
 
     tts_init();
 
-    // ns_lp_printf("phone2fuse\n");
-    // unitTest_phone2fuse();
-
-    // ns_lp_printf("fuse2mel\n");
-    // unitTest_fuse2mel();
-
     ns_printf("Start the PC-side server, then press Button 0 to get started\n");
     while (g_intButtonPressed == 0) {
         ns_delay_us(1000);
     }
+    int acc_frames = 0;
+    tts(mel, &acc_frames);
 
-    tts(mel);
-    // int16_t *ptr = (int16_t*) mel; // mel, ref_f2m_output
-    // for (int i = 0 ; i < 300; i++) {
-    //     for (int j = 0 ; j < 80; j++) {
-    //         audioDataBuffer[j] = ptr[i * 80 + j];
-            
-    //     }
-    //     ns_rpc_data_sendBlockToPC(&outBlock);
-    // }
-    GRIFFIN_LIN_algorithm_frame(wavout);
+    GRIFFIN_LIN_algorithm_frame(wavout, acc_frames);
 
 
     int32_t *ptr = (int32_t*) wavout; // mel, ref_f2m_output
-    for (int i = 0 ; i < 300; i++) {
-        for (int j = 0 ; j < 256; j++) {
-            audioDataBuffer[j] = ptr[i * 256 + j];
+    ns_lp_printf("Sending %d frames of audio data to PC\n", acc_frames);
+
+    for (int i = 0 ; i < acc_frames; i++) {
+        for (int j = 0 ; j < HOP_SIZE; j++) {
+            audioDataBuffer[j] = ptr[i * HOP_SIZE + j];
             
         }
         ns_rpc_data_sendBlockToPC(&outBlock);
-        ns_lp_printf("Sent block %d to PC\n", i);
     }
-
+    ns_lp_printf("All done!\n");
     return 0;   
 }

@@ -20,18 +20,14 @@
 #include "ns_ambiqsuite_harness.h"
 #include "mel_inv_const.h"
 #include "window_const.h"
-#define NUM_TOKENS 31
-#define TIMESTEPS 300
-#define DIM_FUSE 128
-#define BYTES_INPUT_SIZE_F2M 76800
-#define WINDOW_SIZE 1024
-#define HOP_SIZE 256
-#define FFT_SIZE 1024
+
 
 #define QUANTIZE_TO_INT16(val, scale, zero) ((int16_t)MIN(MAX((val) / (scale), INT16_MIN), INT16_MAX) + (zero))
+
 static ns_model_state_t model_state_f2m;
 static ns_model_state_t model_state_p2f;
 static stftModule32b stft_mod;
+
 int tts_init()
 {
     if (phone2fuse_init(&model_state_p2f) != 0) {
@@ -67,7 +63,7 @@ int find_bin(int num_embeds, float *bins, float input)
 
 
 
-int tts(int16_t *output_buffer) {
+int tts(int16_t *output_buffer, int *pt_acc_frames) {
 
     int16_t inputs[31] = {92,  74, 117, 145, 110, 117,  89, 131,  83, 120, 105,  67, 117,
        132, 116,  75, 119, 130, 132, 124, 144,  98,  92,  74, 118, 103,
@@ -139,95 +135,6 @@ int tts(int16_t *output_buffer) {
             i, ptr[i], ref_p2f_energy_pred[i]);
     }
 
-    // int zero_out = pt_f2m->interpreter->input(0)->params.zero_point;
-    // float scale_out = pt_f2m->interpreter->input(0)->params.scale;
-    
-    // for (int i = 0; i < 1; i++)
-    // {
-    //     // find repeat
-    //     int jj = 0;
-    //     int idx_s = 0;
-    //     ptr = i + (int16_t*) pt_p2f->interpreter->output(idx_s)->data.i16;
-    //     zero = pt_p2f->interpreter->output(idx_s)->params.zero_point;
-    //     scale = pt_p2f->interpreter->output(idx_s)->params.scale;
-    //     float repeat_float  = (float) (*ptr-zero) * scale;
-    //     int repeat = (int) round(repeat_float);
-    //     // ns_lp_printf("Token %d: repeat=%d\n", i, repeat);
-
-    //     // fused_features-id=3
-    //     idx_s = 3;
-    //     ptr = 32 * i + ref_p2f_fused_features;
-    //     zero = pt_p2f->interpreter->output(idx_s)->params.zero_point;
-    //     scale = pt_p2f->interpreter->output(idx_s)->params.scale;
-
-    //     for (int j = 0; j < 32; j++) {
-    //         float tmp  = (float) (ptr[j]-zero) * scale;
-    //         int16_t quant = (int16_t) MIN(MAX(tmp / scale_out, INT16_MIN), INT16_MAX) + zero_out;
-    //         ns_lp_printf("%d %d\n", quant, ref_f2m_input[jj * 300 + i]);
-    //         jj++;
-    //     }
-        
-    //     // pitch features-id=1 (embedding process)
-    //     idx_s = 1;
-    //     ptr = i + ref_p2f_pitch_pred;
-    //     zero = pt_p2f->interpreter->output(idx_s)->params.zero_point;
-    //     scale = pt_p2f->interpreter->output(idx_s)->params.scale;
-    //     float tmp  = (float) (*ptr-zero) * scale;
-    //     int bin = find_bin(NUM_EMBEDS_PITCH, pitch_bins, tmp);
-    //     // ns_lp_printf("%d, ", bin);
-    //     int16_t *pt_embed =  pitch_embed + bin * DIM_FEAT_ENERGY;
-    //     for (int j = 0; j < 32; j++) {
-    //         int16_t tmp_int = pt_embed[j];
-    //         tmp =  (float) tmp_int * weight_scale;
-
-    //         int16_t quant = (int16_t) MIN(MAX(tmp / scale_out, INT16_MIN), INT16_MAX) + zero_out;
-
-    //         ns_lp_printf("%d %d\n", quant, ref_f2m_input[jj*300 + i]);
-    //         jj++;
-    //     }
-
-    //     // energy features-id=4 (embedding process)
-    //     idx_s = 4;
-    //     ptr = i + ref_p2f_energy_pred;
-    //     zero = pt_p2f->interpreter->output(idx_s)->params.zero_point;
-    //     scale = pt_p2f->interpreter->output(idx_s)->params.scale;
-    //     tmp  = (float) (*ptr-zero) * scale;
-    //     bin = find_bin(NUM_EMBEDS_ENERGY, energy_bins, tmp);
-    //     // ns_lp_printf("%d, ", bin);
-    //     pt_embed =  energy_embed + bin * DIM_FEAT_ENERGY;
-    //     for (int j = 0; j < 32; j++) {
-    //         int16_t tmp_int = pt_embed[j];
-    //         tmp =  (float) tmp_int * weight_scale;
-
-    //         int16_t quant = (int16_t) MIN(MAX(tmp / scale_out, INT16_MIN), INT16_MAX) + zero_out;
-
-    //        ns_lp_printf("%d %d\n", quant, ref_f2m_input[jj * 300 + i]);
-    //         jj++;
-    //     }
-
-    //     // duration features-id=2
-    //     idx_s = 2;
-    //     ptr = 32 * i + ref_p2f_duration_features;
-    //     zero = pt_p2f->interpreter->output(idx_s)->params.zero_point;
-    //     scale = pt_p2f->interpreter->output(idx_s)->params.scale;
-
-    //     for (int j = 0; j < 32; j++) {
-    //         float tmp  = (float) (ptr[j]-zero) * scale;
-    //         int16_t quant = (int16_t) MIN(MAX(tmp / scale_out, INT16_MIN), INT16_MAX) + zero_out;
-    //         ns_lp_printf("%d %d\n", quant, ref_f2m_input[jj * 300 + i]);
-    //         jj++;
-    //     }
-
-    //     // // repeat
-    //     // pt_tmp = pt_f2m_input + 128;
-    //     // for (int j = 0; j < (repeat - 1); j++)
-    //     // {
-    //     //     memcpy(pt_tmp, pt_f2m_input, 128 * sizeof(int16_t));
-    //     //     pt_tmp += 128;
-    //     // }
-    // }
-
-
 
 #endif
 #if 1
@@ -239,7 +146,7 @@ int tts(int16_t *output_buffer) {
     int repeat_last =0;
     int acc_repeat = 0;
     int16_t *pt_tmp;
-    int ii = 0;
+    int acc_frames = 0;
     int idx_s;
     memset(pt_f2m_input, 0, BYTES_INPUT_SIZE_F2M); // set to zero
     // Concatenate, transpose and quantize inputs
@@ -257,7 +164,7 @@ int tts(int16_t *output_buffer) {
         for (int j = 0; j < 32; j++) {
             float tmp  = (float) (ptr[j]-zero) * scale;
             int16_t quant = QUANTIZE_TO_INT16(tmp, scale_out, zero_out);
-            pt_f2m_input[jj * TIMESTEPS + ii] = quant; // transpose
+            pt_f2m_input[jj * TIMESTEPS + acc_frames] = quant; // transpose
             jj++;
         }
         
@@ -274,7 +181,7 @@ int tts(int16_t *output_buffer) {
             tmp =  (float) tmp_int * weight_scale; // convert weights to float
 
             int16_t quant = QUANTIZE_TO_INT16(tmp, scale_out, zero_out);
-            pt_f2m_input[jj * TIMESTEPS + ii] = quant; // transpose
+            pt_f2m_input[jj * TIMESTEPS + acc_frames] = quant; // transpose
             jj++;
         }
 
@@ -291,7 +198,7 @@ int tts(int16_t *output_buffer) {
             tmp =  (float) tmp_int * weight_scale; // convert weights to float
 
             int16_t quant = QUANTIZE_TO_INT16(tmp, scale_out, zero_out);
-            pt_f2m_input[jj * TIMESTEPS + ii] = quant; // transpose
+            pt_f2m_input[jj * TIMESTEPS + acc_frames] = quant; // transpose
             jj++;
         }
 
@@ -303,7 +210,7 @@ int tts(int16_t *output_buffer) {
         for (int j = 0; j < 32; j++) {
             float tmp  = (float) (ptr[j]-zero) * scale;
             int16_t quant = QUANTIZE_TO_INT16(tmp, scale_out, zero_out);
-            pt_f2m_input[jj * TIMESTEPS + ii] = quant; // transpose
+            pt_f2m_input[jj * TIMESTEPS + acc_frames] = quant; // transpose
             jj++;
         }
 
@@ -317,25 +224,16 @@ int tts(int16_t *output_buffer) {
         
         // copy repeated frames
         for (int r = 1; r < repeat; r++) {
-            // A[:,ii+r] = A[:,ii]
+            // A[:,acc_frames+r] = A[:,acc_frames]
             for (int j = 0; j < 128; j++) {
-                pt_f2m_input[j*TIMESTEPS + ii + r] = pt_f2m_input[j*TIMESTEPS + ii]; // transpose
+                pt_f2m_input[j*TIMESTEPS + acc_frames + r] = pt_f2m_input[j*TIMESTEPS + acc_frames]; // transpose
             }
         }
-        ii += repeat;
+        acc_frames += repeat;
     }
 
     // ============ Model fuse2mel (f2m) inference ===========
 
-    // ptr = (int16_t*) pt_f2m->interpreter->input(0)->data.i16;
-    
-    // memcpy(
-    //     ptr, pt_f2m_input, BYTES_INPUT_SIZE_F2M
-    // );
-    // for (int i = 0; i < 10; i++) {
-    //     ns_lp_printf("input[%d] = %d\n", i, ptr[i]);
-    // }
-    // Run inference
     TfLiteStatus status_f2m = pt_f2m->interpreter->Invoke();
     if (status_f2m != kTfLiteOk) 
     {
@@ -358,28 +256,37 @@ int tts(int16_t *output_buffer) {
     for (int i = 0; i < 80 * TIMESTEPS; i++) {
         output_buffer[i] = ptr[i];
     }
+    ns_lp_printf("acc frames = %d\n", acc_frames);
+    *pt_acc_frames = acc_frames;
 #endif
     return 0;
 }
-#define ITERS 5
-int GRIFFIN_LIN_algorithm_frame(int32_t *wavout) {
+
+
+int GRIFFIN_LIN_algorithm_frame(int32_t *wavout, int total_frames) {
     ns_model_state_t *pt_f2m = &model_state_f2m;
-    
+    int num_fft_bins = (FFT_SIZE >> 1) + 1;
     // Calculate the total number of elements in ptr
-    int total_ptr = 80 * TIMESTEPS;
+
     int zero_out = pt_f2m->interpreter->output(0)->params.zero_point;
     float scale_out = pt_f2m->interpreter->output(0)->params.scale;
-    __attribute__((section(".sram_bss"))) static float phases[513*300];
-    float *pt_phase = phases;
+    // __attribute__((section(".sram_bss"))) static float phases[513*300];
+    __attribute__((section(".sram_bss"))) static float magnitudes[NUM_FFT_BINS * TIMESTEPS];
+    __attribute__((section(".sram_bss"))) static int32_t spec_tf[NUM_FFT_BINS * 2 * TIMESTEPS];
+ 
     int16_t *ptr = (int16_t*) pt_f2m->interpreter->output(0)->data.i16;
-
+    float *pt_mag = magnitudes;
+    int32_t *pt_spec = spec_tf;
     float upscale = 32768.0f; // q10 for stft compen
     ns_lp_printf("scale = %f, upscale=%f\n", scale_out, upscale);
-    for (int i = 0; i < TIMESTEPS; i++) {
+
+
+    // Initialize magnitude and phase
+    for (int i = 0; i < total_frames; i++) {
         float *pt_mel_inv = (float*) mel_inv_const;
-        int32_t *pt_spec = stft_mod.spec;
+        // int32_t *pt_spec = stft_mod.spec;
         
-        for (int j = 0; j < ((FFT_SIZE >> 1) + 1); j++) {
+        for (int j = 0; j < NUM_FFT_BINS; j++) {
 
             float mag_spec = 0.0f;
     
@@ -388,36 +295,102 @@ int GRIFFIN_LIN_algorithm_frame(int32_t *wavout) {
                 tmp = expf(tmp);
                 mag_spec += *pt_mel_inv++ * tmp;
             }
-            
-            if (j==0 || j==512) // fix phase for DC and Nyquist
-                *pt_phase = 0.0f;
+            float phase;
+            if (j==0 || j==(NUM_FFT_BINS-1)) // fix phase for DC and Nyquist
+                phase = 0.0f;
             else
             {
-                *pt_phase = (float) rand() / (float) RAND_MAX;
-                *pt_phase = *pt_phase * 2.0f * M_PI;
+                phase = (float) rand() / (float) RAND_MAX;
+                phase = phase * 2.0f * M_PI;
             }
             
 
-            float real = mag_spec * cosf(*pt_phase);
-            float imag = mag_spec * sinf(*pt_phase);
-            pt_phase++;
+            float real = mag_spec * cosf(phase);
+            float imag = mag_spec * sinf(phase);
+
+            *pt_mag++ = mag_spec;
 
 
             *pt_spec++ = (int32_t) (real * upscale); // Q(15 + 10) format
             *pt_spec++ = (int32_t) (imag * upscale); // Q(15 + 10) format
+            // stft_mod.spec[2*j] = (int32_t) (real * upscale); // Q(15 + 10) format
+            // stft_mod.spec[2*j+1] = (int32_t) (imag * upscale); // Q(15 + 10) format
 
         }
-
-        // ns_lp_printf("Synthesize frame %d\n", i);
-
-
         ptr += 80;
-        // Initialization is done
+
+    }
+
+    int32_t *pt_wav = wavout;
+    for (int i = 0 ; i < ITERS_GRIFFIN_LIN; i++) {
+        // ifft
+        pt_spec = spec_tf;
+        pt_wav = wavout;
+        for (int t = 0; t < total_frames; t++) {
+            // copy spectrum for frame t
+            memcpy(
+                stft_mod.spec,
+                pt_spec,
+                (FFT_SIZE + 2) * sizeof(int32_t));
+            pt_spec += (FFT_SIZE + 2);
+            // Synthesize frame
+            stftModule32b_synthesize_arm(
+                &stft_mod,
+                stft_mod.spec,
+                pt_wav,
+                15);
+            pt_wav += HOP_SIZE;
+        }
+
+
+        // fft
+        pt_spec = spec_tf;
+        pt_mag = magnitudes;
+        pt_wav = wavout;
+        for (int i = 0; i < total_frames; i++) {
+            stftModule32b_analyze_arm(
+                &stft_mod,
+                pt_wav,
+                stft_mod.spec,
+                FFT_SIZE,
+                15);
+            pt_wav += HOP_SIZE;
+            // keep the phase
+            float real;
+            float imag;
+            for (int j = 0; j < NUM_FFT_BINS; j++) {
+                real = (float) stft_mod.spec[2 * j] / upscale;
+                imag = (float) stft_mod.spec[2 * j + 1] / upscale;
+                float mag = sqrtf(real * real + imag * imag);
+                real = real / (mag + 1e-10f) * *pt_mag;
+                imag = imag / (mag + 1e-10f) * *pt_mag;
+                *pt_spec++ = (int32_t) (real * upscale); // Q(15 + 10) format
+                *pt_spec++ = (int32_t) (imag * upscale); // Q(15 + 10) format
+                pt_mag++;
+                
+            }
+            
+
+        }
+    }
+
+    // Final synthesis
+    pt_wav = wavout;
+    pt_spec = spec_tf;
+    for (int i = 0; i < total_frames; i++){
+
+        memcpy(
+            stft_mod.spec,
+            pt_spec,
+            (NUM_FFT_BINS * 2) * sizeof(int32_t)
+        );
+        pt_spec += (NUM_FFT_BINS * 2);
         stftModule32b_synthesize_arm(
             &stft_mod,
             stft_mod.spec,
-            wavout+ i * HOP_SIZE,
+            pt_wav,
             15);
+        pt_wav += HOP_SIZE;
 
     }
     return 0;

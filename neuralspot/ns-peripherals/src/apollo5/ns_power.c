@@ -54,6 +54,7 @@
 
 #ifdef apollo510_evb
 #include "am_hal_clkmgr.h"
+#include "am_hal_spotmgr.h"
 #endif
 
 uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
@@ -139,20 +140,20 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
 
     am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
 
-#if defined(AM_PART_APOLLO5A)
-    MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
-    MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
-    MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
-#else
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
-    #ifndef apollo510L_eb
-        MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1LPREN = 1;
-        MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1SLPEN = 0;
-        MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1PWRCTRL = 1;
-    #endif
-#endif
+// #if defined(AM_PART_APOLLO5A)
+//     MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
+//     MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
+//     MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
+// #else
+//     MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
+//     MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
+//     MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
+//     #ifndef apollo510L_eb
+//         MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1LPREN = 1;
+//         MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1SLPEN = 0;
+//         MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1PWRCTRL = 1;
+//     #endif
+// #endif
 
     if (pCfg->bNeedSharedSRAM == false) {
         am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
@@ -206,7 +207,9 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 #endif
 
     am_bsp_low_power_init();
-    
+    // am_hal_spotmgr_profile_t spotmgr_profile; 
+    // spotmgr_profile.PROFILE_b.COLLAPSESTMANDSTMP = 1;
+    // am_hal_spotmgr_profile_set(&spotmgr_profile);
     #define ELP_ON                              1
     am_hal_pwrctrl_pwrmodctl_cpdlp_t sDefaultCpdlpConfig =
     {

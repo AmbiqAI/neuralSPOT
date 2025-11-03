@@ -441,6 +441,11 @@ class adResults:
         self.toolchain = p.toolchain
         self.model_size = 0
         self.arena_size = 0
+        # ---- Memory totals (KB) --------------------------------------------
+        self.tflm_rom_kb = 0
+        self.tflm_ram_kb = 0
+        self.aot_rom_kb = 0
+        self.aot_ram_kb = 0
 
         # HeliosAOT extras --------------------------------------------------
         self.aot_success: bool = False
@@ -463,6 +468,15 @@ class adResults:
             f"[Profile] Total Estimated MACs:              {self.profileTotalEstimatedMacs}"
         )
         print(f"[Profile] Total Model Layers:                {self.profileTotalLayers}")
+
+        # ---- Coalesced memory usage ----------------------------------------
+        print(
+            f"[Memory]  TFLM: ROM={self.tflm_rom_kb} KB, RAM={self.tflm_ram_kb} KB"
+        )
+        if self.p.create_aot_profile:
+            print(
+                f"[Memory]  AOT : ROM={self.aot_rom_kb} KB, RAM={self.aot_ram_kb} KB"
+            )
 
             # print(f"[Profile] Total CPU Cycles:                  {self.profileTotalCycles}")
         # print(
@@ -528,7 +542,11 @@ Notes:
         # if the file doesn't exist, create it
         # if it does exist, add to the file
         # The contents of the file are CSV formatted, and the header is
-        # Model Filename, Platform,	Compiler, TF Verssion, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW), AS Version, Date Run
+        # Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB),
+        # Model Location, Arena Location, Est MACs,
+        # HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW),
+        # [AOT HP/LP columns if enabled],
+        # TFLM/AOT section sizes, AS Version, Date Run
         
         # Given p.toolchain, find the version of the compiler
         if self.toolchain == "gcc":
@@ -544,19 +562,54 @@ Notes:
         d1 = today.strftime("%d/%m/%Y")
 
         if self.p.resultlog_file != "none":
+            print(f"[NS] Resultlog file: {self.p.resultlog_file}")
             if not os.path.exists(self.p.resultlog_file):
                 # Create AOT columns if aot is enabled
-                aot_columns = ""
-                if self.p.create_aot_profile:
-                    aot_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW), AOT Version"
+                #aot_perf_columns = ""
+                #if self.p.create_aot_profile:
+                aot_perf_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW), AOT Version"
+                # Memory columns (TFLM always; AOT only if enabled)
+                mem_tflm_columns = (", TFLM ROM (KB), TFLM RAM (KB)") 
+                #mem_aot_columns = ""
+                #if self.p.create_aot_profile:
+                mem_aot_columns = (", AOT ROM (KB), AOT RAM (KB)")
                 with open(self.p.resultlog_file, "w") as f:
                     f.write(
-                        f"Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), Model Location, Arena Location, Est MACs, HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW){aot_columns}, AS Version, Date Run, ID\n"
-                    )
+                        "Model Filename, Platform, Compiler, TF Version, Model Size (KB), Arena Size (KB), "
+                        "Model Location, Arena Location, Est MACs, "
+                        "HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW)"
+                        f"{aot_perf_columns}"
+                        f"{mem_tflm_columns}"
+                        f"{mem_aot_columns}"
+                        ", AS Version, Date Run, ID\n"                    )
+            # Row assembly (match header conditions)
+            print(f"[NS] Writing to resultlog file: {self.p.resultlog_file}")
             with open(self.p.resultlog_file, "a") as f:
-                f.write(
-                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},{self.p.tensorflow_version},{self.model_size},{self.arena_size},{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts},{self.powerAotMaxPerfInferenceTime},{self.powerAotMaxPerfJoules},{self.powerAotMaxPerfWatts},{self.powerAotMinPerfInferenceTime},{self.powerAotMinPerfJoules},{self.powerAotMinPerfWatts},{helios_aot_version},{self.p.ambiqsuite_version},{d1},{self.p.run_log_id}\n"
+                base_vals = (
+                    f"{self.model_name},{self.p.platform},{self.p.toolchain} {compiler_version},"
+                    f"{self.p.tensorflow_version},{self.model_size},{self.arena_size},"
+                    f"{self.p.model_location},{self.p.arena_location},{self.profileTotalEstimatedMacs},"
+                    f"{self.powerMaxPerfInferenceTime},{self.powerMaxPerfJoules},{self.powerMaxPerfWatts},"
+                    f"{self.powerMinPerfInferenceTime},{self.powerMinPerfJoules},{self.powerMinPerfWatts}"
                 )
+                aot_perf_vals = (",0,0,0,0,0,0,0")
+                if self.p.create_aot_profile:
+                    aot_perf_vals = (
+                        f",{self.powerAotMaxPerfInferenceTime},{self.powerAotMaxPerfJoules},{self.powerAotMaxPerfWatts},"
+                        f"{self.powerAotMinPerfInferenceTime},{self.powerAotMinPerfJoules},{self.powerAotMinPerfWatts},"
+                        f"{helios_aot_version}"
+                    )
+                mem_tflm_vals = (
+                    f",{self.tflm_rom_kb},{self.tflm_ram_kb}"
+                )
+                mem_aot_vals = ",0,0"
+                if self.p.create_aot_profile:
+                    mem_aot_vals = (
+                        f",{self.aot_rom_kb},{self.aot_ram_kb}"
+                    )
+                tail = f",{self.p.ambiqsuite_version},{d1},{self.p.run_log_id}\n"
+                f.write(base_vals + aot_perf_vals + mem_tflm_vals + mem_aot_vals + tail)
+
 
     def setProfile(
         self,
@@ -625,6 +678,19 @@ Notes:
                 f.write("\nDifferences between TFLM and AOT\n")
                 f.write(f"{differences}\n")
 
+    # ---- New: store coalesced memory totals (in KB) ------------------------
+    def setMemoryTotals(self, *, aot: bool, rom_kb: int, ram_kb: int):
+
+        if aot:
+            self.aot_rom_kb = rom_kb
+            self.aot_ram_kb = ram_kb
+        else:
+            self.tflm_rom_kb = rom_kb 
+            if self.p.model_location == "SRAM" or self.p.model_location == "PSRAM" or self.p.model_location == "NVM":
+                print(f"[NS] Model Array location is not MRAM or TCM, reducing ROM total by {self.model_size} KB")
+                self.tflm_rom_kb = self.tflm_rom_kb - self.model_size 
+            self.tflm_ram_kb = ram_kb
+
 # ---------------------------------------------------------------------------
 # 3. Core runner class – encapsulates *all* mutating state
 # ---------------------------------------------------------------------------
@@ -641,7 +707,7 @@ class AutoDeployRunner:
         # Derived fields mutated during execution – keep parity with legacy
         self.stash_arena_location: str | None = None
         self.move_model_back_to_sram: bool = False
-        self.results = None  # set later when adResults is constructed (unchanged behaviour)
+        self.results = None  # set later when adResults is constructed
 
     # ------------------------------------------------------------------
     #   Top‑level control‑flow (identical to legacy order)
@@ -665,9 +731,9 @@ class AutoDeployRunner:
             self.results.p.create_aot_profile = True
             if self.p.nocompile_mode:
                 client = rpc_connect_as_client(self.p)
-                print("[NS] AOT rpc_connect_as_client done")
+                # print("[NS] AOT rpc_connect_as_client done")
                 configModel(self.p, client, self.md)
-                print("[NS] AOT configModel done")
+                # print("[NS] AOT configModel done")
                 differences_aot, golden_output_tensors_aot = validateModel(self.p, client, get_interpreter(self.p),
                                 self.md, self.mc)
 
@@ -766,7 +832,6 @@ class AutoDeployRunner:
 
     # ------------------------------------------------------------------
     def _apply_memory_policy(self) -> None:
-        """Replicates the *exact* heuristics from the legacy script."""
         pc = self.platform_cfg  # alias – matches legacy var name
         self.model_size = int(os.path.getsize(self.p.tflite_filename) / 1024 + 0.999)
 
@@ -1010,7 +1075,7 @@ class AutoDeployRunner:
 
         # Ensure supporting libraries are present --------------------
         _fetch_ns_cmsis_nn(self.p.destination_rootdir)
-        print(f"[NS] HeliosAOT destination rootdir: {self.p.destination_rootdir}")
+        # print(f"[NS] HeliosAOT destination rootdir: {self.p.destination_rootdir}")
 
         # Determine configuration path ------------------------------
         cfg_path = self.p.helios_aot_config
@@ -1153,6 +1218,9 @@ class AutoDeployRunner:
             self.md = pickle.load(fh)
         with open(self._results_pkl, "rb") as fh:
             self.results = pickle.load(fh)
+            # override loaded results with some commonly overriden values from params
+            self.results.p = self.p
+            self.results.toolchain = self.p.toolchain
 
         if self.p.arena_location == "auto":
             self.p.arena_location = self.platform_cfg.GetArenaLocation(self.mc.arena_size_k, "auto")
@@ -1178,6 +1246,17 @@ class AutoDeployRunner:
         for mode in cpu_modes:
             for runtime_mode in runtime_modes:
                 generatePowerBinary(self.p, self.mc, self.md, mode, aot=runtime_mode == "aot")
+                # Collect  memory sizes from generated AXF
+                # try:
+                #     sizes = self._collect_section_sizes(aot=runtime_mode == "aot")
+                #     self.results.setMemorySizes(runtime_mode == "aot", sizes)
+                # except Exception as exc:
+                #     log.warning("[NS] Memory size collection failed: %s", exc)   
+                try:
+                    rom_kb, ram_kb = self._collect_ram_rom_sizes(aot=runtime_mode == "aot")
+                    self.results.setMemoryTotals(aot=runtime_mode == "aot", rom_kb=rom_kb, ram_kb=ram_kb)
+                except Exception as exc:
+                    log.warning("[NS] Memory size collection failed: %s", exc)                           
                 retries_left = 3
                 if self.p.joulescope:
                     while retries_left > 0: 
@@ -1198,6 +1277,180 @@ class AutoDeployRunner:
                     sleep(10)  # legacy delay to allow SWO capture
                     log.info("Onboard perf run in %s mode completed (see SWO output)", mode)
 
+
+    # ---- Helpers: AXF path + size parsing ----------------------------------
+    def _axf_path_for(self, aot: bool) -> Path:
+        # path is ./build/<platform>/<toolchain>/<destination_rootdir>/<model_name>/<model_name>_power[_aot]/<model_name>_power[_aot].axf
+        # for example "build/apollo510b_evb/arm-none-eabi/projects/autodeploy/kws_ref_model_aligned/kws_ref_model_aligned_power/kws_ref_model_aligned_power.axf"
+        # if aot is True, then the path is "build/apollo510b_evb/arm-none-eabi/projects/autodeploy/kws_ref_model_aligned/kws_ref_model_aligned_power_aot/kws_ref_model_aligned_power_aot.axf"
+        # if toolchain is gcc, the directory is arm-none-eabi, otherwise it is just the toolchain
+        if self.p.toolchain == "gcc":
+            toolchain = "arm-none-eabi"
+        else:
+            toolchain = self.p.toolchain
+        
+        # the destination is anything after neuralspot_rootdir in destination_rootdir
+        destination = self.p.destination_rootdir.replace(self.p.neuralspot_rootdir, "")
+        # remove leading slash and convert to string
+        destination = destination.lstrip("/")
+        destination = str(destination)
+        
+        print(f"[NS] Toolchain: {toolchain}")
+        print(f"[NS] Destination rootdir: {self.p.destination_rootdir}")
+        print(f"[NS] Model name: {self.p.model_name}")
+        print(f"[NS] Platform: {self.p.platform}")
+        print(f"[NS] AOT: {aot}")
+        print(f"[NS] Destination: {destination}")
+        if aot:
+            postfix = "_aot"
+        else:
+            postfix = ""
+        build_path = Path("build") / self.p.platform / toolchain / destination / self.p.model_name / f"{self.p.model_name}_power{postfix}" / f"{self.p.model_name}_power{postfix}.axf"
+        # if aot:
+        #     build_path = build_path.with_suffix(f"{self.p.model_name}_aot.axf")
+        print(f"[NS] AXF path: {build_path}")
+    
+        return build_path
+
+        # base = Path(self.p.destination_rootdir) / self.p.model_name
+        # name = self.p.model_name if not aot else f"{self.p.model_name}_aot"
+        # return base / name / f"{name}.axf"
+
+    def _collect_section_sizes(self, aot: bool) -> dict:
+        """
+        Run `arm-none-eabi-size -A -x` on the generated .axf and return KB (ceil).
+        Keys: text, itcm_text, data, bss, sram_bss, shared
+        """
+        axf = self._axf_path_for(aot)
+        targets = {"text", "itcm_text", "data", "bss", "sram_bss", "shared"}
+        armclang_targets = {"MCU_MRAM", "MCU_ITCM", "MCU_TCM", "SHARED_SRAM"}
+        # Armclang has two MCU_TCM sections, one for .data and one for .bss - map the first to data and the second to bss
+        sizes_bytes = {k: 0 for k in targets}
+        if not axf.exists():
+            raise FileNotFoundError(f"AXF not found: {axf}")
+        res = subprocess.run(
+            ["arm-none-eabi-size", "-A", "-x", str(axf)],
+            capture_output=True,
+            text=True,
+        )
+        if res.returncode != 0:
+            raise RuntimeError(res.stderr.strip() or "arm-none-eabi-size failed")
+        for line in res.stdout.splitlines():
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            sec = parts[0].lstrip(".")
+            if sec in sizes_bytes:
+                # Size is hex with -x (e.g., 0x1234); be defensive
+                try:
+                    val = int(parts[1], 0)
+                except ValueError:
+                    continue
+                if sec in armclang_targets:
+                    if sec == "MCU_TCM":
+                        sizes_bytes["data"] += val
+                        sizes_bytes["bss"] += val
+                    else:
+                        sizes_bytes[sec] += val
+                sizes_bytes[sec] += val
+        # Convert to ceil-KB
+        def b2kb(x: int) -> int:
+            return (x + 1023) // 1024
+        return {k: b2kb(v) for k, v in sizes_bytes.items()}
+
+    def _collect_ram_rom_sizes(self, aot: bool) -> tuple[int, int]:
+        """
+        Coalesce memory into ROM and RAM totals (KB, ceiled).
+        - ArmClang: parse `fromelf --info=totals`
+        - GCC:      parse `arm-none-eabi-size -A -x` sections (ITCM counted as ROM)
+        """
+        axf = self._axf_path_for(aot)
+        if not axf.exists():
+            raise FileNotFoundError(f"AXF not found: {axf}")
+        if self.p.toolchain == "arm":
+            return self._collect_ram_rom_sizes_armclang(axf)
+        return self._collect_ram_rom_sizes_gcc(axf)
+
+    def _collect_ram_rom_sizes_armclang(self, axf_path: Path) -> tuple[int, int]:
+        """
+        Parse `fromelf --info=totals`:
+          - RAM := 'Total RW  Size (RW Data + ZI Data)'
+          - ROM := 'Total ROM Size (Code + RO Data + RW Data)'
+        """
+        import re, subprocess
+        res = subprocess.run(
+            ["fromelf", "--info=totals", str(axf_path)],
+            capture_output=True,
+            text=True,
+        )
+        if res.returncode != 0:
+            raise RuntimeError(res.stderr.strip() or "fromelf failed")
+        txt = res.stdout
+        m_rom = re.search(r"Total RO\s+Size.*?(\d+)\s+\(", txt)
+        m_ram = re.search(r"Total RW\s+Size.*?(\d+)\s+\(", txt)
+        if not (m_ram and m_rom):
+            raise RuntimeError("fromelf totals not found")
+        ram_b = int(m_ram.group(1))
+        rom_b = int(m_rom.group(1))
+        b2kb = lambda x: (x + 1023) // 1024
+        return b2kb(rom_b), b2kb(ram_b)
+
+    def _collect_ram_rom_sizes_gcc(self, axf_path: Path) -> tuple[int, int]:
+        """
+        Heuristically coalesce sections from `arm-none-eabi-size -A -x`:
+          - ROM: .text*, *itcm*, .rodata*, .ARM.exidx, .ARM.extab, plus .data load image
+          - RAM: .data (init RW), .bss, .s(b)ss, .sram_bss, .shared, .noinit, *ZI*, heap/stack if present
+          ITCM is counted as ROM to match ArmClang accounting.
+        """
+        import subprocess
+        res = subprocess.run(
+            ["arm-none-eabi-size", "-A", "-x", str(axf_path)],
+            capture_output=True,
+            text=True,
+        )
+        if res.returncode != 0:
+            raise RuntimeError(res.stderr.strip() or "arm-none-eabi-size failed")
+        rom_b = 0
+        ram_b = 0
+        for line in res.stdout.splitlines():
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            sec = parts[0].lstrip(".").lower()
+            # Skip obvious non-loadable noise
+            if "debug" in sec or sec.startswith("comment"):
+                continue
+            try:
+                size = int(parts[1], 0)
+            except ValueError:
+                continue
+            if size <= 0:
+                continue
+            # ROM buckets
+            if "rodata" in sec or "exidx" in sec or "extab" in sec:
+                rom_b += size
+                continue
+            if "itcm" in sec or "text" in sec:
+                rom_b += size
+                continue
+            # # .data RAM (runtime)
+            # if sec == "data" or sec.startswith("data.") or ".data" in sec:
+            #     # rom_b += size
+            #     ram_b += size
+            #     continue
+            # RAM buckets
+            if (
+                "sram_bss" in sec
+                or "shared" == sec
+                or "bss" in sec
+                or "data" in sec
+            ):
+                ram_b += size
+                continue
+            # else: ignore unclassified tiny sections
+        b2kb = lambda x: (x + 1023) // 1024
+        return b2kb(rom_b), b2kb(ram_b)
+    
     # ------------------------------------------------------------------
     def _generate_library(self) -> None:  # Stage 4/5
         print(f"\n[NS] *** Stage [{self._stage}/{self._total_stages}]: Generate minimal static library")

@@ -68,7 +68,7 @@
         #if (NS_AD_NAME_ARENA_LOCATION == NS_AD_SRAM)
             #ifdef keil6
             // Align to 16 bytes
-            AM_SHARED_RW __attribute__((aligned(16))) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+            AM_SHARED_RW __attribute__((aligned(16))) uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
             #else
             AM_SHARED_RW alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
             #endif
@@ -263,6 +263,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
             "Model provided is schema version %d not equal "
             "to supported version %d.",
             ms->model->version(), TFLITE_SCHEMA_VERSION);
+        ns_lp_printf("Model provided is schema version %d not equal to supported version %d.\n", ms->model->version(), TFLITE_SCHEMA_VERSION);
         return NS_AD_NAME_STATUS_FAILURE;
     }
 
@@ -299,6 +300,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
 
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
+        ns_lp_printf("AllocateTensors() failed\n");
         return NS_AD_NAME_STATUS_FAILURE;
     }
     ms->computed_arena_size = ms->interpreter->arena_used_bytes(); // prep to send back to PC

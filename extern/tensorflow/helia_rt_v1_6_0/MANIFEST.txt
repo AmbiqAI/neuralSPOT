@@ -1,0 +1,16 @@
+neuralspot-helios-rt HeliaRT-v1.6.0
+Commit: b730fb0
+
+Libraries:
+libtensorflow-microlite-cm4-armclang-debug.a
+libtensorflow-microlite-cm4-armclang-release-with-logs.a
+libtensorflow-microlite-cm4-armclang-release.a
+libtensorflow-microlite-cm4-gcc-debug.a
+libtensorflow-microlite-cm4-gcc-release-with-logs.a
+libtensorflow-microlite-cm4-gcc-release.a
+libtensorflow-microlite-cm55-armclang-debug.a
+libtensorflow-microlite-cm55-armclang-release-with-logs.a
+libtensorflow-microlite-cm55-armclang-release.a
+libtensorflow-microlite-cm55-gcc-debug.a
+libtensorflow-microlite-cm55-gcc-release-with-logs.a
+libtensorflow-microlite-cm55-gcc-release.a

@@ -58,7 +58,7 @@
  #endif
  
  /* ===== Optional MPU setup for the DMA TCB buffer (mirrors examples) ===== */
- #if defined(apollo510_evb) || defined(apollo510L_eb)
+ #if defined(apollo510_evb) || defined(apollo510L_eb) || defined(apollo510b_evb)
  /* Configure MPU attributes for the DMATCB buffer to be normal write-back etc. */
  static am_hal_mpu_region_config_t sMPUCfg = {
      .ui32RegionNumber  = 6,

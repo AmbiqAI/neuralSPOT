@@ -39,6 +39,8 @@ extern "C" {
 #ifdef NS_MLPROFILE
     #include "ns_ambiqsuite_harness.h"
     #include "ns_debug_log.h"
+#elif defined(NS_MLDEBUG)
+    #include "ns_debug_log.h"
 #endif
 
 typedef enum { READY, NOT_READY, ERROR } ns_model_states_e;

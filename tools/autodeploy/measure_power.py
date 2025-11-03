@@ -302,6 +302,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     # else:
     #     print("Makefile successfully built power measurement binary")
 
+
     # Do one more reset
     time.sleep(6)
     # reset if measuring power

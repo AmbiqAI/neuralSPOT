@@ -1,0 +1,317 @@
+[
+  {
+    "src_rel": "FreeRTOSConfig.h",
+    "upstream_new_rel": "boards/apollo330mP_evb/examples/power/coremark_pro/src/FreeRTOSConfig.h",
+    "upstream_old_rel": "boards/apollo510L_eb/examples/power/coremark_pro/src/FreeRTOSConfig.h",
+    "similarity_new": 0.9184134150274105,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_devices_mspi_psram_aps25616ba_1p2v.c",
+    "upstream_new_rel": "devices/am_devices_mspi_psram_aps25616ba_1p2v.c",
+    "upstream_old_rel": "devices/am_devices_mspi_psram_aps25616ba_1p2v.c",
+    "similarity_new": 0.9999208179505706,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_devices_mspi_psram_aps25616n.c",
+    "upstream_new_rel": "devices/am_devices_mspi_psram_aps25616n.c",
+    "upstream_old_rel": "devices/am_devices_mspi_psram_aps25616n.c",
+    "similarity_new": 0.9999235890235633,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_hal_dcu.c",
+    "upstream_new_rel": "mcu/apollo510L/hal/am_hal_dcu.c",
+    "upstream_old_rel": "mcu/apollo510L/hal/am_hal_dcu.c",
+    "similarity_new": 0.9994272213073674,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_hal_pwrctrl.c",
+    "upstream_new_rel": "mcu/apollo510L/hal/am_hal_pwrctrl.c",
+    "upstream_old_rel": "mcu/apollo510L/hal/am_hal_pwrctrl.c",
+    "similarity_new": 0.999916981445353,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_hal_queue.c",
+    "upstream_new_rel": "mcu/apollo510L/hal/am_hal_queue.c",
+    "upstream_old_rel": "mcu/apollo510L/hal/am_hal_queue.c",
+    "similarity_new": 0.9991097262408191,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_hal_uart.c",
+    "upstream_new_rel": "mcu/apollo510L/hal/mcu/am_hal_uart.c",
+    "upstream_old_rel": "mcu/apollo510L/hal/mcu/am_hal_uart.c",
+    "similarity_new": 0.9998994974874372,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_hal_utils.c",
+    "upstream_new_rel": "mcu/apollo510L/hal/mcu/am_hal_utils.c",
+    "upstream_old_rel": "mcu/apollo510L/hal/mcu/am_hal_utils.c",
+    "similarity_new": 0.9993761696818465,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_resources.c",
+    "upstream_new_rel": "boards/apollo330mP_evb/examples/power/coremark_best_performance/src/am_resources.c",
+    "upstream_old_rel": "boards/apollo510L_eb/examples/power/coremark_best_performance/src/am_resources.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_util_delay.c",
+    "upstream_new_rel": "utils/am_util_delay.c",
+    "upstream_old_rel": "utils/am_util_delay.c",
+    "similarity_new": 0.9988681380871534,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_util_id.c",
+    "upstream_new_rel": "utils/am_util_id.c",
+    "upstream_old_rel": "utils/am_util_id.c",
+    "similarity_new": 0.9994960312460628,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "am_util_pmu.c",
+    "upstream_new_rel": "utils/am_util_pmu.c",
+    "upstream_old_rel": "utils/am_util_pmu.c",
+    "similarity_new": 0.9431844888366627,
+    "action": "merged_conflict",
+    "notes": "3-way merge produced conflicts; manual resolution required",
+    "had_conflicts": true
+  },
+  {
+    "src_rel": "am_util_stdio.c",
+    "upstream_new_rel": "utils/am_util_stdio.c",
+    "upstream_old_rel": "utils/am_util_stdio.c",
+    "similarity_new": 0.9998008811011275,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "apollo510L/system_apollo330P.c",
+    "upstream_new_rel": "CMSIS/AmbiqMicro/Source/system_apollo330P.c",
+    "upstream_old_rel": "CMSIS/AmbiqMicro/Source/system_apollo330P.c",
+    "similarity_new": 0.9986031351854726,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "apollo510L/system_apollo510L.c",
+    "upstream_new_rel": "CMSIS/AmbiqMicro/Source/system_apollo510L.c",
+    "upstream_old_rel": "CMSIS/AmbiqMicro/Source/system_apollo510L.c",
+    "similarity_new": 0.9986031351854726,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "event_groups.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/event_groups.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/event_groups.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "list.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/list.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/list.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "port.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/portable/Keil6/AMapollo5/port.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/portable/Keil6/AMapollo5/port.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "port_stimer.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/portable/Keil6/AMapollo5/port_stimer.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/portable/Keil6/AMapollo5/port_stimer.c",
+    "similarity_new": 0.999398586678695,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "port_systick_stimer.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/portable/IAR/AMapollo5/port_systick_stimer.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/portable/IAR/AMapollo5/port_systick_stimer.c",
+    "similarity_new": 0.9997556953521041,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "portable.h",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/include/portable.h",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/include/portable.h",
+    "similarity_new": 0.9873468367091773,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "portasm.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/portable/Keil6/AMapollo5/portasm.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/portable/Keil6/AMapollo5/portasm.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "queue.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/queue.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/queue.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "rtos.c",
+    "upstream_new_rel": "boards/apollo330mP_evb/examples/ble/ble_freertos_fit/src/rtos.c",
+    "upstream_old_rel": "boards/apollo510L_eb/examples/ble/ble_freertos_fit/src/rtos.c",
+    "similarity_new": 0.6143606292860024,
+    "action": "merged_conflict",
+    "notes": "3-way merge produced conflicts; manual resolution required",
+    "had_conflicts": true
+  },
+  {
+    "src_rel": "rtos.h",
+    "upstream_new_rel": "boards/apollo330mP_evb/examples/power/coremark_pro/src/rtos.h",
+    "upstream_old_rel": "boards/apollo510L_eb/examples/power/coremark_pro/src/rtos.h",
+    "similarity_new": 0.9930355019534568,
+    "action": "merged_conflict",
+    "notes": "3-way merge produced conflicts; manual resolution required",
+    "had_conflicts": true
+  },
+  {
+    "src_rel": "tasks.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/tasks.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/tasks.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "timers.c",
+    "upstream_new_rel": "third_party/FreeRTOSv10.5.1/Source/timers.c",
+    "upstream_old_rel": "third_party/FreeRTOSv10.5.1/Source/timers.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "tusb_config.h",
+    "upstream_new_rel": "boards/apollo330mP_evb/examples/usb/tinyusb_cdc/src/tusb_config.h",
+    "upstream_old_rel": "boards/apollo510L_eb/examples/usb/tinyusb_cdc/src/tusb_config.h",
+    "similarity_new": 0.8801547703899807,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/cdc_device_new.c",
+    "upstream_new_rel": "third_party/tinyusb/source/src/class/cdc/cdc_device.c",
+    "upstream_old_rel": "third_party/tinyusb/source/src/class/cdc/cdc_device.c",
+    "similarity_new": 0.9928040854224698,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/dcd_apollo5.c",
+    "upstream_new_rel": "third_party/tinyusb/ambiq_port/apollo5/dcd_apollo5.c",
+    "upstream_old_rel": "third_party/tinyusb/ambiq_port/apollo5/dcd_apollo5.c",
+    "similarity_new": 0.9993039550819013,
+    "action": "copied_remote_unmodified_local",
+    "notes": "Local identical to old upstream; use new upstream verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/tusb.c",
+    "upstream_new_rel": "third_party/tinyusb/source/src/tusb.c",
+    "upstream_old_rel": "third_party/tinyusb/source/src/tusb.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/tusb_fifo.c",
+    "upstream_new_rel": "third_party/tinyusb/source/src/common/tusb_fifo.c",
+    "upstream_old_rel": "third_party/tinyusb/source/src/common/tusb_fifo.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/usbd.c",
+    "upstream_new_rel": "third_party/tinyusb/source/src/device/usbd.c",
+    "upstream_old_rel": "third_party/tinyusb/source/src/device/usbd.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/usbd_control.c",
+    "upstream_new_rel": "third_party/tinyusb/source/src/device/usbd_control.c",
+    "upstream_old_rel": "third_party/tinyusb/source/src/device/usbd_control.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  },
+  {
+    "src_rel": "usb/vendor_device.c",
+    "upstream_new_rel": "third_party/tinyusb/source/src/class/vendor/vendor_device.c",
+    "upstream_old_rel": "third_party/tinyusb/source/src/class/vendor/vendor_device.c",
+    "similarity_new": 1.0,
+    "action": "copied_local_upstream_unchanged",
+    "notes": "Old and new upstream match; keep local modifications verbatim",
+    "had_conflicts": false
+  }
+]

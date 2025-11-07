@@ -1,0 +1,38 @@
+#******************************************************************************
+#
+# Custom memory map for Apollo510L for 28K DTCM (minimum config.)
+#
+# The deepsleep shipmode example for Apollo510L configures memory as:
+#   DTCM to 128KB: 0x20000000 - 0x2001FFFF
+#   SSRAM none. So allocate a small amount of DTCM as SSRAM.
+#
+# Resulting DTCM memory map:
+# TCM:   0x20000000 - 0x2001DFFF  (120 KB)
+#        8KB shared between SSRAM, heap, and stack.
+# SSRAM: 0x2001E000 - 0x2001E0FF  ( 256 B)
+# HEAP:  0x2001E100 - 0x2001E1FF  ( 256 B)
+# STACK: 0x2001E200 - 0x2001FFFF  (7680 B)
+#
+#******************************************************************************
+
+MemorySections:
+    MCU_MRAM:
+        start:  0x00410000
+        end:    0x005FFFFF
+
+    MCU_TCM:
+        start:  0x20000000
+        end:    0x2001DFFF
+
+    SHARED_SRAM:
+        start:  0x2001E000
+        end:    0x2001E0FF
+
+    STACK:
+        start:  0x2001E200
+        end:    0x2001FFFF
+
+    HEAP:
+        start:  0x2001E100
+        end:    0x2001E1FF
+

@@ -598,7 +598,7 @@ void ns_ble_generic_init(
 
 #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
 void am_ble_isr(void) { HciDrvIntService(); }
-#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 void
 GPIO_INT_ISR(void)
 {
@@ -638,7 +638,7 @@ void ns_ble_pre_init(void) {
 // Set NVICs for BLE
 #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     NVIC_SetPriority(BLE_IRQn, NVIC_configMAX_SYSCALL_INTERRUPT_PRIORITY);
-#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 // Dont know yet.
 #else
     NVIC_SetPriority(COOPER_IOM_IRQn, 4);

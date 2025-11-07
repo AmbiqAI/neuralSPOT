@@ -1,0 +1,2797 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="generator" content="AmbiqMicro" />
+    <title>Apollo510L CLKGEN</title>
+    <link href="../resources/tabs.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../resources/jquery.js"></script>
+    <script type="text/javascript" src="../resources/dynsections.js"></script>
+    <link href="search/search.css" rel="stylesheet" type="text/css" />
+    <link href="../resources/customdoxygen.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div id="titlearea">
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr style="height: 56px;">
+                        <td id="projectlogo">
+                            <img alt="Logo" src="../resources/am_logo.png" />
+                        </td>
+                        <td style="padding-left: 0.5em;">
+                            <div id="projectname">Apollo510L  Register Documentation &#160;<span id="projectnumber">release_sdk5_2_a_1_1-c2486c8ef</span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end header part -->
+        <div id="navrow1" class="tabs">
+            <ul class="tablist">
+                <li class="current"><a href="../index.html"><span>Main&#160;Page</span></a>
+                </li>
+        </div>
+        </li>
+        </ul>
+    </div>
+    </div>
+    <!-- top -->
+    <!-- window showing the filter options -->
+    <div class="header">
+        <div class="headertitle">
+            <div class="title">CLKGEN - Clock Generator</div>
+        </div>
+    </div>
+    <!--header-->
+    <body>
+        <br>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> CLKGEN Register Index</h3>
+            </div>
+            <div class="panel-body">
+                <table>
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000000C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#OCTRL" target="_self">OCTRL - Oscillator Control</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000010:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLKOUT" target="_self">CLKOUT - CLKOUT Frequency Select</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000020:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#HFADJ" target="_self">HFADJ - HFRC Adjustment</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000030:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLOCKENSTAT" target="_self">CLOCKENSTAT - Clock Enable Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000034:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLOCKEN2STAT" target="_self">CLOCKEN2STAT - Clock Enable Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000038:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLOCKEN3STAT" target="_self">CLOCKEN3STAT - Clock Enable Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000044:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#MISC" target="_self">MISC - Misc Control and Status</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000078:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#LFRCCTRL" target="_self">LFRCCTRL - LFRC control</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000088:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLKGENSPARES" target="_self">CLKGENSPARES - CLK GEN Spare Registers for Future ECO</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x0000008C:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#HFRCIDLECOUNTERS" target="_self">HFRCIDLECOUNTERS - Defines Number of consecutive idle cycles for HFRC, clock enable, power down signals deassertion</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000110:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#MSPIIOCLKCTRL" target="_self">MSPIIOCLKCTRL - Control for selection and enablement of the MSPI clocks</a>
+                        </td>
+                    </tr>
+
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x00000120:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <a class="el" href="#CLKCTRL" target="_self">CLKCTRL - Control for selection and enablement of the GFX, MCU, and I2C clocks</a>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="OCTRL" class="panel-title">OCTRL - Oscillator Control</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x4000400C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This register includes controls for autocalibration in addition to the RTC and Secure RTC oscillator controls.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="24">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SECURERTCOSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RTCOSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="6">RSVD
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:8</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>SECURERTCOSEL</td>
+                            <td>RW</td>
+                            <td>Selects the Secure RTC oscillator (1=LFRC, 0=XT)<br><br>
+                                 XT_512Hz             = 0x0 - Secure RTC uses the XT 512Hz<br>
+                             LFRC_DIV2            = 0x1 - RTC uses the LFRC / 2</td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>RTCOSEL</td>
+                            <td>RW</td>
+                            <td>Selects the Secure RTC oscillator (1=LFRC, 0=XT)<br><br>
+                                 XT_512Hz             = 0x0 - RTC uses the XT 512Hz<br>
+                             LFRC_DIV2            = 0x1 - RTC uses the LFRC / 2</td>
+                        </tr>
+
+                        <tr>
+                            <td>5:0</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLKOUT" class="panel-title">CLKOUT - CLKOUT Frequency Select</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004010</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This register enables the CLKOUT to the GPIOs, and selects the clock source to that.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="23">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">AOCLKFORCEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">CKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="6">CKSEL
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:9</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>AOCLKFORCEEN</td>
+                            <td>RW</td>
+                            <td>Force AO_CLK to enable for measurement<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>CKEN</td>
+                            <td>RW</td>
+                            <td>Enable the CLKOUT signal<br><br>
+                                 DIS                  = 0x0 - Disable CLKOUT<br>
+                             EN                   = 0x1 - Enable CLKOUT</td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5:0</td>
+                            <td>CKSEL</td>
+                            <td>RW</td>
+                            <td>Select the clock signal that will be observed on CLKOUT. For the Apollo510 family, the clock frequencies being observed are LFRC=900Hz, XT=32KHz, HFRC=48MHz, PLLVCO=250MHz<br><br>
+                                 LFRC_NOMINAL         = 0x0 - LFRC clock source selection.<br>
+                             XT_DIV2              = 0x1 - XT 32KHz clock<br>
+                             XT_DIV4              = 0x2 - XT 16KHz clock<br>
+                             XT_DIV8              = 0x3 - XT 8KHz clock<br>
+                             XT_DIV16             = 0x4 - XT 4KHz clock<br>
+                             XT_DIV32             = 0x5 - XT 2KHz clock<br>
+                             XT_DIV256            = 0x6 - XT 1KHz clock<br>
+                             XT_DIV8K             = 0x7 - XT 128Hz clock<br>
+                             XT_DIV64K            = 0x8 - XT 4Hz clock<br>
+                             XT_DIV2M             = 0x9 - XT 1/2Hz clock<br>
+                             XT                   = 0xA - XT 1/64Hz clock<br>
+                             RTC_1Hz              = 0xB - RTC 1Hz clock<br>
+                             RTC_CG_100Hz         = 0xC - ClkGen 100Hz clock for RTC<br>
+                             LFRC_DIV2            = 0x23 - MCU clock<br>
+                             PLLVCO_250           = 0x24 - PLLVCO 250MHz clock<br>
+                             PLLVCO_125           = 0x25 - PLLVCO 125MHz clock<br>
+                             PLLPOSTDIV           = 0x26 - PLL POSTDIV<br>
+                             PLLFOUT2             = 0x27 - PLLFOUT2 clock<br>
+                             PLLFOUT3             = 0x28 - PLLFOUT3 clock<br>
+                             PLLFOUT4             = 0x29 - PLLFOUT4 clock<br>
+                             RFXTAL48             = 0x2A - RF XTAL 48MHz clock<br>
+                             RFXTAL24             = 0x2B - RF XTAL 24MHz clock<br>
+                             RFXTAL12             = 0x2C - RF XTAL 12MHz clock<br>
+                             SECURE_RTC_1Hz       = 0x2D - SECURE_RTC 1Hz clock<br>
+                             SECURE_RTC_CG_100Hz  = 0x2E - ClkGen 100Hz clock for SECURE_RTC<br>
+                             AO_DIV_CLK           = 0x2F - AO_CLK div16</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="HFADJ" class="panel-title">HFADJ - HFRC Adjustment</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004020</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This register controls the HFRC adjustment. The HFRC clock can change with temperature and process corners, and this register controls the HFRC adjustment logic which reduces the fluctuations to the clock.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="3">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="5">HFADJMAXDELTA
+                                <br>0x0</td>
+
+                            <td align="center" colspan="3">HFADJGAIN
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">HFWARMUP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="12">HFXTADJ
+                                <br>0x5b8</td>
+
+                            <td align="center" colspan="4">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="3">HFADJCK
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">HFADJEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:29</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>28:24</td>
+                            <td>HFADJMAXDELTA</td>
+                            <td>RW</td>
+                            <td>Maximum delta for HF Adjustments. 0=Disabled, 1-31=maximum delta step<br><br>
+                                 DISABLED             = 0x0 - Maximum Delta function is disabled<br>
+                             ENABLED              = 0x1 - Maximum Delta function is enabled</td>
+                        </tr>
+
+                        <tr>
+                            <td>23:21</td>
+                            <td>HFADJGAIN</td>
+                            <td>RW</td>
+                            <td>Gain control for HFRC adjustment<br><br>
+                                 Gain_of_1            = 0x0 - HF Adjust with Gain of 1<br>
+                             Gain_of_1_in_2       = 0x1 - HF Adjust with Gain of 0.5<br>
+                             Gain_of_1_in_4       = 0x2 - HF Adjust with Gain of 0.25<br>
+                             Gain_of_1_in_8       = 0x3 - HF Adjust with Gain of 0.125<br>
+                             Gain_of_1_in_16      = 0x4 - HF Adjust with Gain of 0.0625<br>
+                             Gain_of_1_in_32      = 0x5 - HF Adjust with Gain of 0.03125</td>
+                        </tr>
+
+                        <tr>
+                            <td>20</td>
+                            <td>HFWARMUP</td>
+                            <td>RW</td>
+                            <td>XT warmup period for HFRC adjustment<br><br>
+                                 1SEC                 = 0x0 - Autoadjust XT warmup period = 1-2 seconds<br>
+                             2SEC                 = 0x1 - Autoadjust XT warmup period = 2-4 seconds</td>
+                        </tr>
+
+                        <tr>
+                            <td>19:8</td>
+                            <td>HFXTADJ</td>
+                            <td>RW</td>
+                            <td>Target HFRC adjustment value.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7:4</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3:1</td>
+                            <td>HFADJCK</td>
+                            <td>RW</td>
+                            <td>Repeat period for HFRC adjustment<br><br>
+                                 4SEC                 = 0x0 - Autoadjust repeat period = 4 seconds<br>
+                             16SEC                = 0x1 - Autoadjust repeat period = 16 seconds<br>
+                             32SEC                = 0x2 - Autoadjust repeat period = 32 seconds<br>
+                             64SEC                = 0x3 - Autoadjust repeat period = 64 seconds<br>
+                             128SEC               = 0x4 - Autoadjust repeat period = 128 seconds<br>
+                             256SEC               = 0x5 - Autoadjust repeat period = 256 seconds<br>
+                             512SEC               = 0x6 - Autoadjust repeat period = 512 seconds<br>
+                             1024SEC              = 0x7 - Autoadjust repeat period = 1024 seconds</td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>HFADJEN</td>
+                            <td>RW</td>
+                            <td>HFRC adjustment control<br><br>
+                                 DIS                  = 0x0 - Disable the HFRC adjustment<br>
+                             EN                   = 0x1 - Enable the HFRC adjustment</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLOCKENSTAT" class="panel-title">CLOCKENSTAT - Clock Enable Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004030</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This register provides the enable status to all the peripheral clocks. These status bits change frequently and should not be relied on to provide consistent readings.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="1">HFRCCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">XTALCLKOUTEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RTCOSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">HFADJEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PHFRCCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PXTALCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SECURERTCOSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">AXICLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">I3CREFCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">MCUCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">STCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="21">RSVD
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31</td>
+                            <td>HFRCCLKEN</td>
+                            <td>RO</td>
+                            <td>HFRC oscillator clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>30</td>
+                            <td>XTALCLKOUTEN</td>
+                            <td>RO</td>
+                            <td>Low-speed XTAL output clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>29</td>
+                            <td>RTCOSEL</td>
+                            <td>RO</td>
+                            <td>RTC uses XT or LFRC<br><br>
+                                 XT_512Hz             = 0x0 - RTC Using XT 512Hz source<br>
+                             LFRX_512Hz           = 0x1 - RTC Using LFRC 512Hz source</td>
+                        </tr>
+
+                        <tr>
+                            <td>28</td>
+                            <td>HFADJEN</td>
+                            <td>RO</td>
+                            <td>HFADJ circuit is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>27</td>
+                            <td>PHFRCCLKEN</td>
+                            <td>RO</td>
+                            <td>At least one peripheral clock relying on HFRC is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>26</td>
+                            <td>PXTALCLKEN</td>
+                            <td>RO</td>
+                            <td>At least one peripheral clock relying on low-speed XTAL is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>25</td>
+                            <td>SECURERTCOSEL</td>
+                            <td>RO</td>
+                            <td>Secure RTC uses XT or LFRC<br><br>
+                                 XT_512Hz             = 0x0 - Secure RTC Using XT 512Hz source<br>
+                             LFRX_512Hz           = 0x1 - Secure RTC Using LFRC 512Hz source</td>
+                        </tr>
+
+                        <tr>
+                            <td>24</td>
+                            <td>AXICLKEN</td>
+                            <td>RO</td>
+                            <td>The AXI clock is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>23</td>
+                            <td>I3CREFCLKEN</td>
+                            <td>RO</td>
+                            <td>The I3C reference clock is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>22</td>
+                            <td>MCUCLKEN</td>
+                            <td>RO</td>
+                            <td>The MCU clock is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>21</td>
+                            <td>STCLKEN</td>
+                            <td>RO</td>
+                            <td>The System Tick clock is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>20:0</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLOCKEN2STAT" class="panel-title">CLOCKEN2STAT - Clock Enable Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004034</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This is a continuation of the clock enable status. These status bits change frequently and should not be relied on to provide consistent readings.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="1">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">NPCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RWLPCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBI3CCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">CM4WDTCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DISPCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IOM0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">GFXCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DSPPDMCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DSPI2S0REFCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DSPI2S0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBDISPCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBUSBCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBSDIO1CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBSDIO0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBMSPI3CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBMSPI2CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBMSPI1CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBMSPI0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBIOSCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBHCPCCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBHCPBCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBHCPACLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBGFXCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBCRYPTOCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBAUDCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBAPBCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBAOLCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBAOHCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBACTIVITYCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">ADCCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">TRACECLKEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>Reserved<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>30</td>
+                            <td>NPCLKEN</td>
+                            <td>RO</td>
+                            <td>Network processor clock is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>29</td>
+                            <td>RWLPCLKEN</td>
+                            <td>RO</td>
+                            <td>This field is reserved.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>28</td>
+                            <td>APBI3CCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock for I3C is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>27</td>
+                            <td>CM4WDTCLKEN</td>
+                            <td>RO</td>
+                            <td>CM4 I3C reference clock is enabled<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>26</td>
+                            <td>DISPCLKEN</td>
+                            <td>RO</td>
+                            <td>DISP clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>25</td>
+                            <td>IOM0CLKEN</td>
+                            <td>RO</td>
+                            <td>IOM 0 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>24</td>
+                            <td>GFXCLKEN</td>
+                            <td>RO</td>
+                            <td>GFX core clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>23</td>
+                            <td>DSPPDMCLKEN</td>
+                            <td>RO</td>
+                            <td>DSP PDM clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>22</td>
+                            <td>DSPI2S0REFCLKEN</td>
+                            <td>RO</td>
+                            <td>DSP I2S0 reference clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>21</td>
+                            <td>DSPI2S0CLKEN</td>
+                            <td>RO</td>
+                            <td>DSP I2S0 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>20</td>
+                            <td>APBDISPCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the DISP power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>19</td>
+                            <td>APBUSBCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the USB power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>18</td>
+                            <td>APBSDIO1CLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the SDIO1 power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>17</td>
+                            <td>APBSDIO0CLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the SDOI0 power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>16</td>
+                            <td>APBMSPI3CLKEN</td>
+                            <td>RO</td>
+                            <td>This field is reserved<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>15</td>
+                            <td>APBMSPI2CLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the MSPI2 power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>14</td>
+                            <td>APBMSPI1CLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the MSPI1 power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>13</td>
+                            <td>APBMSPI0CLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the MSPI0 power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>APBIOSCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the IOS power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>11</td>
+                            <td>APBHCPCCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the HCP C power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>APBHCPBCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the HCP B power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>APBHCPACLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the HCP A power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>APBGFXCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the GFX power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>APBCRYPTOCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the Crypto power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>APBAUDCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the AUD power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>APBAPBCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the APB power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>APBAOLCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the AOL power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>APBAOHCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the AOH power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>APBACTIVITYCLKEN</td>
+                            <td>RO</td>
+                            <td>APB clock is on in the Activity power domain<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>ADCCLKEN</td>
+                            <td>RO</td>
+                            <td>ADC clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>TRACECLKEN</td>
+                            <td>RO</td>
+                            <td>Trace clock is on<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLOCKEN3STAT" class="panel-title">CLOCKEN3STAT - Clock Enable Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004038</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This is a continuation of the clock enable status. These status bits change frequently and should not be relied on to provide consistent readings.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="8">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SECURERTCCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SECUREWDTCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">XTALENABLED
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">WDTCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">USBREFCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="2">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UART1CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UART0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SDIO1CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">SDIO0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RTCCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSTGENPOSCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">RSTGENCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">OTPXTLCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">MSPI3CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">MSPI2CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">MSPI1CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">MSPI0CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IOM5CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IOM4CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IOM3CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IOM2CLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IOM1CLKEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:24</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>23</td>
+                            <td>SECURERTCCLKEN</td>
+                            <td>RO</td>
+                            <td>Secure RTC clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>22</td>
+                            <td>SECUREWDTCLKEN</td>
+                            <td>RO</td>
+                            <td>WDT clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>21</td>
+                            <td>XTALENABLED</td>
+                            <td>RO</td>
+                            <td>Low-speed XTAL oscillator enable<br><br>
+                                 XTAL_disabled        = 0x0 - XTAL is disabled<br>
+                             XTAL_enabled         = 0x1 - XTAL is enabled</td>
+                        </tr>
+
+                        <tr>
+                            <td>20</td>
+                            <td>WDTCLKEN</td>
+                            <td>RO</td>
+                            <td>WDT clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>19</td>
+                            <td>USBREFCLKEN</td>
+                            <td>RO</td>
+                            <td>USB reference clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>18:17</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>Reserved<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>16</td>
+                            <td>UART1CLKEN</td>
+                            <td>RO</td>
+                            <td>UART 1 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>15</td>
+                            <td>UART0CLKEN</td>
+                            <td>RO</td>
+                            <td>UART 0 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>14</td>
+                            <td>SDIO1CLKEN</td>
+                            <td>RO</td>
+                            <td>SDIO 1 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>13</td>
+                            <td>SDIO0CLKEN</td>
+                            <td>RO</td>
+                            <td>SDIO 0 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>RTCCLKEN</td>
+                            <td>RO</td>
+                            <td>Real Time Clock clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>11</td>
+                            <td>RSTGENPOSCLKEN</td>
+                            <td>RO</td>
+                            <td>Reset generator POR clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>RSTGENCLKEN</td>
+                            <td>RO</td>
+                            <td>Reset generator POR clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>OTPXTLCLKEN</td>
+                            <td>RO</td>
+                            <td>OTP XTL clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>MSPI3CLKEN</td>
+                            <td>RO</td>
+                            <td>MSPI 3 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>MSPI2CLKEN</td>
+                            <td>RO</td>
+                            <td>MSPI 2 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>MSPI1CLKEN</td>
+                            <td>RO</td>
+                            <td>MSPI 1 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>MSPI0CLKEN</td>
+                            <td>RO</td>
+                            <td>MSPI 0 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>IOM5CLKEN</td>
+                            <td>RO</td>
+                            <td>IOM 5 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>IOM4CLKEN</td>
+                            <td>RO</td>
+                            <td>IOM 4 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>IOM3CLKEN</td>
+                            <td>RO</td>
+                            <td>IOM 3 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>IOM2CLKEN</td>
+                            <td>RO</td>
+                            <td>IOM 2 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>IOM1CLKEN</td>
+                            <td>RO</td>
+                            <td>IOM 1 clock is on<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="MISC" class="panel-title">MISC - Misc Control and Status</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004044</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>This register controls a 'safe' mode for burst, which disables the clock when burst transition is happening. It also includes a register to force the HFRC during deep sleep. It is mainly used for debug and testing.</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="6">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">CLKGENMISCSPARE
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">HFRC96TRUNKGATE
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">HFRCFUNCCLKGATEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">ETMTRACECLKCLKGATEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">APBDMACPUCLKCLKGATEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">GFXAXICLKCLKGATEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">GFXCLKCLKGATEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">CM4DAXICLKGATEEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENUSBREFCLK
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENI2S0REFCLK
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">AXIXACLKENOVRRIDE
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENI2S0
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENCRYPTO
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENSDIO
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENUSB
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENGFX
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PWRONCLKENDISP
+                                <br>0x0</td>
+
+                            <td align="center" colspan="7">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FRCBURSTOFF
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">FRCHFRC
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:26</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>25</td>
+                            <td>CLKGENMISCSPARE</td>
+                            <td>RW</td>
+                            <td>Spare/Unused Chicken Bit<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>24</td>
+                            <td>HFRC96TRUNKGATE</td>
+                            <td>RW</td>
+                            <td>DO NOT USE. HFRC96_TRUNK_GATE. Setting this bit when BIT23=0, will kill HFRC root clock.<br><br>
+                                 DIS                  = 0x0 - Disable HFRC96_TRUNK_GATE<br>
+                             EN                   = 0x1 - DO NOT USE. HFRC96_TRUNK_GATE. Setting this bit when BIT23=0, will kill HFRC root clock.</td>
+                        </tr>
+
+                        <tr>
+                            <td>23</td>
+                            <td>HFRCFUNCCLKGATEEN</td>
+                            <td>RW</td>
+                            <td>Chicken bit to enable clock gating on HFRC_FUNC_CLK<br><br>
+                                 DIS                  = 0x0 - Disable clock gate<br>
+                             EN                   = 0x1 - Enable clock gate</td>
+                        </tr>
+
+                        <tr>
+                            <td>22</td>
+                            <td>ETMTRACECLKCLKGATEEN</td>
+                            <td>RW</td>
+                            <td>Chicken bit to enable clock gating on ETM TRACE CLK<br><br>
+                                 DIS                  = 0x0 - Disable clock gate<br>
+                             EN                   = 0x1 - Enable clock gate</td>
+                        </tr>
+
+                        <tr>
+                            <td>21</td>
+                            <td>APBDMACPUCLKCLKGATEEN</td>
+                            <td>RW</td>
+                            <td>Clock gate enable for APB DMA clock<br><br>
+                                 FORCEON              = 0x0 - APB DMA clock is forced ON<br>
+                             NOFORCE              = 0x1 - APB DMA clock is controlled by APB DMA CPU logic</td>
+                        </tr>
+
+                        <tr>
+                            <td>20</td>
+                            <td>GFXAXICLKCLKGATEEN</td>
+                            <td>RW</td>
+                            <td>Clock gate enable for GFX AXI clock<br><br>
+                                 FORCEON              = 0x0 - GFX AXI clock is forced ON<br>
+                             NOFORCE              = 0x1 - GFX AXI clock is controlled by GFX logic</td>
+                        </tr>
+
+                        <tr>
+                            <td>19</td>
+                            <td>GFXCLKCLKGATEEN</td>
+                            <td>RW</td>
+                            <td>Clock gate enable for GFX clock<br><br>
+                                 FORCEON              = 0x0 - GFX clock is forced ON<br>
+                             NOFORCE              = 0x1 - GFX clock is controlled by GFX logic</td>
+                        </tr>
+
+                        <tr>
+                            <td>18</td>
+                            <td>CM4DAXICLKGATEEN</td>
+                            <td>RW</td>
+                            <td>Unused (CLKGENMISCSPARES[0])<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>17</td>
+                            <td>PWRONCLKENUSBREFCLK</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 USBREFCLKENRST       = 0x0 - Enable USB REF Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>16</td>
+                            <td>PWRONCLKENI2S0REFCLK</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 I2S0REFCLKENRST      = 0x0 - Enable I2S instance 0  Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>15</td>
+                            <td>AXIXACLKENOVRRIDE</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B added clock gating<br><br>
+                                 DEFEATURE_DISABLED   = 0x0 - Fine grain clock gating enabled<br>
+                             DEFEATURE            = 0x1 - AXI Clock enabled when core is not in Sleep mode</td>
+                        </tr>
+
+                        <tr>
+                            <td>14</td>
+                            <td>PWRONCLKENI2S0</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 I2S0CLKENRST         = 0x0 - Enable I2S instance 0 engine Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>13</td>
+                            <td>PWRONCLKENCRYPTO</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 CRYPTOCLKENRST       = 0x0 - Enable Cryto engine Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>PWRONCLKENSDIO</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 SDIOCLKENRST         = 0x0 - Enable SDIO  Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>11</td>
+                            <td>PWRONCLKENUSB</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 USBCLKENRST          = 0x0 - Enable USB Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>PWRONCLKENGFX</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 GFXCLKENRST          = 0x0 - Enable GFX Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>PWRONCLKENDISP</td>
+                            <td>RW</td>
+                            <td>Chicken bit to disable Rev B clock enable during reset<br><br>
+                                 DISPCLKENRST         = 0x0 - Enable Display Clock to run during reset<br>
+                             DEFEATURE            = 0x1 - Chicken bit to revert to rev A</td>
+                        </tr>
+
+                        <tr>
+                            <td>8:2</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>Reserved<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>FRCBURSTOFF</td>
+                            <td>RW</td>
+                            <td>Force fclk, hclk, fclk_wic and fclk_pmu to be turned off during burst transition.<br><br>
+                                 BURSTCLKON           = 0x0 - fclk, hclk and fclk_wic are turned on during the burst transition<br>
+                             BURSTCLKOFF          = 0x1 - fclk, hclk and fclk are turned off during burst transition</td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>FRCHFRC</td>
+                            <td>RW</td>
+                            <td>Force HFRC On .<br><br>
+                                 NOFRC                = 0x0 - HFRC stops in deep sleep mode<br>
+                             FRC                  = 0x1 - HFRC runs in deep sleep mode</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="LFRCCTRL" class="panel-title">LFRCCTRL - LFRC control</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004078</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>LFRC control</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="30">RESERVED
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">LFRCPWD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">LFRCOUT
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:2</td>
+                            <td>RESERVED</td>
+                            <td>RO</td>
+                            <td>Reserved<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>LFRCPWD</td>
+                            <td>RW</td>
+                            <td>Power down LFRC<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>LFRCOUT</td>
+                            <td>RW</td>
+                            <td>Disable LFRC output<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLKGENSPARES" class="panel-title">CLKGENSPARES - CLK GEN Spare Registers for Future ECO</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004088</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>CLKGEN Spare Regs</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="32">CLKGENSPARES
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:0</td>
+                            <td>CLKGENSPARES</td>
+                            <td>RW</td>
+                            <td>Placeholer spare registes that can be used as needed for future use<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="HFRCIDLECOUNTERS" class="panel-title">HFRCIDLECOUNTERS - Defines Number of consecutive idle cycles for HFRC, clock enable, power down signals deassertion</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x4000408C</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Provides SW controlled # idle cycles before powering down HFRC, core clock enable(s)</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="19">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">UPDATEENABLE
+                                <br>0x0</td>
+
+                            <td align="center" colspan="6">HFRCCLKREQDELAY
+                                <br>0x4</td>
+
+                            <td align="center" colspan="6">HFRCPWRDOWNDELAY
+                                <br>0x5</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:13</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>UPDATEENABLE</td>
+                            <td>RW</td>
+                            <td>usage : Clear UPDATEENABLE or 1'b0; Update other bits fields of this register. Set this register to 1'b1 for HW to update.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>11:6</td>
+                            <td>HFRCCLKREQDELAY</td>
+                            <td>RW</td>
+                            <td>Idle counter for HFRC CLK REQ DELAY<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>5:0</td>
+                            <td>HFRCPWRDOWNDELAY</td>
+                            <td>RW</td>
+                            <td>Idle counter for HFRC POWER DOWN DELAY<br><br>
+                                </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="MSPIIOCLKCTRL" class="panel-title">MSPIIOCLKCTRL - Control for selection and enablement of the MSPI clocks</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004110</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Provides ability to select the MSPI clock, and derivative of the MSPI clock</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="12">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">MSPI3IOCLKSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">MSPI3IOCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">MSPI2IOCLKSEL
+                                <br>0x8</td>
+
+                            <td align="center" colspan="1">MSPI2IOCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">MSPI1IOCLKSEL
+                                <br>0x8</td>
+
+                            <td align="center" colspan="1">MSPI1IOCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="4">MSPI0IOCLKSEL
+                                <br>0xa</td>
+
+                            <td align="center" colspan="1">MSPI0IOCLKEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:20</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>19:16</td>
+                            <td>MSPI3IOCLKSEL</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>15</td>
+                            <td>MSPI3IOCLKEN</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>14:11</td>
+                            <td>MSPI2IOCLKSEL</td>
+                            <td>RW</td>
+                            <td>selection for MSPI2 io clock<br><br>
+                                 HFRC_750KHz          = 0x0 - 750KHz sourced from the HFRC<br>
+                             HFRC_1p5MHz          = 0x1 - 1.5MHz sourced from the HFRC<br>
+                             HFRC_3MHz            = 0x2 - 3MHz sourced from the HFRC<br>
+                             HFRC_6MHz            = 0x3 - 6MHz sourced from the HFRC<br>
+                             HFRC_12MHz           = 0x4 - 12MHz sourced from the HFRC<br>
+                             HFRC_24MHz           = 0x5 - 24MHz sourced from the HFRC<br>
+                             HFRC_48MHz           = 0x6 - 48MHz sourced from the HFRC<br>
+                             HFRC_96MHz           = 0x7 - 96MHz sourced from the HFRC<br>
+                             HFRC_192MHz          = 0x8 - 192MHz sourced from the HFRC<br>
+                             PLLVCO_125MHz        = 0x9 - 125MHz sourced from the PLL<br>
+                             PLLVCO_250MHz        = 0xA - 250MHz sourced from the PLL</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>MSPI2IOCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable for the MSPI2 io clock through clkgen<br><br>
+                                 DIS                  = 0x0 - Disable io clock<br>
+                             EN                   = 0x1 - Enable io clock</td>
+                        </tr>
+
+                        <tr>
+                            <td>9:6</td>
+                            <td>MSPI1IOCLKSEL</td>
+                            <td>RW</td>
+                            <td>selection for MSPI1 io clock<br><br>
+                                 HFRC_750KHz          = 0x0 - 750KHz sourced from the HFRC<br>
+                             HFRC_1p5MHz          = 0x1 - 1.5MHz sourced from the HFRC<br>
+                             HFRC_3MHz            = 0x2 - 3MHz sourced from the HFRC<br>
+                             HFRC_6MHz            = 0x3 - 6MHz sourced from the HFRC<br>
+                             HFRC_12MHz           = 0x4 - 12MHz sourced from the HFRC<br>
+                             HFRC_24MHz           = 0x5 - 24MHz sourced from the HFRC<br>
+                             HFRC_48MHz           = 0x6 - 48MHz sourced from the HFRC<br>
+                             HFRC_96MHz           = 0x7 - 96MHz sourced from the HFRC<br>
+                             HFRC_192MHz          = 0x8 - 192MHz sourced from the HFRC<br>
+                             PLLVCO_125MHz        = 0x9 - 125MHz sourced from the PLL<br>
+                             PLLVCO_250MHz        = 0xA - 250MHz sourced from the PLL</td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>MSPI1IOCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable for the MSPI1 io clock through clkgen<br><br>
+                                 DIS                  = 0x0 - Disable io clock<br>
+                             EN                   = 0x1 - Enable io clock</td>
+                        </tr>
+
+                        <tr>
+                            <td>4:1</td>
+                            <td>MSPI0IOCLKSEL</td>
+                            <td>RW</td>
+                            <td>selection for MSPI0 io clock<br><br>
+                                 HFRC_750KHz          = 0x0 - 750KHz sourced from the HFRC<br>
+                             HFRC_1p5MHz          = 0x1 - 1.5MHz sourced from the HFRC<br>
+                             HFRC_3MHz            = 0x2 - 3MHz sourced from the HFRC<br>
+                             HFRC_6MHz            = 0x3 - 6MHz sourced from the HFRC<br>
+                             HFRC_12MHz           = 0x4 - 12MHz sourced from the HFRC<br>
+                             HFRC_24MHz           = 0x5 - 24MHz sourced from the HFRC<br>
+                             HFRC_48MHz           = 0x6 - 48MHz sourced from the HFRC<br>
+                             HFRC_96MHz           = 0x7 - 96MHz sourced from the HFRC<br>
+                             HFRC_192MHz          = 0x8 - 192MHz sourced from the HFRC<br>
+                             PLLVCO_125MHz        = 0x9 - 125MHz sourced from the PLL<br>
+                             PLLVCO_250MHz        = 0xA - 250MHz sourced from the PLL</td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>MSPI0IOCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable for the MSPI0 io clock through clkgen<br><br>
+                                 DIS                  = 0x0 - Disable io clock<br>
+                             EN                   = 0x1 - Enable io clock</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 id="CLKCTRL" class="panel-title">CLKCTRL - Control for selection and enablement of the GFX, MCU, and I2C clocks</h3>
+            </div>
+            <div class="panel-body">
+                <h3>Address:</h3>
+                <table style="margin:10px">
+                    <tr id="row_0_0_">
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">Instance 0 Address:</span>
+                        </td>
+                        <td class="entry">
+                            <span style="width:32px;display:inline-block;">&#160;</span>
+                            <span class="h5">0x40004120</span>
+                        </td>
+                    </tr>
+
+                </table>
+                <h3>Description:</h3>
+                <p>Provides ability to select and enable/force the GFX, MCU, and I2C clocks</p>
+                <h3>Register Fields:</h3>
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>31</th>
+                            <th>30</th>
+                            <th>29</th>
+                            <th>28</th>
+                            <th>27</th>
+                            <th>26</th>
+                            <th>25</th>
+                            <th>24</th>
+                            <th>23</th>
+                            <th>22</th>
+                            <th>21</th>
+                            <th>20</th>
+                            <th>19</th>
+                            <th>18</th>
+                            <th>17</th>
+                            <th>16</th>
+                            <th>15</th>
+                            <th>14</th>
+                            <th>13</th>
+                            <th>12</th>
+                            <th>11</th>
+                            <th>10</th>
+                            <th>9</th>
+                            <th>8</th>
+                            <th>7</th>
+                            <th>6</th>
+                            <th>5</th>
+                            <th>4</th>
+                            <th>3</th>
+                            <th>2</th>
+                            <th>1</th>
+                            <th>0</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center" colspan="20">RSVD
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">I3CCLKEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PLLVCOEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PLLDIVEN
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">XTHSMUXSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DISPCTRLCLKEN
+                                <br>0x1</td>
+
+                            <td align="center" colspan="1">MCUCLKFORCEON
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">IWICCLKFORCEON
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">DBGCLKFORCEON
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">PMUCLKFORCEON
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">STCLKFORCEON
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">GFXCORECLKSEL
+                                <br>0x0</td>
+
+                            <td align="center" colspan="1">GFXCORECLKEN
+                                <br>0x0</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+
+                <table style="margin:10px" class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Bits</th>
+                            <th>Name</th>
+                            <th>RW</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>31:12</td>
+                            <td>RSVD</td>
+                            <td>RO</td>
+                            <td>RESERVED<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>11</td>
+                            <td>I3CCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable the I3C clock<br><br>
+                                 DISABLE              = 0x0 - I3C clock disabled<br>
+                             ENABLE               = 0x1 - I3C clock enabled</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>PLLVCOEN</td>
+                            <td>RW</td>
+                            <td>Request enable of the PLL VCO<br><br>
+                                 NORMALOP             = 0x0 - HW control of the PLL VCO enable<br>
+                             ENABLE               = 0x1 - PLL VCO is turned on</td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>PLLDIVEN</td>
+                            <td>RW</td>
+                            <td>Request enable of the PLL post dividers<br><br>
+                                 NORMALOP             = 0x0 - HW control of the PLL post divider enable<br>
+                             ENABLE               = 0x1 - PLL post dividers are turned on</td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>XTHSMUXSEL</td>
+                            <td>RW</td>
+                            <td>Clock select between high speed crystal oscillator and external reference clock<br><br>
+                                 XTHS                 = 0x0 - Select high speed crystal oscillator (48MHz)<br>
+                             EXTREF               = 0x1 - Select external reference clock</td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>DISPCTRLCLKEN</td>
+                            <td>RW</td>
+                            <td>Enable the 96MHz display controller clock<br><br>
+                                 DISABLE              = 0x0 - Display controller clock disabled<br>
+                             ENABLE               = 0x1 - Display controller clock enabled</td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>MCUCLKFORCEON</td>
+                            <td>RW</td>
+                            <td>Force the MCU clock to be always on (unused)<br><br>
+                                 OFF                  = 0x0 - Normal operation<br>
+                             ON                   = 0x1 - Force MCU clock on</td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>IWICCLKFORCEON</td>
+                            <td>RW</td>
+                            <td>Force the IWIC clock to be always on (unused)<br><br>
+                                 OFF                  = 0x0 - Normal operaration<br>
+                             ON                   = 0x1 - Force IWIC clock on</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>DBGCLKFORCEON</td>
+                            <td>RW</td>
+                            <td>Force the DBG clock to be always on (unused)<br><br>
+                                 OFF                  = 0x0 - Normal operaration<br>
+                             ON                   = 0x1 - Force DBG clock on</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>PMUCLKFORCEON</td>
+                            <td>RW</td>
+                            <td>Force the PMU clock to be always on (unused)<br><br>
+                                 OFF                  = 0x0 - Normal operaration<br>
+                             ON                   = 0x1 - Force PMU clock on</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>STCLKFORCEON</td>
+                            <td>RW</td>
+                            <td>Force the ST clock to be always on<br><br>
+                                 OFF                  = 0x0 - Normal operaration<br>
+                             ON                   = 0x1 - Force ST clock on</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>GFXCORECLKSEL</td>
+                            <td>RO</td>
+                            <td>selection for GFX CORE clock. This defaults to HFRC_96MHz. That's the only choice.<br><br>
+                                </td>
+                        </tr>
+
+                        <tr>
+                            <td>0</td>
+                            <td>GFXCORECLKEN</td>
+                            <td>RW</td>
+                            <td>Enable for the GFX CORE clock through clkgen<br><br>
+                                 DIS                  = 0x0 - Disable GFX clock<br>
+                             EN                   = 0x1 - Enable GFX clock</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+
+    </body>
+
+    <hr size="1">
+    <body>
+        <div id="footer" align="right">
+            <small>
+                AmbiqSuite Register Documentation&nbsp;
+                <a href="http://www.ambiqmicro.com">
+                <img class="footer" src="../resources/ambiqmicro_logo.png" alt="Ambiq Micro"/></a>&nbsp&nbsp Copyright &copy; 2025&nbsp&nbsp<br />
+                This documentation is licensed and distributed under the <a rel="license" href="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>.&nbsp&nbsp<br/>
+            </small>
+        </div>
+    </body>
+</html>
+

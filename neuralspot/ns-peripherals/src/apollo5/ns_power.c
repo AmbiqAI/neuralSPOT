@@ -254,7 +254,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     }
     #endif
 
-    #if defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     //
     // Power off the RSS
     //

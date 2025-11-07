@@ -14,11 +14,13 @@
 
 # *** Apollo510 EVB
 # PLATFORM := apollo510_evb
-# PLATFORM := apollo510b_evb
+PLATFORM := apollo510b_evb
 # PLATFORM := apollo510L_eb
+# PLATFORM := apollo330mP_evb
 # AS_VERSION := R5.3.0
 # AS_VERSION := R5.2.alpha.1
-# AS_VERSION := R5.1.0_rc27
+AS_VERSION := R5.1.0_rc27
+# AS_VERSION := test3
 
 # *** Apollo510 Revb EB
 # PLATFORM := apollo5b_eb_revb

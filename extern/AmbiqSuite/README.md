@@ -1,3 +1,11 @@
+Things to keep in mind
+- ns_core
+- lots of neuralspot per-platform changes and ifdefs
+- auto "manual" merge sometimes gets it wrong. Double check.
+- There is a list of 'just copy' source files, like RTOS.c
+- Explain the src/ dir and why some subdirectories are there (usb? arch?)
+
+
 # AmbiqSuite Stub
 This directory contains pared-down versions of AmbiqSuite - basically, header files, static libraries, and a handful of source files that are not part of the distributions static libs.
 

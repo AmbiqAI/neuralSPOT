@@ -1,0 +1,6 @@
+{
+  "src_rel": "rtos.c",
+  "new_upstream_rel": "boards/apollo330mP_evb/examples/ble/ble_freertos_fit/src/rtos.c",
+  "old_upstream_rel": "boards/apollo510L_eb/examples/ble/ble_freertos_fit/src/rtos.c",
+  "similarity_new": 0.6143606292860024
+}

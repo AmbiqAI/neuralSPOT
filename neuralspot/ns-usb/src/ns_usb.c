@@ -228,7 +228,7 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
         ns_delay_us(1000);
         // ns_lp_printf("NS USB  asked to send %d, sent %d bytes\n", bufsize, bytes_tx);
     }
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_cdc_write_flush();
     // tud_task(); // flush the write buffer
     // ns_lp_printf("NS _USB avail %d\n", tud_cdc_write_available());

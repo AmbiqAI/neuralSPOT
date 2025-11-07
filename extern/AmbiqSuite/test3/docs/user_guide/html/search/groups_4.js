@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['cache_20cache_20control_0',['CACHE - Cache Control',['../group__cachectrl4__ap510L.html',1,'']]],
+  ['cache_20control_1',['CACHE - Cache Control',['../group__cachectrl4__ap510L.html',1,'']]],
+  ['card_20functionality_20for_20sd_20mmc_20emmc_20sdio_2',['Card Functionality for SD/MMC/eMMC/SDIO',['../group__card__ap510L.html',1,'']]],
+  ['card_20host_20for_20sd_20mmc_20emmc_20sdio_3',['Card Host for SD/MMC/eMMC/SDIO',['../group__card__host__ap510L.html',1,'']]],
+  ['charger_20functionality_4',['USB Charger Functionality',['../group__usb__charger__ap510L.html',1,'']]],
+  ['chsc5816_20i2c_20touch_20driver_5',['CHSC5816 - I2C Touch Driver',['../group__devices__chsc5816.html',1,'']]],
+  ['chsc5816_20i2c_20touch_20driver_20apollo510_6',['CHSC5816 - I2C Touch Driver (Apollo510)',['../group__devices__chsc5816__ap5.html',1,'']]],
+  ['circuit_7',['I3C - Improved Inter-Integrated Circuit',['../group__i3c__ap510L.html',1,'']]],
+  ['clkgen_20clock_20generator_8',['CLKGEN Clock Generator',['../group__clkgen4.html',1,'CLKGEN - Clock Generator'],['../group__clkgen4__ap510L.html',1,'CLKGEN - Clock Generator']]],
+  ['clkmgr_20clock_20manager_9',['CLKMGR - Clock Manager',['../group__clkmgr__ap510L.html',1,'']]],
+  ['clock_10',['RTC - Real-Time Clock',['../group__rtc4__ap510L.html',1,'']]],
+  ['clock_20and_20reset_20management_20crm_11',['Clock and Reset Management (CRM)',['../group__crm__ap510L.html',1,'']]],
+  ['clock_20generator_12',['Clock Generator',['../group__clkgen4.html',1,'CLKGEN - Clock Generator'],['../group__clkgen4__ap510L.html',1,'CLKGEN - Clock Generator']]],
+  ['clock_20manager_13',['CLKMGR - Clock Manager',['../group__clkmgr__ap510L.html',1,'']]],
+  ['cmdq_20command_20queue_20functionality_14',['CMDQ - Command Queue Functionality',['../group__cmdq__ap510L.html',1,'']]],
+  ['codes_15',['Status - Global Status Return Codes',['../group__status3__ap510L.html',1,'']]],
+  ['command_20queue_20functionality_16',['CMDQ - Command Queue Functionality',['../group__cmdq__ap510L.html',1,'']]],
+  ['communication_17',['IPC Mailbox - Inter-Processor Communication',['../group__ipc__mbox__ap510L.html',1,'']]],
+  ['comparator_20vcomp_18',['Voltage Comparator (VCOMP)',['../group__vcomp5__ap510L.html',1,'']]],
+  ['control_19',['Control',['../group__cachectrl4__ap510L.html',1,'CACHE - Cache Control'],['../group__mcu__sysctrl__ap510L.html',1,'MCU SYSCTRL - System Control'],['../group__mcuctrl4__ap510L.html',1,'MCUCTRL - MCU Control'],['../group__pwrctrl4__ap510L.html',1,'PWRCTRL - Power Control'],['../group__sysctrl4__ap510L.html',1,'SYSCTRL - System Control']]],
+  ['control_20unit_20',['DCU - Debug Control Unit',['../group__dcu__ap510L.html',1,'']]],
+  ['controller_21',['SDHC host controller',['../group__sdhc__ap510L.html',1,'']]],
+  ['converter_22',['ADC - Analog-to-Digital Converter',['../group__adc4__ap510L.html',1,'']]],
+  ['crm_23',['Clock and Reset Management (CRM)',['../group__crm__ap510L.html',1,'']]],
+  ['crypto_20utility_20functions_24',['Crypto Utility Functions',['../group__crypto__utils.html',1,'']]]
+];

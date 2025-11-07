@@ -247,7 +247,7 @@ def prune_sources(out_root: Path, keep_list: List[str], prog: Progress) -> int:
     prog.log(f"[PRUNE] Removed {removed} files")
     return removed
 
-def mirror_libs(old_port: Path, new_upstream: Path, out_root: Path, report_dir: Path, prog: Progress) -> Dict[str, str]:
+def mirror_libs_old(old_port: Path, new_upstream: Path, out_root: Path, report_dir: Path, prog: Progress) -> Dict[str, str]:
     mapping = {}
     old_lib_root = old_port / "lib"
     out_lib_root = out_root / "lib"
@@ -282,6 +282,185 @@ def mirror_libs(old_port: Path, new_upstream: Path, out_root: Path, report_dir: 
     write_text(report_dir / "libs_mapping.json", json.dumps(mapping, indent=2))
     prog.log("[LIB] Library mirroring complete")
     return mapping
+
+def mirror_libs(old_port: Path, new_upstream: Path, out_root: Path, report_dir: Path, prog: Progress) -> Dict[str, str]:
+    """
+    Build /lib layout from the NEW SDK (not the old-port), using ONLY .a and .lib:
+
+      /lib/
+        <platform>/                      # only if boards/<platform>_(evb|eb) exists
+          libam_hal.a        (if found)
+          libam_hal.lib      (if found)
+          /evb/              (create only if any boards/<platform>_evb* exist)
+            libam_bsp.a      (if found)
+            libam_bsp.lib    (if found)
+          /eb/               (create only if any boards/<platform>_eb* exist)
+            libam_bsp.a      (if found)
+            libam_bsp.lib    (if found)
+    """
+    mapping: Dict[str, str] = {}
+    out_lib_root = out_root / "lib"
+    out_lib_root.mkdir(parents=True, exist_ok=True)
+
+    # ---------------- helpers ----------------
+    def _posix(p: Path) -> str:
+        return p.as_posix().lower()
+
+    def _record(dst_rel: str, src: Optional[Path], note: str = ""):
+        mapping[dst_rel] = relpath(src, new_upstream) if src else f"NOT_FOUND{(' ' + note) if note else ''}"
+        if src:
+            prog.log(f"[LIB] {dst_rel}  <=  {relpath(src, new_upstream)}")
+        else:
+            prog.log(f"[LIB] {dst_rel}  !!  NOT FOUND {note}")
+
+    def _copy_as(src: Optional[Path], dst: Path, dst_rel: str):
+        if not src:
+            return
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        _record(dst_rel, src)
+
+    def _rglob_many(roots: List[Path], patterns: List[str]) -> List[Path]:
+        hits: List[Path] = []
+        for r in roots:
+            if not r or not r.exists():
+                continue
+            for pat in patterns:
+                hits.extend(r.rglob(pat))
+        return hits
+
+    def _best_for_platform(cands: List[Path], platform: str) -> Optional[Path]:
+        plat = platform.lower()
+        if not cands:
+            return None
+        preferred = [c for c in cands if any(key in _posix(c) for key in
+                                             [f"/mcu/{plat}/", f"/devices/{plat}/", f"/lib/{plat}/", f"/{plat}/"])]
+        return preferred[0] if preferred else cands[0]
+
+    # Recognize common filename variants; we normalize names on output.
+    HAL_A_PATTERNS   = ["libam_hal.a", "libam_hal_a.a", "libam-hal.a", "libam-hal_a.a"]
+    HAL_LIB_PATTERNS = ["libam_hal.lib", "am_hal.lib", "libam-hal.lib"]
+
+    BSP_A_PATTERNS   = ["libam_bsp.a", "libam_bsp_a.a", "libam-bsp.a", "libam-bsp_a.a", "am_bsp.a"]
+    BSP_LIB_PATTERNS = ["libam_bsp.lib", "am_bsp.lib", "libam-bsp.lib"]
+
+    # ---------------- discover platforms strictly from boards/ ----------------
+    boards_root = new_upstream / "boards"
+    platforms: Dict[str, Dict[str, List[Path]]] = {}
+    if boards_root.exists():
+        for bd in boards_root.iterdir():
+            if not bd.is_dir():
+                continue
+            name = bd.name.lower()
+            m = re.match(r"([a-z0-9]+)_(evb|eb)\b", name)
+            if not m:
+                continue
+            plat, btype = m.group(1), m.group(2)  # 'evb' or 'eb'
+            platforms.setdefault(plat, {"evb": [], "eb": []})
+            platforms[plat][btype].append(bd)
+
+    # Keep only platforms that actually have at least one board dir
+    platforms = {p: g for p, g in platforms.items() if g["evb"] or g["eb"]}
+
+    if not platforms:
+        prog.log("[LIB] WARNING: No platforms discovered under boards/. Nothing to copy.")
+        write_text(report_dir / "libs_mapping.json", json.dumps(mapping, indent=2))
+        return mapping
+
+    # ---------------- collect & place libs ----------------
+    prog.log(f"[LIB] Organizing libraries for {len(platforms)} platform(s) from NEW upstream")
+    hal_search_roots = [new_upstream / "lib", new_upstream / "mcu", new_upstream / "devices", new_upstream]
+
+    for plat, groups in sorted(platforms.items()):
+        if not (groups["evb"] or groups["eb"]):
+            continue
+
+        plat_dir = out_lib_root / plat
+        plat_dir.mkdir(parents=True, exist_ok=True)
+
+        # --- HAL (.a / .lib) ---
+        hal_a_src   = _best_for_platform(_rglob_many(hal_search_roots, HAL_A_PATTERNS),   plat)
+        hal_lib_src = _best_for_platform(_rglob_many(hal_search_roots, HAL_LIB_PATTERNS), plat)
+
+        _copy_as(hal_a_src,   plat_dir / "libam_hal.a",   f"{plat}/libam_hal.a")
+        _copy_as(hal_lib_src, plat_dir / "libam_hal.lib", f"{plat}/libam_hal.lib")
+
+        if not hal_a_src:   _record(f"{plat}/libam_hal.a",   None, "(HAL .a)")
+        if not hal_lib_src: _record(f"{plat}/libam_hal.lib", None, "(HAL .lib)")
+
+        # --- BSP per existing board family only (.a / .lib) ---
+        for btype in ("evb", "eb"):
+            boards = groups.get(btype, [])
+            if not boards:
+                # Do NOT create the subdir or mapping entries if this board type doesn't exist
+                continue
+
+            (plat_dir / btype).mkdir(parents=True, exist_ok=True)
+
+            bsp_a_hits: List[Path]   = []
+            bsp_lib_hits: List[Path] = []
+            for bd in boards:
+                bsp_a_hits   += _rglob_many([bd], BSP_A_PATTERNS)
+                bsp_lib_hits += _rglob_many([bd], BSP_LIB_PATTERNS)
+
+            bsp_a_src   = bsp_a_hits[0] if bsp_a_hits else None
+            bsp_lib_src = bsp_lib_hits[0] if bsp_lib_hits else None
+
+            _copy_as(bsp_a_src,   plat_dir / btype / "libam_bsp.a",   f"{plat}/{btype}/libam_bsp.a")
+            _copy_as(bsp_lib_src, plat_dir / btype / "libam_bsp.lib", f"{plat}/{btype}/libam_bsp.lib")
+
+            if not bsp_a_src:   _record(f"{plat}/{btype}/libam_bsp.a",   None, f"(BSP .a; searched {len(boards)} {btype} board(s))")
+            if not bsp_lib_src: _record(f"{plat}/{btype}/libam_bsp.lib", None, f"(BSP .lib; searched {len(boards)} {btype} board(s))")
+
+    write_text(report_dir / "libs_mapping.json", json.dumps(mapping, indent=2))
+    prog.log("[LIB] Library organization complete")
+    return mapping
+
+def force_conflict_text(local: str, remote: str) -> str:
+    """Wrap full LOCAL vs REMOTE contents in conflict markers to force manual review."""
+    parts = []
+    parts.append("<<<<<<< LOCAL\n")
+    parts.append(local if local.endswith("\n") else local + "\n")
+    parts.append("=======\n")
+    parts.append(remote if remote.endswith("\n") else remote + "\n")
+    parts.append(">>>>>>> REMOTE\n")
+    return "".join(parts)
+
+# --- Header shadowing helpers ---
+HEADER_EXTS = {".h", ".hpp"}
+
+def _safe_rename_with_suffix(p: Path, suffix: str) -> Path:
+    """Rename p to p.name + suffix; if taken, append a numeric suffix."""
+    if p.name.endswith(suffix):
+        return p
+    candidate = p.with_name(p.name + suffix)
+    n = 1
+    while candidate.exists():
+        candidate = p.with_name(p.name + f"{suffix}.{n}")
+        n += 1
+    p.rename(candidate)
+    return candidate
+
+def maybe_shadow_upstream_header(src_rel: str, new_up_rel: Optional[str], out_root: Path, prog: Progress) -> Optional[str]:
+    """
+    If the upstream NEW header exists in the output tree and this file is a header we just wrote under /src,
+    rename the upstream header by appending '.donotcompile'. Return the new relative path if renamed.
+    """
+    if not new_up_rel:
+        return None
+    upstream_in_out = out_root / new_up_rel
+    if not upstream_in_out.exists() or not upstream_in_out.is_file():
+        return None
+    if upstream_in_out.suffix.lower() not in HEADER_EXTS:
+        return None
+    # Don't rename if it's exactly the /src output we just wrote.
+    if relpath(upstream_in_out, out_root) == f"src/{src_rel}":
+        return None
+
+    newp = _safe_rename_with_suffix(upstream_in_out, ".donotcompile")
+    prog.log(f"[HDR] Shadowed upstream header: {relpath(upstream_in_out, out_root)} -> {relpath(newp, out_root)}")
+    return relpath(newp, out_root)
+
 
 def ensure_clean_dir(p: Path):
     if p.exists():
@@ -398,91 +577,165 @@ def main():
         out_path = src_root_out / src_rel
         out_path.parent.mkdir(parents=True, exist_ok=True)
 
-        if not new_cand:
-            write_text(out_path, local)
-            decisions.append(FileDecision(src_rel, None, old_up_rel, 0.0, "copied_local", "No upstream match found", False))
-            prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_local (no upstream match)")
-            continue
+        try:
+            if not new_cand:
+                write_text(out_path, local)
+                decisions.append(FileDecision(src_rel, None, old_up_rel, 0.0, "copied_local", "No upstream match found", False))
+                prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_local (no upstream match)")
+                continue
 
-        remote = read_text(new_cand)
-        # Short-circuit: if local == old upstream base (no local mods), copy REMOTE as-is.
-        if old_upstream and base_content:
-            if normalize_for_compare(local) == normalize_for_compare(base_content):
-                write_text(out_path, remote)
-                decisions.append(FileDecision(src_rel, new_up_rel, old_up_rel, new_sim,
-                                              "copied_remote_unmodified_local",
-                                              "Local identical to old upstream; use new upstream verbatim",
-                                              False))
-                prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_remote (local==old_upstream)")
+            remote = read_text(new_cand)
+            # Short-circuit: if local == old upstream base (no local mods), copy REMOTE as-is.
+            if old_upstream and base_content:
+                # --- NEW: if upstream OLD and NEW are effectively identical, preserve LOCAL as-is ---
+                if normalize_for_compare(remote) == normalize_for_compare(base_content):
+                    write_text(out_path, local)
+                    decisions.append(FileDecision(
+                        src_rel, new_up_rel, old_up_rel, new_sim,
+                        "copied_local_upstream_unchanged",
+                        "Old and new upstream match; keep local modifications verbatim",
+                        False
+                    ))
+                    prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_local (upstream unchanged)")
+                    map_entry = {
+                        "src_rel": src_rel,
+                        "new_upstream_rel": new_up_rel,
+                        "old_upstream_rel": old_up_rel,
+                        "similarity_new": new_sim
+                    }
+                    write_text((report_dir / "src_map" / f"{src_rel.replace('/', '__')}.json"),
+                            json.dumps(map_entry, indent=2))
+                    continue
+
+                # Existing short-circuit: if LOCAL == OLD base (no local mods), use NEW upstream verbatim.
+                if normalize_for_compare(local) == normalize_for_compare(base_content):
+                    write_text(out_path, remote)
+                    decisions.append(FileDecision(
+                        src_rel, new_up_rel, old_up_rel, new_sim,
+                        "copied_remote_unmodified_local",
+                        "Local identical to old upstream; use new upstream verbatim",
+                        False
+                    ))
+                    prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_remote (local==old_upstream)")
+                    map_entry = {
+                        "src_rel": src_rel,
+                        "new_upstream_rel": new_up_rel,
+                        "old_upstream_rel": old_up_rel,
+                        "similarity_new": new_sim
+                    }
+                    write_text((report_dir / "src_map" / f"{src_rel.replace('/', '__')}.json"),
+                            json.dumps(map_entry, indent=2))
+                    continue
+
+                # Otherwise: attempt a 3-way merge, but ALWAYS force manual review.
+                mr = merge_3way(base_content, local, remote)
+
+                # If merge logic already detected conflicts, keep its result with markers.
+                if mr.had_conflicts:
+                    write_text(out_path, mr.merged)
+                    decisions.append(FileDecision(
+                        src_rel, new_up_rel, old_up_rel, new_sim,
+                        "merged_conflict",
+                        "3-way merge produced conflicts; manual resolution required",
+                        True
+                    ))
+                    write_text((report_dir / "diffs" / f"{src_rel.replace('/', '__')}.diff"),
+                            unified_diff(local, mr.merged, f"LOCAL:{src_rel}", f"MERGED:{src_rel}"))
+                    prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> MERGED* (sim {new_sim:.3f})")
+                else:
+                    # --- NEW: treat 'clean' 3-way merges as conflicts anyway (rare corner cases) ---
+                    forced = force_conflict_text(local, remote)
+                    write_text(out_path, forced)
+                    decisions.append(FileDecision(
+                        src_rel, new_up_rel, old_up_rel, new_sim,
+                        "forced_conflict_noautomerge",
+                        "3-way merge was 'clean' but policy forces manual review",
+                        True
+                    ))
+                    # Provide a helpful diff between LOCAL and REMOTE for the reviewer
+                    write_text((report_dir / "diffs" / f"{src_rel.replace('/', '__')}.diff"),
+                            unified_diff(local, remote, f"LOCAL:{src_rel}", f"REMOTE:{new_up_rel}"))
+                    prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> FORCED_CONFLICT (sim {new_sim:.3f})")
+
+                # Save src mapping entry
                 map_entry = {
                     "src_rel": src_rel,
                     "new_upstream_rel": new_up_rel,
                     "old_upstream_rel": old_up_rel,
                     "similarity_new": new_sim
                 }
-                write_text((report_dir / "src_map" / f"{src_rel.replace('/', '__')}.json"), json.dumps(map_entry, indent=2))
+                write_text((report_dir / "src_map" / f"{src_rel.replace('/', '__')}.json"),
+                        json.dumps(map_entry, indent=2))
                 continue
 
-        if old_upstream and base_content:
-            mr = merge_3way(base_content, local, remote)
-            write_text(out_path, mr.merged)
-            action = "merged_conflict" if mr.had_conflicts else "merged"
-            decisions.append(FileDecision(src_rel, new_up_rel, old_up_rel, new_sim, action, "3-way merge", mr.had_conflicts))
-            write_text((report_dir / "diffs" / f"{src_rel.replace('/', '__')}.diff"),
-                       unified_diff(local, mr.merged, f"LOCAL:{src_rel}", f"MERGED:{src_rel}"))
-            status = "MERGED*" if mr.had_conflicts else "MERGED"
-            prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> {status} (sim {new_sim:.3f})")
-        else:
-            if new_sim >= 0.98:
-                write_text(out_path, remote)
-                decisions.append(FileDecision(src_rel, new_up_rel, None, new_sim, "copied_remote", "Remote is ~identical", False))
-                prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_remote (sim {new_sim:.3f})")
-            else:
-                mr = merge_3way(remote, local, remote)
+            if old_upstream and base_content:
+                mr = merge_3way(base_content, local, remote)
                 write_text(out_path, mr.merged)
-                action = "conflict" if mr.had_conflicts else "copied_local"
-                notes = "2-way fallback (no base); conflicts mark local vs remote differences"
-                decisions.append(FileDecision(src_rel, new_up_rel, None, new_sim, action, notes, mr.had_conflicts))
+                action = "merged_conflict" if mr.had_conflicts else "merged"
+                decisions.append(FileDecision(src_rel, new_up_rel, old_up_rel, new_sim, action, "3-way merge", mr.had_conflicts))
                 write_text((report_dir / "diffs" / f"{src_rel.replace('/', '__')}.diff"),
-                           unified_diff(remote, mr.merged, f"REMOTE:{new_up_rel}", f"OUT:{src_rel}"))
-                status = "CONFLICT" if mr.had_conflicts else "copied_local"
+                        unified_diff(local, mr.merged, f"LOCAL:{src_rel}", f"MERGED:{src_rel}"))
+                status = "MERGED*" if mr.had_conflicts else "MERGED"
                 prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> {status} (sim {new_sim:.3f})")
+            else:
+                if new_sim >= 0.98:
+                    write_text(out_path, remote)
+                    decisions.append(FileDecision(src_rel, new_up_rel, None, new_sim, "copied_remote", "Remote is ~identical", False))
+                    prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> copied_remote (sim {new_sim:.3f})")
+                else:
+                    mr = merge_3way(remote, local, remote)
+                    write_text(out_path, mr.merged)
+                    action = "conflict" if mr.had_conflicts else "copied_local"
+                    notes = "2-way fallback (no base); conflicts mark local vs remote differences"
+                    decisions.append(FileDecision(src_rel, new_up_rel, None, new_sim, action, notes, mr.had_conflicts))
+                    write_text((report_dir / "diffs" / f"{src_rel.replace('/', '__')}.diff"),
+                            unified_diff(remote, mr.merged, f"REMOTE:{new_up_rel}", f"OUT:{src_rel}"))
+                    status = "CONFLICT" if mr.had_conflicts else "copied_local"
+                    prog.step("SRC", i, len(src_files), tail=f"{src_rel} -> {status} (sim {new_sim:.3f})")
 
-        # Save src mapping
-        map_entry = {
-            "src_rel": src_rel,
-            "new_upstream_rel": new_up_rel,
-            "old_upstream_rel": old_up_rel,
-            "similarity_new": new_sim
-        }
-        write_text((report_dir / "src_map" / f"{src_rel.replace('/', '__')}.json"), json.dumps(map_entry, indent=2))
+            # Save src mapping
+            map_entry = {
+                "src_rel": src_rel,
+                "new_upstream_rel": new_up_rel,
+                "old_upstream_rel": old_up_rel,
+                "similarity_new": new_sim
+            }
+            write_text((report_dir / "src_map" / f"{src_rel.replace('/', '__')}.json"), json.dumps(map_entry, indent=2))
 
-    # Place a fresh copy of new_upstream's third_party/cordio into out (ensures sources are present)
-    cordio_new = new_upstream / "third_party" / "cordio"
-    if cordio_new.exists():
-        dst = out_root / "third_party" / "cordio"
-        if dst.exists():
-            prog.log("[CORDIO] Replacing existing third_party/cordio with upstream copy")
-            shutil.rmtree(dst)
+        # Place a fresh copy of new_upstream's third_party/cordio into out (ensures sources are present)
+        cordio_new = new_upstream / "third_party" / "cordio"
+        if cordio_new.exists():
+            dst = out_root / "third_party" / "cordio"
+            if dst.exists():
+                prog.log("[CORDIO] Replacing existing third_party/cordio with upstream copy")
+                shutil.rmtree(dst)
+            else:
+                prog.log("[CORDIO] Copying third_party/cordio from upstream")
+            shutil.copytree(cordio_new, dst)
+            prog.log("[CORDIO] Copy complete")
         else:
-            prog.log("[CORDIO] Copying third_party/cordio from upstream")
-        shutil.copytree(cordio_new, dst)
-        prog.log("[CORDIO] Copy complete")
-    else:
-        prog.log("[CORDIO] WARNING: No third_party/cordio found in new upstream")
+            prog.log("[CORDIO] WARNING: No third_party/cordio found in new upstream")
 
-    # Prune sources (keep src/** and third_party/cordio/**)
-    removed = prune_sources(out_root, keep_list, prog)
+        # Prune sources (keep src/** and third_party/cordio/**)
+        removed = prune_sources(out_root, keep_list, prog)
 
-    # Write decision report
-    report = [asdict(d) for d in decisions]
-    write_text(report_dir / "decisions.json", json.dumps(report, indent=2))
+        # Write decision report
+        report = [asdict(d) for d in decisions]
+        write_text(report_dir / "decisions.json", json.dumps(report, indent=2))
 
-    # Also emit a Markdown summary
-    lines = ["# Integration Report\n", "| src_rel | upstream_new_rel | upstream_old_rel | sim_new | action | conflicts | notes |", "|---|---|---|---:|---|---:|---|"]
-    for d in decisions:
-        lines.append(f"| `{d.src_rel}` | `{d.upstream_new_rel or ''}` | `{d.upstream_old_rel or ''}` | {d.similarity_new:.3f} | {d.action} | {int(d.had_conflicts)} | {d.notes} |")
-    write_text(report_dir / "decisions.md", "\n".join(lines))
+        # Also emit a Markdown summary
+        lines = ["# Integration Report\n", "| src_rel | upstream_new_rel | upstream_old_rel | sim_new | action | conflicts | notes |", "|---|---|---|---:|---|---:|---|"]
+        for d in decisions:
+            lines.append(f"| `{d.src_rel}` | `{d.upstream_new_rel or ''}` | `{d.upstream_old_rel or ''}` | {d.similarity_new:.3f} | {d.action} | {int(d.had_conflicts)} | {d.notes} |")
+        write_text(report_dir / "decisions.md", "\n".join(lines))
+    finally:
+        # If this local file is a header, shadow the upstream header we matched (if any)
+        if src.suffix.lower() in HEADER_EXTS:
+            renamed_rel = maybe_shadow_upstream_header(src_rel, new_up_rel, out_root, prog)
+            if renamed_rel and decisions and decisions[-1].src_rel == src_rel:
+                # Annotate the decision so reviewers know we renamed the upstream header
+                note = decisions[-1].notes or ""
+                decisions[-1].notes = (note + ("" if not note else "; ") + f"upstream header renamed to {renamed_rel}").strip()
 
     prog.log("-------------------------------------")
     prog.log("Done.")

@@ -1,0 +1,39 @@
+;******************************************************************************
+;
+; Scatter file for Keil linker configuration.
+;
+;******************************************************************************
+LR_1 0x00410000
+{
+    MCU_MRAM 0x00410000 0x001F0000
+    {
+        *.o (RESET, +First)
+        * (+RO)
+    }
+
+    ;MCU_TCM dollar{rw_base} dollar{rw_size}
+    ;The next line is a temporary workaround while FPGA doesn't have SSRAM. The above line is actually correct (replace dollar with the dollar sign)
+    MCU_TCM 0x20000000 (0x0001E000-0x80)
+    {
+        * (+RW, +ZI)
+        * (.dtcm_text)
+    }
+
+    ARM_LIB_HEAP  0x2001E100 EMPTY  0x00000100
+    {   ; Reserve empty region for heap
+    }
+
+    ;SHARED_SRAM dollar{shared_base} dollar{shared_size}
+    ;The next line is a temporary workaround while FPGA doesn't have SSRAM. The above line is actually correct (replace dollar with the dollar sign)
+    SHARED_SRAM 0x2001E000 0x00000100
+    {
+        * (RESOURCE_TABLE, +First)
+        * (SHARED_RW)
+    }
+
+    ARM_LIB_STACK 0x20020000 EMPTY - 0x00001E00
+    {   ; Reserve empty region for stack
+    }
+
+
+}

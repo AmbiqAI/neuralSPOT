@@ -1,0 +1,6 @@
+{
+  "src_rel": "queue.c",
+  "new_upstream_rel": "third_party/FreeRTOSv10.5.1/Source/queue.c",
+  "old_upstream_rel": "third_party/FreeRTOSv10.5.1/Source/queue.c",
+  "similarity_new": 1.0
+}

@@ -1,0 +1,15 @@
+
+Apollo330P SBL Updates
+
+SBL v1.8 
+- Original release for Apollo330P
+
+SBL v1.12
+- CM4 external image information in INFO1-MRAM is cleared during Ambiq MRAM recovery 
+- If SWO pin is configured to other than the default pin 28, it is was not de-configured when SBL exited
+- Fixed a hard fault condition that could occur if no image is provided during wired OEM MRAM Recovery 
+- Wired MRAM recovery now reports the correct SSRAM size as a response for the HELLO message
+- When a OEM MRAM recovery retry occurred, the Ambiq recovery count was being incremented incorrectly
+
+SBL v1.14
+- Fix for last byte being chopped from ACK of the reset command on UART interface during SBL Wired update

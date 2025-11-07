@@ -42,6 +42,7 @@ TARGETS := \
   apollo510_evb \
   apollo510L_eb \
   apollo510b_evb \
+  apollo330mP_evb \
 
 # Where “nest” mode will copy source files
 NESTDIR := nest
@@ -64,7 +65,9 @@ endif
 # PLATFORM is in the form “<BOARD>_<EVB>” (e.g. apollo4p_blue_evb)
 # Split it into BOARD and EVB
 BOARD      := $(firstword $(subst _, ,$(PLATFORM)))
-
+ifeq ($(BOARD),apollo330mP)
+  BOARD := apollo330P
+endif
 # # Pre-R5.3.0 SDKs put code under “apollo5b”; newer ones use “apollo510”
 # ifneq ($(AS_VERSION),R5.3.0)
 #   ifneq ($(filter apollo510,$(BOARD)),)
@@ -92,7 +95,9 @@ BINDIR      := $(BINDIRROOT)/$(BOARDROOT)_$(EVB)/$(TOOLCHAIN)
 # 3) ARCHITECTURE & CPU/FPU BOOTSTRAP
 # -----------------------------------------------------------------------------
 
-ifeq ($(findstring apollo3,$(BOARD)),apollo3)
+ifeq ($(findstring apollo330,$(BOARD)),apollo330)
+  ARCH := apollo330
+else ifeq ($(findstring apollo3,$(BOARD)),apollo3)
   ARCH := apollo3
 else ifeq ($(findstring apollo4,$(BOARD)),apollo4)
   ARCH := apollo4
@@ -103,7 +108,11 @@ else
 endif
 
 # Core CPU & FPU settings by ARCH
-ifeq ($(ARCH),apollo5)
+ifeq ($(ARCH),apollo330)
+  CPU         := cortex-m55
+  ARMLINK_CPU := Cortex-M55
+  ARMLINK_FPU := FPv5_D16
+else ifeq ($(ARCH),apollo5)
   CPU         := cortex-m55
   ARMLINK_CPU := Cortex-M55
   ARMLINK_FPU := FPv5_D16
@@ -175,7 +184,7 @@ else
 endif
 
 # USB_PRESENT: only certain PARTs support USB
-ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510 apollo510L apollo510b),$(PART))
+ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510 apollo510L apollo510b apollo330mP),$(PART))
   USB_PRESENT := 1
 else
   USB_PRESENT := 0
@@ -345,27 +354,27 @@ endif
 # 10) SUMMARY PRINT
 # -----------------------------------------------------------------------------
 
-# $(info ==== neuralspot_config.mk ===)
-# $(info TOOLCHAIN:      $(TOOLCHAIN))
-# $(info COMPILERNAME:   $(COMPILERNAME))
-# $(info PLATFORM:       $(PLATFORM).)
-# $(info BOARD:          $(BOARD).)
-# $(info BOARDROOT:      $(BOARDROOT).)
-# $(info PART:           $(PART).)
-# $(info EVB:            $(EVB).)
-# $(info ARCH:           $(ARCH).)
-# $(info CPU:            $(CPU).)
-# $(info TARGET:         $(TARGET).)
-# $(info EXAMPLE:        $(EXAMPLE).)
-# $(info FPU_FLAG:       $(FPU_FLAG).)
-# $(info BINDIR:         $(BINDIR).)
-# $(info NESTDIR:        $(NESTDIR).)
-# $(info BINDIRROOT:     $(BINDIRROOT).)
-# $(info BLE_SUPPORTED:  $(BLE_SUPPORTED))
-# $(info USB_PRESENT:    $(USB_PRESENT))
-# $(info TF_VERSION:     $(TF_VERSION))
-# $(info AS_VERSION:     $(AS_VERSION))
-# $(info --------------------------------)
+$(info ==== neuralspot_config.mk ===)
+$(info TOOLCHAIN:      $(TOOLCHAIN))
+$(info COMPILERNAME:   $(COMPILERNAME))
+$(info PLATFORM:       $(PLATFORM).)
+$(info BOARD:          $(BOARD).)
+$(info BOARDROOT:      $(BOARDROOT).)
+$(info PART:           $(PART).)
+$(info EVB:            $(EVB).)
+$(info ARCH:           $(ARCH).)
+$(info CPU:            $(CPU).)
+$(info TARGET:         $(TARGET).)
+$(info EXAMPLE:        $(EXAMPLE).)
+$(info FPU_FLAG:       $(FPU_FLAG).)
+$(info BINDIR:         $(BINDIR).)
+$(info NESTDIR:        $(NESTDIR).)
+$(info BINDIRROOT:     $(BINDIRROOT).)
+$(info BLE_SUPPORTED:  $(BLE_SUPPORTED))
+$(info USB_PRESENT:    $(USB_PRESENT))
+$(info TF_VERSION:     $(TF_VERSION))
+$(info AS_VERSION:     $(AS_VERSION))
+$(info --------------------------------)
 
 
 # End of neuralspot_config.mk

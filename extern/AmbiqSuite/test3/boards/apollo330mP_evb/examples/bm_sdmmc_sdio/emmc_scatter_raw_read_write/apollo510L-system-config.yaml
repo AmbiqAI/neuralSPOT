@@ -1,0 +1,25 @@
+#******************************************************************************
+#
+# Default memory map for Apollo510L
+#
+#******************************************************************************
+MemorySections:
+    MCU_MRAM:
+        start:  0x00410000
+        end:    0x005FFFFF
+
+    MCU_TCM:
+        start:  0x20000000
+        end:    0x20036FFF
+
+    SHARED_SRAM:
+        start:  0x20080000
+        end:    0x2023FFFF
+
+    STACK:
+        start:  0x20038000
+        end:    0x2003FFFF
+
+    HEAP:
+        start:  0x20037000
+        end:    0x20037FFF

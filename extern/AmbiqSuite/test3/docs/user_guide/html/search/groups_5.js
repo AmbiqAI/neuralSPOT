@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['dbi_20driver_0',['Novatek DC DBI Driver',['../group__devices__dc__dbi__novatek.html',1,'']]],
+  ['dc_20dbi_20driver_1',['Novatek DC DBI Driver',['../group__devices__dc__dbi__novatek.html',1,'']]],
+  ['dc_20dsi_20driver_2',['DC DSI Driver',['../group__devices__dc__dsi__novatek.html',1,'Novatek DC DSI Driver'],['../group__devices__dc__dsi__raydium.html',1,'Raydium DC DSI Driver']]],
+  ['dc_20jdi_20driver_3',['SHARP DC JDI Driver',['../group__devices__dc__jdi__sharp.html',1,'']]],
+  ['dc_20xspi_20driver_4',['Raydium DC xSPI Driver',['../group__devices__dc__xspi__raydium.html',1,'']]],
+  ['dcu_20debug_20control_20unit_5',['DCU - Debug Control Unit',['../group__dcu__ap510L.html',1,'']]],
+  ['debug_20control_20unit_6',['DCU - Debug Control Unit',['../group__dcu__ap510L.html',1,'']]],
+  ['debug_20functionality_7',['General Debug Functionality',['../group__debug__ap510L.html',1,'']]],
+  ['debug_20utility_20functions_8',['Debug Utility Functions',['../group__debug__utils.html',1,'']]],
+  ['delay_20utility_20functions_9',['Delay Utility Functions',['../group__delay__utils.html',1,'']]],
+  ['density_20modulation_10',['PDM - Pulse Density Modulation',['../group__pdm__ap510L.html',1,'']]],
+  ['device_20driver_11',['Device Driver',['../group__devices__510L__radio.html',1,'Apollo510L Radio Device Driver'],['../group__devices__button.html',1,'Button Device Driver'],['../group__devices__mb85rc256v.html',1,'Fujitsu MB85RC256V Device Driver']]],
+  ['devices_12',['devices',['../group__devices.html',1,'']]],
+  ['devices_20generic_20driver_13',['Devices Generic Driver',['../group__devices__display__generic.html',1,'Display Devices Generic Driver'],['../group__devices__led.html',1,'LED Devices Generic Driver']]],
+  ['digital_20converter_14',['ADC - Analog-to-Digital Converter',['../group__adc4__ap510L.html',1,'']]],
+  ['display_20devices_20generic_20driver_15',['Display Devices Generic Driver',['../group__devices__display__generic.html',1,'']]],
+  ['display_20driver_16',['Display Driver',['../group__devices__mspi__raydium.html',1,'Raydium MSPI Display Driver'],['../group__devices__mspi__rm67162.html',1,'RM67162 MSPI Display Driver']]],
+  ['driver_17',['Driver',['../group__devices__510L__radio.html',1,'Apollo510L Radio Device Driver'],['../group__devices__mspi__psram__aps12804o.html',1,'APS12804O MSPI PSRAM Driver'],['../group__devices__mspi__psram__aps12808l.html',1,'APS12808L MSPI PSRAM Driver'],['../group__devices__mspi__psram__aps25616ba__1p2v.html',1,'APS25616BA MSPI PSRAM Driver'],['../group__devices__mspi__psram__aps25616n.html',1,'APS25616N MSPI PSRAM Driver'],['../group__devices__mspi__psram__aps6404l.html',1,'APS6404L MSPI PSRAM Driver'],['../group__devices__mspi__atxp032.html',1,'ATXP032 MSPI Flash Driver'],['../group__devices__button.html',1,'Button Device Driver'],['../group__devices__chsc5816.html',1,'CHSC5816 - I2C Touch Driver'],['../group__devices__display__generic.html',1,'Display Devices Generic Driver'],['../group__devices__mspi__ds35x1ga.html',1,'DS35X1GA MSPI NAND Driver'],['../group__devices__mb85rc256v.html',1,'Fujitsu MB85RC256V Device Driver'],['../group__devices__spiflash.html',1,'Generic SPI Flash Driver'],['../group__devices__spipsram.html',1,'Generic SPI PSRAM Driver'],['../group__devices__mspi__is25wx064.html',1,'IS25WX064 MSPI Flash Driver'],['../group__devices__led.html',1,'LED Devices Generic Driver'],['../group__devices__i3c__lps22hh.html',1,'LPS22HH I3C Pressure/Temperature Sensor Driver'],['../group__devices__i3c__lsm6dso.html',1,'LSM6DSO I3C IMU Sensor Driver'],['../group__devices__i3c__mb85rc1mt.html',1,'MB85RC1MT I3C FRAM Memory Driver'],['../group__devices__dc__dbi__novatek.html',1,'Novatek DC DBI Driver'],['../group__devices__dc__dsi__novatek.html',1,'Novatek DC DSI Driver'],['../group__devices__dc__dsi__raydium.html',1,'Raydium DC DSI Driver'],['../group__devices__dc__xspi__raydium.html',1,'Raydium DC xSPI Driver'],['../group__devices__mspi__raydium.html',1,'Raydium MSPI Display Driver'],['../group__devices__mspi__rm67162.html',1,'RM67162 MSPI Display Driver'],['../group__devices__sdio__rs9116.html',1,'RS9116 SDIO WiFi Driver'],['../group__devices__dc__jdi__sharp.html',1,'SHARP DC JDI Driver'],['../group__devices__ssm6515.html',1,'SSM6515 I2C Audio Amplifier Driver'],['../group__devices__tas2560.html',1,'TAS2560 I2C Audio Amplifier Driver'],['../group__devices__tma525.html',1,'TMA525 - I2C Touch Driver'],['../group__devices__mspi__psram__w958d6nw.html',1,'W958D6NW MSPI PSRAM Driver']]],
+  ['driver_20apollo510_18',['CHSC5816 - I2C Touch Driver (Apollo510)',['../group__devices__chsc5816__ap5.html',1,'']]],
+  ['ds35x1ga_20mspi_20nand_20driver_19',['DS35X1GA MSPI NAND Driver',['../group__devices__mspi__ds35x1ga.html',1,'']]],
+  ['dsi_20driver_20',['DSI Driver',['../group__devices__dc__dsi__novatek.html',1,'Novatek DC DSI Driver'],['../group__devices__dc__dsi__raydium.html',1,'Raydium DC DSI Driver']]]
+];

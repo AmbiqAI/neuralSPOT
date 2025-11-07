@@ -120,7 +120,7 @@ am_devices_mspi_psram_config_t MSPI_PSRAM_HexCE1MSPIConfig =
     .ui32ScramblingEndAddr    = 0,
 };
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 am_hal_mspi_cpu_read_burst_t sCPURQCFG =
 {
     .eGQArbBais                         = AM_HAL_MSPI_GQARB_2_1_BAIS,

@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['valid_5faddress_5frange_0',['valid_address_range',['../structam__hal__bootrom__helper__struct.html#ab72f51f68f9e7d4bea721ce027afdd89',1,'am_hal_bootrom_helper_struct']]],
+  ['valid_5fpmu_5fcounters_1',['VALID_PMU_COUNTERS',['../group__pmu__utils.html#ga8d499e5db29dc57ec6c3dd822f175c84',1,'am_util_pmu.h']]],
+  ['valid_5fpmu_5fintenset_2',['VALID_PMU_INTENSET',['../group__pmu__utils.html#gafabe3e006cb696565240a30048d672d6',1,'am_util_pmu.h']]],
+  ['valid_5fpmu_5fovsclrs_3',['VALID_PMU_OVSCLRS',['../group__pmu__utils.html#gae9bfe920278adbe613c4bd4c9887be5e',1,'am_util_pmu.h']]],
+  ['validate_5ftransaction_4',['validate_transaction',['../group__iom4__ap510L.html#gaa26e55a3825c9d0085fa0ac7beea049a',1,'am_hal_iom.c']]],
+  ['value_5',['VALUE',['../structJEDEC__Type.html#aa584675b2e1a38234bbb20b147124e1a',1,'JEDEC_Type']]],
+  ['value_6',['value',['../structam__hal__cmdq__entry__t.html#abda5fc10aee39c6ac5ff35238b2a7772',1,'am_hal_cmdq_entry_t']]],
+  ['vcomp_7',['Voltage Comparator (VCOMP)',['../group__vcomp5__ap510L.html',1,'']]],
+  ['vddc_5fto_5fvddclv_5fand_5fvdds_5fto_5fvddf_5fshort_8',['vddc_to_vddclv_and_vdds_to_vddf_short',['../group__pwrctrl4__ap510L.html#ga00ec301aee9cf955601dd5d213473cd5',1,'am_hal_pwrctrl.h']]],
+  ['vddc_5fvddf_5ftempco_5fthreshold_9',['VDDC_VDDF_TEMPCO_THRESHOLD',['../group__pwrctrl4__ap510L.html#gaebd94254c091c78bbf3db67d27aa2055',1,'am_hal_pwrctrl.h']]],
+  ['vddc_5fvddf_5ftempco_5fthreshold_5fhigh_10',['VDDC_VDDF_TEMPCO_THRESHOLD_HIGH',['../group__pwrctrl4__ap510L.html#ga2765d0df1478bdb4b8499b275eeb3a4e',1,'am_hal_pwrctrl.h']]],
+  ['vddc_5fvddf_5ftempco_5fthreshold_5flow_11',['VDDC_VDDF_TEMPCO_THRESHOLD_LOW',['../group__pwrctrl4__ap510L.html#ga815e571bc0ee97ffab8a83b24e5ef130',1,'am_hal_pwrctrl.h']]],
+  ['vddc_5fvddf_5ftempco_5fthreshold_5fmid_12',['VDDC_VDDF_TEMPCO_THRESHOLD_MID',['../group__pwrctrl4__ap510L.html#gaeb44443bc8d915bcb749e06f13c5f601',1,'am_hal_pwrctrl.h']]],
+  ['vddcrxcomptrimminus_13',['VDDCRXCOMPTRIMMINUS',['../unionam__hal__spotmgr__trim__settings__t.html#a431433218c16e3d6bc266a2a8f16211b',1,'am_hal_spotmgr_trim_settings_t']]],
+  ['vddfrxcomptrimminus_14',['VDDFRXCOMPTRIMMINUS',['../unionam__hal__spotmgr__trim__settings__t.html#a9cdce22f74cd3394e5b2a5a1f4638b15',1,'am_hal_spotmgr_trim_settings_t']]],
+  ['version_15',['The Latest Version',['../index.html#latest_version',1,'']]],
+  ['version_201_16',['SPOT Manager Trim Version 1',['../group__spotmgr__trim1__ap510L.html',1,'']]],
+  ['version_202_17',['SPOT Manager Trim Version 2',['../group__spotmgr__trim2__ap510L.html',1,'']]],
+  ['versionspecific_18',['VersionSpecific',['../structUSBHAL__Type.html#a3d38f6662bfd856e81ec0afc99480e9f',1,'USBHAL_Type']]],
+  ['vid_19',['VID',['../structam__devices__mspi__psram__aps25616ba__regs__t.html#a0820bceb8d08ff981d79afbfbf8250a3',1,'am_devices_mspi_psram_aps25616ba_regs_t']]],
+  ['vid_5fpid_20',['vid_pid',['../structsm__touch__dev.html#af9c50f48bf928296c06427b9a93b1f6f',1,'sm_touch_dev::vid_pid'],['../struct__img__header__t.html#ae76ccc24a60912fc6df3b5b12fa64b14',1,'_img_header_t::vid_pid']]],
+  ['vid_5fpid_5fbackup_5faddr_21',['VID_PID_BACKUP_ADDR',['../group__devices__chsc5816.html#ga131b4311b641c0da34182eb399990d24',1,'VID_PID_BACKUP_ADDR:&#160;am_devices_chsc5816.h'],['../group__devices__chsc5816__ap5.html#ga131b4311b641c0da34182eb399990d24',1,'VID_PID_BACKUP_ADDR:&#160;am_devices_chsc5816_ap5.h']]],
+  ['voltage_20comparator_20vcomp_22',['Voltage Comparator (VCOMP)',['../group__vcomp5__ap510L.html',1,'']]],
+  ['vsc_5fopcode_23',['vsc_opcode',['../group__devices__510L__radio.html#ga4fae854b6a416138bd42e1a9e147e120',1,'am_devices_510L_radio.h']]]
+];

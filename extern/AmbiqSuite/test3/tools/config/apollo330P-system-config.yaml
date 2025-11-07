@@ -1,0 +1,26 @@
+#******************************************************************************
+#
+# Default memory map for Apollo330P
+#
+#******************************************************************************
+MemorySections:
+    MCU_MRAM:
+        start:  0x00410000
+        end:    0x005FFFFF
+
+    MCU_TCM:
+        start:  0x20000000
+        end:    0x2003BFFF
+
+    SHARED_SRAM:
+        start:  0x20080000
+        end:    0x2023FFFF
+
+    STACK:
+        start:  0x2003D000
+        end:    0x2003FFFF
+
+    HEAP:
+        start:  0x2003C000
+        end:    0x2003CFFF
+

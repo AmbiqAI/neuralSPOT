@@ -1,0 +1,3673 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>INFO0 (Apollo510L)</TITLE>
+</HEAD>
+<BODY>
+<H1 align="center">Apollo510L INFO0</H1>
+<P align="center"><FONT size="+2"><B>Ambiq Micro Inc. Customer INFO Space</B></FONT></P>
+<P align="center"><FONT size="+2"></FONT></P>
+<HR>
+<P align="left"><FONT face="Helvetica" size="-1"><B>Copyright 2025 Ambiq Micro Inc.</B></FONT></P>
+<HR>
+<P align="left"><FONT size="+2"><B>Description:</B></FONT></P>
+<P align="left"><FONT size="+1">This document details the contents of the Apollo510 family Customer INFO0 registers.</FONT></P>
+<HR>
+<H2 id="index"> INFO0 Index</H2>
+<P><B> INFO Base Address = </B><TT>0x42000000</TT><BR>
+</P>  <B><TT>0x00000000: </TT></B>
+  <A id="SIGNATURE0index" href="#SIGNATURE0"><B>INFO0_SIGNATURE0</B> - INFO0 Signature</A><BR>
+  <B><TT>0x00000004: </TT></B>
+  <A id="SIGNATURE1index" href="#SIGNATURE1"><B>INFO0_SIGNATURE1</B> - INFO0 Signature</A><BR>
+  <B><TT>0x00000008: </TT></B>
+  <A id="SIGNATURE2index" href="#SIGNATURE2"><B>INFO0_SIGNATURE2</B> - INFO0 Signature</A><BR>
+  <B><TT>0x0000000C: </TT></B>
+  <A id="SIGNATURE3index" href="#SIGNATURE3"><B>INFO0_SIGNATURE3</B> - INFO0 Signature</A><BR>
+  <B><TT>0x00000010: </TT></B>
+  <A id="BLRESETindex" href="#BLRESET"><B>INFO0_BLRESET</B> - Security protection bits</A><BR>
+  <B><TT>0x00000014: </TT></B>
+  <A id="RESERVED_TRIMindex" href="#RESERVED_TRIM"><B>INFO0_RESERVED_TRIM</B> - Reserved register</A><BR>
+  <B><TT>0x00000028: </TT></B>
+  <A id="SECURITY_WIRED_IFC_CFG0index" href="#SECURITY_WIRED_IFC_CFG0"><B>INFO0_SECURITY_WIRED_IFC_CFG0</B> - Security Wired Interface configuration word0</A><BR>
+  <B><TT>0x0000002C: </TT></B>
+  <A id="SECURITY_WIRED_IFC_CFG1index" href="#SECURITY_WIRED_IFC_CFG1"><B>INFO0_SECURITY_WIRED_IFC_CFG1</B> - Security Wired Interface configuration word1</A><BR>
+  <B><TT>0x00000030: </TT></B>
+  <A id="SECURITY_WIRED_IFC_CFG2index" href="#SECURITY_WIRED_IFC_CFG2"><B>INFO0_SECURITY_WIRED_IFC_CFG2</B> - Security Wired Interface configuration word2</A><BR>
+  <B><TT>0x00000034: </TT></B>
+  <A id="SECURITY_WIRED_IFC_CFG3index" href="#SECURITY_WIRED_IFC_CFG3"><B>INFO0_SECURITY_WIRED_IFC_CFG3</B> - Security Wired Interface configuration word3</A><BR>
+  <B><TT>0x00000038: </TT></B>
+  <A id="SECURITY_WIRED_IFC_CFG4index" href="#SECURITY_WIRED_IFC_CFG4"><B>INFO0_SECURITY_WIRED_IFC_CFG4</B> - Security Wired Interface configuration word4</A><BR>
+  <B><TT>0x0000003C: </TT></B>
+  <A id="SECURITY_WIRED_IFC_CFG5index" href="#SECURITY_WIRED_IFC_CFG5"><B>INFO0_SECURITY_WIRED_IFC_CFG5</B> - Security Wired Interface configuration word5</A><BR>
+  <B><TT>0x00000040: </TT></B>
+  <A id="SECURITY_VERSIONindex" href="#SECURITY_VERSION"><B>INFO0_SECURITY_VERSION</B> - Security version field</A><BR>
+  <B><TT>0x00000044: </TT></B>
+  <A id="SECURITY_SRAM_RESVindex" href="#SECURITY_SRAM_RESV"><B>INFO0_SECURITY_SRAM_RESV</B> - DTCM Reserved for Application Scratch space</A><BR>
+  <B><TT>0x00000048: </TT></B>
+  <A id="SECURITY_RMAOVERRIDEindex" href="#SECURITY_RMAOVERRIDE"><B>INFO0_SECURITY_RMAOVERRIDE</B> - RMA override.</A><BR>
+  <B><TT>0x00000054: </TT></B>
+  <A id="WIRED_TIMEOUTindex" href="#WIRED_TIMEOUT"><B>INFO0_WIRED_TIMEOUT</B> - Wired timeout</A><BR>
+  <B><TT>0x00000058: </TT></B>
+  <A id="SBR_SDCERT_ADDRindex" href="#SBR_SDCERT_ADDR"><B>INFO0_SBR_SDCERT_ADDR</B> - SBR SDCERT ADDR</A><BR>
+  <B><TT>0x00000060: </TT></B>
+  <A id="MAINPTRindex" href="#MAINPTR"><B>INFO0_MAINPTR</B> - Pointer to the main application.</A><BR>
+  <B><TT>0x00000064: </TT></B>
+  <A id="CERTCHAINPTRindex" href="#CERTCHAINPTR"><B>INFO0_CERTCHAINPTR</B> - OEM certificate chain.</A><BR>
+  <B><TT>0x00000068: </TT></B>
+  <A id="MRAM_RCVY_CTRLindex" href="#MRAM_RCVY_CTRL"><B>INFO0_MRAM_RCVY_CTRL</B> - MRAM Recovery Enables</A><BR>
+  <B><TT>0x0000006C: </TT></B>
+  <A id="NV_METADATA_OFFSETindex" href="#NV_METADATA_OFFSET"><B>INFO0_NV_METADATA_OFFSET</B> - MRAM Recovery NV Device Offset of the recovery meta-data</A><BR>
+  <B><TT>0x00000070: </TT></B>
+  <A id="NV_PWR_RESET_CFGindex" href="#NV_PWR_RESET_CFG"><B>INFO0_NV_PWR_RESET_CFG</B> - MRAM Recovery NV device power and reset configs</A><BR>
+  <B><TT>0x00000074: </TT></B>
+  <A id="NV_PIN_NUMSindex" href="#NV_PIN_NUMS"><B>INFO0_NV_PIN_NUMS</B> - MRAM Recovery NV device power and reset configs</A><BR>
+  <B><TT>0x00000078: </TT></B>
+  <A id="NV_CE_CMD_PINCFGindex" href="#NV_CE_CMD_PINCFG"><B>INFO0_NV_CE_CMD_PINCFG</B> - MRAM Recovery NV device pin configs</A><BR>
+  <B><TT>0x0000007C: </TT></B>
+  <A id="NV_CLK_PINCFGindex" href="#NV_CLK_PINCFG"><B>INFO0_NV_CLK_PINCFG</B> - MRAM Recovery NV device pin configs</A><BR>
+  <B><TT>0x00000080: </TT></B>
+  <A id="NV_DATA_PINCFGindex" href="#NV_DATA_PINCFG"><B>INFO0_NV_DATA_PINCFG</B> - MRAM Recovery NV device's data pin config</A><BR>
+  <B><TT>0x00000084: </TT></B>
+  <A id="NV_DQS_PINCFGindex" href="#NV_DQS_PINCFG"><B>INFO0_NV_DQS_PINCFG</B> - MRAM Recovery NV device's DQS pin configs</A><BR>
+  <B><TT>0x00000088: </TT></B>
+  <A id="NV_CONFIG0index" href="#NV_CONFIG0"><B>INFO0_NV_CONFIG0</B> - MRAM Recovery's NV device specific config0</A><BR>
+  <B><TT>0x0000008C: </TT></B>
+  <A id="NV_CONFIG1index" href="#NV_CONFIG1"><B>INFO0_NV_CONFIG1</B> - MRAM Recovery's NV device specific config1</A><BR>
+  <B><TT>0x00000090: </TT></B>
+  <A id="NV_CONFIG2index" href="#NV_CONFIG2"><B>INFO0_NV_CONFIG2</B> - MRAM Recovery's NV device specific config2</A><BR>
+  <B><TT>0x00000094: </TT></B>
+  <A id="NV_CONFIG3index" href="#NV_CONFIG3"><B>INFO0_NV_CONFIG3</B> - MRAM Recovery's NV device specific config3</A><BR>
+  <B><TT>0x00000098: </TT></B>
+  <A id="NV_OPTIONSindex" href="#NV_OPTIONS"><B>INFO0_NV_OPTIONS</B> - MRAM Recovery's NV device specific options</A><BR>
+  <B><TT>0x0000009C: </TT></B>
+  <A id="NV_MSPI_PRECMDSindex" href="#NV_MSPI_PRECMDS"><B>INFO0_NV_MSPI_PRECMDS</B> - MRAM Recovery's MSPI Pre-Commands</A><BR>
+  <B><TT>0x000000A0: </TT></B>
+  <A id="MRAM_RCV_RETRIES_TIMESindex" href="#MRAM_RCV_RETRIES_TIMES"><B>INFO0_MRAM_RCV_RETRIES_TIMES</B> - MRAM Recovery's Retry count and timings</A><BR>
+<BR><HR><BR>
+<H2 id="bigpictureINFO0">Register Format Summary</H2>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+<TR valign="top" bgcolor="#888888">
+<TD bgcolor="#E6E8F2"><SMALL><B>Register</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+<TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SIGNATURE0"> INFO0_SIGNATURE0</A><BR>
+    <TT>0x0</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">SIG0<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SIGNATURE1"> INFO0_SIGNATURE1</A><BR>
+    <TT>0x4</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">SIG1<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SIGNATURE2"> INFO0_SIGNATURE2</A><BR>
+    <TT>0x8</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">SIG2<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SIGNATURE3"> INFO0_SIGNATURE3</A><BR>
+    <TT>0xC</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">SIG3<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#BLRESET"> INFO0_BLRESET</A><BR>
+    <TT>0x10</TT>
+  </TH>
+  <TD bgcolor="#B2C9E4" colspan="22">RSVD<BR><TT>0x000000</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">SPINORSLEEPn<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#B2C9E4" colspan="9">RSVD<BR><TT>0x000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#RESERVED_TRIM"> INFO0_RESERVED_TRIM</A><BR>
+    <TT>0x14</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">RSVD_TRIM<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_WIRED_IFC_CFG0"> INFO0_SECURITY_WIRED_IFC_CFG0</A><BR>
+    <TT>0x28</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="2">RSVD30<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="22">BAUDRATE<BR><TT>0x000000</TT></TD>
+  <TD bgcolor="#ffffff" colspan="2">DATALEN<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">2STOP<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">EVEN<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">PAR<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">CTS<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">RTS<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">RSVD0<BR><TT>0x0</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_WIRED_IFC_CFG1"> INFO0_SECURITY_WIRED_IFC_CFG1</A><BR>
+    <TT>0x2C</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="8">PIN3<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PIN2<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PIN1<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PIN0<BR><TT>0x00</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_WIRED_IFC_CFG2"> INFO0_SECURITY_WIRED_IFC_CFG2</A><BR>
+    <TT>0x30</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_WIRED_IFC_CFG3"> INFO0_SECURITY_WIRED_IFC_CFG3</A><BR>
+    <TT>0x34</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_WIRED_IFC_CFG4"> INFO0_SECURITY_WIRED_IFC_CFG4</A><BR>
+    <TT>0x38</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_WIRED_IFC_CFG5"> INFO0_SECURITY_WIRED_IFC_CFG5</A><BR>
+    <TT>0x3C</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_VERSION"> INFO0_SECURITY_VERSION</A><BR>
+    <TT>0x40</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">VERSION<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_SRAM_RESV"> INFO0_SECURITY_SRAM_RESV</A><BR>
+    <TT>0x44</TT>
+  </TH>
+  <TD bgcolor="#B2C9E4" colspan="12">RSVD<BR><TT>0x000</TT></TD>
+  <TD bgcolor="#ffffff" colspan="20">SRAM_RESV<BR><TT>0x00000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SECURITY_RMAOVERRIDE"> INFO0_SECURITY_RMAOVERRIDE</A><BR>
+    <TT>0x48</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="29">RSVD_ZERO<BR><TT>0x00000000</TT></TD>
+  <TD bgcolor="#ffffff" colspan="3">OVERRIDE<BR><TT>0x0</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#WIRED_TIMEOUT"> INFO0_WIRED_TIMEOUT</A><BR>
+    <TT>0x54</TT>
+  </TH>
+  <TD bgcolor="#B2C9E4" colspan="16">RSVD<BR><TT>0x0000</TT></TD>
+  <TD bgcolor="#ffffff" colspan="16">TIMEOUT<BR><TT>0x0000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#SBR_SDCERT_ADDR"> INFO0_SBR_SDCERT_ADDR</A><BR>
+    <TT>0x58</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">ICV<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#MAINPTR"> INFO0_MAINPTR</A><BR>
+    <TT>0x60</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">ADDRESS<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#CERTCHAINPTR"> INFO0_CERTCHAINPTR</A><BR>
+    <TT>0x64</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">ADDRESS<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#MRAM_RCVY_CTRL"> INFO0_MRAM_RCVY_CTRL</A><BR>
+    <TT>0x68</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="4">MRAM_RCVY_EN<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">GPIO_RCVY_INPROGRESS<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="2">EMMC_PARTITION<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">WD_EN<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">GPIO_CTRL_POL<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">GPIO_CTRL_PIN<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">APP_RCVY_REBOOT<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="3">NV_RCVY_TYPE<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="2">NV_MODULE_NUM<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">WIRED_RCVY_EN<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">APP_RCVY_EN<BR><TT>0x0</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_METADATA_OFFSET"> INFO0_NV_METADATA_OFFSET</A><BR>
+    <TT>0x6C</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">META_OFFSET<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_PWR_RESET_CFG"> INFO0_NV_PWR_RESET_CFG</A><BR>
+    <TT>0x70</TT>
+  </TH>
+  <TD bgcolor="#B2C9E4" colspan="1">RSVD<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">JEDEC_RESET<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">RESET_POL<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">RESET_DLY_UNITS<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="12">RESET_DLY<BR><TT>0x000</TT></TD>
+  <TD bgcolor="#B2C9E4" colspan="2">RSVD<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">PWR_POL<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="1">PWR_DLY_UNITS<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="12">PWR_DLY<BR><TT>0x000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_PIN_NUMS"> INFO0_NV_PIN_NUMS</A><BR>
+    <TT>0x74</TT>
+  </TH>
+  <TD bgcolor="#B2C9E4" colspan="8">RSVD<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">CE_PIN<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">RESET_PIN<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PWR_PIN<BR><TT>0x00</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_CE_CMD_PINCFG"> INFO0_NV_CE_CMD_PINCFG</A><BR>
+    <TT>0x78</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">CE_CMD_PINCGF<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_CLK_PINCFG"> INFO0_NV_CLK_PINCFG</A><BR>
+    <TT>0x7C</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">CLK_PINCGF<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_DATA_PINCFG"> INFO0_NV_DATA_PINCFG</A><BR>
+    <TT>0x80</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">DATA_PINCFG<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_DQS_PINCFG"> INFO0_NV_DQS_PINCFG</A><BR>
+    <TT>0x84</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">DQS_PINCGF<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_CONFIG0"> INFO0_NV_CONFIG0</A><BR>
+    <TT>0x88</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">CONFIG0<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_CONFIG1"> INFO0_NV_CONFIG1</A><BR>
+    <TT>0x8C</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">CONFIG1<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_CONFIG2"> INFO0_NV_CONFIG2</A><BR>
+    <TT>0x90</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">CONFIG2<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_CONFIG3"> INFO0_NV_CONFIG3</A><BR>
+    <TT>0x94</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="32">CONFIG3<BR><TT>0x00000000</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_OPTIONS"> INFO0_NV_OPTIONS</A><BR>
+    <TT>0x98</TT>
+  </TH>
+  <TD bgcolor="#B2C9E4" colspan="1">RSVD<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="3">EMMC_BUS_WIDTH<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="2">EMMC_VOLTAGE<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#B2C9E4" colspan="2">RSVD<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="4">MSPI_READ_CLKSEL<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="4">MSPI_WIDTHS<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="4">MSPI_PRECMD_CLKSEL<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="4">MSPI_PRECMD_CTRL<BR><TT>0x0</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">MSPI_READCMD<BR><TT>0x00</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#NV_MSPI_PRECMDS"> INFO0_NV_MSPI_PRECMDS</A><BR>
+    <TT>0x9C</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="8">PCMD1<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PCMD2<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PCMD3<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">PCMD4<BR><TT>0x00</TT></TD>
+</TR>
+<TR valign="top">
+  <TH align="left" bgcolor="#888888">
+    <A href="#MRAM_RCV_RETRIES_TIMES"> INFO0_MRAM_RCV_RETRIES_TIMES</A><BR>
+    <TT>0xA0</TT>
+  </TH>
+  <TD bgcolor="#ffffff" colspan="16">MAX_RETRIES<BR><TT>0x0000</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">MIN_RETRY_TIME<BR><TT>0x00</TT></TD>
+  <TD bgcolor="#ffffff" colspan="8">MAX_RETRY_TIME<BR><TT>0x00</TT></TD>
+</TR>
+</TABLE>
+<BR><HR>
+<H2 id="SIGNATURE0"><A href="#index">INFO0_SIGNATURE0</A></H2>
+<TABLE><TR><TD><B>INFO0 Signature</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0000 (word offset 0x0000)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SIGNATURE0 ADDRESS:</B></TD>
+<TD><TT>0x42000000</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">SIG0<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>SIG0</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>INFO0 signature word 0 (low 32-bits). The valid programmed value is 0x48EAAD88.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Word 0 (low word, bits 31:0) of the 128-bit INFO0 signature.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SIGNATURE1"><A href="#index">INFO0_SIGNATURE1</A></H2>
+<TABLE><TR><TD><B>INFO0 Signature</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0004 (word offset 0x0001)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SIGNATURE1 ADDRESS:</B></TD>
+<TD><TT>0x42000004</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">SIG1<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>SIG1</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>INFO0 signature word 1. The valid programmed value is 0xC9705737.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Word 1 (bits 63:32) of the 128-bit INFO0 signature.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SIGNATURE2"><A href="#index">INFO0_SIGNATURE2</A></H2>
+<TABLE><TR><TD><B>INFO0 Signature</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0008 (word offset 0x0002)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SIGNATURE2 ADDRESS:</B></TD>
+<TD><TT>0x42000008</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">SIG2<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>SIG2</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>INFO0 signature word 2. The valid programmed value is 0x0A6B8458.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Word 2 (bits 95:64) of the 128-bit INFO0 signature.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SIGNATURE3"><A href="#index">INFO0_SIGNATURE3</A></H2>
+<TABLE><TR><TD><B>INFO0 Signature</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x000C (word offset 0x0003)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SIGNATURE3 ADDRESS:</B></TD>
+<TD><TT>0x4200000C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">SIG3<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>SIG3</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>INFO0 signature word 3 (high 32 bits). The valid programmed value is 0xE41A9D74.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Word 3 (high word, bits 127:96) of the 128-bit INFO0 signature.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="BLRESET"><A href="#index">INFO0_BLRESET</A></H2>
+<TABLE><TR><TD><B>Security protection bits</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0010 (word offset 0x0004)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_BLRESET ADDRESS:</B></TD>
+<TD><TT>0x42000010</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#B2C9E4" colspan="22">RSVD<BR><TT>0x000000</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">SPINORSLEEPn<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#B2C9E4" colspan="9">RSVD<BR><TT>0x000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:10</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>9:9</TD>
+<TD nowrap>SPINORSLEEPn</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Control bootloader action when no application is present.
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>NORMALSLEEP</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Bootloader enters normal sleep.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>SPIN</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Bootloader spins in an infinite while loop.</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>8:0</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This INFO0 register is required for RevB shadow loading (formerly known as SECURITY).</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="RESERVED_TRIM"><A href="#index">INFO0_RESERVED_TRIM</A></H2>
+<TABLE><TR><TD><B>Reserved register</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0014 (word offset 0x0005)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_RESERVED_TRIM ADDRESS:</B></TD>
+<TD><TT>0x42000014</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">RSVD_TRIM<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>RSVD_TRIM</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This is a reserved trim location. It defaults to 0x00000000 from the factory and must remain unchanged.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_WIRED_IFC_CFG0"><A href="#index">INFO0_SECURITY_WIRED_IFC_CFG0</A></H2>
+<TABLE><TR><TD><B>Security Wired Interface configuration word0</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0028 (word offset 0x000A)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_WIRED_IFC_CFG0 ADDRESS:</B></TD>
+<TD><TT>0x42000028</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="2">RSVD30<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="22">BAUDRATE<BR><TT>0x000000</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="2">DATALEN<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">2STOP<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">EVEN<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">PAR<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">CTS<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">RTS<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">RSVD0<BR><TT>0x0</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:30</TD>
+<TD nowrap>RSVD30</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>29:8</TD>
+<TD nowrap>BAUDRATE</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>UART Baudrate
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:6</TD>
+<TD nowrap>DATALEN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Number of Data Bits
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>5BIT</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>5 bit</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>6BIT</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>6 bit</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>7BIT</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>7 bit</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>8BIT</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x3</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>8 bit</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>5:5</TD>
+<TD nowrap>2STOP</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>2 Stop Bits
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>4:4</TD>
+<TD nowrap>EVEN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Even Parity
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>3:3</TD>
+<TD nowrap>PAR</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Enable Parity
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>2:2</TD>
+<TD nowrap>CTS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Enable CTS
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>1:1</TD>
+<TD nowrap>RTS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Enable RTS
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>0:0</TD>
+<TD nowrap>RSVD0</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the interface configuration word0 for the UART wired update.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_WIRED_IFC_CFG1"><A href="#index">INFO0_SECURITY_WIRED_IFC_CFG1</A></H2>
+<TABLE><TR><TD><B>Security Wired Interface configuration word1</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x002C (word offset 0x000B)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_WIRED_IFC_CFG1 ADDRESS:</B></TD>
+<TD><TT>0x4200002C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="8">PIN3<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PIN2<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PIN1<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PIN0<BR><TT>0x00</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:24</TD>
+<TD nowrap>PIN3</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin 3 for UART interface
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>23:16</TD>
+<TD nowrap>PIN2</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin 2 for UART interface
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:8</TD>
+<TD nowrap>PIN1</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin 1 for UART interface
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:0</TD>
+<TD nowrap>PIN0</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin 0 for UART interface
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the interface configuration word1 for the UART wired update.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_WIRED_IFC_CFG2"><A href="#index">INFO0_SECURITY_WIRED_IFC_CFG2</A></H2>
+<TABLE><TR><TD><B>Security Wired Interface configuration word2</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0030 (word offset 0x000C)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_WIRED_IFC_CFG2 ADDRESS:</B></TD>
+<TD><TT>0x42000030</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>PINCFG</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>32 bit value representing the raw PINCFG value for this pin
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the raw Pin configuration for the UART wired interface pin 0.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_WIRED_IFC_CFG3"><A href="#index">INFO0_SECURITY_WIRED_IFC_CFG3</A></H2>
+<TABLE><TR><TD><B>Security Wired Interface configuration word3</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0034 (word offset 0x000D)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_WIRED_IFC_CFG3 ADDRESS:</B></TD>
+<TD><TT>0x42000034</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>PINCFG</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>32 bit value representing the raw PINCFG value for this pin
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the raw Pin configuration for the UART wired interface pin 1.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_WIRED_IFC_CFG4"><A href="#index">INFO0_SECURITY_WIRED_IFC_CFG4</A></H2>
+<TABLE><TR><TD><B>Security Wired Interface configuration word4</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0038 (word offset 0x000E)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_WIRED_IFC_CFG4 ADDRESS:</B></TD>
+<TD><TT>0x42000038</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>PINCFG</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>32 bit value representing the raw PINCFG value for this pin
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the raw Pin configuration for the UART wired interface pin 2.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_WIRED_IFC_CFG5"><A href="#index">INFO0_SECURITY_WIRED_IFC_CFG5</A></H2>
+<TABLE><TR><TD><B>Security Wired Interface configuration word5</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x003C (word offset 0x000F)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_WIRED_IFC_CFG5 ADDRESS:</B></TD>
+<TD><TT>0x4200003C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">PINCFG<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>PINCFG</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>32 bit value representing the raw PINCFG value for this pin
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the raw Pin configuration for the UART wired interface pin 3.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_VERSION"><A href="#index">INFO0_SECURITY_VERSION</A></H2>
+<TABLE><TR><TD><B>Security version field</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0040 (word offset 0x0010)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_VERSION ADDRESS:</B></TD>
+<TD><TT>0x42000040</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">VERSION<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>VERSION</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Version ID
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word contains the version ID used for revision control</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_SRAM_RESV"><A href="#index">INFO0_SECURITY_SRAM_RESV</A></H2>
+<TABLE><TR><TD><B>DTCM Reserved for Application Scratch space</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0044 (word offset 0x0011)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_SRAM_RESV ADDRESS:</B></TD>
+<TD><TT>0x42000044</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#B2C9E4" colspan="12">RSVD<BR><TT>0x000</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="20">SRAM_RESV<BR><TT>0x00000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:20</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>19:0</TD>
+<TD nowrap>SRAM_RESV</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>SRAM Reservation.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>This 32-bit word indicates the minimum amount of DTCM that the Secure Boot Loader (SBL) reserves for the application, which will not be disturbed by SBL across a reset. The programmed value is rounded up, if necessary, by SBL to the next 256 byte boundary. That value is subtracted from the top of DTCM, resulting in a region at the top of DTCM that becomes the reserved area. Example: Apollo5 has 384KB of DTCM, 0x20000000-0x20005FFF. SRAM_RESV contains 0x3E8, SBL rounds up to 0x400, and reserves the region 0x20005C00 - 0x20005FFF for use by the application. Application data in this region will not be modified by SBL across reset.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SECURITY_RMAOVERRIDE"><A href="#index">INFO0_SECURITY_RMAOVERRIDE</A></H2>
+<TABLE><TR><TD><B>RMA override.</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0048 (word offset 0x0012)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SECURITY_RMAOVERRIDE ADDRESS:</B></TD>
+<TD><TT>0x42000048</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="29">RSVD_ZERO<BR><TT>0x00000000</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="3">OVERRIDE<BR><TT>0x0</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:3</TD>
+<TD nowrap>RSVD_ZERO</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>This field is all 0s.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>2:0</TD>
+<TD nowrap>OVERRIDE</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Enable Ambiq ability to download Ambiq RMA Certificate after OEM performs its part of RMA.
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>ENABLE</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Enables override.</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Enables Ambiq to have the ability to download Ambiq RMA.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="WIRED_TIMEOUT"><A href="#index">INFO0_WIRED_TIMEOUT</A></H2>
+<TABLE><TR><TD><B>Wired timeout</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0054 (word offset 0x0015)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_WIRED_TIMEOUT ADDRESS:</B></TD>
+<TD><TT>0x42000054</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#B2C9E4" colspan="16">RSVD<BR><TT>0x0000</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="16">TIMEOUT<BR><TT>0x0000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:16</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:0</TD>
+<TD nowrap>TIMEOUT</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Timeout value.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Holds the timeout value for wired transfers (in milliseconds).</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="SBR_SDCERT_ADDR"><A href="#index">INFO0_SBR_SDCERT_ADDR</A></H2>
+<TABLE><TR><TD><B>SBR SDCERT ADDR</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0058 (word offset 0x0016)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_SBR_SDCERT_ADDR ADDRESS:</B></TD>
+<TD><TT>0x42000058</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">ICV<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>ICV</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Address of the SD certificate.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Location where bootloader will find SD certificates. Customer configures this based on the memory layout.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="MAINPTR"><A href="#index">INFO0_MAINPTR</A></H2>
+<TABLE><TR><TD><B>Pointer to the main application.</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0060 (word offset 0x0018)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_MAINPTR ADDRESS:</B></TD>
+<TD><TT>0x42000060</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">ADDRESS<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>ADDRESS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Contains the location of the main application.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Pointer to the main OEM image when Secure Boot is disabled.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="CERTCHAINPTR"><A href="#index">INFO0_CERTCHAINPTR</A></H2>
+<TABLE><TR><TD><B>OEM certificate chain.</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0064 (word offset 0x0019)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_CERTCHAINPTR ADDRESS:</B></TD>
+<TD><TT>0x42000064</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">ADDRESS<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>ADDRESS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Contains the address of the certificate chain pointers (Pointers to the OEM Certs).
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Pointer to OEM certificate chain when Secure Boot is enabled.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="MRAM_RCVY_CTRL"><A href="#index">INFO0_MRAM_RCVY_CTRL</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery Enables</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0068 (word offset 0x001A)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_MRAM_RCVY_CTRL ADDRESS:</B></TD>
+<TD><TT>0x42000068</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="4">MRAM_RCVY_EN<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">GPIO_RCVY_INPROGRESS<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="2">EMMC_PARTITION<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">WD_EN<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">GPIO_CTRL_POL<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">GPIO_CTRL_PIN<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">APP_RCVY_REBOOT<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="3">NV_RCVY_TYPE<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="2">NV_MODULE_NUM<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">WIRED_RCVY_EN<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">APP_RCVY_EN<BR><TT>0x0</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:28</TD>
+<TD nowrap>MRAM_RCVY_EN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>MRAM recovery master enable.
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>M_ENABLE</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x6</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Enables override, other vales = disabled.</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>27:20</TD>
+<TD nowrap>GPIO_RCVY_INPROGRESS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The GPIO pin to use to indicate MRAM recovery is in progress (or needed).  It will be driven high only while MRAM recovery is in progress, otherwise it is not driven (and should be pulled down when used). This can be used to signal an external processor to initiate wired recovery via UART or SPI (0xFF = unused, no GPIO will signal MRAM recovery)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>19:18</TD>
+<TD nowrap>EMMC_PARTITION</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When configured for MRAM recovery from eMMC, this field specifies the partition where the recovery image is stored. Only the following partition enumeration values are valid.
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>USER</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Specifies the eMMC USER partition.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>BOOT1</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Specifies the eMMC BOOT1 partition.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>BOOT2</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Specifies the eMMC BOOT2 partition.</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>17:17</TD>
+<TD nowrap>WD_EN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When set the Watchdog Timer will be enabled with a timeout of 2 seconds prior to the handoff from the Bootrom/SBL to the OEM's Application or recovery image.  The OEM's Application/recovery image will needed to reconfigure or disable the Watchdog within the 2 second timeout period.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>16:16</TD>
+<TD nowrap>GPIO_CTRL_POL</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Polarity for the MRAM recovery control pin, GPIO_CTRL_PIN (1 = recovery initiated when pin set high)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:8</TD>
+<TD nowrap>GPIO_CTRL_PIN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin number for the GPIO pin to use to initiate MRAM recovery (0xFF = unused, GPIO initiated recovery is disabled)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:7</TD>
+<TD nowrap>APP_RCVY_REBOOT</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>If either an Application or GPIO initiated MRAM recovery fails, when set to '1' the device will continue to boot, without having done MRAM recovery. When set to '0' the device will lock, until a reset is issued.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>6:4</TD>
+<TD nowrap>NV_RCVY_TYPE</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>MRAM recovery using off-board non-volatile (NV) device type (values not listed are treated as 0=disabled)
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>NV_OFF</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Non-volatile MRAM recovery disabled</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>NV_MSPI</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>MRAM Recovery using off-board MSPI device</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>NV_EMMC</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>MRAM Recovery using off-board EMMC device</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>3:2</TD>
+<TD nowrap>NV_MODULE_NUM</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Module number for the selected NV device
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>1:1</TD>
+<TD nowrap>WIRED_RCVY_EN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Wired MRAM recovery enable (1=Enabled)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>0:0</TD>
+<TD nowrap>APP_RCVY_EN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Application initiated MRAM recovery enable (1=Enabled)
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>MRAM recovery master enable and enables for recovery types and GPIO pins for status and initiation.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_METADATA_OFFSET"><A href="#index">INFO0_NV_METADATA_OFFSET</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV Device Offset of the recovery meta-data</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x006C (word offset 0x001B)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_METADATA_OFFSET ADDRESS:</B></TD>
+<TD><TT>0x4200006C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">META_OFFSET<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>META_OFFSET</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Meta-data's offset in the NV device.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Offset to the meta-data in the selected NV device. The meta-data supplies the offsets/sizes of the recovery images.  The Metadata is a 4 word "file" stored on the NV device, with the offset and size (in that order) for the SBL recovery image and OEMs recovery image (in that order). For EMMC devices the offset is a block offset, for MSPI it is a byte offset.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_PWR_RESET_CFG"><A href="#index">INFO0_NV_PWR_RESET_CFG</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV device power and reset configs</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0070 (word offset 0x001C)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_PWR_RESET_CFG ADDRESS:</B></TD>
+<TD><TT>0x42000070</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#B2C9E4" colspan="1">RSVD<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">JEDEC_RESET<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">RESET_POL<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">RESET_DLY_UNITS<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="12">RESET_DLY<BR><TT>0x000</TT>
+</TD>
+<TD bgcolor="#B2C9E4" colspan="2">RSVD<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">PWR_POL<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="1">PWR_DLY_UNITS<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="12">PWR_DLY<BR><TT>0x000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:31</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>30:30</TD>
+<TD nowrap>JEDEC_RESET</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>NV device will be reset using the JEDEC standard for the NV device selected (after being powered-on, and after the reset pin operations, if enabled).
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>29:29</TD>
+<TD nowrap>RESET_POL</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Polarity of the RESET pin, if enabled (0 = Reset is active low).
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>28:28</TD>
+<TD nowrap>RESET_DLY_UNITS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The units of time that the RESET_DLY field represents (1=mS, 0=uS)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>27:16</TD>
+<TD nowrap>RESET_DLY</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The delay following the release of reset to allow for the NV device to process the reset.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:14</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>13:13</TD>
+<TD nowrap>PWR_POL</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Polarity of the Power Pin for the MRAM recovery NV device (1 = set high to power on the device).
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>12:12</TD>
+<TD nowrap>PWR_DLY_UNITS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The units of time that the PWR_DLY field represents (1=mS, 0=uS)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>11:0</TD>
+<TD nowrap>PWR_DLY</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The delay following powering ON the MRAM recovery NV device before preceding with reset (if enabled).
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>MRAM recovery NV device power and reset types, polarity and timing configurations</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_PIN_NUMS"><A href="#index">INFO0_NV_PIN_NUMS</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV device power and reset configs</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0074 (word offset 0x001D)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_PIN_NUMS ADDRESS:</B></TD>
+<TD><TT>0x42000074</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#B2C9E4" colspan="8">RSVD<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">CE_PIN<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">RESET_PIN<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PWR_PIN<BR><TT>0x00</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:24</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>23:16</TD>
+<TD nowrap>CE_PIN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The pin number for the CE pin used to connect to external MSPI MRAM Recovery device. This field is unused if for EMMC recovery.  (0xFF = Unused)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:8</TD>
+<TD nowrap>RESET_PIN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin number for the MRAM recovery NV device's reset pin. (0xFF = unused).  This pin will be pulsed active for 10uS following the Power Pin operation and its configured delay.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:0</TD>
+<TD nowrap>PWR_PIN</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Pin number for the MRAM recovery NV device's power control pin. (0xFF = unused)  This pin will be drive to it's power-on polarity, followed by the configured power on delay before applying the reset pin operation (if configured)
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>MRAM recovery NV device pin numbers Power, Reset and CE pins. The CE pin number is applicable to MSPI type only.  Pin numbers for the Data pins, SCLK and DQS (MSPI) and CMD (EMMC) are predetermined and set based on the device type (MSPI/EMMC) and the module number.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_CE_CMD_PINCFG"><A href="#index">INFO0_NV_CE_CMD_PINCFG</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV device pin configs</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0078 (word offset 0x001E)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_CE_CMD_PINCFG ADDRESS:</B></TD>
+<TD><TT>0x42000078</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">CE_CMD_PINCGF<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>CE_CMD_PINCGF</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The PINCFG register for the pin CE/CMD pin (and D0 for EMMC devices).
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Pin config for the CE pin (MSPI) or CMD and D0 pins (EMMC) for MRAM recovery device. For EMMC devices the FNCSELxx field is ignored and set automatically based on the EMMC module number specified.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_CLK_PINCFG"><A href="#index">INFO0_NV_CLK_PINCFG</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV device pin configs</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x007C (word offset 0x001F)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_CLK_PINCFG ADDRESS:</B></TD>
+<TD><TT>0x4200007C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">CLK_PINCGF<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>CLK_PINCGF</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The PINCFG register for the SCK function.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>The configuration to be written to the PINCFG register for the CLK pin for MRAM recovery. This applies to both MSPI and EMMC device types.  For EMMC devices the FNCSELxx field is ignored and set automatically based on the EMMC module number specified.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_DATA_PINCFG"><A href="#index">INFO0_NV_DATA_PINCFG</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV device's data pin config</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0080 (word offset 0x0020)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_DATA_PINCFG ADDRESS:</B></TD>
+<TD><TT>0x42000080</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">DATA_PINCFG<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>DATA_PINCFG</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The PINCFG register for the device's data pins (for the data width specified). This applies to both MSPI and EMMC device types.  For EMMC devices, this field applies only to D1-D7,  D0 uses the pin-config specified the NV_CE_CMD_PINCFG as both CMD and D0 typically have a pullup applied to both. For EMMC devices, the FNCSELxx field is ignored and set automatically based on the EMMC module number specified.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>The configuration to be written to the PINCFG register for the device's data pins. This applies to both MSPI and EMMC device types.  For EMMC devices the FNCSELxx field is ignored and set automatically based on the EMMC module number specified.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_DQS_PINCFG"><A href="#index">INFO0_NV_DQS_PINCFG</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery NV device's DQS pin configs</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0084 (word offset 0x0021)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_DQS_PINCFG ADDRESS:</B></TD>
+<TD><TT>0x42000084</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">DQS_PINCGF<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>DQS_PINCGF</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The PINCFG register for the DQS function
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>The configuration to be written to the PINCFG register for the DQS pin in the MRAM recovery device. For EMMC devices this is not used.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_CONFIG0"><A href="#index">INFO0_NV_CONFIG0</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's NV device specific config0</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0088 (word offset 0x0022)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_CONFIG0 ADDRESS:</B></TD>
+<TD><TT>0x42000088</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">CONFIG0<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>CONFIG0</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Device specific configuration for the MRAM recovery NV device
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>EMMC_CLOCK_48MHZ</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2DC6C00</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>For eMMC devices, selects a target frequency of 48MHz.</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Device specific configuration used to configure the MRAM recovery NV device. For an MSPI device this value is written directly to the specified module's DEV0CFG register (Refer to the specified MSPI register for field definitions). For an EMMC device this location specifies the target clock frequency in Hz.  Note: For MSPI devices the field DEVCFG0 (in DEV0CFG) specifies which CEx (0/1) pin to use.  Only SERIALx, DUALx, QUADx and OCTALx are supported, QUAD_PAIRED, QUADPAIRED_SERIAL, and HEXx are not.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_CONFIG1"><A href="#index">INFO0_NV_CONFIG1</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's NV device specific config1</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x008C (word offset 0x0023)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_CONFIG1 ADDRESS:</B></TD>
+<TD><TT>0x4200008C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">CONFIG1<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>CONFIG1</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Device specific configuration for the MRAM recovery NV device
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>EMMC_HOST_UHS_SDR12</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>For eMMC devices, selects the UHS mode EMMC_HOST_UHS_SDR12. This is generally the default mode.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMC_HOST_UHS_SDR25</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>For eMMC devices, selects the UHS mode EMMC_HOST_UHS_SDR25.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMC_HOST_UHS_SDR50</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>For eMMC devices, selects the UHS mode EMMC_HOST_UHS_SDR50.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMC_HOST_UHS_SDR104</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x3</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>For eMMC devices, selects the UHS mode EMMC_HOST_UHS_SDR104.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMC_HOST_UHS_DDR50</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x4</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>For eMMC devices, selects the UHS mode EMMC_HOST_UHS_DDR50.</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Device specific configuration used to configure the MRAM recovery NV device. For a MSPI device this value is written directly to the specified module's DEV0CFG1 register.  For an EMMC device this location specifies the UHS mode - as specified in the UHSMODESEL field in REG_SDIO0_AUTO register.  Refer to the specified MSPI and SDIO registers for the specific field definitions.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_CONFIG2"><A href="#index">INFO0_NV_CONFIG2</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's NV device specific config2</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0090 (word offset 0x0024)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_CONFIG2 ADDRESS:</B></TD>
+<TD><TT>0x42000090</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">CONFIG2<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>CONFIG2</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Device specific configuration for the MRAM recovery NV device
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Device specific configuration used to configure the MRAM recovery NV device. For a MSPI device this value is written directly to the specified module's DEV0DDR register. (Refer to the specified MSPI register for field definitions). For an EMMC device this location is unused.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_CONFIG3"><A href="#index">INFO0_NV_CONFIG3</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's NV device specific config3</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0094 (word offset 0x0025)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_CONFIG3 ADDRESS:</B></TD>
+<TD><TT>0x42000094</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="32">CONFIG3<BR><TT>0x00000000</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:0</TD>
+<TD nowrap>CONFIG3</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>Device specific configuration for the MRAM recovery NV device
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Device specific configuration used to configure the MRAM recovery NV device. For a MSPI device this value is written directly to the specified module's DEV0SCRAMBLING register.(Refer to the specified MSPI register for field definitions). For an EMMC device this location is unused.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_OPTIONS"><A href="#index">INFO0_NV_OPTIONS</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's NV device specific options</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x0098 (word offset 0x0026)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_OPTIONS ADDRESS:</B></TD>
+<TD><TT>0x42000098</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#B2C9E4" colspan="1">RSVD<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="3">EMMC_BUS_WIDTH<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="2">EMMC_VOLTAGE<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#B2C9E4" colspan="2">RSVD<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="4">MSPI_READ_CLKSEL<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="4">MSPI_WIDTHS<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="4">MSPI_PRECMD_CLKSEL<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="4">MSPI_PRECMD_CTRL<BR><TT>0x0</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">MSPI_READCMD<BR><TT>0x00</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:31</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>30:28</TD>
+<TD nowrap>EMMC_BUS_WIDTH</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for EMMC, this field specifies the data width to use. Note that these values are (1 << EMMC_BUS_WIDTH).
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>EMMC1</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>1-bit transfers</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMC4</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>4-bit transfers</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMC8</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x3</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>8-bit transfers</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>27:26</TD>
+<TD nowrap>EMMC_VOLTAGE</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for EMMC, this field specifies the I/O voltage to be used.
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>RSVD</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Unused, reserved</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMCV18</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>1.8v I/O</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMCV30</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>3.0v I/O</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>EMMCV33</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x3</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>3.3v I/O</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>25:24</TD>
+<TD nowrap>RSVD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap>Reserved</TD>
+<TD>Reserved
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>23:20</TD>
+<TD nowrap>MSPI_READ_CLKSEL</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for MSPI, this field specifies the CLKSEL field in the CLKCTRL register for the MSPI module to be used for the metadata and recovery image read operations. This clock is further divided by the CLKDIV0 of the DEV0CFG field (specified in the NV_CONFIG0).
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>19:16</TD>
+<TD nowrap>MSPI_WIDTHS</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for MSPI, this field specifies the address and data transfer widths.  It is loaded directly into the MSPIx_CTRL1 register PIOMIXED field. This is used in conjunction with the DEVCFG0 field in MSPIx_DEV0CFG (specified in the OTP_INFO0_NV_CONFIG0 location) to determine the command, address, and data transmission widths to be used.  This field must match the width/mode implied by the device's read command in the MSPI_READCMD field.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:12</TD>
+<TD nowrap>MSPI_PRECMD_CLKSEL</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for MSPI, this field specifies the CLKSEL field in the CLKCTRL register for the MSPI module to be used for the precommands. Note: This clock is further divided by the CLKDIV0 of the DEV0CFG field (specified in the NV_CONFIG0) and is the same as used when reading the recovery image(s).
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>11:8</TD>
+<TD nowrap>MSPI_PRECMD_CTRL</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for MSPI, this field controls what types of pre-commands are sent before the reading of the metadata and recovery images (using the MSPI_READCMD command). Pre-commands can be used to enable QPI or OPI mode in some device that do not have non-volatile configurations. The NV_MSPI_PRECMDS word contains four 8-bit fields, PCMD1 - PCMD4, which can be combinations of single byte commands with one or two associated data bytes, each sent as a pre-command.   The commands are always sent using single spi mode (1-1-1) with no address byes and no delay clocks between the command and the data byte(s).
+  <TABLE>
+    <TR>
+      <TD><SMALL><TT>PCMD_None</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x0</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>No Pre-CMDs are sent. The first MSPI command to the device will be the command contained in the MSPI_READCMD.</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_Cxxx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x1</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>One single byte command (PCMD1=CMD1)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCxx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x2</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Two commands (PCMD1=CMD1, and PCMD2=CMD2)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CDxx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x3</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>One command with one data byte for the command (PCMD1=CMD1, and PCMD2=DATA)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCCx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x4</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Three single byte commands (PCMD1=CMD1, PCMD2=CMD2 and PCMD3=CMD3)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCDx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x5</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Two CMDs, with one data byte following the second command (PCMD1=CMD1, PCMD2=CMD2, PCMD3=DATA)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CDCx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x6</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Two CMDs, with one data byte following the first command (PCMD1=CMD1, PCMD2=DATA, PCMD3=CMD2)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CDDx</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x7</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>One CMD, with two data bytes following the first command (PCMD1=CMD1, PCMD2=DATA, PCMD3=DATA)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCCC</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x8</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Four single byte commands (PCMD1=CMD1, PCMD2=CMD2, PCMD3=CMD3, PCMD4=CMD4)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCCD</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0x9</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Three commands with one data byte following the third command (PCMD1=CMD1, PCMD2=CMD2, PCMD3=CMD3, PCMD4=DATA)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCDC</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0xA</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Three commands with one data byte following the second command (PCMD1=CMD1, PCMD2=CMD2, PCMD3=DATA, PCMD4=CMD3)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CDCC</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0xB</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Three commands with one data byte following the first command (PCMD1=CMD1, PCMD2=DATA, PCMD3=CMD2, PCMD4=CMD3)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CDCD</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0xC</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Two commands with one data byte following the each command (PCMD1=CMD1, PCMD2=DATA, PCMD3=CMD2, PCMD4=DATA)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CCDD</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0xD</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Two commands with two data bytes following the second command (PCMD1=CMD1, PCMD2=CMD2, PCMD3=DATA, PCMD4=DATA)</TT></SMALL></TD>
+    </TR>
+    <TR>
+      <TD><SMALL><TT>PCMD_CDDC</TT></SMALL></TD>
+      <TD><SMALL><TT>=</TT></SMALL></TD>
+      <TD><SMALL><TT>0xE</TT></SMALL></TD>
+      <TD width="5"><SMALL><TT>-</TT></SMALL></TD>
+      <TD><SMALL><TT>Two commands with two data bytes following the first command (PCMD1=CMD1, PCMD2=DATA, PCMD3=DATA, PCMD4=CMD2)</TT></SMALL></TD>
+    </TR>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:0</TD>
+<TD nowrap>MSPI_READCMD</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>When recovery is configured for MSPI, this field contains the Read command to be sent to the device to read the Metadata and the recovery image(s).
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Device specific options for the selected MRAM recovery device type.  Each field is used only for the device type specified (EMMC or MSPI) and is unused and ignored when not configured for the specified type.  Refer to the specified MSPI/EMMC registers for further information of the specific register and field's usage.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="NV_MSPI_PRECMDS"><A href="#index">INFO0_NV_MSPI_PRECMDS</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's MSPI Pre-Commands</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x009C (word offset 0x0027)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_NV_MSPI_PRECMDS ADDRESS:</B></TD>
+<TD><TT>0x4200009C</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="8">PCMD1<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PCMD2<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PCMD3<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">PCMD4<BR><TT>0x00</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:24</TD>
+<TD nowrap>PCMD1</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The first 8-bit pre-command to be sent, this will always be sent as CMD to the device.
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>23:16</TD>
+<TD nowrap>PCMD2</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The second 8-bit byte sent (as a pre-command or data)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:8</TD>
+<TD nowrap>PCMD3</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The third 8-bit byte sent (as a pre-command or data)
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:0</TD>
+<TD nowrap>PCMD4</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The fourth 8-bit byte sent (as a pre-command or data)
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>Pre-Commands sent prior to the Read command that loads the recovery image(s) for MSPI NV devices. How the four PCMDx fields are used is controlled by MSPI_PRECMD_CTRL the NV_OPTIONS word. Each command is sent followed by the delay time specified in the RESET_DLY and RESET_DLY_UNITS fields in the NV_OPTIONS word. The clock speed used to send the pre-commands is specified in the MSPI_PRECMD_CLKSEL field also in the NV_OPTIONS word.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>
+<H2 id="MRAM_RCV_RETRIES_TIMES"><A href="#index">INFO0_MRAM_RCV_RETRIES_TIMES</A></H2>
+<TABLE><TR><TD><B>MRAM Recovery's Retry count and timings</B></TD></TR></TABLE><BR>
+<TABLE><TR><TD><B>REGISTER OFFSET:</B></TD><TD><TT>0x00A0 (word offset 0x0028)</TT></TD></TR></TABLE><BR>
+<TR><TD><B> INFO0_MRAM_RCV_RETRIES_TIMES ADDRESS:</B></TD>
+<TD><TT>0x420000A0</TT></TD></TR><BR>
+<BR></TABLE>
+<TABLE border="1" cellpadding="1" cellspacing="0">
+  <TR valign="top" bgcolor="#888888">
+    <TD bgcolor="#E6E8F2"><SMALL><B>31</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>30</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>29</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>28</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>27</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>26</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>25</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>24</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>23</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>22</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>21</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>20</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>19</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>18</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>17</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>16</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>15</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>14</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>13</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>12</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>11</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>10</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>9</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>8</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>7</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>6</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>5</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>4</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>3</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>2</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>1</B></SMALL></TD>
+    <TD bgcolor="#E6E8F2"><SMALL><B>0</B></SMALL></TD>
+  </TR>
+<TR valign="top">
+<TD bgcolor="#ffffff" colspan="16">MAX_RETRIES<BR><TT>0x0000</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">MIN_RETRY_TIME<BR><TT>0x00</TT>
+</TD>
+<TD bgcolor="#ffffff" colspan="8">MAX_RETRY_TIME<BR><TT>0x00</TT>
+</TD>
+</TR>
+</TABLE>
+<BR>
+<TABLE border="1" cellpadding="3" cellspacing="0">
+  <TR align="left" bgcolor="#E6E8F2">
+    <TH><U><SMALL>Bits</SMALL></U></TH>
+    <TH><U><SMALL>Name</SMALL></U></TH>
+    <TH><U><SMALL>Type</SMALL></U></TH>
+    <TH><U><SMALL>Flags</SMALL></U></TH>
+    <TH><U><SMALL>Description</SMALL></U></TH>
+  </TR>
+<TR align="left">
+<TD nowrap>31:16</TD>
+<TD nowrap>MAX_RETRIES</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The maximum number of retry attempts before stopping and requiring a reset
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>15:8</TD>
+<TD nowrap>MIN_RETRY_TIME</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The minimum time between retries in seconds.  The time between retries will start with MIN_RETRY_TIME and increment by MIN_RETRY_TIME up to MAXMAX_RETRY_TIME, any remaining retries will be separated by the MAX_RETRY_TIME
+  <TABLE>
+  </TABLE>
+</TD>
+<TR align="left">
+<TD nowrap>7:0</TD>
+<TD nowrap>MAX_RETRY_TIME</TD>
+<TD nowrap>uint32_t</TD>
+<TD nowrap> </TD>
+<TD>The maximum time between retries in minutes.   The time between retires will increase from MIN_RETRY_TIME to MAXMAX_RETRY_TIME, any remaining retries will be separated by the MAX_RETRY_TIME.
+  <TABLE>
+  </TABLE>
+</TD>
+</TABLE>
+<BR>
+<TABLE><TR><TD><B>Description:</B></TD></TR><TR><TD><TT>The number of retries if MRAM recovery fails and the times between retries.</TT></TD></TR></TABLE><BR>
+<BR><BR>
+<HR>
+</BODY>
+</HTML>

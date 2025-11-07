@@ -1,0 +1,6 @@
+{
+  "src_rel": "usb/vendor_device.c",
+  "new_upstream_rel": "third_party/tinyusb/source/src/class/vendor/vendor_device.c",
+  "old_upstream_rel": "third_party/tinyusb/source/src/class/vendor/vendor_device.c",
+  "similarity_new": 1.0
+}

@@ -293,7 +293,7 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     if (bufremain) {
         // Collects the amount of data that has not been written
     }
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
     // ns_lp_printf("tud_vendor_write_flush, avail is %d\n", tud_vendor_write_available());
 

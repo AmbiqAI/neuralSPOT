@@ -1,0 +1,54 @@
+
+BLE Image Updates
+
+v1.2.0 / 18-August-2025:
+ -Update the rf driver to support the CTE I/Q data reception.
+ -Wakeup the baseband after check it entered the deep sleep mode.
+ -Update the ticktimer clock source to XTAL32.768k.
+ -Fix the ADPLL re_initialization error.
+
+* INFO1 information on successful install:
+ INFO1_EXTIMGTYPE0: 2
+ INFO1_EXTIMGVERSION0: 0x01020000
+ INFO1_EXTIMGSTARTADDR0: 0x5B8000
+ INFO1_EXTIMGENDADDR0: 0x5FFFFF
+  
+v1.1.0 / 23-June-2025:
+Initial CM4 BLE firmware release:
+This release is Bluetooth 5.4 compliant, targeting BLE features only. 
+ -All packet types (Broadcasting / Advertising / Data / Control / ISO / Long Range). 
+ -Advertising Extension. 
+ -Isochronous channel operations support (CIS/BIS/proprietary mode). 
+ -Encryption / Decryption (AES-CCM). 
+ -Frequency Hopping calculation (scheme #1 and scheme #2). 
+ -Low power modes support.
+ -WLAN Coexistence mechanism(1-wire PTA 2-wire PTA 3-wire PTA and 4-wire PTA ). 
+ -All device classes support (Broadcaster, Central, Observer, Peripheral). 
+ 
+* INFO1 information on successful install:
+ INFO1_EXTIMGTYPE0: 2
+ INFO1_EXTIMGVERSION0: 0x01010000
+ INFO1_EXTIMGSTARTADDR0: 0x5B8000
+ INFO1_EXTIMGENDADDR0: 0x5FFFFF
+ 
+*The following BLE features are tested:
+ -Packet types (Broadcasting / Advertising / Data / Control).
+ -Encryption / Decryption (AES-CCM). 
+ -Frequency Hopping calculation (scheme #1 and scheme #2).
+ -Low power modes support.
+ -WLAN Coexistence mechanism(1-wire PTA 2-wire PTA 3-wire PTA and 4-wire PTA ). 
+ -Device classes support (Broadcaster, Observer, Peripheral).
+ -LE Data Packet Length Extension.
+ -LE Security Connection.
+ -Vendor commands for updating BT address,LE features and NVDS management.
+
+*The following BLE features will be tested in future releases:
+ -LE audio.
+ -LE Long Range(Coded PHY).
+ -Advertising Extension.
+ -LE Power Control.
+ -Power consumption of the idle connection and advertising
+ 
+* Known issues/Limitations:
+ -There is issue with CTE I/Q data reception.
+

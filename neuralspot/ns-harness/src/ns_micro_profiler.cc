@@ -39,14 +39,14 @@ limitations under the License.
     #endif
     #include "tensorflow/lite/micro/micro_time.h"
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 extern ns_pmu_config_t ns_microProfilerPMU;
 #endif
 
 namespace tflite {
 
 // uint32_t real_event = 0;
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 void capture_pmu_counters(ns_pmu_counters_t *dest) {
     ns_pmu_get_counters(&ns_microProfilerPMU);
     // ns_pmu_print_counters(&ns_microProfilerPMU);
@@ -54,7 +54,7 @@ void capture_pmu_counters(ns_pmu_counters_t *dest) {
         dest->counterValue[i] = ns_microProfilerPMU.counter[i].counterValue;
     }    
 }
-#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L
+#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L || AM_PART_APOLLO330P
 
 uint32_t
 MicroProfiler::BeginEvent(const char *tag) {
@@ -73,7 +73,7 @@ MicroProfiler::BeginEvent(const char *tag) {
     start_ticks_[num_events_] = ns_us_ticker_read(ns_microProfilerTimer);
     ns_reset_perf_counters();
     // #ifndef AM_PART_APOLLO5A
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     // ns_pmu_get_counters(&(ns_microProfilerSidecar.pmu_snapshot[num_events_])); // this implicitly resets the counters
     // ns_lp_printf("Start PMUs for %d (%s)\n", num_events_, tag);
     ns_pmu_reset_counters();
@@ -82,7 +82,7 @@ MicroProfiler::BeginEvent(const char *tag) {
 
     #endif
 
-    #if not defined(AM_PART_APOLLO5B) && not defined(AM_PART_APOLLO5A) && not defined(AM_PART_APOLLO510L)
+    #if not defined(AM_PART_APOLLO5B) && not defined(AM_PART_APOLLO5A) && not defined(AM_PART_APOLLO510L) && not defined(AM_PART_APOLLO330P)
     ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_snapshot[num_events_]));
     ns_capture_perf_profiler(&(ns_microProfilerSidecar.perf_snapshot[num_events_]));
     #endif
@@ -104,7 +104,7 @@ MicroProfiler::EndEvent(uint32_t event_handle) {
     TFLITE_DCHECK(event_handle < kMaxEvents);
 
     end_ticks_[event_handle] = ns_us_ticker_read(ns_microProfilerTimer);
-    #if not defined(AM_PART_APOLLO5B) && not defined(AM_PART_APOLLO5A) && not defined(AM_PART_APOLLO510L)
+    #if not defined(AM_PART_APOLLO5B) && not defined(AM_PART_APOLLO5A) && not defined(AM_PART_APOLLO510L) && not defined(AM_PART_APOLLO330P)
     ns_cache_dump_t c;
     ns_capture_cache_stats(&c);
     ns_delta_cache(&(ns_microProfilerSidecar.cache_snapshot[event_handle]), &c,
@@ -115,7 +115,7 @@ MicroProfiler::EndEvent(uint32_t event_handle) {
     ns_delta_perf(&(ns_microProfilerSidecar.perf_snapshot[event_handle]), &p,
                   &(ns_microProfilerSidecar.perf_snapshot[event_handle]));
     // ns_capture_cache_stats(&(ns_microProfilerSidecar.cache_end[event_handle]));
-    #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_counters_t pmu;
     // ns_lp_printf("End PMUs for %d\n", event_handle);
     capture_pmu_counters(&pmu);
@@ -157,7 +157,7 @@ void
 MicroProfiler::LogCsv() const {
     ns_perf_counters_t *p;
     uint32_t max_events = num_events_>NS_PROFILER_MAX_EVENTS?NS_PROFILER_MAX_EVENTS:num_events_;
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_counters_t *pmu;
     char name[50];
     #else
@@ -167,7 +167,7 @@ MicroProfiler::LogCsv() const {
     uint32_t macs;
     ns_lp_printf("LogCsv %d events (num_events_ %d).\n", max_events, num_events_);
     ns_microProfilerSidecar.captured_event_num = max_events;
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 
     // print same header to ns_profiler_csv_header
     snprintf(ns_profiler_csv_header, 512,
@@ -202,7 +202,7 @@ MicroProfiler::LogCsv() const {
     for (uint32_t i = 0; i < max_events; ++i) {
         uint32_t ticks = end_ticks_[i] - start_ticks_[i];
         p = &(ns_microProfilerSidecar.perf_snapshot[i]);
-        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
         pmu = &(ns_microProfilerSidecar.pmu_snapshot[i]);
         #else
         c = &(ns_microProfilerSidecar.cache_snapshot[i]);
@@ -223,7 +223,7 @@ MicroProfiler::LogCsv() const {
         //              ns_microProfilerSidecar.m->dilation_w[i], ns_microProfilerSidecar.m->mac_compute_string[i],
         //              ns_microProfilerSidecar.m->output_shapes[i], ns_microProfilerSidecar.m->filter_shapes[i]);
 
-        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
         ns_lp_printf("%d, %s, %d, %d, ", i, tags_[i], ticks, macs);
         ns_lp_printf("\"%s\", %d, \"%s\", \"%s\", %d, %d, %d, %d", ns_microProfilerSidecar.m->mac_compute_string[i],
                     ns_microProfilerSidecar.m->output_magnitudes[i], ns_microProfilerSidecar.m->output_shapes[i],
@@ -245,7 +245,7 @@ MicroProfiler::LogCsv() const {
     // Capture statistics for Validator if enabled
     #ifdef NS_MLPROFILE
         if (i < NS_PROFILER_RPC_EVENTS_MAX) {
-            #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+            #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
             memcpy(&ns_profiler_events_stats[i].pmu_delta, pmu, sizeof(ns_pmu_counters_t));
             #else
             memcpy(&ns_profiler_events_stats[i].cache_delta, c, sizeof(ns_cache_dump_t));

@@ -97,7 +97,7 @@ int main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n"); 
     // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
 
 #ifdef LOWEST_POWER_MODE
@@ -181,7 +181,7 @@ int main(void) {
 
                 int32_t mfcc_buffer_head = (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
 
-#ifdef RINGBUFFER_MODE
+#ifdef RINGBUFFER_MODE 
                 ns_ipc_ring_buffer_pop(audioBuf, &audioDataBuffer, audio_config.numSamples * 2);
 #endif
 #ifdef RPC_ENABLED

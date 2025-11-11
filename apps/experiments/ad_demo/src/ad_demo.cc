@@ -35,7 +35,7 @@ extern "C++" {
 // #include "ns_pp.h"
 // #else
 #include "ns_power_profile.h"
-#include "am_hal_spotmgr.h"
+// #include "am_hal_spotmgr.h"
 // #endif
 #if 0 == 1
 #include "ad01_int8_aligned_model.h"
@@ -309,7 +309,7 @@ int main(void) {
     // print_snapshot(0, false);
 
 #if 1 == 1
-    // If no Joulescope, start running the model without waiting for a trigger
+    // If no Joulescope , start running the model without waiting for a trigger
     ns_lp_printf("Current power and performance register settings:\n");
     // ns_delay_us(1000000);
     #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
@@ -323,8 +323,8 @@ int main(void) {
     // am_util_pp_snapshot(false, 1, false); // Capture register snapshot 1
     // am_util_pp_snapshot(false, 1, true); // print captured snapshot
     #else
-    ns_pp_ap5_snapshot(false, 0, false);
-    ns_pp_ap5_snapshot(false, 0, true);
+    // ns_pp_ap5_snapshot(false, 0, false);
+    // ns_pp_ap5_snapshot(false, 0, true);
     #endif // AM_PART_APOLLO5B
     joulescopeTrigger = true;
     ns_lp_printf("No Joulescope, starting model without trigger.\n");

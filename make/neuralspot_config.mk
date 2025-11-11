@@ -179,12 +179,14 @@ else ifeq ($(ARCH),apollo3)
   BLE_PRESENT := 1
 else ifeq ($(PLATFORM), apollo510b_evb)
   BLE_PRESENT := 1
+else ifeq ($(PLATFORM), apollo330mP_evb)
+  BLE_PRESENT := 1
 else
   BLE_PRESENT := 0
 endif
 
 # USB_PRESENT: only certain PARTs support USB
-ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510 apollo510L apollo510b apollo330mP),$(PART))
+ifeq ($(findstring $(PART),apollo4p apollo5a apollo5b apollo510 apollo510L apollo510b apollo330P),$(PART))
   USB_PRESENT := 1
 else
   USB_PRESENT := 0
@@ -260,7 +262,7 @@ endif
 
 # Default stack & heap (in 32-bit words or KB)
 ifndef STACK_SIZE_IN_32B_WORDS
-  STACK_SIZE_IN_32B_WORDS := 4096
+  STACK_SIZE_IN_32B_WORDS := 5120
 endif
 
 ifndef NS_MALLOC_HEAP_SIZE_IN_K

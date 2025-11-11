@@ -31,6 +31,12 @@ else ifeq ($(ARCH),apollo5)
     JLINK_DEVICE = AP510NFA-CBR
   endif
 endif
+ifeq ($(ARCH),apollo330)
+  JLINK_IF_SPEED = 4000
+    JLINK_PF_ADDR = 0x00410000
+
+  JLINK_DEVICE = AP330MPA-CBR
+endif
 JLINK_CPUFREQ = 96105000
 JLINK_SWOFREQ = 1000000
 JLINK_CF = $(BINDIR)/flash_cmds.jlink

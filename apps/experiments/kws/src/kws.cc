@@ -61,7 +61,7 @@ int main(void) {
 #ifndef LOWEST_POWER_MODE
     ns_itm_printf_enable();
 #endif
-
+ns_lp_printf("Starting model...\n");
 #ifdef NS_MLPROFILE
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 #endif

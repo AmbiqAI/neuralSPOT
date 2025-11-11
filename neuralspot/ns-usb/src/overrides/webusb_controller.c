@@ -146,7 +146,7 @@ void tud_suspend_cb(bool remote_wakeup_en) {
 void tud_resume_cb(void) { webusb_connected = false; }
 
 // Invoked when received new data - the prototype changed for R5.1.0_rc27 and R5.2.alpha.1
-#if defined(NS_AMBIQSUITE_VERSION_R5_1_0_rc27) || defined(NS_AMBIQSUITE_VERSION_R5_2_alpha_1)
+#if defined(NS_AMBIQSUITE_VERSION_R5_1_0_rc27) || defined(NS_AMBIQSUITE_VERSION_R5_2_alpha_1) || defined(NS_AMBIQSUITE_VERSION_test3)
 void tud_vendor_rx_cb(uint8_t itf, uint8_t const* buffer, uint16_t bufsize) {
 #else
 void tud_vendor_rx_cb(uint8_t itf) {

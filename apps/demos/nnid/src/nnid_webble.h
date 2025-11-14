@@ -132,6 +132,8 @@ int audioWebbleServiceInit(void) {
 
 void RadioTask(void *pvParameters) {
     NS_TRY(audioWebbleServiceInit(), "BLE Service Init failed.\n");
+
+    ns_delay_us(1000000);
     while (1) {
         wsfOsDispatcher();
     }

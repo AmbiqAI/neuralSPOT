@@ -46,12 +46,13 @@
 
 #include <stdio.h>
 #include "opusenc.h"
+#include "ns_ambiqsuite_harness.h"
 #define OPUS_MEM_RAM1_SIZE (20*1024)
 
 #if defined (keil)
 char opus_mem_ram1[OPUS_MEM_RAM1_SIZE] __attribute__((aligned));
 #else
-char opus_mem_ram1[OPUS_MEM_RAM1_SIZE];
+char opus_mem_ram1[OPUS_MEM_RAM1_SIZE] __attribute__((aligned(32)));
 #endif
  int    opus_ram_ptr;
  int    opus_ram_ptr_save = 0;   
@@ -96,6 +97,7 @@ void* alloca(int size)
    opus_ram_count += size1;
    if(opus_ram_count > OPUS_MEM_RAM1_SIZE)
    {
+     ns_lp_printf("ERROR : stack allocation failed %d max = %d\n", opus_ram_count, OPUS_MEM_RAM1_SIZE);
      //am_app_utils_stdio_printf("ERROR : stack allocation failed %d max = %d\n", opus_ram_count, OPUS_MEM_RAM1_SIZE);
      return 0;
    }
@@ -114,6 +116,7 @@ void* spl_free(int size)
    opus_ram_count -= size1;
    if(opus_ram_count <=0)
    {
+    ns_lp_printf("ERROR : free allocation failed %d max = %d\n", opus_ram_count, OPUS_MEM_RAM1_SIZE);
      //am_app_utils_stdio_printf("ERROR : free allocation failed %d max = %d\n", opus_ram_count, OPUS_MEM_RAM1_SIZE);
      return 0;
    }
@@ -255,6 +258,8 @@ int audio_enc_encode_frame(short *p_pcm_buffer, int n_pcm_samples, unsigned char
   reset_timer(); //reset timer
   start_timer(); //reset timer
 #endif
+    // ns_lp_printf("Encoding frame 0x%x\n", p_pcm_buffer);
+    // ns_lp_printf("Encoded frame 0x%x\n", p_encoded_buffer);
       n = octopus_encode(p_spl_opus_encoder, p_pcm_buffer, n_pcm_samples, p_encoded_buffer, size);
 #ifdef MEASURE_MIPS  
   stop_timer(); //reset timer

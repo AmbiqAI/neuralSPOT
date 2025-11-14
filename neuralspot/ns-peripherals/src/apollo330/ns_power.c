@@ -52,16 +52,18 @@
 #include "am_devices_em9305.h"
 #endif
 
-#ifdef apollo510_evb
 #include "am_hal_clkmgr.h"
 #include "am_hal_spotmgr.h"
-#endif
 
+static ns_power_mode_e current_power_mode = NS_POWER_MODE_NOT_SET;
+static ns_power_mode_e desired_power_mode = NS_POWER_MODE_NOT_SET;
 uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     uint32_t retval = NS_STATUS_SUCCESS;
+    current_power_mode = eAIPowerMode;
+    desired_power_mode = eAIPowerMode;
     if (eAIPowerMode == NS_MAXIMUM_PERF) {
-        retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE1);
+        retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE2);
     }
     else if (eAIPowerMode == NS_MEDIUM_PERF) {
         retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE1);
@@ -69,8 +71,22 @@ uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
         retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
     }
 
-return retval;
+    return retval;
+}
 
+uint32_t ns_power_pdm_workaround_pre(void) {
+    if (current_power_mode == NS_MAXIMUM_PERF) {
+        am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE1);
+        current_power_mode = NS_MEDIUM_PERF;
+    }
+    return NS_STATUS_SUCCESS;
+}
+
+uint32_t ns_power_pdm_workaround_post(void) {
+    if (current_power_mode != desired_power_mode) {
+        ns_set_performance_mode(desired_power_mode);
+    }
+    return NS_STATUS_SUCCESS;
 }
 
 //*****************************************************************************
@@ -194,6 +210,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 #endif
 
     am_bsp_low_power_init();
+    return NS_STATUS_SUCCESS;
     // am_hal_spotmgr_profile_t spotmgr_profile; 
     // spotmgr_profile.PROFILE_b.COLLAPSESTMANDSTMP = 1;
     // am_hal_spotmgr_profile_set(&spotmgr_profile);
@@ -245,6 +262,9 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     //
     // Power off the RSS
     //
+    if (pCfg->bNeedBluetooth == false) {
+        am_hal_pwrctrl_rss_pwroff();
+    }
     // am_hal_pwrctrl_rss_pwroff();
     #endif
 

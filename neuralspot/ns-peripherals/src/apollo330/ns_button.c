@@ -69,7 +69,7 @@ extern void ns_joulescope_trigger_handler(void *pArg);
 
 uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
     uint32_t ui32IntStatus;
-    #if defined(apollo510b_evb)
+    #if defined(AM_PART_APOLLO330P) 
     uint32_t ui32JoulescopeTriggerGpioNum = 5;
     #else
     uint32_t ui32JoulescopeTriggerGpioNum = 14;

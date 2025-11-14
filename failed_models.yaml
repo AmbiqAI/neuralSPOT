@@ -1,0 +1,36 @@
+models:
+- &id001
+  id: 0
+  model_name: VWW
+  tflite_filename: vww/vww_96_int8_aligned.tflite
+- *id001
+- &id002
+  id: 1
+  model_name: KWS
+  tflite_filename: kws/kws_ref_model_aligned.tflite
+- *id002
+- &id003
+  id: 2
+  model_name: IC
+  tflite_filename: ic/pretrainedResnet_quant_aligned.tflite
+- *id003
+- &id004
+  id: 3
+  model_name: AD
+  runs_power: 2000
+  tflite_filename: ad/ad01_int8_aligned.tflite
+- *id004
+- &id005
+  id: 4
+  tflite_filename: arr/arrhythmia-model.tflite
+- *id005
+- &id006
+  id: 6
+  tflite_filename: denoise-model-int8.tflite
+- *id006
+- &id007
+  arena_size_scratch_buffer_padding: 10
+  id: 7
+  runs_power: 2000
+  tflite_filename: nnvad_int8.tflite
+- *id007

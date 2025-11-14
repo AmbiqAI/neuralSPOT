@@ -31,7 +31,7 @@ extern "C" {
     #include "tflm_ns_model.h"            // model helpers
   
     // PMU helpers used by the existing TFLM debug/profiler sidecar
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     #include "ns_pmu_map.h"
     #endif
 
@@ -54,7 +54,7 @@ extern "C" {
     #include "tensorflow/lite/micro/micro_resource_variable.h"
     #endif
     extern const ns_perf_mac_count_t mac_estimates;
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     extern ns_pmu_config_t s_pmu_cfg;
     #endif
 
@@ -102,7 +102,7 @@ extern "C" {
     #ifdef NS_MLPROFILE
       s_tflm.tickTimer = tickTimer;  // configured by app if profiling is enabled
       s_tflm.mac_estimates = &mac_estimates;
-      #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+      #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
       s_tflm.pmu = &s_pmu_cfg;
       #endif
     #endif
@@ -148,6 +148,7 @@ extern "C" {
     
     // -------- PMU / characterization hooks (runtime-specific) --------------
     static void rt_pmu_get_header(char* dst, uint32_t max_len){
+      #if defined(ARMCM55)
       if (!dst || max_len == 0) return;
       ns_set_pmu_header();
       // Safe copy with guaranteed NUL
@@ -156,9 +157,10 @@ extern "C" {
         dst[i] = ns_profiler_pmu_header[i];
       }
       dst[i] = '\0';
+      #endif
     }
     static uint32_t rt_pmu_events_per_layer(void){
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
       return NS_NUM_PMU_MAP_SIZE;
     #else
       return 0;
@@ -169,14 +171,18 @@ extern "C" {
                                           uint32_t rv_max,
                                           uint32_t* out_counters,
                                           uint32_t out_capacity){
+      #if defined(ARMCM55)
       (void)layer_count; (void)rv_max;
       if (!out_counters || out_capacity == 0) return -1;
       ns_get_layer_counters(layer, layer_count, rv_max, out_counters);
+      #endif
       return 0;
     }
     static void rt_pmu_full_characterize(int (*invoke_cb)(void)){
+      #if defined(ARMCM55)
       /* Characterize via the existing helper; prefer callback if provided. */
       (void)ns_characterize_model(invoke_cb ? invoke_cb : rt_invoke_cb_shim);
+      #endif
     }
         
     static const ns_validator_rt_api_t kAPI = {

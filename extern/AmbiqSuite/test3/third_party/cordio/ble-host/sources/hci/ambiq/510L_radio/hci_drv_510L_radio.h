@@ -46,11 +46,12 @@
 #ifndef HCI_DRV_510L_RADIO_H
 #define HCI_DRV_510L_RADIO_H
 
+#include "am_devices_510L_radio.h"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-#include "am_devices_510L_radio.h"
 
 
 #define LL_FEATURES_BYTE0  ( HCI_LE_SUP_FEAT_ENCRYPTION  \

@@ -16,7 +16,7 @@
 #ifndef __METAL_FREERTOS_MUTEX__H__
 #define __METAL_FREERTOS_MUTEX__H__
 
-#include "libmetal/lib/assert.h"
+#include "libmetal/lib/metal_assert.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
 

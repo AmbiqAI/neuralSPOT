@@ -5,14 +5,15 @@
  */
 
 /*
- * @file	assert.h
+ * @file	metal_assert.h
  * @brief	Assertion support.
  */
 
 #ifndef __METAL_ASSERT__H__
 #define __METAL_ASSERT__H__
 
-#include "./system/freertos/assert.h"
+// Include the metal-specific assertion support
+#include "./system/freertos/metal_freertos_assert.h"
 
 /**
  * @brief Assertion macro.

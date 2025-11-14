@@ -62,7 +62,7 @@ typedef union {
 #define NS_AD_RPC_TRANSPORT_UART 0
 #define NS_AD_RPC_TRANSPORT_USB 1
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 #define NS_NUM_PMU_EVENTS NS_NUM_PMU_MAP_SIZE
 #endif 
 
@@ -81,7 +81,7 @@ typedef struct {
     ns_profiler_event_stats_t stat_buffer[NS_PROFILER_RPC_EVENTS_MAX];
 } ns_mut_stats_t;
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L) || defined(AM_PART_APOLLO330P)
 typedef struct {
     uint32_t layer;
     char csv_header[2048];
@@ -92,7 +92,7 @@ typedef struct {
 typedef union {
     ns_mut_stats_t stats;
     char bytes[sizeof(ns_mut_stats_t)];
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_stats_t pmu_stats;
 #endif
 } ns_outgoing_stats_t;

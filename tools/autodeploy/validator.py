@@ -1847,7 +1847,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
         ns_ad_large_model = 0
 
     # If Apollo5, load PMU definitions
-    if params.platform in ["apollo510_eb", "apollo510_evb", "apollo510L_eb", "apollo510b_evb"] :
+    if params.platform in ["apollo510_eb", "apollo510_evb", "apollo510L_eb", "apollo510b_evb", "apollo330mP_evb"] :
         pmu_defs = read_pmu_definitions(params)
         ev0 = pmu_defs["PMU_EVENT0"]["name"]
         ev1 = pmu_defs["PMU_EVENT1"]["name"]

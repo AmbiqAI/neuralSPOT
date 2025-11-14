@@ -51,14 +51,14 @@
 #ifndef AM_DEVICES_510L_RADIO_H
 #define AM_DEVICES_510L_RADIO_H
 
+#include "am_util.h"
+#include "ipc_rpmsg_static_vrings.h"
+#include <stdlib.h>
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-#include "am_util.h"
-#include "ipc_rpmsg_static_vrings.h"
-#include <stdlib.h>
 
 //*****************************************************************************
 //

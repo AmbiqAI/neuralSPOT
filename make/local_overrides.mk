@@ -26,6 +26,10 @@
 # PLATFORM := apollo5b_eb_revb
 # AS_VERSION := Apollo510_SDK3_2024_09_14
 
+# *** Apollo330P EVB
+# PLATFORM := apollo330mP_evb
+# AS_VERSION := test3
+
 # PLATFORM := apollo5a_eb
 # AS_VERSION := Apollo510_SDK3_2024_09_14
 # MLDEBUG := 1

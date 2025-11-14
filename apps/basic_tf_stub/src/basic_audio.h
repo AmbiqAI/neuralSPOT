@@ -44,8 +44,8 @@ alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM au
     #else
 alignas(16) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
     #endif
-    // alignas(32) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
-    uint32_t AM_SHARED_RW static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 4]  __attribute__((aligned(32)));   // DMA target
+    alignas(32) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
+    // uint32_t AM_SHARED_RW static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 4]  __attribute__((aligned(32)));   // DMA target
     #ifndef USE_PDM_MICROPHONE
 alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used
                                                                               // by AUDADC

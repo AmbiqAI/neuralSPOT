@@ -5,7 +5,7 @@
  */
 
 /*
- * @file	assert.h
+ * @file	metal_freertos_assert.h
  * @brief	FreeRTOS assertion support.
  */
 //#ifndef __METAL_ASSERT__H__

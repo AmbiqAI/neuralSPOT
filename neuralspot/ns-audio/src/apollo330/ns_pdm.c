@@ -56,6 +56,11 @@ void pdm_trigger_dma(ns_audio_config_t *config) {
     am_hal_pdm_dma_start(pvPDMHandle, &(config->sTransfer));
 }
 
+// Ambiqsuite Alpha has a problem where if the MCU is in HIGH_PERFORMANCE2 mode during init, the PDM will not pick the right clock.
+// If the MCU is in HP2, temporarily switch to HP1 during init, then switch back to HP2 after init.
+uint32_t ns_power_pdm_workaround_pre(void);
+uint32_t ns_power_pdm_workaround_post(void);
+
 uint32_t pdm_init(ns_audio_config_t *config) {
     ns_pdm_cfg_t *cfg = config->pdm_config;
     // Check DMA buffer alignment
@@ -68,8 +73,8 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         .eStepSize = AM_HAL_PDM_GAIN_STEP_0_13DB,
         .bHighPassEnable = AM_HAL_PDM_HIGH_PASS_ENABLE,
         .ui32HighPassCutoff = 0x3,
-        .eLeftGain = AM_HAL_PDM_GAIN_0DB,
-        .eRightGain = AM_HAL_PDM_GAIN_0DB,
+        .eLeftGain = AM_HAL_PDM_GAIN_P120DB,
+        .eRightGain = AM_HAL_PDM_GAIN_P120DB,
         .bDataPacking = 1,
         .bPDMSampleDelay = AM_HAL_PDM_CLKOUT_PHSDLY_NONE,
         .ui32GainChangeDelay = AM_HAL_PDM_CLKOUT_DELAY_NONE,
@@ -80,7 +85,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     pdmConfig.eLeftGain = cfg->left_gain;
     pdmConfig.eRightGain = cfg->right_gain;
     
-    pdmConfig.eWordWidth          = AM_HAL_PDM_DATA_WORD_WIDTH_24BITS;
+    pdmConfig.eWordWidth          = AM_HAL_PDM_DATA_WORD_WIDTH_16BITS;
     pdmConfig.eDataFlowDirection  = AM_HAL_PDM_DATA_FLOW_TO_MEMORY;
     pdmConfig.bI2sMaster          = false;
 
@@ -126,8 +131,8 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     //         break;
     //     }
     // } if (cfg->clock == NS_CLKSEL_PLL) {
-        pdmConfig.ePDMAClkOutDivder = AM_HAL_PDM_PDMA_CLKO_DIV5;
-        pdmConfig.ui32DecimationRate = 64;
+        pdmConfig.ePDMAClkOutDivder = AM_HAL_PDM_PDMA_CLKO_DIV3;
+        pdmConfig.ui32DecimationRate = 48;
     // } else {
     //     pdmConfig.ePDMAClkOutDivder = AM_HAL_PDM_PDMA_CLKO_DIV14;
     //     pdmConfig.ui32DecimationRate = 24;
@@ -140,6 +145,8 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         pdmConfig.ePCMChannels = AM_HAL_PDM_CHANNEL_LEFT;
     }
 
+
+    ns_power_pdm_workaround_pre();
     // if (cfg->clock == NS_CLKSEL_PLL)
     // {
     //     #ifdef AM_PART_APOLLO510
@@ -186,34 +193,16 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     am_hal_pdm_initialize(cfg->mic, &pvPDMHandle);
     am_hal_pdm_power_control(pvPDMHandle, AM_HAL_PDM_POWER_ON, false);
     am_hal_pdm_configure(pvPDMHandle, &pdmConfig);
-        // print every field in sPdmConfig
-        am_util_stdio_printf("sPdmConfig: %p\n", &pdmConfig);
-        am_util_stdio_printf("ePDMClkSpeed: %d\n", pdmConfig.ePDMClkSpeed);
-        am_util_stdio_printf("eWordWidth: %d\n", pdmConfig.eWordWidth);
-        am_util_stdio_printf("eDataFlowDirection: %d\n", pdmConfig.eDataFlowDirection);
-        am_util_stdio_printf("bI2sMaster: %d\n", pdmConfig.bI2sMaster);
-        am_util_stdio_printf("eClkDivider: %d\n", pdmConfig.eClkDivider);
-        am_util_stdio_printf("ePDMAClkOutDivder: %d\n", pdmConfig.ePDMAClkOutDivder);
-        am_util_stdio_printf("ui32DecimationRate: %d\n", pdmConfig.ui32DecimationRate);
-        am_util_stdio_printf("eLeftGain: %d\n", pdmConfig.eLeftGain);
-        am_util_stdio_printf("eRightGain: %d\n", pdmConfig.eRightGain);
-        am_util_stdio_printf("eStepSize: %d\n", pdmConfig.eStepSize);
-        am_util_stdio_printf("bHighPassEnable: %d\n", pdmConfig.bHighPassEnable);
-        am_util_stdio_printf("ui32HighPassCutoff: %d\n", pdmConfig.ui32HighPassCutoff);
-        am_util_stdio_printf("ePCMChannels: %d\n", pdmConfig.ePCMChannels);
-        am_util_stdio_printf("bPDMSampleDelay: %d\n", pdmConfig.bPDMSampleDelay);
-        am_util_stdio_printf("ui32GainChangeDelay: %d\n", pdmConfig.ui32GainChangeDelay);
-        am_util_stdio_printf("bSoftMute: %d\n", pdmConfig.bSoftMute);
-        am_util_stdio_printf("bLRSwap: %d\n", pdmConfig.bLRSwap);
+
     am_hal_pdm_fifo_threshold_setup(pvPDMHandle, 16);
-    // am_hal_pdm_fifo_flush(pvPDMHandle);
+    am_hal_pdm_fifo_flush(pvPDMHandle);
 
     // Configure and enable PDM interrupts (set up to trigger on DMA
     // completion).
     am_hal_pdm_interrupt_enable(
-        pvPDMHandle, (AM_HAL_PDM_INT_DCMP | AM_HAL_PDM_INT_DERR));
-
-        // (AM_HAL_PDM_INT_DERR | AM_HAL_PDM_INT_DCMP | AM_HAL_PDM_INT_UNDFL | AM_HAL_PDM_INT_OVF));
+        // pvPDMHandle, (AM_HAL_PDM_INT_DCMP | AM_HAL_PDM_INT_DERR));
+        pvPDMHandle, 
+        (AM_HAL_PDM_INT_DERR | AM_HAL_PDM_INT_DCMP | AM_HAL_PDM_INT_UNDFL | AM_HAL_PDM_INT_OVF));
 
     NVIC_SetPriority(g_ePdmInterrupts[cfg->mic],AM_IRQ_PRIORITY_DEFAULT);
     // NVIC_SetPriority(g_ePdmInterrupts[cfg->mic], 7);
@@ -221,6 +210,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     am_hal_interrupt_master_enable();
     am_hal_pdm_enable(pvPDMHandle);
     pdm_trigger_dma(config);
+    ns_power_pdm_workaround_post();
     return NS_STATUS_SUCCESS;
 }
 
@@ -248,7 +238,7 @@ void pdm_deinit(ns_audio_config_t *config) {
 // PDM Interrupt Service Routine (ISR)
 void am_pdm_isr_common(uint8_t pdmNumber) {
     uint32_t ui32Status;
-    ns_lp_printf("PDM ISR %d\n", pdmNumber);
+    // ns_lp_printf("PDM ISR %d\n", pdmNumber);
 #if configUSE_SYSVIEWER
     traceISR_ENTER();
 #endif // configUSE_SYSVIEWER
@@ -262,7 +252,7 @@ void am_pdm_isr_common(uint8_t pdmNumber) {
     am_hal_pdm_interrupt_service(pvPDMHandle, ui32Status, &(g_ns_audio_config->sTransfer));
 
     if (ui32Status & AM_HAL_PDM_INT_DCMP) {
-    ns_lp_printf("PDM ISR %d\n", ui32Status);
+    // ns_lp_printf("PDM ISR %d\n", ui32Status);
 
 
         uint32_t *ui32PDMDatabuffer = (uint32_t *)am_hal_pdm_dma_get_buffer(pvPDMHandle);
@@ -273,8 +263,8 @@ void am_pdm_isr_common(uint8_t pdmNumber) {
         uint8_t *temp1 = (uint8_t *)g_ns_audio_config->audioBuffer;
         for (uint32_t i = 0; i < g_ns_audio_config->numSamples * g_ns_audio_config->numChannels;
              i++) {
-            temp1[2 * i] = (ui32PDMDatabuffer[i] & 0xFF00) >> 8U;
-            temp1[2 * i + 1] = (ui32PDMDatabuffer[i] & 0xFF0000) >> 16U;
+            temp1[2 * i] = (ui32PDMDatabuffer[i] & 0xFF);
+            temp1[2 * i + 1] = (ui32PDMDatabuffer[i] & 0xFF00) >> 8U;
         }
 
     } else if (ui32Status & (AM_HAL_PDM_INT_UNDFL | AM_HAL_PDM_INT_OVF)) {
@@ -290,7 +280,6 @@ void am_pdm_isr_common(uint8_t pdmNumber) {
         #pragma GCC diagnostic pop
         #endif
         am_hal_pdm_fifo_flush(pvPDMHandle);
-        ns_lp_printf("am_hal_pdm_fifo_flush() %d\n", ui32Status);
     }
 
 #if configUSE_SYSVIEWER

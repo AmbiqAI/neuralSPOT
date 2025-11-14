@@ -108,7 +108,7 @@ extern uint32_t SystemCoreClock;
 #define configUSE_MUTEXES                               1
 #define configOVERRIDE_DEFAULT_TICK_CONFIGURATION       0 //1 // Enable non-SysTick based Tick
 #define configUSE_TICKLESS_IDLE                         0 //2 // Ambiq specific implementation for Tickless
-#define configUSE_APPLICATION_TASK_TAG                  1
+#define configUSE_APPLICATION_TASK_TAG                  0
 #define configUSE_NEWLIB_REENTRANT                      0
 #define configUSE_COUNTING_SEMAPHORES                   1
 #define configUSE_RECURSIVE_MUTEXES                     1
@@ -149,6 +149,7 @@ extern uint32_t SystemCoreClock;
 #define INCLUDE_xTaskResumeFromISR                      0
 #define INCLUDE_xTaskGetCurrentTaskHandle               1
 #define INCLUDE_xTaskGetSchedulerState                  0
+#define INCLUDE_xTaskAbortDelay                         1
 #define INCLUDE_xSemaphoreGetMutexHolder                1
 #define INCLUDE_xTimerPendFunctionCall                  1
 

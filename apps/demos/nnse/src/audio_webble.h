@@ -103,12 +103,16 @@ int audioWebbleServiceInit(void) {
     ns_ble_add_characteristic(&webbleService, &bleOpusLatency);
     ns_ble_add_characteristic(&webbleService, &bleSEEnabled);
     ns_ble_start_service(&webbleService); // Initialize BLE, create structs, start service
+    ns_lp_printf("BLE Service Initialized\n");
     return NS_STATUS_SUCCESS;
 }
 
 void RadioTask(void *pvParameters) {
     NS_TRY(audioWebbleServiceInit(), "BLE Service Init failed.\n");
+
     ns_delay_us(1000000);
+    g_audioRecording = true;
+
     while (1) {
         wsfOsDispatcher();
     }

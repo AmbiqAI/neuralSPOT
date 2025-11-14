@@ -14,7 +14,7 @@
 
 #include <stdint.h>
 #include <limits.h>
-#include "assert.h"
+#include "metal_assert.h"
 
 #ifdef __cplusplus
 extern "C" {

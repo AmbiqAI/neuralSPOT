@@ -166,7 +166,7 @@ typedef void (*vq_notify)(struct virtqueue *);
 
 #ifdef VQUEUE_DEBUG
 #include "log.h"
-#include "assert.h"
+#include "libmetal/lib/metal_assert.h"
 
 #define VQASSERT(_vq, _exp, _msg) \
 	do { \

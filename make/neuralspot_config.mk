@@ -238,7 +238,7 @@ else ifeq ($(AS_VERSION),R5.2.alpha.1)
     else
       BLE_SUPPORTED := 0
     endif 
-else ifeq ($(AS_VERSION),test3)
+else ifeq ($(AS_VERSION),R5.2.alpha.1.1)
   ifeq ($(BLE_PRESENT),1)
     DEFINES += NS_BLE_SUPPORTED
     BLE_SUPPORTED := 1

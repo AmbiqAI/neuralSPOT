@@ -98,12 +98,13 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
   LFLAGS += \
     -Wl,--gc-sections,--entry,Reset_Handler \
     -Wl,--start-group -lm -lc -lgcc -lnosys \
+    -Wl,--sort-section=name \
     -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ \
     -Wl,--end-group
 
   CPFLAGS := -Obinary
   ODFLAGS := -S
-  ARFLAGS := rsc
+  ARFLAGS := rscD
 
 else ifeq ($(TOOLCHAIN),arm)
 

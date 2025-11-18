@@ -27,8 +27,8 @@
 # AS_VERSION := Apollo510_SDK3_2024_09_14
 
 # *** Apollo330P EVB
-# PLATFORM := apollo330mP_evb
-# AS_VERSION := test3
+PLATFORM := apollo330mP_evb
+AS_VERSION := R5.2.alpha.1.1
 
 # PLATFORM := apollo5a_eb
 # AS_VERSION := Apollo510_SDK3_2024_09_14

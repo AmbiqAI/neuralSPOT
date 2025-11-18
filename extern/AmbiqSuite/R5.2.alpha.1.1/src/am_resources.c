@@ -91,7 +91,7 @@ AM_USED const uint32_t ui32DSP1Allowed[AM_HAL_ACCESS_STRUCT_SIZE] =
 
 //*****************************************************************************
 //
-// List of shared resources.
+// List of shared resources. 
 //
 //*****************************************************************************
 AM_USED const uint32_t ui32SharedAccess[AM_HAL_ACCESS_STRUCT_SIZE] =

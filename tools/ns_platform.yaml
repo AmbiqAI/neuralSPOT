@@ -213,7 +213,7 @@ apollo330mP_evb:
   nvm: 8192
   clock_lp: 96
   clock_hp: 250
-  as_version: test3
+  as_version: R5.2.alpha.1.1
   tflm_version: helia_rt_v1_6_0
   features:
     - mcu

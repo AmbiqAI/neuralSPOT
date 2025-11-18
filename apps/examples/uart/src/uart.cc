@@ -11,6 +11,7 @@
 #include "ns_peripherals_button.h"
 #include <stdlib.h>
 #define END_OF_CMD  '\n'
+
 ns_uart_config_t uart_config = {
     .api=&ns_uart_V0_0_1,
     .uart_config = &g_sUartConfig,
@@ -33,7 +34,7 @@ void my_rx_cb(ns_uart_transaction_t *t)
         if (data == END_OF_CMD && ++iteration % 5 == 0)
         {
             // send the switch token
-            ns_uart_blocking_send_data(&uart_config, "SWITCH\n", 7);
+            ns_uart_blocking_send_data(&uart_config, const_cast<char*>("SWITCH\n"), 7);
 
             baud = (baud == 115200) ? 921600 : 115200;
             ns_uart_change_baud_rate(uart_handle, baud);

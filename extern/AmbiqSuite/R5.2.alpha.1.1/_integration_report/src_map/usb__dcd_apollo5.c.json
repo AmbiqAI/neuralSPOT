@@ -1,0 +1,6 @@
+{
+  "src_rel": "usb/dcd_apollo5.c",
+  "new_upstream_rel": "third_party/tinyusb/ambiq_port/apollo5/dcd_apollo5.c",
+  "old_upstream_rel": "third_party/tinyusb/ambiq_port/apollo5/dcd_apollo5.c",
+  "similarity_new": 0.9993039550819013
+}

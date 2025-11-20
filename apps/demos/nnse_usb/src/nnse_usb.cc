@@ -18,7 +18,7 @@
 #include "task.h"
 #include "arm_math.h"
 
-alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
+alignas(32) unsigned char static encodedDataBuffer[80]; // Opus encoder output length is hardcoded
                                                         // to 80 bytes
 bool enableSE = false; // Flip between SE and Raw audio when button 0 is pressed
 uint32_t seLatency = 0;
@@ -43,7 +43,7 @@ typedef struct usb_data {
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
     #define NNSE_HEAP_SIZE (40 * 1024)
 size_t ucHeapSize = NNSE_HEAP_SIZE;
-uint8_t ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(4)));
+uint8_t AM_SHARED_RW ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(32)));
 #endif
 
 #define NUM_CHANNELS 1
@@ -62,10 +62,10 @@ ns_button_config_t button_config_nnsp = {
 /// Audio Config
 bool volatile static g_audioRecording = false;
 bool volatile static g_audioReady = false;
-alignas(16) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
-alignas(16) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
+alignas(32) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
+alignas(32) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
 #ifdef USE_AUDADC
-alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
                                                                               // used by AUDADC
 #endif
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -80,8 +80,8 @@ alignas(16) int16_t static sinWave[320];
 #define MY_RX_BUFSIZE 4096
 #define MY_TX_BUFSIZE 4096
 
-static uint8_t my_rx_ff_buf[MY_RX_BUFSIZE] __attribute__((aligned(16)));
-static uint8_t my_tx_ff_buf[MY_TX_BUFSIZE] __attribute__((aligned(16)));
+static AM_SHARED_RW uint8_t my_rx_ff_buf[MY_RX_BUFSIZE] __attribute__((aligned(16)));
+static AM_SHARED_RW uint8_t my_tx_ff_buf[MY_TX_BUFSIZE] __attribute__((aligned(16)));
 // WebUSB URL
 static ns_tusb_desc_webusb_url_t webusb_url;
 static ns_usb_config_t webUsbConfig = {
@@ -279,8 +279,10 @@ void encodeAndXferTask(void *pvParameters) {
             if (currentOpusSample == opusLatencyCapturePeriod) {
                 opusStart = ns_us_ticker_read(&basic_tickTimer);
             }
-
+            // ns_lp_printf("Encoding frame 0x%x\n", xmitBuffer + xmitReadPtr);
+            // ns_lp_printf("Encoded frame 0x%x\n", encodedDataBuffer);
             ret = audio_enc_encode_frame(xmitBuffer + xmitReadPtr, 320, encodedDataBuffer);
+            // ns_lp_printf("Encoded frame 0x%x\n", xmitReadPtr);
             NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
             if (currentOpusSample == opusLatencyCapturePeriod) {
@@ -322,22 +324,23 @@ void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
 }
 
 int main(void) {
-    usb_handle_t usb_handle = NULL;
+     usb_handle_t usb_handle = NULL;
 
     ns_core_config_t ns_core_cfg = {.api = &ns_core_V1_0_0};
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
 
-    ns_power_config(&ns_power_usb);
+    ns_power_config(&ns_development_default);
 
     // Only turn HP while doing codec and AI
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
-
+    ns_lp_printf("ns_interrupt_master_enable()\n");
     ns_audio_init(&audio_config);
     NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P120DB, AM_HAL_PDM_GAIN_P120DB), "Gain set failed.\n"); // PDM gain
     NS_TRY(ns_start_audio(&audio_config), "Audio start failed.\n");
+    ns_lp_printf("ns_start_audio()\n");
 
     ns_peripheral_button_init(&button_config_nnsp);
     ns_init_perf_profiler();
@@ -345,13 +348,13 @@ int main(void) {
 
     // Initialize the Opus encoder
     audio_enc_init(0);
-
+    ns_lp_printf("audio_enc_init()\n");
     // Initialize the URL descriptor
     strcpy(webusb_url.url, "ambiqai.github.io/web-ble-dashboards/nnse-usb/");
     webusb_url.bDescriptorType = 3;
     webusb_url.bScheme = 1;
     webusb_url.bLength = 3 + sizeof(webusb_url.url) - 1;
-
+    ns_lp_printf("webusb_url.bLength %d\n", webusb_url.bLength);
     // WebUSB Setup
     webusb_register_raw_cb(msgReceived, NULL);
     webUsbConfig.rx_buffer = my_rx_ff_buf;
@@ -361,7 +364,6 @@ int main(void) {
 
     NS_TRY(ns_usb_init(&webUsbConfig, &usb_handle), "USB Init Failed\n");
     ns_lp_printf("USB Init Success\n");
-
     // Initialize the model, get handle if successful
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
     // while(1);
@@ -370,14 +372,16 @@ int main(void) {
         sinWave[i] = (int16_t)(sin(2 * 3.14159 * 400 * i / SAMPLING_RATE) * 32767);
     }
 
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B) || defined(AM_PART_APOLLO330P_510L)
     data.platform = 2;
     #elif defined(AM_PART_APOLLO4P)
     data.platform = 1;
     #else
     data.platform = 0;
     #endif
-
+    // ns_lp_printf("data.platform %d\n", data.platform);
+    // audio_enc_encode_frame(sinWave, 320, encodedDataBuffer);
+    // ns_lp_printf("sin Encoded frame 0x%x\n", encodedDataBuffer);
     // initialize neural nets controller
     seCntrlClass_init(&cntrl_inst);
     // BLE is FreeRTOS-driven, everything happens in the tasks set up by setup_task()

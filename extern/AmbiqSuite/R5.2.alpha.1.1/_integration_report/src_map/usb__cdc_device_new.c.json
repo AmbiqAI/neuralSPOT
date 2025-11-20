@@ -1,0 +1,6 @@
+{
+  "src_rel": "usb/cdc_device_new.c",
+  "new_upstream_rel": "third_party/tinyusb/source/src/class/cdc/cdc_device.c",
+  "old_upstream_rel": "third_party/tinyusb/source/src/class/cdc/cdc_device.c",
+  "similarity_new": 0.9928040854224698
+}

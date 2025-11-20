@@ -1,0 +1,6 @@
+{
+  "src_rel": "am_hal_pwrctrl.c",
+  "new_upstream_rel": "mcu/apollo510L/hal/am_hal_pwrctrl.c",
+  "old_upstream_rel": "mcu/apollo510L/hal/am_hal_pwrctrl.c",
+  "similarity_new": 0.999916981445353
+}

@@ -23,13 +23,14 @@ alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output l
 bool enableSE = false; // Flip between SE and Raw audio when button 0 is pressed
 uint32_t seLatency = 0;
 uint32_t opusLatency = 0;
-
+bool volatile static g_audioRecording = false;
+bool volatile static g_audioReady = false;
 #include "audio_webble.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-    #define NNSE_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 4 * 1024)
+    #define NNSE_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 6 * 1024)
 size_t ucHeapSize = NNSE_HEAP_SIZE;
-uint8_t ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(4)));
+uint8_t AM_SHARED_RW ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(32)));
 #endif
 
 #define NUM_CHANNELS 1
@@ -46,12 +47,11 @@ ns_button_config_t button_config_nnsp = {
     .button_1_flag = NULL};
 
 /// Audio Config
-bool volatile static g_audioRecording = false;
-bool volatile static g_audioReady = false;
-alignas(16) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
-alignas(16) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
+
+alignas(32) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
+alignas(32) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
 #ifdef USE_AUDADC
-alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
                                                                               // used by AUDADC
 #endif
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -100,7 +100,7 @@ const ns_power_config_t ns_power_ble = {
     .api = &ns_power_V1_0_0,
     .eAIPowerMode = NS_MAXIMUM_PERF,
     .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
+    .bNeedSharedSRAM = true,
     .bNeedCrypto = false,
     .bNeedBluetooth = true,
     .bNeedUSB = false,
@@ -241,7 +241,8 @@ int main(void) {
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
 
     ns_power_config(&ns_power_ble);
-
+    // Enable interrupt master
+    ns_interrupt_master_enable();
     // Only turn HP while doing codec and AI
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
@@ -272,9 +273,9 @@ int main(void) {
 
     // BLE is FreeRTOS-driven, everything happens in the tasks set up by setup_task()
     // Audio notifications will start immediately, no waiting for button presses
-    g_audioRecording = true;
     xTaskCreate(setup_task, "Setup", 512, 0, 3, &my_xSetupTask);
     vTaskStartScheduler();
+
     while (1) {
     };
 }

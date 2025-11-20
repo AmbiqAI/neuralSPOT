@@ -153,7 +153,7 @@
 #endif
 
 #ifndef NS_OUTPUT_TENSOR_BUFFER_SIZE
-  #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+  #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     #define NS_OUTPUT_TENSOR_BUFFER_SIZE 200000u
   #elif defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
     #define NS_OUTPUT_TENSOR_BUFFER_SIZE 20000u
@@ -416,7 +416,7 @@ static status vrpc_get_stats_chunk(dataBlock* out){
 
 // Serve a single layer's PMU counters as "FullPMUStats" (runtime-specific)
 static status vrpc_get_pmu_layer(dataBlock* out){
-
+  #if defined(ARMCM55)
   if (!g_rt || !g_rt->pmu_get_header || !g_rt->pmu_get_layer_counters || (g_pmu_events_per_layer == 0)){
     return ns_rpc_data_failure;
   }
@@ -449,6 +449,7 @@ static status vrpc_get_pmu_layer(dataBlock* out){
     g_pmu_layer_iter = 0;
     g_pmu_events_per_layer = 0;
   }
+  #endif
   return ns_rpc_data_success;
 }
 
@@ -459,7 +460,7 @@ status decodeIncomingFetchblock(dataBlock* out){
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP3;
 #elif defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L)
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP4;
-#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
   mut_stats.stats.platform = NS_MUT_STATS_PLATFORM_AP5;
 #else
   mut_stats.stats.platform = 0;

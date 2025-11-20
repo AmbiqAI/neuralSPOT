@@ -1,0 +1,6 @@
+{
+  "src_rel": "rtos.h",
+  "new_upstream_rel": "boards/apollo330mP_evb/examples/power/coremark_pro/src/rtos.h",
+  "old_upstream_rel": "boards/apollo510L_eb/examples/power/coremark_pro/src/rtos.h",
+  "similarity_new": 0.9930355019534568
+}

@@ -69,7 +69,7 @@ extern "C" {
 #elif defined(AM_PART_APOLLO4L)
     #define NS_POWER_MONITOR_GPIO_0 61
     #define NS_POWER_MONITOR_GPIO_1 23
-#elif defined(AM_PART_APOLLO510B)
+#elif defined(AM_PART_APOLLO510B) || defined(AM_PART_APOLLO330P)
     #define NS_POWER_MONITOR_GPIO_0 0
     #define NS_POWER_MONITOR_GPIO_1 1
 #elif defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) && !defined(AM_PART_APOLLO510B)

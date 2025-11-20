@@ -1,0 +1,19 @@
+--- LOCAL:rtos.h
++++ MERGED:rtos.h
+@@ -40,7 +40,11 @@
+ // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ // POSSIBILITY OF SUCH DAMAGE.
+ //
++<<<<<<< LOCAL
+ // This is part of revision stable-e194c59112 of the AmbiqSuite Development Package.
++=======
++// This is part of revision release_sdk5_2_a_1_1-c2486c8ef of the AmbiqSuite Development Package.
++>>>>>>> REMOTE
+ //
+ //*****************************************************************************
+ #ifndef RTOS_H
+@@ -73,4 +77,3 @@
+ #endif
+ 
+ #endif // RTOS_H
+-

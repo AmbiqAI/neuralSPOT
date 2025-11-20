@@ -1,0 +1,6 @@
+{
+  "src_rel": "am_hal_queue.c",
+  "new_upstream_rel": "mcu/apollo510L/hal/am_hal_queue.c",
+  "old_upstream_rel": "mcu/apollo510L/hal/am_hal_queue.c",
+  "similarity_new": 0.9991097262408191
+}

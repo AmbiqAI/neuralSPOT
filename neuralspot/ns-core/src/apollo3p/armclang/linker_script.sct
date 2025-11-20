@@ -11,7 +11,7 @@ LR_1 0x0000C000
         * (+RO)
     }
 
-    RWMEM 0x10011000 0x000AF000
+    RWMEM 0x10016000 0x000AF000
     {
         * (+RW, +ZI)
     }
@@ -21,7 +21,7 @@ LR_1 0x0000C000
         * (.tcm)
     }
 
-    STACKMEM 0x10010000 0x00001000
+    STACKMEM 0x10010000 0x00006000
     {
         startup_keil6.o (STACK)
     }

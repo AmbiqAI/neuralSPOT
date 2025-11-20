@@ -63,9 +63,13 @@ modules 	 += extern/CMSIS/$(CMSIS_DSP_VERSION)
 # modules 	 += extern/CMSIS/CMSIS-NN
 modules      += extern/tensorflow/$(TF_VERSION)
 modules 	 += extern/codecs/opus-precomp
+modules 	 += extern/codecs/octopus
 modules 	 += extern/drivers/tdk/icm45605
 
 ifeq ($(BLE_SUPPORTED),1)
+ifeq ($(PLATFORM),apollo330mP_evb)
+	modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/open-amp
+endif
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 
@@ -308,18 +312,10 @@ $(JLINK_CF): $(deploy_target)
 $(JLINK_RESET_CF):
 	@echo " Creating JLink command reset file... $(deploy_target)"
 	$(Q) echo "ExitOnError 1" > $@
+	$(Q) echo "connect" >> $@
 	$(Q) echo "sleep 1000" >> $@
 	$(Q) echo "w4 40000004 1b" >> $@
 	$(Q) echo "sleep 1000" >> $@
-# $(Q) echo "r1" >> $@
-# $(Q) echo "sleep 1250" >> $@
-# $(Q) echo "r0" >> $@
-# $(Q) echo "sleep 1250" >> $@
-# $(Q) echo "r1" >> $@
-# $(Q) echo "sleep 1250" >> $@
-# $(Q) echo "r0" >> $@
-# $(Q) echo "sleep 1250" >> $@	
-# # $(Q) echo "r" >> $@
 	$(Q) echo "Exit" >> $@
 
 .PHONY: reset

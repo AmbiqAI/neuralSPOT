@@ -39,7 +39,7 @@ dependencies = $(subst .o,.d,$(objects))
 CFLAGS     += $(addprefix -D,$(DEFINES))
 CFLAGS     += $(addprefix -I includes/,$(INCLUDES))
 
-ifeq ($(ARCH),apollo5)
+ifeq ($(CPU),cortex-m55)
 ifeq ($(TOOLCHAIN),arm)
 LINKER_FILE := src/ns-core/$(BOARD)/$(COMPDIR)/linker_script_$(BOOTLOADER).sct
 else ifeq ($(TOOLCHAIN),arm-none-eabi)

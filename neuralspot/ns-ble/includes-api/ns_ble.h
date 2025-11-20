@@ -15,10 +15,6 @@
 #ifndef NS_BLE
     #define NS_BLE
 
-    #ifdef __cplusplus
-extern "C" {
-    #endif
-
     #include "ns_ambiqsuite_harness.h"
     #include "ns_malloc.h"
     #include "wsf_types.h"
@@ -55,10 +51,16 @@ extern "C" {
         #include "hci_drv_apollo3.h"
     #elif defined(AM_PART_APOLLO5B)
         #include "hci_drv_em9305.h"
+    #elif defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
+        #include "hci_drv_510L_radio.h"
     #else 
         #include "hci_drv_cooper.h"
     #endif
     #include "hci_handler.h"
+
+    #ifdef __cplusplus
+extern "C" {
+    #endif
 
     // *** Versions
     #define NS_BLE_V0_0_1                                                                          \

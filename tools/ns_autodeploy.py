@@ -1295,17 +1295,22 @@ class AutoDeployRunner:
         destination = destination.lstrip("/")
         destination = str(destination)
         
+
+        if self.p.platform == "apollo330mP_evb":
+            actual_platform = "apollo330P_evb"
+        else:
+            actual_platform = self.p.platform
         print(f"[NS] Toolchain: {toolchain}")
         print(f"[NS] Destination rootdir: {self.p.destination_rootdir}")
         print(f"[NS] Model name: {self.p.model_name}")
-        print(f"[NS] Platform: {self.p.platform}")
+        print(f"[NS] Platform: {actual_platform}")
         print(f"[NS] AOT: {aot}")
         print(f"[NS] Destination: {destination}")
         if aot:
             postfix = "_aot"
         else:
             postfix = ""
-        build_path = Path("build") / self.p.platform / toolchain / destination / self.p.model_name / f"{self.p.model_name}_power{postfix}" / f"{self.p.model_name}_power{postfix}.axf"
+        build_path = Path("build") / actual_platform / toolchain / destination / self.p.model_name / f"{self.p.model_name}_power{postfix}" / f"{self.p.model_name}_power{postfix}.axf"
         # if aot:
         #     build_path = build_path.with_suffix(f"{self.p.model_name}_aot.axf")
         print(f"[NS] AXF path: {build_path}")

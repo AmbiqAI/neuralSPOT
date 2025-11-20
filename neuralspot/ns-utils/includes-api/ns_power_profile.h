@@ -70,7 +70,7 @@ extern "C" {
 //*****************************************************************************
 void ns_pp_ap4_snapshot(bool bDebug, uint32_t uNumber);
 
-// #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+// #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 #if defined(AM_PART_APOLLO5B)
 // AP5 uses a different PP implementation
 void capture_snapshot(int snapshotIndex);

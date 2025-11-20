@@ -1,0 +1,6 @@
+{
+  "src_rel": "portable.h",
+  "new_upstream_rel": "third_party/FreeRTOSv10.5.1/Source/include/portable.h",
+  "old_upstream_rel": "third_party/FreeRTOSv10.5.1/Source/include/portable.h",
+  "similarity_new": 0.9873468367091773
+}

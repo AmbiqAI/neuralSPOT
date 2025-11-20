@@ -104,7 +104,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     ns_debug_log_init_t cfg = {
         .t = ms->tickTimer,
         .m = ms->mac_estimates,
-        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
         .pmu = ms->pmu,
         #endif
     };

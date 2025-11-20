@@ -71,7 +71,7 @@ extern const ns_core_api_t ns_core_current_version;
             return NS_STATUS_FAILURE;                                                              \
         }
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
   #if defined(gcc)
     #define NS_SRAM_BSS __attribute__((section(".sram_bss")))
   #else

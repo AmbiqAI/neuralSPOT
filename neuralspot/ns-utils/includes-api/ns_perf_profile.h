@@ -146,7 +146,7 @@ extern void ns_delta_perf(ns_perf_counters_t *s, ns_perf_counters_t *e, ns_perf_
  */
 extern void ns_print_perf_profile(ns_perf_counters_t *c);
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 uint32_t ns_perf_enable_pcsamp(void);
 int32_t ns_itm_pcsamp_enable(void);
 #endif

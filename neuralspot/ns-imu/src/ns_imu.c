@@ -68,7 +68,7 @@ void ns_imu_data_available_cb(void *pArg) {
 
 uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
     uint32_t imu_int_pin;
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     imu_int_pin = 50; // GPIO pin for the IMU interrupt
     #elif defined(AM_PART_APOLLO4P)
     imu_int_pin = 52; // GPIO pin for the IMU interrupt
@@ -86,7 +86,7 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
         return NS_STATUS_INVALID_CONFIG;
     }
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     if (cfg->iom != 0) {
         ns_lp_printf("NS_IMU: SPI port must be 0 for AP510 EVB, %d not supported\n", cfg->iom);
         return NS_STATUS_INVALID_CONFIG;
@@ -109,6 +109,15 @@ uint32_t ns_imu_configure(ns_imu_config_t *cfg) {
     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_MISO_CB, g_AM_BSP_GPIO_IOM0_MISO_CB);
     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_MOSI_CB, g_AM_BSP_GPIO_IOM0_MOSI_CB);
     am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM0_CS,      g_AM_BSP_GPIO_IOM0_CS);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_RST_CB,       g_AM_BSP_GPIO_RST_CB); 
+    am_hal_gpio_state_write(AM_BSP_GPIO_RST_CB,     AM_HAL_GPIO_OUTPUT_SET);
+#elif defined(AM_PART_APOLLO330P)
+    // For AP330P EVB, we use IOM0 for SPI, init the reset and int pins
+    am_hal_pwrctrl_periph_enable(AM_HAL_PWRCTRL_PERIPH_IOM4);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM4_SCK_CB,  g_AM_BSP_GPIO_IOM4_SCK_CB);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM4_MISO_CB, g_AM_BSP_GPIO_IOM4_MISO_CB);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM4_MOSI_CB, g_AM_BSP_GPIO_IOM4_MOSI_CB);
+    am_hal_gpio_pinconfig(AM_BSP_GPIO_IOM4_CS,      g_AM_BSP_GPIO_IOM4_CS);
     am_hal_gpio_pinconfig(AM_BSP_GPIO_RST_CB,       g_AM_BSP_GPIO_RST_CB); 
     am_hal_gpio_state_write(AM_BSP_GPIO_RST_CB,     AM_HAL_GPIO_OUTPUT_SET);
 #elif defined(AM_PART_APOLLO4P)

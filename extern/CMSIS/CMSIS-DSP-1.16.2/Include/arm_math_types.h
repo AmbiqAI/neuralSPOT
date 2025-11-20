@@ -301,7 +301,13 @@ extern "C"
 #endif
 
 #if defined(__ARM_FEATURE_MVE) && __ARM_FEATURE_MVE
+#ifdef __cplusplus
+extern "C++" {
+#endif
 #include <arm_mve.h>
+#ifdef __cplusplus
+}
+#endif
 #endif
 
 #if defined(ARM_DSP_CONFIG_TABLES)

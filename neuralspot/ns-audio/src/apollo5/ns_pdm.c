@@ -29,7 +29,7 @@ ns_pdm_cfg_t ns_pdm_default = {
     .clock_freq = NS_AUDIO_PDM_CLK_750KHZ,
     .mic = NS_AUDIO_PDM_MICBOARD_0,
     .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     .left_gain = AM_HAL_PDM_GAIN_P180DB,
     .right_gain = AM_HAL_PDM_GAIN_P180DB,
     #else
@@ -90,7 +90,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         // }
         break;
     case NS_CLKSEL_HFRC2_ADJ:
-        #ifdef AM_PART_APOLLO510L
+        #if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
         ns_lp_printf("HFRC2 is not supported on Apollo510L.\n");
         return NS_STATUS_INVALID_CONFIG;
         #else

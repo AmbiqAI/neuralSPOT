@@ -304,7 +304,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
 
 
     # Do one more reset
-    time.sleep(6)
+    time.sleep(2)
     # reset if measuring power
     if params.joulescope:
         os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1")
@@ -314,9 +314,9 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
         time.sleep(10) # wait for PSRAM to be ready
     else:
         if aot:
-            time.sleep(12)
+            time.sleep(14)
         else:
-            time.sleep(10)
+            time.sleep(13)
 
 
 # Joulescope-specific Code

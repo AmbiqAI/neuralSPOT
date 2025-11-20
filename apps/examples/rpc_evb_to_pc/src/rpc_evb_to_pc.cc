@@ -42,7 +42,7 @@ int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
 int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
 
-alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];     // DMA target
+alignas(32) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];     // DMA target
 
 #if defined(NS_AUDADC_PRESENT)
 am_hal_audadc_sample_t static sLGSampleBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
@@ -59,6 +59,9 @@ void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollected) {
             ns_lp_printf("Overflow!\n");
         }
         ns_audio_getPCM_v2(config, audioDataBuffer);
+        // am_hal_cachectrl_range_t range = {(uint32_t)audioDataBuffer, SAMPLES_IN_FRAME * sizeof(int16_t)};
+        // am_hal_cachectrl_dcache_invalidate(&range, false);
+
         g_audioReady = true;
     }
 }

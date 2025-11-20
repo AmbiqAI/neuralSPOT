@@ -22,13 +22,17 @@
 # AS_VERSION := R5.1.0_rc27
 # AS_VERSION := test3
 
+# *** Apollo510B EVB
+# PLATFORM := apollo510b_evb
+# AS_VERSION := R5.1.0_rc27
+
 # *** Apollo510 Revb EB
 # PLATFORM := apollo5b_eb_revb
 # AS_VERSION := Apollo510_SDK3_2024_09_14
 
 # *** Apollo330P EVB
-PLATFORM := apollo330mP_evb
-AS_VERSION := R5.2.alpha.1.1
+# PLATFORM := apollo330mP_evb
+# AS_VERSION := R5.2.alpha.1.1
 
 # PLATFORM := apollo5a_eb
 # AS_VERSION := Apollo510_SDK3_2024_09_14

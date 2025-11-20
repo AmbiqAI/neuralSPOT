@@ -49,13 +49,13 @@ SECTIONS
 
     .ARM.extab :
     {
-        *(.ARM.extab* .gnu.linkonce.armextab.*)
+        KEEP(*(.ARM.extab* .gnu.linkonce.armextab.*))
     } > MCU_MRAM
 
     __exidx_start = .;
     .ARM.exidx :
     {
-        *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+        KEEP(*(.ARM.exidx* .gnu.linkonce.armexidx.*))
     } > MCU_MRAM
     __exidx_end = .;
     

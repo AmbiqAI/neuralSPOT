@@ -98,13 +98,13 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
   LFLAGS += \
     -Wl,--gc-sections,--entry,Reset_Handler \
     -Wl,--start-group -lm -lc -lgcc -lnosys \
-    -Wl,--sort-section=name \
     -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ \
     -Wl,--end-group
+    # -Wl,--sort-section=name \
 
   CPFLAGS := -Obinary
   ODFLAGS := -S
-  ARFLAGS := rscD
+  ARFLAGS := rsc
 
 else ifeq ($(TOOLCHAIN),arm)
 
@@ -117,7 +117,7 @@ else ifeq ($(TOOLCHAIN),arm)
   ifneq ($(ARCH),apollo3)
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_resources.o
   endif
-  ifeq ($(ARCH),apollo5)
+  ifeq ($(CPU),cortex-m55)
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-core/src/$(BOARD)/armclang/startup_keil6.o
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_utils.o
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_pwrctrl.o

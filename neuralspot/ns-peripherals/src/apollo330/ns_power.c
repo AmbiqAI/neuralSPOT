@@ -210,7 +210,7 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 #endif
 
     am_bsp_low_power_init();
-    return NS_STATUS_SUCCESS;
+    // return NS_STATUS_SUCCESS;
     // am_hal_spotmgr_profile_t spotmgr_profile; 
     // spotmgr_profile.PROFILE_b.COLLAPSESTMANDSTMP = 1;
     // am_hal_spotmgr_profile_set(&spotmgr_profile);

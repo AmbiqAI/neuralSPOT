@@ -81,7 +81,7 @@ static TfLiteTensor *model_input = nullptr;
 static TfLiteTensor *model_output = nullptr;
 static tflite::MicroProfiler *profiler = nullptr;
 
-static constexpr int kTensorArenaSize = 1024 * 24;
+static constexpr int kTensorArenaSize = 1024 * 30;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
 ////////////////////////////////////////////////
@@ -107,15 +107,15 @@ bool volatile static audioReady = false;
 
 // Audio buffers
 #if NUM_CHANNELS == 1
-alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
+alignas(32) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
 #else
-alignas(16) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
+alignas(32) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
 
-alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
+alignas(32) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
     
 #ifndef USE_PDM_MICROPHONE
-alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used  // by AUDADC                                                                          
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used  // by AUDADC                                                                          
 #endif // USE_PDM_MICROPHONE
 
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)

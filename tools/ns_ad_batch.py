@@ -42,6 +42,8 @@ def build_command(model, args):
     # If the platform belongs to the apollo5 family, enable full PMU capture.
     if "apollo5" in args.platform.lower():
         cmd.append("--full-pmu-capture")
+    elif "apollo330" in args.platform.lower():
+        cmd.append("--full-pmu-capture")
 
     # Model-specific: tflite filename is required.
     if "tflite_filename" not in model:

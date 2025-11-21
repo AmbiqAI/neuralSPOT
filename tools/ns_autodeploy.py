@@ -1300,12 +1300,12 @@ class AutoDeployRunner:
             actual_platform = "apollo330P_evb"
         else:
             actual_platform = self.p.platform
-        print(f"[NS] Toolchain: {toolchain}")
-        print(f"[NS] Destination rootdir: {self.p.destination_rootdir}")
-        print(f"[NS] Model name: {self.p.model_name}")
-        print(f"[NS] Platform: {actual_platform}")
-        print(f"[NS] AOT: {aot}")
-        print(f"[NS] Destination: {destination}")
+        # print(f"[NS] Toolchain: {toolchain}")
+        # print(f"[NS] Destination rootdir: {self.p.destination_rootdir}")
+        # print(f"[NS] Model name: {self.p.model_name}")
+        # print(f"[NS] Platform: {actual_platform}")
+        # print(f"[NS] AOT: {aot}")
+        # print(f"[NS] Destination: {destination}")
         if aot:
             postfix = "_aot"
         else:

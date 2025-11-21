@@ -1,114 +1,124 @@
-Things to keep in mind
-- ns_core
-- lots of neuralspot per-platform changes and ifdefs
-- auto "manual" merge sometimes gets it wrong. Double check.
-- There is a list of 'just copy' source files, like RTOS.c
-- Explain the src/ dir and why some subdirectories are there (usb? arch?)
-- wsf-types redefinition
-- openamp and cordio
+# AmbiqSuite in neuralSPOT
+This directory contains pared-down versions of AmbiqSuite - basically, header files, static libraries, and a handful of source files that are not part of the distributions static libs, or that have to be modified to work on our platform.
 
-# AmbiqSuite Stub
-This directory contains pared-down versions of AmbiqSuite - basically, header files, static libraries, and a handful of source files that are not part of the distributions static libs.
+Ambiqsuite SDKs are platform-specific:
+- R3.xxx is for Apollo3 (apollo3 evb and apollo3 Plus evb)
+- R4.xxx is for Apollo4 (Plus and Lite and the Blue variants)
+- R5.xxx is for Apollo5 (apollo510_evb, apollo510B_evb, apollo510 eb) *with the following exception*
+- R5.1.alpha.xxx is for Apollo330 (and apollo510L, which is a different platform that apollo510 - I don't name 'em). These are not release yet, only in alpha stage. There is no official SDK for ap330 and ap510L, so the alphas will have to do.
 
-## Process for adding new AmbiqSuite version
-In summary, the process is (details below):
-1. Create new version subdirectory, copy all AmbiqSuite contents to it
-2. Create a top-level version/src and version/lib - use existing imported versions as guide
-3. Copy static libs and source code as needed. Most of these files remain the same, so you can copy only those that changed for this version.
-4. Remove unneeded files (examples, libs, *.c, images, etc) - basically everything that isnt a header, SVD or license file
-5. Remove unneeded third_party components (we only need TinyUSB and FreeRTOS)
-6. Copy modified CDC and Malloc headers
-7. Patch that one pesky int^uint that causes all the warnings
+SDK's a generally consitently structured, but not 100%. If you see code that converts, for example, "apollo330mP" to "apollo330P" it's because the SDK used different naming conventions in different places (there will be an apollo330bP at some point, so maybe thats why).
 
-### BLE/Cordio Notes
-In 4.4.1, we added a number of delays to get BLE to work more consistently when in HP mode with caches enabled. These are not in the baseline AmbiqSuite code. To port a new version, this implies:
-1. The cordio code needs to be compiled 
-2. Look for 'ns_delay_us' (we used this instead of the AmbiqSuite delay function to make it easy to search for) and add those to the new AS cordio code.
+# Structure of extern/Ambiqsuite entries
+Each Ambiqsuite version will get its own directory. Most of that directory's structure is the same as the original Ambiqsuite's, with the following exceptions.
 
-```bash
-# Get rid of some unneeded components
-rm Makefile
-rm -rf ambiq_ble
-rm -rf bootloader
-rm -rf docs
-rm -rf debugger_updates
-rm -rf makedefs
-rm -rf third_party/tools
-rm -rf third_party/FatFs
-rm -rf third_party/ThinkSi
-rm -rf third_party/crypto
-rm -rf third_party/prime_mpi
-rm -rf third_party/uecc
-find boards -type d | grep example | xargs rm -rf
-find boards -type f -not -name "*.h" | xargs rm
-find . -type f -not -name "*.h" -a -not -name "*.txt" -a -not -name "LICENSE" | egrep -v "\./src|\./lib|module.mk|SVD" | xargs rm 
+Released Ambiqsuite SDKs have several pre-compiled static libraries that cover *most* of the SDK, but there are some files that they only compile into examples. When we need one of those files, we have to include the source. For example, the PSRAM driver is not pre-compiled, so we have to include that driver's code (the header is left in its original place in the SDK)
 
-# Copy over module.mk
-cp R4.3.0/module.mk R4.2.0/
+- `/src` is where we put any C and some H files that we need to port over. It has some internal structure that is explained below
+- `/lib` is where we copy the pre-compiled SDK libs we care about. It also has some internal structure described below
+- `module.mk` that neuralSPOT's makefile will pull in
+- `/third_party/cordio/module.mk` is pulled in if the platform supports BLE. We leave the source files in `cordio` intact and in place, but we do some special stuff here
+- `/third_party/open-amp/module.mk` for platforms that have our BLE radio - currently only Apollo330/Apollo510L.
 
-# Copy source files into /src
-mkdir src
-diff ../R4.1.0/src ../R4.3.0/src # figure out what typically changes
-cp -R ../R4.3.0/src
-cp utils/am_util_delay.c src # overwrite the stuff that changed
-cp utils/am_util_id.c src
-cp utils/am_util_stdio.c src
+## /src 
+This directory has to support all variants of a platform (with/without USB, etc) and does so with subdirectories. The `module.mk` will pull in the right subdirectories for the platform.
+- `usb` contains USB files that will only be pulled in when platform has USB
+- `<platform>` (e.g. apollo330P) contains source files specific to that platform. 
 
-# Copy libs to central location
-mkdir lib
-find . -name "*.a"
-mkdir -p lib/apollo4b/blue_evb
-mkdir -p lib/apollo4b/evb
-mkdir -p lib/apollo4p/evb
-mkdir -p lib/apollo4p/blue_evb
-cp ./CMSIS/ARM/Lib/ARM/libarm_cortexM4lf_math.a lib
-cp /CMSIS/ARM/Lib/ARM/libarm_cortexM4l_math.a lib
-cp ./CMSIS/ARM/Lib/ARM/libarm_cortexM4l_math.a lib
-cp ./boards/apollo4p_blue_evb/bsp/gcc/bin/libam_bsp.a lib/apollo4p/blue_evb
-cp ./boards/apollo4b_blue_evb/bsp/gcc/bin/libam_bsp.a lib/apollo4b/blue_evb
-cp ./boards/apollo4b_evb/bsp/gcc/bin/libam_bsp.a lib/apollo4b/evb
-cp ./boards/apollo4p_evb/bsp/gcc/bin/libam_bsp.a lib/apollo4p/evb
-cp ./mcu/apollo4b/hal/mcu/gcc/bin/libam_hal.a lib/apollo4b
-cp ./mcu/apollo4p/hal/mcu/gcc/bin/libam_hal.a lib/apollo4p
+The rest of the files are there for one of 3 reasons:
+- They're not compiled into the static libs. These include devices, utils, and third party libraries such as tinyUSB and freeRTOS.
+- They are configuration headers that are per-example in the SDK, but we want to be applied across all of neuralSPOT.
+- They had to be modified.
 
-# Copy over the files modified for neuralSPOT
-cp ./extern/AmbiqSuite/R4.1.0/third_party/tinyusb/src/tusb_config.h ./extern/AmbiqSuite/R4.2.0/third_party/tinyusb/src/tusb_config.h
-cp ./extern/AmbiqSuite/R4.3.0/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4/FreeRTOSConfig.h ./extern/AmbiqSuite/R4.2.0/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4/FreeRTOSConfig.h
-cp ./extern/AmbiqSuite/R4.1.0/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4/rtos.h ./extern/AmbiqSuite/R4.2.0/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4/rtos.h
-cp extern/AmbiqSuite/R4.3.0/src/linker_script.ld extern/AmbiqSuite/R4.2.0/src/linker_script.ld
-cp extern/AmbiqSuite/R4.1.0/third_party/FreeRTOSv10.1.1/Source/include/portable.h extern/AmbiqSuite/R4.2.0/third_party/FreeRTOSv10.1.1/Source/include/portable.h
-
-# Patch the pesky compile warning (usually in this file)
-diff extern/AmbiqSuite/R4.2.0/mcu/apollo4p/hal/mcu/am_hal_card.h extern/AmbiqSuite/R4.3.0/mcu/apollo4p/hal/mcu/am_hal_card.h
+## lib
+This contains the SDK's pre-compiled static libs. There are two kinds of these: the HAL (hardware abstraction layer) which applies to the entire platform, and the BSP (board specification package) that applies to a specific EVB or EB.
+```
+/lib
+  /evb
+    libam_bsp.a   ## GCC lib
+    libam_bsp.lib ## Armclang lib
+  libam_hal.a
+  libam_hal.lib
 ```
 
-# NEW INSTRUCTIONS
-1. copy the new version into extern/AmbiqSuite
-2. Run porthelper - this will attempt to heuristically copy files into src (when they didn't change between versions) and alert you to exceptions.
-3. Handle the exceptions
-4. Copy libs
-5. Copy a bunch of other files that aren't in src or libs (headers)
-6. cdc_device.c is a pain right now - until that is fixed, compare versions and if they're not too far apart, use cdc_device_ns.c
+## The process
+Generally:
+1. Download the SDK zip file, unzip it somewhere outside neuralspot. The zips usually come from Jayesh for unnoficial releases, and from our content portal for official ones.
+2. Run the `ambiqsuite_min_integrate.py` script (see its readme for usage instruction, and an example below). Grab some coffee, it'll take a while to chew through the new SDK
+3. Inspect the `_integration_report` directory and look for any merge conflicts you need to resolve. Resolve 'em.
+4. The script does its best, but every SDK release has its quirks. See below for some of them, you'll need to resolve.
+5. Manual steps: see below
 
+### SDK Updates vs. New Platforms
+SDK releases generally fall into 2 categories: an update to an existing SDK for a platform, or an SDK for an entirely new platform. Updates are usually easy to port in, new platforms usually include hardware changes requiring more extensive updates. FWIW, after AP330/510L, there isn't a new platform planned until Atomiq, which is going to need a ton of changes (NPU, HBLRAM, plus maybe second core).
 
-```bash
-sh porthelper.sh /Users/carlosmorales/dev/ns-mirror/extern/AmbiqSuite/Apollo5B_SDK2_2024_07_02 /Users/carlosmorales/dev/ns-mirror/extern/AmbiqSuite/ambiqsuite-b36aab438d0f
+SDK release tend to stick to previous APIs, but sometimes they break that, mostly when upgrading third party packages.
 
- cp Aug_23_2024_c01ca97f/module.mk Oct_08_2024_e86d97b6
- cp ./Apollo5B_SDK2_2024_07_02/third_party/tinyusb/source/src/tusb_config.h ./Apollo510_SDK3_2024_09_14/third_party/tinyusb/source/src/tusb_config.h
- cp ./Apollo5B_SDK2_2024_07_02/third_party/tinyusb/source/src/tusb_option.h ./Apollo510_SDK3_2024_09_14/third_party/tinyusb/source/src/tusb_option.h
- cp ../Apollo5B_SDK2_2024_07_02/./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/FreeRTOSConfig.h ./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/FreeRTOSConfig.h
- cp ../Apollo5B_SDK2_2024_07_02/./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/rtos.h  ./third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/rtos.h
- cp ./mcu/apollo5b/hal/mcu/gcc/bin/libam_hal.a lib/apollo5b
- cp ./mcu/apollo5b/hal/mcu/keil6/bin/libam_hal.lib lib/apollo5b
- cp ./boards/apollo5b_eb_revb/bsp/gcc/bin/libam_bsp.a lib/apollo5b/eb_revb
- cp ./boards/apollo5b_eb_revb/bsp/keil6/bin/libam_bsp.lib lib/apollo5b/eb_revb
- cp ../Apollo5B_SDK2_2024_07_02/src/usb/cdc_device_ns.c src/usb
- cp src/port.c ../Apollo510_SDK3_2024_09_14/src
- cp ../R5.2.0/./third_party/FreeRTOSv10.5.1/Source/include/portable.h ./third_party/FreeRTOSv10.5.1/Source/include/portable.h
- ```
+### Manual Steps
+1. Modify neuralspot makefiles to include new SDK and, if needed, new platform.
+1. Fix MVE include
+1. Fix WSF types
+1. open-amp and cordio, if needed
+1. Try a compile! Fix what's not working.
+1. neuralspot changes: add ns-core source for new platform if needed, fix up any HW-related changes (ns-audio, GPIOs, etc), and see if ns_power has to change
+1. Delete everything in the SDK that isn't needed
 
-Also, there are several 'outliers':
-- FreeRTOSConfig.h and rtos.h - needs to be copied: cp ./extern/AmbiqSuite/ambiqsuite_b36aab438d0f/third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5/FreeRTOSConfig.h extern/AmbiqSuite/R5.2.0/third_party/FreeRTOSv10.5.1/Source/portable/GCC/AMapollo5
+### Carlos' Usual Process
+1. Get to the point where I can compile (all the stuff above)
+1. Test peripherals one at a time, usually starting with buttons (ns-buttons) and audio (ns-audio and ns-pdm), my 'hello world' is basic_tf_stub, which is a KWS demo.
+1. Get USB up and running (rpc_evb_to_pc example)
+1. Try autodeploy, first without PMU, then with PMU, then with Joulescope (excersizes GPIOs)
+1. Try all of that but with armclang instead of GCC. Get that compiling and working.
+1. The rest of the nice-to-haves like the power profiling tools.
 
-- am_mcu_apollo.h : get rid of arm_mve.h include
+I use the SDK's examples to see what changed (coremark example to see how to configure lowest power, pdm_fft to see if PDM configuration changed, etc).
+
+### Details: neuralspot Makefiles
+A new platform will likely have a set of new features. NeuralSPOT handles features by setting 'feature flags' based on platforms and SDKs (different versions of SDKs may or may not support a feature). Generally:
+1. Modify neuralspot_config.mk to add the platform if new
+2. Set the BLE and USB features as needed
+
+The SDK may also need platform-specific `#defines`. Look at any of the examples in the SDK (in particular, the example/gcc/Makefile) to see if anything there is platform specific. We need to define those too, and that is done in neuralspot_toolchain.mk.
+
+### Details: SDK Header Changes
+We keep most of the SDK headers unchanged, but there are a few conflicts:
+1. MVE C/C++ conflict: `am_mcu_apollo.h` doesn't encapsulate a `#include <arm_mve.h>` properly. Just comment those includes out.
+1. WSF Type redefinition: `wsf_types.h` defines uint32_t and int32_t in a way that causes a conflict error. Just comment those out.
+1. open-amp Assert conflict: open-amp has an `assert.h` which conflicts. In R5.2.alpha.1.1, we changed the name of that file to `metal_assert.h` and changed all the includes in open-amp to that.
+1. Some SDK includes have type mismatches that generate compiler warnings. I usually like to clean those up.
+
+### Details: Third Party Recompiles
+There are two `third_party` libraries that need to be compiled for neuralSPOT, and are too large to do what we did for FreeRTOS and USB (which is to copy the needed files into `/src`): Cordio (BLE stack) and open-amp (RPC library needed by some BLE stacks). For these libraries, we leave the C files intact and craft `module.mk` makefiles for each of them.
+
+The usual process is:
+1. Craft the makefiles (usually it is sufficient to copy them from a previous SDK port and modify from there if needed)
+1. Compile using gcc. This produces a static lib (cordio.a and open-amp.a)
+1. Copy that static lib into a new directory (`cordia/lib` and `open-amp/lib_prebuilt`)
+1. Do the same for armclang.
+1. Change the `module.mk` to use the lib instead of compiling (cordio in particular has a lot of files)
+
+### Details: neuralspot
+Unless the API changes, an SDK update is easy, with minimal changes to neuralspot.
+
+If new HW lands, we usually have to update anything that touches HW:
+1. ns-core contains the linker scripts and startup code. I look at any example in the new SDK to see if anything radical changed. The SDK doesn't have C++ support, so the linker scripts from those can't just be copied over. They also don't have SRAM bss. This step usuall involves a port of an existing neuralspot startup+linker script, not a copy
+2. ns-power is one of the things that changes regularly in the SDK. Look at the coremark examples to see how they differ from neuralspot's ns-power, and port that in.
+3. ns-audio and ns-usb are also somewhat volatile in the SDK. If neuralspot's code isn't working, compare it to the example code in pdm_fft and any of the CDC examples.
+4. GPIOs and IOMs tend to change when EVB hardware changes. The clickboard IOM can move from IOM0 to IOM5, for example - the code change here is pretty simple - GPIO and IOM are parameters for many of neuralspots code.
+
+### Details: Delete Everything not needed
+We only need:
+```
+boards/<platform>/bsp
+mcu/
+third_party/
+  cordio/
+  open-amp/
+  uecc/
+devices/
+utils/
+CMSIS/
+pack/ 
+anything that looks like a license
+```
+Delete the rest. It's a lot.

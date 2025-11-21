@@ -35,7 +35,6 @@ DOX  := doxygen$(EXEEXT)
   # Linker file selection
   ifeq ($(ARCH),apollo330)
     BL := _$(BOOTLOADER)
-    $(info BL: $(BL))
   else ifeq ($(ARCH),apollo5)
     BL := _$(BOOTLOADER)
   else
@@ -44,7 +43,6 @@ DOX  := doxygen$(EXEEXT)
   ifeq ($(TFLM_IN_ITCM),1)
     BL := _itcm$(BL)
   endif
-$(info BL: $(BL))
 
 # Always enable sectioning, debugging info, and optimizations
 ifeq ($(TOOLCHAIN),arm-none-eabi)

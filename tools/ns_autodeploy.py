@@ -39,25 +39,23 @@ warnings.filterwarnings("ignore", message="Field.*has conflict with protected na
 HeliosConvertArgs = None  # type: ignore  # populated only if import succeeds
 AotModel = None  # type: ignore
 helios_aot_version = None
-# AOT functionality disabled - skip import and initialization
-helios_aot_available = False
-# try:
-#     import helios_aot  # noqa: F401  – side‑effect import for pkg resources
-#     from helios_aot.cli.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
-#     from helios_aot.converter import AotConverter as AotModel   # type: ignore
-#     from helios_aot.utils import get_version as get_helios_aot_version
-#     helios_aot_version = get_helios_aot_version()
-#     # Make sure the version is at least 0.5.0 (semantic versioning)
-#     if helios_aot_version < "0.5.0":
-#         print(f"[NS] HeliosAOT version is {helios_aot_version}, but must be at least 0.5.0")
-#         helios_aot_available = False
-#         print(f"[NS] HeliosAOT support is not available, version is too old")
-#     else:
-#         helios_aot_available = True
-#         print(f"[NS] HeliosAOT module is available, version: {get_helios_aot_version()}")
-# except (ImportError, OSError, RuntimeError) as e:
-#     helios_aot_available = False
-#     print(f"Helios AOT support is not available: {e}")
+try:
+    import helios_aot  # noqa: F401  – side‑effect import for pkg resources
+    from helios_aot.cli.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
+    from helios_aot.converter import AotConverter as AotModel   # type: ignore
+    from helios_aot.utils import get_version as get_helios_aot_version
+    helios_aot_version = get_helios_aot_version()
+    # Make sure the version is at least 0.5.0 (semantic versioning)
+    if helios_aot_version < "0.5.0":
+        print(f"[NS] HeliosAOT version is {helios_aot_version}, but must be at least 0.5.0")
+        helios_aot_available = False
+        print(f"[NS] HeliosAOT support is not available, version is too old")
+    else:
+        helios_aot_available = True
+        print(f"[NS] HeliosAOT module is available, version: {get_helios_aot_version()}")
+except (ImportError, OSError, RuntimeError) as e:
+    helios_aot_available = False
+    print(f"Helios AOT support is not available: {e}")
     
 
 # External modules – behaviour must stay identical; keep import locations
@@ -803,9 +801,9 @@ class AutoDeployRunner:
             self.p.create_aot_profile = False
             print("[WARNING] AOT disabled because HeliosAOT is not available")
 
-        # --- Skip AOT config file lookup - AOT is disabled
-        # if self.p.helios_aot_config == "auto":
-        #     self.p.helios_aot_config = str(importlib.resources.files("neuralspot.tools") / "base_aot.yaml")
+        # --- If aot_config is auto, set it to tools/base_aot.yaml
+        if self.p.helios_aot_config == "auto":
+            self.p.helios_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
 
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")

@@ -1890,7 +1890,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
             mc.rv_count,
         )
     )
-    template_directory = str(importlib.resources.files(__name__) / "templates")
+    template_directory = str(importlib.resources.files("neuralspot.tools.autodeploy") / "templates")
 
     createFromTemplate(
         template_directory + "/validator/template_mut_metadata.h",
@@ -1908,7 +1908,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
     }
-    template_directory = str(importlib.resources.files(__name__) / "templates")
+    template_directory = str(importlib.resources.files("neuralspot.tools.autodeploy") / "templates")
     createFromTemplate(
         template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
@@ -1936,7 +1936,7 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
         os.makedirs(refactor_aot, exist_ok=True)
 
     # Paths to our template tree
-    tmpl_root   = importlib.resources.files(__name__)
+    tmpl_root   = importlib.resources.files("neuralspot.tools.autodeploy")
     tmpl_common = str(tmpl_root / "templates/validator")
     tmpl_tflm   = os.path.join(tmpl_common, "tflm")
     tmpl_aot    = os.path.join(tmpl_common, "aot")

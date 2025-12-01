@@ -165,7 +165,7 @@ def read_pmu_definitions(params):
 
     if params.pmu_config_file == "default":
         # Read PMU definitions from yaml file
-        yaml_path = str(importlib.resources.files(__name__) / 'autodeploy/profiles/ns_pmu_default.yaml')
+        yaml_path = str(importlib.resources.files(__package__) / 'autodeploy/profiles/ns_pmu_default.yaml')
     else:
         yaml_path = params.pmu_config_file
 

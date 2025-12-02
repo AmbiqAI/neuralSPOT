@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     {name="Ambiq AI", email="support.aitg@ambiq.com"}
 ]
-requires-python = ">= 3.11, < 3.13"
+requires-python = ">= 3.10, < 3.13"
 dependencies = [
     "numpy>=2.2.6",
     "pandas>=2.2.3",
@@ -21,8 +21,7 @@ dependencies = [
     "Wave~=0.0.2",
     "erpc@git+https://github.com/ambiqai/erpc.git#egg=develop&subdirectory=erpc_python",
     "PyYAML>=6.0.2",
-    "ai-edge-litert==1.3.0",
-    "helios-aot",
+    "ai-edge-litert>=1.3.0; platform_system != 'Windows'",
     "setuptools>=80.9.0",
     "xlsxwriter",
 ]
@@ -48,7 +47,11 @@ neuralspot = ""
 "neuralspot.tools.utils" = "tools/utils"
 
 [tool.setuptools.package-data]
-neuralspot = ["tools/autodeploy/templates/**/*", "tools/ns_platform.yaml", "tools/autodeploy/profiles/ns_pmu_default.yaml"]
+neuralspot = [
+    "tools/autodeploy/templates/**/*",
+    "tools/ns_platform.yaml",
+    "tools/autodeploy/profiles/ns_pmu_default.yaml"
+]
 
 [tool.uv.sources]
 helios-aot = { path = "../../helios-aot" }

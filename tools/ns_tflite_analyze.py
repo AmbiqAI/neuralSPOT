@@ -92,7 +92,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
 
     if model_name == "":
         model_name = Path(tflite_file).stem
-    
+
     model_name = model_name.replace("-", "_").replace(" ", "_").replace(".", "_")
 
     data = CreateDictFromFlatbuffer(file_data)
@@ -182,7 +182,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
                 if verbose:
                     if opcodeName in unoptimized_ops:
                         print(
-                            f"[NS] Static Analysis Warning: {opcodeName} is not in optimized in mainstream TFLM, consider using Ambiq HeliosRT"
+                            f"[NS] Static Analysis Warning: {opcodeName} is not in optimized in mainstream TFLM, consider using Ambiq HeliaRT"
                         )
                         # remove the opcode from the list
                         unoptimized_ops.remove(opcodeName)
@@ -366,7 +366,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
 
                     mac_string = "0"
                     filter = {"shape": [0, 0, 0, 0]}
-                
+
                 def _tensor_dtype_name(ti):
                     try:
                         return _dtype_name(g["tensors"][ti]["type"])
@@ -379,7 +379,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
                     w_dtype = _tensor_dtype_name(inputs_idx[1])
                 else:
                     w_dtype = "NA"
-                
+
                 overall_input_dtype_list[subgraph_idx].append(in_dtype)
                 overall_output_dtype_list[subgraph_idx].append(out_dtype)
                 overall_weight_dtype_list[subgraph_idx].append(w_dtype)
@@ -400,7 +400,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
                     bits = 0; vec_chunks = 0; predicated = 0
                 overall_elem_bits_list[subgraph_idx].append(bits)
                 overall_elem_vec_chunks_list[subgraph_idx].append(vec_chunks)
-                overall_elem_predicated_list[subgraph_idx].append(predicated)                    
+                overall_elem_predicated_list[subgraph_idx].append(predicated)
                 # print (f"MACs: {macs}")
                 # print (f"MAC String: {mac_string}")
 
@@ -424,7 +424,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
                     count = count + 1
                     # print (count)
                     # print(code)
-            
+
             overall_ops_names_list.append(ops_names_list)
             overall_mac_estimate_list.append(mac_estimate_list)
             overall_mac_string_list[subgraph_idx] = mac_estimate_string_list
@@ -471,7 +471,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
 
     for g in range(len(overall_output_shapes)-1, -1, -1):
         # print("g: ", g)
-        code_output_shapes = code_output_shapes + repr(overall_output_shapes[g]) + ", " 
+        code_output_shapes = code_output_shapes + repr(overall_output_shapes[g]) + ", "
         code_output_magnitude = code_output_magnitude + repr(output_magnitude_list[g]) + ", "
         code_mac_strings = code_mac_strings + repr(overall_mac_string_list[g]) + ", "
         code_mac_filter = code_mac_filter + repr(overall_mac_filter_list[g]) + ", "
@@ -488,7 +488,7 @@ def analyze_tflite_file(tflite_file, model_name="", verbose=True):  # pylint: di
         code_elem_bits        = code_elem_bits        + repr(overall_elem_bits_list[g]) + ", "
         code_elem_vec_chunks  = code_elem_vec_chunks  + repr(overall_elem_vec_chunks_list[g]) + ", "
         code_elem_predicated  = code_elem_predicated  + repr(overall_elem_predicated_list[g]) + ", "
-    
+
     # now make is code friendly
     code_output_shapes = code_output_shapes.replace("[", "").replace("]", "").replace("'", '"')
     code_output_magnitude = code_output_magnitude.replace("[", "").replace("]", "")
@@ -639,7 +639,7 @@ def main(argv):
                     elem_bits[subgraph][op], elem_vec_chunks[subgraph][op], elem_predicated[subgraph][op]
                 ]
                 table.append(row)
-        
+
         print(tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
 
         # Write the result to a CSV with same name as TFLite file, but in local directory
@@ -653,7 +653,7 @@ def main(argv):
         import pandas as pd
         df = pd.DataFrame(table[1:], columns=table[0])
         df.to_excel(excel_filename, index=False)
-        
+
 
         # print(code)
         # print(ops)

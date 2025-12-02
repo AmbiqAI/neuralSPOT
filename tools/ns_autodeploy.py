@@ -56,7 +56,7 @@ try:
 except (ImportError, OSError, RuntimeError) as e:
     helios_aot_available = False
     print(f"Helios AOT support is not available: {e}")
-    
+
 
 # External modules – behaviour must stay identical; keep import locations
 from neuralspot.tools.autodeploy.gen_library import generateModelLib
@@ -213,7 +213,7 @@ class Params(BaseModel):
         helios_aot_config: str = Field(
             "auto",
             description="Helios AOT configuration YAML file (or 'auto')",
-        ) 
+        )
     else:
         create_aot_profile: bool = Field(
             False,
@@ -224,7 +224,7 @@ class Params(BaseModel):
             "auto",
             description="NOT SUPPORTED - Helios AOT is not available",
         )
-        
+
     joulescope: bool = Field(
         False,
         description="Measure power consumption of the model on the EVB using Joulescope",
@@ -547,7 +547,7 @@ Notes:
         # HP(ms), HP(uJ), HP(mW), LP(ms), LP(uJ), LP(mW),
         # [AOT HP/LP columns if enabled],
         # TFLM/AOT section sizes, AS Version, Date Run
-        
+
         # Given p.toolchain, find the version of the compiler
         if self.toolchain == "gcc":
             # Format for gcc --version is "arm-none-eabi-gcc (Arm GNU Toolchain 13.2.rel1 (Build arm-13.7)) 13.2.1 20231009"
@@ -569,7 +569,7 @@ Notes:
                 #if self.p.create_aot_profile:
                 aot_perf_columns = ", AOT HP(ms), AOT HP(uJ), AOT HP(mW), AOT LP(ms), AOT LP(uJ), AOT LP(mW), AOT Version"
                 # Memory columns (TFLM always; AOT only if enabled)
-                mem_tflm_columns = (", TFLM ROM (KB), TFLM RAM (KB)") 
+                mem_tflm_columns = (", TFLM ROM (KB), TFLM RAM (KB)")
                 #mem_aot_columns = ""
                 #if self.p.create_aot_profile:
                 mem_aot_columns = (", AOT ROM (KB), AOT RAM (KB)")
@@ -685,10 +685,10 @@ Notes:
             self.aot_rom_kb = rom_kb
             self.aot_ram_kb = ram_kb
         else:
-            self.tflm_rom_kb = rom_kb 
+            self.tflm_rom_kb = rom_kb
             if self.p.model_location == "SRAM" or self.p.model_location == "PSRAM" or self.p.model_location == "NVM":
                 print(f"[NS] Model Array location is not MRAM or TCM, reducing ROM total by {self.model_size} KB")
-                self.tflm_rom_kb = self.tflm_rom_kb - self.model_size 
+                self.tflm_rom_kb = self.tflm_rom_kb - self.model_size
             self.tflm_ram_kb = ram_kb
 
 # ---------------------------------------------------------------------------
@@ -803,7 +803,7 @@ class AutoDeployRunner:
 
         # --- If aot_config is auto, set it to tools/base_aot.yaml
         if self.p.helios_aot_config == "auto":
-            self.p.helios_aot_config = str(importlib.resources.files(__name__) / "base_aot.yaml")
+            self.p.helios_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
 
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")
@@ -960,7 +960,7 @@ class AutoDeployRunner:
                 log.info("Model Output Comparison: Mean difference per output label in tensor(%d): %s", idx, repr(mean_diff))
             else:
                 log.info("Model Output Comparison: No differences for tensor(%d)", idx)
-        
+
         stats_file_base = Path(self.p.destination_rootdir) / self.p.model_name / f"{self.p.model_name}_stats"
         pmu_csv_header = ""
         overall_pmu_stats: List[List[int]] = []
@@ -999,8 +999,8 @@ class AutoDeployRunner:
                                 self.md, self.mc)
                 # print(f"[DEBUG] AOT differences: {differences_aot}")
                 stats_aot = getModelStats(self.p, client)
-                
-                # pretty-print the differences  
+
+                # pretty-print the differences
                 # Calculate mean differences for each output tensor (AOT)
                 for idx, tensor_diffs in enumerate(differences_aot):
                     if tensor_diffs:  # Check if there are any differences for this tensor
@@ -1010,7 +1010,7 @@ class AutoDeployRunner:
                         log.info("Model Output Comparison (AOT): Mean difference per output label in tensor(%d): %s", idx, repr(mean_diff))
                     else:
                         log.info("Model Output Comparison (AOT): No differences for tensor(%d)", idx)
-                
+
                 # Compare TFLM to AOT differences - they should be identical. If they're not, print a warning and the differences
                 # Compare each output tensor separately since they may have different shapes
                 all_tensors_equal = True
@@ -1019,13 +1019,13 @@ class AutoDeployRunner:
                         log.warning(f"[NS] Tensor {idx}: Different number of runs (TFLM: {len(tflm_tensor_diffs)}, AOT: {len(aot_tensor_diffs)})")
                         all_tensors_equal = False
                         continue
-                    
+
                     # Compare each run for this tensor
                     for run_idx, (tflm_run, aot_run) in enumerate(zip(tflm_tensor_diffs, aot_tensor_diffs)):
                         if not np.array_equal(tflm_run, aot_run):
                             log.warning(f"[NS] Tensor {idx}, Run {run_idx}: TFLM and AOT outputs differ")
                             all_tensors_equal = False
-                
+
                 if not all_tensors_equal:
                     self.results.setAotDifferences(golden_output_tensors_aot, differences, differences_aot, differences)
                     log.warning("[NS] Model Output Comparison: TFLM and AOT differences are not identical. Report will be generated.")
@@ -1050,7 +1050,7 @@ class AutoDeployRunner:
                         pmu_csv_header_aot,
                         overall_pmu_stats_aot,
                         aot=True)
-            
+
 
         # Write updated pickles + result summary
         with open(self._mc_pkl, "wb") as fh:
@@ -1092,7 +1092,7 @@ class AutoDeployRunner:
         # print(convert_args)
         # Override model_path/output/module_name dynamically ---------
         convert_args.model.path = Path(self.p.tflite_filename)
-        
+
         # Put code in same directory as validator and perf, but under its own subdirectory
         default_output = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
         convert_args.module.path = default_output
@@ -1101,7 +1101,7 @@ class AutoDeployRunner:
         convert_args.module.prefix = f"{self.p.model_name}"
         convert_args.test.enabled = True
 
-        
+
         # Memory Config
         # Convert memory type to attribute
         from helios_aot.attributes import AttributeRuleset
@@ -1122,7 +1122,7 @@ class AutoDeployRunner:
 
         # # override for now
         # arena_memory_type = MemoryType.DTCM
-        
+
         tensor_rules: list[AttributeRuleset] = [
                 # Scratch tensors to DTCM (for now)
                 AttributeRuleset(
@@ -1154,16 +1154,16 @@ class AutoDeployRunner:
         # Invoke HeliosAOT programmatically --------------------------
         aot_model = AotModel(config=convert_args)  # type: ignore
         # print(f"[NS] HeliosAOT model: {aot_model}")
-        
+
         # Try to initialize and convert, but handle any exceptions gracefully
         # Temporarily override sys.exit to prevent HeliosAOT from killing the process
         import sys
         original_exit = sys.exit
-        
+
         def safe_exit(code):
             # Don't actually exit, just raise an exception that we can catch
             raise RuntimeError(f"HeliosAOT requested exit with code {code}")
-        
+
         try:
             sys.exit = safe_exit
             # aot_model.initialize()
@@ -1182,7 +1182,7 @@ class AutoDeployRunner:
         finally:
             # Restore the original sys.exit
             sys.exit = original_exit
-        
+
         # --- Pull the AirModel from the context and derive operator info ---
         air_model: AirModel | None = getattr(ctx, "model", None) or getattr(ctx, "air_model", None)
         if air_model is None:
@@ -1251,15 +1251,15 @@ class AutoDeployRunner:
                 #     sizes = self._collect_section_sizes(aot=runtime_mode == "aot")
                 #     self.results.setMemorySizes(runtime_mode == "aot", sizes)
                 # except Exception as exc:
-                #     log.warning("[NS] Memory size collection failed: %s", exc)   
+                #     log.warning("[NS] Memory size collection failed: %s", exc)
                 try:
                     rom_kb, ram_kb = self._collect_ram_rom_sizes(aot=runtime_mode == "aot")
                     self.results.setMemoryTotals(aot=runtime_mode == "aot", rom_kb=rom_kb, ram_kb=ram_kb)
                 except Exception as exc:
-                    log.warning("[NS] Memory size collection failed: %s", exc)                           
+                    log.warning("[NS] Memory size collection failed: %s", exc)
                 retries_left = 3
                 if self.p.joulescope:
-                    while retries_left > 0: 
+                    while retries_left > 0:
                         td, i, v, p_, c, e = measurePower(self.p)
                         if e != 0:
                             break
@@ -1288,13 +1288,13 @@ class AutoDeployRunner:
             toolchain = "arm-none-eabi"
         else:
             toolchain = self.p.toolchain
-        
+
         # the destination is anything after neuralspot_rootdir in destination_rootdir
         destination = self.p.destination_rootdir.replace(self.p.neuralspot_rootdir, "")
         # remove leading slash and convert to string
         destination = destination.lstrip("/")
         destination = str(destination)
-        
+
 
         if self.p.platform == "apollo330mP_evb":
             actual_platform = "apollo330P_evb"
@@ -1314,7 +1314,7 @@ class AutoDeployRunner:
         # if aot:
         #     build_path = build_path.with_suffix(f"{self.p.model_name}_aot.axf")
         print(f"[NS] AXF path: {build_path}")
-    
+
         return build_path
 
         # base = Path(self.p.destination_rootdir) / self.p.model_name
@@ -1455,7 +1455,7 @@ class AutoDeployRunner:
             # else: ignore unclassified tiny sections
         b2kb = lambda x: (x + 1023) // 1024
         return b2kb(rom_b), b2kb(ram_b)
-    
+
     # ------------------------------------------------------------------
     def _generate_library(self) -> None:  # Stage 4/5
         print(f"\n[NS] *** Stage [{self._stage}/{self._total_stages}]: Generate minimal static library")

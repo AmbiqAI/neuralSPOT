@@ -83,12 +83,12 @@ def xxd_c_dump(
             prefix = "AM_SHARED_RW"
         else: # TCM
             prefix = "NS_PUT_IN_TCM"
-        
+
         if align_language == "cpp":
             wfp.write(f"alignas(16) {prefix} unsigned char {var_name}[] = {{{os.linesep}")
         else:
             wfp.write(f"{prefix} unsigned char {var_name}[] __attribute__((aligned(16))) = {{{os.linesep}")
-        
+
         for chunk in iter(lambda: rfp.read(chunk_len), b""):
             wfp.write(
                 "  " + ", ".join((f"0x{c:02x}" for c in chunk)) + f", {os.linesep}"
@@ -165,7 +165,7 @@ def read_pmu_definitions(params):
 
     if params.pmu_config_file == "default":
         # Read PMU definitions from yaml file
-        yaml_path = str(importlib.resources.files(__name__) / 'autodeploy/profiles/ns_pmu_default.yaml')
+        yaml_path = str(importlib.resources.files(__package__) / 'autodeploy/profiles/ns_pmu_default.yaml')
     else:
         yaml_path = params.pmu_config_file
 
@@ -232,7 +232,7 @@ def find_tty(params):
     # The VID of our device is alway 0xCAFE
     # This is a hack to find the tty of our device, it will break if there are multiple devices with the same VID
     # or if the VID changes
-    
+
     tty = None
     ports = serial.tools.list_ports.comports()
 

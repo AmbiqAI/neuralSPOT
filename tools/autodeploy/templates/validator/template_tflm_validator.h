@@ -20,6 +20,7 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
 #include "ns_pmu_map.h"
+#include "mut_model_metadata.h"  // provides TFLM_VALIDATOR_* macros
 
 // #include <cstdlib>
 // #include <cstring>
@@ -96,6 +97,17 @@ typedef union {
     ns_pmu_stats_t pmu_stats;
 #endif
 } ns_outgoing_stats_t;
+
+#ifdef NS_MLPROFILE
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern const uint32_t tflm_validator_mac_estimates[TFLM_VALIDATOR_MAC_ESTIMATE_COUNT];
+extern const int tflm_validator_number_of_estimates;
+#ifdef __cplusplus
+}
+#endif
+#endif
 
 extern ns_incoming_config_t mut_cfg;
 extern ns_outgoing_stats_t mut_stats;

@@ -52,7 +52,7 @@ void capture_pmu_counters(ns_pmu_counters_t *dest) {
     // ns_pmu_print_counters(&ns_microProfilerPMU);
     for (int i = 0; i < 4; i++) {
         dest->counterValue[i] = ns_microProfilerPMU.counter[i].counterValue;
-    }    
+    }
 }
 #endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L || AM_PART_APOLLO330P
 
@@ -172,7 +172,7 @@ MicroProfiler::LogCsv() const {
     // print same header to ns_profiler_csv_header
     snprintf(ns_profiler_csv_header, 512,
              "\"Event\",\"Tag\",\"uSeconds\",\"Est MACs\"");
-    ns_lp_printf("\"Event\",\"Tag\",\"uSeconds\",\"Est MACs\",\"MAC Eq\",\"Output Mag\",\"Output Shape\",\"Filter Shape\", \"Stride H\", \"Stride W\", \"Dilation H\", \"Dilation W\""); 
+    ns_lp_printf("\"Event\",\"Tag\",\"uSeconds\",\"Est MACs\",\"MAC Eq\",\"Output Mag\",\"Output Shape\",\"Filter Shape\", \"Stride H\", \"Stride W\", \"Dilation H\", \"Dilation W\"");
     for (int i = 0; i < 4; i++) {
         ns_pmu_get_name(&ns_microProfilerPMU, i, name);
         snprintf(ns_profiler_csv_header + strlen(ns_profiler_csv_header), 512 - strlen(ns_profiler_csv_header),
@@ -207,7 +207,7 @@ MicroProfiler::LogCsv() const {
         #else
         c = &(ns_microProfilerSidecar.cache_snapshot[i]);
         #endif
-        
+
         if (ns_microProfilerSidecar.has_estimated_macs) {
             macs = ns_microProfilerSidecar
                        .estimated_mac_count[i % ns_microProfilerSidecar.number_of_layers];

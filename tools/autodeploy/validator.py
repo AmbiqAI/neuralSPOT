@@ -373,15 +373,15 @@ def getModelStats(params, client):
     return stat_array
 
 def getPMUStats(params, client, layer, num_events_per_layer):
-    # This function is called after getModelStats has been called. At the point, the 
+    # This function is called after getModelStats has been called. At the point, the
     # EVB is primed to send PMU stats - it will send the stats for each layer, one layer per call
 
-    # The pmu stat block has this format: 
+    # The pmu stat block has this format:
     # typedef union {
     #     ns_mut_stats_t stats;
     #     char bytes[sizeof(ns_mut_stats_t)];
     #     ns_pmu_stats_t pmu_stats;
-    # } ns_outgoing_stats_t; 
+    # } ns_outgoing_stats_t;
 
     statBlock = erpc.Reference()
     # log.info("Fetching Full PMU stats for layer %d", layer)
@@ -510,7 +510,7 @@ def validateModel(params, client, interpreter, md, mc):
         interpreter.invoke()  # local invoke
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
-        if md.inputTensors[0].bytes > (maxRpcBlockLength): 
+        if md.inputTensors[0].bytes > (maxRpcBlockLength):
             log.info(
                 f"Input tensor exceeds RPC buffer size, chunking from {md.inputTensors[0].bytes} to {maxRpcBlockLength}"
             )
@@ -667,7 +667,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
     from contextlib import suppress
     import math
 
-    
+
     # ---------------------------
     # 1) Data sheet (raw only)
     # ---------------------------
@@ -735,7 +735,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
             # Bail out with zeros if we lack shapes.
             if not out_shape or not filt_shape:
                 return (0, 0, 0)
-            
+
             # ---------------- Fused activation handling (conv/fc/dw) ----------------
             def _act_from_row() -> Optional[_ActSpec]:
                 fa = str(row.get("FusedActivation", row.get("FUSED_ACT", "NONE")) or "NONE").upper()
@@ -746,7 +746,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
                     return _ActSpec(type=fa.lower(), bits=None)
                 # Tanh/Logistic appear as separate ops, not a fused flag, but if they show up here, ignore (nonlinear, not modeled as fused in conv).
                 return _ActSpec(type="none")
-            
+
             # Dispatch by op kind
             if "depthwise" in tag:
                 # FILTER_SHAPE: Kh * Kw * Cin * DepthMultiplier
@@ -957,8 +957,8 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
             wb.set_calc_mode("automatic")
             wb.set_calc_on_load()
         except Exception:
-            pass        
-        
+            pass
+
         # Config sheet + named CoreMHz
         cfg = wb.add_worksheet("Config")
         cfg.write("A1", "CoreMHz"); cfg.write_number("B1", float(core_mhz or 0.0))
@@ -995,7 +995,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
             """A1 on Data sheet for given column name/row index (1-based row)"""
             ci = cidx(col_name)
             return f"Data!{a1(ci, r0)}" if ci is not None else None
-        
+
         # Precompute useful A1 ranges on Data
         u_c = cidx("uSeconds")
         u_rng = f"Data!{col_letter(u_c)}2:Data!{col_letter(u_c)}{nrows+1}" if u_c is not None else None
@@ -1051,7 +1051,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
         # For % achieved (actuals on Data, predictions are values on Derived)
         _mve_vreduce = df_data["ARM_PMU_MVE_VREDUCE_INT_RETIRED"].astype("float64") if "ARM_PMU_MVE_VREDUCE_INT_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
         _pred_cycles = df_data["ARM_PMU_MVE_PRED"].astype("float64") if "ARM_PMU_MVE_PRED" in df_data.columns else pd.Series([np.nan]*nrows)
-        
+
         # Fill formulas into Derived (with cached results)
         # def write_cache(ws, row_idx, col_name, formula, cached):
         #     ci = cidx_der(col_name)
@@ -1146,11 +1146,11 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
             _write_formula_cached(ws_der, r, "PeakMACsPerCycle",
                 f'=IF({ebits}=8,8,IF({ebits}=16,4,IF({ebits}=32,2,"")))',
                 _peak[r-1] if pd.notna(_peak[r-1]) else None)
-            
+
             _write_formula_cached(ws_der, r, "Util_%",
                 f'=IF(AND({mac}>0,{cyc}>0,{a1nder("PeakMACsPerCycle", r)}<>""),{mac}/{cyc}/{a1nder("PeakMACsPerCycle", r)},"")',
                 (_macs[r-1]/_cycles_series[r-1]/_peak[r-1]) if (_macs[r-1]>0 and _cycles_series[r-1]>0 and pd.notna(_peak[r-1]) and _peak[r-1]>0) else None)
-            
+
             # IPC, Vectorization, MVE MAC ratio
             if inst:
                 _write_formula_cached(ws_der, r, "IPC",
@@ -1191,7 +1191,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
                 re = a1d("read_estimate", r)
                 we = a1d("write_estimate", r)
                 eb = a1nder("ElemBytes", r)
-                rb = a1nder("Read_Bytes", r)    
+                rb = a1nder("Read_Bytes", r)
                 wb_ = a1nder("Write_Bytes", r)
                 _write_formula_cached(ws_der, r, "Read_Bytes",  f'={re}*{eb}', re*eb)
                 _write_formula_cached(ws_der, r, "Write_Bytes", f'={we}*{eb}', we*eb)
@@ -1205,7 +1205,7 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
                 _write_formula_cached(ws_der, r, "Write_Bytes", f'0', 0)
                 _write_formula_cached(ws_der, r, "BW_Bytes_s",  f'0', 0)
                 _write_formula_cached(ws_der, r, "MACs_per_Byte", f'0', 0)
-                    
+
             # OpKind
             if "Tag" in headers_data:
                 tag = a1d("Tag", r)
@@ -1504,7 +1504,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
             csv_header = struct.pack("<" + "I" * 128, *csv_header)
             csv_header = csv_header.split(b"\x00")[0]
             csv_header = "".join([chr(c) for c in csv_header])
-    
+
     # print(stats)
     log.info(
         "Decoding statistics. Number of events = %d, buff_size = %d size = %d platform %d arraylen %d"
@@ -1605,7 +1605,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
             shutil.copy(stats_filename + ".xlsx", os.path.join(params.profile_results_path, unique_name + ".xlsx"))
 
         return totalCycles, totalMacs, totalTime, captured_events, pmu_events_per_layer
- 
+
 
     for i in range(captured_events):
         row = []
@@ -1638,7 +1638,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         # print(platform)
         if platform == 5:
             # AP5, so only PMU counters - either 4 (normal mode) or all of them (full mode)
-            
+
             if params.full_pmu_capture:
                 row.append(mc.modelStructureDetails.estimateStrings[i])
                 row.append(mc.modelStructureDetails.output_magnitude[i])
@@ -1683,7 +1683,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
             )
             print(
                 f"[NS] Model Performance Analysis: MAC/second {(totalMacs*1000000/totalTime):.2f}"
-            )        
+            )
     else:
         log.info(
             f"Model Performance Analysis: Total Inference Time {totalTime} us, total estimated MACs {totalMacs}, total cycles {totalCycles}, layers {captured_events}"
@@ -1800,7 +1800,7 @@ def compile_and_deploy(params, mc, first_time=False, aot=False):
                 f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} {ws1} make ADPATH={relative_build_path} AUTODEPLOY=1 EXAMPLE={example} deploy"
             )
             # time.sleep(3)
-            # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")           
+            # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")
         else:
             makefile_result = os.system(
                 f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
@@ -1869,7 +1869,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
         "NS_AD_LARGE_ARENA": ns_ad_large_arena,
         "NS_AD_RV_COUNT": mc.rv_count,
         "NS_AD_MAC_ESTIMATE_COUNT": len(mc.modelStructureDetails.macEstimates),
-        "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)        
+        "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
         .replace("[", "")
         .replace("]", ""),
         "NS_AD_PMU_EVENT_0": ev0,
@@ -1890,8 +1890,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
             mc.rv_count,
         )
     )
-    template_directory = str(importlib.resources.files(__name__) / "templates")
-
+    template_directory = str(importlib.resources.files(__package__) / "templates")
     createFromTemplate(
         template_directory + "/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
@@ -1908,7 +1907,7 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
     }
-    template_directory = str(importlib.resources.files(__name__) / "templates")
+    template_directory = str(importlib.resources.files(__package__) / "templates")
     createFromTemplate(
         template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
@@ -1935,8 +1934,14 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
     if aot:
         os.makedirs(refactor_aot, exist_ok=True)
 
+    # Remove legacy monolithic validator shell; new flow uses tflm_validator_main.c
+    for legacy in ("tflm_validator.cc", "tflm_validator.cpp"):
+        legacy_path = Path(src_dir) / legacy
+        if legacy_path.exists():
+            legacy_path.unlink()
+
     # Paths to our template tree
-    tmpl_root   = importlib.resources.files(__name__)
+    tmpl_root   = importlib.resources.files(__package__)
     tmpl_common = str(tmpl_root / "templates/validator")
     tmpl_tflm   = os.path.join(tmpl_common, "tflm")
     tmpl_aot    = os.path.join(tmpl_common, "aot")
@@ -1982,7 +1987,7 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
         rm = {
             "NS_AD_NAME": params.model_name,
             "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
-            "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)        
+            "NS_AD_MAC_ESTIMATE_LIST": str(mc.modelStructureDetails.macEstimates)
             .replace("[", "")
             .replace("]", ""),
         }
@@ -2255,7 +2260,7 @@ def get_interpreter(params):
                 log.error(f"All interpreter creation methods failed. This model appears to be incompatible with the current TensorFlow Lite runtime.")
                 log.error(f"Model: {params.tflite_filename}")
                 log.error(f"TensorFlow Lite version: {getattr(_tfl, '__version__', 'unknown')}")
-                
+
                 # Provide specific guidance based on the error
                 if "XNNPACK" in str(delegate_err):
                     log.error("The model is failing due to XNNPACK delegate issues. This suggests:")
@@ -2266,7 +2271,7 @@ def get_interpreter(params):
                     log.error("- Using a different model that doesn't rely on XNNPACK")
                     log.error("- Re-converting the model without XNNPACK optimizations")
                     log.error("- Updating the TensorFlow Lite runtime")
-                
+
                 raise RuntimeError(
                     f"Failed to create LiteRT interpreter for model '{params.tflite_filename}'. "
                     f"This model appears to be incompatible with the current TensorFlow Lite runtime (version {getattr(_tfl, '__version__', 'unknown')}). "

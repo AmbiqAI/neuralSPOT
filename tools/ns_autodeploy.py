@@ -838,9 +838,13 @@ class AutoDeployRunner:
         # Arena max size auto‑fill
         if self.p.max_arena_size == 0:
             if self.p.arena_location == "PSRAM":
-                self.p.max_arena_size = pc.GetMaxPsramArenaSize()
+                max_allowed = pc.GetMaxPsramArenaSize()
             else:
-                self.p.max_arena_size = pc.GetMaxArenaSize()
+                max_allowed = pc.GetMaxArenaSize()
+
+            # Respect user padding by reserving it from the auto‑computed ceiling.
+            padding = max(0, self.p.arena_size_scratch_buffer_padding)
+            self.p.max_arena_size = max_allowed - padding if max_allowed > padding else 0
             print(f"[NS] Max {self.p.arena_location if self.p.arena_location != 'auto' else 'SRAM'} Arena Size for {self.p.platform}: {self.p.max_arena_size} KB")
         else:
             pc.CheckArenaSize(self.p.max_arena_size, self.p.arena_location)

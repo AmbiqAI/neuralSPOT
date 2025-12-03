@@ -7,7 +7,7 @@ The example demonstrates several performance profiling facilities offered by neu
 
 The example uses one of Ambiq's larger models (the arrhythmia detector from Heartkit) as the model-under-test
 
-> *NOTE*: This example works for TFLM and HeliosRT
+> *NOTE*: This example works for TFLM and HeliaRT
 
 ---
 
@@ -16,7 +16,7 @@ Any Apollo EVB (AP3, AP4, and AP5), though the profiling will be different for e
 
 ## Building and Running the Example
 > *IMPORTANT*: Note the make CLI flags (MLDEBUG and MLPROFILE) needed to build this example, which are not enabled by default for the rest of neuralSPOT. These flags do two things:
-* Link in the right TFLM/HeliosRT with an enabled microProfiler
+* Link in the right TFLM/HeliaRT with an enabled microProfiler
 * Compile in statistics data structures (these can be fairly large, so they're not compiled in by default)
 
 ```bash

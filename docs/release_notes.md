@@ -65,8 +65,8 @@
 - NeuralSPOT Release 1.2 (major release) Dozens of new features, improvements, and optimizations
   - Autodeploy Enchancements
     - Adds support for all Apollo platforms and variants
-    - Adds HeliosRT support
-    - Adds experimental HeliosAOT support
+    - Adds HeliaRT support
+    - Adds experimental HeliaAOT support
     - Adds control over model and arena memory placement
     - Adds Very Large Model support on EVBs with PSRAM
     - Adds batch profiling to run multiple autodeploys programmatically
@@ -86,7 +86,7 @@
   - Over a dozen examples and applications
     - 6 ready-to-use AI examples and applications
     - 8 examples showcasing functionality such as profiling and RPC
-  - Integration with HeliosRT alongside TFLM
+  - Integration with HeliaRT alongside TFLM
   - Enhanced EdgeImpulse integration support
 
 
@@ -115,7 +115,7 @@
   - Fixes various usb race conditions, rpc_server example hang
   - Adds 16-byte alignment to model definitions (needed by armclang)
   - Better Windows support
-  - Adds AmbiqSuite example export to Autodeploy 
+  - Adds AmbiqSuite example export to Autodeploy
   - removes unneeded files
 
 - Autodeploy Update 11/5/2024

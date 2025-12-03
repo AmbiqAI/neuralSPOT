@@ -1,6 +1,6 @@
 local_app_name := aot_validator
 
-# -------- Helios‑AOT generated sources --------------------------------------
+# -------- HeliaAOT generated sources --------------------------------------
 local_src := $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.c)
 local_src += $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.cc)
 local_src += $(wildcard $(subdirectory)/../NS_AD_NAME_AOT_aot/NS_AD_NAME_AOT/src/*.cpp)

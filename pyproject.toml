@@ -6,12 +6,13 @@ readme = "README.md"
 authors = [
     {name="Ambiq AI", email="support.aitg@ambiq.com"}
 ]
-requires-python = ">= 3.10, < 3.13"
+requires-python = ">= 3.11, < 3.13"
 dependencies = [
     "numpy>=2.2.6",
     "pandas>=2.2.3",
     "openpyxl>=3.1.5",
     "soundfile>=0.10.3",
+    "packaging>=23.2",
     "pyserial~=3.5",
     "pydantic~=2.8.0",
     "joulescope>=1.1.15",
@@ -52,9 +53,6 @@ neuralspot = [
     "tools/ns_platform.yaml",
     "tools/autodeploy/profiles/ns_pmu_default.yaml"
 ]
-
-[tool.uv.sources]
-helios-aot = { path = "../../helios-aot" }
 
 [project.scripts]
 ns_autodeploy = "neuralspot.tools.ns_autodeploy:main"

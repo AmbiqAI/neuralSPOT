@@ -2,8 +2,8 @@
 """Refactored neuralSPOT autodeploy driver
 ========================================
 A fully compatible rewrite of `tools/ns_autodeploy.py` with identical public
-behaviour and side‑effects.  All heavy‑lifting has been extracted into helper
-classes so that the control‑flow is explicit, easy to read and unit‑testable.
+behaviour and side-effects.  All heavy-lifting has been extracted into helper
+classes so that the control-flow is explicit, easy to read and unit-testable.
 """
 from __future__ import annotations
 
@@ -19,10 +19,11 @@ os.environ["TF_LITE_USE_XNNPACK"] = "0"
 os.environ["TF_LITE_EXPERIMENTAL_USE_XNNPACK"] = "0"
 import subprocess
 import warnings
+from packaging.version import Version
 from pathlib import Path
 from time import sleep
 import shutil
-from typing import Callable, List
+from typing import List
 import importlib
 
 import numpy as np
@@ -34,28 +35,27 @@ from pydantic import BaseModel, Field
 warnings.filterwarnings("ignore", message="Field.*has conflict with protected namespace.*")
 
 # ---------------------------------------------------------------------------
-# Optional HeliosAOT import --------------------------------------------------
+# Optional HeliaAOT import --------------------------------------------------
 # ---------------------------------------------------------------------------
-HeliosConvertArgs = None  # type: ignore  # populated only if import succeeds
+HeliaConvertArgs = None  # type: ignore  # populated only if import succeeds
 AotModel = None  # type: ignore
-helios_aot_version = None
+helia_aot_version = "0.0.0"
+helia_aot_available = False
 try:
-    import helios_aot  # noqa: F401  – side‑effect import for pkg resources
-    from helios_aot.cli.defines import ConvertArgs as HeliosConvertArgs  # type: ignore
-    from helios_aot.converter import AotConverter as AotModel   # type: ignore
-    from helios_aot.utils import get_version as get_helios_aot_version
-    helios_aot_version = get_helios_aot_version()
+    import helia_aot as aot
+    from helia_aot.cli.defines import ConvertArgs as HeliaConvertArgs  # type: ignore
+    from helia_aot.converter import AotConverter as AotModel   # type: ignore
+    helia_aot_version = aot.utils.get_version()
     # Make sure the version is at least 0.5.0 (semantic versioning)
-    if helios_aot_version < "0.5.0":
-        print(f"[NS] HeliosAOT version is {helios_aot_version}, but must be at least 0.5.0")
-        helios_aot_available = False
-        print(f"[NS] HeliosAOT support is not available, version is too old")
+    if Version(helia_aot_version) < Version("0.5.0"):
+        print(f"[NS] HeliaAOT version is {helia_aot_version}, but must be at least 0.5.0")
+        helia_aot_available = False
     else:
-        helios_aot_available = True
-        print(f"[NS] HeliosAOT module is available, version: {get_helios_aot_version()}")
+        helia_aot_available = True
+        print(f"[NS] HeliaAOT module is available, version: {helia_aot_version}")
 except (ImportError, OSError, RuntimeError) as e:
-    helios_aot_available = False
-    print(f"Helios AOT support is not available: {e}")
+    helia_aot_available = False
+    print(f"[NS] HeliaAOT support is not available: {e}")
 
 
 # External modules – behaviour must stay identical; keep import locations
@@ -109,14 +109,14 @@ class TensorFlowFilter(logging.Filter):
 # Apply the filter to the root logger
 logging.getLogger().addFilter(TensorFlowFilter())
 
-__all__ = ["main", "Params"]  # For external reuse & unit‑test import
+__all__ = ["main", "Params"]  # For external reuse & unit-test import
 
 # ---------------------------------------------------------------------------
 # 0. Utility helpers ---------------------------------------------------------
 # ---------------------------------------------------------------------------
 
 def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
-    """Clone **ns‑cmsis‑nn** into *destination_rootdir* if missing.
+    """Clone **ns-cmsis-nn** into *destination_rootdir* if missing.
 
     Parameters
     ----------
@@ -127,7 +127,7 @@ def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
     Returns
     -------
     Path
-        The path to the local *ns‑cmsis‑nn* checkout.
+        The path to the local *ns-cmsis-nn* checkout.
     """
     ns_cmsis_nn_path = Path(destination_rootdir) / "ns-cmsis-nn"
     if ns_cmsis_nn_path.exists():
@@ -204,25 +204,25 @@ class Params(BaseModel):
         False, description="Create AmbiqSuite example based on TFlite file"
     )
 
-    if helios_aot_available:
+    if helia_aot_available:
         create_aot_profile: bool = Field(
             False,
-            description="Add a Helios AOT profiling and benchmarking pass",
+            description="Add HeliaAOT profiling and benchmarking pass",
         )
 
-        helios_aot_config: str = Field(
+        helia_aot_config: str = Field(
             "auto",
-            description="Helios AOT configuration YAML file (or 'auto')",
+            description="HeliaAOT configuration YAML file (or 'auto')",
         )
     else:
         create_aot_profile: bool = Field(
             False,
-            description="NOT SUPPORTED - Helios AOT is not available",
+            description="NOT SUPPORTED - HeliaAOT is not available",
         )
 
-        helios_aot_config: str = Field(
+        helia_aot_config: str = Field(
             "auto",
-            description="NOT SUPPORTED - Helios AOT is not available",
+            description="NOT SUPPORTED - HeliaAOT is not available",
         )
 
     joulescope: bool = Field(
@@ -340,7 +340,7 @@ class Params(BaseModel):
     def parser(cls):
         """
         Return an `argparse.ArgumentParser` with a **parse_typed_args()** helper
-        so that the public API (and the test‑suite) stay identical.
+        so that the public API (and the test-suite) stay identical.
         """
         class _TypedParser(argparse.ArgumentParser):
             def parse_typed_args(self, args=None) -> "Params":          # noqa: D401
@@ -352,7 +352,7 @@ class Params(BaseModel):
             description="Evaluate TFLite model",
         )
 
-        # Auto‑generate flags from the model fields
+        # Auto-generate flags from the model fields
         for name, field in cls.model_fields.items():                    # v2 API
             arg = f"--{name.replace('_', '-')}"
             help_txt = field.description or ""
@@ -377,7 +377,7 @@ class Params(BaseModel):
                     )
                 continue
 
-            # Non‑bools – let Pydantic handle coercion, so keep the raw string
+            # Non-bools – let Pydantic handle coercion, so keep the raw string
             p.add_argument(arg, default=argparse.SUPPRESS, help=help_txt)
 
         return p
@@ -447,10 +447,10 @@ class adResults:
         self.aot_rom_kb = 0
         self.aot_ram_kb = 0
 
-        # HeliosAOT extras --------------------------------------------------
+        # HeliaAOT extras --------------------------------------------------
         self.aot_success: bool = False
-        self.aot_module_path: Optional[str] = None
-        self.aot_error: Optional[str] = None
+        self.aot_module_path: str|None = None
+        self.aot_error: str|None = None
 
     def print(self):
         print("")
@@ -597,7 +597,7 @@ Notes:
                     aot_perf_vals = (
                         f",{self.powerAotMaxPerfInferenceTime},{self.powerAotMaxPerfJoules},{self.powerAotMaxPerfWatts},"
                         f"{self.powerAotMinPerfInferenceTime},{self.powerAotMinPerfJoules},{self.powerAotMinPerfWatts},"
-                        f"{helios_aot_version}"
+                        f"{helia_aot_version}"
                     )
                 mem_tflm_vals = (
                     f",{self.tflm_rom_kb},{self.tflm_ram_kb}"
@@ -649,7 +649,7 @@ Notes:
     def setArenaSize(self, arena_size):
         self.arena_size = arena_size
 
-    def setAot(self, success: bool, module_path: Optional[str] = None, error: Optional[str] = None):
+    def setAot(self, success: bool, module_path: str|None = None, error: str|None = None):
         self.aot_success = success
         self.aot_module_path = module_path
         self.aot_error = error
@@ -710,7 +710,7 @@ class AutoDeployRunner:
         self.results = None  # set later when adResults is constructed
 
     # ------------------------------------------------------------------
-    #   Top‑level control‑flow (identical to legacy order)
+    #   Top-level control-flow (identical to legacy order)
     # ------------------------------------------------------------------
     def run(self) -> None:  # noqa: C901 – high complexity mirrors legacy spec
         """Execute the enabled stages in the same order as the original script."""
@@ -726,7 +726,7 @@ class AutoDeployRunner:
             self._load_pickled_artifacts()
 
         if self.p.create_aot_profile and not self.p.create_profile:
-            self._generate_helios_aot()
+            self._generate_helia_aot()
             # force results aot flag to true
             self.results.p.create_aot_profile = True
             if self.p.nocompile_mode:
@@ -752,10 +752,10 @@ class AutoDeployRunner:
         self.results.print()
 
     # ------------------------------------------------------------------
-    #   Private helpers – all side‑effects are delegated to extracted funcs
+    #   Private helpers – all side-effects are delegated to extracted funcs
     # ------------------------------------------------------------------
     def _prepare_environment(self) -> None:
-        """Replicates *all* legacy pre‑flight logic: paths, auto‑detects etc."""
+        """Replicates *all* legacy pre-flight logic: paths, auto-detects etc."""
         # --- logging first so subsequent helpers can emit output ----------
         _setup_logging(self.p.verbosity)
 
@@ -796,14 +796,14 @@ class AutoDeployRunner:
         if self.p.tflite_filename == "undefined":
             raise ValueError("TFLite filename must be specified")
 
-        # --- If create_aot_profile is True and helios_aot_available = False, set it to False
-        if self.p.create_aot_profile and not helios_aot_available:
+        # --- If create_aot_profile is True and helia_aot_available = False, set it to False
+        if self.p.create_aot_profile and not helia_aot_available:
             self.p.create_aot_profile = False
-            print("[WARNING] AOT disabled because HeliosAOT is not available")
+            print("[WARNING] AOT disabled because HeliaAOT is not available")
 
         # --- If aot_config is auto, set it to tools/base_aot.yaml
-        if self.p.helios_aot_config == "auto":
-            self.p.helios_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
+        if self.p.helia_aot_config == "auto":
+            self.p.helia_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
 
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")
@@ -835,14 +835,14 @@ class AutoDeployRunner:
         pc = self.platform_cfg  # alias – matches legacy var name
         self.model_size = int(os.path.getsize(self.p.tflite_filename) / 1024 + 0.999)
 
-        # Arena max size auto‑fill
+        # Arena max size auto-fill
         if self.p.max_arena_size == 0:
             if self.p.arena_location == "PSRAM":
                 max_allowed = pc.GetMaxPsramArenaSize()
             else:
                 max_allowed = pc.GetMaxArenaSize()
 
-            # Respect user padding by reserving it from the auto‑computed ceiling.
+            # Respect user padding by reserving it from the auto-computed ceiling.
             padding = max(0, self.p.arena_size_scratch_buffer_padding)
             self.p.max_arena_size = max_allowed - padding if max_allowed > padding else 0
             print(f"[NS] Max {self.p.arena_location if self.p.arena_location != 'auto' else 'SRAM'} Arena Size for {self.p.platform}: {self.p.max_arena_size} KB")
@@ -858,7 +858,7 @@ class AutoDeployRunner:
             self.p.model_location = "MRAM"
             self.move_model_back_to_sram = True
 
-        # Auto‑fill AS/TF versions
+        # Auto-fill AS/TF versions
         if self.p.ambiqsuite_version == "auto":
             self.p.ambiqsuite_version = pc.platform_config["as_version"]
             print(f"[NS] Using AmbiqSuite Version: {self.p.ambiqsuite_version}")
@@ -871,7 +871,7 @@ class AutoDeployRunner:
             self.p.transport = "USB" if pc.GetSupportsUsb() else "UART"
         log.info(f"[NS] Using transport: {self.p.transport}")
 
-        # Large model edge‑case (needs MRAM even if user requested PSRAM)
+        # Large model edge-case (needs MRAM even if user requested PSRAM)
         if pc.GetModelLocation(self.model_size, "auto") == "PSRAM":
             print("[NS WARNING] Model is too large for performance or example generation – disabling those stages")
             self.p.joulescope = self.p.onboard_perf = self.p.create_ambiqsuite_example = self.p.create_library = False
@@ -882,10 +882,10 @@ class AutoDeployRunner:
             print("[WARNING] AOT disabled because PSRAM or NVM is selected")
 
     # ------------------------------------------------------------------
-    #   Stage helpers (names map 1‑to‑1 with original comments)
+    #   Stage helpers (names map 1-to-1 with original comments)
     # ------------------------------------------------------------------
     def _create_and_finetune_binary(self) -> None:  # Stage 1
-        print(f"[NS] *** Stage [{self._stage}/{self._total_stages}]: Create and fine‑tune EVB model characterization image")
+        print(f"[NS] *** Stage [{self._stage}/{self._total_stages}]: Create and fine-tune EVB model characterization image")
         self._stage += 1
         # Logic identical – delegate to original functions
         stash_arena_location = self.p.arena_location
@@ -951,7 +951,6 @@ class AutoDeployRunner:
         differences, _ = validateModel(self.p, client, get_interpreter(self.p), self.md, self.mc)
         # print(f"[DEBUG] TFLM differences: {differences}")
         # print(f"[DEBUG] TFLM golden output tensors: {golden_output_tensors}")
-
         stats = getModelStats(self.p, client)
         # pretty-print the differences
 
@@ -964,7 +963,6 @@ class AutoDeployRunner:
                 log.info("Model Output Comparison: Mean difference per output label in tensor(%d): %s", idx, repr(mean_diff))
             else:
                 log.info("Model Output Comparison: No differences for tensor(%d)", idx)
-
         stats_file_base = Path(self.p.destination_rootdir) / self.p.model_name / f"{self.p.model_name}_stats"
         pmu_csv_header = ""
         overall_pmu_stats: List[List[int]] = []
@@ -988,7 +986,7 @@ class AutoDeployRunner:
         # ----  Run an AOT profiling pass (optional) ----------------------
         if self.p.create_aot_profile:
             if not self.p.nocompile_mode:
-                self._generate_helios_aot()
+                self._generate_helia_aot()
                 if self.results.aot_success:
                     create_validation_binary(self.p, self.mc, self.md, baseline=False, aot=True)
                 else:
@@ -1070,8 +1068,8 @@ class AutoDeployRunner:
                 repr(np.array(tensor_diffs).mean(axis=0)),
             )
 
-    def _generate_helios_aot(self) -> None:
-        print(f"[NS] Generate HeliosAOT source code")
+    def _generate_helia_aot(self) -> None:
+        print("[NS] Generate HeliaAOT source code")
         # erase any existing AOT source code
         aot_dir = Path(self.p.destination_rootdir) / self.p.model_name / (self.p.model_name +"_aot")
         if aot_dir.exists():
@@ -1079,20 +1077,20 @@ class AutoDeployRunner:
 
         # Ensure supporting libraries are present --------------------
         _fetch_ns_cmsis_nn(self.p.destination_rootdir)
-        # print(f"[NS] HeliosAOT destination rootdir: {self.p.destination_rootdir}")
+        # print(f"[NS] HeliaAOT destination rootdir: {self.p.destination_rootdir}")
 
         # Determine configuration path ------------------------------
-        cfg_path = self.p.helios_aot_config
+        cfg_path = self.p.helia_aot_config
         if cfg_path == "auto":
             cfg_path = os.path.splitext(self.p.tflite_filename)[0] + ".yaml"
             if not Path(cfg_path).exists():
                 raise FileNotFoundError(
-                    "HeliosAOT config file not provided and 'auto' path does not exist."
+                    "HeliaAOT config file not provided and 'auto' path does not exist."
                 )
-        # print(f"[NS] HeliosAOT config file: {cfg_path}")
+        # print(f"[NS] HeliaAOT config file: {cfg_path}")
         # Prepare ConvertArgs instance -------------------------------
-        convert_args = HeliosConvertArgs(path=Path(cfg_path))  # type: ignore
-        # print("[NS] HeliosAOT convert args:")
+        convert_args = HeliaConvertArgs(path=Path(cfg_path))  # type: ignore
+        # print("[NS] HeliaAOT convert args:")
         # print(convert_args)
         # Override model_path/output/module_name dynamically ---------
         convert_args.model.path = Path(self.p.tflite_filename)
@@ -1108,11 +1106,11 @@ class AutoDeployRunner:
 
         # Memory Config
         # Convert memory type to attribute
-        from helios_aot.attributes import AttributeRuleset
-        from helios_aot.memory import MemoryPlannerType
-        from helios_aot.platforms import MemoryType
-        from helios_aot.cli.defines import MemoryArgs, ConvertArgs
-        from helios_aot.air import AirModel  # for typing only
+        from helia_aot.attributes import AttributeRuleset
+        from helia_aot.memory import MemoryPlannerType
+        from helia_aot.platforms import MemoryType
+        from helia_aot.cli.defines import MemoryArgs, ConvertArgs
+        from helia_aot.air import AirModel  # for typing only
 
         _memory_type_to_attribute = {
             "TCM": MemoryType.DTCM,
@@ -1154,34 +1152,34 @@ class AutoDeployRunner:
             tensors=tensor_rules,
             allocate_arenas=True,
         )
-        # print(f"[NS] HeliosAOT convert args: {convert_args}")
-        # Invoke HeliosAOT programmatically --------------------------
+        # print(f"[NS] HeliaAOT convert args: {convert_args}")
+        # Invoke HeliaAOT programmatically --------------------------
         aot_model = AotModel(config=convert_args)  # type: ignore
-        # print(f"[NS] HeliosAOT model: {aot_model}")
+        # print(f"[NS] HeliaAOT model: {aot_model}")
 
         # Try to initialize and convert, but handle any exceptions gracefully
-        # Temporarily override sys.exit to prevent HeliosAOT from killing the process
+        # Temporarily override sys.exit to prevent HeliaAOT from killing the process
         import sys
         original_exit = sys.exit
 
         def safe_exit(code):
             # Don't actually exit, just raise an exception that we can catch
-            raise RuntimeError(f"HeliosAOT requested exit with code {code}")
+            raise RuntimeError(f"HeliaAOT requested exit with code {code}")
 
         try:
             sys.exit = safe_exit
             # aot_model.initialize()
-            print(f"[NS] HeliosAOT model initialized")
+            print(f"[NS] HeliaAOT model initialized")
             ctx = aot_model.convert()
-            print(f"[NS] HeliosAOT model converted")
+            print(f"[NS] HeliaAOT model converted")
         except Exception as e:
-            print(f"[NS] HeliosAOT model failed: {e}")
+            print(f"[NS] HeliaAOT model failed: {e}")
             # Don't re-raise - just set the error and continue
             self.results.setAot(False, error=str(e))
-            print(f"[NS] HeliosAOT generation failed – {e}")
+            print(f"[NS] HeliaAOT generation failed – {e}")
             # Disable AOT so the rest of the script can run
             self.p.create_aot_profile = False
-            print("[WARNING] AOT disabled because HeliosAOT generation failed")
+            print("[WARNING] AOT disabled because HeliaAOT generation failed")
             return  # Exit this method but continue with the rest of the script
         finally:
             # Restore the original sys.exit
@@ -1191,7 +1189,7 @@ class AutoDeployRunner:
         air_model: AirModel | None = getattr(ctx, "model", None) or getattr(ctx, "air_model", None)
         if air_model is None:
             # If this triggers, we may need to adjust based on your CodeGenContext fields.
-            raise RuntimeError("HeliosAOT: CodeGenContext did not expose an AirModel (expected ctx.model).")
+            raise RuntimeError("HeliaAOT: CodeGenContext did not expose an AirModel (expected ctx.model).")
 
         # Prefer a topologically-sorted view if available
         ops = air_model.topo_sort() if hasattr(air_model, "topo_sort") else list(getattr(air_model, "operators", []))
@@ -1206,7 +1204,7 @@ class AutoDeployRunner:
         #     print(f"  {op.id}, {op.op_type.name}")
 
         self.results.setAot(True, module_path=str(convert_args.module.path.resolve()))
-        print("[NS] HeliosAOT generation completed successfully")
+        print("[NS] HeliaAOT generation completed successfully")
 
     # ------------------------------------------------------------------
     def _load_pickled_artifacts(self) -> None:
@@ -1492,7 +1490,7 @@ class AutoDeployRunner:
 # ---------------------------------------------------------------------------
 
 def main(argv: List[str] | None = None) -> None:  # pragma: no cover – CLI
-    """Entry‑point used by the shebang AND by the parity test‐suite."""
+    """Entry-point used by the shebang AND by the parity test‐suite."""
     parser = Params.parser()
     cli_params: Params = parser.parse_typed_args(args=argv)
     merged_params = _merge_params(cli_params)

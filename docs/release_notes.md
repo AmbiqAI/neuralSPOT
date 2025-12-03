@@ -66,7 +66,7 @@
   - Autodeploy Enchancements
     - Adds support for all Apollo platforms and variants
     - Adds HeliaRT support
-    - Adds experimental HeliosAOT support
+    - Adds experimental HeliaAOT support
     - Adds control over model and arena memory placement
     - Adds Very Large Model support on EVBs with PSRAM
     - Adds batch profiling to run multiple autodeploys programmatically

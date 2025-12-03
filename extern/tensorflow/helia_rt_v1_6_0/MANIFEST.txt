@@ -1,4 +1,4 @@
-neuralspot-helios-rt HeliaRT-v1.6.0
+neuralspot-helia-rt HeliaRT-v1.6.0
 Commit: b730fb0
 
 Libraries:

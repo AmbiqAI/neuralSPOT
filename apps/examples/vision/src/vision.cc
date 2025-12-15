@@ -31,9 +31,6 @@
 #include "ns_camera.h"
 #include "vision.h"
 
-
-
-
 //
 // WebUSB Configuration and Datatypes
 //
@@ -259,12 +256,16 @@ int main(void) {
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
     NS_TRY(ns_power_config(&ns_pwr_config), "Power config failed.\n");
     // am_bsp_low_power_init();
+    #if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
+    am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE2);
+    #else
     am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
+    #endif
 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
 
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
     ns_perf_enable_pcsamp();
     ns_lp_printf("DWT ITM enable\n");
     #endif

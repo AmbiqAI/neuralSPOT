@@ -23,7 +23,7 @@
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
 #include "ns_debug_log.h"
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L) || defined(AM_PART_APOLLO330P)
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
 #endif
@@ -74,7 +74,7 @@ NS_SRAM_BSS uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((
 // -------------------------- Optional profiling bits -------------------------
 #ifdef NS_MLPROFILE
 ns_timer_config_t s_tickTimer = { .api = &ns_timer_V1_0_0, .timer = NS_TIMER_COUNTER, .enableInterrupt = false };
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 ns_pmu_config_t   s_pmu_cfg;
 #endif
 #endif
@@ -84,7 +84,7 @@ ns_pmu_config_t   s_pmu_cfg;
 // We translate profiler buffers into mut_stats so the host can fetch them.
 void vrpc_on_after_invoke(void) {
   // Platform stamping handled in fetch handler; fill the rest here.
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
   if (mut_cfg.config.full_pmu_stats == 1) {
     mut_stats.stats.pmu_count = NS_NUM_PMU_MAP_SIZE;
   } else {
@@ -124,22 +124,22 @@ void vrpc_on_after_invoke(void) {
   memset(mut_stats.stats.stat_buffer, 0, sizeof(mut_stats.stats.stat_buffer));
   memset(mut_stats.stats.csv_header,  0, sizeof(mut_stats.stats.csv_header));
 #endif
-  ns_lp_printf("on_after_invoke done\n");
-  ns_lp_printf("captured_events %d\n", mut_stats.stats.captured_events);
-  ns_lp_printf("computed_stat_per_event_size %d\n", mut_stats.stats.computed_stat_per_event_size);
-  ns_lp_printf("pmu_count %d\n", mut_stats.stats.pmu_count);
-  ns_lp_printf("stat_buffer %p\n", mut_stats.stats.stat_buffer);
-  ns_lp_printf("csv_header %s\n", mut_stats.stats.csv_header);
+  // ns_lp_printf("on_after_invoke done\n");
+  // ns_lp_printf("captured_events %d\n", mut_stats.stats.captured_events);
+  // ns_lp_printf("computed_stat_per_event_size %d\n", mut_stats.stats.computed_stat_per_event_size);
+  // ns_lp_printf("pmu_count %d\n", mut_stats.stats.pmu_count);
+  // ns_lp_printf("stat_buffer %p\n", mut_stats.stats.stat_buffer);
+  // ns_lp_printf("csv_header %s\n", mut_stats.stats.csv_header);
 }
 
 // ------------------------------- main() ------------------------------------
 int main(void) {
   // Core + power
   ns_core_config_t core_cfg = {.api = &ns_core_V1_0_0};
+
   NS_TRY(ns_core_init(&core_cfg), "Core init failed");
   NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed");
   ns_itm_printf_enable();
-
   // Memory placement defaults; PSRAM base set after init (if used)
   ns_mem_init_defaults();
 
@@ -160,7 +160,6 @@ int main(void) {
   NS_TRY(ns_psram_init(&psram_cfg), "PSRAM Init Failed");
   ns_mem_set_psram_base((uint8_t*)psram_cfg.psram_base_address);
 #endif
-
 ns_interrupt_master_enable();
 
 #if (NS_VALIDATOR_RPC_TRANSPORT == NS_AD_RPC_TRANSPORT_UART)
@@ -172,11 +171,10 @@ ns_interrupt_master_enable();
       .tx_blocking = true,
       .rx_blocking = true };
 #endif
-
 #ifdef NS_MLPROFILE
   // Timer for profiling timestamps
   NS_TRY(ns_timer_init(&s_tickTimer), "Timer init failed");
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
   // Minimal PMU setup; detailed event selection handled in debug log module
   s_pmu_cfg.api = &ns_pmu_V1_0_0;
   ns_pmu_reset_config(&s_pmu_cfg);
@@ -185,29 +183,14 @@ ns_interrupt_master_enable();
   ns_pmu_event_create(&s_pmu_cfg.events[1], NS_PROFILER_PMU_EVENT_1, NS_PMU_EVENT_COUNTER_SIZE_32);
   ns_pmu_event_create(&s_pmu_cfg.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
   ns_pmu_event_create(&s_pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);
+
   ns_pmu_init(&s_pmu_cfg);
+
+  ns_lp_printf("PMU init done\n");
+
 #endif
 #endif
 
-  // RPC server wiring
-//   ns_rpc_config_t rpc_cfg = {
-//     .api = &ns_rpc_gdo_V1_1_0,
-//     .mode = NS_RPC_GENERICDATA_SERVER,
-//     .rx_buf = tflm_v_cdc_rx_ff_buf,
-//     .rx_bufLength = TFLM_VALIDATOR_RX_BUFSIZE,
-//     .tx_buf = tlfm_v_cdc_tx_ff_buf,
-//     .tx_bufLength = TFLM_VALIDATOR_TX_BUFSIZE,
-//     #if (NS_VALIDATOR_RPC_TRANSPORT == NS_AD_RPC_TRANSPORT_UART)
-//     .uartHandle = (ns_uart_handle_t)&rpcUARTHandle,
-//     .transport = NS_RPC_TRANSPORT_UART,
-// #else
-//     .uartHandle = NULL,
-//     .transport = NS_RPC_TRANSPORT_USB,
-// #endif
-//     .sendBlockToEVB_cb   = decodeIncomingSendblockMonkeypatch,
-//     .fetchBlockFromEVB_cb= decodeIncomingFetchblockMonkeypatch,
-//     .computeOnEVB_cb     = infer,
-//   };
 
   ns_rpc_config_t rpc_cfg = {
     .api = &ns_rpc_gdo_V1_1_0,
@@ -231,6 +214,7 @@ ns_interrupt_master_enable();
 #endif
   };
   NS_TRY(ns_rpc_genericDataOperations_init(&rpc_cfg), "RPC Init Failed");
+  // ns_lp_printf("s_pmu_cfg.events[0].eventId: %d\n", s_pmu_cfg.events[0].eventId);
 
   ns_lp_printf("Ready to receive RPC Calls");
 

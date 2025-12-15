@@ -48,7 +48,7 @@ extern "C" {
 
     #define ns_printf ns_lp_printf
 
-    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+    #if defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
         #define ns_itm_printf_enable am_bsp_itm_printf_enable
         #define ns_lp_printf am_util_stdio_printf
         #define ns_delay_us am_util_delay_us

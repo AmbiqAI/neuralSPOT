@@ -42,6 +42,8 @@ def build_command(model, args):
     # If the platform belongs to the apollo5 family, enable full PMU capture.
     if "apollo5" in args.platform.lower():
         cmd.append("--full-pmu-capture")
+    elif "apollo330" in args.platform.lower():
+        cmd.append("--full-pmu-capture")
 
     # Model-specific: tflite filename is required.
     if "tflite_filename" not in model:
@@ -149,6 +151,13 @@ def main():
     TIMEOUT_SECONDS = 900
 
     failed_models = []
+    if args.toolchain == "auto":
+        toolchains = ["arm", "gcc"]
+    else:
+        toolchains = [args.toolchain]
+
+    toolchain = args.toolchain
+    # Auto will run both gcc and arm
 
     for model in models:
         model_id = model.get("model_name", model.get("tflite_filename", "Unknown model"))
@@ -159,29 +168,32 @@ def main():
                 print(f"Skipping model '{model_id}': target platform '{args.platform}' is in unsupported_platforms {model['unsupported_platforms']}")
                 continue
 
-        cmd = build_command(model, args)
-        print(f"\nRunning ns_autodeploy for model: {model_id}")
-        print("Command:", " ".join(cmd))
-        
-        success = False
-        for attempt in range(2):
-            try:
-                print(f"Attempt {attempt + 1} for model: {model_id}")
-                subprocess.run(cmd, check=True, timeout=TIMEOUT_SECONDS)
-                print(f"Completed model: {model_id}")
-                success = True
-                break  # Exit the retry loop on success.
-            except subprocess.TimeoutExpired:
-                if attempt == 0:
-                    print(f"Timeout expired after {TIMEOUT_SECONDS} seconds for model '{model_id}'. Retrying once...")
-                else:
-                    print(f"Timeout expired again for model '{model_id}'. Moving to next model.")
-            except subprocess.CalledProcessError as e:
-                print(f"ns_autodeploy failed for model '{model_id}' with error: {e}")
-                break  # Do not retry on other errors.
-        
-        if not success:
-            failed_models.append(model)
+        for toolchain in toolchains:
+            args.toolchain = toolchain
+            print(f"Toolchain: {args.toolchain}")
+            cmd = build_command(model, args)
+            print(f"\nRunning ns_autodeploy for model: {model_id}")
+            print("Command:", " ".join(cmd))
+            
+            success = False
+            for attempt in range(2):
+                try:
+                    print(f"Attempt {attempt + 1} for model: {model_id}")
+                    subprocess.run(cmd, check=True, timeout=TIMEOUT_SECONDS)
+                    print(f"Completed model: {model_id}")
+                    success = True
+                    break  # Exit the retry loop on success.
+                except subprocess.TimeoutExpired:
+                    if attempt == 0:
+                        print(f"Timeout expired after {TIMEOUT_SECONDS} seconds for model '{model_id}'. Retrying once...")
+                    else:
+                        print(f"Timeout expired again for model '{model_id}'. Moving to next model.")
+                except subprocess.CalledProcessError as e:
+                    print(f"ns_autodeploy failed for model '{model_id}' with error: {e}")
+                    break  # Do not retry on other errors.
+    
+            if not success:
+                failed_models.append(model)
 
     if failed_models:
         print("\nThe following models failed:")

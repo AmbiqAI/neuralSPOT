@@ -16,7 +16,7 @@
     // #include "third_party/ns_cmsis_nn/Include/arm_nnsupportfunctions.h"
     // #include "third_party/ns_cmsis_nn/Include/Internal/arm_nn_compiler.h"
 #endif
-int64_t accumulators[4] = {0, 0, 0, 0};
+__attribute__((aligned(16))) int64_t accumulators[4] = {0, 0, 0, 0};
 #define OPT_ASM 1
 #if ARM_OPTIMIZED == 3
 // #if 1
@@ -49,7 +49,7 @@ int affine_Krows_8x16(
 	int16x8_t in;
     int16x8_t w;
 
-    int32_t acc32[4];
+    __attribute__((aligned(16))) int32_t acc32[4];
 	int32_t sum0=0;
     int32_t sum1=0;
     int32_t sum2=0;
@@ -356,7 +356,7 @@ int affine_Krows_8x16(
     int32_t *pi_32b = (int32_t *)input;
     int16_t in;
     int32_t in_32b;
-    int32_t acc32[4];
+    __attribute__((aligned(16))) int32_t acc32[4];
     int32_t kernel_val0;
     int32_t kernel_val1;
     int64_t sum0 = 0, sum1 = 0, sum2 = 0, sum3 = 0;
@@ -543,7 +543,7 @@ int affine_Krows_8x16(
     int32_t *pi_32b = (int32_t *) input;
     int16_t in;
     int32_t in_32b;
-    int32_t acc32[4];
+    __attribute__((aligned(16))) int32_t acc32[4];
     int32_t kernel_val0;
     int32_t kernel_val1;
     int64_t sum0 = 0, sum1 = 0, sum2 = 0, sum3 = 0;
@@ -750,8 +750,8 @@ int affine_Krows_8x16(
     int16_t *po = *pp_output;
     int16_t *pi = input;
     int32_t nbit_out = 32;
-    int16_t in[2];
-    int32_t acc32[4];
+    __attribute__((aligned(16))) int16_t in[2];
+    __attribute__((aligned(16))) int32_t acc32[4];
     int i, j;
     int shift;
     int qbit_s;

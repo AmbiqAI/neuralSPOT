@@ -113,12 +113,12 @@ extern int main(void);
 //*****************************************************************************
 
 #ifndef HEAP_SIZE
-    #define HEAP_SIZE 512
+    #define HEAP_SIZE 1024
 #endif
 __attribute__((section(".stack"))) static uint32_t g_pui32Stack[STACK_SIZE - HEAP_SIZE]; // AP3 shares heap and stack
 
 
-__attribute__((section(".heap"))) __attribute__((__used__)) static uint32_t g_pui32Heap[HEAP_SIZE];
+__attribute__((section(".heap"))) __attribute__((__used__)) static uint32_t g_pui32Heap[HEAP_SIZE]; 
 
 //*****************************************************************************
 //
@@ -131,7 +131,7 @@ __attribute__((section(".heap"))) __attribute__((__used__)) static uint32_t g_pu
 //
 //*****************************************************************************
 __attribute__((section(".isr_vector"))) void (*const g_am_pfnVectors[])(void) = {
-    (void (*)(void))((uint32_t)g_pui32Stack + sizeof(g_pui32Stack)),
+    (void (*)(void))((uint32_t)g_pui32Stack + sizeof(g_pui32Stack)) + sizeof(g_pui32Heap),
     // The initial stack pointer
     Reset_Handler,      // The reset handler
     NMI_Handler,        // The NMI handler

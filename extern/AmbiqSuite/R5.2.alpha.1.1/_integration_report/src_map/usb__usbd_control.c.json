@@ -1,0 +1,6 @@
+{
+  "src_rel": "usb/usbd_control.c",
+  "new_upstream_rel": "third_party/tinyusb/source/src/device/usbd_control.c",
+  "old_upstream_rel": "third_party/tinyusb/source/src/device/usbd_control.c",
+  "similarity_new": 1.0
+}

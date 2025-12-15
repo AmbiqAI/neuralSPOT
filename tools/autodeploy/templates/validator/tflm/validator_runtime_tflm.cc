@@ -29,7 +29,23 @@ extern "C" {
     #include "ns_ambiqsuite_harness.h"    // ns_model_state_t, typedefs
     #include "ns_debug_log.h"
     #include "tflm_ns_model.h"            // model helpers
-    
+  
+    // PMU helpers used by the existing TFLM debug/profiler sidecar
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
+    #include "ns_pmu_map.h"
+    #endif
+
+    // extern "C" {
+    //   /* Provided by the TFLM debug/profiler modules */
+    //   void ns_set_pmu_header(void);
+    //   extern char ns_profiler_pmu_header[];
+    //   void ns_get_layer_counters(uint32_t layer,
+    //                              uint32_t layers,
+    //                              uint32_t rv_max,
+    //                              uint32_t* out /* length == NS_NUM_PMU_MAP_SIZE */);
+    //   int ns_characterize_model(int (*invoke_cb)(void));
+    // }
+
     // Model-specific init function generated from template_tflm_model.cc
     extern int tflm_validator_model_init(ns_model_state_t *ms);
     
@@ -38,7 +54,7 @@ extern "C" {
     #include "tensorflow/lite/micro/micro_resource_variable.h"
     #endif
     extern const ns_perf_mac_count_t mac_estimates;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     extern ns_pmu_config_t s_pmu_cfg;
     #endif
 
@@ -86,7 +102,7 @@ extern "C" {
     #ifdef NS_MLPROFILE
       s_tflm.tickTimer = tickTimer;  // configured by app if profiling is enabled
       s_tflm.mac_estimates = &mac_estimates;
-      #ifdef AM_PART_APOLLO5B
+      #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
       s_tflm.pmu = &s_pmu_cfg;
       #endif
     #endif
@@ -112,7 +128,8 @@ extern "C" {
       TfLiteStatus st = s_tflm.interpreter->Invoke();
       return (st == kTfLiteOk) ? 0 : -1;
     }
-    
+    static int rt_invoke_cb_shim(void){ return rt_invoke(); }
+
     static int rt_get_output(uint32_t idx, void* dst, uint32_t len){
       if (idx >= s_tflm.numOutputTensors) return -1;
       memcpy(dst, tensor_data_u8(s_tflm.model_output[idx]), len);
@@ -129,6 +146,45 @@ extern "C" {
       return s_tflm.computed_arena_size;
     }
     
+    // -------- PMU / characterization hooks (runtime-specific) --------------
+    static void rt_pmu_get_header(char* dst, uint32_t max_len){
+      #if defined(ARMCM55)
+      if (!dst || max_len == 0) return;
+      ns_set_pmu_header();
+      // Safe copy with guaranteed NUL
+      uint32_t i = 0;
+      for (; i + 1 < max_len && ns_profiler_pmu_header[i] != '\0'; ++i){
+        dst[i] = ns_profiler_pmu_header[i];
+      }
+      dst[i] = '\0';
+      #endif
+    }
+    static uint32_t rt_pmu_events_per_layer(void){
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
+      return NS_NUM_PMU_MAP_SIZE;
+    #else
+      return 0;
+    #endif
+    }
+    static int rt_pmu_get_layer_counters(uint32_t layer,
+                                          uint32_t layer_count,
+                                          uint32_t rv_max,
+                                          uint32_t* out_counters,
+                                          uint32_t out_capacity){
+      #if defined(ARMCM55)
+      (void)layer_count; (void)rv_max;
+      if (!out_counters || out_capacity == 0) return -1;
+      ns_get_layer_counters(layer, layer_count, rv_max, out_counters);
+      #endif
+      return 0;
+    }
+    static void rt_pmu_full_characterize(int (*invoke_cb)(void)){
+      #if defined(ARMCM55)
+      /* Characterize via the existing helper; prefer callback if provided. */
+      (void)ns_characterize_model(invoke_cb ? invoke_cb : rt_invoke_cb_shim);
+      #endif
+    }
+        
     static const ns_validator_rt_api_t kAPI = {
       rt_init,
       rt_set_input,
@@ -137,7 +193,11 @@ extern "C" {
       rt_get_output,
       rt_map_output_readonly,
       tflm_stats_hook,
-      rt_arena_used_bytes
+      rt_arena_used_bytes,
+      rt_pmu_get_header,
+      rt_pmu_events_per_layer,
+      rt_pmu_get_layer_counters,
+      rt_pmu_full_characterize
     };
     
     extern "C" const ns_validator_rt_api_t* ns_get_runtime_api(void){ return &kAPI; }

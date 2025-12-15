@@ -20,6 +20,7 @@
 #include "ns_ambiqsuite_harness.h"
 #include "ns_debug_log.h"
 #include "ns_pmu_map.h"
+#include "mut_model_metadata.h"  // provides TFLM_VALIDATOR_* macros
 
 // #include <cstdlib>
 // #include <cstring>
@@ -62,7 +63,7 @@ typedef union {
 #define NS_AD_RPC_TRANSPORT_UART 0
 #define NS_AD_RPC_TRANSPORT_USB 1
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 #define NS_NUM_PMU_EVENTS NS_NUM_PMU_MAP_SIZE
 #endif 
 
@@ -81,7 +82,7 @@ typedef struct {
     ns_profiler_event_stats_t stat_buffer[NS_PROFILER_RPC_EVENTS_MAX];
 } ns_mut_stats_t;
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L) || defined(AM_PART_APOLLO330P)
 typedef struct {
     uint32_t layer;
     char csv_header[2048];
@@ -92,10 +93,21 @@ typedef struct {
 typedef union {
     ns_mut_stats_t stats;
     char bytes[sizeof(ns_mut_stats_t)];
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_stats_t pmu_stats;
 #endif
 } ns_outgoing_stats_t;
+
+#ifdef NS_MLPROFILE
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern const uint32_t tflm_validator_mac_estimates[TFLM_VALIDATOR_MAC_ESTIMATE_COUNT];
+extern const int tflm_validator_number_of_estimates;
+#ifdef __cplusplus
+}
+#endif
+#endif
 
 extern ns_incoming_config_t mut_cfg;
 extern ns_outgoing_stats_t mut_stats;

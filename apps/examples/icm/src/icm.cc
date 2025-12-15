@@ -41,7 +41,7 @@ int main(void) {
     ns_imu_config_t  imu_cfg = {
         .api = &ns_imu_V1_0_0,
         .sensor = NS_IMU_SENSOR_ICM45605,
-        #ifdef AM_PART_APOLLO5B
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B)
         .iom    = 0,
         #else
         .iom    = 1, // IOM1 for Apollo4P

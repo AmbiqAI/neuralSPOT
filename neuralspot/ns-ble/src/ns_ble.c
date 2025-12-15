@@ -14,6 +14,45 @@ const ns_core_api_t ns_ble_V0_0_1 = {.apiId = NS_BLE_API_ID, .version = NS_BLE_V
 
 // *** Globals
 ns_ble_control_t g_ns_ble_control;
+#if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
+AM_SHARED_RW uint32_t g_pui32IpcShm[AM_DEVICES_510L_RADIO_IPC_SHM_DEFAULT_SIZE / sizeof(uint32_t)] __attribute__((aligned(32)));
+am_devices_510L_radio_ipc_shm_t sIpcShm =
+{
+    .ui32IpcShmAddr = (uint32_t)g_pui32IpcShm,
+    .ui32IpcShmSize = sizeof(g_pui32IpcShm)
+};
+am_hal_mpu_region_config_t sMPUCfg =
+{
+    .ui32RegionNumber = 6,
+    .ui32BaseAddress = (uint32_t)g_pui32IpcShm,
+    .eShareable = NON_SHARE,
+    .eAccessPermission = RW_NONPRIV,
+    .bExecuteNever = true,
+    .ui32LimitAddress = (uint32_t)g_pui32IpcShm + sizeof(g_pui32IpcShm) - 1,
+    .ui32AttrIndex = 0,
+    .bEnable = true,
+};
+
+am_hal_mpu_attr_t sMPUAttr =
+{
+    .ui8AttrIndex = 0,
+    .bNormalMem = true,
+    .sOuterAttr = {
+                    .bNonTransient = false,
+                    .bWriteBack = true,
+                    .bReadAllocate = false,
+                    .bWriteAllocate = false
+                  },
+    .sInnerAttr = {
+                    .bNonTransient = false,
+                    .bWriteBack = true,
+                    .bReadAllocate = false,
+                    .bWriteAllocate = false
+                  },
+    .eDeviceAttr = 0,
+};
+#endif
+
 static dmConnId_t currentConnId = 0;
 
 // *** Generic Default Configurations
@@ -160,16 +199,46 @@ static const uint8_t ns_ble_generic_scan_data_disc[] = {
 static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
     dmEvt_t *pMsg;
     uint16_t len;
-    // ns_lp_printf("ns_ble_generic_DmCback\n");
+    // ns_lp_printf("ns_ble_generic_DmCback 0x%x\n", pDmEvt);
     len = DmSizeOfEvt(pDmEvt);
 
     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
-        memcpy(pMsg, pDmEvt, len);
+        // ns_lp_printf("ns_ble_generic_DmCback: pMsg = 0x%x\n", pMsg);
+        NS_SAFE_MEMCPY(pMsg, pDmEvt, len);
         // ns_lp_printf(
         // "ns_ble_generic_DmCback: pMsg->hdr.event = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
+
+// static inline void memcpy_u8(void *dst, const void *src, uint32_t n)
+// {
+//     uint8_t *d = (uint8_t *)dst;
+//     const uint8_t *s = (const uint8_t *)src;
+//     while (n--) { *d++ = *s++; }
+// }
+
+// #define ALIGNED4(p) ((((uintptr_t)(p)) & 3u) == 0)
+
+// static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt)
+// {
+//     dmEvt_t *pMsg;
+//     uint16_t len = DmSizeOfEvt(pDmEvt);
+
+//     if ((pMsg = WsfMsgAlloc(len)) != NULL) {
+//         void *dst = pMsg;
+//         const void *src = pDmEvt;
+
+//         if (ALIGNED4(dst) && ALIGNED4(src) && (len >= 4)) {
+//             memcpy(dst, src, len);
+//         } else {
+//             memcpy_u8(dst, src, len);   // unaligned-safe
+//         }
+
+//         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
+//     }
+// }
+
 
 /*************************************************************************************************/
 /*!
@@ -184,12 +253,12 @@ static void ns_ble_generic_DmCback(dmEvt_t *pDmEvt) {
 /*************************************************************************************************/
 static void ns_ble_generic_AttCback(attEvt_t *pEvt) {
     attEvt_t *pMsg;
+    // ns_lp_printf("ns_ble_generic_AttCback 0x%x\n", pEvt);
     if ((pMsg = WsfMsgAlloc(sizeof(attEvt_t) + pEvt->valueLen)) != NULL) {
-        memcpy(pMsg, pEvt, sizeof(attEvt_t));
+        NS_SAFE_MEMCPY(pMsg, pEvt, sizeof(attEvt_t));
         pMsg->pValue = (uint8_t *)(pMsg + 1);
-        memcpy(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
-        // ns_lp_printf(
-        // "ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
+        NS_SAFE_MEMCPY(pMsg->pValue, pEvt->pValue, pEvt->valueLen);
+        // ns_lp_printf("ns_ble_generic_AttCback: pMsg->pValue = %d\n", (ns_ble_msg_t *)pMsg->hdr.event);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     }
 }
@@ -208,7 +277,7 @@ static void ns_ble_generic_AttCback(attEvt_t *pEvt) {
 static void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
     attsCccEvt_t *pMsg;
     appDbHdl_t dbHdl;
-    // ns_lp_printf("ns_ble_generic_CccCback\n");
+    // ns_lp_printf("ns_ble_generic_CccCback 0x%x\n", pEvt);
     /* if CCC not set from initialization and there's a device record */
     if ((pEvt->handle != ATT_HANDLE_NONE) &&
         ((dbHdl = AppDbGetHdl((dmConnId_t)pEvt->hdr.param)) != APP_DB_HDL_NONE)) {
@@ -216,9 +285,10 @@ static void ns_ble_generic_CccCback(attsCccEvt_t *pEvt) {
         // ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
         AppDbSetCccTblValue(dbHdl, pEvt->idx, pEvt->value);
     }
-
+    ns_lp_printf("ns_ble_generic_CccCback: pEvt->handle = %d\n", pEvt->handle);
     if ((pMsg = WsfMsgAlloc(sizeof(attsCccEvt_t))) != NULL) {
-        memcpy(pMsg, pEvt, sizeof(attsCccEvt_t));
+        NS_SAFE_MEMCPY(pMsg, pEvt, sizeof(attsCccEvt_t));
+        ns_lp_printf("ns_ble_generic_CccCback: pMsg->handle = %d\n", pMsg->handle);
         WsfMsgSend(g_ns_ble_control.handlerId, pMsg);
     } else {
         ns_lp_printf("ns_ble_generic_CccCback allocated failed\n");
@@ -390,7 +460,7 @@ static void ns_ble_generic_procMsg(ns_ble_msg_t *pMsg) {
 }
 
 void ns_ble_generic_handlerInit(wsfHandlerId_t handlerId, ns_ble_service_control_t *cfg) {
-    // ns_lp_printf("ns_ble_generic_handlerInit\n");
+    ns_lp_printf("ns_ble_generic_handlerInit\n");
     /* store handler ID */
     cfg->handlerId = handlerId;
     g_ns_ble_control.handlerId = handlerId;
@@ -450,6 +520,34 @@ void ns_ble_generic_init(
     wsfHandlerId_t handlerId;
     uint16_t wsfBufMemLen;
 
+#if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
+    ns_lp_printf("Initializing IPC Share Memory\n");
+    am_devices_510L_radio_ipc_shm_init(&sIpcShm);
+    ns_lp_printf("IPC Share Memory Initialized\n");
+    //
+    // Set up the attributes.
+    //
+    am_hal_mpu_attr_configure(&sMPUAttr, 1);
+    //
+    // Clear the MPU regions.
+    //
+    am_hal_mpu_region_clear();
+    //
+    // Set up the regions.
+    //
+    am_hal_mpu_region_configure(&sMPUCfg, 1);
+    //
+    // Invalidate and clear DCACHE, this is required by CM55 TRF.
+    //
+    am_hal_cachectrl_dcache_invalidate(NULL, true);
+    //
+    // MPU enable
+    //
+    am_hal_mpu_enable(true, true);
+    //
+    // Initialize the IPC share memory
+    //
+#endif
     // Boot the radio.
     HciDrvRadioBoot(1);
 
@@ -547,6 +645,7 @@ void ns_ble_generic_init(
     DmConnRegister(DM_CLIENT_ID_APP, &ns_ble_generic_DmCback);
     AttRegister(&ns_ble_generic_AttCback);
     AttConnRegister(AppServerConnCback);
+    ns_lp_printf("Registering CCC callbacks, count=%d\n", service_cfg->cccCount);
     AttsCccRegister(service_cfg->cccCount, service_cfg->cccSet, &ns_ble_generic_CccCback);
 
     SvcCoreGattCbackRegister(GattReadCback, GattWriteCback);
@@ -556,6 +655,8 @@ void ns_ble_generic_init(
     SvcDisAddGroup();
 #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_10P0_dBm);
+#elif defined(AM_PART_APOLLO330P)
+    HciVscUpdateTxpwrLevel(TX_POWER_LEVEL_DEFAULT);
 #else
     HciVscSetRfPowerLevelEx(TX_POWER_LEVEL_MINUS_20P0_dBm);
 #endif
@@ -581,7 +682,7 @@ GPIO_INT_ISR(void)
     am_hal_gpio_interrupt_irq_clear(GPIO_INT_IRQ, ui32IntStatus);
     am_hal_gpio_interrupt_service(GPIO_INT_IRQ, ui32IntStatus);
 }
-#else
+#elif !defined(AM_PART_APOLLO330P)
 void am_cooper_irq_isr(void) {
     uint32_t ui32IntStatus;
     AM_CRITICAL_BEGIN
@@ -607,7 +708,7 @@ void ns_ble_pre_init(void) {
 // Set NVICs for BLE
 #if defined(AM_PART_APOLLO3P) || defined(AM_PART_APOLLO3)
     NVIC_SetPriority(BLE_IRQn, NVIC_configMAX_SYSCALL_INTERRUPT_PRIORITY);
-#elif defined(AM_PART_APOLLO5B)
+#elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 // Dont know yet.
 #else
     NVIC_SetPriority(COOPER_IOM_IRQn, 4);
@@ -1072,8 +1173,13 @@ int ns_ble_start_service(ns_ble_service_t *s) {
 
 int ns_ble_set_tx_power(txPowerLevel_t power) {
     // valid power level is checked in HciVscSetRfPowerLevelEx(power), so no need to check here
+#if defined(AM_PART_APOLLO330P)
+    HciVscUpdateTxpwrLevel(power);
+    return NS_STATUS_SUCCESS;
+#else
     if(HciVscSetRfPowerLevelEx(power)) {
         return NS_STATUS_SUCCESS;
     }
     else return NS_STATUS_FAILURE;
+#endif
 }

@@ -22,6 +22,7 @@ extern "C" {
     #include "am_mcu_apollo.h"
     #include "am_util.h"
     #include "ns_core.h"
+    #include "ns_ambiqsuite_harness.h"
 
     #define NS_UART_V0_0_1                                                                          \
         { .major = 0, .minor = 0, .revision = 1 }

@@ -17,7 +17,7 @@ limitations under the License.
 
 #include "ns_perf_profile.h"
 #include "ns_timer.h"
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 #include "ns_pmu_utils.h"
 #endif
 
@@ -26,7 +26,7 @@ extern "C" {
 #endif // __cplusplus
 
 // Match TFLM kMaxEvents
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 #define NS_PROFILER_MAX_EVENTS 4096
 #else
 #define NS_PROFILER_MAX_EVENTS 2048
@@ -38,7 +38,7 @@ extern "C" {
 // #define NS_PROFILER_RPC_EVENTS_MAX 128
 #define NS_PROFILER_TAG_SIZE 20
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 // Default PMU Events to capture - either all 4 are redefined or none
 #ifndef NS_PROFILER_PMU_EVENT_0
 #define NS_PROFILER_PMU_EVENT_0 ARM_PMU_MVE_INST_RETIRED
@@ -51,7 +51,7 @@ extern "C" {
 
 /// Used by RPC validation functionality
 typedef struct {
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_counters_t pmu_delta;
     #else
     ns_cache_dump_t cache_delta;
@@ -80,7 +80,7 @@ typedef struct {
 
 
 typedef struct {
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_counters_t pmu_snapshot[NS_PROFILER_MAX_EVENTS];
     #else
     ns_cache_dump_t cache_snapshot[NS_PROFILER_MAX_EVENTS];
@@ -99,22 +99,22 @@ extern ns_timer_config_t *ns_microProfilerTimer;
 extern ns_profiler_sidecar_t ns_microProfilerSidecar;
 extern char ns_profiler_csv_header[512];
 extern ns_profiler_event_stats_t ns_profiler_events_stats[NS_PROFILER_RPC_EVENTS_MAX];
-#if defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 extern char ns_profiler_pmu_header[2048];
-#endif // AM_PART_APOLLO5B
+#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L || AM_PART_APOLLO330P
 #endif // NS_MLPROFILE
 
 typedef struct {
     ns_timer_config_t *t;
     const ns_perf_mac_count_t *m;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     ns_pmu_config_t *pmu;
     #endif
 } ns_debug_log_init_t;
 
 extern void
 ns_TFDebugLogInit(ns_debug_log_init_t *cfg);
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
 extern uint32_t ns_characterize_model(invoke_fp func);
 extern uint32_t ns_parse_pmu_stats(uint32_t num_layers, uint32_t rv);
 extern uint32_t ns_set_pmu_header(void);
@@ -122,7 +122,7 @@ extern uint32_t ns_get_layer_counters(uint32_t layer,
                       uint32_t num_layers,
                       uint32_t rv,
                       uint32_t *out_counters);
-#endif // AM_PART_APOLLO5B
+#endif // AM_PART_APOLLO5B || AM_PART_APOLLO510L || AM_PART_APOLLO330P
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus

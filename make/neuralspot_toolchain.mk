@@ -32,6 +32,19 @@ DOX  := doxygen$(EXEEXT)
 # -----------------------------------------------------------------------------
 # 2) FLAGS INITIALIZATION
 # -----------------------------------------------------------------------------
+  # Linker file selection
+  ifeq ($(ARCH),apollo330)
+    BL := _$(BOOTLOADER)
+    $(info BL: $(BL))
+  else ifeq ($(ARCH),apollo5)
+    BL := _$(BOOTLOADER)
+  else
+    BL :=
+  endif
+  ifeq ($(TFLM_IN_ITCM),1)
+    BL := _itcm$(BL)
+  endif
+$(info BL: $(BL))
 
 # Always enable sectioning, debugging info, and optimizations
 ifeq ($(TOOLCHAIN),arm-none-eabi)
@@ -52,14 +65,8 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
 
   CCFLAGS := -fno-use-cxa-atexit
 
-  ifeq ($(ARCH),apollo5)
-    ifeq ($(TFLM_IN_ITCM),1)
-      LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script_itcm_$(BOOTLOADER).ld
-    else
-      LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script_$(BOOTLOADER).ld
-    endif
-  else
-    LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script.ld
+  ifndef LINKER_FILE
+  LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/gcc/linker_script$(BL).ld
   endif
   
   # Linker flags
@@ -93,6 +100,7 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
     -Wl,--start-group -lm -lc -lgcc -lnosys \
     -Wl,--whole-archive $(override_libraries) -Wl,--no-whole-archive $(libraries) $(lib_prebuilt) -lstdc++ \
     -Wl,--end-group
+    # -Wl,--sort-section=name \
 
   CPFLAGS := -Obinary
   ODFLAGS := -S
@@ -109,7 +117,7 @@ else ifeq ($(TOOLCHAIN),arm)
   ifneq ($(ARCH),apollo3)
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_resources.o
   endif
-  ifeq ($(ARCH),apollo5)
+  ifeq ($(CPU),cortex-m55)
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/neuralspot/ns-core/src/$(BOARD)/armclang/startup_keil6.o
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_utils.o
     ARMLINKER_IS_NO_BUENO += $(BINDIR)/extern/AmbiqSuite/$(AS_VERSION)/src/am_hal_pwrctrl.o
@@ -132,12 +140,12 @@ else ifeq ($(TOOLCHAIN),arm)
     $(FPU_FLAG) \
     -mfloat-abi=$(FABI) \
     -c \
+    -Ofast \
     -fno-rtti \
     -funsigned-char \
     -fshort-enums \
     -fshort-wchar \
     -gdwarf-4 \
-    -Ofast \
     -ffunction-sections \
     -Wno-packed \
     -Wno-missing-variable-declarations \
@@ -154,20 +162,12 @@ else ifeq ($(TOOLCHAIN),arm)
     -Wno-parentheses-equality \
     -Wno-reserved-identifier \
     -MMD -MP
+    # -fno-omit-frame-pointer -funwind-tables \
 
   CCFLAGS += -fno-use-cxa-atexit
 
-  # Linker file selection
   ifndef LINKER_FILE
-    ifeq ($(ARCH),apollo5)
-      ifeq ($(TFLM_IN_ITCM),1)
-        LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/armclang/linker_script_itcm_$(BOOTLOADER).sct
-      else
-        LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/armclang/linker_script_$(BOOTLOADER).sct
-      endif
-    else
-      LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/armclang/linker_script.sct
-    endif
+    LINKER_FILE := ./neuralspot/ns-core/src/$(BOARD)/armclang/linker_script$(BL).sct
   endif
 
   LFLAGS += \
@@ -250,7 +250,25 @@ ifeq ($(PART),apollo3)
   DEFINES += PART_APOLLO3
 endif
 
-ifneq ($(filter apollo5b apollo510,$(PART)),)
+ifeq ($(PART),apollo510L)
+  DEFINES += AM_PART_APOLLO510L
+  # DEFINES += AM_PART_APOLLO330P_510L
+  DEFINES += PART_APOLLO510L
+  DEFINES += ARMCM55
+else ifeq ($(PART),apollo510b)
+  DEFINES += AM_PART_APOLLO510B
+  DEFINES += PART_APOLLO510B
+  DEFINES += ARMCM55
+endif
+
+ifeq ($(PART),apollo330P)
+  DEFINES += AM_PART_APOLLO330P
+  # DEFINES += AM_PART_APOLLO330P_510L
+  DEFINES += PART_APOLLO330P
+  DEFINES += ARMCM55
+endif
+
+ifneq ($(filter apollo5b apollo510 apollo510b,$(PART)),)
   DEFINES += AM_PART_APOLLO5B
   DEFINES += AM_PART_APOLLO510
   DEFINES += ARMCM55
@@ -263,7 +281,6 @@ ifneq ($(filter apollo5b apollo510,$(PART)),)
     DEFINES += apollo510_evb
   endif
 endif
-
 DEFINES += AM_PACKAGE_BGA
 DEFINES += __FPU_PRESENT
 

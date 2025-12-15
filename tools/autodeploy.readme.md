@@ -79,7 +79,7 @@ Autodeploy uses the specified `--platform` to automatically determine many of th
    1. If the model size exceeds MRAM size it will result in a compile error. For AP510 EVBs with PSRAM, you can set model_location manually to PSRAM (via `--arena-location PSRAM`).
 
 1. arena_location: chosen based on arena size (max for first iteration, computed for rest)
-1. max_arena_size: chosen based on platform's largest SRAM. 
+1. max_arena_size: chosen based on platform's largest SRAM.
    1. If the arena exceeds SRAM size it will result in a compile error. For AP510 EVBs with PSRAM, you can then set it manually to 10000 (the amount of PSRAM allocated to arenas) and set arena_location manually to PSRAM (via `--arena-location PSRAM`)
 
 1. ambiqsuite version: latest for platform
@@ -94,7 +94,7 @@ Platform capabilities are specified in a separate yaml file (tools/ns_platform.y
 ### Very Large Model Support
 Autodeploy allows users to specify where the model will be stored (MRAM, TCM, SRAM, PSRAM) and where the tensor arena (e.g. activations) will be stored (TCM, SRAM, PSRAM) via the `model-location` and `arena-location` command line parameters. This allows profiling and comparison of different memory combinations.
 
-For models that do not fit into on-board memories (aka Very Large Models aka VLMs), autodeploy supports locating those models in PSRAM and loading of the weights via USB. This capability is only supported by the profiling (i.e. create-profile) functionality since the performance binaries do not include USB enablement in order to minimize power. 
+For models that do not fit into on-board memories (aka Very Large Models aka VLMs), autodeploy supports locating those models in PSRAM and loading of the weights via USB. This capability is only supported by the profiling (i.e. create-profile) functionality since the performance binaries do not include USB enablement in order to minimize power.
 
 To run a VLM, invoke ns_autodeploy like so:
 ```bash
@@ -107,25 +107,25 @@ The model used as an example above (efficientnet-lite0-int8) needs 1.6MBs for th
 ns_autodeploy --platform apollo510_evb --tflite-filename .../efficientnet-lite0-int8.tflite --runs 1 --model-location PSRAM --arena-location SRAM
 ```
 
-### Helios AOT Support (experimental)
-Autodeploy has experimental support for Ambiq's ahead-of-time AI runtime compiler, HeliosAOT. When HeliosAOT is installed, the user can add it to the Validation and Performance phases via the `--create-aot-profile` command line parameter.
+### HeliaAOT Support (experimental)
+Autodeploy has experimental support for Ambiq's ahead-of-time AI runtime compiler, HeliaAOT. When HeliaAOT is installed, the user can add it to the Validation and Performance phases via the `--create-aot-profile` command line parameter.
 
-> **NOTE**: helios-aot support is *experimental*. AOT does not yet support the full breadth of TF operations and numerics, so some model conversions will fail. In these cases, ns_autodeploy will note the error and run the rest of the TFLM phases.
+> **NOTE**: helia-aot support is *experimental*. AOT does not yet support the full breadth of TF operations and numerics, so some model conversions will fail. In these cases, ns_autodeploy will note the error and run the rest of the TFLM phases.
 
-#### Connecting neuralSPOT to HeliosAOT
-1. Install HeliosAOT by cloning and following the HeliosAOT installation instructions.
-2. In neuralSPOT, add HeliosAOT to the environment (see below)
-3. If all goes well, invoking ns_autodeploy will print `[NS] HeliosAOT module is available`
+#### Connecting neuralSPOT to HeliaAOT
+1. Install HeliaAOT by cloning and following the HeliaAOT installation instructions.
+2. In neuralSPOT, add HeliaAOT to the environment (see below)
+3. If all goes well, invoking ns_autodeploy will print `[NS] HeliaAOT module is available`
 
 ```bash
 $> cd .../neuralSPOT
 $> uv sync # if this hasn't been installed yet
 $> source .venv/bin/activate # or Windows equivalent, if venv hasn't been activated yet
-$> uv add ../helios-aot # Substitute your path to helios-aot
+$> uv add ../helia-aot # Substitute your path to helia-aot
 ```
 
 When `--create-aot-profile` is enabled, ns_autodeploy will:
-1. Invoke helios-aot to generate the runtime for the specified tflite
+1. Invoke helia-aot to generate the runtime for the specified tflite
 2. Run the AOT model after the TFLM model and 1) compare the output tensors for the same inputs, 2) characterize performance using DWT or PMU counters
 3. If `--joulescope` is enabled, run AOT versions of the model and measure power and latency using joulescope
 4. if `--onboard-perf` is enabled, run AOT versions of the onboard perf firmware
@@ -145,8 +145,8 @@ optional arguments:
   --no-create-profile                   Disable Profile the performance of the model on the EVB (default: True)
   --create-library                      Create minimal static library based on TFlite file (default: False)
   --create-ambiqsuite-example           Create AmbiqSuite example based on TFlite file (default: False)
-  --create-aot-profile                  Add a Helios AOT profiling and benchmarking pass (default: False)
-  --helios-aot-config HELIOS_AOT_CONFIG Helios AOT configuration YAML file (or 'auto') (default: auto)
+  --create-aot-profile                  Add a HeliaAOT profiling and benchmarking pass (default: False)
+  --helia-aot-config HELIA_AOT_CONFIG   HeliaAOT configuration YAML file (or 'auto') (default: auto)
   --joulescope                          Measure power consumption of the model on the EVB using Joulescope (default: False)
   --onboard-perf                        Capture and print performance measurements on EVB (default: False)
   --full-pmu-capture                    Capture full PMU data during performance measurements on EVB (default: False)
@@ -193,4 +193,3 @@ There is a known TFLM bug wherein the arena size estimator fails to account for 
 Model Configuration Failed
 ```
 When this occurs, padding for scratch buffers must be manually added via the `--arena_size_scratch_buffer_padding` option. The value, in kilobytes, must be chosen via experimentation (in other words, pick a number and go up or down from there).
-

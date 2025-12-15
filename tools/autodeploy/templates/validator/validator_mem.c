@@ -28,7 +28,7 @@
 
 // TX/RX sizes from metadata
 #ifndef NS_OUTPUT_TENSOR_BUFFER_SIZE
-  #ifdef AM_PART_APOLLO5B
+  #if defined(AM_PART_APOLLO5B)
     #define NS_OUTPUT_TENSOR_BUFFER_SIZE 200000u
   #elif defined(AM_PART_APOLLO3) || defined(AM_PART_APOLLO3P)
     #define NS_OUTPUT_TENSOR_BUFFER_SIZE 20000u

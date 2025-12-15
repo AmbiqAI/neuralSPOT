@@ -45,7 +45,9 @@ modules      += neuralspot/ns-audio
 ifneq ($(ARCH),apollo3)
 modules      += neuralspot/ns-spi
 modules      += neuralspot/ns-camera
+ifneq ($(PLATFORM),apollo510L_eb)
 modules 	 += neuralspot/ns-imu
+endif
 endif
 modules      += neuralspot/ns-nnsp
 modules      += neuralspot/ns-features
@@ -61,9 +63,13 @@ modules 	 += extern/CMSIS/$(CMSIS_DSP_VERSION)
 # modules 	 += extern/CMSIS/CMSIS-NN
 modules      += extern/tensorflow/$(TF_VERSION)
 modules 	 += extern/codecs/opus-precomp
+modules 	 += extern/codecs/octopus
 modules 	 += extern/drivers/tdk/icm45605
 
 ifeq ($(BLE_SUPPORTED),1)
+ifeq ($(PLATFORM),apollo330mP_evb)
+	modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/open-amp
+endif
 modules      += extern/AmbiqSuite/$(AS_VERSION)/third_party/cordio
 endif
 
@@ -79,7 +85,9 @@ else
 	ifeq ($(EXAMPLE),all)
 		modules      += apps/basic_tf_stub
 		ifneq ($(ARCH),apollo3)
+			ifneq ($(PLATFORM),apollo510L_eb)
 			modules      += apps/ai/har
+			endif
 		endif
 		modules      += apps/ai/kws
 		modules	     += apps/examples/uart
@@ -97,14 +105,12 @@ else
 		ifeq ($(USB_PRESENT),1)
 			modules      += apps/examples/vision		
 			modules 	 += apps/demos/ic
-			modules      += apps/examples/quaternion
-			ifneq ($(ARCH),apollo3)
-				modules      += apps/experiments/mpu_data_collection
+			ifneq ($(PLATFORM),apollo510L_eb)
+				modules      += apps/examples/quaternion
+				ifneq ($(ARCH),apollo3)
+					modules      += apps/experiments/mpu_data_collection
+				endif
 			endif
-# 			ifneq ($(BLE_SUPPORTED),1)
-# # Don't include it twice
-# 				modules  += examples/audio_codec
-# 			endif
 		endif
 	else
 		modules 	 += apps/$(EXAMPLE)
@@ -306,11 +312,10 @@ $(JLINK_CF): $(deploy_target)
 $(JLINK_RESET_CF):
 	@echo " Creating JLink command reset file... $(deploy_target)"
 	$(Q) echo "ExitOnError 1" > $@
-	$(Q) echo "r1" >> $@
-	$(Q) echo "sleep 250" >> $@
-	$(Q) echo "r0" >> $@
-	$(Q) echo "sleep 250" >> $@
-	$(Q) echo "r" >> $@
+	$(Q) echo "connect" >> $@
+	$(Q) echo "sleep 1000" >> $@
+	$(Q) echo "w4 40000004 1b" >> $@
+	$(Q) echo "sleep 1000" >> $@
 	$(Q) echo "Exit" >> $@
 
 .PHONY: reset

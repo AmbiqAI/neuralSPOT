@@ -14,11 +14,25 @@
 
 # *** Apollo510 EVB
 # PLATFORM := apollo510_evb
+# PLATFORM := apollo510b_evb
+# PLATFORM := apollo510L_eb
+# PLATFORM := apollo330mP_evb
 # AS_VERSION := R5.3.0
+# AS_VERSION := R5.2.alpha.1
+# AS_VERSION := R5.1.0_rc27
+# AS_VERSION := test3
+
+# *** Apollo510B EVB
+# PLATFORM := apollo510b_evb
+# AS_VERSION := R5.1.0_rc27
 
 # *** Apollo510 Revb EB
 # PLATFORM := apollo5b_eb_revb
 # AS_VERSION := Apollo510_SDK3_2024_09_14
+
+# *** Apollo330P EVB
+# PLATFORM := apollo330mP_evb
+# AS_VERSION := R5.2.alpha.1.1
 
 # PLATFORM := apollo5a_eb
 # AS_VERSION := Apollo510_SDK3_2024_09_14
@@ -27,12 +41,14 @@
 # TF_VERSION := Oct_08_2024_e86d97b6
 # TF_VERSION := ns_tflm_2024_11_25
 # TF_VERSION := ns_tflm_2025_03_06
-# TF_VERSION := helios_rt_v1_2_0
+# TF_VERSION := helia_rt_v1_2_0
+# TF_VERSION := helia_rt_v1_4_0
+
 # TF_VERSION := d5f819d_Aug_10_2023
 # TF_VERSION := ce72f7b8_Feb_17_2024
 # TF_VERSION := bb4fc83d_Mar_28_2024
 # TF_VERSION := Aug_23_2024_c01ca97f
-# TF_VERSION := tanh
+# TF_VERSION := tflm
 
 # CMSIS_DSP_VERSION := CMSIS-DSP-1.16.2
 
@@ -43,7 +59,7 @@
 # DEFINES+= NS_AUDIO_DMA_BUFFER_SIZE=16000
 # DEFINES+= NS_MALLOC_HEAP_SIZE_IN_K=32
 # LEGACY_MALLOC := 1
-# STACK_SIZE_IN_32B_WORDS := 8192
+# STACK_SIZE_IN_32B_WORDS := 4196
 # STACK_SIZE_IN_32B_WORDS := 10240
 # NS_MALLOC_HEAP_SIZE_IN_K := 32
 # DEFINES+= WSF_TRACE_ENABLED

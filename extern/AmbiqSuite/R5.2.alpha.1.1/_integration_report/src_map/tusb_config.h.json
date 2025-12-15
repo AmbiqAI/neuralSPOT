@@ -1,0 +1,6 @@
+{
+  "src_rel": "tusb_config.h",
+  "new_upstream_rel": "boards/apollo330mP_evb/examples/usb/tinyusb_cdc/src/tusb_config.h",
+  "old_upstream_rel": "boards/apollo510L_eb/examples/usb/tinyusb_cdc/src/tusb_config.h",
+  "similarity_new": 0.8801547703899807
+}

@@ -1,0 +1,6 @@
+{
+  "apollo330mp/libam_hal.a": "mcu/apollo510L/hal/mcu/gcc/bin/libam_hal.a",
+  "apollo330mp/libam_hal.lib": "mcu/apollo510L/hal/mcu/keil6/bin/libam_hal.lib",
+  "apollo330mp/evb/libam_bsp.a": "boards/apollo330mP_evb/bsp/gcc/bin/libam_bsp.a",
+  "apollo330mp/evb/libam_bsp.lib": "boards/apollo330mP_evb/bsp/keil6/bin/libam_bsp.lib"
+}

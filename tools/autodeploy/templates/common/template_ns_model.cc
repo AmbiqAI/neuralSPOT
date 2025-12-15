@@ -9,7 +9,7 @@
  *
  */
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 #define NS_PROFILER_PMU_EVENT_0 ARM_PMU_MVE_LDST_MULTI_RETIRED
 #define NS_PROFILER_PMU_EVENT_1 ARM_PMU_MVE_INT_MAC_RETIRED
 #define NS_PROFILER_PMU_EVENT_2 ARM_PMU_INST_RETIRED
@@ -68,7 +68,7 @@
         #if (NS_AD_NAME_ARENA_LOCATION == NS_AD_SRAM)
             #ifdef keil6
             // Align to 16 bytes
-            AM_SHARED_RW __attribute__((aligned(16))) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+            AM_SHARED_RW __attribute__((aligned(16))) uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
             #else
             AM_SHARED_RW alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
             #endif
@@ -108,7 +108,7 @@ ns_perf_mac_count_t basic_mac = {
     .filter_shapes = (const char **)NS_AD_PERF_NAME_mac_filter_shapes
 };
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 ns_pmu_config_t basic_pmu_cfg;
 #endif
 
@@ -199,7 +199,7 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
 
     ms->tickTimer = &basic_tickTimer;
     ms->mac_estimates = &basic_mac;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 
     // PMU config for profiling
     basic_pmu_cfg.api = &ns_pmu_V1_0_0;
@@ -216,7 +216,7 @@ int NS_AD_NAME_minimal_init(ns_model_state_t *ms) {
 #else
     ms->tickTimer = NULL;
     ms->mac_estimates = NULL;
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     ms->pmu = NULL;
     #endif
 #endif
@@ -240,7 +240,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     ns_debug_log_init_t cfg = {
         .t = ms->tickTimer,
         .m = ms->mac_estimates,
-        #ifdef AM_PART_APOLLO5B
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
         .pmu = ms->pmu,
         #endif
     };
@@ -263,6 +263,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
             "Model provided is schema version %d not equal "
             "to supported version %d.",
             ms->model->version(), TFLITE_SCHEMA_VERSION);
+        ns_lp_printf("Model provided is schema version %d not equal to supported version %d.\n", ms->model->version(), TFLITE_SCHEMA_VERSION);
         return NS_AD_NAME_STATUS_FAILURE;
     }
 
@@ -299,6 +300,7 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
 
     if (allocate_status != kTfLiteOk) {
         TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
+        ns_lp_printf("AllocateTensors() failed\n");
         return NS_AD_NAME_STATUS_FAILURE;
     }
     ms->computed_arena_size = ms->interpreter->arena_used_bytes(); // prep to send back to PC

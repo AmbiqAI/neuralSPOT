@@ -129,10 +129,13 @@ static void hciCoreReadMaxDataLen(void)
 void hciCoreResetStart(void)
 {
   /* send an HCI Reset command to start the sequence */
+  HCI_TRACE_INFO0("hciCoreResetStart");
   HciResetCmd();
 
   // update Bluetooth Address to controller
+  HCI_TRACE_INFO0("hciCoreResetStart 2");
   HciVscUpdateBDAddress();
+  HCI_TRACE_INFO0("hciCoreResetStart 3");
 
 }
 
@@ -161,7 +164,7 @@ void hciCoreResetSequence(uint8_t *pMsg)
     pMsg++;                   /* skip num packets */
     BSTREAM_TO_UINT16(opcode, pMsg);
     pMsg++;                   /* skip status */
-
+    HCI_TRACE_INFO0("hciCoreResetSequence opcode 0x%x", opcode);
     /* decode opcode */
     switch (opcode)
     {

@@ -33,7 +33,7 @@ includes_api += $(subdirectory)/CoreInclude
 includes_api += $(subdirectory)/Include
 includes_api += $(subdirectory)/PrivateInclude
 
-ifeq ($(ARCH),apollo5)
+ifeq ($(CPU),cortex-m55)
 	CMSISP := m55
 else
 	CMSISP := m4

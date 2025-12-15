@@ -9,7 +9,7 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 **/
 
 // #define ENERGY_MONITOR_ENABLE
-// #define LOWEST_POWER_MODE
+// #define LOWEST_POWER_MODE 
 
 // ARM perf requires ITM to be enabled, impacting power measurements.
 // For profiling measurements to work, example must be compiled using the MLPROFILE=1 make parameter
@@ -61,7 +61,7 @@ int main(void) {
 #ifndef LOWEST_POWER_MODE
     ns_itm_printf_enable();
 #endif
-
+ns_lp_printf("Starting model...\n");
 #ifdef NS_MLPROFILE
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 #endif

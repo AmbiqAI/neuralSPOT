@@ -1,0 +1,6 @@
+{
+  "src_rel": "list.c",
+  "new_upstream_rel": "third_party/FreeRTOSv10.5.1/Source/list.c",
+  "old_upstream_rel": "third_party/FreeRTOSv10.5.1/Source/list.c",
+  "similarity_new": 1.0
+}

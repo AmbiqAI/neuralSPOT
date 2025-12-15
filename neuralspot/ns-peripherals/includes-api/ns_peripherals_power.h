@@ -74,6 +74,7 @@ extern const ns_core_api_t ns_power_oldest_supported_version;
 extern const ns_core_api_t ns_power_current_version;
 
 typedef enum {
+    NS_POWER_MODE_NOT_SET = -1,
     NS_MINIMUM_PERF = 0, ///< slowest clock (96Mhz)
     NS_MEDIUM_PERF = 1,  ///< 96Mhz clock
     NS_MAXIMUM_PERF = 2  ///< 192Mhz clock

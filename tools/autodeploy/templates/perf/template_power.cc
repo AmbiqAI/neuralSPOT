@@ -10,7 +10,7 @@
  *
  */
 
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 #define NS_PROFILER_PMU_EVENT_0 NS_AD_PMU_EVENT_0
 #define NS_PROFILER_PMU_EVENT_1 NS_AD_PMU_EVENT_1
 #define NS_PROFILER_PMU_EVENT_2 NS_AD_PMU_EVENT_2
@@ -31,10 +31,11 @@ extern "C++" {
 #include "ns_pmu_map.h"
 #include "ns_pmu_accumulator.h"
 #include "ns_timer.h"
-// #ifdef AM_PART_APOLLO5B
+// #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 // #include "ns_pp.h"
 // #else
 #include "ns_power_profile.h"
+#include "am_hal_spotmgr.h"
 // #endif
 #if NS_AD_AOT == 1
 #include "NS_AD_NAME_AOT_model.h"
@@ -129,7 +130,7 @@ typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } m
 static int volatile joulescopeTrigger = 0;
 
 #ifdef NS_MLPROFILE
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     extern ns_pmu_config_t ns_microProfilerPMU;
         #if NS_AD_AOT == 0
         extern ns_profiler_sidecar_t ns_microProfilerSidecar;
@@ -225,14 +226,17 @@ int main(void) {
     ns_set_power_monitor_state(NS_IDLE);
 
 
+    // ns_itm_printf_enable();
 
     ns_interrupt_master_enable();
     NS_TRY(ns_power_config(&ns_power_measurement), "Power Init Failed.\n");
-#if NS_AD_JS_PRESENT == 0
-    ns_itm_printf_enable();
-#endif // NS_AD_JS_PRESENT == 0
+    // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
 
+    #if NS_AD_JS_PRESENT == 0
+    ns_itm_printf_enable();
+    #endif // NS_AD_JS_PRESENT == 0
     // ns_itm_printf_enable();
+    ns_lp_printf("Power Init Successful.\n");
     // ns_timer_init(&tickTimer);
         // NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed\n");
     #if (NS_AD_MODEL_LOCATION == NS_AD_PSRAM) or (NS_AD_ARENA_LOCATION == NS_AD_PSRAM)
@@ -270,8 +274,8 @@ int main(void) {
     int status = NS_AD_NAME_minimal_init(&model); // model init with minimal defaults
 #endif
     if (status == NS_AD_NAME_STATUS_FAILURE) {
-        while (1)
-            ns_lp_printf("TFLM Model init failed.\n");
+        ns_lp_printf("TFLM Model init failed.\n");
+        while (1);
         example_status = NS_AD_NAME_STATUS_INIT_FAILED; // hang
     }
     ns_lp_printf("TFLM Model init successful.\n");
@@ -296,11 +300,21 @@ int main(void) {
     ns_lp_printf("Input tensors initialized.\n");
 #endif
 
+    // capture_snapshot(0);
+    // // Enable ITM
+    // ns_itm_printf_enable();
+    // print_snapshot(0, false);
+
 #if NS_AD_JS_PRESENT == 0
     // If no Joulescope, start running the model without waiting for a trigger
     ns_lp_printf("Current power and performance register settings:\n");
-    #ifdef AM_PART_APOLLO5B
+    // ns_delay_us(1000000);
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
+    // Disable ITM
+    ns_itm_printf_disable();
     capture_snapshot(0);
+    // Enable ITM
+    ns_itm_printf_enable();
     print_snapshot(0, false);
 
     // am_util_pp_snapshot(false, 1, false); // Capture register snapshot 1
@@ -383,7 +397,7 @@ int main(void) {
             ns_delay_us(100000);
 #if NS_AD_JS_PRESENT == 0
             // Characterize and break out of event loop
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 
             // Run the model repeatedly, capturing different PMU every time. The results
             // will accumulate in the events array (ns_profiler_event_stats_t). Print those 

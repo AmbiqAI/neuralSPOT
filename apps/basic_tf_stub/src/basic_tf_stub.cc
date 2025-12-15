@@ -1,11 +1,10 @@
 /**
- @file main.cc
+ @file basic_tf_stub.cc
 
- @brief Speech-to-Intent using NeuralSPOT
+ @brief KWS using NeuralSPOT
 
-The basic_tf_stub example is based on a speech to intent model.
- Speech-to-Intent is a neural-network-based Tensorflow model that listens
- for 3-5 second phrases and infers the intent of that phrase. It uses
+The basic_tf_stub example is based on a KWS model.
+ It uses
  NeuralSPOT to collect audio from the AUDADC, calculate MFCC, set power
  modes, read button state, and print to the Jlink SWO.
 
@@ -97,7 +96,7 @@ int main(void) {
     // to modify create a local struct and pass it to
     // ns_power_config()
 
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n"); 
     // NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
 
 #ifdef LOWEST_POWER_MODE
@@ -125,7 +124,11 @@ int main(void) {
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
 #endif
     model_init();
-    NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
+    // am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE1);
+
+    NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n"); // calls pdm init
+    // am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE2);
+
     NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Gain set failed.\n"); // PDM gain
     // NS_TRY(ns_audio_set_gain(24, 24), "Audio gain set failed.\n"); // AUDADC gain
 #ifdef DYNAMIC_AUDIO_SOURCE
@@ -181,7 +184,7 @@ int main(void) {
 
                 int32_t mfcc_buffer_head = (NUM_FRAMES - recording_win) * MY_MFCC_NUM_MFCC_COEFFS;
 
-#ifdef RINGBUFFER_MODE
+#ifdef RINGBUFFER_MODE 
                 ns_ipc_ring_buffer_pop(audioBuf, &audioDataBuffer, audio_config.numSamples * 2);
 #endif
 #ifdef RPC_ENABLED

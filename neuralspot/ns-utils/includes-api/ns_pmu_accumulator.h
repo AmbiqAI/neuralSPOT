@@ -39,7 +39,7 @@
  
  #ifndef NS_PMU_MAX_OPS
     // Match TFLM kMaxEvents
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
         #define NS_PMU_MAX_OPS 4096 /* rows / operators        */
     #else
         #define NS_PMU_MAX_OPS 2048
@@ -55,7 +55,7 @@
  
  /* ---------- Mandatory external symbols ---------------------------------- */
  #ifndef NS_PMU_MAP_SIZE                   /* comes from ns_pmu_map.h        */
- #define NS_PMU_MAP_SIZE 71
+ #define NS_PMU_MAP_SIZE 70
  #endif
  
  /* ---------- Helper macro ------------------------------------------------- */
@@ -85,6 +85,14 @@
  void     ns_pmu_accm_get     (ns_pmu_accm_t h, uint32_t **matrix);
  void     ns_pmu_accmprint_matrix(ns_pmu_accm_t h, uint32_t *matrix, uint16_t ops, uint16_t events);
  
+ /* Return a single layer (row) worth of counters into out[].
+  * Copies min(events, caller_capacity) entries starting at the given layer.
+  */
+ void     ns_pmu_accm_get_layer(ns_pmu_accm_t h,
+                                uint16_t     layer,
+                                uint32_t*    out,
+                                uint16_t
+                                     caller_capacity);
  #ifdef __cplusplus
  }
  #endif

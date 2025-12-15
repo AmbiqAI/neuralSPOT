@@ -26,6 +26,9 @@ char vad = 0;
 int idBtn = 0;
 int enrollBtn = 0;
 uint8_t numUtterances = 0;
+
+bool volatile static g_audioRecording = false; // Start listening, app to audio system
+bool volatile static g_audioReady = false;     // audio captures
 #include "nnid_webble.h"
 
 // #define ENERGY_MEASUREMENT
@@ -37,7 +40,7 @@ uint8_t numUtterances = 0;
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
     #define NNID_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 4 * 1024)
 size_t ucHeapSize = NNID_HEAP_SIZE;
-uint8_t ucHeap[NNID_HEAP_SIZE] __attribute__((aligned(4)));
+uint8_t AM_SHARED_RW ucHeap[NNID_HEAP_SIZE] __attribute__((aligned(32)));
 #endif
 
 ns_button_config_t button_config_nnsp = {
@@ -48,13 +51,12 @@ ns_button_config_t button_config_nnsp = {
     .button_1_flag = &enrollBtn};
 
 // Audio
-bool volatile static g_audioRecording = false; // Start listening, app to audio system
-bool volatile static g_audioReady = false;     // audio cpatures
 
-alignas(16) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP];
-alignas(16) uint32_t static audadcSampleBuffer[LEN_STFT_HOP * 2];
+
+alignas(32) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP];
+alignas(32) uint32_t static audadcSampleBuffer[LEN_STFT_HOP * 2];
 #ifdef USE_AUDADC
-alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
                                                                               // used by AUDADC
 #endif
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -176,11 +178,12 @@ void encodeAndSendAudio(
 void audioTask(void *pvParameters) {
     state_t state = WAIT_FOR_BTN;
     int16_t detected = 0;
+    ns_delay_us(1000000);
     ns_lp_printf("Starting audio task\n");
     g_audioRecording = true;
 
     bleMessage("Press Button 1 to start enrollment, Button 0 to identify");
-    audio_enc_encode_frame(sinWave, 320, encodedDataBuffer);
+    // audio_enc_encode_frame(sinWave, 320, encodedDataBuffer);
 
     while (1) {
         switch (state) {
@@ -229,7 +232,7 @@ void audioTask(void *pvParameters) {
             if (g_audioReady) {
                 // execution of each time frame data
                 // ns_lp_printf(".");
-                // encodeAndSendAudio();
+                encodeAndSendAudio();
                 cntrl_inst.enroll_state = enroll_phase;
                 cntrl_inst.id_enroll_ppl = idCurrentlyEnrollingSpeaker;
                 cntrl_inst.total_enroll_ppls = numEnrolledSpeakers;

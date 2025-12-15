@@ -1,0 +1,4 @@
+# ninja log v5
+1	2473	7799698541178481	C:/jenkins-agent/workspace/as510_sdkrel/asws/boards/apollo510_evb/bsp/iar/bin/am_bsp.o	6dd156c6abce1846
+2475	3808	7799698553928772	C:/jenkins-agent/workspace/as510_sdkrel/asws/boards/apollo510_evb/bsp/iar/bin/am_bsp_pins.o	f3674e36813c6c98
+3812	3926	7799698556335448	C:/jenkins-agent/workspace/as510_sdkrel/asws/boards/apollo510_evb/bsp/iar/bin/libam_bsp.a	e6d565d7c569ac81

@@ -17,6 +17,9 @@
     #ifdef __cplusplus
 extern "C" {
     #endif
+    #include <stddef.h>
+    #include <stdint.h>
+    #include <string.h>
 
     #include "am_bsp.h"
     #include "am_mcu_apollo.h"
@@ -68,7 +71,7 @@ extern const ns_core_api_t ns_core_current_version;
             return NS_STATUS_FAILURE;                                                              \
         }
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO4P)
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
   #if defined(gcc)
     #define NS_SRAM_BSS __attribute__((section(".sram_bss")))
   #else
@@ -120,6 +123,27 @@ extern uint32_t ns_core_check_api(
     const ns_core_api_t *submitted, const ns_core_api_t *oldest, const ns_core_api_t *newest);
 
 extern void ns_core_fail_loop();
+
+static inline void *ns_memcpy_u8(void *dst, const void *src, size_t n) {
+    uint8_t *d = (uint8_t *)dst;
+    const uint8_t *s = (const uint8_t *)src;
+    while (n--) { *d++ = *s++; }
+    return dst;
+}
+
+// Safe memcpy that falls back to byte copy if either pointer is not 4-byte aligned.
+static inline void *ns_memcpy_safe(void *dst, const void *src, size_t n) {
+    const uintptr_t a = ((uintptr_t)dst | (uintptr_t)src);
+    if (((a & 0x3u) == 0u) && (n >= 4u)) {
+        // Both pointers 4-aligned — let the C library do a fast copy.
+        return memcpy(dst, src, n);
+    }
+    // Otherwise do a byte-wise copy that cannot fault with UNALIGN_TRP=1.
+    return ns_memcpy_u8(dst, src, n);
+}
+
+// Use this macro everywhere you would have used memcpy for possibly-unaligned inputs.
+#define NS_SAFE_MEMCPY(DST, SRC, N) ns_memcpy_safe((DST), (SRC), (N))
 
     #ifdef __cplusplus
 }

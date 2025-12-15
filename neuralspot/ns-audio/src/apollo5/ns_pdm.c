@@ -29,7 +29,7 @@ ns_pdm_cfg_t ns_pdm_default = {
     .clock_freq = NS_AUDIO_PDM_CLK_750KHZ,
     .mic = NS_AUDIO_PDM_MICBOARD_0,
     .numBytes = NS_AUDIO_PDM_SAMPLE_16BIT,
-    #if defined(AM_PART_APOLLO5B)
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     .left_gain = AM_HAL_PDM_GAIN_P180DB,
     .right_gain = AM_HAL_PDM_GAIN_P180DB,
     #else
@@ -70,49 +70,7 @@ uint32_t pdm_init(ns_audio_config_t *config) {
     // PDM Gain Config
     pdmConfig.eLeftGain = cfg->left_gain;
     pdmConfig.eRightGain = cfg->right_gain;
-    // am_hal_pdm_config_t g_sPdmConfig =
-    // {
-    //     //
-    //     // Example setting:
-    //     //  1.536 MHz PDM CLK OUT:
-    //     //      PDM_CLK_OUT = ePDMClkSpeed / (eClkDivider + 1) / (ePDMAClkOutDivder + 1)
-    //     //  16 kHz 24bit Sampling:
-    //     //      DecimationRate = 48
-    //     //      SAMPLEING_FREQ = PDM_CLK_OUT / (ui32DecimationRate * 2)
-    //     //
-    //     #if (CLOCK_SOURCE == HFRC)
-    //         .eClkDivider         = AM_HAL_PDM_MCLKDIV_1,
-    //         .ePDMAClkOutDivder   = AM_HAL_PDM_PDMA_CLKO_DIV7,
-    //         .ePDMClkSpeed        = AM_HAL_PDM_CLK_HFRC_24MHZ,
-    //     #elif (CLOCK_SOURCE == PLL)
-    //         // .eClkDivider         = AM_HAL_PDM_MCLKDIV_1,
-    //         // .ePDMAClkOutDivder   = AM_HAL_PDM_PDMA_CLKO_DIV3,
-    //         // .ePDMClkSpeed        = AM_HAL_PDM_CLK_PLL,
-    //     #elif (CLOCK_SOURCE == HF2ADJ)
-    //         .eClkDivider         = AM_HAL_PDM_MCLKDIV_1,
-
-    //         #if defined(AM_PART_APOLLO5A)
-    //             .ePDMAClkOutDivder   = AM_HAL_PDM_PDMA_CLKO_DIV15,
-    //         #elif defined(AM_PART_APOLLO5B)
-    //             .ePDMAClkOutDivder   = AM_HAL_PDM_PDMA_CLKO_DIV7,
-    //         #endif
-
-    //         .ePDMClkSpeed        = AM_HAL_PDM_CLK_HFRC2_31MHZ,
-    //     #endif
-    //     // .ui32DecimationRate  = 48,
-    //     // .eLeftGain           = AM_HAL_PDM_GAIN_0DB,
-    //     // .eRightGain          = AM_HAL_PDM_GAIN_0DB,
-    //     // .eStepSize           = AM_HAL_PDM_GAIN_STEP_0_13DB,
-    //     // .bHighPassEnable     = AM_HAL_PDM_HIGH_PASS_ENABLE,
-    //     // .ui32HighPassCutoff  = 0x3,
-    //     // .bDataPacking        = 1,
-    //     // .ePCMChannels        = AM_HAL_PDM_CHANNEL_LEFT,
-    //     // .bPDMSampleDelay     = AM_HAL_PDM_CLKOUT_PHSDLY_NONE,
-    //     // .ui32GainChangeDelay = AM_HAL_PDM_CLKOUT_DELAY_NONE,
-    //     // .bSoftMute           = 0,
-    //     // .bLRSwap             = 0,
-    // };
-    // ns_lp_printf("PDM Init clock src %d\n", cfg->clock);
+    
 
     // PDM Clock Config
     switch (cfg->clock) {
@@ -132,7 +90,12 @@ uint32_t pdm_init(ns_audio_config_t *config) {
         // }
         break;
     case NS_CLKSEL_HFRC2_ADJ:
+        #if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
+        ns_lp_printf("HFRC2 is not supported on Apollo510L.\n");
+        return NS_STATUS_INVALID_CONFIG;
+        #else
         pdmConfig.ePDMClkSpeed = AM_HAL_PDM_CLK_HFRC2_31MHZ;
+        #endif
         pdmConfig.eClkDivider = AM_HAL_PDM_MCLKDIV_1;
         break;
     case NS_CLKSEL_HFXTAL:
@@ -174,7 +137,26 @@ uint32_t pdm_init(ns_audio_config_t *config) {
 
     if (cfg->clock == NS_CLKSEL_PLL)
     {
-        am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_SYSPLL, 12288000, NULL);
+        #ifdef AM_PART_APOLLO510
+            am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_SYSPLL, 12288000, NULL);
+        #else
+            //
+            // Set XTAL_HS as highest priority for SYSPLL FREF.
+            //
+            am_hal_clkmgr_syspll_fref_priority_t sSysPllFrefPrio =
+            {
+                .high = AM_HAL_SYSPLL_FREFSEL_XTAL48MHz,
+                .mid = AM_HAL_SYSPLL_FREFSEL_EXTREFCLK,
+                .low = AM_HAL_SYSPLL_FREFSEL_HFRC192DIV4,
+            };
+            am_hal_clkmgr_control(AM_HAL_CLKMGR_SYPLL_FREF_PRIORITY_SET, (void*)&sSysPllFrefPrio);
+
+            //
+            // Config PLLPOSTDIV to output 24.576 MHz, hence PLLOUT4 = 3.072 MHz.
+            //
+            am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_PLLVCO, 245760000, NULL);
+            am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_PLLPOSTDIV, 24576000, NULL);
+        #endif
     }
     else if (cfg->clock == NS_CLKSEL_HFRC)
     {

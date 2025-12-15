@@ -14,7 +14,7 @@
     #include "debug_files.h"
 #endif
 #define LOG10_2POW_N15_Q15 (-147963)
-int32_t GLOBAL_PSPEC[512];
+__attribute__((aligned(16))) int32_t GLOBAL_PSPEC[512];
 extern const int16_t mfltrBank_coeff_nfilt72_fftsize512[];
 extern const int16_t mfltrBank_coeff_nfilt40_fftsize512[];
 extern const int16_t mfltrBank_coeff_nfilt22_fftsize256[];
@@ -95,7 +95,6 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     #endif
     spec2pspec(pspec, spec, 1 + (LEN_FFT_NNSP >> 1));
 #else
-
     stftModule_analyze_arm(
         (void *)&ps->state_stftModule,
         input, // q15
@@ -135,7 +134,6 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
     }
     fprintf(file_feat_c, "\n");
 #endif
-
     for (i = 0; i < ps->dim_feat; i++) {
         tmp = (int64_t)ps->feature[i] - (int64_t)ps->pt_norm_mean[i];
         tmp = (tmp * ((int64_t)ps->pt_norm_stdR[i])) >>
@@ -143,5 +141,4 @@ void FeatureClass_execute(FeatureClass *ps, int16_t *input) {
         tmp = MIN(MAX(tmp, (int64_t)MIN_INT16_T), (int64_t)MAX_INT16_T);
         ps->normFeatContext[i + shift] = (int16_t)tmp;
     }
-
 }

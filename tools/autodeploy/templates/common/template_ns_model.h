@@ -39,6 +39,8 @@ extern "C" {
 #ifdef NS_MLPROFILE
     #include "ns_ambiqsuite_harness.h"
     #include "ns_debug_log.h"
+#elif defined(NS_MLDEBUG)
+    #include "ns_debug_log.h"
 #endif
 
 typedef enum { READY, NOT_READY, ERROR } ns_model_states_e;
@@ -64,7 +66,7 @@ typedef struct {
 #ifdef NS_MLPROFILE
     ns_timer_config_t *tickTimer;
     const ns_perf_mac_count_t *mac_estimates; ///< Optional, from tflm_profiler tool
-    #ifdef AM_PART_APOLLO5B
+    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     ns_pmu_config_t *pmu;
     #else
     void *pmu;

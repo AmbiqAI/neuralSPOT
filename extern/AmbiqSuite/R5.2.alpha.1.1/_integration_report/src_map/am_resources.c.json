@@ -1,0 +1,6 @@
+{
+  "src_rel": "am_resources.c",
+  "new_upstream_rel": "boards/apollo330mP_evb/examples/power/coremark_best_performance/src/am_resources.c",
+  "old_upstream_rel": "boards/apollo510L_eb/examples/power/coremark_best_performance/src/am_resources.c",
+  "similarity_new": 1.0
+}

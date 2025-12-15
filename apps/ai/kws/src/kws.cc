@@ -81,7 +81,7 @@ static TfLiteTensor *model_input = nullptr;
 static TfLiteTensor *model_output = nullptr;
 static tflite::MicroProfiler *profiler = nullptr;
 
-static constexpr int kTensorArenaSize = 1024 * 29;
+static constexpr int kTensorArenaSize = 1024 * 30;
 alignas(16) static uint8_t tensor_arena[kTensorArenaSize];
 
 ////////////////////////////////////////////////
@@ -107,15 +107,15 @@ bool volatile static audioReady = false;
 
 // Audio buffers
 #if NUM_CHANNELS == 1
-alignas(16) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
+alignas(32) int16_t static audioDataBuffer[SAMPLES_IN_FRAME]; // incoming PCM audio data
 #else
-alignas(16) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
+alignas(32) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
 
-alignas(16) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
+alignas(32) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
     
 #ifndef USE_PDM_MICROPHONE
-alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used  // by AUDADC                                                                          
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used  // by AUDADC                                                                          
 #endif // USE_PDM_MICROPHONE
 
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -191,7 +191,7 @@ typedef enum { WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
 static void model_init(void);
 
 /**
- * @brief Main basic_tf_stub - infinite loop listening and inferring
+ * @brief Main basic_tf_stub - infinite loop listening and inferring 
  *
  * @return int
  */
@@ -205,21 +205,22 @@ int main(void) {
 
     myState_e state = WAITING_TO_RECORD;
 
-    // Tells callback if it should be recording audio
+    // Tells callback if it should be recording audio 
     audioRecording = false;
 
     // Pile of inits
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n"); 
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
+    ns_lp_printf("Core init successful.\n");
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
     NS_TRY(ns_audio_init(&audio_config), "Audio initialization Failed.\n");
     NS_TRY(ns_audio_set_gain(AM_HAL_PDM_GAIN_P345DB, AM_HAL_PDM_GAIN_P345DB), "Gain set failed.\n"); // PDM gain
     NS_TRY(ns_start_audio(&audio_config), "Audio start failed.\n");
     NS_TRY(ns_mfcc_init(&mfcc_config), "MFCC config failed.\n");
     NS_TRY(ns_peripheral_button_init(&button_config), "Button initialization failed.\n")
-
+    ns_lp_printf("Button init successful.\n");
     model_init();
 
     ns_lp_printf("This KWS example listens for 1 second, then classifies\n");
@@ -320,9 +321,9 @@ model_init(void) {
 
     tflite::MicroErrorReporter micro_error_reporter;
     error_reporter = &micro_error_reporter;
-
+    ns_lp_printf("Error reporter initialized.\n");
     tflite::InitializeTarget();
-
+    ns_lp_printf("Target initialized.\n");
     // Map the model into a usable data structure. This doesn't involve any
     // copying or parsing, it's a very lightweight operation.
     model = tflite::GetModel(g_kws_model_data);
@@ -333,7 +334,7 @@ model_init(void) {
                              model->version(), TFLITE_SCHEMA_VERSION);
         return;
     }
-
+    ns_lp_printf("Model initialized.\n");
     // Build mutable resolver with minimum opset
     static tflite::MicroMutableOpResolver<6> resolver;
     resolver.AddFullyConnected();
@@ -346,8 +347,10 @@ model_init(void) {
     // Build an interpreter to run the model with.
     static tflite::MicroInterpreter static_interpreter(model, resolver, tensor_arena,
                                                        kTensorArenaSize, nullptr, profiler);
-
+    ns_lp_printf("Interpreter initialized.\n");
     interpreter = &static_interpreter;
+    ns_lp_printf("Interpreter assigned.\n");
+    ns_lp_printf("Arena address: 0x%x\n", tensor_arena);
 
     // Allocate memory from the tensor_arena for the model's tensors.
     TfLiteStatus allocate_status = interpreter->AllocateTensors();
@@ -357,10 +360,12 @@ model_init(void) {
         ns_lp_printf("AllocateTensors() failed with status %d\n", allocate_status);
         return;
     }
-
+    ns_lp_printf("AllocateTensors() successful.\n");
     ns_lp_printf("Arena size computed: %d\n", interpreter->arena_used_bytes());
 
     // Obtain pointers to the model's input and output tensors.
     model_input = interpreter->input(0);
     model_output = interpreter->output(0);
+    ns_lp_printf("Input tensor: 0x%x\n", model_input);
+    ns_lp_printf("Output tensor: 0x%x\n", model_output);
 }

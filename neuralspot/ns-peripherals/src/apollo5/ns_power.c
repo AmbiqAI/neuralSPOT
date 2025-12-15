@@ -48,20 +48,36 @@
 #include "am_util.h"
 #include "ns_core.h"
 #include "ns_peripherals_power.h"
+#ifdef apollo510b_evb
+#include "am_devices_em9305.h"
+#endif
 
 #ifdef apollo510_evb
 #include "am_hal_clkmgr.h"
+#include "am_hal_spotmgr.h"
 #endif
 
 uint32_t ns_set_performance_mode(ns_power_mode_e eAIPowerMode) {
     // Configure power mode
     uint32_t retval = NS_STATUS_SUCCESS;
+#ifdef apollo510L_eb
+    if (eAIPowerMode == NS_MAXIMUM_PERF) {
+        retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE2);
+    }
+    else if (eAIPowerMode == NS_MEDIUM_PERF) {
+        retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE1);
+    } else {
+        retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
+    }
+#else
     if ((eAIPowerMode == NS_MAXIMUM_PERF) || (eAIPowerMode == NS_MEDIUM_PERF)) {
         retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_HIGH_PERFORMANCE);
     } else {
         retval = am_hal_pwrctrl_mcu_mode_select(AM_HAL_PWRCTRL_MCU_MODE_LOW_POWER);
     }
-    return retval;
+#endif
+return retval;
+
 }
 
 //*****************************************************************************
@@ -92,47 +108,52 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
         .eROMMode       = AM_HAL_PWRCTRL_ROM_AUTO,
 
         #if defined(AM_PART_APOLLO5A)
-        .bEnableCache   = true,
-        .bRetainCache   = true,
-        #if ALL_RETAIN
-                .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
-                .eRetainDTCM    = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
-        #else
-                .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
-                .eRetainDTCM    = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
-        #endif
-        #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510)
-        #if ALL_RETAIN
-                .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
-                .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
-        #else
-                .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
-                .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
-        #endif
+            .bEnableCache   = true,
+            .bRetainCache   = true,
+            #if ALL_RETAIN
+                    .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
+                    .eRetainDTCM    = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
+            #else
+                    .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
+                    .eRetainDTCM    = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
+            #endif
+        #elif defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510) || defined(AM_PART_APOLLO510B)
+            #if ALL_RETAIN
+                    .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM256K_DTCM512K,
+                    .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
+            #else
+                    .eDTCMCfg       = AM_HAL_PWRCTRL_ITCM32K_DTCM128K,
+                    .eRetainDTCM    = AM_HAL_PWRCTRL_MEMRETCFG_TCMPWDSLP_RETAIN,
+            #endif
         #endif
         #if defined(AM_PART_APOLLO5A)
                 .bEnableNVM     = true,
         #else
-        .eNVMCfg        = AM_HAL_PWRCTRL_NVM0_AND_NVM1,
-        // .eNVMCfg        = AM_HAL_PWRCTRL_NVM0_ONLY,
-        #endif
+            #ifdef apollo510L_eb
+                .eNVMCfg        = AM_HAL_PWRCTRL_NVM,
+            #else
+                .eNVMCfg        = AM_HAL_PWRCTRL_NVM0_AND_NVM1,
+            #endif
+        #endif // 5A
         .bKeepNVMOnInDeepSleep     = false 
     };
 
     am_hal_pwrctrl_mcu_memory_config(&McuMemCfg);
 
-#if defined(AM_PART_APOLLO5A)
-    MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
-    MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
-    MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
-#else
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1LPREN = 1;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1SLPEN = 0;
-    MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1PWRCTRL = 1;
-#endif
+// #if defined(AM_PART_APOLLO5A)
+//     MCUCTRL->MRAMPWRCTRL_b.MRAMLPREN = 1;
+//     MCUCTRL->MRAMPWRCTRL_b.MRAMSLPEN = 0;
+//     MCUCTRL->MRAMPWRCTRL_b.MRAMPWRCTRL = 1;
+// #else
+//     MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0LPREN = 1;
+//     MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0SLPEN = 0;
+//     MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM0PWRCTRL = 1;
+//     #ifndef apollo510L_eb
+//         MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1LPREN = 1;
+//         MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1SLPEN = 0;
+//         MCUCTRL->MRAMCRYPTOPWRCTRL_b.MRAM1PWRCTRL = 1;
+//     #endif
+// #endif
 
     if (pCfg->bNeedSharedSRAM == false) {
         am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
@@ -146,12 +167,20 @@ void ns_power_memory_config(const ns_power_config_t *pCfg) {
 
     } else {
          am_hal_pwrctrl_sram_memcfg_t SRAMMemCfg = {
+            #ifndef apollo510L_eb
             .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_3M,
+            #else
+            .eSRAMCfg = AM_HAL_PWRCTRL_SRAM_1P75M,
+            #endif
             // .eActiveWithMCU   = PWRCTRL_SSRAMPWREN_PWRENSSRAM_ALL,
             .eActiveWithMCU   = AM_HAL_PWRCTRL_SRAM_NONE,
             .eActiveWithGFX   = AM_HAL_PWRCTRL_SRAM_NONE,
-            .eActiveWithDISP  = AM_HAL_PWRCTRL_SRAM_NONE,          
+            .eActiveWithDISP  = AM_HAL_PWRCTRL_SRAM_NONE,   
+            #ifndef apollo510L_eb
             .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_3M
+            #else
+            .eSRAMRetain = AM_HAL_PWRCTRL_SRAM_1P75M
+            #endif
         };       
         am_hal_pwrctrl_sram_config(&SRAMMemCfg);
     };
@@ -178,7 +207,9 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 #endif
 
     am_bsp_low_power_init();
-
+    // am_hal_spotmgr_profile_t spotmgr_profile; 
+    // spotmgr_profile.PROFILE_b.COLLAPSESTMANDSTMP = 1;
+    // am_hal_spotmgr_profile_set(&spotmgr_profile);
     #define ELP_ON                              1
     am_hal_pwrctrl_pwrmodctl_cpdlp_t sDefaultCpdlpConfig =
     {
@@ -195,26 +226,6 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
     am_hal_cachectrl_icache_enable();
     am_hal_cachectrl_dcache_enable(true);
     am_hal_pwrctrl_pwrmodctl_cpdlp_config(sDefaultCpdlpConfig);
-
-    #ifdef apollo510_evb_neverever
-    // PATCH USB for EVB
-    am_hal_clkmgr_board_info_t sClkmgrBoardInfo =
-    {
-        .sXtalHs.eXtalHsMode    = AM_BSP_XTAL_HS_MODE,
-        .sXtalHs.ui32XtalHsFreq = AM_BSP_XTAL_HS_FREQ_HZ,
-        .sXtalLs.eXtalLsMode    = AM_BSP_XTAL_LS_MODE,
-        .sXtalLs.ui32XtalLsFreq = AM_BSP_XTAL_LS_FREQ_HZ,
-        .ui32ExtRefClkFreq      = AM_BSP_EXTREF_CLK_FREQ_HZ
-    };
-    am_hal_clkmgr_board_info_set(&sClkmgrBoardInfo);
-
-    // Default the config for HFRC and HFRC2 as Free Run clock.
-    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC, AM_HAL_CLKMGR_HFRC_FREQ_FREE_RUN_APPROX_48MHZ, NULL);
-    am_hal_clkmgr_clock_config(AM_HAL_CLKMGR_CLK_ID_HFRC2, AM_HAL_CLKMGR_HFRC2_FREQ_FREE_RUN_APPROX_250MHZ, NULL);
-    #endif
-
-
-
 
 
     // am_hal_pwrctrl_control(AM_HAL_PWRCTRL_CONTROL_DIS_PERIPHS_ALL, 0);
@@ -236,6 +247,19 @@ int32_t ns_power_platform_config(const ns_power_config_t *pCfg) {
 
     // configure peripherals
     // ns_power_down_peripherals(pCfg);
+
+    #ifdef apollo510b_evb
+    if (pCfg->bNeedBluetooth == false) {
+        am_devices_em9305_shutdown();
+    }
+    #endif
+
+    #if defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
+    //
+    // Power off the RSS
+    //
+    am_hal_pwrctrl_rss_pwroff();
+    #endif
 
     // Configure power mode
     ns_delay_us(10000);

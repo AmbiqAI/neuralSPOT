@@ -68,7 +68,7 @@ uint32_t ns_i2c_read(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint1
     am_hal_iom_transfer_t Transaction;
     Transaction.ui8Priority = 1;
     Transaction.ui32InstrLen = 0;
-#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     Transaction.ui64Instr = 0;
 #else
     Transaction.ui32Instr = 0;
@@ -98,7 +98,7 @@ uint32_t ns_i2c_write(ns_i2c_config_t *cfg, const void *buf, uint32_t size, uint
     am_hal_iom_transfer_t Transaction;
     Transaction.ui8Priority = 1;
     Transaction.ui32InstrLen = 0;
-#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B)
+#if defined(AM_PART_APOLLO4B) || defined(AM_PART_APOLLO4P) || defined(AM_PART_APOLLO4L) || defined(AM_PART_APOLLO5A) || defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
     Transaction.ui64Instr = 0;
 #else
     Transaction.ui32Instr = 0;

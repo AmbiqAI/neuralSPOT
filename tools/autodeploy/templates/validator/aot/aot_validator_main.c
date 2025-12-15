@@ -49,8 +49,10 @@ NS_SRAM_BSS uint8_t ucHeap[(NS_RPC_MALLOC_SIZE_IN_K + 8) * 1024] __attribute__((
 // -------------------------- Optional profiling bits -------------------------
 #ifdef NS_MLPROFILE
 ns_timer_config_t s_tickTimer = { .api = &ns_timer_V1_0_0, .timer = NS_TIMER_COUNTER, .enableInterrupt = false };
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
 ns_pmu_config_t   s_pmu_cfg;
+extern ns_pmu_config_t ns_microProfilerPMU;
+
 #endif
 #endif
 
@@ -79,7 +81,7 @@ void vrpc_on_after_invoke(void) {
   memset(mut_stats.stats.stat_buffer, 0, sizeof(mut_stats.stats.stat_buffer));
   memcpy((void*)mut_stats.stats.stat_buffer, (const void*)us, to_copy);
 
-  #ifdef AM_PART_APOLLO5B
+  #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
   // If the host asked for full PMU capture, advertise PMU availability so that
   // the fetch path can switch to per-layer PMU streaming after FullStats.
   if (mut_cfg.config.full_pmu_stats == 1) {
@@ -101,7 +103,7 @@ int main(void) {
 #ifdef NS_MLPROFILE
   // Timer for profiling timestamps
   NS_TRY(ns_timer_init(&s_tickTimer), "Timer init failed");
-#ifdef AM_PART_APOLLO5B
+#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
   // Minimal PMU setup; detailed event selection handled in debug log module
   s_pmu_cfg.api = &ns_pmu_V1_0_0;
   ns_pmu_reset_config(&s_pmu_cfg);
@@ -111,6 +113,8 @@ int main(void) {
   ns_pmu_event_create(&s_pmu_cfg.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
   ns_pmu_event_create(&s_pmu_cfg.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);
   ns_pmu_init(&s_pmu_cfg);
+  // Copy to ns_microProfilerPMU
+  memcpy(&ns_microProfilerPMU, &s_pmu_cfg, sizeof(ns_pmu_config_t));
 #endif
 #endif
   ns_mem_init_defaults();

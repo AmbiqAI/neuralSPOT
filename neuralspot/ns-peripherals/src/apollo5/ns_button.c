@@ -37,6 +37,19 @@ void am_gpio0_001f_isr(void) {
     am_hal_gpio_interrupt_service(GPIO0_001F_IRQn, ui32IntStatus);
 }
 
+// #ifndef NS_GPIO0_203F_IRQn
+// #define NS_GPIO0_203F_IRQn GPIO0_203F_IRQn
+// void am_gpio0_203f_isr(void) {
+//     uint32_t ui32IntStatus;
+//     // Clear the GPIO Interrupt (write to clear).
+//     AM_CRITICAL_BEGIN
+//     am_hal_gpio_interrupt_irq_status_get(GPIO0_203F_IRQn, true, &ui32IntStatus);
+//     am_hal_gpio_interrupt_irq_clear(GPIO0_203F_IRQn, ui32IntStatus);
+//     AM_CRITICAL_END
+//     am_hal_gpio_interrupt_service(GPIO0_203F_IRQn, ui32IntStatus);
+// }
+// #endif
+
 void am_gpio0_405f_isr(void) {
     uint32_t ui32IntStatus;
     // Clear the GPIO Interrupt (write to clear).
@@ -56,13 +69,17 @@ extern void ns_joulescope_trigger_handler(void *pArg);
 
 uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
     uint32_t ui32IntStatus;
+    #if defined(apollo510b_evb)
+    uint32_t ui32JoulescopeTriggerGpioNum = 5;
+    #else
     uint32_t ui32JoulescopeTriggerGpioNum = 14;
+    #endif
     // am_hal_gpio_mask_t GpioIntMask = AM_HAL_GPIO_MASK_DECLARE_ZERO;
     uint32_t GpioIntMask = 0;
 
     // APOLLO5A_TODO - Apollo5A EB does not have buttons
 
-#ifdef apollo510_evb
+#if defined(apollo510_evb) || defined(apollo510b_evb)
     uint32_t ui32BUTTON0GpioNum = AM_BSP_GPIO_BUTTON0;
     uint32_t ui32BUTTON1GpioNum = AM_BSP_GPIO_BUTTON1;
     // Configure the button pin.
@@ -84,11 +101,13 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
     AM_CRITICAL_BEGIN
     am_hal_gpio_interrupt_irq_status_get(GPIO0_001F_IRQn, false, &GpioIntMask);
     am_hal_gpio_interrupt_irq_clear(GPIO0_001F_IRQn, GpioIntMask);
+    am_hal_gpio_interrupt_irq_status_get(GPIO0_203F_IRQn, false, &GpioIntMask);
+    am_hal_gpio_interrupt_irq_clear(GPIO0_203F_IRQn, GpioIntMask);
     am_hal_gpio_interrupt_irq_status_get(GPIO0_405F_IRQn, false, &GpioIntMask);
     am_hal_gpio_interrupt_irq_clear(GPIO0_405F_IRQn, GpioIntMask);
     AM_CRITICAL_END
 
-#ifdef apollo510_evb
+#if defined(apollo510_evb) || defined(apollo510b_evb)
     // Register interrupt handlers
     if (cfg->button_0_enable) {
         // uint32_t ui32IntStatus;
@@ -120,8 +139,10 @@ uint32_t ns_button_platform_init(ns_button_config_t *cfg) {
     }
 
     NVIC_SetPriority(GPIO0_001F_IRQn, AM_IRQ_PRIORITY_DEFAULT);
+    NVIC_SetPriority(GPIO0_203F_IRQn, AM_IRQ_PRIORITY_DEFAULT);
     NVIC_SetPriority(GPIO0_405F_IRQn, AM_IRQ_PRIORITY_DEFAULT);
     NVIC_EnableIRQ(GPIO0_001F_IRQn);
+    NVIC_EnableIRQ(GPIO0_203F_IRQn);
     NVIC_EnableIRQ(GPIO0_405F_IRQn);
 
     am_hal_interrupt_master_enable();

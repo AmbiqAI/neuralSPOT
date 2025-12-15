@@ -54,7 +54,7 @@ ns_model_init(ns_model_state_t *ms) {
     ns_debug_log_init_t cfg = {
         .t = ms->tickTimer,
         .m = ms->mac_estimates,
-        #ifdef AM_PART_APOLLO5B
+        #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P)
         .pmu = ms->pmu,
         #endif
     };

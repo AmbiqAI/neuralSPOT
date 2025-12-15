@@ -12,8 +12,8 @@
 #if ARM_OPTIMIZED == 3
     #include "basic_mve.h"
 #endif
-int16_t input0[MAX_SIZE_FEATURE * NUM_FEATURE_CONTEXT];
-int16_t input1[MAX_SIZE_FEATURE * NUM_FEATURE_CONTEXT];
+__attribute__((aligned(16))) int16_t input0[MAX_SIZE_FEATURE * NUM_FEATURE_CONTEXT];
+__attribute__((aligned(16))) int16_t input1[MAX_SIZE_FEATURE * NUM_FEATURE_CONTEXT];
 
 static void pointer_exchange(void **ppt1, void **ppt2);
 

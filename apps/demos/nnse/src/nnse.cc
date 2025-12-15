@@ -23,13 +23,14 @@ alignas(16) unsigned char static encodedDataBuffer[80]; // Opus encoder output l
 bool enableSE = false; // Flip between SE and Raw audio when button 0 is pressed
 uint32_t seLatency = 0;
 uint32_t opusLatency = 0;
-
+bool volatile static g_audioRecording = false;
+bool volatile static g_audioReady = false;
 #include "audio_webble.h"
 
 #if (configAPPLICATION_ALLOCATED_HEAP == 1)
-    #define NNSE_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 4 * 1024)
+    #define NNSE_HEAP_SIZE (NS_BLE_DEFAULT_MALLOC_K * 6 * 1024)
 size_t ucHeapSize = NNSE_HEAP_SIZE;
-uint8_t ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(4)));
+uint8_t AM_SHARED_RW ucHeap[NNSE_HEAP_SIZE] __attribute__((aligned(32)));
 #endif
 
 #define NUM_CHANNELS 1
@@ -46,12 +47,11 @@ ns_button_config_t button_config_nnsp = {
     .button_1_flag = NULL};
 
 /// Audio Config
-bool volatile static g_audioRecording = false;
-bool volatile static g_audioReady = false;
-alignas(16) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
-alignas(16) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
+
+alignas(32) int16_t static g_in16AudioDataBuffer[LEN_STFT_HOP << 1];
+alignas(32) uint32_t static audadcSampleBuffer[(LEN_STFT_HOP << 1) + 3];
 #ifdef USE_AUDADC
-alignas(16) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer
                                                                               // used by AUDADC
 #endif
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -100,7 +100,7 @@ const ns_power_config_t ns_power_ble = {
     .api = &ns_power_V1_0_0,
     .eAIPowerMode = NS_MAXIMUM_PERF,
     .bNeedAudAdc = false,
-    .bNeedSharedSRAM = false,
+    .bNeedSharedSRAM = true,
     .bNeedCrypto = false,
     .bNeedBluetooth = true,
     .bNeedUSB = false,
@@ -144,7 +144,7 @@ ns_timer_config_t basic_tickTimer = {
 uint32_t seStart, seEnd;
 uint32_t opusStart, opusEnd;
 uint32_t seLatencyCapturePeriod = 10;  // measure every 100 frames (1s)
-uint32_t opusLatencyCapturePeriod = 5; // measure every 100 frames (1s)
+uint32_t opusLatencyCapturePeriod = 5; // measure every 100 frames (1s)  
 uint32_t currentSESample = 0;
 uint32_t currentOpusSample = 0;
 
@@ -157,17 +157,14 @@ void audioTask(void *pvParameters) {
             g_intButtonPressed = 0;
         }
         if (g_audioReady) { // Every time audio frame is available (160 samples, 10ms)
-
             NS_TRY(ns_set_performance_mode(NS_MAXIMUM_PERF), "Set CPU Perf mode failed. ");
             if (currentSESample == seLatencyCapturePeriod) {
                 seStart = ns_us_ticker_read(&basic_tickTimer);
             }
-
             // SE Model is stateful, so you have to call it with every frame
             // even if you don't want SE's output (otherwise it'll sound wierd for a bit at
             // the beginning)
             seCntrlClass_exec(&cntrl_inst, g_in16AudioDataBuffer, xmitBuffer + xmitWritePtr);
-
             if (currentSESample == seLatencyCapturePeriod) {
                 seEnd = ns_us_ticker_read(&basic_tickTimer);
                 seLatency = seEnd - seStart;
@@ -176,16 +173,13 @@ void audioTask(void *pvParameters) {
             } else {
                 currentSESample++;
             }
-
             if (!enableSE) {
                 // Overwrite the SE output with the original audio
                 memcpy(
                     xmitBuffer + xmitWritePtr, g_in16AudioDataBuffer,
                     LEN_STFT_HOP * sizeof(int16_t));
             }
-
             NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
-
             // Add it to our simple ring buffer
             xmitAvailable += 160;
             xmitWritePtr = (xmitWritePtr + 160) % XBUFSIZE;
@@ -247,7 +241,8 @@ int main(void) {
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\b");
 
     ns_power_config(&ns_power_ble);
-
+    // Enable interrupt master
+    ns_interrupt_master_enable();
     // Only turn HP while doing codec and AI
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed. ");
 
@@ -258,7 +253,7 @@ int main(void) {
     ns_init_perf_profiler();
     ns_start_perf_profiler();
 
-    // Initialize the Opus encoder
+    // Initialize the Opus encoder 
     audio_enc_init(0);
 
     NS_TRY(ns_timer_init(&basic_tickTimer), "Timer init failed.\n");
@@ -270,7 +265,7 @@ int main(void) {
 
     // initialize neural nets controller
     seCntrlClass_init(&cntrl_inst);
-#ifdef DEF_ACC32BIT_OPT
+#ifdef DEF_ACC32BIT_OPT 
     ns_lp_printf("You are using \"32bit\" accumulator.\n");
 #else
     ns_lp_printf("You are using \"64bit\" accumulator.\n");
@@ -278,9 +273,9 @@ int main(void) {
 
     // BLE is FreeRTOS-driven, everything happens in the tasks set up by setup_task()
     // Audio notifications will start immediately, no waiting for button presses
-    g_audioRecording = true;
     xTaskCreate(setup_task, "Setup", 512, 0, 3, &my_xSetupTask);
     vTaskStartScheduler();
+
     while (1) {
     };
 }

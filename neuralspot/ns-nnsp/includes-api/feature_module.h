@@ -6,7 +6,7 @@ extern "C" {
 #include <stdint.h>
 #include "spectrogram_module.h"
 #include "ambiq_nnsp_const.h"
-
+#include "nn_speech.h"
 typedef struct {
     stftModule state_stftModule;
     int32_t feature[MAX_SIZE_FEATURE];
@@ -20,6 +20,7 @@ typedef struct {
     const int32_t *pt_norm_stdR;
     int8_t qbit_output;
     void *pt_dcrm;
+    FEATURE_TYPE_E feature_type;
 } FeatureClass;
 
 void FeatureClass_construct(
@@ -31,7 +32,9 @@ void FeatureClass_construct(
         int16_t winsize,
         int16_t hopsize,
         int16_t fftsize,
-        const int16_t *pt_stft_win_coeff);
+        const int16_t *pt_stft_win_coeff,
+        const int16_t *p_melBanks,
+        FEATURE_TYPE_E feature_type);
 
 void FeatureClass_setDefault(FeatureClass *ps);
 

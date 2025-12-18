@@ -7,6 +7,12 @@ This module integrates neural nets, feature extraction & post processing
 extern "C" {
 #endif
 #include <stdint.h>
+typedef enum {
+    feat_mel = 0,
+    feat_spec = 1,
+    feat_logpspec = 2,
+    feat_spec_erb = 3,
+} FEATURE_TYPE_E;
 
 typedef struct {
     int16_t samplingRate;
@@ -16,9 +22,11 @@ typedef struct {
     int16_t num_mfltrBank;
     int16_t num_dnsmpl;
     const int16_t *pt_stft_win_coeff;
+    const int16_t *p_melBanks;
     int16_t start_bin;
     int16_t is_dcrm;
     int16_t pre_gain_q1; // q1
+    FEATURE_TYPE_E feature_type;
 } PARAMS_NNSP;
 
 typedef struct {

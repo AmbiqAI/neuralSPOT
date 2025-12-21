@@ -13,7 +13,7 @@ typedef struct {
     int16_t num_mfltrBank;
     const int16_t *p_melBanks;
     // contextual normalized features
-    int16_t normFeatContext[NUM_FEATURE_CONTEXT * MAX_SIZE_FEATURE];
+    int32_t normFeatContext[NUM_FEATURE_CONTEXT * MAX_SIZE_FEATURE];
     int16_t num_context;
     int16_t dim_feat;
     const int32_t *pt_norm_mean;

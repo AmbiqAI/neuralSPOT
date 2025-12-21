@@ -168,7 +168,13 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
         // for (int i = 0; i < 432; i++) {
         //     pt_feat->normFeatContext[i] = 1;
         // }
-        NeuralNetClass_exe(pt_net, pt_feat->normFeatContext, glob_nn_output, debug_layer);
+        static int16_t inputs_nn[514];
+        for (int i = 0; i < pt_feat->dim_feat; i++) {
+            inputs_nn[i] = MIN(MAX(pt_feat->normFeatContext[i], MIN_INT16_T), MAX_INT16_T);
+        }
+
+
+        NeuralNetClass_exe(pt_net, inputs_nn, glob_nn_output, debug_layer);
         // int16_t *po = (int16_t *)glob_nn_output;
         // ns_printf("output: \n\n");
         // for (int i = 0; i < 257; i++) {
@@ -203,12 +209,20 @@ int16_t NNSPClass_exec(NNSPClass *pt_inst, int16_t *rawPCM) {
             }
             fprintf(file_mask_c, "\n");
 #endif
-            se_post_proc(
-                (void *)pt_inst->pt_feat,
-                (int16_t *)glob_nn_output,
-                 pt_inst->pt_se_out,
-                pt_inst->pt_params->start_bin,
-                NNSPClass_get_nnOut_dim(pt_inst));
+            if (pt_inst->pt_params->feature_type==feat_spec_erb)
+                se_post_proc_cmplx(
+                    (void *)pt_inst->pt_feat,
+                    (int32_t *)glob_nn_output,
+                    pt_inst->pt_se_out,
+                    pt_inst->pt_params->start_bin,
+                    NNSPClass_get_nnOut_dim(pt_inst));
+            else
+                se_post_proc_real(
+                    (void *)pt_inst->pt_feat,
+                    (int32_t *)glob_nn_output,
+                    pt_inst->pt_se_out,
+                    pt_inst->pt_params->start_bin,
+                    NNSPClass_get_nnOut_dim(pt_inst));
             break;
         }
 
@@ -237,10 +251,9 @@ void my_argmax(int32_t *vals, int len, int16_t *pt_argmax) {
         }
     }
 }
-
-void se_post_proc(
+void se_post_proc_real(
         void *pt_feat_t,
-        int16_t *pt_nn_est, 
+        int32_t *pt_nn_est, 
         int16_t *pt_se_out,
         int start_bin,
         int nn_dim_out
@@ -262,6 +275,41 @@ void se_post_proc(
         tmp = (int64_t)pt_nn_est[i] * (int64_t)spec[2 * i + 1];
         tmp >>= 15;
         spec[2 * i + 1] = (int32_t)tmp;
+    }
+
+    for (int i = start_bin + nn_dim_out; i < 257; i++) {
+        spec[2 * i] = 0;
+        spec[2 * i + 1] = 0;
+    }
+
+    stftModule_synthesize_arm(pt_stft_state, spec, pt_se_out);
+}
+void se_post_proc_cmplx(
+        void *pt_feat_t,
+        int32_t *pt_nn_est, 
+        int16_t *pt_se_out,
+        int start_bin,
+        int nn_dim_out
+    ) {
+    FeatureClass *pt_feat = (FeatureClass *) pt_feat_t;
+    stftModule *pt_stft_state = &(pt_feat->state_stftModule);
+    int32_t *spec = pt_stft_state->spec;
+    int64_t tmp;
+
+    for (int i = 0; i < start_bin; i++) {
+        spec[2 * i] = 0;
+        spec[2 * i + 1] = 0;
+    }
+    for (int i = start_bin; i < start_bin + nn_dim_out; i++) { // TODO: check
+
+        int64_t m_r = (int64_t) pt_nn_est[i];
+        int64_t m_i = (int64_t) pt_nn_est[i + 257];
+
+        int64_t x_r = (int64_t) spec[2*i];
+        int64_t x_i = (int64_t) spec[2*i + 1];
+
+        spec[2 * i] = (int32_t) ((m_r * x_r - m_i * x_i) >> 15);
+        spec[2 * i + 1] = (int32_t) ((m_r * x_i + m_i * x_r) >> 15);
     }
 
     for (int i = start_bin + nn_dim_out; i < 257; i++) {

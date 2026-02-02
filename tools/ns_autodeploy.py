@@ -708,6 +708,7 @@ class AutoDeployRunner:
         self.stash_arena_location: str | None = None
         self.move_model_back_to_sram: bool = False
         self.results = None  # set later when adResults is constructed
+        self.host_interpreter = None  # LiteRT or static fallback for metadata
 
     # ------------------------------------------------------------------
     #   Top-level control-flow (identical to legacy order)
@@ -734,7 +735,7 @@ class AutoDeployRunner:
                 # print("[NS] AOT rpc_connect_as_client done")
                 configModel(self.p, client, self.md)
                 # print("[NS] AOT configModel done")
-                differences_aot, golden_output_tensors_aot = validateModel(self.p, client, get_interpreter(self.p),
+                differences_aot, golden_output_tensors_aot = validateModel(self.p, client, self.host_interpreter,
                                 self.md, self.mc)
 
         if self.p.joulescope or self.p.onboard_perf:
@@ -816,9 +817,9 @@ class AutoDeployRunner:
         self._apply_memory_policy()
 
         # --- Interpreter & model configuration objects -------------------
-        interpreter = get_interpreter(self.p)
+        self.host_interpreter = get_interpreter(self.p)
         self.mc = ModelConfiguration(self.p)
-        self.md = ModelDetails(interpreter)
+        self.md = ModelDetails(self.host_interpreter)
 
         self.results = adResults(self.p)
         self.results.setModelSize(self.model_size)
@@ -948,7 +949,7 @@ class AutoDeployRunner:
         client = rpc_connect_as_client(self.p)
         configModel(self.p, client, self.md)
 
-        differences, _ = validateModel(self.p, client, get_interpreter(self.p), self.md, self.mc)
+        differences, _ = validateModel(self.p, client, self.host_interpreter, self.md, self.mc)
         # print(f"[DEBUG] TFLM differences: {differences}")
         # print(f"[DEBUG] TFLM golden output tensors: {golden_output_tensors}")
         stats = getModelStats(self.p, client)
@@ -997,7 +998,7 @@ class AutoDeployRunner:
                 print("[NS] AOT rpc_connect_as_client done")
                 configModel(self.p, client, self.md)
                 print("[NS] AOT configModel done")
-                differences_aot, golden_output_tensors_aot = validateModel(self.p, client, get_interpreter(self.p),
+                differences_aot, golden_output_tensors_aot = validateModel(self.p, client, self.host_interpreter,
                                 self.md, self.mc)
                 # print(f"[DEBUG] AOT differences: {differences_aot}")
                 stats_aot = getModelStats(self.p, client)

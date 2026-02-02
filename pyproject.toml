@@ -24,7 +24,7 @@ dependencies = [
     "PyYAML>=6.0.2",
     "ai-edge-litert==1.3.0; platform_system != 'Windows'",
     "setuptools>=80.9.0",
-    "xlsxwriter",
+    "xlsxwriter"
 ]
 
 [tool.setuptools]
@@ -51,7 +51,8 @@ neuralspot = ""
 neuralspot = [
     "tools/autodeploy/templates/**/*",
     "tools/ns_platform.yaml",
-    "tools/autodeploy/profiles/ns_pmu_default.yaml"
+    "tools/autodeploy/profiles/ns_pmu_default.yaml",
+    "tools/base_aot.yaml"
 ]
 
 [project.scripts]

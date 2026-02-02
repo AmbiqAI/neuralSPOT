@@ -17,7 +17,14 @@ os.environ["TF_LITE_DISABLE_DEFAULT_DELEGATES"] = "1"
 os.environ["TF_LITE_DISABLE_DELEGATE_PLUGINS"] = "1"
 os.environ["TF_LITE_USE_XNNPACK"] = "0"
 os.environ["TF_LITE_EXPERIMENTAL_USE_XNNPACK"] = "0"
-import ai_edge_litert as tflite
+try:
+    import ai_edge_litert as tflite
+    LITERT_AVAILABLE = True
+    LITERT_IMPORT_ERROR = None
+except Exception as e:  # ImportError / OSError on unsupported platforms
+    tflite = None
+    LITERT_AVAILABLE = False
+    LITERT_IMPORT_ERROR = e
 from neuralspot.tools.ns_tflite_analyze import analyze_tflite_file
 from neuralspot.tools.ns_utils import (
     ModelDetails,
@@ -469,11 +476,20 @@ def validateModel(params, client, interpreter, md, mc):
     else:
         log.info("Generating random dataset.")
 
-    differences = (
-        []
-    )  # accumulator for per-output differences between local and EVB models
+    compare_outputs = bool(
+        interpreter
+        and hasattr(interpreter, "invoke")
+        and callable(getattr(interpreter, "invoke"))
+        and getattr(interpreter, "_supports_invoke", True)
+    )
+    if not compare_outputs:
+        log.warning(
+            "[NS] Host Lite runtime unavailable; skipping PC-side output comparison."
+        )
+
+    differences = []  # accumulator for per-output differences between local and EVB models
     golden_output_tensors = []
-    for i in range(md.numOutputs):
+    for _ in range(md.numOutputs):
         differences.append([])
         golden_output_tensors.append([])
 
@@ -504,10 +520,10 @@ def validateModel(params, client, interpreter, md, mc):
         if i == 0:
             inExamples.append(input_data.flatten())  # Capture inputs for AutoGen
 
-        # Invoke locally and on EVB
-        interpreter.set_tensor(md.input_details[0]["index"], input_data)
-
-        interpreter.invoke()  # local invoke
+        if compare_outputs:
+            # Invoke locally and on EVB
+            interpreter.set_tensor(md.input_details[0]["index"], input_data)
+            interpreter.invoke()  # local invoke
 
         # Prepare input tensors (or pre-send them if chunking is needed) for xmit to EVB
         if md.inputTensors[0].bytes > (maxRpcBlockLength):
@@ -598,17 +614,17 @@ def validateModel(params, client, interpreter, md, mc):
                     )
                 )
 
-            local_output_data = interpreter.get_tensor(
-                md.output_details[otIndex]["index"]
-            ).flatten()
+            if compare_outputs:
+                local_output_data = interpreter.get_tensor(
+                    md.output_details[otIndex]["index"]
+                ).flatten()
+                differences[otIndex].append(local_output_data - out_array)
+                golden_output_tensors[otIndex].append(local_output_data)
 
             if i == 0:
                 outExamples.append(
                     np.array(out_array).flatten()
                 )  # Capture outputs for AutoGen
-
-            differences[otIndex].append(local_output_data - out_array)
-            golden_output_tensors[otIndex].append(local_output_data)
             otOffset += ot.bytes
             otIndex += 1
 
@@ -2126,13 +2142,83 @@ def create_validation_binary(params, mc, md, baseline, aot):
 #                 f"(first error: {e1!r}; last error: {e3!r})"
 #             ) from e3
 
+def _build_static_interpreter_from_flatbuffer(model_path: str):
+    """
+    Minimal interpreter-like object built from the TFLite flatbuffer when
+    LiteRT is unavailable. It exposes get_input_details/get_output_details
+    so the rest of the tooling can configure RPC and arena sizing, but it
+    does not support local inference.
+    """
+    from neuralspot.tools.utils.tflite_helpers import (
+        CreateDictFromFlatbuffer,
+        TensorTypeToName,
+    )
+
+    with open(model_path, "rb") as fh:
+        model_bytes = fh.read()
+    model_dict = CreateDictFromFlatbuffer(model_bytes)
+    subgraph = model_dict["subgraphs"][0]
+    tensors = subgraph["tensors"]
+
+    _NAME_TO_NP = {
+        "FLOAT32": np.float32,
+        "FLOAT16": np.float16,
+        "INT32": np.int32,
+        "UINT8": np.uint8,
+        "INT64": np.int64,
+        "BOOL": np.bool_,
+        "INT16": np.int16,
+        "INT8": np.int8,
+        "UINT32": np.uint32,
+        "UINT16": np.uint16,
+    }
+
+    def _build_detail(idx: int):
+        t = tensors[idx]
+        t_name = TensorTypeToName(t["type"]) or "UINT8"
+        np_type = _NAME_TO_NP.get(t_name, np.uint8)
+        quant = t.get("quantization", {}) or {}
+        scales = quant.get("scale") or quant.get("scale_f") or [0.0]
+        zeros = quant.get("zero_point") or [0]
+        scale = scales[0] if isinstance(scales, (list, tuple)) else scales
+        zero_point = zeros[0] if isinstance(zeros, (list, tuple)) else zeros
+        return {
+            "index": idx,
+            "shape": t.get("shape", []),
+            "dtype": np_type,
+            "quantization": (scale, zero_point),
+        }
+
+    input_details = [_build_detail(i) for i in subgraph["inputs"]]
+    output_details = [_build_detail(i) for i in subgraph["outputs"]]
+
+    class _StaticInterpreter:
+        _supports_invoke = False
+
+        def get_input_details(self):
+            return input_details
+
+        def get_output_details(self):
+            return output_details
+
+    return _StaticInterpreter()
+
+
 def get_interpreter(params):
     """
     Create an AI Edge LiteRT interpreter with XNNPACK and other auto-delegates
-    aggressively disabled. We try several API surfaces because different builds
-    expose different flags (kw-args vs. an options object with setters).
+    aggressively disabled. If LiteRT is unavailable (e.g., Windows), fall back
+    to a static flatbuffer parser that supplies tensor metadata only.
     """
     import os
+
+    if not LITERT_AVAILABLE:
+        log.warning(
+            "[NS] ai-edge-litert not available (%s); skipping host-side inference.",
+            LITERT_IMPORT_ERROR,
+        )
+        return _build_static_interpreter_from_flatbuffer(params.tflite_filename)
+
     from ai_edge_litert import interpreter as _tfl
 
     # Hard-disable via env *before* creating any interpreter objects.

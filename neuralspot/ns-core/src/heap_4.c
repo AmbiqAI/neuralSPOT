@@ -130,7 +130,7 @@ static size_t xBlockAllocatedBit = 0;
 /// these functions, in port.c, assume the task scheduler is running,
 /// and the exit is not enabling interrupts because of the nested critical assert.
 ///
-/// NeuralSPOT solution is to create a new version of malloc
+/// neuralSPOT solution is to create a new version of malloc
 
 void *prvPortMalloc(size_t xWantedSize, uint8_t enableSuspendResume) {
     BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;

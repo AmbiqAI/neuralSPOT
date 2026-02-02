@@ -1,7 +1,7 @@
 /**
  * @file har.cc
  *
- * @brief Continuous Human Activity Recognition using ICM-45605 IMU (NeuralSPOT)
+ * @brief Continuous Human Activity Recognition using ICM-45605 IMU (neuralSPOT)
  *
  * This example continuously samples the IMU and performs inference on 10s windows
  * with a 2s overlap (i.e., inference every 8s).

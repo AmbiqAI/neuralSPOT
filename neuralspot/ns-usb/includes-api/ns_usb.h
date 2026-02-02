@@ -1,7 +1,7 @@
 /**
  * @file ns-usb.h
  * @author Carlos Morales
- * @brief API definition for NeuralSPOT USB
+ * @brief API definition for neuralSPOT USB
  * @version 0.1
  * @date 2022-08-18
  *

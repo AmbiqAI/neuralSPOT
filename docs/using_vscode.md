@@ -1,4 +1,4 @@
-# NeuralSPOT and Visual Studio Code
+# neuralSPOT and Visual Studio Code
 
 Ambiq's AI tools are CLI-based in order to be IDE and GUI-agnostic, and use freely available and/or open source toolchains where possible. This approaches meshes well the Visual Studio Code's functionality, and this is the code editor that the Ambiq AI team uses in day-to-day development.
 
@@ -12,7 +12,7 @@ The Ambiq AI team uses Visual Studio Code (vscode) to:
 - Manage our compilation toolchain
 - [Develop code remotely](https://code.visualstudio.com/docs/remote/remote-overview)
 
-Beyond that, our data scientists use vscode to [visualize AI training](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.tensorboard) and results, run [Jupyter notebooks](https://code.visualstudio.com/docs/datascience/jupyter-notebooks), and [plot data](https://www.altcademy.com/blog/how-to-get-matplotlib-in-visual-studio-code/). 
+Beyond that, our data scientists use vscode to [visualize AI training](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.tensorboard) and results, run [Jupyter notebooks](https://code.visualstudio.com/docs/datascience/jupyter-notebooks), and [plot data](https://www.altcademy.com/blog/how-to-get-matplotlib-in-visual-studio-code/).
 
 #### In This Document
 
@@ -32,8 +32,8 @@ Devcontainers allow us to develop inside a containerized environment. This ensur
 
 1. Install Docker here: https://www.docker.com/products/docker-desktop/
 2. Install the Dev Containers extension from Microsoft on VS Code.
-3. Type into VS Code command Palette: "Dev Containers: Rebuild and Reopen in Container." This will restart VS Code in the neuralSPOT devcontainer. 
-   1. Changes can be made to the devcontainer configuration in the .devcontainer folder of neuralSPOT. 
+3. Type into VS Code command Palette: "Dev Containers: Rebuild and Reopen in Container." This will restart VS Code in the neuralSPOT devcontainer.
+   1. Changes can be made to the devcontainer configuration in the .devcontainer folder of neuralSPOT.
    2. Note that when making changes to the devcontainer configuration, it must be rebuilt for the changes to take effect. Otherwise, you can simply reopen the container.
 4. When VS Code restarts, you will be connected to the devcontainer, as shown by the green remote indicator on the left of the Status bar.
 
@@ -44,7 +44,7 @@ Devcontainers allow us to develop inside a containerized environment. This ensur
 - [Visual Studio Code](https://visualstudio.microsoft.com/downloads/)
 - [Segger J-link](https://www.segger.com/downloads/jlink/)
 - Remote GDB debugger: we use J-link's included GDB server
-- [Docker Engine](https://docs.docker.com/engine/install/) (optional): Enables Devcontainer-based operation. 
+- [Docker Engine](https://docs.docker.com/engine/install/) (optional): Enables Devcontainer-based operation.
 
 ### Arm Development Extensions
 
@@ -103,7 +103,7 @@ The `tasks.json` file defines a 'launch' task. Note that there are several hardc
     "version": "0.2.0",
     "configurations": [
         {
-            "cwd": "${fileDirname}",   
+            "cwd": "${fileDirname}",
             "executable": "${workspaceRoot}/build/apollo5b_evb/arm-none-eabi/examples/${fileBasenameNoExtension}/${fileBasenameNoExtension}.axf",
             "name": "Debug Microcontroller",
             "request": "launch",

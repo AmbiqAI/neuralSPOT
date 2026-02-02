@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref (branch, tag, or SHA) to publish from
+        required: false
+        type: string
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref (branch, tag, or SHA) to publish from
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          path: neuralspot
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+            enable-cache: true
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+      - name: Install and Build 🔧
+        env:
+          CI: ""
+          PUBLIC_URL: "${{ steps.pages.outputs.base_url }}/"
+        run: |
+          uv sync --project neuralspot --only-group docs
+          cp neuralspot/mkdocs.yml .
+          uv run --project neuralspot mkdocs build -f mkdocs.yml
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,7 +1,7 @@
 /**
  * @file ns_peripherals_power.h
  * @author Carlos Morales
- * @brief NeuralSPOT Power Management Library
+ * @brief neuralSPOT Power Management Library
  * @version 0.1
  * @date 2022-09-02
  *

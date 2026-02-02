@@ -21,7 +21,7 @@ This example is based on Ambiq’s Human Activity Recognition (HAR) model, demon
 
 ## Prerequisites
 
-* NeuralSPOT SDK (with `neuralspot/ns-imu` module)
+* neuralSPOT SDK (with `neuralspot/ns-imu` module)
 * Valid hardware setup:
 
   * Apollo510 EVB

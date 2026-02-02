@@ -6,7 +6,7 @@ In this article, we walk through the example block-by-block, using it as a guide
 > *Side Note* A "stub" in the developer world is a bit of code meant as a sort of placeholder, hence the example's name: it is meant to be code where you replace the existing TF (tensorflow) model and replace it with your own.
 
 ## Everything but the Kitchen Sink
-Basic_TF_Stub is a deployable keyword spotting (KWS) AI model based on the [MLPerf KWS benchmark](https://github.com/mlcommons/tiny/tree/master/benchmark/training/keyword_spotting) - it grafts neuralSPOT's integration code into the existing model in order to make it a functioning keyword spotter. 
+Basic_TF_Stub is a deployable keyword spotting (KWS) AI model based on the [MLPerf KWS benchmark](https://github.com/mlcommons/tiny/tree/master/benchmark/training/keyword_spotting) - it grafts neuralSPOT's integration code into the existing model in order to make it a functioning keyword spotter.
 
 The code uses the Apollo4's low audio interface to collect audio. Once collected, it processes the audio by extracting melscale spectograms, and passes those to a Tensorflow Lite for Microcontrollers model for inference. After invoking the model, the code processes the result and prints the most likely keyword out on the SWO debug interface. Optionally, it will dump the collected audio to a PC via a USB cable using RPC.
 
@@ -54,7 +54,7 @@ The code is fairly straightforward, so this document will focus on explaining th
 | RINGBUFFER_MODE | Enables using ringbuffers for audio sample transfers. A simple ping-pong buffer is used otherwise. |
 | ENERGY_MONITOR_ENABLE | Enables marking of different energy use domains via GPIO pins. This is intended to ease power measurements using tools such as Joulescope. |
 | LOWEST_POWER_MODE | Disable all non-essential interfaces, including printf |
-| NS_MLPROFILE | Measure AI performance using TFLM's microprofiler with NeuralSPOT extensions | 
+| NS_MLPROFILE | Measure AI performance using TFLM's microprofiler with neuralSPOT extensions |
 | AUDIO_LEGACY | Uese pre-v2 audio library API |
 
 ### Basic_tf_stub.cc
@@ -164,9 +164,8 @@ ns_mfcc_cfg_t mfcc_config = {
     .frame_shift_ms = 20, // ignored
     .frame_len_ms = 30, // ignored
     .frame_len = SAMPLES_IN_FRAME,
-    .frame_len_pow2 = MY_MFCC_FRAME_LEN_POW2    
+    .frame_len_pow2 = MY_MFCC_FRAME_LEN_POW2
 };
 ```
 
 The other tricky bit is the `mfccArena`, which is used to store pre-calculated filters and temporary state. The ns-mfcc library maps a number of arrays to this memory block which translates to the messy sizing of the Arena (still better than the Tensorflow Lite Micro approach, which is 'guess and we'll tell you if you're right').
-

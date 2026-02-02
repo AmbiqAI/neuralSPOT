@@ -1,7 +1,7 @@
 /**
  * @file har.cc
  *
- * @brief Human Activity Recognition using ICM-45605 IMU (NeuralSPOT)
+ * @brief Human Activity Recognition using ICM-45605 IMU (neuralSPOT)
  *
  * This example replaces the MPU6050 driver with the ICM-45605 IMU used in icm.cc.
  **/

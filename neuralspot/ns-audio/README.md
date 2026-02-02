@@ -1,11 +1,11 @@
-@page NS-Audio NeuralSPOT Audio Library
+@page NS-Audio neuralSPOT Audio Library
 @tableofcontents
 
-# NeuralSPOT Audio Library Subsystem
+# neuralSPOT Audio Library Subsystem
 This library helps implement audio-based AI features on Ambiq's platform by simplifying common operations such as:
 1. Reading audio data from peripherals such as the low-power analog microphone input (AUDADC) or certain digital mics (PDM)
 2. Calculating common input features such as Mel Spectograms
-3. Transferring data between the EVB and a PC (with the help of NeuralSPOT RPC)
+3. Transferring data between the EVB and a PC (with the help of neuralSPOT RPC)
 
 NS-audio includes the following components:
 1. `ns_audio`: this is the front-end to the audio sampling subsystem, and provides multiple mechanisms for accessing the collected data
@@ -106,7 +106,7 @@ main(void) {
 ```
 
 ## Audio Inter-process Communication (IPC)
-Capturing audio is an asynchronous task, partially handled by hardware peripherals. AI features which sample audio need a way to run in parallel with the capturing process - NeuralSPOT Audio leverages NeuralSPOT IPC to enable a few ways of doing this:
+Capturing audio is an asynchronous task, partially handled by hardware peripherals. AI features which sample audio need a way to run in parallel with the capturing process - neuralSPOT Audio leverages neuralSPOT IPC to enable a few ways of doing this:
 1. **Callback-based**: Invokes an IRQ-context callback defined by the application developer. The developer is responsible for buffer management.
 2. **Ringbuffer-based**: adds a ping-ponging ringbuffer allowing the application to run while the next audio buffer is acquired. It builds on the callback approach, preserving flexibility.
 

@@ -16,9 +16,9 @@
 
 ## Releases
 
-- NeuralSPOT Release 0.0.1
+- neuralSPOT Release 0.0.1
   - Initial Release
-- NeuralSPOT Release 1.0.0-alpha
+- neuralSPOT Release 1.0.0-alpha
   - Adds version checking to APIs
   - Adds too many new features to list (see checkin history), including
     - CMSIS
@@ -35,7 +35,7 @@
     - Adds CMSIS 5.9.0 and Ambiq 4.2.0 external components
     - Numerous bug fixes, tweaks, and documentation updates
     - *Note* future updates will follow semantic versioning and will slow to a bi-weekly cadence
-- NeuralSPOT Release 1.0.1-alpha (minor release) *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.1-alpha, which hasn't been tagged yet.
+- neuralSPOT Release 1.0.1-alpha (minor release) *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.1-alpha, which hasn't been tagged yet.
   - EdgeImpulse Updates: move neuralSPOT version used by projects/edgeimpulse examples to v1.0.0-alpha + changes describe below
   - I2c API and MPU Calibration update: fixes and re-enabled MPU calibration, adds MPU init API
   - Windows Makefile: fixes problem when making nests in Windows
@@ -46,10 +46,10 @@
   - Fixed compilation for BLE versions of Apollo4P EVB boards
   - Added new TFLM version (github hash fecdd5d, date 1/09/2022
     - *NOTE* The TFLM team refactored micro_error_reporter a bit, requiring application code changes (see basic_tf_stub's basic_model.h)
-- NeuralSPOT Release 1.0.2-alpha (minor release) *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.2-alpha, which hasn't been tagged yet.
+- neuralSPOT Release 1.0.2-alpha (minor release) *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.2-alpha, which hasn't been tagged yet.
   - [TFLM Ambiq-aware Profiler](../neuralspot/ns-harness/README.md) (new feature) - profiles per-layer TFLM model execution (time, perf counters, cache behavior).
   - Assorted minor fixes
-- NeuralSPOT Release 1.0.3-alpha *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.3-alpha, which hasn't been tagged yet.
+- neuralSPOT Release 1.0.3-alpha *NOTE* This is a running collection of checked-in changes in anticipation of release 1.0.3-alpha, which hasn't been tagged yet.
   - RPC improvements
     - Adds interrupt-based server polling, reduces number of USB pings
     - Moves RPC RX/TX buffer allocation to application code
@@ -62,7 +62,7 @@
     - Deploys the binary
     - Characterizes the binary over RPC, comparing EVB inference results to PC-side python inference results
   - Human Activity Recognition example application, based on [HAR modelzoo](https://github.com/AmbiqAI/Human-Activity-Recognition).
-- NeuralSPOT Release 1.2 (major release) Dozens of new features, improvements, and optimizations
+- neuralSPOT Release 1.2 (major release) Dozens of new features, improvements, and optimizations
   - Autodeploy Enchancements
     - Adds support for all Apollo platforms and variants
     - Adds HeliaRT support
@@ -108,7 +108,7 @@
 
     - **web_ble example**: this new example application implements a mocked-up WebBLE service designed to serve sensor data to WebBLE dashboard.
 
-- NeuralSPOT 1.1.2-alpha pre-release
+- neuralSPOT 1.1.2-alpha pre-release
   - Adds support for Arm's armclang toolchain
   - Adds support for recent tensorflow lite for microcontrollers (git hash d5f819d)
   - Adds support for CMSIS-DSP version 1.15.0

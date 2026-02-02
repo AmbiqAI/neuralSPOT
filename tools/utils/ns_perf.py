@@ -185,7 +185,7 @@ def main():
     # update from YAML config
     updated_params = default_params.dict()
     updated_params.update(yaml_params)
-    
+
     # override with CLI params
     cli_dict = cli_params.dict(exclude_unset=True)  # exclude unset fields
     updated_params.update(cli_dict)
@@ -223,7 +223,7 @@ def main():
 
     # check if neuralspot-rootdir is valid
     if not os.path.exists(os.path.abspath(params.neuralspot_rootdir)):
-        log.error("NeuralSPOT directory not found. Please specify a valid path.")
+        log.error("neuralSPOT directory not found. Please specify a valid path.")
         exit("ns_perf failed")
 
     mc = ModelConfiguration(params)

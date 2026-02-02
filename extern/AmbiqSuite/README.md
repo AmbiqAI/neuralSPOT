@@ -20,10 +20,10 @@ Released Ambiqsuite SDKs have several pre-compiled static libraries that cover *
 - `/third_party/cordio/module.mk` is pulled in if the platform supports BLE. We leave the source files in `cordio` intact and in place, but we do some special stuff here
 - `/third_party/open-amp/module.mk` for platforms that have our BLE radio - currently only Apollo330/Apollo510L.
 
-## /src 
+## /src
 This directory has to support all variants of a platform (with/without USB, etc) and does so with subdirectories. The `module.mk` will pull in the right subdirectories for the platform.
 - `usb` contains USB files that will only be pulled in when platform has USB
-- `<platform>` (e.g. apollo330P) contains source files specific to that platform. 
+- `<platform>` (e.g. apollo330P) contains source files specific to that platform.
 
 The rest of the files are there for one of 3 reasons:
 - They're not compiled into the static libs. These include devices, utils, and third party libraries such as tinyUSB and freeRTOS.
@@ -74,7 +74,7 @@ SDK release tend to stick to previous APIs, but sometimes they break that, mostl
 I use the SDK's examples to see what changed (coremark example to see how to configure lowest power, pdm_fft to see if PDM configuration changed, etc).
 
 ### Details: neuralspot Makefiles
-A new platform will likely have a set of new features. NeuralSPOT handles features by setting 'feature flags' based on platforms and SDKs (different versions of SDKs may or may not support a feature). Generally:
+A new platform will likely have a set of new features. neuralSPOT handles features by setting 'feature flags' based on platforms and SDKs (different versions of SDKs may or may not support a feature). Generally:
 1. Modify neuralspot_config.mk to add the platform if new
 2. Set the BLE and USB features as needed
 
@@ -118,7 +118,7 @@ third_party/
 devices/
 utils/
 CMSIS/
-pack/ 
+pack/
 anything that looks like a license
 ```
 Delete the rest. It's a lot.

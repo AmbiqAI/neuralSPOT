@@ -50,8 +50,8 @@ static void dcd_usb_ep0_setup_callback(uint8_t *setup) ;
 
 //*****************************************************************************
 //! @brief  Mapping&injecting the ambiq USB HAL event to TinyUSB USB stack
-//! 
-//! @param eDevState 
+//!
+//! @param eDevState
 //*****************************************************************************
 static void
 dcd_usb_dev_evt_callback(am_hal_usb_dev_event_e eDevState)
@@ -93,8 +93,8 @@ dcd_usb_dev_evt_callback(am_hal_usb_dev_event_e eDevState)
 //*****************************************************************************
 //! @brief  Setup request is received and pass it to upper layer TinyUSB
 //!         stack to handle
-//! 
-//! @param setup 
+//!
+//! @param setup
 //*****************************************************************************
 static void
 dcd_usb_ep0_setup_callback(uint8_t *setup)
@@ -103,12 +103,12 @@ dcd_usb_ep0_setup_callback(uint8_t *setup)
 }
 
 //*****************************************************************************
-//! @brief 
-//! 
-//! @param ep_addr 
-//! @param xfer_len 
-//! @param code 
-//! @param param 
+//! @brief
+//!
+//! @param ep_addr
+//! @param xfer_len
+//! @param code
+//! @param param
 //*****************************************************************************
 static void
 dcd_usb_ep_xfer_complete_callback(const uint8_t ep_addr,
@@ -129,7 +129,7 @@ dcd_usb_ep_xfer_complete_callback(const uint8_t ep_addr,
         case USB_XFER_DATA:
         case USB_XFER_UNSTALL:
         case USB_XFER_RESET:
-        case USB_XFER_ERROR:    
+        case USB_XFER_ERROR:
         default:
             if (xfer_len)
             {
@@ -143,17 +143,17 @@ dcd_usb_ep_xfer_complete_callback(const uint8_t ep_addr,
 #ifdef AM_USB_CHARGER_DETECT
 
 //*****************************************************************************
-//! @brief 
-//! 
-//! @details The hardware detects a voltage higher than 4V on the VBUS 
+//! @brief
+//!
+//! @details The hardware detects a voltage higher than 4V on the VBUS
 //! (USB power supply pin).
-//! The hardware should provide a mechanism to make sure the VBUS voltage 
+//! The hardware should provide a mechanism to make sure the VBUS voltage
 //! can be compared against 4.0V.
 //! This function is called only after the VBUS is more than 4.0V.
-//! For example, the VBUS may come as the output of a comparator 
+//! For example, the VBUS may come as the output of a comparator
 //! (via interrupt or polling)
 //!
-//! @return am_hal_usb_charger_type_e 
+//! @return am_hal_usb_charger_type_e
 //*****************************************************************************
 am_hal_usb_charger_type_e
 am_hal_usb_BC1_2_good_battery_detection(void)
@@ -284,10 +284,10 @@ am_hal_usb_BC1_2_good_battery_detection(void)
 }
 
 //*****************************************************************************
-//! @brief 
-//! 
-//! @param bValid 
-//! @return am_hal_usb_charger_type_e 
+//! @brief
+//!
+//! @param bValid
+//! @return am_hal_usb_charger_type_e
 //*****************************************************************************
 am_hal_usb_charger_type_e
 dcd_usb_vbus_session(bool bValid)
@@ -356,9 +356,9 @@ static am_hal_usb_charger_type_e dcd_usb_charger_type;
 // //*****************************************************************************
 // //
 // //! @brief setup and enable HFRC2 when usb mode is highspeed
-// //! 
+// //!
 // //! @param enable  true will enable HFCR2
-// //! @param enable  false will disable HFCR2 
+// //! @param enable  false will disable HFCR2
 // //
 // //*****************************************************************************
 // static uint32_t
@@ -474,7 +474,7 @@ dcd_init (uint8_t rhport)
 //     am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_HIGH;
 // #endif
 
-    // if (ui32hfcr2_status == AM_HAL_STATUS_SUCCESS) // NeuralSPOT TODO - this is a hack, enabling these lines kill RPC in some cases
+    // if (ui32hfcr2_status == AM_HAL_STATUS_SUCCESS) // neuralSPOT TODO - this is a hack, enabling these lines kill RPC in some cases
     // {
     //     am_hal_usb_set_dev_speed(pUSBHandle, eUsbSpeed);
     // }

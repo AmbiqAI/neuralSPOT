@@ -1,12 +1,12 @@
 /**
  * @file kws.cc
  * @author Ambiq
- * @brief Basic Keyword Spotting (KWS) using NeuralSPOT and MLCommons KWS model
+ * @brief Basic Keyword Spotting (KWS) using neuralSPOT and MLCommons KWS model
  * @version 0.1
  * @date 2025-06-23
- * 
- * @copyright Copyright (c) 2025 
- * 
+ *
+ * @copyright Copyright (c) 2025
+ *
  */
 
 // Comment this out to use AUDADC microphone (only supported on AP4 EVBs)
@@ -29,7 +29,7 @@
 #include "kws_model_settings.h"
 
 ////////////////////////////////////////////////
-// NeuralSPOT Headers
+// neuralSPOT Headers
 #include "ns_core.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
@@ -47,7 +47,7 @@
 #define SAMPLES_IN_FRAME 320
 #define SAMPLE_RATE 16000
 
-// MFCC 
+// MFCC
 #define MY_MFCC_FRAME_LEN_POW2 512 // Next power of two size after SAMPLES_IN_FRAME
 #define MY_MFCC_NUM_FBANK_BINS 40
 #define MY_MFCC_NUM_MFCC_COEFFS 10
@@ -113,9 +113,9 @@ alignas(32) int32_t static audioDataBuffer[SAMPLES_IN_FRAME];
 #endif
 
 alignas(32) uint32_t static dmaBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS * 2];   // DMA target
-    
+
 #ifndef USE_PDM_MICROPHONE
-alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used  // by AUDADC                                                                          
+alignas(32) am_hal_audadc_sample_t static workingBuffer[SAMPLES_IN_FRAME * NUM_CHANNELS]; // working buffer used  // by AUDADC
 #endif // USE_PDM_MICROPHONE
 
 #if !defined(NS_AMBIQSUITE_VERSION_R4_1_0) && defined(NS_AUDADC_PRESENT)
@@ -140,7 +140,7 @@ static void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollec
 }
 
 /**
- * @brief NeuralSPOT Audio config struct
+ * @brief neuralSPOT Audio config struct
  *
  * Populate this struct before calling ns_audio_config()
  *
@@ -191,7 +191,7 @@ typedef enum { WAITING_TO_RECORD, WAIT_FOR_FRAME, INFERING } myState_e;
 static void model_init(void);
 
 /**
- * @brief Main basic_tf_stub - infinite loop listening and inferring 
+ * @brief Main basic_tf_stub - infinite loop listening and inferring
  *
  * @return int
  */
@@ -205,12 +205,12 @@ int main(void) {
 
     myState_e state = WAITING_TO_RECORD;
 
-    // Tells callback if it should be recording audio 
+    // Tells callback if it should be recording audio
     audioRecording = false;
 
     // Pile of inits
     NS_TRY(ns_core_init(&ns_core_cfg), "Core init failed.\n");
-    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n"); 
+    NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     ns_itm_printf_enable();
     ns_interrupt_master_enable();
     ns_lp_printf("Core init successful.\n");
@@ -248,7 +248,7 @@ int main(void) {
                 // audioDataBuffer contains one frame of audio data
                 ns_mfcc_compute(&mfcc_config, audioDataBuffer, &mfcc_buffer[mfcc_buffer_head]);
                 recording_win--; // number of frames left to record before it is ready for inference
-                audioReady = false; // pause callback from recording more audio 
+                audioReady = false; // pause callback from recording more audio
                 ns_lp_printf(".");
             }
 

@@ -10,12 +10,12 @@ tags:
   - anomaly detection
 ---
 
-# NeuralSPOT now supports Opus Audio Encoding
-NeuralSPOT now support Opus audio encoding. With this feature, the size of audio data can be reduced by roughly 75% while maintaining good audio fidelity. This is useful for storing and moving audio data between an EVB and external devices, where it can be played and visualized.
+# neuralSPOT now supports Opus Audio Encoding
+neuralSPOT now support Opus audio encoding. With this feature, the size of audio data can be reduced by roughly 75% while maintaining good audio fidelity. This is useful for storing and moving audio data between an EVB and external devices, where it can be played and visualized.
 
-> ** NOTE**: AI models tend to work best with 'raw' (non-encoded) audio, so this feature is not really for AI. Instead, it is intended to ease the creation of applications that move or store audio. 
+> ** NOTE**: AI models tend to work best with 'raw' (non-encoded) audio, so this feature is not really for AI. Instead, it is intended to ease the creation of applications that move or store audio.
 
-To demonstrate how the Audio Codec works, we've added a new example, `audio_codec`, which uses the codec to sample audio and send it to a remote player, either via RPC-over-USB, or via BLE. 
+To demonstrate how the Audio Codec works, we've added a new example, `audio_codec`, which uses the codec to sample audio and send it to a remote player, either via RPC-over-USB, or via BLE.
 
 ## Audio over BLE
 

@@ -1,8 +1,8 @@
 # Deploying EdgeImpulse Models using neuralSPOT Nests
 
-NeuralSPOT Nests are a way to package its components in a self-contained software distribution. They include every static library and header file needed to get a neuralSPOT-based AI application compiled into a deployable binary. Nests are intended to be starting points for endpoint AI feature development, but often have to be modified to work other software packages, which typically have their own conventions, components, and libraries.
+neuralSPOT Nests are a way to package its components in a self-contained software distribution. They include every static library and header file needed to get a neuralSPOT-based AI application compiled into a deployable binary. Nests are intended to be starting points for endpoint AI feature development, but often have to be modified to work other software packages, which typically have their own conventions, components, and libraries.
 
-In this article, we walk through  how to use neuralSPOT Nests to deploy one such external software package (EdgeImpulse C++ models) onto Apollo4 Plus. 
+In this article, we walk through  how to use neuralSPOT Nests to deploy one such external software package (EdgeImpulse C++ models) onto Apollo4 Plus.
 
 ## EdgeImpulse C++ Models
 
@@ -33,7 +33,7 @@ Generally speaking, there are four things we need to do to get an EdgeImpulse C+
 
 ### Porting Hooks
 
-This is a very common task for embedded development. Unlike most target platforms, embedded software developers can't rely on standard implementations of common software features such as printing, allocating memory, and timers. This is typically addressed by having a 'port me' section of code. 
+This is a very common task for embedded development. Unlike most target platforms, embedded software developers can't rely on standard implementations of common software features such as printing, allocating memory, and timers. This is typically addressed by having a 'port me' section of code.
 
 EdgeImpulse's generic model requires that we implement the following functions:
 
@@ -49,7 +49,7 @@ void ei_free(void *ptr);
 
 Fortunately, neuralSPOT has implementations for all of these, so the porting effort is a simple matter - the implemented ported code is [here](https://github.com/AmbiqAI/neuralSPOT/tree/main/projects/edgeimpulse/src/ambiq) (and mirrored in the [examples repo](https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/src))
 
-> **NOTE** Embedded applications are often allergic to dynamic memory allocation because they may introduce non-deterministic delays that conflict with real-time behavior. NeuralSPOT's core functionality avoids dynamic memory allocation, but it does provide an implementation based on FreeRTOS's heap4 implementation, which is a good compromise between functionality and real-time behavior.
+> **NOTE** Embedded applications are often allergic to dynamic memory allocation because they may introduce non-deterministic delays that conflict with real-time behavior. neuralSPOT's core functionality avoids dynamic memory allocation, but it does provide an implementation based on FreeRTOS's heap4 implementation, which is a good compromise between functionality and real-time behavior.
 
 ### Compiling and Resolving Conflicts
 
@@ -73,7 +73,7 @@ Both EdgeImpulse and neuralSPOT include CMSIS and Tensorflow libraries. If you t
 
 The easiest way to do this is by modifying the Nest's `autogen.mk` file (which may cause confusion, so it might be a good idea to rename it after modifying it). Our modified and renamed file is [`ns_for_ei.mk`](https://github.com/AmbiqAI/edgeimpulse-examples/tree/main/make).
 
-An unmodified Nest `autogen.mk` file specifies the include path for the compilation step, and list of libraries to be linked in by the linker. 
+An unmodified Nest `autogen.mk` file specifies the include path for the compilation step, and list of libraries to be linked in by the linker.
 
 To resolve conflicts, we removed the includes for CMSIS and Tensorflow, bolded below.
 
@@ -81,13 +81,13 @@ To resolve conflicts, we removed the includes for CMSIS and Tensorflow, bolded b
 INCLUDES += neuralspot/ns-core/includes-api neuralspot/ns-harness/includes-api neuralspot/ns-peripherals/includes-api neuralspot/ns-ipc/includes-api neuralspot/ns-audio/includes-api neuralspot/ns-usb/includes-api neuralspot/ns-utils/includes-api neuralspot/ns-rpc/includes-api neuralspot/ns-i2c/includes-api extern/AmbiqSuite/R4.3.0/boards/apollo4p_evb/bsp extern/AmbiqSuite/R4.3.0/CMSIS/AmbiqMicro/Include
 extern/AmbiqSuite/R4.3.0/devices
 extern/AmbiqSuite/R4.3.0/mcu/apollo4p
-extern/AmbiqSuite/R4.3.0/mcu/apollo4p/hal/mcu 
+extern/AmbiqSuite/R4.3.0/mcu/apollo4p/hal/mcu
 extern/AmbiqSuite/R4.3.0/utils extern/AmbiqSuite/R4.3.0/third_party/FreeRTOSv10.1.1/Source/include extern/AmbiqSuite/R4.3.0/third_party/FreeRTOSv10.1.1/Source/portable/GCC/AMapollo4 extern/AmbiqSuite/R4.3.0/third_party/tinyusb/src extern/AmbiqSuite/R4.3.0/third_party/tinyusb/src/common extern/AmbiqSuite/R4.3.0/third_party/tinyusb/src/osal extern/AmbiqSuite/R4.3.0/third_party/tinyusb/src/class/cdc extern/AmbiqSuite/R4.3.0/third_party/tinyusb/src/device
 <b>extern/CMSIS/CMSIS_5-5.9.0/CMSIS/Core/Include
 extern/CMSIS/CMSIS_5-5.9.0/CMSIS/NN/Include
 extern/CMSIS/CMSIS_5-5.9.0/CMSIS/DSP/Include
 extern/CMSIS/CMSIS_5-5.9.0/CMSIS/DSP/PrivateInclude
-extern/tensorflow/0c46d6e/. 
+extern/tensorflow/0c46d6e/.
 extern/tensorflow/0c46d6e/third_party extern/tensorflow/0c46d6e/third_party/flatbuffers/include</b>
 extern/SEGGER_RTT/R7.70a/RTT extern/SEGGER_RTT/R7.70a/Config
 extern/erpc/R1.9.1/includes-api
@@ -186,7 +186,7 @@ The application loop is very simple, barely worth a state diagram.
 stateDiagram-v2
 	s1 : "Wait for Button"
 	s2 : "Infering"
-	
+
 [*] --> s1
 s1 --> s2
 s2 --> s2

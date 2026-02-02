@@ -1,7 +1,7 @@
 /**
  * @file ns-uart.h
  * @author Evan Chen
- * @brief API definition for NeuralSPOT UART
+ * @brief API definition for neuralSPOT UART
  * @version 0.1
  * @date 2024-11-13
  *
@@ -26,7 +26,7 @@ extern "C" {
 
     #define NS_UART_V0_0_1                                                                          \
         { .major = 0, .minor = 0, .revision = 1 }
-    #define NS_UART_API_ID 0xCA000B  
+    #define NS_UART_API_ID 0xCA000B
     #define UART_ID                            (0)
 
 extern const ns_core_api_t ns_uart_V0_0_1;
@@ -60,7 +60,7 @@ typedef struct
     const ns_core_api_t *                 api;                            ///< API prefix
     am_hal_uart_config_t *          uart_config;                    ///< UART Configuration
     ns_uart_rx_cb rx_cb;            ///< Callback for rx events
-    ns_uart_tx_cb tx_cb;            ///< Callback for tx events 
+    ns_uart_tx_cb tx_cb;            ///< Callback for tx events
     bool tx_blocking;
     bool rx_blocking;
 }

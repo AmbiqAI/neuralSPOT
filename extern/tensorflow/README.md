@@ -1,5 +1,5 @@
 # Tensorflow Lite for Microcontrollers
-NeuralSPOT support 3 versions of TFLM - as new versions are added, the oldest are deprecated (not necessarily deleted, just not tested).
+neuralSPOT support 3 versions of TFLM - as new versions are added, the oldest are deprecated (not necessarily deleted, just not tested).
 
 > *NOTE* TFLM doesn't label releases - instead, we're using the first 7 digits of the git checkin hash to identify TFLM versions.
 
@@ -54,7 +54,7 @@ There are two steps here:
 
 ## Resolve code changes
 TFLM occasionally breaks API and/or code structure compatibility. neuralSPOT `#defines` a macro to help delineate these changes to maintain backwards compatiblity (`NS_TF_VERSION_<new version>`).
-NeuralSPOT's makefiles also define `NS_TFSTRUCTURE_RECENT` to identify releases after the micro_reporter refactor (which changed directory structures and got rid of the 'all ops resolver'). Add the new version to where neuralspot_config.mk sets this define.
+neuralSPOT's makefiles also define `NS_TFSTRUCTURE_RECENT` to identify releases after the micro_reporter refactor (which changed directory structures and got rid of the 'all ops resolver'). Add the new version to where neuralspot_config.mk sets this define.
 
 # Compiling TFLM with Armclang on Windows WSL
 TFLM doesn't support compiling on Windows. Firstly, its scripts use Linux commands, so the 'make' has to be run in WSL. Make sure you clone the directory in WSL too, otherwise you'll get a bunch of ^M characters all over the place and nothing will run. WSL has a bunch of quirks that need to be worked around as well (binary names and CLI limits)

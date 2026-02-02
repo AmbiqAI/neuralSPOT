@@ -1,7 +1,7 @@
 /**
  * @file ns-usb.c
  * @author Carlos Morales
- * @brief NeuralSPOT USB Utilities
+ * @brief neuralSPOT USB Utilities
  *
  * @version 0.1
  * @date 2022-08-18
@@ -239,6 +239,6 @@ uint32_t ns_usb_send_data(usb_handle_t handle, void *buffer, uint32_t bufsize) {
     return bytes_tx;
 }
 
-ns_tusb_desc_webusb_url_t * ns_get_desc_url() { 
+ns_tusb_desc_webusb_url_t * ns_get_desc_url() {
     return usb_config.desc_url;
 }

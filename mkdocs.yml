@@ -1,7 +1,7 @@
-site_name: NeuralSPOT
+site_name: neuralSPOT
 site_dir: ./site
-docs_dir: ./neuralSPOT
-site_description: Ambiq NeuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
+docs_dir: ./neuralspot
+site_description: Ambiq neuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
 repo_name: AmbiqAI/neuralSPOT
 repo_url: https://github.com/AmbiqAI/neuralSPOT
 use_directory_urls: False
@@ -21,8 +21,8 @@ nav:
     - Build Guide: docs/makefile-details.md
     - Features: docs/features.md
   - Developers:
-    - Developing with NeuralSPOT: docs/Developing_with_NeuralSPOT.md
-    - Developing for NeuralSPOT: docs/developer_guide.md
+    - Developing with neuralSPOT: docs/Developing_with_NeuralSPOT.md
+    - Developing for neuralSPOT: docs/developer_guide.md
     - Nests: docs/NeuralSPOT_Nests.md
   - Tools:
     - Automatic Testing, profiling, and deploying: "docs/From TF to EVB - testing, profiling, and deploying AI models.md"
@@ -32,7 +32,7 @@ nav:
   - Application Notes:
     - neuralSPOT on Windows: docs/Application-Note-neuralSPOT-and-Windows.md
     - neuralSPOT on Linux: docs/NeuralSPOT_RPC_and_AutoDeploy_on_Linux.md
-    - Optimizing Using NeuralSPOT: docs/optimizing_using_neuralspot.md
+    - Optimizing Using neuralSPOT: docs/optimizing_using_neuralspot.md
     - Release Notes: docs/release_notes.md
     - Developer Notes: docs/developer_notes.md
     - Edge Impulse Support: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
@@ -155,77 +155,77 @@ plugins:
       full-doc: True
       projects:
         ns-audio:
-          src-dirs: neuralSPOT/neuralspot/ns-audio
+          src-dirs: neuralspot/neuralspot/ns-audio
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-ble:
-          src-dirs: neuralSPOT/neuralspot/ns-ble
+          src-dirs: neuralspot/neuralspot/ns-ble
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-i2c:
-          src-dirs: neuralSPOT/neuralspot/ns-i2c
+          src-dirs: neuralspot/neuralspot/ns-i2c
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-spi:
-          src-dirs: neuralSPOT/neuralspot/ns-spi
+          src-dirs: neuralspot/neuralspot/ns-spi
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-power:
-          src-dirs: neuralSPOT/neuralspot/ns-peripherals
+          src-dirs: neuralspot/neuralspot/ns-peripherals
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-core:
-          src-dirs: neuralSPOT/neuralspot/ns-core
+          src-dirs: neuralspot/neuralspot/ns-core
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-rpc:
-          src-dirs: neuralSPOT/neuralspot/ns-rpc
+          src-dirs: neuralspot/neuralspot/ns-rpc
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-utils:
-          src-dirs: neuralSPOT/neuralspot/ns-utils
+          src-dirs: neuralspot/neuralspot/ns-utils
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-harness:
-          src-dirs: neuralSPOT/neuralspot/ns-harness
+          src-dirs: neuralspot/neuralspot/ns-harness
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-model:
-          src-dirs: neuralSPOT/neuralspot/ns-model
+          src-dirs: neuralspot/neuralspot/ns-model
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"
             RECURSIVE: True
             EXTRACT_ALL: No
         ns-camera:
-          src-dirs: neuralSPOT/neuralspot/ns-camera
+          src-dirs: neuralspot/neuralspot/ns-camera
           full-doc: True
           doxy-cfg:
             FILE_PATTERNS: "*.h *.c *.cc"

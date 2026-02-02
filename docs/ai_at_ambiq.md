@@ -4,7 +4,7 @@
 
 Ambiq's [ultra low power, high-performance](https://github.com/AmbiqAI/MLPerfTiny/blob/main/docs/benchmark_results.md) platforms are ideal for implementing this class of AI features, and we at Ambiq are dedicated to making implementation as easy as possible by offering developer-centric solutions for every stage of AI development.
 
-![devcycle](/Users/carlosmorales/AmbiqDev/neuralSPOT/docs/images/devcycle.png)
+![devcycle](./images/devcycle.png)
 
 ## Develop Edge AI Faster with Ambiq
 

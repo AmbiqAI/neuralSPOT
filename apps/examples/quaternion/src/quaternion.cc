@@ -1,7 +1,7 @@
 /**
  * @file quaternion.cc
  * @author Evan Chen
- * @brief Quaternion visualization using NeuralSPOT with ICM IMU
+ * @brief Quaternion visualization using neuralSPOT with ICM IMU
  * @version 0.3
  * @date 2025-06-09
  *
@@ -13,7 +13,7 @@
 // #include <cstdlib>
 // #include <cstring>
 
-// NeuralSPOT Includes
+// neuralSPOT Includes
 #include "ns_peripherals_power.h"
 #include "ns_peripherals_button.h"
 
@@ -117,7 +117,7 @@ int main(void) {
     // Mahony filter init
     mahony_cfg.api = &ns_mahony_V0_0_1;
     NS_TRY(ns_mahony_init(&mahony_cfg), "Mahony init failed.\n");
-    
+
     // Initialize Generic RPC Client
     ns_rpc_config_t rpcCfg = {
         .api = &ns_rpc_gdo_V1_0_0,
@@ -151,7 +151,7 @@ int main(void) {
 
     ns_lp_printf("Please avoid moving sensor until calibration is finished (up to 20s).\n");
     ns_lp_printf("Start PC-server application, then press Button 0 to begin calibration\n");
-    
+
     // Wait for button press to start calibration
     while (buttonPressed == 0) {
         ns_deep_sleep();

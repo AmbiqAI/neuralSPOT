@@ -14,7 +14,7 @@ The code is structured to break out how these features are initialized and used 
 
 See our [walkthrough](../../docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md) for more details.
 
->*NOTE* This example is used as the seed for a NeuralSPOT Deployment Nest - it includes all the NeuralSpot libraries and is based on TF.
+>*NOTE* This example is used as the seed for a neuralSPOT Deployment Nest - it includes all the NeuralSpot libraries and is based on TF.
 
 # Building and Running the Example
 This is the primary neuralSPOT example, so the makefile defaults many of its options to it.
@@ -43,7 +43,7 @@ You'll need to install some Python-based PC-side software, following the [instru
 > *NOTE* for Windows, see our [Windows eRPC application note](../../docs/Application-Note-neuralSPOT-and-Windows.md)
 
 ## Capturing Data
-1. Compile and flash the NeuralSPOT basic_tf_hub example as described above. *NOTE* RPC must be enabled at compile time (look for `// #define RPC_ENABLED` in `basic_tf_stub.cc` and uncomment it).
+1. Compile and flash the neuralSPOT basic_tf_hub example as described above. *NOTE* RPC must be enabled at compile time (look for `// #define RPC_ENABLED` in `basic_tf_stub.cc` and uncomment it).
 2. Connect the second USB cable to your PC - you'll now have 2 USB connections between the EVB and the laptop.
     1. Monitor the EVB SWO printout - you should see `Start the PC-side server, then press Button 0 to get started`.
     2. The second connection will mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on PC it'll be `COMx` or similar.

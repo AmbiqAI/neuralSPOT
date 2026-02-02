@@ -3,10 +3,10 @@
 ### 11-04-22 - CM
 #### Printing and low power
 A note about printf and low power: printing over ITM impacts low power in two
-ways: 
+ways:
 
-1. enabling ITM prevents SoC from entering deep sleep, and 
-2. ITM initialization requires crypto to be enabled. 
+1. enabling ITM prevents SoC from entering deep sleep, and
+2. ITM initialization requires crypto to be enabled.
 
 While ITM printing isn't something a deployed application would enable, NS does the
 following to mitigate power usage during ITM:
@@ -34,7 +34,7 @@ This is a new neuralspot library (which isn't actually a library) that collects 
 > will be linked into NS binaries.
 
 ### 12-15-2022 - CM
-NeuralSPOT is moving to version 1.0.0. As we exit Version Zero, we'll start being more formal about code changes and release schedules:
+neuralSPOT is moving to version 1.0.0. As we exit Version Zero, we'll start being more formal about code changes and release schedules:
 
 * API compatibility will be maintained across major releases
 * Bug fixes and transparent code updates will be tracked via minor and revision version updates
@@ -45,7 +45,7 @@ Select APIs will be version checked: when calling Init() for that API, a version
 
 ### 10-9-2023 - CM
 #### Armclang
-NeuralSPOT now features experimental support for Arm's proprietary Armclang compilation toolchain. All examples have been tested and shown to work, but some larger RPC transactions are failing (mostly impacting large-tensor autodeploy operations). Performance improves for some TFLM models, but degrades for others.
+neuralSPOT now features experimental support for Arm's proprietary Armclang compilation toolchain. All examples have been tested and shown to work, but some larger RPC transactions are failing (mostly impacting large-tensor autodeploy operations). Performance improves for some TFLM models, but degrades for others.
 
 ### GCC 13.x
-NeuralSPOT now features experimental support for GCC 13. To use this feature, install GCC 13 and add `GCC13_EXPERIMENTAL=1` the make command.
+neuralSPOT now features experimental support for GCC 13. To use this feature, install GCC 13 and add `GCC13_EXPERIMENTAL=1` the make command.

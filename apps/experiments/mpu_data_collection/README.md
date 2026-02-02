@@ -11,7 +11,7 @@ You'll need to install some Python-based PC-side software, following the [instru
 You'll also need to connect the sensor (an MPU6050) to the EVB ([instructions here](../../neuralspot/ns-i2c/README.md)).
 
 ## Capturing Data
-1. Compile and flash the NeuralSPOT mpu_data_collection example
+1. Compile and flash the neuralSPOT mpu_data_collection example
 2. Connect the second USB cable to your laptop - you'll now have 2 USB connections between the EVB and the laptop
     1. Monitor the EVB SWO printout - you should see "Press Button 0 to begin calibration"
     2. The second connection will mount as a USB TTY device. On a Mac, it'll look something like `/dev/tty.usbmodem1234561`, on PC it'll be `COMx` or similar.

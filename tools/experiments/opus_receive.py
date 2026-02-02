@@ -78,7 +78,7 @@ def printDataBlock(block):
 
 if __name__ == "__main__":
     # parse cmd parameters
-    argParser = argparse.ArgumentParser(description="NeuralSPOT GenericData RPC Demo")
+    argParser = argparse.ArgumentParser(description="neuralSPOT GenericData RPC Demo")
 
     argParser.add_argument(
         "-t",

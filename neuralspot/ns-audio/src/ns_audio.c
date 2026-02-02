@@ -2,7 +2,7 @@
  *
  *  @file ns_audio.c
  *
- *  @brief Implementation of the NeuralSPOT ns-audio API
+ *  @brief Implementation of the neuralSPOT ns-audio API
  *
  *  Purpose: A single point of entry for capturing Ambiq Audio
  *
@@ -90,7 +90,7 @@ uint32_t ns_audio_init(ns_audio_config_t *cfg) {
     if (sizeof(*(cfg->sampleBuffer)) > cfg->numSamples * 2) {
         return NS_STATUS_INVALID_CONFIG;
     }
-    
+
     if ((cfg->numChannels > 2) || ((cfg->sampleRate  != 8000) && cfg->sampleRate != 16000)) {
         return NS_STATUS_INVALID_CONFIG;
     }
@@ -187,7 +187,7 @@ uint32_t ns_start_audio(ns_audio_config_t *cfg) {
 #else
         return NS_STATUS_INIT_FAILED;
 #endif
-    } 
+    }
     else {
         if (g_ns_audio_config->pdm_config == NULL) {
             g_ns_audio_config->pdm_config = &ns_pdm_default;
@@ -304,7 +304,7 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
 #else
         ns_lp_printf("Error - Trying to set gain on non-existent AUDADC\n");
         return NS_STATUS_FAILURE;
-#endif    
+#endif
     }
     else if (g_ns_audio_config->eAudioSource == NS_AUDIO_SOURCE_PDM) {
         #if defined (AM_PART_APOLLO3P) || (AM_PART_APOLLO3)
@@ -313,7 +313,7 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
         #else
         bool left_gain_valid = (left_gain >= AM_HAL_PDM_GAIN_M120DB && left_gain <= AM_HAL_PDM_GAIN_P345DB);
         bool right_gain_valid = (right_gain >= AM_HAL_PDM_GAIN_M120DB && right_gain <= AM_HAL_PDM_GAIN_P345DB);
-        #endif      
+        #endif
         // check if gain values are valid
         if(left_gain_valid && right_gain_valid) {
             if (g_ns_audio_config->pdm_config == NULL) {
@@ -332,4 +332,3 @@ uint32_t ns_audio_set_gain(int left_gain, int right_gain) {
     }
     return NS_STATUS_SUCCESS;
 }
-

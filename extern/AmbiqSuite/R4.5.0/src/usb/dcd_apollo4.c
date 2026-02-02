@@ -492,7 +492,7 @@ dcd_init(uint8_t rhport)
 //     am_hal_usb_dev_speed_e eUsbSpeed = AM_HAL_USB_SPEED_HIGH;
 // #endif
 
-    // if (ui32hfrc2_status == AM_HAL_STATUS_SUCCESS) // NeuralSPOT TODO - this is a hack, enabling these lines kill RPC in some cases
+    // if (ui32hfrc2_status == AM_HAL_STATUS_SUCCESS) // neuralSPOT TODO - this is a hack, enabling these lines kill RPC in some cases
     // {
     //     am_hal_usb_set_dev_speed(pUSBHandle, eUsbSpeed);
     // }
@@ -939,5 +939,3 @@ dcd_disconnect(uint8_t rhport)
 }
 
 #endif // TUSB_OPT_DEVICE_ENABLED && CFG_TUSB_MCU == OPT_MCU_APOLLO4
-
-

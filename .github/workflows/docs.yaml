@@ -57,6 +57,7 @@ jobs:
         run: |
           uv sync --project neuralspot --only-group docs
           cp neuralspot/mkdocs.yml .
+          cp neuralspot/docs/index.md neuralspot/index.md
           uv run --project neuralspot mkdocs build -f mkdocs.yml
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

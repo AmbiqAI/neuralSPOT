@@ -769,9 +769,9 @@ class AutoDeployRunner:
                     break
                 root = root.parent
             else:
-                log.error("NeuralSPOT root directory not found. Please specify a valid path.")
+                log.error("neuralSPOT root directory not found. Please specify a valid path.")
                 raise SystemExit("Autodeploy failed")
-            print(f"[NS] NeuralSPOT root directory found at {self.p.neuralspot_rootdir}")
+            print(f"[NS] neuralSPOT root directory found at {self.p.neuralspot_rootdir}")
 
         # --- Destination directory ---------------------------------------
         if self.p.destination_rootdir == "auto":

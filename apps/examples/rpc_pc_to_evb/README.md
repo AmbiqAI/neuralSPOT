@@ -58,7 +58,7 @@ shows up as a device, and that doesn't happen until we start servicing TinyUSB, 
 
 To address this, rpc-client loop swaiting for a button press, servicing USB. This gives the user a chance to start the server then pressing the button to let the EVB it is ready to start RPCing.
 
-1. Compile and flash the NeuralSPOT rpc-server example
+1. Compile and flash the neuralSPOT rpc-server example
 2. Connect the second USB cable to your laptop - you'll now have 2 USB connections between the EVB and the laptop
 3. Run the rpc-server EVB code as described above
 4. Monitor the EVB SWO printout - you should see "Start the PC-side client, then press Button 0 to get started"

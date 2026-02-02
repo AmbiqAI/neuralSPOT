@@ -11,7 +11,7 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 #include <math.h>
 
 #include "ns_spi.h"
-/// NeuralSPOT Includes
+/// neuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_imu.h"
@@ -63,7 +63,7 @@ int main(void) {
     NS_TRY(ns_power_config(&ns_development_default), "Power Init Failed.\n");
     NS_TRY(ns_set_performance_mode(NS_MINIMUM_PERF), "Set CPU Perf mode failed.");
     ns_itm_printf_enable();
-    ns_lp_printf("Ready to test IMC\n"); 
+    ns_lp_printf("Ready to test IMC\n");
     NS_TRY(ns_imu_configure(&imu_cfg), "IMU Init Failed.\n");
     ns_lp_printf("IMU Init Success\n");
 
@@ -71,5 +71,5 @@ int main(void) {
     while (1) {
         ns_deep_sleep();
     }
-    
+
 }

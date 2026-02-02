@@ -1,20 +1,20 @@
-# NeuralSPOT Developer's Guide
+# neuralSPOT Developer's Guide
 
-This document covers various guidelines for creating and modifying NeuralSPOT's various types of components. Its intended audience are NeuralSPOT developers and contributors.
+This document covers various guidelines for creating and modifying neuralSPOT's various types of components. Its intended audience are neuralSPOT developers and contributors.
 
 ## FAQs
 
 ##### Where is main()?
 
-NeuralSPOT [examples]() each contain a `main()`, and each example produces a different binary (AXF and BIN files).
+neuralSPOT [examples]() each contain a `main()`, and each example produces a different binary (AXF and BIN files).
 
 ##### Where are the linker script and reset handlers?
-NeuralSPOT's platform-specific linker scripts and startup code are located in [neuralspot/ns-core/src/gcc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/gcc) for the GCC toolchain and [neuralspot/ns-core/src/armclang](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/armclang) for the armclang toolchain.
+neuralSPOT's platform-specific linker scripts and startup code are located in [neuralspot/ns-core/src/gcc](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/gcc) for the GCC toolchain and [neuralspot/ns-core/src/armclang](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-core/src/armclang) for the armclang toolchain.
 
 
 ##### How do the makefiles work?
 
-This is documented within the [main makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile). 
+This is documented within the [main makefile](https://github.com/AmbiqAI/neuralSPOT/blob/main/Makefile).
 
 ##### Where are compilation artifacts store?
 
@@ -22,19 +22,19 @@ By default, compilation artifacts are placed in `build\...` and mirror the locat
 
 ---
 
-## Adding and Updating Components to NeuralSPOT
+## Adding and Updating Components to neuralSPOT
 
-This section describes the process and structure for adding components to NeuralSPOT. Types of NeuralSPOT components include:
+This section describes the process and structure for adding components to neuralSPOT. Types of neuralSPOT components include:
 
-1. NeuralSPOT Libraries
-2. NeuralSPOT Examples
+1. neuralSPOT Libraries
+2. neuralSPOT Examples
 4. External Components
 1. Documentation
 5. RPC Interfaces
 
-### Adding NeuralSPOT Library Components
+### Adding neuralSPOT Library Components
 
-NeuralSPOT Libraries are small, task-specific components. They're located in `./neuralspot`, and are generally organized by function. For example, current components include ns-audio, ns-ipc, ns-i2c, ns-rpc, and so on. Some libraries are collections of very simple functions - ns_peripherals includes both ns-power and ns-button, components which are too simple to warrant their on libraries.
+neuralSPOT Libraries are small, task-specific components. They're located in `./neuralspot`, and are generally organized by function. For example, current components include ns-audio, ns-ipc, ns-i2c, ns-rpc, and so on. Some libraries are collections of very simple functions - ns_peripherals includes both ns-power and ns-button, components which are too simple to warrant their on libraries.
 
 Each library compiles to a static lib (e.g. `ns-audio.a`), and has a defined API (e.g. `ns-audio.h`). When linking, only code which is invoked is actually linked into the binary.
 
@@ -122,11 +122,11 @@ main()
 #endif
 ```
 
-### Adding NeuralSPOT Examples
+### Adding neuralSPOT Examples
 
-NeuralSPOT Examples are pared-down examples showcasing NeuralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.
+neuralSPOT Examples are pared-down examples showcasing neuralSPOT functionality. They contain the application's main() function which typically initializes everthing and then executes the application loop.
 
-For every Example, NeuralSPOT will compile all the binary artifacts needed to load the application onto an EVB (specifically, AXF and BIN images). These artifacts are stored in the example's temporary build directory (e.g. `build\examples\har`).
+For every Example, neuralSPOT will compile all the binary artifacts needed to load the application onto an EVB (specifically, AXF and BIN images). These artifacts are stored in the example's temporary build directory (e.g. `build\examples\har`).
 
 >  **Note** The name of the artifacts are derived from the example's `module.mk`,  not the directory it resides in.
 
@@ -160,15 +160,15 @@ $(eval $(call make-axf, $(local_bin)/$(local_app_name), $(local_src)))
 ```
 
 ### Adding External Components
-External components are any component that may be needed by NeuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, CMSIS, and Embedded RPC.
+External components are any component that may be needed by neuralSPOT, but aren't a part of it. External components include things like AmbiqSuite, Tensorflow Lite for Microcontrollers, CMSIS, and Embedded RPC.
 
-The structure of an external component included in NeuralSPOT depends on the component - for example, `extern/AmbiqSuite` doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.
+The structure of an external component included in neuralSPOT depends on the component - for example, `extern/AmbiqSuite` doesn't include all of the SDK, instead including only the necessary header files, static libraries, and bare minimum of source files needed to compile.
 
-NeuralSPOT supports multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in `make/neuralspot_config.mk`.
+neuralSPOT supports multiple versions of external components. These are stored in different subdirectories under the external component directory, and are selected by makefile flags in `make/neuralspot_config.mk`.
 
 #### External Component Structure
 
-Generally, the structure of an external component within NeuralSPOT is:
+Generally, the structure of an external component within neuralSPOT is:
 ```bash
 .../extern/
 	<componentName>/
@@ -187,7 +187,7 @@ Because external components don't all have the same structure, the module.mk is 
 
 #### External Component Module Definition
 
-Here is a simple example which adds tensorflow to NeuralSPOT:
+Here is a simple example which adds tensorflow to neuralSPOT:
 ```make
 includes_api += $(subdirectory)/tensorflow
 includes_api += $(subdirectory)/third_party
@@ -239,15 +239,15 @@ $(eval $(call make-library, $(local_bin)/ambiqsuite.a, $(local_src)))
 ```
 
 ### Adding and Updating Documentation
-NeuralSPOT's documentation in automatically generated from the repository using Mkdocs. Because of where our markdown docs are located, we had to locate the mkdocs definition file outside of the repository (mkdocs expects all markdown to reside in a subdirectory which is not where mkdown.yml lives, and does not support `..\` relative paths). This means we cannot use the Github deployment
+neuralSPOT's documentation in automatically generated from the repository using Mkdocs. Because of where our markdown docs are located, we had to locate the mkdocs definition file outside of the repository (mkdocs expects all markdown to reside in a subdirectory which is not where mkdown.yml lives, and does not support `..\` relative paths). This means we cannot use the Github deployment
 command (`mkdocs gh-deploy`), and have to do so manually:
 
 ```bash
 pip install mkdocs mkdocs-material mkdocs-glightbox mkdoxy
 cd ..
-cp neuralSPOT/mkdocs.yml .
+cp neuralspot/mkdocs.yml .
 mkdocs build
-cd neuralSPOT
+cd neuralspot
 git checkout gh-pages
 cp -R ../site .
 git add .
@@ -258,18 +258,18 @@ git push origin gh-pages
 ### Adding RPC Interfaces
 > **LIMITATIONS** ns-rpc only works as client or server, exclusively.
 
-RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:
+RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in neuralSPOT's case, on another computer entirely). Adding an RPC interface is a fairly complex process involving:
 
 1. Defining the interface using an IDL (interface definition language)
 2. Processing that definition to generate server and client code.
 3. Copying the generated client code to neuralSPOT, generally as a new neuralspot library
 4. Implementing the server code that will respond to the client.
 
-NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference), is outside the scope of this document. 
+neuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference), is outside the scope of this document.
 
 #### RPC Structure
 
-RPC in NeuralSPOT is structured as follows:
+RPC in neuralSPOT is structured as follows:
 
 1. The relevant parts of eRPC's infrastructure reside in [`extern/erpc`](https://github.com/AmbiqAI/neuralSPOT/tree/main/extern/erpc)
 2. Interface library implementations reside in [`neuralspot/ns-rpc`](https://github.com/AmbiqAI/neuralSPOT/tree/main/neuralspot/ns-rpc)
@@ -288,15 +288,15 @@ ns-rpc/
 
 #### Creating a New Interface
 
-As briefly described above, creating a new interface involves multiple steps, some of which generate CPP and Python code that need to be wrapped usefully for integration with NeuralSPOT. 
+As briefly described above, creating a new interface involves multiple steps, some of which generate CPP and Python code that need to be wrapped usefully for integration with neuralSPOT.
 
 ##### Step 1 - Defining the Interface
 
-eRPC definitions start from an ERPC file which is written in an IDL (defined [here](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference)). eRPC doesn't have a lot of good examples in the wild, so we recommend you start from an existing definition such as [`GenericDataOperations.erpc`](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/interfaces/GenericDataOperations.erpc). 
+eRPC definitions start from an ERPC file which is written in an IDL (defined [here](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference)). eRPC doesn't have a lot of good examples in the wild, so we recommend you start from an existing definition such as [`GenericDataOperations.erpc`](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/interfaces/GenericDataOperations.erpc).
 
 ##### Step 2 - Generating the code
 
-eRPC can generate both C and Python client and server code (of course, the Python code is only for use on the PC). You only have to generate Python if you plan on implementing Python-based PC applications. Currently, NeuralSPOT only includes Python PC examples.
+eRPC can generate both C and Python client and server code (of course, the Python code is only for use on the PC). You only have to generate Python if you plan on implementing Python-based PC applications. Currently, neuralSPOT only includes Python PC examples.
 
 ```bash
 $> cd neuralspot/ns-rpc
@@ -320,9 +320,9 @@ See the GenericDataOperations [wrapper](https://github.com/AmbiqAI/neuralSPOT/bl
 
 ##### Step 4 - Write a PC-side RPC application
 
-Your new interface will need a PC-side application (server or client, depending on your needs). NeuralSPOT includes [an example PC side application](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py) that can be configured as either a server or client. The code is fairly self-explanatory. 
+Your new interface will need a PC-side application (server or client, depending on your needs). neuralSPOT includes [an example PC side application](https://github.com/AmbiqAI/neuralSPOT/blob/main/neuralspot/ns-rpc/python/ns-rpc-genericdata/generic_data.py) that can be configured as either a server or client. The code is fairly self-explanatory.
 
-> **Note** that the eRPC Python implementation is not well documented or tested. NeuralSPOT's GenericDataOperation RPC interface has been tested to work well after fixing a few bugs in our eRPC fork, but other types of interfaces have not be stressed.
+> **Note** that the eRPC Python implementation is not well documented or tested. neuralSPOT's GenericDataOperation RPC interface has been tested to work well after fixing a few bugs in our eRPC fork, but other types of interfaces have not be stressed.
 
 #### Modifying an Existing Interface
 

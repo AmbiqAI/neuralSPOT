@@ -4,9 +4,9 @@
  * @brief Demonstrates the use of PMU for performance profiling
  * @version 0.1
  * @date 2025-06-25
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 
 #if !defined(AM_PART_APOLLO5B) && !defined(AM_PART_APOLLO510B)
@@ -14,7 +14,7 @@
 #endif
 
 ////////////////////////////////////////////////
-// NeuralSPOT Headers
+// neuralSPOT Headers
 #include "ns_core.h"
 #include "ns_ambiqsuite_harness.h"
 #include "ns_audio.h"
@@ -113,7 +113,7 @@ alignas(16) int16_t static sinWave[320];
 float mfcc_buffer[NUM_FRAMES * MY_MFCC_NUM_MFCC_COEFFS];
 
 ////////////////////////////////////////////////
-// function to be prototyped 
+// function to be prototyped
 // (MFCC over 49 frames of synthetic audio)
 int func_to_be_profiled() {
     // for (int i = 0; i < NUM_FRAMES; i++) {
@@ -150,7 +150,7 @@ int main(void) {
     ns_pmu_event_create(&pmu_config.events[0], NS_PROFILER_PMU_EVENT_0, NS_PMU_EVENT_COUNTER_SIZE_32);
     ns_pmu_event_create(&pmu_config.events[1], NS_PROFILER_PMU_EVENT_1, NS_PMU_EVENT_COUNTER_SIZE_32);
     ns_pmu_event_create(&pmu_config.events[2], NS_PROFILER_PMU_EVENT_2, NS_PMU_EVENT_COUNTER_SIZE_32);
-    ns_pmu_event_create(&pmu_config.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);   
+    ns_pmu_event_create(&pmu_config.events[3], NS_PROFILER_PMU_EVENT_3, NS_PMU_EVENT_COUNTER_SIZE_32);
     ns_pmu_init(&pmu_config); // PMU config passed to model init, which passes it to debugLogInit
 
     // Generate a 400hz sin wave (dummy data for MFCC)
@@ -181,6 +181,6 @@ int main(void) {
     // This function prints results as it goes
     ns_pmu_characterize_function(func_to_be_profiled, &pmu_config);
 
-    while(1);                
+    while(1);
 
 };

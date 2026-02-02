@@ -28,7 +28,7 @@ $> ns_autodeploy --tflite-filename ../model_perf_tests/models/kws/kws_ref_model_
 This will produce output similar to:
 
 ```bash
-[NS] NeuralSPOT root directory found at .../neuralSPOT
+[NS] neuralSPOT root directory found at .../neuralSPOT
 [NS] Destination Root Directory automatically set to: .../neuralSPOT/projects/autodeploy
 [NS] Model Name automatically set to: kws_ref_model_aligned
 [NS] Running 3 Stage Autodeploy for Platform: apollo510_evb

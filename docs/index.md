@@ -1,6 +1,9 @@
-<p align="center">
+<!-- <p align="center">
   <a href="https://github.com/AmbiqAI/neuralSPOT"><img src="images/banner.png" alt="neuralSPOT"></a>
-</p>
+</p> -->
+
+[![](./images/neuralspot-banner.png#only-light)](https://amiqai.github.io/neuralSPOT)
+[![](./images/neuralspot-banner-dark.png#only-dark)](https://amiqai.github.io/neuralSPOT)
 
 ---
 
@@ -10,16 +13,16 @@
 
 ---
 
-NeuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo family of ultra-low-power SoCs. It is open-source, real-time, and OS-agnostic. It was designed with Tensorflow Lite for Microcontrollers in mind, but works with any AI runtime.
+neuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo family of ultra-low-power SoCs. It is open-source, real-time, and OS-agnostic. It was designed with Tensorflow Lite for Microcontrollers in mind, but works with any AI runtime.
 
-NeuralSPOT is designed to help embedded AI developers in 3 important ways:
+neuralSPOT is designed to help embedded AI developers in 3 important ways:
 
 1. **Initial development and fine-tuning of their AI model**: neuralSPOT offers tools to rapidly [characterize the performance and size](From%20TF%20to%20EVB%20-%20testing,%20profiling,%20and%20deploying%20AI%20models.md) of a TFLite model on Ambiq processors.
 2. **Rapid AI feature prototyping**: neuralSPOT's library of easy to use drivers, feature extractors, helper functions, and communication mechanisms accelerate the development of stand-alone AI feature applications to test the model in real-world situations with real-world data and latencies.
 3. **AI model library export**: once an AI model has been developed and refined via prototyping, neuralSPOT allows one-click deployment of a static library implementing the AI model, suitable to linking into larger embedded applications.
 
 
-NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
+neuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstraction layer) to ease common tasks such as sensing, computing features from the sensor data, performance profiling, and controlling Ambiq's many on-board peripherals.
 
 <p align="center">
 <img src="images/hard-stuff.png" alt="neuralspot helps with the hard stuff" style="width:75%;" align=center />
@@ -41,9 +44,9 @@ NeuralSPOT wraps an AI-centric API around AmbiqSuite SDK (Ambiq's hardware abstr
     * [GNU Make](https://www.gnu.org/software/make/)
     * [Python 3.11+](https://www.python.org)
 
-## Building and Deploying NeuralSPOT
+## Building and Deploying neuralSPOT
 
-NeuralSPOT makes it easy to build and deploy your first AI model on Ambiq's EVBs. Before deploying, connect an Ambiq EVB (the following example defaults to Apollo4 Plus).
+neuralSPOT makes it easy to build and deploy your first AI model on Ambiq's EVBs. Before deploying, connect an Ambiq EVB (the following example defaults to Apollo4 Plus).
 
 ```bash
 git clone git@github.com:AmbiqAI/neuralSPOT.git
@@ -60,7 +63,7 @@ See our [Windows application note](https://github.com/AmbiqAI/neuralSPOT/blob/ma
 
 ## Automatic Model Characterization and Packaging
 
-NeuralSPOT includes tools to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).
+neuralSPOT includes tools to automatically analyze, build, characterize, and package TFLite models. Autodeploy makes use of RPC, so it needs both USB ports to be connected (one for Jlink and one for RPC).
 
 Two caveats:
 
@@ -84,8 +87,8 @@ This one invocation will:
 
 Autodeploy is highly configurable and also **capable of automatically measuring the power** used by inference (if a joulescope is available) - see the [reference guide](https://github.com/AmbiqAI/neuralSPOT/blob/main/tools/README.md) and [application note](https://github.com/AmbiqAI/neuralSPOT/blob/main/docs/From%20TF%20to%20EVB%20-%20testing%2C%20profiling%2C%20and%20deploying%20AI%20models.md) for more details.
 
-## NeuralSPOT Structure and Directories
-NeuralSPOT consists of the neuralspot libraries, required external components, tools, and examples.
+## neuralSPOT Structure and Directories
+neuralSPOT consists of the neuralspot libraries, required external components, tools, and examples.
 
 <p align="center">
 <img src="images/image-20230727151002947.png" alt="layer diagram" style="width:75%;" />
@@ -93,7 +96,7 @@ NeuralSPOT consists of the neuralspot libraries, required external components, t
 The directory structure reflects the code structure:
 
 ```
-/neuralspot - contains all code for NeuralSPOT libraries
+/neuralspot - contains all code for neuralSPOT libraries
 	/neuralspot # neuralSPOT's libraries
 	/extern     # External dependencies, including TF and AmbiqSuite
 	/examples   # Example applications, each of which can be compiled to a deployable binary

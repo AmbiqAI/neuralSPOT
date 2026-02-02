@@ -66,7 +66,7 @@ typedef struct ns_timer_config {
 } ns_timer_config_t;
 
 /**
- * @brief Initialize one of 3 timers supported by NeuralSPOT
+ * @brief Initialize one of 3 timers supported by neuralSPOT
  *
  * NS_TIMER_COUNTER     Intended use is reading timerticks
  * NS_TIMER_INTERRUPT   Calls a callback periodically

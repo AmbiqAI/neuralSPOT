@@ -1,7 +1,7 @@
 /**
  * @file ns_audio.h
  * @author Carlos Morales
- * @brief API Definition for NeuralSPOT Audio library
+ * @brief API Definition for neuralSPOT Audio library
  * @version 0.1
  * @date 2022-08-12
  *
@@ -146,7 +146,7 @@ struct ns_audio_cfg;
 /// Invoked by IRQ when audio buffer is ready
 typedef void (*ns_audio_callback_cb)(struct ns_audio_cfg *, uint16_t);
 
-/// NeuralSPOT Audio API Configuration Struct
+/// neuralSPOT Audio API Configuration Struct
 ///
 /// Audio configuration is via this struct, which also serves
 /// as a handle after ns_audio_init() has been invoked
@@ -197,7 +197,7 @@ typedef struct ns_audio_cfg {
 extern ns_audio_config_t *g_ns_audio_config;
 
 /**
- * @brief Initialize NeuralSPOT audio capture library
+ * @brief Initialize neuralSPOT audio capture library
  *
  * @param cfg : desired configuration
  */

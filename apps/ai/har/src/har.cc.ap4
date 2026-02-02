@@ -1,7 +1,7 @@
 /**
  @file har.cc
 
- @brief Human Activity Recognition using NeuralSPOT
+ @brief Human Activity Recognition using neuralSPOT
 
  HAR is a model trained using the scripts found here:
 https://github.com/AmbiqAI/Human-Activity-Recognition
@@ -15,7 +15,7 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 #include "har_model.h"
 #include "har_peripherals.h"
 
-/// NeuralSPOT Includes
+/// neuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_energy_monitor.h"

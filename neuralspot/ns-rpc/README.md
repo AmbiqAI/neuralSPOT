@@ -1,7 +1,7 @@
-# NeuralSPOT RPC Library
-This directory contains RPC interfaces, NeuralSPOT wrappers for using those interfaces, and Python examples for creating PC-side applications that interact with those interfaces.
+# neuralSPOT RPC Library
+This directory contains RPC interfaces, neuralSPOT wrappers for using those interfaces, and Python examples for creating PC-side applications that interact with those interfaces.
 
-RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in NeuralSPOT's case, on another computer entirely). NeuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference), is outside the scope of this document.
+RPC (Remote Procedure Call) interfaces are a way to 'call' functions that reside on another CPU (in neuralSPOT's case, on another computer entirely). neuralSPOT RPC is based on [a modified fork](https://github.com/AmbiqAI/erpc) of [EmbeddedRPC (eRPC)](https://github.com/EmbeddedRPC/erpc) which supports RPC-over-TinyUSB on our EVBs. How eRPC works, including the [specifics of IDL definition](https://github.com/EmbeddedRPC/erpc/wiki/IDL-Reference), is outside the scope of this document.
 
 For example, this what the GenericDataOperations EVB-to-PC interaction looks like:
 

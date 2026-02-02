@@ -1,7 +1,7 @@
 /**
  * @file ns-uart.c
  * @author Evan Chen
- * @brief NeuralSPOT UART Utilities
+ * @brief neuralSPOT UART Utilities
  *
  * @version 0.1
  * @date 2024-11-13

@@ -166,7 +166,7 @@ def find_tty(transport):
     # The VID of our device is alway 0xCAFE
     # This is a hack to find the tty of our device, it will break if there are multiple devices with the same VID
     # or if the VID changes
-    
+
     tty = None
     ports = serial.tools.list_ports.comports()
 
@@ -193,7 +193,7 @@ def find_tty(transport):
 
 if __name__ == "__main__":
     # parse cmd parameters
-    argParser = argparse.ArgumentParser(description="NeuralSPOT GenericData RPC Demo")
+    argParser = argparse.ArgumentParser(description="neuralSPOT GenericData RPC Demo")
     argParser.add_argument(
         "-o",
         "--out",

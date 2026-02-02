@@ -22,10 +22,10 @@ This tool helps you rebase your neuralSPOT **minimal AmbiqSuite** onto a **new**
 
 ```bash
 # Basic (no old upstream available)
-python ambiqsuite_min_integrate.py   --old-port      /Users/carlosmorales/dev/clean/neuralSPOT/extern/AmbiqSuite/R5.3.0   --new-upstream  /path/to/full/AmbiqSuite/RNEW   --out           /path/to/neuralSPOT/extern/AmbiqSuite/RNEW
+python ambiqsuite_min_integrate.py   --old-port      clean/neuralspot/extern/AmbiqSuite/R5.3.0   --new-upstream  /path/to/full/AmbiqSuite/RNEW   --out           /path/to/neuralSPOT/extern/AmbiqSuite/RNEW
 
 # With old upstream (enables true 3-way merges)
-python ambiqsuite_min_integrate.py   --old-port      /Users/carlosmorales/dev/clean/neuralSPOT/extern/AmbiqSuite/R5.3.0   --old-upstream  /path/to/full/AmbiqSuite/R5.3.0   --new-upstream  /path/to/full/AmbiqSuite/RNEW   --out           /path/to/neuralSPOT/extern/AmbiqSuite/RNEW
+python ambiqsuite_min_integrate.py   --old-port      clean/neuralspot/extern/AmbiqSuite/R5.3.0   --old-upstream  /path/to/full/AmbiqSuite/R5.3.0   --new-upstream  /path/to/full/AmbiqSuite/RNEW   --out           /path/to/neuralSPOT/extern/AmbiqSuite/RNEW
 ```
 
 ### Useful options
@@ -43,11 +43,11 @@ python ambiqsuite_min_integrate.py   --old-port      /Users/carlosmorales/dev/cl
 - `--keep-list keep.json`
   List of **output‑relative** paths you want to protect from pruning.
 
-- `--copy-upstream all|empty`  
-  `all`: copy the entire upstream into `--out` first (default).  
+- `--copy-upstream all|empty`
+  `all`: copy the entire upstream into `--out` first (default).
   `empty`: start with an empty `--out` and only write merged files, libs, and cordio.
 
-- `--similarity 0.0–1.0`  
+- `--similarity 0.0–1.0`
   Minimum similarity for accepting a "closest match" candidate (default 0.55).
 
 ## Notes / Caveats

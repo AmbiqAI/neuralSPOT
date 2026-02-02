@@ -2,7 +2,7 @@
 //
 //! @file am_ai_audadc.h
 //!
-//! @brief NeuralSPOT AUDADC Audio
+//! @brief neuralSPOT AUDADC Audio
 //!
 //
 //*****************************************************************************

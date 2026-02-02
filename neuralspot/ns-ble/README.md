@@ -1,4 +1,4 @@
-# NeuralSPOT BLE Library Subsystem
+# neuralSPOT BLE Library Subsystem
 
 This library simplifies the instantiation of BLE (Bluetooth Low Energy) services on bluetooth-enable Ambiq EVBs in order to enable BLE-based demonstration applications. Based on the Cordio BLE software stack, it adds a API and wrapping software to make creating BLE services easier. Features include:
 

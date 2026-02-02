@@ -1,4 +1,4 @@
-# NeuralSPOT Features
+# neuralSPOT Features
 This is a detailed list of the features spread out over neuralSPOT. If you'd like to see a new feature, please file an [issue on the repo](https://github.com/AmbiqAI/neuralSPOT/issues).
 
 _Contents_
@@ -52,7 +52,7 @@ Generally, neuralSPOT will maintain support for the last 2 versions of AmbiqSuit
 
 ## Examples
 
-Examples are built entirely on NeuralSPOT's libraries and components, and are meant to showcase NeuralSPOT's features. 
+Examples are built entirely on neuralSPOT's libraries and components, and are meant to showcase neuralSPOT's features.
 
 [See here](https://github.com/AmbiqAI/neuralSPOT/tree/main/examples) for the latest list of examples
 
@@ -95,4 +95,3 @@ Examples are built entirely on NeuralSPOT's libraries and components, and are me
 | ns_test.py            | Tool for running unit tests                                  | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
 | ns_ad_batch.py        | Profiles a batch of models using autodeploy - useful for regression testing optimizations, etc. | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
 | generic_data.py       | Example PC-side script for interacting with EVB via remote procedure calls. | [Tools](https://github.com/AmbiqAI/neuralSPOT/tree/main/tools) |
-

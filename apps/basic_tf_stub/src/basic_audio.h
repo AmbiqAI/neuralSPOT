@@ -94,7 +94,7 @@ static void audio_frame_callback(ns_audio_config_t *config, uint16_t bytesCollec
 }
 
 /**
- * @brief NeuralSPOT Audio config struct
+ * @brief neuralSPOT Audio config struct
  *
  * Populate this struct before calling ns_audio_config()
  *

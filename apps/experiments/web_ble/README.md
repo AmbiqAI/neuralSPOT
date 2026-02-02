@@ -1,6 +1,6 @@
 # Web BLE Example
 
-This example instantiates a BLE Service using ns-ble, [NeuralSPOT's simplified BLE library](../../neuralspot/ns-ble/README.md).
+This example instantiates a BLE Service using ns-ble, [neuralSPOT's simplified BLE library](../../neuralspot/ns-ble/README.md).
 
 It is designed to connect with a [WebBLE](https://developer.chrome.com/articles/bluetooth/) dashboard - for convenience, it using a pre-existing dashboard located here. This dashboards expects a service with 10 characteristics and specific UUIDs. The characteristics include read-only data sources such as Temperature and Co2, subscription (notify) characteristics such as Acceleration, and a read/write characteristic.
 

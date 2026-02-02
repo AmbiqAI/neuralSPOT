@@ -8,7 +8,7 @@
  * @date 2022-08-26
  *
  * @copyright Copyright (c) 2022
- *  \addtogroup NeuralSPOT-spi
+ *  \addtogroup neuralSPOT-spi
  *  @{
  */
 

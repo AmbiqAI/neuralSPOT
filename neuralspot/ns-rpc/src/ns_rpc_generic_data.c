@@ -6,7 +6,7 @@
  * @date 2022-08-26
  *
  * This supports both server and client modes in a single source file,
- * but these modes are currently exclusive in NeuralSPOT - choose one
+ * but these modes are currently exclusive in neuralSPOT - choose one
  * at init time.
  *
  * @copyright Copyright (c) 2022
@@ -230,7 +230,7 @@ uint16_t ns_rpc_genericDataOperations_init(ns_rpc_config_t *cfg) {
                 erpc_server_init(transport, message_buffer_factory);
                 erpc_service_t service = create_pc_to_evb_service();
                 erpc_add_service_to_server(service);
-            } 
+            }
     }
     return NS_STATUS_SUCCESS;
 }

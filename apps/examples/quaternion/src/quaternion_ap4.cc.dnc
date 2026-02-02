@@ -1,7 +1,7 @@
 /**
  * @file quaternion.cc
  * @author Evan Chen
- * @brief Quaternion visualization using NeuralSPOT
+ * @brief Quaternion visualization using neuralSPOT
  * @version 0.1
  * @date 2024-06-21
  *
@@ -11,7 +11,7 @@
 
 
 #include <math.h>
-/// NeuralSPOT Includes
+/// neuralSPOT Includes
 #include "ns_mpu6050_i2c_driver.h"
 #include "ns_peripherals_power.h"
 #include "ns_rpc_generic_data.h"
@@ -102,7 +102,7 @@ int main(void) {
 
     ns_lp_printf("This Quaternion example repeatedly collects MPU data, then performs sensor fusion\n");
     ns_lp_printf("to derive the corresponding quaternion values\n");
-    
+
     // Mahony filter Initialization
     ns_mahony_cfg_t mahony_cfg;
     mahony_cfg.api = &ns_mahony_V0_0_1;
@@ -148,7 +148,7 @@ int main(void) {
         }
         ns_lp_printf("accel values: %f, %f, %f\n", finalAccel[0], finalAccel[1], finalAccel[2]);
         ns_lp_printf("gyro values: %f, %f, %f\n",finalGyro[0], finalGyro[1], finalGyro[2]);
-        
+
         NS_TRY(ns_mahony_update(&mahony_cfg, finalGyro[0], finalGyro[1], finalGyro[2], finalAccel[0], finalAccel[1], finalAccel[2]), "Mahony update failed.\n");
 
         double qw, qx, qy, qz;
@@ -157,7 +157,7 @@ int main(void) {
         ns_lp_printf("%f,", qw);
         ns_lp_printf("%f,",qx);
         ns_lp_printf("%f,", qy);
-        ns_lp_printf("%f\n", qz); 
+        ns_lp_printf("%f\n", qz);
 
         // Capture data in RPC buffer
         g_sensorData[0] = qw;

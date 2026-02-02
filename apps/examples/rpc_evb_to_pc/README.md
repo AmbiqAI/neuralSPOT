@@ -57,8 +57,8 @@ shows up as a device, and that doesn't happen until we start servicing TinyUSB, 
 To address this, rpc-client loop swaiting for a button press, servicing USB. This gives the user a chance to start the server then pressing the button to let the EVB it is ready to start RPCing.
 
 1. Connect the second USB cable to your laptop - you'll now have 2 USB connections between the EVB and the laptop
-2. Compile and flash the NeuralSPOT as described above
-3. At this point, the second USB connection should come alive and mount as a USB TTY device. 
+2. Compile and flash the neuralSPOT as described above
+3. At this point, the second USB connection should come alive and mount as a USB TTY device.
 4. Start the laptop-side RPC server:
 ```bash
 $> cd .../neuralSPOT

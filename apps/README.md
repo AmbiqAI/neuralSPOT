@@ -1,8 +1,8 @@
-# NeuralSPOT Applications Overview
+# neuralSPOT Applications Overview
 
-The `apps` directory is the **showroom** for NeuralSPOT SDK.  Every sub‑folder contains a ready‑to‑flash application that highlights one or more SDK features.  The layout is intentionally simple:
+The `apps` directory is the **showroom** for neuralSPOT SDK.  Every sub‑folder contains a ready‑to‑flash application that highlights one or more SDK features.  The layout is intentionally simple:
 
-* **basic\_tf\_stub/** – A kitchen‑sink reference application that combines many NeuralSPOT building blocks in one place.
+* **basic\_tf\_stub/** – A kitchen‑sink reference application that combines many neuralSPOT building blocks in one place.
 * **ai/** – End‑to‑end AI reference apps (stand‑alone KWS, HAR, …).
 * **demos/** – Polished demos that pair on‑device code with BLE or WebUSB dashboards.
 * **examples/** – Minimal, focused examples that illustrate a single concept or peripheral.

@@ -1,7 +1,7 @@
 /**
  @file har.cc
 
- @brief Human Activity Recognition using NeuralSPOT
+ @brief Human Activity Recognition using neuralSPOT
 
  HAR is a model trained using the scripts found here:
 https://github.com/AmbiqAI/Human-Activity-Recognition
@@ -9,7 +9,7 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 **/
 
 // #define ENERGY_MONITOR_ENABLE
-// #define LOWEST_POWER_MODE 
+// #define LOWEST_POWER_MODE
 
 // ARM perf requires ITM to be enabled, impacting power measurements.
 // For profiling measurements to work, example must be compiled using the MLPROFILE=1 make parameter
@@ -21,7 +21,7 @@ https://github.com/AmbiqAI/Human-Activity-Recognition
 
 
 
-/// NeuralSPOT Includes
+/// neuralSPOT Includes
 #include "ns_ambiqsuite_harness.h"
 #include "ns_core.h"
 #include "ns_energy_monitor.h"

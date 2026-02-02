@@ -1,4 +1,4 @@
-# NeuralSPOT Features Library
+# neuralSPOT Features Library
 ns-features is a feature extraction library designed to facilitate the extraction of features from sensor data. It provides a collection of functions and utilities to process sensor values and compute corresponding features, such as quaternion values and Euler angles from accelerometer and gyroscope data.
 
 
@@ -8,7 +8,7 @@ The ns-features library includes the following features:
 
 ### Sensor Fusion
 
-The library offers functions to compute quaternion values and Euler angles from accelerometer and gyro data. Both Euler angles and quaternions are used to represent an object's orientation in 3D space. However, quaternion values provide a more concise and efficient representation of rotations. 
+The library offers functions to compute quaternion values and Euler angles from accelerometer and gyro data. Both Euler angles and quaternions are used to represent an object's orientation in 3D space. However, quaternion values provide a more concise and efficient representation of rotations.
 
 | Feature                   | Function              | Description                                                                                          | Usage                                                                                             |
 |---------------------------|-----------------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
@@ -22,5 +22,3 @@ The library offers functions to compute quaternion values and Euler angles from 
 Example for using ns-features:
 
 - [Quaternion visualization](../../apps/examples/quaternion/README.md)
-
-

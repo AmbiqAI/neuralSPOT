@@ -1,6 +1,6 @@
 [project]
 name = "neuralspot"
-version = "0.0.1"
+version = "1.2.0"
 description =  "Autodeploy is an all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs."
 readme = "README.md"
 authors = [

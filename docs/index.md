@@ -1,17 +1,11 @@
-<!-- <p align="center">
-  <a href="https://github.com/AmbiqAI/neuralSPOT"><img src="images/banner.png" alt="neuralSPOT"></a>
-</p> -->
+#
 
 [![](./images/neuralspot-banner.png#only-light)](https://amiqai.github.io/neuralSPOT)
 [![](./images/neuralspot-banner-dark.png#only-dark)](https://amiqai.github.io/neuralSPOT)
 
----
+*AI SDK and Toolkit for Ambiq's Apollo Family of Ultra-Low-Power SoCs*
 
-> *Code*: [https://github.com/AmbiqAI/neuralSPOT]([https://github.com/AmbiqAI/neuralSPOT])
->
-> *Documentation*: [https://github.com/AmbiqAI/neuralSPOT](https://amiqai.github.io/neuralSPOT)
-
----
+## Overview
 
 neuralSPOT is a full-featured AI SDK and toolkit optimized for Ambiqs's Apollo family of ultra-low-power SoCs. It is open-source, real-time, and OS-agnostic. It was designed with Tensorflow Lite for Microcontrollers in mind, but works with any AI runtime.
 

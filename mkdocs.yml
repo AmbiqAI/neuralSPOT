@@ -243,21 +243,21 @@ theme:
     code: Roboto Mono
   palette:
     - media: "(prefers-color-scheme)"
-      primary: blue
+      primary: cyan
       accent: indigo
       toggle:
         icon: material/brightness-auto
         name: Use system theme
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: blue
+      primary: cyan
       accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to light theme
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: blue
+      primary: cyan
       accent: indigo
       toggle:
         icon: material/brightness-4
@@ -265,5 +265,8 @@ theme:
   features:
     - content.tabs.link
 
+extra_css:
+  - docs/css/custom.css
+
 copyright: |
-  &copy; 2023-2025 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>
+  &copy; 2023-2026 <a href="https://ambiq.com" target="_blank" rel="noopener">Ambiq</a>

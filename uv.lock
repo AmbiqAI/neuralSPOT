@@ -386,7 +386,7 @@ wheels = [
 
 [[package]]
 name = "neuralspot"
-version = "0.0.1"
+version = "1.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "ai-edge-litert", marker = "sys_platform != 'win32'" },

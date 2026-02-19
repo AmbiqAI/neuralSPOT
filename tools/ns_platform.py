@@ -26,19 +26,72 @@ class AmbiqPlatform:
         if self.platform_config[self.platform]["supported_by_autodeploy"] == False:
             raise ValueError(f"Platform {self.platform} is not supported by ns_autodeploy")
 
-        self.platform_config = self.platform_config[self.platform]
+        self.raw_platform_config = self.platform_config[self.platform]
+        self.platform_config = dict(self.raw_platform_config)
 
-        # print (f"[INFO] Platform: {self.platform}")
-        # print ("Features: ", self.platform_config["features"])
+        # Platform-default holdbacks preserve legacy behavior, but final effective
+        # sizes are clamped >= 0 so small memories (e.g. AP3 DTCM) never go negative.
+        self._default_reserve_percent = {
+            "sram": 20,
+            "dtcm": 0,
+            "mram": 20,
+        }
+        mcu = self.raw_platform_config.get("mcu")
+        self._default_reserve_kb = {
+            "sram": 85 if mcu in ["apollo4p", "apollo4l"] else 0,
+            "dtcm": 0 if mcu == "apollo3p" else 150,
+            "mram": 0,
+        }
+        self._user_reserve_percent = {
+            "sram": int(getattr(params, "reserve_sram_percent", 0) or 0),
+            "dtcm": int(getattr(params, "reserve_dtcm_percent", 0) or 0),
+            "mram": int(getattr(params, "reserve_mram_percent", 0) or 0),
+        }
+        self._user_reserve_kb = {
+            "sram": int(getattr(params, "reserve_sram_kb", 0) or 0),
+            "dtcm": int(getattr(params, "reserve_dtcm_kb", 0) or 0),
+            "mram": int(getattr(params, "reserve_mram_kb", 0) or 0),
+        }
 
-        # reserve memory for non-model stuff (20-25%)
-        # Reserve is different for each platform
-        if self.platform_config["mcu"] in ["apollo4p", "apollo4l"]:
-            self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8) - 85) # 85K holdback
-        else:
-            self.platform_config["sram"] = int(math.ceil(self.platform_config["sram"] * .8))
-        self.platform_config["dtcm"] = int(math.ceil(self.platform_config["dtcm"] - 150)) # 50K holdback
-        self.platform_config["mram"] = int(math.ceil(self.platform_config["mram"] * .8))
+        self._effective_memories = {}
+        self._applied_reserve_percent = {}
+        self._applied_reserve_kb = {}
+        for mem in ("sram", "dtcm", "mram"):
+            raw_kb = int(self.raw_platform_config.get(mem, 0))
+            reserve_percent = self._default_reserve_percent[mem] + self._user_reserve_percent[mem]
+            reserve_kb = self._default_reserve_kb[mem] + self._user_reserve_kb[mem]
+            reserve_percent = min(max(int(reserve_percent), 0), 95)
+            reserve_kb = max(int(reserve_kb), 0)
+            self._applied_reserve_percent[mem] = reserve_percent
+            self._applied_reserve_kb[mem] = reserve_kb
+            self._effective_memories[mem] = self._compute_effective_kb(
+                raw_kb=raw_kb,
+                reserve_percent=reserve_percent,
+                reserve_kb=reserve_kb,
+            )
+            self.platform_config[mem] = self._effective_memories[mem]
+
+    @staticmethod
+    def _compute_effective_kb(raw_kb: int, reserve_percent: int, reserve_kb: int) -> int:
+        reserve_percent = min(max(int(reserve_percent), 0), 95)
+        reserve_kb = max(int(reserve_kb), 0)
+        scaled = math.floor(raw_kb * (1.0 - (reserve_percent / 100.0)))
+        return max(0, int(scaled - reserve_kb))
+
+    def GetMemoryReserveSummary(self):
+        summary = {}
+        for mem in ("sram", "dtcm", "mram"):
+            summary[mem] = {
+                "raw_kb": int(self.raw_platform_config.get(mem, 0)),
+                "effective_kb": int(self._effective_memories.get(mem, 0)),
+                "default_percent": int(self._default_reserve_percent[mem]),
+                "default_kb": int(self._default_reserve_kb[mem]),
+                "user_percent": int(self._user_reserve_percent[mem]),
+                "user_kb": int(self._user_reserve_kb[mem]),
+                "total_percent": int(self._applied_reserve_percent[mem]),
+                "total_kb": int(self._applied_reserve_kb[mem]),
+            }
+        return summary
 
     def GetSupportsUsb(self):
         return "usb" in self.platform_config["features"]
@@ -125,4 +178,3 @@ class AmbiqPlatform:
             # Check if platform has that type of model location
             if location not in self.platform_config:
                 raise ValueError(f"Platform {self.platform} does not have model location {location}")
-

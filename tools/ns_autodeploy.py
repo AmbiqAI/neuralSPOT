@@ -29,7 +29,7 @@ import importlib
 import numpy as np
 import argparse
 import yaml
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 # Suppress Pydantic warnings about protected namespace conflicts
 warnings.filterwarnings("ignore", message="Field.*has conflict with protected namespace.*")
@@ -152,20 +152,6 @@ def _fetch_ns_cmsis_nn(destination_rootdir: str) -> Path:
         raise RuntimeError("ns-cmsis-nn clone failed")
     return ns_cmsis_nn_path
 
-    # Check out specific commit (8a1ae90c9c2ea1f9389ff69b6908099899dc6286)
-    # print(f"[NS] Checking out commit 8a1ae90c9c2ea1f9389ff69b6908099899dc6286")
-    # result = subprocess.run(
-    #     [
-    #         "git",
-    #         "checkout",
-    #         "8a1ae90c9c2ea1f9389ff69b6908099899dc6286",
-    #     ],
-    #     cwd=ns_cmsis_nn_path,
-    # )
-    # if result.returncode != 0:
-    #     log.error("Failed to checkout commit needed version: %s", result.stderr.strip())
-    #     raise RuntimeError("ns-cmsis-nn checkout failed")
-
 
 def _load_yaml_config(path: str | Path | None) -> dict:
     """Load a YAML file if provided, else return an empty dict."""
@@ -260,6 +246,30 @@ class Params(BaseModel):
         0,
         description="(TFLM Workaround) Padding to be added to arena size to account for scratch buffer (in KB)",
     )
+    reserve_sram_percent: int = Field(
+        0,
+        description="Additional percent reserve for SRAM (0-95), applied on top of platform defaults",
+    )
+    reserve_dtcm_percent: int = Field(
+        0,
+        description="Additional percent reserve for DTCM (0-95), applied on top of platform defaults",
+    )
+    reserve_mram_percent: int = Field(
+        0,
+        description="Additional percent reserve for MRAM (0-95), applied on top of platform defaults",
+    )
+    reserve_sram_kb: int = Field(
+        0,
+        description="Additional fixed reserve in KB for SRAM, applied on top of platform defaults",
+    )
+    reserve_dtcm_kb: int = Field(
+        0,
+        description="Additional fixed reserve in KB for DTCM, applied on top of platform defaults",
+    )
+    reserve_mram_kb: int = Field(
+        0,
+        description="Additional fixed reserve in KB for MRAM, applied on top of platform defaults",
+    )
 
     resource_variable_count: int = Field(
         0,
@@ -332,6 +342,31 @@ class Params(BaseModel):
     transport: str = Field("auto", description="RPC transport, 'auto' for autodetect. Can set to USB or UART.")
     tty: str = Field("auto", description="Serial device, 'auto' for autodetect")
     baud: str = Field("auto", description="Baud rate, 'auto' for autodetect")
+
+    @model_validator(mode="after")
+    def _validate_reserve_flags(self) -> "Params":
+        percent_fields = (
+            "reserve_sram_percent",
+            "reserve_dtcm_percent",
+            "reserve_mram_percent",
+        )
+        kb_fields = (
+            "reserve_sram_kb",
+            "reserve_dtcm_kb",
+            "reserve_mram_kb",
+        )
+
+        for field_name in percent_fields:
+            value = int(getattr(self, field_name))
+            if value < 0 or value > 95:
+                raise ValueError(f"{field_name} must be between 0 and 95")
+
+        for field_name in kb_fields:
+            value = int(getattr(self, field_name))
+            if value < 0:
+                raise ValueError(f"{field_name} must be >= 0")
+
+        return self
 
     # ------------------------------------------------------------------
     #   Convenience helpers
@@ -835,6 +870,16 @@ class AutoDeployRunner:
     def _apply_memory_policy(self) -> None:
         pc = self.platform_cfg  # alias – matches legacy var name
         self.model_size = int(os.path.getsize(self.p.tflite_filename) / 1024 + 0.999)
+        reserve_summary = pc.GetMemoryReserveSummary()
+        print(
+            "[NS] Memory reserves (KB): "
+            f"SRAM raw={reserve_summary['sram']['raw_kb']} eff={reserve_summary['sram']['effective_kb']} "
+            f"(pct={reserve_summary['sram']['total_percent']} fixed={reserve_summary['sram']['total_kb']}), "
+            f"DTCM raw={reserve_summary['dtcm']['raw_kb']} eff={reserve_summary['dtcm']['effective_kb']} "
+            f"(pct={reserve_summary['dtcm']['total_percent']} fixed={reserve_summary['dtcm']['total_kb']}), "
+            f"MRAM raw={reserve_summary['mram']['raw_kb']} eff={reserve_summary['mram']['effective_kb']} "
+            f"(pct={reserve_summary['mram']['total_percent']} fixed={reserve_summary['mram']['total_kb']})"
+        )
 
         # Arena max size auto-fill
         if self.p.max_arena_size == 0:
@@ -1079,7 +1124,6 @@ class AutoDeployRunner:
         # Ensure supporting libraries are present --------------------
         _fetch_ns_cmsis_nn(self.p.destination_rootdir)
         # print(f"[NS] HeliaAOT destination rootdir: {self.p.destination_rootdir}")
-
         # Determine configuration path ------------------------------
         cfg_path = self.p.helia_aot_config
         if cfg_path == "auto":
@@ -1170,14 +1214,14 @@ class AutoDeployRunner:
         try:
             sys.exit = safe_exit
             # aot_model.initialize()
-            print(f"[NS] HeliaAOT model initialized")
+            print("[NS] HeliaAOT model initialized")
             ctx = aot_model.convert()
-            print(f"[NS] HeliaAOT model converted")
+            print("[NS] HeliaAOT model converted")
         except Exception as e:
             print(f"[NS] HeliaAOT model failed: {e}")
             # Don't re-raise - just set the error and continue
             self.results.setAot(False, error=str(e))
-            print(f"[NS] HeliaAOT generation failed – {e}")
+            print(f"[NS] HeliaAOT generation failed - {e}")
             # Disable AOT so the rest of the script can run
             self.p.create_aot_profile = False
             print("[WARNING] AOT disabled because HeliaAOT generation failed")

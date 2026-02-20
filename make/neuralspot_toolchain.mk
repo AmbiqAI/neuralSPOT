@@ -61,7 +61,7 @@ ifeq ($(TOOLCHAIN),arm-none-eabi)
     -fomit-frame-pointer \
     -fno-exceptions \
     -MMD -MP -Wall \
-    -g -O3 -ffast-math 
+    -g -O3 -ffast-math
 
   CCFLAGS := -fno-use-cxa-atexit
 
@@ -293,6 +293,7 @@ else
 endif
 
 DEFINES += TF_LITE_STATIC_MEMORY
+DEFINES += CMSIS_NN_USE_REQUANTIZE_INLINE_ASSEMBLY
 
 # Re-append MLDEBUG/MLPROFILE flags if set
 ifeq ($(MLPROFILE),1)

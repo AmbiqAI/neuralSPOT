@@ -15,6 +15,9 @@
 #define NS_PROFILER_PMU_EVENT_1 NS_AD_PMU_EVENT_1
 #define NS_PROFILER_PMU_EVENT_2 NS_AD_PMU_EVENT_2
 #define NS_PROFILER_PMU_EVENT_3 NS_AD_PMU_EVENT_3
+#define NS_AD_HAS_PMU 1
+#else
+#define NS_AD_HAS_PMU 0
 #endif
 #if defined(__ARM_FEATURE_MVE) || defined(__ARM_FEATURE_MVE_FP)
 extern "C++" {
@@ -27,16 +30,16 @@ extern "C++" {
 #include "ns_energy_monitor.h"
 #include "ns_peripherals_power.h"
 #include "ns_peripherals_button.h"
+#if NS_AD_HAS_PMU
 #include "ns_pmu_utils.h"
 #include "ns_pmu_map.h"
 #include "ns_pmu_accumulator.h"
+#endif
 #include "ns_timer.h"
-// #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
-// #include "ns_pp.h"
-// #else
 #include "ns_power_profile.h"
+#if NS_AD_HAS_PMU
 #include "am_hal_spotmgr.h"
-// #endif
+#endif
 #if NS_AD_AOT == 1
 #include "NS_AD_NAME_AOT_model.h"
 #include "NS_AD_NAME_AOT_platform.h"         // platform macros
@@ -72,6 +75,7 @@ ns_timer_config_t tickTimer = {
 
 #if NS_AD_AOT == 1
 
+#if NS_AD_HAS_PMU
 // PMU Map has 71 entries - hardcoded since sizeof() doesn't work with extern arrays
 #define NS_PMU_MAP_ENTRIES NS_PMU_MAP_SIZE
 
@@ -106,11 +110,12 @@ static void aot_callback(int32_t op,
 
     }
 }
+#endif // NS_AD_HAS_PMU
 
 static NS_AD_NAME_AOT_model_context_t model = {
     // .input_data = {NS_AD_NAME_example_input_tensors},
     // .output_data = {NS_AD_NAME_output_tensors},
-    #if NS_AD_JS_PRESENT == 0
+    #if NS_AD_HAS_PMU && NS_AD_JS_PRESENT == 0
     .callback = aot_callback, //aot_callback,
     #else
     .callback = NULL,
@@ -263,8 +268,10 @@ int main(void) {
 
     ns_lp_printf("AOT model init successful.\n");
     ns_lp_printf("AOT input tensor copied to 0x%x\n", model.inputs[0].data);
+#if NS_AD_HAS_PMU
     pmu_cfg.api = &ns_pmu_V1_0_0;
     ns_pmu_reset_config(&pmu_cfg);
+#endif
 
     // reset the accumulator
     // for (int i = 0; i < NS_AD_AOT_LAYERS; i++) {
@@ -397,7 +404,7 @@ int main(void) {
             ns_delay_us(100000);
 #if NS_AD_JS_PRESENT == 0
             // Characterize and break out of event loop
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
+#if NS_AD_HAS_PMU
 
             // Run the model repeatedly, capturing different PMU every time. The results
             // will accumulate in the events array (ns_profiler_event_stats_t). Print those 
@@ -447,7 +454,7 @@ int main(void) {
             // }
 #endif
 
-#endif // AM_PART_APOLLO5B
+#endif // NS_AD_HAS_PMU
             while (1);   // hang
 #endif // NS_AD_JS_PRESENT == 0
             state = WAITING_TO_RUN;

@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import logging as log
 import os
-import re
 # Set multiple environment variables to ensure XNNPACK is disabled
 os.environ.setdefault("TF_LITE_DISABLE_XNNPACK", "1")
 os.environ["TF_LITE_DISABLE_XNNPACK"] = "1"

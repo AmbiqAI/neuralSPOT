@@ -8,22 +8,23 @@ resolution-markers = [
 
 [[package]]
 name = "ai-edge-litert"
-version = "1.3.0"
+version = "2.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "backports-strenum" },
     { name = "flatbuffers" },
     { name = "numpy" },
+    { name = "protobuf" },
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5c/52/74b2938a047cc58e1fa15f4e0ceba11b3fd5c871330dde6937c04d3a8093/ai_edge_litert-1.3.0-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:2a1c3b7b87c7b35512f96827d085506d2575a7d077d5c87ded59e40158418f57", size = 5099155, upload-time = "2025-05-19T22:42:29.057Z" },
-    { url = "https://files.pythonhosted.org/packages/a1/66/78d65fb9b705109a10ee8e4e11e9db380f9e394075ddaa1dbd85d4bbec85/ai_edge_litert-1.3.0-cp311-cp311-manylinux_2_17_aarch64.whl", hash = "sha256:161a3336dd89f37be291b4061b25c8f8e772dc8e0797aa4cdf03e36cc980fe85", size = 6698870, upload-time = "2025-05-19T22:36:27.619Z" },
-    { url = "https://files.pythonhosted.org/packages/f3/86/699202912154ac6195f94f73cd10757aa112e1c66ef7a175d42ace96ec1b/ai_edge_litert-1.3.0-cp311-cp311-manylinux_2_17_x86_64.whl", hash = "sha256:cfc43125652d976f56fe3d7b0f3bcb28b7917812b4b94a10b673f7e63553c606", size = 11219692, upload-time = "2025-05-19T22:35:09.817Z" },
-    { url = "https://files.pythonhosted.org/packages/42/f9/4f604a0df117895d399cc3b4508054f4d4a80234fba8104bac2ba6b41a68/ai_edge_litert-1.3.0-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:3fb5eeb9bda506f1c25e0ba06721070dd021e490cb272b1a869bbca9c546bf25", size = 5097059, upload-time = "2025-05-19T22:42:30.539Z" },
-    { url = "https://files.pythonhosted.org/packages/11/2e/5aab3c644cb1a9a77498852ad7e4c36197961f03c6376e04f407ba707ec9/ai_edge_litert-1.3.0-cp312-cp312-manylinux_2_17_aarch64.whl", hash = "sha256:4e92616096c0db4c328dc97baa742bc0271f77879198c0dfed0805ae18584998", size = 6698700, upload-time = "2025-05-19T22:36:29.601Z" },
-    { url = "https://files.pythonhosted.org/packages/17/99/528cb51c01190500120237f59c1015124d66be51c9db730fcbd431fb9c27/ai_edge_litert-1.3.0-cp312-cp312-manylinux_2_17_x86_64.whl", hash = "sha256:0ea9b2fe5de9e7a00c7c6c5f79bdd1ace39c933a576751621020f7eb0b8ccca3", size = 11220335, upload-time = "2025-05-19T22:35:11.614Z" },
+    { url = "https://files.pythonhosted.org/packages/dd/f9/ba44382f353a2b845e9b6242750a7d56b0054ab6c6bcf53d20823bae58e4/ai_edge_litert-2.1.2-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:07c3f442212de1859dddbcd51ff90f2fcb3048d940a1bddbd6f13b04e5a79083", size = 13014557, upload-time = "2026-01-28T07:22:46.904Z" },
+    { url = "https://files.pythonhosted.org/packages/ee/5a/57d9b8967fa5a2f3055ad3e7666446c8d2271446319e7f17c897b151544c/ai_edge_litert-2.1.2-cp311-cp311-manylinux_2_27_aarch64.whl", hash = "sha256:7dc4afc4b67797e77d879e35ad558e60f746be7c1e616a6653bd2cbf1ffef9ad", size = 12633093, upload-time = "2026-01-28T07:05:38.638Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/a8/c8024c9657a76e3589cf2b8b21cbccdef0b9a64b74d98eebcabbbdfaeb7a/ai_edge_litert-2.1.2-cp311-cp311-manylinux_2_27_x86_64.whl", hash = "sha256:b3ff3b12df45dfc540934e33bde9af474b0b4c12c3bb6112b251aaae4d2930a0", size = 16326113, upload-time = "2026-01-28T07:00:07.441Z" },
+    { url = "https://files.pythonhosted.org/packages/6d/59/5f65a091340c6abf26c66a11fc0c8ecbd264e93ad7293aaf1f1b6892cc00/ai_edge_litert-2.1.2-cp312-cp312-macosx_12_0_arm64.whl", hash = "sha256:20c96357a7c61600e7ec94a8c131fee4c0a994132e5e6e436c7c7e93d3f31b22", size = 13016970, upload-time = "2026-01-28T07:22:48.654Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/36/8ff07084091272db4df8de3859149be3913a6eaf2939575bb4200379b808/ai_edge_litert-2.1.2-cp312-cp312-manylinux_2_27_aarch64.whl", hash = "sha256:1b412368980b404aa051d09405abd473d3a15130db030938d26966f1a1e7c413", size = 12633952, upload-time = "2026-01-28T07:05:40.805Z" },
+    { url = "https://files.pythonhosted.org/packages/0f/05/072e76dfa2bfd6aa4c5751f1b6d5ad11f74bba70177ad4c973b49678d4c2/ai_edge_litert-2.1.2-cp312-cp312-manylinux_2_27_x86_64.whl", hash = "sha256:67db6de7c729bbe5a31c20adc573ce47b8aa6ea4b6bcfee0ab77ff1a51e20f2e", size = 16330794, upload-time = "2026-01-28T07:00:09.906Z" },
 ]
 
 [[package]]
@@ -418,7 +419,7 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "ai-edge-litert", marker = "sys_platform != 'win32'", specifier = "==1.3.0" },
+    { name = "ai-edge-litert", marker = "sys_platform != 'win32'", specifier = ">=2.1.1,<3" },
     { name = "erpc", git = "https://github.com/ambiqai/erpc.git?subdirectory=erpc_python" },
     { name = "joulescope", specifier = ">=1.1.15" },
     { name = "numpy", specifier = ">=2.2.6" },
@@ -555,6 +556,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/cf/86/0248f086a84f01b37aaec0fa567b397df1a119f73c16f6c7a9aac73ea309/platformdirs-4.5.1.tar.gz", hash = "sha256:61d5cdcc6065745cdd94f0f878977f8de9437be93de97c1c12f853c9c0cdcbda", size = 21715, upload-time = "2025-12-05T13:52:58.638Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/cb/28/3bfe2fa5a7b9c46fe7e13c97bda14c895fb10fa2ebf1d0abb90e0cea7ee1/platformdirs-4.5.1-py3-none-any.whl", hash = "sha256:d03afa3963c806a9bed9d5125c8f4cb2fdaf74a55ab60e5d59b3fde758104d31", size = 18731, upload-time = "2025-12-05T13:52:56.823Z" },
+]
+
+[[package]]
+name = "protobuf"
+version = "6.33.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ba/25/7c72c307aafc96fa87062aa6291d9f7c94836e43214d43722e86037aac02/protobuf-6.33.5.tar.gz", hash = "sha256:6ddcac2a081f8b7b9642c09406bc6a4290128fce5f471cddd165960bb9119e5c", size = 444465, upload-time = "2026-01-29T21:51:33.494Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a2/6b/e48dfc1191bc5b52950246275bf4089773e91cb5ba3592621723cdddca62/protobuf-6.33.5-cp39-abi3-macosx_10_9_universal2.whl", hash = "sha256:a5cb85982d95d906df1e2210e58f8e4f1e3cdc088e52c921a041f9c9a0386de5", size = 427766, upload-time = "2026-01-29T21:51:25.413Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/b1/c79468184310de09d75095ed1314b839eb2f72df71097db9d1404a1b2717/protobuf-6.33.5-cp39-abi3-manylinux2014_aarch64.whl", hash = "sha256:9b71e0281f36f179d00cbcb119cb19dec4d14a81393e5ea220f64b286173e190", size = 324638, upload-time = "2026-01-29T21:51:26.423Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/f5/65d838092fd01c44d16037953fd4c2cc851e783de9b8f02b27ec4ffd906f/protobuf-6.33.5-cp39-abi3-manylinux2014_s390x.whl", hash = "sha256:8afa18e1d6d20af15b417e728e9f60f3aa108ee76f23c3b2c07a2c3b546d3afd", size = 339411, upload-time = "2026-01-29T21:51:27.446Z" },
+    { url = "https://files.pythonhosted.org/packages/9b/53/a9443aa3ca9ba8724fdfa02dd1887c1bcd8e89556b715cfbacca6b63dbec/protobuf-6.33.5-cp39-abi3-manylinux2014_x86_64.whl", hash = "sha256:cbf16ba3350fb7b889fca858fb215967792dc125b35c7976ca4818bee3521cf0", size = 323465, upload-time = "2026-01-29T21:51:28.925Z" },
+    { url = "https://files.pythonhosted.org/packages/57/bf/2086963c69bdac3d7cff1cc7ff79b8ce5ea0bec6797a017e1be338a46248/protobuf-6.33.5-py3-none-any.whl", hash = "sha256:69915a973dd0f60f31a08b8318b73eab2bd6a392c79184b3612226b0a3f8ec02", size = 170687, upload-time = "2026-01-29T21:51:32.557Z" },
 ]
 
 [[package]]

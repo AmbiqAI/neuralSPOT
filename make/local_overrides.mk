@@ -38,7 +38,7 @@
 # AS_VERSION := Apollo510_SDK3_2024_09_14
 # MLDEBUG := 1
 
-# TF_VERSION := Oct_08_2024_e86d97b6
+# TF_VERSION := ns_tflm_v1_7_0
 # TF_VERSION := ns_tflm_2024_11_25
 # TF_VERSION := ns_tflm_2025_03_06
 # TF_VERSION := helia_rt_v1_2_0

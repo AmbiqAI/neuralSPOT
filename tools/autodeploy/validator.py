@@ -555,7 +555,14 @@ def validateModel(params, client, interpreter, md, mc):
         log.info("Calling EVB invoke")
         stat = client.ns_rpc_data_computeOnEVB(inputTensor, outputTensor)  # on EVB
         if stat != 0:
-            print(f"[ERROR] EVB invoke returned {stat}")
+            desc = ""
+            payload = ""
+            if hasattr(outputTensor, "value") and outputTensor.value is not None:
+                desc = getattr(outputTensor.value, "description", "") or ""
+                buf = getattr(outputTensor.value, "buffer", b"") or b""
+                if isinstance(buf, (bytes, bytearray)):
+                    payload = bytes(buf).decode("utf-8", errors="ignore").strip("\x00")
+            print(f"[ERROR] EVB invoke returned {stat}, desc='{desc}', payload='{payload}'")
             exit("EVB invoke failed")
 
         # print ("Stat is ", stat)

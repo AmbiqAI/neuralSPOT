@@ -126,7 +126,10 @@ extern "C" {
     
     static int rt_invoke(void){
       TfLiteStatus st = s_tflm.interpreter->Invoke();
-      return (st == kTfLiteOk) ? 0 : -1;
+      if (st != kTfLiteOk){
+        ns_lp_printf("[ERROR] TFLM Invoke failed, status=%d\n", (int)st);
+      }
+      return (int)st;
     }
     static int rt_invoke_cb_shim(void){ return rt_invoke(); }
 

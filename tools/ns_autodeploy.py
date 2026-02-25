@@ -839,7 +839,11 @@ class AutoDeployRunner:
 
         # --- If aot_config is auto, set it to tools/base_aot.yaml
         if self.p.helia_aot_config == "auto":
-            self.p.helia_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
+            if __package__:
+                self.p.helia_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
+            else:
+                # Support direct script execution: `python tools/ns_autodeploy.py`
+                self.p.helia_aot_config = str(Path(__file__).resolve().with_name("base_aot.yaml"))
 
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")

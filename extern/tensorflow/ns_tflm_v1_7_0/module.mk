@@ -1,40 +1,27 @@
+# Include paths
 includes_api += $(subdirectory)/.
 includes_api += $(subdirectory)/third_party
 includes_api += $(subdirectory)/third_party/flatbuffers/include
 includes_api += $(subdirectory)/third_party/gemmlowp
 
-DEFINES+= NS_TFSTRUCTURE_RECENT
+# Preprocessor defines
+DEFINES += NS_TFSTRUCTURE_RECENT
+DEFINES += NS_TFLM_NEW_MICRO_PROFILER
 
-ifeq ($(ARCH),apollo5)
-	TFP := cm55
-	ifeq ($(GCC14),1)
-		GCC_VERSION +=14
-	endif
+# Determine short architecture tag
+TFP := $(if $(filter apollo5,$(ARCH)),cm55,cm4)
+
+# Determine build type suffix
+ifeq ($(MLDEBUG),1)
+  BUILD_TYPE := debug
+else ifeq ($(MLPROFILE),1)
+  BUILD_TYPE := release-with-logs
 else
-	TFP := cm4
+  BUILD_TYPE := release
 endif
 
-ifeq ($(TOOLCHAIN),arm)
-	ifeq ($(MLDEBUG),1)
-		lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-armclang-debug.a
-	else
-		ifeq ($(MLPROFILE),1)
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-armclang-release-with-logs.a
-		else
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-armclang-release.a
-		endif
-	endif
-else
-	ifeq ($(GCC13_EXPERIMENTAL),1)
-		GCC_VERSION :=13
-	endif
-	ifeq ($(MLDEBUG),1)
-		lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-gcc$(GCC_VERSION)-debug.a
-	else
-		ifeq ($(MLPROFILE),1)
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-gcc$(GCC_VERSION)-release-with-logs.a
-		else
-			lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-gcc$(GCC_VERSION)-release.a
-		endif
-	endif
-endif
+# Determine toolchain name (neuralSPOT uses arm instead of armclang)
+TOOLCHAIN_NAME := $(if $(filter arm,$(TOOLCHAIN)),armclang,gcc)
+
+# Construct final static library path
+lib_prebuilt += $(subdirectory)/lib/libtensorflow-microlite-$(TFP)-$(TOOLCHAIN_NAME)-$(BUILD_TYPE).a

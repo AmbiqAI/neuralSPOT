@@ -28,7 +28,7 @@ namespace tflite {
 // implementation (reference or optimized) must define this function.
 TFLMRegistration Register_TRANSPOSE_CONV();
 
-#if defined(CMSIS_NN)
+#if defined(CMSIS_NN) || defined(AMBIQ)
 // Returns a TFLMRegistration struct for kernel variant that only supports
 // int8.
 TFLMRegistration Register_TRANSPOSE_CONV_INT8();

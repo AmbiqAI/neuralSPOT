@@ -30,6 +30,7 @@ struct OpDataLogistic {
   int32_t input_range_radius;
   int32_t input_multiplier;
   int input_left_shift;
+  int8_t table[256];
 };
 
 TfLiteStatus CalculateArithmeticOpDataLogistic(TfLiteContext* context,

@@ -37,7 +37,7 @@ TfLiteStatus SoftmaxPrepare(TfLiteContext* context, TfLiteNode* node);
 // implementation (reference or optimized) must define this function.
 TFLMRegistration Register_SOFTMAX();
 
-#if defined(XTENSA) || defined(CMSIS_NN)
+#if defined(XTENSA) || defined(CMSIS_NN) || defined(AMBIQ)
 // Returns a TFLMRegistration struct for kernel variant that only supports
 // int8 input and int16 output.
 TFLMRegistration Register_SOFTMAX_INT8_INT16();
@@ -47,7 +47,7 @@ inline TFLMRegistration Register_SOFTMAX_INT8_INT16() {
 }
 #endif
 
-#if defined(CMSIS_NN)
+#if defined(CMSIS_NN) || defined(AMBIQ)
 // Returns a TFLMRegistration struct for kernel variant that only supports
 // int8 input/output and uses the latency optimized implementations.
 TFLMRegistration Register_SOFTMAX_INT8();

@@ -112,7 +112,7 @@ void MaxPoolingEvalQuantized(TfLiteContext* context, TfLiteNode* node,
                                  tflite::micro::GetTensorData<T>(output));
 }
 
-#if defined(CMSIS_NN) || defined(XTENSA)
+#if defined(CMSIS_NN) || defined(AMBIQ) || defined(XTENSA)
 TFLMRegistration Register_AVERAGE_POOL_2D_INT8();
 
 TFLMRegistration Register_MAX_POOL_2D_INT8();

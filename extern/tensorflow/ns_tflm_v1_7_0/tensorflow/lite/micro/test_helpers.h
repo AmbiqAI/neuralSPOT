@@ -1,4 +1,4 @@
-/* Copyright 2023 The TensorFlow Authors. All Rights Reserved.
+/* Copyright 2025 The TensorFlow Authors. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ limitations under the License.
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <initializer_list>
 #include <limits>
 #include <type_traits>
 
@@ -174,6 +175,10 @@ const Model* GetModelWithIfAndSubgraphInputTensorOverlap();
 // Returns a flatbuffer model with null subgraph/operator inputs and outputs.
 const Model* GetSimpleModelWithNullInputsAndOutputs();
 
+// Returns a flatbuffer model with no inputs and two outputs, the second
+// of which has the supplied shape.
+const Model* GetNoOpModelWithTensorShape(const std::initializer_list<int32_t>& shape);
+
 // Builds a one-dimensional flatbuffer tensor of the given size.
 const Tensor* Create1dFlatbufferTensor(int size, bool is_variable = false);
 
@@ -297,6 +302,13 @@ TfLiteTensor CreateSymmetricPerChannelQuantizedTensor(
     int* zero_points, TfLiteAffineQuantization* affine_quant,
     int quantized_dimension, bool is_variable = false,
     TfLiteType tensor_weight_type = kTfLiteNoType);
+
+// This function uses the scales provided to it and quantize based on the
+// provided scale values
+TfLiteTensor CreateSymmetricPerChannelQuantizedTensorWithoutScaleEstimation(
+    const float* input, int8_t* quantized, TfLiteIntArray* dims, float* scales,
+    int* zero_points, TfLiteAffineQuantization* affine_quant,
+    int quantized_dimension, bool is_variable, TfLiteType tensor_weight_type);
 
 // Returns the number of tensors in the default subgraph for a tflite::Model.
 size_t GetModelTensorCount(const Model* model);

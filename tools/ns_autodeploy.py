@@ -1019,10 +1019,18 @@ class AutoDeployRunner:
         if self.p.full_pmu_capture:
             events_per_layer = stats[4]
             if events_per_layer == 0:
-                raise RuntimeError(
-                    f"[NS] Invalid PMU stats preamble for TFLM: pmu_events_per_layer=0, pmu_count={stats[3]}. "
-                    "Refusing fallback to pmu_count to avoid malformed PMU row decoding."
-                )
+                pmu_count = stats[3]
+                if pmu_count > 0:
+                    log.warning(
+                        "[NS] PMU stats preamble for TFLM reported pmu_events_per_layer=0; "
+                        "falling back to pmu_count=%d",
+                        pmu_count,
+                    )
+                    events_per_layer = pmu_count
+                else:
+                    raise RuntimeError(
+                        "[NS] Invalid PMU stats preamble for TFLM: both pmu_events_per_layer and pmu_count are 0."
+                    )
             layers = stats[5]
             for layer in range(layers):
                 csv_header, pmu_stats = getPMUStats(self.p, client, layer, events_per_layer)

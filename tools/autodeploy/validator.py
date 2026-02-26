@@ -1583,9 +1583,13 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     if aot:
         # AOT FullStats carry only per-layer time (us) in stat_buffer with header "layer,us".
         # When full PMU is requested, we augment the header to include timing + PMU counters.
-        if params.full_pmu_capture:
+        if params.full_pmu_capture and pmu_csv_header.strip():
             csv_header = "Event,Tag,uSeconds," + prune_for_aot(pmu_csv_header)
         else:
+            if params.full_pmu_capture:
+                log.warning(
+                    "AOT full PMU capture requested but PMU data is unavailable; exporting timing-only AOT stats."
+                )
             csv_header = "Event,Tag,uSeconds"
     else:
         # TFLM path (unchanged): decode CSV header from stats blob
@@ -1646,22 +1650,38 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         # Pull per-layer us timings
         aot_us = [stats[offset + i] for i in range(captured_events)]
         totalTime = int(sum(aot_us))
-        # Build table rows. If Full PMU was requested, append PMU counters.
-        if params.full_pmu_capture:
+        aot_has_full_pmu = (
+            params.full_pmu_capture
+            and bool(pmu_csv_header.strip())
+            and len(overall_pmu_stats) > 0
+        )
+        # Build table rows. If Full PMU is available, append PMU counters.
+        if aot_has_full_pmu:
             # Header already includes PMU names via pmu_csv_header
             for i in range(len(mc.aot_layer_identifiers)):
                 id_int = int(mc.aot_layer_identifiers[i])
+                if id_int >= len(aot_us) or id_int >= len(overall_pmu_stats):
+                    log.warning(
+                        "AOT PMU row mapping out of range (layer id %d, us_len=%d, pmu_len=%d); skipping row",
+                        id_int,
+                        len(aot_us),
+                        len(overall_pmu_stats),
+                    )
+                    continue
                 row = [mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[id_int]]
                 # overall_pmu_stats[i] is a flat list of counters for layer i
                 row.extend(list(overall_pmu_stats[id_int]))
                 table.append(row)
         else:
             for i in range(len(mc.aot_layer_identifiers)):
-                # print(f"AOT Layer {i}: {mc.aot_layer_identifiers[i]}")
-                # print(f"{mc.aot_layer_names[i]}")
-                # print(f"{mc.aot_layer_identifiers[i]}")
                 id_int = int(mc.aot_layer_identifiers[i])
-                # print(f"{aot_us[id_int]}")
+                if id_int >= len(aot_us):
+                    log.warning(
+                        "AOT row mapping out of range (layer id %d, us_len=%d); skipping row",
+                        id_int,
+                        len(aot_us),
+                    )
+                    continue
                 table.append([mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[id_int]])
 
         # Print/Log the table
@@ -1681,7 +1701,7 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
             "Model Performance Analysis: Per-layer performance statistics saved to: %s",
             stats_filename,
         )
-        df = _table_to_dataframe(table, strict=params.full_pmu_capture)
+        df = _table_to_dataframe(table, strict=aot_has_full_pmu)
         df.to_csv(stats_filename + ".csv", index=False)
         df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
         # Use the same two-tab workbook so calculated columns sit on Derived

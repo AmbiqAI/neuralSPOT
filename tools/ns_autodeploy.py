@@ -1102,16 +1102,35 @@ class AutoDeployRunner:
                 if self.p.full_pmu_capture:
                     events_per_layer_aot = stats_aot[4]
                     if events_per_layer_aot == 0:
-                        raise RuntimeError(
-                            f"[NS] Invalid PMU stats preamble for AOT: pmu_events_per_layer=0, pmu_count={stats_aot[3]}. "
-                            "Refusing fallback to pmu_count to avoid malformed PMU row decoding."
+                        log.warning(
+                            "[NS] Skipping AOT full PMU capture: invalid preamble "
+                            "(pmu_events_per_layer=0, pmu_count=%d)",
+                            stats_aot[3],
                         )
-                    layers_aot = stats_aot[5]
-                    for layer in range(layers_aot):
-                        csv_header_aot, pmu_stats_aot = getPMUStats(self.p, client, layer, events_per_layer_aot)
-                        # print(f"[NS] AOT PMU stats for layer {layer}: {pmu_stats_aot}")
-                        pmu_csv_header_aot = csv_header_aot  # keep header once
-                        overall_pmu_stats_aot.append(pmu_stats_aot)
+                    else:
+                        layers_aot = stats_aot[5]
+                        aot_pmu_failed = False
+                        for layer in range(layers_aot):
+                            try:
+                                csv_header_aot, pmu_stats_aot = getPMUStats(
+                                    self.p, client, layer, events_per_layer_aot
+                                )
+                            except (SystemExit, RuntimeError, ValueError) as e:
+                                log.warning(
+                                    "[NS] AOT full PMU capture failed at layer %d (%s). "
+                                    "Continuing without AOT PMU counters for this run.",
+                                    layer,
+                                    e,
+                                )
+                                aot_pmu_failed = True
+                                break
+                            # print(f"[NS] AOT PMU stats for layer {layer}: {pmu_stats_aot}")
+                            pmu_csv_header_aot = csv_header_aot  # keep header once
+                            overall_pmu_stats_aot.append(pmu_stats_aot)
+
+                        if aot_pmu_failed:
+                            pmu_csv_header_aot = ""
+                            overall_pmu_stats_aot = []
 
                 printStats(self.p,           # prints to console / log
                         self.mc,

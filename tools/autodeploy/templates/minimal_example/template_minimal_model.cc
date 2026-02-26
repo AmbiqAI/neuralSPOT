@@ -167,11 +167,11 @@ int NS_AD_NAME_init(ns_model_state_t *ms) {
     }
 
     // Obtain pointers to the model's input and output tensors.
-    for (uint32_t t = 0; t <= ms->numInputTensors; t++) {
+    for (uint32_t t = 0; t < ms->numInputTensors; t++) {
         ms->model_input[t] = ms->interpreter->input(t);
     }
 
-    for (uint32_t t = 0; t <= ms->numOutputTensors; t++) {
+    for (uint32_t t = 0; t < ms->numOutputTensors; t++) {
         ms->model_output[t] = ms->interpreter->output(t);
     }
 

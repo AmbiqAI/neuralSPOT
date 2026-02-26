@@ -135,7 +135,7 @@ libraries    :=
 lib_prebuilt :=
 sources      :=
 includes_api :=
-pp_defines   := $(DEFINES)
+pp_defines   = $(DEFINES)
 bindirs      := $(BINDIR)
 
 obs = $(call source-to-object,$(sources))

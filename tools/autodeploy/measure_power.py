@@ -7,14 +7,21 @@ import signal
 import time
 import traceback
 import warnings
-import importlib.resources
 import numpy as np
 from joulescope import scan
 
 import dataclasses
 from typing import Optional, Dict, Any, List, Tuple
 import threading
-from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump, read_pmu_definitions
+from neuralspot.tools.ns_utils import (
+    createFromTemplate,
+    xxd_c_dump,
+    read_pmu_definitions,
+    resolve_resource_path,
+    flatten_tensor_examples,
+    tensor_values_to_c_initializer,
+    assert_no_python_tokens,
+)
 import yaml
 
 # Suppress Joulescope packet index warnings
@@ -176,7 +183,9 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     os.makedirs(f"{d}/{n}", exist_ok=True)
     os.makedirs(f"{d}/{n}/src", exist_ok=True)
 
-    template_directory = str(importlib.resources.files(__name__) / "templates")
+    template_directory = str(
+        resolve_resource_path("templates", package=__package__, file_path=__file__)
+    )
 
     # Generate files from template
     createFromTemplate(
@@ -232,21 +241,27 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
         )
 
     # Generate input/output tensor example data
-    flatInput = [
-        np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist
-    ]
-    flatOutput = [
-        np.array(element).tolist() for sublist in mc.exampleTensors.outputTensors for element in sublist
-    ]
-    inputs = str(flatInput).replace("[", "{").replace("]", "}")
-    outputs = str(flatOutput).replace("[", "{").replace("]", "}")
+    flatInput = flatten_tensor_examples(mc.exampleTensors.inputTensors)
+    flatOutput = flatten_tensor_examples(mc.exampleTensors.outputTensors)
+    inputs = tensor_values_to_c_initializer(flatInput)
+    outputs = tensor_values_to_c_initializer(flatOutput)
+    assert_no_python_tokens(inputs)
+    assert_no_python_tokens(outputs)
 
-    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
+    typeMap = {
+        "<class 'numpy.float32'>": "float",
+        "<class 'numpy.float64'>": "double",
+        "<class 'numpy.int8'>": "int8_t",
+        "<class 'numpy.uint8'>": "uint8_t",
+        "<class 'numpy.int16'>": "int16_t",
+        "<class 'numpy.int32'>": "int32_t",
+        "<class 'numpy.int64'>": "int64_t",
+    }
 
     rm["NS_AD_INPUT_TENSORS"] = inputs
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
-    rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
+    rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.outputTensors[0].type)]
     # length of output tensor array
     rm["NS_AD_OUTPUT_TENSOR_LEN"] = len(flatOutput)
     createFromTemplate(

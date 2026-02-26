@@ -109,6 +109,7 @@ ns_autodeploy --platform apollo510_evb --tflite-filename .../efficientnet-lite0-
 
 ### HeliaAOT Support (experimental)
 Autodeploy has experimental support for Ambiq's ahead-of-time AI runtime compiler, HeliaAOT. When HeliaAOT is installed, the user can add it to the Validation and Performance phases via the `--create-aot-profile` command line parameter.
+If HeliaAOT is not installed, base `ns_autodeploy` flows still run normally (AOT pass is simply unavailable).
 
 > **NOTE**: helia-aot support is *experimental*. AOT does not yet support the full breadth of TF operations and numerics, so some model conversions will fail. In these cases, ns_autodeploy will note the error and run the rest of the TFLM phases.
 
@@ -121,8 +122,16 @@ Autodeploy has experimental support for Ambiq's ahead-of-time AI runtime compile
 $> cd .../neuralSPOT
 $> uv sync # if this hasn't been installed yet
 $> source .venv/bin/activate # or Windows equivalent, if venv hasn't been activated yet
-$> uv add ../helia-aot # Substitute your path to helia-aot
+# Option A: install HeliaAOT into the active virtualenv (does not edit neuralSPOT pyproject/lock)
+$> pip install -e /path/to/helia-aot
+# Option B: run with an ephemeral editable dependency for one command (no repo edits)
+# This picks up local helia-aot source changes immediately.
+$> uv run --with-editable /path/to/helia-aot python tools/ns_autodeploy.py --tflite-filename model.tflite --create-aot-profile
+# Equivalent module form:
+$> uv run --with-editable /path/to/helia-aot python -m neuralspot.tools.ns_autodeploy --tflite-filename model.tflite --create-aot-profile
 ```
+
+> **NOTE**: `uv run --with ... ns_autodeploy` may execute the environment's installed `ns_autodeploy` entrypoint, which can bypass injected deps in some setups. Prefer the `python ...`/`python -m ...` forms above when using `--with` or `--with-editable`.
 
 When `--create-aot-profile` is enabled, ns_autodeploy will:
 1. Invoke helia-aot to generate the runtime for the specified tflite

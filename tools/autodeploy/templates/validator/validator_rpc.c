@@ -133,6 +133,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "validator_runtime_iface.h"
 #include "validator_chunk.h"
@@ -507,10 +508,12 @@ status infer(const dataBlock* in, dataBlock* out){
     }
   }
 
-  if (g_rt->invoke() != 0){
-    static const char err[] = "Invoke failed";
-    ns_lp_printf("Invoke failed\n");
-    vrpc_fill_block(out, generic_cmd, (void*)err, (uint32_t)sizeof(err), "Invoke failed");
+  int invoke_rc = g_rt->invoke();
+  if (invoke_rc != 0){
+    char err[48];
+    snprintf(err, sizeof(err), "Invoke failed rc=%d", invoke_rc);
+    ns_lp_printf("[ERROR] Invoke failed, rc=%d\n", invoke_rc);
+    vrpc_fill_block(out, generic_cmd, (void*)err, (uint32_t)(strlen(err) + 1u), "Invoke failed");
     return ns_rpc_data_failure;
   }
   // Optionally let runtime snapshot stats prior to invoke

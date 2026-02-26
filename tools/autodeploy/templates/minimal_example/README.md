@@ -79,5 +79,5 @@ Autodeploy copies needed files from TFLM and Ambiqsuite (TFLM headers and libs, 
   --ambiqsuite-version AMBIQSUITE_VERSION
                         AmbiqSuite version used to generate minimal example (default: Apollo510_SDK3_2024_09_14)
   --tensorflow-version TENSORFLOW_VERSION
-                        Tensorflow version used to generate minimal example (default: Oct_08_2024_e86d97b6)
+                        Tensorflow version used to generate minimal example (default: auto)
 ```

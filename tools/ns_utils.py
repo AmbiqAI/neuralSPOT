@@ -4,6 +4,7 @@ import os
 import pickle
 import sys
 import time
+from pathlib import Path
 import serial.tools.list_ports
 import importlib.resources
 import yaml
@@ -12,6 +13,71 @@ import logging as log
 from contextlib import contextmanager
 import erpc
 import neuralspot.rpc.GenericDataOperations_PcToEvb as GenericDataOperations_PcToEvb
+
+def resolve_resource_path(relative_path: str, package: str | None = None, file_path: str | None = None) -> Path:
+    """Resolve a local resource path for both package and direct script execution.
+
+    Priority:
+    1) Package resources via importlib.resources when *package* is provided.
+    2) Fallback to the caller file's directory when *file_path* is provided.
+    3) Final fallback to this module's directory.
+    """
+    rel = Path(relative_path)
+    if package:
+        try:
+            return Path(importlib.resources.files(package) / rel.as_posix())
+        except (TypeError, ModuleNotFoundError, AttributeError):
+            pass
+    if file_path:
+        return Path(file_path).resolve().parent / rel
+    return Path(__file__).resolve().parent / rel
+
+
+def flatten_tensor_examples(tensors):
+    """Flatten nested tensor containers into a 1D python list."""
+    flat = []
+    stack = [tensors]
+    while stack:
+        current = stack.pop()
+        if isinstance(current, np.ndarray):
+            stack.extend(reversed(current.tolist()))
+        elif isinstance(current, (list, tuple)):
+            stack.extend(reversed(current))
+        else:
+            if isinstance(current, np.generic):
+                current = current.item()
+            flat.append(current)
+    return flat
+
+
+def to_c_scalar(value):
+    """Convert numpy/python scalar to a C-safe scalar token."""
+    if isinstance(value, np.generic):
+        value = value.item()
+    if isinstance(value, bool):
+        return 1 if value else 0
+    if isinstance(value, float):
+        if math.isfinite(value):
+            return repr(float(value))
+        return "0.0"
+    if isinstance(value, (int, np.integer)):
+        return int(value)
+    return value
+
+
+def tensor_values_to_c_initializer(values) -> str:
+    """Convert nested values to a C initializer string like '{1, 2, 3}'."""
+    flat_values = flatten_tensor_examples(values)
+    converted = [to_c_scalar(v) for v in flat_values]
+    return "{" + ", ".join(str(v) for v in converted) + "}"
+
+
+def assert_no_python_tokens(c_init: str):
+    """Defensive check to catch leaked Python/NumPy representations."""
+    disallowed = ("np.", "array(", "dtype=")
+    for token in disallowed:
+        if token in c_init:
+            raise ValueError(f"Invalid C initializer contains python token '{token}'")
 
 
 def createFromTemplate(templateFile, destinationFile, replaceMap):
@@ -165,7 +231,13 @@ def read_pmu_definitions(params):
 
     if params.pmu_config_file == "default":
         # Read PMU definitions from yaml file
-        yaml_path = str(importlib.resources.files(__package__) / 'autodeploy/profiles/ns_pmu_default.yaml')
+        yaml_path = str(
+            resolve_resource_path(
+                "autodeploy/profiles/ns_pmu_default.yaml",
+                package=__package__,
+                file_path=__file__,
+            )
+        )
     else:
         yaml_path = params.pmu_config_file
 

@@ -2,15 +2,22 @@ import logging as log
 import os
 import shutil
 import glob
-import importlib.resources
 
 import numpy as np
-from neuralspot.tools.ns_utils import createFromTemplate, xxd_c_dump
+from neuralspot.tools.ns_utils import (
+    createFromTemplate,
+    xxd_c_dump,
+    resolve_resource_path,
+    flatten_tensor_examples,
+    tensor_values_to_c_initializer,
+    assert_no_python_tokens,
+)
 
 
 def generateModelLib(params, mc, md, ambiqsuite=False):
-
-    template_directory = str(importlib.resources.files(__name__) / "templates")
+    template_directory = str(
+        resolve_resource_path("templates", package=__package__, file_path=__file__)
+    )
     # Get the  base path of neuralSPOT
 
     if ambiqsuite:
@@ -20,13 +27,12 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
 
     d = params.destination_rootdir + "/" + params.model_name
 
-    # Calculate the name of the MCU based on the platform
-    if params.platform in ["apollo4p_evb","apollo4l_evb", "apollo4p_blue_kxr_evb", "apollo4p_blue_kxr_evb","apollo4l_blue_evb"]:
-        mcu = "apollo4p"
-    elif params.platform == "apollo3p_evb":
-        mcu = "apollo3p"
-    elif params.platform == "apollo510_evb" or params.platform == "apollo510_eb":
-        mcu = "apollo5b"
+    # Calculate the AmbiqSuite system_<mcu>.c source directory from platform.
+    # R5.3.0 keeps Apollo5 system source under src/apollo510/system_apollo510.c.
+    if params.platform in ["apollo510_evb", "apollo510_eb", "apollo510L_eb", "apollo510b_evb"]:
+        mcu = "apollo510"
+    else:
+        mcu = None
 
 
     adds, addsLen = mc.modelStructureDetails.getAddList()
@@ -177,7 +183,7 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
         shutil.copytree(
             params.neuralspot_rootdir + f"/extern/AmbiqSuite/{params.ambiqsuite_version}/CMSIS/", f"{d}/{n}/src/CMSIS/", dirs_exist_ok=True
         )
-        if mcu == "apollo5b":
+        if mcu is not None:
             shutil.copy(
                 params.neuralspot_rootdir + f"/extern/AmbiqSuite/{params.ambiqsuite_version}/src/{mcu}/system_{mcu}.c", f"{d}/{n}/src/"
             )
@@ -200,21 +206,27 @@ def generateModelLib(params, mc, md, ambiqsuite=False):
     )
 
     # Generate input/output tensor example data
-    flatInput = [
-        element for sublist in mc.exampleTensors.inputTensors for element in sublist
-    ]
-    flatOutput = [
-        element for sublist in mc.exampleTensors.outputTensors for element in sublist
-    ]
-    inputs = str(flatInput).replace("[", "{").replace("]", "}")
-    outputs = str(flatOutput).replace("[", "{").replace("]", "}")
+    flatInput = flatten_tensor_examples(mc.exampleTensors.inputTensors)
+    flatOutput = flatten_tensor_examples(mc.exampleTensors.outputTensors)
+    inputs = tensor_values_to_c_initializer(flatInput)
+    outputs = tensor_values_to_c_initializer(flatOutput)
+    assert_no_python_tokens(inputs)
+    assert_no_python_tokens(outputs)
 
-    typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
+    typeMap = {
+        "<class 'numpy.float32'>": "float",
+        "<class 'numpy.float64'>": "double",
+        "<class 'numpy.int8'>": "int8_t",
+        "<class 'numpy.uint8'>": "uint8_t",
+        "<class 'numpy.int16'>": "int16_t",
+        "<class 'numpy.int32'>": "int32_t",
+        "<class 'numpy.int64'>": "int64_t",
+    }
     
     rm["NS_AD_INPUT_TENSORS"] = inputs
     rm["NS_AD_OUTPUT_TENSORS"] = outputs
     rm["NS_AD_INPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
-    rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.inputTensors[0].type)]
+    rm["NS_AD_OUTPUT_TENSOR_TYPE"] = typeMap[str(md.outputTensors[0].type)]
     createFromTemplate(
         template_directory + "/common/template_example_tensors.h",
         f"{d}/{n}/src/{n}_example_tensors.h",

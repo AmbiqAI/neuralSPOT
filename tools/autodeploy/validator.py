@@ -4,7 +4,6 @@ import shutil
 import struct
 import sys
 import time
-import importlib.resources
 import erpc
 import numpy as np
 import pandas as pd
@@ -36,7 +35,9 @@ from neuralspot.tools.ns_utils import (
     reset_dut,
     xxd_c_dump,
     read_pmu_definitions,
-    suppress_os_stdio
+    suppress_os_stdio,
+    resolve_resource_path,
+    flatten_tensor_examples,
 )
 from neuralspot.tools.ns_mac_predictor import (
     compute_counts as _mve_compute_counts,
@@ -1913,7 +1914,9 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
             mc.rv_count,
         )
     )
-    template_directory = str(importlib.resources.files(__package__) / "templates")
+    template_directory = str(
+        resolve_resource_path("templates", package=__package__, file_path=__file__)
+    )
     createFromTemplate(
         template_directory + "/validator/template_mut_metadata.h",
         f"{tflm_dir}/src/mut_model_metadata.h",
@@ -1930,7 +1933,9 @@ def create_mut_modelinit(tflm_dir, mc):
         "NS_AD_RESOLVER_ADDS": adds,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
     }
-    template_directory = str(importlib.resources.files(__package__) / "templates")
+    template_directory = str(
+        resolve_resource_path("templates", package=__package__, file_path=__file__)
+    )
     createFromTemplate(
         template_directory + "/validator/template_tflm_model.cc",
         f"{tflm_dir}/src/mut_model_init.cc",
@@ -1964,8 +1969,8 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
             legacy_path.unlink()
 
     # Paths to our template tree
-    tmpl_root   = importlib.resources.files(__package__)
-    tmpl_common = str(tmpl_root / "templates/validator")
+    tmpl_root   = resolve_resource_path("templates", package=__package__, file_path=__file__)
+    tmpl_common = str(tmpl_root / "validator")
     tmpl_tflm   = os.path.join(tmpl_common, "tflm")
     tmpl_aot    = os.path.join(tmpl_common, "aot")
 
@@ -1984,13 +1989,17 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
     # --- Runtime-specific files ---
     if aot:
         # AOT main + glue live under aot/
-        typeMap = {"<class 'numpy.float32'>": "float", "<class 'numpy.int8'>": "int8_t", "<class 'numpy.uint8'>": "uint8_t", "<class 'numpy.int16'>": "int16_t"}
-        flatInput = [
-            np.array(element).tolist() for sublist in mc.exampleTensors.inputTensors for element in sublist
-        ]
-        flatOutput = [
-            np.array(element).tolist() for sublist in mc.exampleTensors.outputTensors for element in sublist
-        ]
+        typeMap = {
+            "<class 'numpy.float32'>": "float",
+            "<class 'numpy.float64'>": "double",
+            "<class 'numpy.int8'>": "int8_t",
+            "<class 'numpy.uint8'>": "uint8_t",
+            "<class 'numpy.int16'>": "int16_t",
+            "<class 'numpy.int32'>": "int32_t",
+            "<class 'numpy.int64'>": "int64_t",
+        }
+        flatInput = flatten_tensor_examples(mc.exampleTensors.inputTensors)
+        flatOutput = flatten_tensor_examples(mc.exampleTensors.outputTensors)
         rm = {
             "NS_AD_NAME": params.model_name,
             "NS_AD_INPUT_TENSOR_TYPE": typeMap[str(md.inputTensors[0].type)],
@@ -2024,19 +2033,19 @@ def create_mut_main(params, tflm_dir, mc, md, aot):
 
     # --- Headers used by the new sources ---
     # tflm_validator.h (structs used by both mains and RPC)
-    shutil.copyfile(str(tmpl_root / "templates/validator/template_tflm_validator.h"),
+    shutil.copyfile(str(tmpl_root / "validator/template_tflm_validator.h"),
                     os.path.join(src_dir, "tflm_validator.h"))
     # ns model helper for TFLM runtime glue
-    shutil.copyfile(str(tmpl_root / "templates/common/template_ns_model.h"),
+    shutil.copyfile(str(tmpl_root / "common/template_ns_model.h"),
                     os.path.join(src_dir, "tflm_ns_model.h"))
 
     # --- Makefile (already includes src/refactor/* in both variants) ---
     if aot:
-        mk_template = str(tmpl_root / "templates/validator/template_aot_validator.mk")
+        mk_template = str(tmpl_root / "validator/template_aot_validator.mk")
         rm = {"NS_AD_NAME_AOT": params.model_name}
         createFromTemplate(mk_template, f"{tflm_dir}/module.mk", rm)
     else:
-        mk_template = str(tmpl_root / "templates/validator/template_tflm_validator.mk")
+        mk_template = str(tmpl_root / "validator/template_tflm_validator.mk")
         shutil.copyfile(mk_template, f"{tflm_dir}/module.mk")
 
 def create_validation_binary(params, mc, md, baseline, aot):

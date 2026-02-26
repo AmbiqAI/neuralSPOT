@@ -24,7 +24,6 @@ from pathlib import Path
 from time import sleep
 import shutil
 from typing import List
-import importlib
 
 import numpy as np
 import argparse
@@ -82,6 +81,7 @@ from neuralspot.tools.ns_utils import (
     reset_dut,
     rpc_connect_as_client,
     get_armclang_version,
+    resolve_resource_path,
 )
 import neuralspot.tools.ns_platform as ns_platform
 
@@ -839,11 +839,11 @@ class AutoDeployRunner:
 
         # --- If aot_config is auto, set it to tools/base_aot.yaml
         if self.p.helia_aot_config == "auto":
-            if __package__:
-                self.p.helia_aot_config = str(importlib.resources.files(__package__) / "base_aot.yaml")
-            else:
-                # Support direct script execution: `python tools/ns_autodeploy.py`
-                self.p.helia_aot_config = str(Path(__file__).resolve().with_name("base_aot.yaml"))
+            self.p.helia_aot_config = str(
+                resolve_resource_path(
+                    "base_aot.yaml", package=__package__, file_path=__file__
+                )
+            )
 
         # --- Stage count for pretty progress -----------------------------
         print(f"[NS] Running {self._total_stages} Stage Autodeploy for Platform: {self.p.platform}")

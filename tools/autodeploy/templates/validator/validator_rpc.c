@@ -298,6 +298,7 @@ static void vrpc_reset_session_state(void){
   g_pmu_events_per_layer = 0;
   g_pmu_layer_iter = 0;
   g_warmups_seen = 0;
+  g_full_characterization_done = false;
 }
 
 // -----------------------------------------------------------------------------
@@ -336,16 +337,9 @@ static status vrpc_configure_model(const dataBlock* in){
     return ns_rpc_data_failure;
   }
   ns_lp_printf("runtime init done\n");
-  // Precompute output total and reset chunk state
+  // Reset session state (including PMU stream state), then precompute output total
+  vrpc_reset_session_state();
   g_out_total_size = vrpc_sum_output_bytes();
-  ns_chunk_reset(&g_in_chunk);
-  ns_chunk_reset(&g_tensor_chunk);
-  ns_chunk_reset(&g_stats_chunk);
-  g_input_chunked = false;
-  g_output_chunked = false;
-  g_input_offset = 0;
-  g_stats_sent_once = false;
-  g_warmups_seen = 0;
   ns_lp_printf("reset session state done\n");
   // Update arena usage (TFLM) — AOT may report 0
   mut_stats.stats.computed_arena_size = g_rt->arena_used_bytes ? g_rt->arena_used_bytes() : 0;

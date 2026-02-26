@@ -401,6 +401,9 @@ def getPMUStats(params, client, layer, num_events_per_layer):
             desc = ""
             if hasattr(statBlock, "value") and statBlock.value is not None:
                 desc = getattr(statBlock.value, "description", "") or ""
+            if desc == "PmuUnavailable":
+                log.error("EVB reported PMU stream unavailable for full PMU capture")
+                exit("Model PMU Stats Fetch Failed")
             if desc:
                 print("[ERROR] Model PMU Stats Fetch Status = %d (%s)" % (status, desc))
             else:
@@ -408,9 +411,6 @@ def getPMUStats(params, client, layer, num_events_per_layer):
             exit("Model PMU Stats Fetch Failed")
 
         desc = statBlock.value.description
-        if desc == "PmuUnavailable":
-            log.error("EVB reported PMU stream unavailable for full PMU capture")
-            exit("Model PMU Stats Fetch Failed")
         if desc == "FullPMUStats":
             break
 

@@ -124,9 +124,14 @@ $> uv sync # if this hasn't been installed yet
 $> source .venv/bin/activate # or Windows equivalent, if venv hasn't been activated yet
 # Option A: install HeliaAOT into the active virtualenv (does not edit neuralSPOT pyproject/lock)
 $> pip install -e /path/to/helia-aot
-# Option B: run with an ephemeral dependency for one command (no repo edits)
-$> uv run --with /path/to/helia-aot ns_autodeploy --tflite-filename model.tflite --create-aot-profile
+# Option B: run with an ephemeral editable dependency for one command (no repo edits)
+# This picks up local helia-aot source changes immediately.
+$> uv run --with-editable /path/to/helia-aot python tools/ns_autodeploy.py --tflite-filename model.tflite --create-aot-profile
+# Equivalent module form:
+$> uv run --with-editable /path/to/helia-aot python -m neuralspot.tools.ns_autodeploy --tflite-filename model.tflite --create-aot-profile
 ```
+
+> **NOTE**: `uv run --with ... ns_autodeploy` may execute the environment's installed `ns_autodeploy` entrypoint, which can bypass injected deps in some setups. Prefer the `python ...`/`python -m ...` forms above when using `--with` or `--with-editable`.
 
 When `--create-aot-profile` is enabled, ns_autodeploy will:
 1. Invoke helia-aot to generate the runtime for the specified tflite

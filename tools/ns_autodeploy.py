@@ -1017,7 +1017,12 @@ class AutoDeployRunner:
         pmu_csv_header = ""
         overall_pmu_stats: List[List[int]] = []
         if self.p.full_pmu_capture:
-            events_per_layer = stats[3]
+            events_per_layer = stats[4]
+            if events_per_layer == 0:
+                raise RuntimeError(
+                    f"[NS] Invalid PMU stats preamble for TFLM: pmu_events_per_layer=0, pmu_count={stats[3]}. "
+                    "Refusing fallback to pmu_count to avoid malformed PMU row decoding."
+                )
             layers = stats[5]
             for layer in range(layers):
                 csv_header, pmu_stats = getPMUStats(self.p, client, layer, events_per_layer)
@@ -1087,7 +1092,12 @@ class AutoDeployRunner:
                 overall_pmu_stats_aot = []
                 pmu_csv_header_aot = ""
                 if self.p.full_pmu_capture:
-                    events_per_layer_aot = stats_aot[3]
+                    events_per_layer_aot = stats_aot[4]
+                    if events_per_layer_aot == 0:
+                        raise RuntimeError(
+                            f"[NS] Invalid PMU stats preamble for AOT: pmu_events_per_layer=0, pmu_count={stats_aot[3]}. "
+                            "Refusing fallback to pmu_count to avoid malformed PMU row decoding."
+                        )
                     layers_aot = stats_aot[5]
                     for layer in range(layers_aot):
                         csv_header_aot, pmu_stats_aot = getPMUStats(self.p, client, layer, events_per_layer_aot)

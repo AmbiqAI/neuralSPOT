@@ -392,19 +392,56 @@ def getPMUStats(params, client, layer, num_events_per_layer):
     # } ns_outgoing_stats_t;
 
     statBlock = erpc.Reference()
-    # log.info("Fetching Full PMU stats for layer %d", layer)
+    max_retries = 8
+    retries = 0
 
-    status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
-    if status != 0:
-        print("[ERROR] Model PMU Stats Fetch Status = %d" % status)
-        exit("Model PMU Stats Fetch Failed")
+    while True:
+        status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
+        if status != 0:
+            desc = ""
+            if hasattr(statBlock, "value") and statBlock.value is not None:
+                desc = getattr(statBlock.value, "description", "") or ""
+            if desc == "PmuUnavailable":
+                log.error("EVB reported PMU stream unavailable for full PMU capture")
+                exit("Model PMU Stats Fetch Failed")
+            if desc:
+                print("[ERROR] Model PMU Stats Fetch Status = %d (%s)" % (status, desc))
+            else:
+                print("[ERROR] Model PMU Stats Fetch Status = %d" % status)
+            exit("Model PMU Stats Fetch Failed")
+
+        desc = statBlock.value.description
+        if desc == "FullPMUStats":
+            break
+
+        retries += 1
+        log.warning(
+            "PMU fetch transition for layer %d returned '%s' (retry %d/%d)",
+            layer,
+            desc,
+            retries,
+            max_retries,
+        )
+        if retries >= max_retries:
+            log.error(
+                "Expected FullPMUStats, got '%s' after %d retries",
+                desc,
+                max_retries,
+            )
+            exit("Model PMU Stats Fetch Failed")
 
     stat_array = struct.unpack(
         "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
     )
 
-    if statBlock.value.description != "FullPMUStats":
-        log.error("Expected FullPMUStats, got %s" % statBlock.value.description)
+    min_words = 513 + int(num_events_per_layer)
+    if len(stat_array) < min_words:
+        log.error(
+            "PMU payload too short for layer %d: got %d words, need at least %d",
+            layer,
+            len(stat_array),
+            min_words,
+        )
         exit("Model PMU Stats Fetch Failed")
 
     # PMU stats for a single layer will always fit in one RPC block
@@ -422,13 +459,39 @@ def getPMUStats(params, client, layer, num_events_per_layer):
     # print(f"[NS] csv_header: {csv_header}")
 
     # The rest of the stats are the PMU stats for the layer
-    pmu_stats = stat_array[513:513+num_events_per_layer]
+    pmu_stats = stat_array[513 : 513 + num_events_per_layer]
     # print(f"[NS] pmu_stats: {pmu_stats}")
 
     # Print the stats
     # log.info(csv_header)
     # log.info(pmu_stats)
     return csv_header, pmu_stats
+
+
+def _table_to_dataframe(table, strict=False):
+    """Convert table to DataFrame; optionally fail if rows are ragged."""
+    if not table:
+        return pd.DataFrame()
+    header = list(table[0])
+    width = len(header)
+    row_lens = [len(list(r)) for r in table[1:]]
+    if row_lens and (min(row_lens) != width or max(row_lens) != width):
+        msg = (
+            f"Ragged stats table detected (header={width}, "
+            f"min_row={min(row_lens)}, max_row={max(row_lens)})."
+        )
+        if strict:
+            raise ValueError(msg + " Full PMU export requires fixed-width rows.")
+        log.warning("Normalizing %s", msg)
+    rows = []
+    for row in table[1:]:
+        row_list = list(row)
+        if len(row_list) < width:
+            row_list.extend([np.nan] * (width - len(row_list)))
+        elif len(row_list) > width:
+            row_list = row_list[:width]
+        rows.append(row_list)
+    return pd.DataFrame(rows, columns=header)
 
 
 def chunker(seq, size):
@@ -1054,27 +1117,33 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
 
         # ---------- Precomputed cached values for derived columns ----------
         _mhz = float(core_mhz or 0.0)
-        _us = df_data["uSeconds"] if "uSeconds" in df_data.columns else pd.Series([np.nan]*nrows)
-        _cycles_src = df_data["ARM_PMU_CPU_CYCLES"] if "ARM_PMU_CPU_CYCLES" in df_data.columns else None
+
+        def _num_series(name):
+            if name in df_data.columns:
+                return pd.to_numeric(df_data[name], errors="coerce")
+            return pd.Series([np.nan] * nrows)
+
+        _us = _num_series("uSeconds")
+        _cycles_src = _num_series("ARM_PMU_CPU_CYCLES") if "ARM_PMU_CPU_CYCLES" in df_data.columns else None
         _cycles_series = (_cycles_src if _cycles_src is not None else (_us * _mhz)).astype("float64")
-        _macs = df_data["EST_MAC"].astype("float64") if "EST_MAC" in df_data.columns else pd.Series([np.nan]*nrows)
-        _elem_bits = df_derived["ElemBits"].astype("float64")
+        _macs = _num_series("EST_MAC").astype("float64")
+        _elem_bits = pd.to_numeric(df_derived["ElemBits"], errors="coerce").astype("float64")
         _peak = _elem_bits.map({8:32, 16:16, 32:8}).fillna(np.nan)
-        _inst = df_data["ARM_PMU_INST_RETIRED"].astype("float64") if "ARM_PMU_INST_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
-        _mve = df_data["ARM_PMU_MVE_INST_RETIRED"].astype("float64") if "ARM_PMU_MVE_INST_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
-        _mve_int_mac = df_data["ARM_PMU_MVE_INT_MAC_RETIRED"].astype("float64") if "ARM_PMU_MVE_INT_MAC_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
-        _mve_fp_mac  = df_data["ARM_PMU_MVE_FP_MAC_RETIRED"].astype("float64")  if "ARM_PMU_MVE_FP_MAC_RETIRED"  in df_data.columns else pd.Series([np.nan]*nrows)
-        _l1d        = df_data["ARM_PMU_L1D_CACHE"].astype("float64")            if "ARM_PMU_L1D_CACHE"            in df_data.columns else pd.Series([np.nan]*nrows)
-        _l1d_refill = df_data["ARM_PMU_L1D_CACHE_REFILL"].astype("float64")     if "ARM_PMU_L1D_CACHE_REFILL"     in df_data.columns else pd.Series([np.nan]*nrows)
-        _l1i        = df_data["ARM_PMU_L1I_CACHE"].astype("float64")            if "ARM_PMU_L1I_CACHE"            in df_data.columns else pd.Series([np.nan]*nrows)
-        _l1i_refill = df_data["ARM_PMU_L1I_CACHE_REFILL"].astype("float64")     if "ARM_PMU_L1I_CACHE_REFILL"     in df_data.columns else pd.Series([np.nan]*nrows)
-        _fe_stall   = df_data["ARM_PMU_STALL_FRONTEND"].astype("float64")       if "ARM_PMU_STALL_FRONTEND"       in df_data.columns else pd.Series([np.nan]*nrows)
-        _be_stall   = df_data["ARM_PMU_STALL_BACKEND"].astype("float64")        if "ARM_PMU_STALL_BACKEND"        in df_data.columns else pd.Series([np.nan]*nrows)
-        _stall      = df_data["ARM_PMU_STALL"].astype("float64")                if "ARM_PMU_STALL"                in df_data.columns else pd.Series([np.nan]*nrows)
+        _inst = _num_series("ARM_PMU_INST_RETIRED").astype("float64")
+        _mve = _num_series("ARM_PMU_MVE_INST_RETIRED").astype("float64")
+        _mve_int_mac = _num_series("ARM_PMU_MVE_INT_MAC_RETIRED").astype("float64")
+        _mve_fp_mac = _num_series("ARM_PMU_MVE_FP_MAC_RETIRED").astype("float64")
+        _l1d = _num_series("ARM_PMU_L1D_CACHE").astype("float64")
+        _l1d_refill = _num_series("ARM_PMU_L1D_CACHE_REFILL").astype("float64")
+        _l1i = _num_series("ARM_PMU_L1I_CACHE").astype("float64")
+        _l1i_refill = _num_series("ARM_PMU_L1I_CACHE_REFILL").astype("float64")
+        _fe_stall = _num_series("ARM_PMU_STALL_FRONTEND").astype("float64")
+        _be_stall = _num_series("ARM_PMU_STALL_BACKEND").astype("float64")
+        _stall = _num_series("ARM_PMU_STALL").astype("float64")
         _us_total = float(_us.sum()) if "uSeconds" in df_data and pd.notna(_us).any() else np.nan
         # For % achieved (actuals on Data, predictions are values on Derived)
-        _mve_vreduce = df_data["ARM_PMU_MVE_VREDUCE_INT_RETIRED"].astype("float64") if "ARM_PMU_MVE_VREDUCE_INT_RETIRED" in df_data.columns else pd.Series([np.nan]*nrows)
-        _pred_cycles = df_data["ARM_PMU_MVE_PRED"].astype("float64") if "ARM_PMU_MVE_PRED" in df_data.columns else pd.Series([np.nan]*nrows)
+        _mve_vreduce = _num_series("ARM_PMU_MVE_VREDUCE_INT_RETIRED").astype("float64")
+        _pred_cycles = _num_series("ARM_PMU_MVE_PRED").astype("float64")
 
         # Fill formulas into Derived (with cached results)
         # def write_cache(ws, row_idx, col_name, formula, cached):
@@ -1115,12 +1184,12 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
             for r in range(1, nrows + 1):
                 _write_formula_cached(ws_der, r, "Cycles",
                             f"={a1d('ARM_PMU_CPU_CYCLES', r)}",
-                            df_data.at[r-1, "ARM_PMU_CPU_CYCLES"])
+                            _cycles_series.iloc[r-1])
         else:
             for r in range(1, nrows + 1):
                 _write_formula_cached(ws_der, r, "Cycles",
                             f"={a1d('uSeconds', r)}*CoreMHz",
-                            (float(df_data.at[r-1, "uSeconds"])*_mhz) if ("uSeconds" in df_data.columns and pd.notna(df_data.at[r-1, "uSeconds"])) else None)
+                            (_us.iloc[r-1] * _mhz) if pd.notna(_us.iloc[r-1]) else None)
 
         # Helpers per row
         def f(col): return cidx_der(col)
@@ -1514,9 +1583,13 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
     if aot:
         # AOT FullStats carry only per-layer time (us) in stat_buffer with header "layer,us".
         # When full PMU is requested, we augment the header to include timing + PMU counters.
-        if params.full_pmu_capture:
+        if params.full_pmu_capture and pmu_csv_header.strip():
             csv_header = "Event,Tag,uSeconds," + prune_for_aot(pmu_csv_header)
         else:
+            if params.full_pmu_capture:
+                log.warning(
+                    "AOT full PMU capture requested but PMU data is unavailable; exporting timing-only AOT stats."
+                )
             csv_header = "Event,Tag,uSeconds"
     else:
         # TFLM path (unchanged): decode CSV header from stats blob
@@ -1577,22 +1650,38 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         # Pull per-layer us timings
         aot_us = [stats[offset + i] for i in range(captured_events)]
         totalTime = int(sum(aot_us))
-        # Build table rows. If Full PMU was requested, append PMU counters.
-        if params.full_pmu_capture:
+        aot_has_full_pmu = (
+            params.full_pmu_capture
+            and bool(pmu_csv_header.strip())
+            and len(overall_pmu_stats) > 0
+        )
+        # Build table rows. If Full PMU is available, append PMU counters.
+        if aot_has_full_pmu:
             # Header already includes PMU names via pmu_csv_header
             for i in range(len(mc.aot_layer_identifiers)):
                 id_int = int(mc.aot_layer_identifiers[i])
+                if id_int >= len(aot_us) or id_int >= len(overall_pmu_stats):
+                    log.warning(
+                        "AOT PMU row mapping out of range (layer id %d, us_len=%d, pmu_len=%d); skipping row",
+                        id_int,
+                        len(aot_us),
+                        len(overall_pmu_stats),
+                    )
+                    continue
                 row = [mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[id_int]]
                 # overall_pmu_stats[i] is a flat list of counters for layer i
                 row.extend(list(overall_pmu_stats[id_int]))
                 table.append(row)
         else:
             for i in range(len(mc.aot_layer_identifiers)):
-                # print(f"AOT Layer {i}: {mc.aot_layer_identifiers[i]}")
-                # print(f"{mc.aot_layer_names[i]}")
-                # print(f"{mc.aot_layer_identifiers[i]}")
                 id_int = int(mc.aot_layer_identifiers[i])
-                # print(f"{aot_us[id_int]}")
+                if id_int >= len(aot_us):
+                    log.warning(
+                        "AOT row mapping out of range (layer id %d, us_len=%d); skipping row",
+                        id_int,
+                        len(aot_us),
+                    )
+                    continue
                 table.append([mc.aot_layer_identifiers[i], mc.aot_layer_names[i], aot_us[id_int]])
 
         # Print/Log the table
@@ -1612,8 +1701,8 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
             "Model Performance Analysis: Per-layer performance statistics saved to: %s",
             stats_filename,
         )
-        np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
-        df = pd.DataFrame(table[1:], columns=table[0])
+        df = _table_to_dataframe(table, strict=aot_has_full_pmu)
+        df.to_csv(stats_filename + ".csv", index=False)
         df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
         # Use the same two-tab workbook so calculated columns sit on Derived
         _elem_bits = derive_elem_bits_per_layer(mc)
@@ -1721,15 +1810,11 @@ def printStats(params, mc, stats, stats_filename, pmu_csv_header, overall_pmu_st
         % stats_filename
     )
 
-    np.savetxt(stats_filename + ".csv", table, delimiter=", ", fmt="% s")
-
-    # Save as an excel file
-    df = pd.DataFrame(table[1:], columns=table[0])
+    df = _table_to_dataframe(table, strict=params.full_pmu_capture)
+    df.to_csv(stats_filename + ".csv", index=False)
     df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
 
     # Save as an analysis-ready Excel workbook
-    df = pd.DataFrame(table[1:], columns=table[0])
-    df = df.map(lambda x: x.encode('unicode_escape').decode('utf-8') if isinstance(x, str) else x)
     _elem_bits = derive_elem_bits_per_layer(mc)
     _core_mhz = 250 #getattr(params, "core_mhz", 0)  # fallback, PMU cycles preferred
     _emit_analysis_workbook(stats_filename + ".xlsx", df, _core_mhz, _elem_bits)

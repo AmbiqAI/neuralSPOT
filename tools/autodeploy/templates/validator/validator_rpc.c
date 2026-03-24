@@ -164,10 +164,22 @@
 #endif
 
 #if NS_AD_AOT == 1
-#define VALIDATOR_LAYER_COUNT AOT_NUM_LAYERS
+// AOT layer ids can be sparse; PMU streaming uses dense ids [0..last_identifier].
+#define VALIDATOR_LAYER_COUNT (AOT_LAST_IDENTIFIER + 1)
 #else
 #define VALIDATOR_LAYER_COUNT TFLM_VALIDATOR_MAC_ESTIMATE_COUNT
 #endif
+
+static size_t vrpc_strnlen_local(const char* s, size_t maxlen) {
+  size_t n = 0;
+  if (s == NULL) {
+    return 0;
+  }
+  while ((n < maxlen) && (s[n] != '\0')) {
+    n++;
+  }
+  return n;
+}
 
 // -----------------------------------------------------------------------------
 // Weak hooks for memory/scratch access. Provide strong definitions elsewhere
@@ -199,10 +211,12 @@ extern ns_timer_config_t s_tickTimer;
 // -----------------------------------------------------------------------------
 // Local state
 // -----------------------------------------------------------------------------
-static ns_chunk_t g_in_chunk;     // input tensor receive (if chunked)
-static ns_chunk_t g_out_chunk;    // output tensor send (if chunked)
+static ns_chunk_t g_in_chunk;       // input tensor receive (if chunked)
+static ns_chunk_t g_tensor_chunk;   // output tensor send (if chunked)
+static ns_chunk_t g_stats_chunk;    // stats send (if chunked)
 static bool       g_input_chunked = false;
 static bool       g_output_chunked = false;
+static bool       g_stats_sent_once = false;
 static uint32_t   g_warmups_seen = 0;
 static uint32_t   g_out_total_size = 0;   // total bytes across all outputs
 
@@ -239,6 +253,7 @@ static inline void vrpc_fill_block(dataBlock* blk,
                                    void* payload,
                                    uint32_t len,
                                    const char* desc) {
+  enum { VRPC_DESC_MAX = 30 };
   blk->cmd = cmd;
   blk->dType = uint8_e;
   blk->length = len;
@@ -246,11 +261,20 @@ static inline void vrpc_fill_block(dataBlock* blk,
   // RPC bug workaround: for strings and payload binary structs, eRPC will attempt to free() the memory - this is kind
   // of an ERPC bug IMHO. Nevertheless, strings & structs must be malloc'd using ns_malloc.
 
-  blk->description = (char*)ns_malloc(sizeof(char) * 30);
-  memcpy(blk->description, desc, sizeof(char) * 30);
-  uint8_t* payload_copy = (uint8_t*)ns_malloc(len);
-  memcpy(payload_copy, payload, len);
-  binary_t b = { .data = (uint8_t*)payload_copy, .dataLength = len };
+  blk->description = (char*)ns_malloc(VRPC_DESC_MAX);
+  memset(blk->description, 0, VRPC_DESC_MAX);
+  {
+    const char* safe_desc = (desc != NULL) ? desc : "";
+    size_t dlen = vrpc_strnlen_local(safe_desc, VRPC_DESC_MAX - 1);
+    memcpy(blk->description, safe_desc, dlen);
+  }
+
+  uint8_t* payload_copy = NULL;
+  if (len > 0u) {
+    payload_copy = (uint8_t*)ns_malloc(len);
+    memcpy(payload_copy, payload, len);
+  }
+  binary_t b = { .data = payload_copy, .dataLength = len };
   blk->buffer = b;
 }
 
@@ -264,14 +288,17 @@ static uint32_t vrpc_sum_output_bytes(void){
 
 static void vrpc_reset_session_state(void){
   ns_chunk_reset(&g_in_chunk);
-  ns_chunk_reset(&g_out_chunk);
+  ns_chunk_reset(&g_tensor_chunk);
+  ns_chunk_reset(&g_stats_chunk);
   g_input_chunked = false;
   g_output_chunked = false;
   g_input_offset = 0;
   g_out_total_size = 0;
+  g_stats_sent_once = false;
   g_pmu_events_per_layer = 0;
   g_pmu_layer_iter = 0;
   g_warmups_seen = 0;
+  g_full_characterization_done = false;
 }
 
 // -----------------------------------------------------------------------------
@@ -310,14 +337,9 @@ static status vrpc_configure_model(const dataBlock* in){
     return ns_rpc_data_failure;
   }
   ns_lp_printf("runtime init done\n");
-  // Precompute output total and reset chunk state
+  // Reset session state (including PMU stream state), then precompute output total
+  vrpc_reset_session_state();
   g_out_total_size = vrpc_sum_output_bytes();
-  ns_chunk_reset(&g_in_chunk);
-  ns_chunk_reset(&g_out_chunk);
-  g_input_chunked = false;
-  g_output_chunked = false;
-  g_input_offset = 0;
-  g_warmups_seen = 0;
   ns_lp_printf("reset session state done\n");
   // Update arena usage (TFLM) — AOT may report 0
   mut_stats.stats.computed_arena_size = g_rt->arena_used_bytes ? g_rt->arena_used_bytes() : 0;
@@ -382,9 +404,9 @@ static status vrpc_get_stats_full(dataBlock* out){
 //   ns_rpc_genericDataOperations_printDatablock(out);
   // If we chunked, prime chunk state for subsequent fetches
   if (to_send < statSize){
-    ns_chunk_begin(&g_out_chunk, statSize, txmax);
+    ns_chunk_begin(&g_stats_chunk, statSize, txmax);
     // We just sent first chunk
-    ns_chunk_advance(&g_out_chunk, to_send);
+    ns_chunk_advance(&g_stats_chunk, to_send);
   } else {
     // Full stats fit in one block; if Full PMU requested, prime PMU stream now.
     if ((mut_cfg.config.full_pmu_stats == 1) && g_rt && g_rt->pmu_events_per_layer) {
@@ -394,19 +416,20 @@ static status vrpc_get_stats_full(dataBlock* out){
     }
 
   }
+  g_stats_sent_once = true;
   return ns_rpc_data_success;
 }
 
 static status vrpc_get_stats_chunk(dataBlock* out){
-  uint32_t txmax = vrpc_tx_payload_max();
-  uint32_t n = ns_chunk_next(&g_out_chunk);
+  uint32_t n = ns_chunk_next(&g_stats_chunk);
+  bool is_last = ns_chunk_is_last(&g_stats_chunk, n);
   uint8_t* payload = vrpc_tx_scratch();
-  memcpy(payload, mut_stats.bytes + g_out_chunk.progressed, n);
-  vrpc_fill_block(out, write_cmd, payload, n, ns_chunk_done(&g_out_chunk) ? "LastStats" : "PartStats");
-  ns_chunk_advance(&g_out_chunk, n);
+  memcpy(payload, mut_stats.bytes + g_stats_chunk.progressed, n);
+  vrpc_fill_block(out, write_cmd, payload, n, is_last ? "LastStats" : "PartStats");
+  ns_chunk_advance(&g_stats_chunk, n);
   // If that was the final stats chunk and Full PMU is requested, switch to PMU layer stream
 
-  if (!g_out_chunk.active && (mut_cfg.config.full_pmu_stats == 1) && g_rt && g_rt->pmu_events_per_layer) {
+  if (!g_stats_chunk.active && (mut_cfg.config.full_pmu_stats == 1) && g_rt && g_rt->pmu_events_per_layer) {
     // Inform host how many PMU counters per layer and prime first layer
     mut_stats.stats.pmu_events_per_layer = g_rt->pmu_events_per_layer();
     g_pmu_events_per_layer = mut_stats.stats.pmu_events_per_layer;
@@ -419,6 +442,8 @@ static status vrpc_get_stats_chunk(dataBlock* out){
 static status vrpc_get_pmu_layer(dataBlock* out){
   #if defined(ARMCM55)
   if (!g_rt || !g_rt->pmu_get_header || !g_rt->pmu_get_layer_counters || (g_pmu_events_per_layer == 0)){
+    const char* msg = "PMU stream unavailable";
+    vrpc_fill_block(out, generic_cmd, (void*)msg, (uint32_t)(vrpc_strnlen_local(msg, 64) + 1u), "PmuUnavailable");
     return ns_rpc_data_failure;
   }
 
@@ -474,8 +499,18 @@ status decodeIncomingFetchblock(dataBlock* out){
     // pmu_events_per_layer is communicated in the stats payload.
     return vrpc_get_pmu_layer(out);
   }
+
+  if (g_stats_sent_once &&
+      !g_stats_chunk.active &&
+      (mut_cfg.config.full_pmu_stats == 1) &&
+      g_rt && g_rt->pmu_events_per_layer &&
+      (g_rt->pmu_events_per_layer() == 0)) {
+    const char* msg = "PMU stream unavailable";
+    vrpc_fill_block(out, generic_cmd, (void*)msg, (uint32_t)(vrpc_strnlen_local(msg, 64) + 1u), "PmuUnavailable");
+    return ns_rpc_data_failure;
+  }
   
-  if (!g_out_chunk.active) {
+  if (!g_stats_chunk.active) {
     ns_lp_printf("get stats full\n");
     status rc = vrpc_get_stats_full(out);
     return rc;
@@ -490,12 +525,13 @@ status decodeIncomingFetchblock(dataBlock* out){
 status infer(const dataBlock* in, dataBlock* out){
 //   ns_lp_printf("infer\n");
   // If host asks for next output chunk (by calling compute with write_cmd)
-  if (in->cmd == write_cmd && g_output_chunked && g_out_chunk.active){
-    uint32_t n = ns_chunk_next(&g_out_chunk);
+  if (in->cmd == write_cmd && g_output_chunked && g_tensor_chunk.active){
+    uint32_t n = ns_chunk_next(&g_tensor_chunk);
+    bool is_last = ns_chunk_is_last(&g_tensor_chunk, n);
     uint8_t* payload = vrpc_tx_scratch();
-    memcpy(payload, vrpc_out_hold_buf() + g_out_chunk.progressed, n);
-    vrpc_fill_block(out, write_cmd, payload, n, ns_chunk_done(&g_out_chunk) ? "LastTensor" : "PartTensor");
-    ns_chunk_advance(&g_out_chunk, n);
+    memcpy(payload, vrpc_out_hold_buf() + g_tensor_chunk.progressed, n);
+    vrpc_fill_block(out, write_cmd, payload, n, is_last ? "LastTensor" : "PartTensor");
+    ns_chunk_advance(&g_tensor_chunk, n);
     return ns_rpc_data_success;
   }
 
@@ -566,12 +602,12 @@ status infer(const dataBlock* in, dataBlock* out){
       else if (g_rt->get_output(t, hold + off, len) != 0){ ns_lp_printf("[ERROR] get_output failed\n"); return ns_rpc_data_failure; }
       off += len;
     }
-    ns_chunk_begin(&g_out_chunk, g_out_total_size, txmax);
-    uint32_t n = ns_chunk_next(&g_out_chunk);
+    ns_chunk_begin(&g_tensor_chunk, g_out_total_size, txmax);
+    uint32_t n = ns_chunk_next(&g_tensor_chunk);
     uint8_t* payload = vrpc_tx_scratch();
     memcpy(payload, hold, n);
     vrpc_fill_block(out, generic_cmd, payload, n, "PartTensor");
-    ns_chunk_advance(&g_out_chunk, n);
+    ns_chunk_advance(&g_tensor_chunk, n);
     g_output_chunked = true;
   }
 

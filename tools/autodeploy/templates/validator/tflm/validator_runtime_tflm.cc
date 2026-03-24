@@ -151,7 +151,7 @@ extern "C" {
     
     // -------- PMU / characterization hooks (runtime-specific) --------------
     static void rt_pmu_get_header(char* dst, uint32_t max_len){
-      #if defined(ARMCM55)
+      #if defined(ARMCM55) && defined(NS_MLPROFILE)
       if (!dst || max_len == 0) return;
       ns_set_pmu_header();
       // Safe copy with guaranteed NUL
@@ -160,10 +160,13 @@ extern "C" {
         dst[i] = ns_profiler_pmu_header[i];
       }
       dst[i] = '\0';
+      #else
+      if (!dst || max_len == 0) return;
+      dst[0] = '\0';
       #endif
     }
     static uint32_t rt_pmu_events_per_layer(void){
-    #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
+    #if defined(NS_MLPROFILE) && (defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L))
       return NS_NUM_PMU_MAP_SIZE;
     #else
       return 0;
@@ -174,17 +177,25 @@ extern "C" {
                                           uint32_t rv_max,
                                           uint32_t* out_counters,
                                           uint32_t out_capacity){
-      #if defined(ARMCM55)
+      #if defined(ARMCM55) && defined(NS_MLPROFILE)
       (void)layer_count; (void)rv_max;
       if (!out_counters || out_capacity == 0) return -1;
       ns_get_layer_counters(layer, layer_count, rv_max, out_counters);
+      #else
+      (void)layer;
+      (void)layer_count;
+      (void)rv_max;
+      (void)out_counters;
+      (void)out_capacity;
       #endif
       return 0;
     }
     static void rt_pmu_full_characterize(int (*invoke_cb)(void)){
-      #if defined(ARMCM55)
+      #if defined(ARMCM55) && defined(NS_MLPROFILE)
       /* Characterize via the existing helper; prefer callback if provided. */
       (void)ns_characterize_model(invoke_cb ? invoke_cb : rt_invoke_cb_shim);
+      #else
+      (void)invoke_cb;
       #endif
     }
         

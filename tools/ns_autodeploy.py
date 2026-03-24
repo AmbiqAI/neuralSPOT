@@ -220,7 +220,6 @@ class Params(BaseModel):
         False,
         description="Capture full PMU data during performance measurements on EVB",
     )
-
     # ------------------------------------------------------------------
     #   General Configuration
     # ------------------------------------------------------------------

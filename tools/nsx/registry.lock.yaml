@@ -1,0 +1,146 @@
+schema_version: 1
+
+channels:
+  stable:
+    default: true
+  preview: {}
+
+projects:
+  nsx:
+    name: nsx
+    url: local://nsx
+    revision: main
+    path: modules/nsx
+
+modules:
+  nsx-sdk-ambiqsuite-r3:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/sdk_ambiqsuite_r3/nsx-module.yaml
+  nsx-sdk-ambiqsuite-r4:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/sdk_ambiqsuite_r4/nsx-module.yaml
+  nsx-sdk-ambiqsuite-r5:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/sdk_ambiqsuite_r5/nsx-module.yaml
+  nsx-soc-hal:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/ambiqsuite_core/nsx-module.yaml
+  nsx-cmsis-startup:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/cmsis_startup/nsx-module.yaml
+  nsx-board-apollo3p-evb:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/boards/apollo3p_evb/nsx-module.yaml
+  nsx-board-apollo510-evb:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/boards/apollo510_evb/nsx-module.yaml
+  nsx-board-apollo4p-evb:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/boards/apollo4p_evb/nsx-module.yaml
+  nsx-runtime-core:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/neuralspot_core_min/nsx-module.yaml
+  nsx-portable-api:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/portable_api/nsx-module.yaml
+  nsx-board-helpers-apollo3p:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/modules/board_helpers_apollo3p/nsx-module.yaml
+  nsx-tooling:
+    project: nsx
+    revision: main
+    metadata: neuralspotx/cmake/nsx-module.yaml
+
+starter_profiles:
+  apollo3p_evb_minimal:
+    board: apollo3p_evb
+    soc: apollo3p
+    toolchain: arm-none-eabi-gcc
+    channel: stable
+    modules:
+      - nsx-sdk-ambiqsuite-r3
+      - nsx-soc-hal
+      - nsx-cmsis-startup
+      - nsx-board-apollo3p-evb
+      - nsx-runtime-core
+      - nsx-tooling
+    features: {}
+  apollo510_evb_minimal:
+    board: apollo510_evb
+    soc: apollo510
+    toolchain: arm-none-eabi-gcc
+    channel: stable
+    modules:
+      - nsx-sdk-ambiqsuite-r5
+      - nsx-soc-hal
+      - nsx-cmsis-startup
+      - nsx-board-apollo510-evb
+      - nsx-runtime-core
+      - nsx-tooling
+    features: {}
+  apollo4p_evb_minimal:
+    board: apollo4p_evb
+    soc: apollo4p
+    toolchain: arm-none-eabi-gcc
+    channel: preview
+    status: scaffold
+    modules:
+      - nsx-sdk-ambiqsuite-r4
+      - nsx-soc-hal
+      - nsx-cmsis-startup
+      - nsx-board-apollo4p-evb
+      - nsx-runtime-core
+      - nsx-tooling
+    features: {}
+
+compat_matrix:
+  apollo3p_evb:
+    socs:
+      - apollo3p
+    toolchains:
+      - arm-none-eabi-gcc
+    modules:
+      required:
+        - nsx-sdk-ambiqsuite-r3
+        - nsx-soc-hal
+        - nsx-cmsis-startup
+        - nsx-board-apollo3p-evb
+        - nsx-runtime-core
+        - nsx-tooling
+  apollo510_evb:
+    socs:
+      - apollo510
+    toolchains:
+      - arm-none-eabi-gcc
+    modules:
+      required:
+        - nsx-sdk-ambiqsuite-r5
+        - nsx-soc-hal
+        - nsx-cmsis-startup
+        - nsx-board-apollo510-evb
+        - nsx-runtime-core
+        - nsx-tooling
+  apollo4p_evb:
+    socs:
+      - apollo4p
+    toolchains:
+      - arm-none-eabi-gcc
+    modules:
+      required:
+        - nsx-sdk-ambiqsuite-r4
+        - nsx-soc-hal
+        - nsx-cmsis-startup
+        - nsx-board-apollo4p-evb
+        - nsx-runtime-core
+        - nsx-tooling

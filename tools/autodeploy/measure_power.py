@@ -4,6 +4,7 @@ import os
 import queue
 import shutil
 import signal
+import subprocess
 import time
 import traceback
 import warnings
@@ -171,6 +172,7 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
         "NS_AD_PERF_NAME": params.model_name,
         "NS_AD_LAYER_METADATA_CODE": mc.modelStructureDetails.code,
         "NS_AD_AOT": "1" if aot else "0",
+        "NS_AD_ENABLE_PMU": "1" if params.full_pmu_capture else "0",
     }
     if aot:
         print(f"[NS] Compiling, deploying, and measuring AOT {cpu_mode} power, model location = {params.model_location}, arena location = {params.arena_location}.")
@@ -318,11 +320,18 @@ def generatePowerBinary(params, mc, md, cpu_mode, aot):
     #     print("Makefile successfully built power measurement binary")
 
 
-    # Do one more reset
+    # Do one more reset. On some larger Apollo510 runs, `make reset` can hang in
+    # J-Link even after a successful power binary build/deploy. Bound the reset
+    # so Stage 3 can continue into Joulescope collection instead of blocking
+    # indefinitely in the host process.
     time.sleep(2)
     # reset if measuring power
     if params.joulescope:
-        os.system(f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1")
+        reset_cmd = f"cd {params.neuralspot_rootdir} {ws_and} make reset {ps}  >{ws_null} 2>&1"
+        try:
+            subprocess.run(reset_cmd, shell=True, timeout=20, check=False)
+        except subprocess.TimeoutExpired:
+            log.warning("Timed out waiting for `make reset`; continuing to power measurement")
     else:
         time.sleep(6)
     if (params.model_location == "PSRAM" or params.arena_location == "PSRAM"):

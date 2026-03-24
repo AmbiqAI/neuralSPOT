@@ -326,6 +326,7 @@ static status vrpc_configure_model(const dataBlock* in){
   // Bind runtime
   g_rt = ns_get_runtime_api();
   if (!g_rt) { ns_lp_printf("[ERROR] Runtime API not linked\n"); return ns_rpc_data_failure; }
+  memset(mut_stats.stats.last_error_message, 0, sizeof(mut_stats.stats.last_error_message));
 
   // Initialize runtime
   if (g_rt->init(mut_cfg.config.num_input_tensors,
@@ -333,6 +334,9 @@ static status vrpc_configure_model(const dataBlock* in){
                  mut_cfg.config.profile_mut,
                  mut_cfg.config.profile_warmup,
                  &s_tickTimer) != 0){
+    mut_stats.stats.computed_arena_size = g_rt->arena_used_bytes ? g_rt->arena_used_bytes() : 0;
+    ns_lp_printf("[ERROR] runtime init failed, computed arena bytes %u\n",
+                 (unsigned)mut_stats.stats.computed_arena_size);
     ns_lp_printf("[ERROR] runtime init failed\n");
     return ns_rpc_data_failure;
   }

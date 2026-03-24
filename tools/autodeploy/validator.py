@@ -336,6 +336,38 @@ def configModel(params, client, md):
     # print(f"[DEBUG] Configuring model with prof_enable {prof_enable} done")
     if status != 0:
         print("[ERROR] Model Configuration Send Status = %d" % status)
+        print("[ERROR] Attempted arena ceiling = %dk" % params.max_arena_size)
+        try:
+            statBlock = erpc.Reference()
+            fetch_status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
+            if fetch_status == 0:
+                raw_stats = bytes(statBlock.value.buffer)
+                stat_array = struct.unpack(
+                    "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
+                )
+                if statBlock.value.description != "FullStats":
+                    while statBlock.value.description != "LastStats":
+                        fetch_status = client.ns_rpc_data_fetchBlockFromEVB(statBlock)
+                        if fetch_status != 0:
+                            break
+                        raw_stats += bytes(statBlock.value.buffer)
+                        stat_array = stat_array + struct.unpack(
+                            "<" + "I" * (len(statBlock.value.buffer) // 4), statBlock.value.buffer
+                        )
+                if stat_array:
+                    computed_arena_bytes = int(stat_array[0])
+                    if computed_arena_bytes > 0:
+                        computed_arena_kb = (computed_arena_bytes + 1023) // 1024
+                        print(
+                            "[ERROR] Runtime reported arena usage during failed init: %d bytes (~%dk)"
+                            % (computed_arena_bytes, computed_arena_kb)
+                        )
+                if len(raw_stats) >= 256:
+                    last_error = raw_stats[-256:].split(b"\x00", 1)[0].decode("utf-8", errors="replace").strip()
+                    if last_error:
+                        print("[ERROR] Runtime reported: %s" % last_error)
+        except Exception:
+            pass
         print(
             "[ERROR] This may be caused by allocating too little memory for the tensor arena."
         )
@@ -1341,26 +1373,26 @@ def _emit_analysis_workbook(xlsx_path, df, core_mhz, elem_bits_per_layer):
                     (_pred_cycles[r-1]/df_derived.at[r-1,"PRED_MVE_PRED"])
                         if (pd.notna(_pred_cycles[r-1]) and df_derived.at[r-1,"PRED_MVE_PRED"]>0) else None)
 
-            # Flag
-            required_flag_cols = ("Util_%","MACs_per_Byte","L1D_Hit","FE_Stall%","L1I_Hit","BE_Stall%","OpKind","Time_Share%","Flag")
-            if all(h in headers_der for h in required_flag_cols):
-                U   = cidx_der("Util_%");        MB  = cidx_der("MACs_per_Byte"); L1DH = cidx_der("L1D_Hit")
-                FE  = cidx_der("FE_Stall%");     LIH = cidx_der("L1I_Hit");       BEP  = cidx_der("BE_Stall%")
-                OP  = cidx_der("OpKind");        TS  = cidx_der("Time_Share%")
-                for r in range(1, nrows + 1):
-                    ws_der.write_formula(
-                        r, cidx_der("Flag"),
-                        ('=IF({u}<0.25,"Compute under-utilized",'
-                         'IF(AND(NOT(ISBLANK({mb})),{mb}<0.5,NOT(ISBLANK({l1})),{l1}<0.85),"Memory-bound",'
-                         'IF(OR(IFERROR({fe},0)>0.20,IFERROR({lih},1)<0.85),"Frontend stalls",'
-                         'IF(IFERROR({be},0)>0.25,"LSU stalls",'
-                         'IF(AND(IFERROR({op},"")="Elementwise",IFERROR({ts},0)>0.10),"Elementwise hotspot","")))))')
-                        .format(u=a1der(U,r), mb=a1der(MB,r), l1=a1der(L1DH,r),
-                                fe=a1der(FE,r), lih=a1der(LIH,r), be=a1der(BEP,r),
-                                op=a1der(OP,r), ts=a1der(TS,r)))
-
-
         # Conditional formatting on Derived sheet
+        # Flag formulas are written once per row after all dependent columns exist.
+        required_flag_cols = ("Util_%","MACs_per_Byte","L1D_Hit","FE_Stall%","L1I_Hit","BE_Stall%","OpKind","Time_Share%","Flag")
+        if all(h in headers_der for h in required_flag_cols):
+            U   = cidx_der("Util_%");        MB  = cidx_der("MACs_per_Byte"); L1DH = cidx_der("L1D_Hit")
+            FE  = cidx_der("FE_Stall%");     LIH = cidx_der("L1I_Hit");       BEP  = cidx_der("BE_Stall%")
+            OP  = cidx_der("OpKind");        TS  = cidx_der("Time_Share%")
+            flag_ci = cidx_der("Flag")
+            for r in range(1, nrows + 1):
+                ws_der.write_formula(
+                    r, flag_ci,
+                    ('=IF({u}<0.25,"Compute under-utilized",'
+                     'IF(AND(NOT(ISBLANK({mb})),{mb}<0.5,NOT(ISBLANK({l1})),{l1}<0.85),"Memory-bound",'
+                     'IF(OR(IFERROR({fe},0)>0.20,IFERROR({lih},1)<0.85),"Frontend stalls",'
+                     'IF(IFERROR({be},0)>0.25,"LSU stalls",'
+                     'IF(AND(IFERROR({op},"")="Elementwise",IFERROR({ts},0)>0.10),"Elementwise hotspot","")))))')
+                    .format(u=a1der(U,r), mb=a1der(MB,r), l1=a1der(L1DH,r),
+                            fe=a1der(FE,r), lih=a1der(LIH,r), be=a1der(BEP,r),
+                            op=a1der(OP,r), ts=a1der(TS,r)))
+
         def rng_der(col_name):
             ci = cidx_der(col_name)
             return (1, ci, nrows, ci) if ci is not None else None
@@ -1882,14 +1914,15 @@ def compile_and_deploy(params, mc, first_time=False, aot=False):
         itcm = itcm + " STACK_SIZE_IN_32B_WORDS=5120"
 
     if (params.create_profile) or (params.create_binary):
+        mlprofile_flags = f"MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers}"
 
         if params.verbosity > 3:
             print(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} {mlprofile_flags} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
             )
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} {mlprofile_flags} {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset")
@@ -1897,7 +1930,7 @@ def compile_and_deploy(params, mc, first_time=False, aot=False):
             # print(f"cd .. {ws1} make {ws} {ps} AUTODEPLOY=1 ADPATH={d} TFLM_VALIDATOR=1 EXAMPLE=tflm_validator MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 ADPATH={d} EXAMPLE=tflm_validator TARGET=tflm_validator deploy >{ws3} 2>&1")
 
             makefile_result = os.system(
-                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} MLPROFILE=1 TFLM_VALIDATOR_MAX_EVENTS={mc.modelStructureDetails.layers} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
+                f"cd {params.neuralspot_rootdir} {ws1} make {ws} {ps} {itcm} AUTODEPLOY=1 ADPATH={relative_build_path} TFLM_VALIDATOR=1 EXAMPLE={example} {mlprofile_flags} >{ws3} 2>&1 {ws1} make AUTODEPLOY=1 {ps} ADPATH={relative_build_path} EXAMPLE={example} deploy >{ws3} 2>&1"
             )
             # time.sleep(3)
             # makefile_result = os.system(f"cd {params.neuralspot_rootdir} {ws1} make {ps} reset >{ws3} 2>&1")
@@ -1989,6 +2022,7 @@ def create_mut_metadata(params, tflm_dir, mc, aot):
         "NS_AD_AOT_VALUE": 1 if aot else 0,
         "NS_AD_AOT_NUM_LAYERS": mc.aot_layers if aot else 0,
         "NS_AD_AOT_LAST_IDENTIFIER": mc.aot_layer_last_identifier if aot else 0,
+        "NS_AD_AOT_FULL_PMU_VALUE": 1 if (aot and params.full_pmu_capture) else 0,
     }
     log.info(
         "Create metadata file with %dk arena size, %dk padding, RPC RX/TX buffer %d, RV Count %d"

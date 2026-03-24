@@ -10,7 +10,7 @@
  *
  */
 
-#if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
+#if (defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)) && (NS_AD_ENABLE_PMU == 1)
 #define NS_PROFILER_PMU_EVENT_0 NS_AD_PMU_EVENT_0
 #define NS_PROFILER_PMU_EVENT_1 NS_AD_PMU_EVENT_1
 #define NS_PROFILER_PMU_EVENT_2 NS_AD_PMU_EVENT_2
@@ -134,7 +134,7 @@ typedef enum { WAITING_TO_RUN, SIGNAL_START_TO_JS, RUNNING, SIGNAL_END_TO_JS } m
 // Button global - will be set by neuralSPOT button helper
 static int volatile joulescopeTrigger = 0;
 
-#ifdef NS_MLPROFILE
+#if defined(NS_MLPROFILE) && NS_AD_HAS_PMU
     #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L)
     extern ns_pmu_config_t ns_microProfilerPMU;
         #if NS_AD_AOT == 0

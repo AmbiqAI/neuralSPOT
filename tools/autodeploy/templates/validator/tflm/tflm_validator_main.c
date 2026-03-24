@@ -94,7 +94,7 @@ void vrpc_on_after_invoke(void) {
   mut_stats.stats.pmu_count = 0;
 #endif
 
-#ifdef NS_TFLM_VALIDATOR
+#if defined(NS_TFLM_VALIDATOR) && defined(NS_MLPROFILE)
   // These symbols come from ns_TFDebugLog / profiler sidecar when profiling is enabled
   extern ns_profiler_sidecar_t      ns_microProfilerSidecar;
   extern ns_profiler_event_stats_t  ns_profiler_events_stats[];

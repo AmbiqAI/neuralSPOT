@@ -52,7 +52,10 @@ static uint8_t* s_model_ptr = 0;   // set at runtime once PSRAM is ready
 // extern const unsigned char mut_model[]; // from mut_model_data.h when not PSRAM
 #endif
 
-#if (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
+#if (NS_AD_AOT == 1)
+static uint8_t* s_arena_ptr = 0;
+static const uint32_t s_arena_size = 0;
+#elif (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
 static uint8_t* s_arena_ptr = 0;   // set at runtime after PSRAM base known
 static const uint32_t s_arena_size = 10u * 1024u * 1024u; // 10 MB, matches template
 #elif (TFLM_ARENA_LOCATION == NS_AD_SRAM)
@@ -69,7 +72,7 @@ void ns_mem_init_defaults(void){
 #if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   s_model_ptr = 0;  // must be set via ns_mem_set_psram_base()
 #endif
-#if (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
+#if (NS_AD_AOT != 1) && (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
   s_arena_ptr = 0;  // will be base + offset in app layer; we keep base here
 #endif
 }
@@ -78,7 +81,7 @@ void ns_mem_set_psram_base(uint8_t* base){
 #if (TFLM_MODEL_LOCATION == NS_AD_PSRAM)
   s_model_ptr = base;
 #endif
-#if (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
+#if (NS_AD_AOT != 1) && (TFLM_ARENA_LOCATION == NS_AD_PSRAM)
   // leave 20MB for model as in template; arena starts at +20MB
   s_arena_ptr = base + (20u * 1024u * 1024u);
 #endif

@@ -80,6 +80,7 @@ typedef struct {
     uint32_t platform; // dictates how to interpret the stats
     char csv_header[512]; // CSV header for the stats
     ns_profiler_event_stats_t stat_buffer[NS_PROFILER_RPC_EVENTS_MAX];
+    char last_error_message[256];
 } ns_mut_stats_t;
 
 #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO330P_510L) || defined(AM_PART_APOLLO330P)

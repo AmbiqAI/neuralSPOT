@@ -17,6 +17,7 @@
  ******************************************************************************/
 
 #include "mut_model_metadata.h"
+#include "tflm_validator.h"
 
 // NS includes
 #include "ns_ambiqsuite_harness.h"
@@ -26,17 +27,40 @@
 // Tensorflow Lite for Microcontroller includes (somewhat boilerplate)
 // #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
+#include "tensorflow/lite/micro/micro_log.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/micro/micro_mutable_op_resolver.h"
 #include "tensorflow/lite/micro/micro_profiler.h"
 #include "tensorflow/lite/micro/system_setup.h"
 #include "tensorflow/lite/schema/schema_generated.h"
+#include <cstdarg>
+#include <cstdio>
+#include <cstring>
 
 #ifdef NS_TFSTRUCTURE_RECENT
     #include "tensorflow/lite/micro/tflite_bridge/micro_error_reporter.h"
 #else
     #include "tensorflow/lite/micro/micro_error_reporter.h"
 #endif
+namespace {
+class CapturingErrorReporter : public tflite::ErrorReporter {
+ public:
+  int Report(const char *format, va_list args) override {
+    va_list copy;
+    va_copy(copy, args);
+    vsnprintf(mut_stats.stats.last_error_message,
+              sizeof(mut_stats.stats.last_error_message),
+              format,
+              copy);
+    va_end(copy);
+    VMicroPrintf(format, args);
+    return 0;
+  }
+
+ private:
+  TF_LITE_REMOVE_VIRTUAL_DELETE
+};
+}  // namespace
 
 /**
  * @brief Initialize TF with model
@@ -49,7 +73,8 @@
 int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     ms->state = NOT_READY;
 
-    static tflite::MicroErrorReporter micro_error_reporter;
+    memset(mut_stats.stats.last_error_message, 0, sizeof(mut_stats.stats.last_error_message));
+    static CapturingErrorReporter micro_error_reporter;
     ms->error_reporter = &micro_error_reporter;
 
 #ifdef NS_MLPROFILE
@@ -125,10 +150,12 @@ int NS_AD_NAME_model_init(ns_model_state_t *ms) {
     TfLiteStatus allocate_status = ms->interpreter->AllocateTensors();
     ns_lp_printf("Tensors allocated.\n");
     if (allocate_status != kTfLiteOk) {
-        TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
+        ms->computed_arena_size = ms->interpreter ? ms->interpreter->arena_used_bytes() : 0;
+        if (mut_stats.stats.last_error_message[0] == '\0') {
+            TF_LITE_REPORT_ERROR(ms->error_reporter, "AllocateTensors() failed");
+        }
         ns_lp_printf("AllocateTensors() failed. Error code %d, arena size %d\n", allocate_status,
-                     ms->interpreter->arena_used_bytes());
-        ms->computed_arena_size = 0xDEADBEEF;
+                     ms->computed_arena_size);
         return NS_STATUS_FAILURE;
     }
 

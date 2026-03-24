@@ -68,9 +68,11 @@
         #if (NS_AD_NAME_ARENA_LOCATION == NS_AD_SRAM)
             #ifdef keil6
             // Align to 16 bytes
-            AM_SHARED_RW __attribute__((aligned(16))) uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+            NS_SRAM_BSS __attribute__((aligned(16))) uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
             #else
-            AM_SHARED_RW alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
+            // For Apollo5 GCC, keep the RT/power tensor arena in true NOLOAD SRAM BSS
+            // rather than `.shared`, which would consume MRAM as a load image.
+            __attribute__((section(".sram_bss"), aligned(16))) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];
             #endif
         #else
             alignas(16) static uint8_t NS_AD_NAME_tensor_arena[NS_AD_NAME_tensor_arena_size];

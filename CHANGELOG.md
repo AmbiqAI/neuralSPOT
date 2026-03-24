@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.4.0](https://github.com/AmbiqAI/neuralSPOT/compare/v1.3.0...v1.4.0) (2026-03-24)
+
+
+### Features
+
+* AutoDeploy fixes for AP3/AP4 ([#296](https://github.com/AmbiqAI/neuralSPOT/issues/296)) ([026f967](https://github.com/AmbiqAI/neuralSPOT/commit/026f96792fb380f0f4b95e0fe0141d8975cb8dc9))
+* Pull in latest TFLM and HeliaRT. ([4681d47](https://github.com/AmbiqAI/neuralSPOT/commit/4681d47025dbe27f602005691866961504094c36))
+* Update TFLM v1.7 ([a5de31f](https://github.com/AmbiqAI/neuralSPOT/commit/a5de31f2b80244fcc8596cea95e0ddbe8ad32b91))
+* Use compatible LiteRT for AOT. ([57b959c](https://github.com/AmbiqAI/neuralSPOT/commit/57b959c65f34c5183de43d3c34f7e0cbdfe32cc2))
+
+
+### Bug Fixes
+
+* stabilize AutoDeploy PMU capture and chunking state ([#299](https://github.com/AmbiqAI/neuralSPOT/issues/299)) ([308c4e6](https://github.com/AmbiqAI/neuralSPOT/commit/308c4e631b52511ac9affb4a9261ec51d35b7b52))
+
+
+### Documentation
+
+* update HeliaAOT invocation guidance for uv --with-editable ([3222d17](https://github.com/AmbiqAI/neuralSPOT/commit/3222d17f8085fdf950b4bdad1be2843152861995))
+* update tensorflow runtime workflow and fix AOT config path ([df988cc](https://github.com/AmbiqAI/neuralSPOT/commit/df988ccb4acf83f0182dfb11f6faa3618306a6b4))
+
 ## [1.3.0](https://github.com/AmbiqAI/neuralSPOT/compare/v1.2.0...v1.3.0) (2026-02-03)
 
 

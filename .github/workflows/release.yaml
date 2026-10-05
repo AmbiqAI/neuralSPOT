@@ -12,6 +12,9 @@ on:
       - reopened
   workflow_dispatch:
 
+# Every job declares its own permissions.
+permissions: {}
+
 jobs:
   release-please:
     if: github.event_name != 'pull_request'

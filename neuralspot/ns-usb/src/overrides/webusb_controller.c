@@ -160,6 +160,12 @@ void tud_vendor_rx_cb(uint8_t itf) {
         uint8_t *p = rx_buf;
 
         bytes_rx = tud_vendor_read(rx_buf, sizeof(rx_buf));
+        // A frame shorter than its header has no valid payload length, and a
+        // short read means the FIFO is already empty.
+        if (bytes_rx < sizeof(frame_header)) {
+            ns_lp_printf("Error: WebUSB Rx frame too short: %lu bytes\n", (unsigned long)bytes_rx);
+            break;
+        }
         // The size of frame header is 2.
         BSTREAM_TO_UINT16(frame_header, p);
 

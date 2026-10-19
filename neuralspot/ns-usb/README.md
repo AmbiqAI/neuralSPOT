@@ -87,9 +87,14 @@ Receiving a message operates on the same principle with *one important caveat*: 
 
 #### Receiver
 
+`buffer` holds only the payload (the 2-byte header is already removed) and is not NUL-terminated. The callback must not read past `length`. Check `length` before reading fixed fields. Do not print `buffer` with `%s`: `ns_lp_printf` reads until it finds a NUL byte and ignores any precision such as `%.*s`.
+
 ```c
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     // The message contains information about how to set the camera
+    if (length < 3) {
+        return;
+    }
     ns_camera_adjust_settings(buffer[0], buffer[1], buffer[2]);
 }
 ```

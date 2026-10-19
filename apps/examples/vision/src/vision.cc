@@ -242,9 +242,10 @@ static void render_image(uint32_t camLength, uint8_t *buff) {
 
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     // The message contains information about how to set the camera
+    if (length < 3) {
+        return;
+    }
     ns_camera_adjust_settings(buffer[0], buffer[1], buffer[2]);
-
-    // ns_lp_printf("Received %d bytes: %s\n", length, buffer);
 }
 
 int main(void) {

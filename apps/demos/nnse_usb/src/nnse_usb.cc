@@ -319,8 +319,7 @@ void setup_task(void *pvParameters) {
 }
 
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
-    // The message contains information about how to set the camera
-    ns_lp_printf("Received %d bytes: %s\n", length, buffer);
+    ns_lp_printf("Received %d bytes\n", length);
 }
 
 int main(void) {

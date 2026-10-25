@@ -5,8 +5,9 @@
 > [neuralSPOT-X](https://github.com/AmbiqAI/neuralspotx)
 > ([docs](https://ambiqai.github.io/neuralspotx/),
 > [migration guide](https://ambiqai.github.io/neuralspotx/getting-started/migrate-from-neuralspot/)).
-> For model profiling and deployment, AutoDeploy is replaced by
-> [heliaPROFILER](https://ambiqai.github.io/helia-profiler/).
+> For model profiling, AutoDeploy is replaced by
+> [heliaPROFILER](https://ambiqai.github.io/helia-profiler/). For generating
+> deployable model code, see [heliaAOT](https://ambiqai.github.io/helia-aot/).
 
 > AI SDK and Toolkit for Ambiq's Apollo Family of Ultra-Low-Power SoCs
 

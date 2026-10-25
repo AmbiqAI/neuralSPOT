@@ -1,7 +1,7 @@
 [project]
 name = "neuralspot"
 version = "1.3.0"
-description = "Legacy neuralSPOT tooling (in maintenance). For new work use neuralSPOT-X (https://github.com/AmbiqAI/neuralspotx) and heliaPROFILER."
+description = "Legacy neuralSPOT tooling (in maintenance). For new work, use neuralSPOT-X (https://github.com/AmbiqAI/neuralspotx), heliaPROFILER and heliaAOT."
 readme = "README.md"
 authors = [
     {name="Ambiq AI", email="support.aitg@ambiq.com"}

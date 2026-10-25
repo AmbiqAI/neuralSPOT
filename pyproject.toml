@@ -69,7 +69,7 @@ Successor = "https://github.com/AmbiqAI/neuralspotx"
 
 
 [tool.uv]
-# Minimum uv with the emSign CA fix; setup-uv in CI also reads this. See AmbiqAI/neuralSPOT#308.
+# Minimum uv with the emSign CA fix; see AmbiqAI/neuralSPOT#308.
 required-version = ">=0.13.4"
 
 [build-system]

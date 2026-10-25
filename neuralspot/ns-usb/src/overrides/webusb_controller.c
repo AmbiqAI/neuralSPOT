@@ -81,11 +81,14 @@ typedef struct {
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
 #define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
+// Upper bound on any TX FIFO wait. A host can stop reading IN data without
+// disconnecting (for example, a closed browser tab), and the FIFO then never drains.
+#define WEBUSB_TX_TIMEOUT_US 1000000
 
 // The max of USB2.0 bulk type packet size is 512 in High Speed.
 static uint8_t rx_buf[512];
 // WebUSB connections status
-static bool webusb_connected = false;
+static volatile bool webusb_connected = false;
 
 static webusb_parameter_t webusb_parameter = {
     .rx_msg_cb = NULL,
@@ -262,53 +265,56 @@ bool tud_vendor_control_xfer_cb(
     return false;
 }
 
+uint32_t webusb_wait_tx_space(uint32_t needed, uint32_t poll_us) {
+    uint32_t waited_us = 0;
+
+    while (tud_vendor_write_available() < needed) {
+        if (!webusb_connected || waited_us >= WEBUSB_TX_TIMEOUT_US) {
+            return 0;
+        }
+        ns_delay_us(poll_us);
+        waited_us += poll_us;
+    }
+    return 1;
+}
+
 uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     uint32_t bytes_tx = 0;
     uint32_t bufremain = bufsize;
-    // ns_lp_printf("webusb_send_data: %d\n", bufsize);
-    // ns_lp_printf("in: tud_vendor_write_flush, avail is %d\n", tud_vendor_write_available());
-    if (tud_vendor_write_available() != 4096) {
-        // ns_lp_printf("tud_vendor_write_available: %d\n", tud_vendor_write_available());
-        while (tud_vendor_write_available() < 4096) {
-            // ns_lp_printf(".");
-            ns_delay_us(1000);
+
+    if (!webusb_connected || !buf) {
+        return 0;
+    }
+
+    if (!webusb_wait_tx_space(CFG_TUD_VENDOR_TX_BUFSIZE, 1000)) {
+        ns_lp_printf("[NS USB] Warning: TX FIFO did not drain, dropping %lu bytes.\n", (unsigned long)bufsize);
+        return 0;
+    }
+
+    int i = 0;
+    do {
+        // When buf can't be written all at once, write again
+        // until the upper limit of rewrite numbers is reached or buf is
+        // written all.
+        if (i == REWRIT_NUMBER) {
+            ns_lp_printf("[NS USB] Warning: The number of rewrites is over %d, giving retries.\n", i);
+            break;
         }
-        // ns_lp_printf("\n");
-    }
 
-    if (webusb_connected && buf) {
-        int i = 0;
-        do {
-            // When buf can't be written all at once, write again
-            // until the upper limit of rewrite numbers is reached or buf is
-            // written all.
-            if (i == REWRIT_NUMBER) {
-                ns_lp_printf("[NS USB] Warning: The number of rewrites is over %d, giving retries.\n", i);
-                break;
-            }
+        bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
+        bufremain -= bytes_tx;
 
-            // bytes_tx = tud_vendor_write_pkt((void *)(buf + bufsize - bufremain), bufremain);
-            bytes_tx = tud_vendor_write((void *)(buf + bufsize - bufremain), bufremain);
-            // ns_lp_printf("bytes_tx: %d\n", bytes_tx);
-            bufremain -= bytes_tx;
+        i++;
+    } while (bufremain);
 
-            i++;
-        } while (bufremain);
-    }
-
-    if (bufremain) {
-        // Collects the amount of data that has not been written
-    }
     #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
-    // ns_lp_printf("tud_vendor_write_flush, avail is %d\n", tud_vendor_write_available());
 
-    while (tud_vendor_write_available() < 1400) {
-        ns_lp_printf("Vendor USB write avail %d, waiting...\n", tud_vendor_write_available());
-        ns_delay_us(200000);
+    if (!webusb_wait_tx_space(1400, 200000)) {
+        ns_lp_printf("[NS USB] Warning: TX FIFO has only %lu bytes free after flush.\n",
+                     (unsigned long)tud_vendor_write_available());
     }
     #endif
-
 
     return bufsize - bufremain;
 }

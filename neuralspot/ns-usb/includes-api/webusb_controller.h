@@ -26,11 +26,25 @@ typedef void (*webusb_rx_cb)(const uint8_t *buf, uint32_t buf_len, void *param);
 /**
  * @brief Blocking USB Send Data
  *
+ * Waits for the TX FIFO to drain before writing. Every wait is bounded, so the
+ * call returns even if the host stops reading.
+ *
  * @param buf Pointer to buffer with data to be sent
  * @param bufsize Requested number of bytes
- * @return uint32_t The amount of data written to the ring-buffer.
+ * @return uint32_t The amount of data written to the ring-buffer. 0 if no WebUSB
+ *         host is connected, buf is NULL, or the FIFO did not drain in time.
  */
 uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize);
+
+/**
+ * @brief Wait until the TX FIFO has room for at least needed bytes
+ *
+ * @param needed Number of free TX FIFO bytes to wait for
+ * @param poll_us Delay between checks, in microseconds
+ * @return uint32_t 1 if the space is available, 0 if the host disconnected or
+ *         the wait reached its upper bound first
+ */
+uint32_t webusb_wait_tx_space(uint32_t needed, uint32_t poll_us);
 
 /**
  * @brief Init tinyusb.

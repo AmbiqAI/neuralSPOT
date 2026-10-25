@@ -92,11 +92,7 @@ void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps,
     webusb_send_data((uint8_t *)&data, sizeof(usb_data_t));
     #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510B) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
-
-        while (tud_vendor_write_available() < 14) {
-        ns_lp_printf("avail %d\n", tud_vendor_write_available());
-        ns_delay_us(200000);
-    }
+    webusb_wait_tx_space(14, 200000);
     #endif
 }
 

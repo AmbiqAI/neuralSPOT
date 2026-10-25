@@ -227,10 +227,9 @@ static void render_image(uint32_t camLength, uint8_t *buff) {
         }
 
         webusb_send_data((uint8_t *)&data, chunkSize + WEBUSB_HEADER_SIZE);
-        while (tud_vendor_write_available() < MAX_WEBUSB_FRAME) {
-            // USB likes to be lazy about sending the last packet, so force it to
-            // ns_lp_printf(".");
-            ns_delay_us(400);
+        // USB likes to be lazy about sending the last packet, so force it to
+        if (!webusb_wait_tx_space(MAX_WEBUSB_FRAME, 400)) {
+            break;
         }
         ns_delay_us(400);
     }

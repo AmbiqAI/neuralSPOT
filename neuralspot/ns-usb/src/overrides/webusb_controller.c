@@ -81,14 +81,14 @@ typedef struct {
 #define DESC_MS_OS_20 7
 #define WEBUSB_REQUEST_SET_CONTROL_LINE_STATE 0x22
 #define REWRIT_NUMBER 40 // allow for long blocks to be sent in parts
-// Upper bound on any TX FIFO wait. A host can stop reading IN data without
-// disconnecting (for example, a closed browser tab), and the FIFO then never drains.
-#define WEBUSB_TX_TIMEOUT_US 1000000
 
 // The max of USB2.0 bulk type packet size is 512 in High Speed.
 static uint8_t rx_buf[512];
 // WebUSB connections status
 static volatile bool webusb_connected = false;
+// Set after a TX wait times out so later sends fail fast instead of each
+// waiting the full timeout while the host is not reading.
+static volatile bool webusb_tx_stalled = false;
 
 static webusb_parameter_t webusb_parameter = {
     .rx_msg_cb = NULL,
@@ -246,6 +246,7 @@ bool tud_vendor_control_xfer_cb(
             // ns_lp_printf("WEBUSB_REQUEST_SET_CONTROL_LINE_STATE: \n");
             if (request->wValue != 0) {
                 webusb_connected = true;
+                webusb_tx_stalled = false;
                 ns_lp_printf("WebUSB interface connected\r\n");
             } else {
                 ns_lp_printf("WebUSB interface disconnected\r\n");
@@ -268,6 +269,9 @@ bool tud_vendor_control_xfer_cb(
 uint32_t webusb_wait_tx_space(uint32_t needed, uint32_t poll_us) {
     uint32_t waited_us = 0;
 
+    if (poll_us == 0) {
+        poll_us = 1;
+    }
     while (tud_vendor_write_available() < needed) {
         if (!webusb_connected || waited_us >= WEBUSB_TX_TIMEOUT_US) {
             return 0;
@@ -286,8 +290,18 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
         return 0;
     }
 
+    if (webusb_tx_stalled) {
+        if (tud_vendor_write_available() < CFG_TUD_VENDOR_TX_BUFSIZE) {
+            return 0;
+        }
+        webusb_tx_stalled = false;
+    }
+
     if (!webusb_wait_tx_space(CFG_TUD_VENDOR_TX_BUFSIZE, 1000)) {
-        ns_lp_printf("[NS USB] Warning: TX FIFO did not drain, dropping %lu bytes.\n", (unsigned long)bufsize);
+        if (webusb_connected) {
+            webusb_tx_stalled = true;
+            ns_lp_printf("[NS USB] Warning: TX FIFO did not drain, dropping sends until it does.\n");
+        }
         return 0;
     }
 
@@ -310,9 +324,9 @@ uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize) {
     #if defined(AM_PART_APOLLO5B) || defined(AM_PART_APOLLO510L) || defined(AM_PART_APOLLO330P) || defined(NS_AMBIQSUITE_VERSION_R4_5_0)
     tud_vendor_write_flush();
 
-    if (!webusb_wait_tx_space(1400, 200000)) {
-        ns_lp_printf("[NS USB] Warning: TX FIFO has only %lu bytes free after flush.\n",
-                     (unsigned long)tud_vendor_write_available());
+    if (!webusb_wait_tx_space(1400, 200000) && webusb_connected) {
+        webusb_tx_stalled = true;
+        ns_lp_printf("[NS USB] Warning: TX FIFO did not drain after flush, dropping sends until it does.\n");
     }
     #endif
 

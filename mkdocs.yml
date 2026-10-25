@@ -309,9 +309,23 @@ extra:
     nnse_demo: {title: "NNSE demo", url: "https://ambiqai.github.io/soundkit-nnse-demo/"}
     tileio: {title: "Tileio dashboards", url: "https://ambiqai.github.io/tileio/"}
     nsx_tflite_micro: {title: "nsx-tflite-micro", url: "https://github.com/AmbiqAI/nsx-tflite-micro"}
+  # Links for any page that no legacy_pointers entry matches.
+  legacy_default_links: [nsx, nsx_migration]
   # Per-page pointers. A page matches by exact path, or by prefix when the entry
   # ends in "/"; the first match wins. An empty list suppresses the note.
   legacy_pointers:
+    - page: "docs/ai_at_ambiq.md"
+      links: []
+    - page: "docs/Ambiq-ModelZoo.md"
+      links: []
+    - page: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
+      links: []
+    - page: "docs/release_notes.md"
+      links: []
+    - page: "docs/developer_notes.md"
+      links: []
+    - page: "docs/blog/"
+      links: []
     - page: "index.md"
       links: [nsx, nsx_migration]
     - page: "docs/autodeploy_user_guide.md"
@@ -370,6 +384,8 @@ extra:
       links: [nsx_examples, tileio]
     - page: "neuralspot/ns-features/README.md"
       links: [nsx_helia_dsp, nsx_module_catalog]
+    - page: "tools/"
+      links: [hpx, helia_aot]
     - page: "neuralspot/docs/"
       links: []
     - page: "neuralspot/"

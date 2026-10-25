@@ -1,8 +1,9 @@
 """Resolve the per-page replacement-docs pointers declared in mkdocs.yml.
 
-Reads ``extra.legacy_links`` (name -> {title, url}) and ``extra.legacy_pointers``
-(ordered list of {page, links}). The build fails if an entry no longer matches
-any page or names an unknown link, so a renamed page cannot silently lose its
+Reads ``extra.legacy_links`` (name -> {title, url}), ``extra.legacy_pointers``
+(ordered list of {page, links}) and ``extra.legacy_default_links`` (links for
+pages no entry matches). The build fails if an entry no longer matches any page
+or a name is not in ``legacy_links``, so a renamed page cannot silently lose its
 pointer.
 """
 
@@ -34,6 +35,11 @@ def on_files(files, config):
             for name in entry.get("links", [])
             if name not in links
         )
+    errors.extend(
+        f"legacy_default_links names unknown link '{name}'"
+        for name in config.extra.get("legacy_default_links", [])
+        if name not in links
+    )
     if errors:
         raise PluginError("legacy_pointers: " + "; ".join(errors))
     return files
@@ -42,5 +48,6 @@ def on_files(files, config):
 def on_page_context(context, page, config, nav):
     links = config.extra.get("legacy_links", {})
     entry = _match(page.file.src_uri, config.extra.get("legacy_pointers", []))
-    context["legacy_links"] = [links[name] for name in entry["links"]] if entry else []
+    names = entry["links"] if entry else config.extra.get("legacy_default_links", [])
+    context["legacy_links"] = [links[name] for name in names]
     return context

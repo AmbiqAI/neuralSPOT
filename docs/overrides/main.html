@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block announce %}
+  {%- set links = config.extra.legacy_links -%}
+  neuralSPOT is in maintenance. New development happens in
+  <a href="{{ links.nsx.url | e }}">{{ links.nsx.title | e }}</a>.
+  For model profiling, AutoDeploy is replaced by
+  <a href="{{ links.hpx.url | e }}">{{ links.hpx.title | e }}</a>; for generating deployable model code, see
+  <a href="{{ links.helia_aot.url | e }}">{{ links.helia_aot.title | e }}</a>.
+  See the <a href="{{ links.nsx_migration.url | e }}">migration guide</a>.
+{% endblock %}
+
+{% block content %}
+  {%- if legacy_links -%}
+    <div class="admonition warning">
+      <p class="admonition-title">Legacy page</p>
+      <p>This page describes legacy neuralSPOT. For current tools and documentation, see
+      {% for link in legacy_links -%}
+        <a href="{{ link.url | e }}">{{ link.title | e }}</a>{% if not loop.last %}, {% endif %}
+      {%- endfor %}.</p>
+    </div>
+  {%- endif -%}
+  {{ super() }}
+{% endblock %}

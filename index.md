@@ -1,7 +1,7 @@
 #
 
-[![](./docs/images/neuralspot-banner.png#only-light)](https://amiqai.github.io/neuralSPOT)
-[![](./docs/images/neuralspot-banner-dark.png#only-dark)](https://amiqai.github.io/neuralSPOT)
+[![](./docs/images/neuralspot-banner.png#only-light)](https://ambiqai.github.io/neuralSPOT)
+[![](./docs/images/neuralspot-banner-dark.png#only-dark)](https://ambiqai.github.io/neuralSPOT)
 
 *AI SDK and Toolkit for Ambiq's Apollo Family of Ultra-Low-Power SoCs*
 

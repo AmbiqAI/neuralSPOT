@@ -41,7 +41,8 @@ typedef void (*webusb_rx_cb)(const uint8_t *buf, uint32_t buf_len, void *param);
  * @param buf Pointer to buffer with data to be sent
  * @param bufsize Requested number of bytes
  * @return uint32_t The amount of data written to the ring-buffer. 0 if no WebUSB
- *         host is connected, buf is NULL, or the FIFO did not drain in time.
+ *         host is connected, buf is NULL, the FIFO did not drain in time, or an
+ *         earlier TX stall has not cleared yet.
  */
 uint32_t webusb_send_data(uint8_t *buf, uint32_t bufsize);
 

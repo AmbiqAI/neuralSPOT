@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block announce %}
+  neuralSPOT is in maintenance. New development happens in
+  <a href="https://ambiqai.github.io/neuralspotx/">neuralSPOT-X</a>, and AutoDeploy is replaced by
+  <a href="https://ambiqai.github.io/helia-profiler/">heliaPROFILER</a>.
+  See the <a href="https://ambiqai.github.io/neuralspotx/getting-started/migrate-from-neuralspot/">migration guide</a>.
+{% endblock %}
+
+{% block content %}
+  {#- Entries match a page by exact src_uri, or by prefix when the entry ends in "/". First match wins. -#}
+  {%- set ns = namespace(links=none) -%}
+  {%- for entry in config.extra.legacy_pointers or [] -%}
+    {%- if ns.links is none and (page.file.src_uri == entry.page or (entry.page.endswith("/") and page.file.src_uri.startswith(entry.page))) -%}
+      {%- set ns.links = entry.links -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if ns.links -%}
+    <div class="admonition warning">
+      <p class="admonition-title">Legacy page</p>
+      <p>This page describes legacy neuralSPOT. For current tools and documentation, see
+      {% for link in ns.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>{% if not loop.last %}, {% endif %}
+      {%- endfor %}.</p>
+    </div>
+  {%- endif -%}
+  {{ super() }}
+{% endblock %}

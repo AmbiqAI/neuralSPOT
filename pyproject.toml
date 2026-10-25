@@ -1,7 +1,7 @@
 [project]
 name = "neuralspot"
 version = "1.3.0"
-description =  "Autodeploy is an all-in-one tool for automatically deploy, testing, profiling, and package TFLite files on Ambiq EVBs."
+description = "Legacy neuralSPOT tooling (in maintenance). For new work use neuralSPOT-X (https://github.com/AmbiqAI/neuralspotx) and heliaPROFILER."
 readme = "README.md"
 authors = [
     {name="Ambiq AI", email="support.aitg@ambiq.com"}
@@ -63,6 +63,7 @@ ns_perf = "neuralspot.tools.ns_perf:main"
 Homepage = "https://github.com/ambiqai/neuralSPOT"
 Documentation = "https://ambiqai.github.io/neuralSPOT"
 Repository = "https://github.com/ambiqai/neuralSPOT"
+Successor = "https://github.com/AmbiqAI/neuralspotx"
 
 
 [build-system]

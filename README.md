@@ -1,5 +1,13 @@
 # neuralSPOT
 
+> [!IMPORTANT]
+> **neuralSPOT is in maintenance.** New development happens in
+> [neuralSPOT-X](https://github.com/AmbiqAI/neuralspotx)
+> ([docs](https://ambiqai.github.io/neuralspotx/),
+> [migration guide](https://ambiqai.github.io/neuralspotx/getting-started/migrate-from-neuralspot/)).
+> For model profiling and deployment, AutoDeploy is replaced by
+> [heliaPROFILER](https://ambiqai.github.io/helia-profiler/).
+
 > AI SDK and Toolkit for Ambiq's Apollo Family of Ultra-Low-Power SoCs
 
 [![Docs](https://github.com/AmbiqAI/neuralSPOT/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/AmbiqAI/neuralSPOT/actions/workflows/docs.yaml)

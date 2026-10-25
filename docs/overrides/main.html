@@ -8,7 +8,6 @@
 {% endblock %}
 
 {% block content %}
-  {#- Entries match a page by exact src_uri, or by prefix when the entry ends in "/". First match wins. -#}
   {%- set ns = namespace(links=none) -%}
   {%- for entry in config.extra.legacy_pointers or [] -%}
     {%- if ns.links is none and (page.file.src_uri == entry.page or (entry.page.endswith("/") and page.file.src_uri.startswith(entry.page))) -%}

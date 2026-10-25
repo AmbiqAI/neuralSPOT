@@ -34,6 +34,9 @@ static ns_tusb_desc_webusb_url_t usb_test_url;
 
 void crc_verification_raw_cb(const uint8_t *data, uint32_t length, void *param) {
     // Extract the packet
+    if (length < 6 + sizeof(uint32_t)) {
+        return;
+    }
     memcpy(&received_second_crc, data + 6, sizeof(uint32_t)); // add 6 to account for padding
     crc_verified = true;
 

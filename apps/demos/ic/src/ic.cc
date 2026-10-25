@@ -102,7 +102,7 @@ void sendMessage(uint8_t type, uint8_t classId, uint8_t confidence, uint8_t fps,
 
 void msgReceived(const uint8_t *buffer, uint32_t length, void *args) {
     // Do something with the received message
-    ns_lp_printf("Received %d bytes: %s\n", length, buffer);
+    ns_lp_printf("Received %d bytes\n", length);
 }
 
 int main(void) {

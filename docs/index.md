@@ -66,6 +66,7 @@ Two caveats:
 
 ```bash
 cd .../neuralSPOT # neuralSPOT's root directory
+python -m pip install --upgrade "pip>=26.2.2"
 pip install .
 ns_autodeploy --tflite-filename=mymodel.tflite --model-name mymodel # add --tty COMx for Windows
 ```

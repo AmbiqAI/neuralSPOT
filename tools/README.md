@@ -44,6 +44,7 @@ This directory contains a collection of utility scripts that support various tas
 ns_autodeploy can be installed using pip:
 ```bash
 cd .../neuralSPOT
+python -m pip install --upgrade "pip>=26.2.2"
 pip install .
 ```
 

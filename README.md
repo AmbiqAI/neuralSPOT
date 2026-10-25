@@ -85,6 +85,7 @@ $> ns_autodeploy --tflite-filename mymodel.tflite
 ### Using PIP
 ```bash
 $> cd .../neuralSPOT # neuralSPOT's root directory
+$> python -m pip install --upgrade "pip>=26.2.2"
 $> pip install .
 $> ns_autodeploy --tflite-filename mymodel.tflite
 ```

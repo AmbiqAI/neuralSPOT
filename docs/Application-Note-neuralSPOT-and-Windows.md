@@ -93,5 +93,6 @@ neuralSPOT includes a sample Python application which requires some Python libra
 
 ```bash
 $> cd .../neuralSPOT
+$> python -m pip install --upgrade "pip>=26.2.2"
 $> pip install .
 ```

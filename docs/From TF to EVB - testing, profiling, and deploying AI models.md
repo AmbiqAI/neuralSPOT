@@ -58,6 +58,7 @@ Autodeploy can be installed via pip:
 
 ```bash
 cd neuralSPOT
+python -m pip install --upgrade "pip>=26.2.2"
 pip install .
 ```
 

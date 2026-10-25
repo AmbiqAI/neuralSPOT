@@ -16,6 +16,7 @@ Autodeploy is analyzes, profiles, packages, and deploys TFLite model files on Ap
 
 ```
 cd ns-mirror
+python -m pip install --upgrade "pip>=26.2.2"
 pip install .
 ```
 

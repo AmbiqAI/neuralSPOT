@@ -36,6 +36,7 @@ It's a client/server system needing some careful staging, described below.
 You'll need to install some laptop-side software.
 ```bash
 $> cd .../neuralSPOT
+$> python -m pip install --upgrade "pip>=26.2.2"
 $> pip install .
 ```
 > *NOTE* for Windows, see our [Windows eRPC application note](../../../docs/Application-Note-neuralSPOT-and-Windows.md)

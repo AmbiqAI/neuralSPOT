@@ -53,6 +53,7 @@ Ensure you have the following installed on your development system:
 
 2. **Install Autodeploy:**
    ```bash
+   python -m pip install --upgrade "pip>=26.2.2"
    pip install .
    ```
    This command installs ns_autodeploy. We recommend doing so within a Python virtual environment (venv).

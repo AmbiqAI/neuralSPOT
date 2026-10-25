@@ -1,7 +1,10 @@
 # Use the base image with Python and the specified version
-FROM mcr.microsoft.com/devcontainers/python:1-3.11-bullseye
+FROM mcr.microsoft.com/devcontainers/python:1-3.11-bookworm
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
+# The base image's Yarn apt source is signed with a key the image lacks, which breaks
+# apt-get update; nothing here uses Yarn.
+RUN rm -f /etc/apt/sources.list.d/yarn.list && \
+    export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y \
     ca-certificates \

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/AmbiqAI/neuralSPOT/compare/v1.4.0...v1.4.1) (2026-10-26)
+
+
+### Bug Fixes
+
+* **deps:** raise certifi, uv and pip floors for the emSign CA incident ([#314](https://github.com/AmbiqAI/neuralSPOT/issues/314)) ([9fa6185](https://github.com/AmbiqAI/neuralSPOT/commit/9fa61851c9e2c220668e4b5356623c3e570dc60b)), closes [#308](https://github.com/AmbiqAI/neuralSPOT/issues/308)
+
 ## [1.4.0](https://github.com/AmbiqAI/neuralSPOT/compare/v1.3.0...v1.4.0) (2026-10-25)
 
 

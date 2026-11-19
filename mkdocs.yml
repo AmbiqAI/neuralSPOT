@@ -293,7 +293,7 @@ extra:
     nsx_ex_audio_capture: {title: "audio_capture example", url: "https://ambiqai.github.io/neuralspotx/guides/examples/audio_capture/"}
     nsx_ex_usb_rpc: {title: "usb_rpc example", url: "https://ambiqai.github.io/neuralspotx/guides/examples/usb_rpc/"}
     nsx_module_catalog: {title: "neuralSPOT-X module catalog", url: "https://ambiqai.github.io/neuralspotx/modules/catalog/"}
-    nsx_helia_dsp: {title: "helia-dsp module", url: "https://ambiqai.github.io/neuralspotx/modules/helia-dsp/"}
+    helia_dsp: {title: "heliaDSP", url: "https://ambiqai.github.io/helia-dsp/"}
     nsx_reference: {title: "neuralSPOT-X reference", url: "https://ambiqai.github.io/neuralspotx/reference/"}
     hpx: {title: "heliaPROFILER", url: "https://ambiqai.github.io/helia-profiler/"}
     hpx_install: {title: "heliaPROFILER install", url: "https://ambiqai.github.io/helia-profiler/getting-started/install/"}
@@ -327,13 +327,13 @@ extra:
     - page: "docs/blog/"
       links: []
     - page: "index.md"
-      links: [nsx, nsx_migration]
+      links: []
     - page: "docs/autodeploy_user_guide.md"
       links: [hpx, hpx_profile, hpx_power, hpx_pmu, hpx_boards, hpx_analyze, helia_aot, helia_estimator]
     - page: "docs/profiling_tflite.md"
       links: [hpx, hpx_profile, hpx_power, hpx_pmu, hpx_boards, hpx_analyze, helia_aot, helia_estimator]
     - page: "docs/index.md"
-      links: [nsx, nsx_migration]
+      links: []
     - page: "docs/Introduction-to-neuralSPOT.md"
       links: [nsx, nsx_migration]
     - page: "docs/features.md"
@@ -383,7 +383,7 @@ extra:
     - page: "apps/"
       links: [nsx_examples, tileio]
     - page: "neuralspot/ns-features/README.md"
-      links: [nsx_helia_dsp, nsx_module_catalog]
+      links: [helia_dsp, nsx_migration]
     - page: "tools/"
       links: [hpx, helia_aot]
     - page: "neuralspot/docs/"

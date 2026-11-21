@@ -285,6 +285,8 @@ extra:
     nsx_install_windows: {title: "neuralSPOT-X Windows install", url: "https://ambiqai.github.io/neuralspotx/getting-started/install/windows/"}
     nsx_install_linux: {title: "neuralSPOT-X Linux install", url: "https://ambiqai.github.io/neuralspotx/getting-started/install/linux/"}
     nsx_guides: {title: "neuralSPOT-X guides", url: "https://ambiqai.github.io/neuralspotx/guides/"}
+    nsx_debug_vscode: {title: "Debug from VS Code", url: "https://ambiqai.github.io/neuralspotx/guides/apps/debug-vscode/"}
+    nsx_itm_pcsamp: {title: "ITM PC sampling", url: "https://ambiqai.github.io/neuralspotx/guides/system/itm-pc-sampling/"}
     nsx_module_model: {title: "Module model", url: "https://ambiqai.github.io/neuralspotx/guides/concepts/module-model/"}
     nsx_adding_module: {title: "Adding a module", url: "https://ambiqai.github.io/neuralspotx/guides/contribute/adding-a-module/"}
     nsx_examples: {title: "neuralSPOT-X examples", url: "https://ambiqai.github.io/neuralspotx/guides/examples/"}
@@ -338,6 +340,10 @@ extra:
       links: [nsx, nsx_migration]
     - page: "docs/features.md"
       links: [nsx, nsx_migration]
+    - page: "docs/using_vscode.md"
+      links: [nsx_debug_vscode]
+    - page: "docs/Code Profiling using ITM.md"
+      links: [nsx_itm_pcsamp, nsx_debug_vscode]
     - page: "docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md"
       links: [nsx_getting_started, nsx_first_app]
     - page: "docs/makefile-details.md"

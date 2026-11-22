@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.2](https://github.com/AmbiqAI/neuralSPOT/compare/v1.4.1...v1.4.2) (2026-11-22)
+
+
+### Documentation
+
+* reduce the neuralSPOT site to a single neuralSPOT-X landing page with redirects ([#320](https://github.com/AmbiqAI/neuralSPOT/issues/320)) ([045e091](https://github.com/AmbiqAI/neuralSPOT/commit/045e09108d7741d8e6e22819bcf7cf917e83c181)), closes [#319](https://github.com/AmbiqAI/neuralSPOT/issues/319)
+* replace the neuralSPOT docs home with a successor landing page ([#317](https://github.com/AmbiqAI/neuralSPOT/issues/317)) ([afc092f](https://github.com/AmbiqAI/neuralSPOT/commit/afc092f95658bfa246cbe360f947c7ec9d742ad0))
+
 ## [1.4.1](https://github.com/AmbiqAI/neuralSPOT/compare/v1.4.0...v1.4.1) (2026-10-26)
 
 

@@ -3,9 +3,18 @@
 [![](./docs/images/neuralspot-banner.png#only-light)](https://ambiqai.github.io/neuralSPOT)
 [![](./docs/images/neuralspot-banner-dark.png#only-dark)](https://ambiqai.github.io/neuralSPOT)
 
+## Use neuralSPOT-X
+
+[neuralSPOT-X](https://ambiqai.github.io/neuralspotx/) is the successor to neuralSPOT. It is Ambiq's modular AI SDK: you compose reusable firmware modules, choose a toolchain and build AI applications for Ambiq silicon.
+
+- [Documentation](https://ambiqai.github.io/neuralspotx/)
+- [Getting started](https://ambiqai.github.io/neuralspotx/getting-started/)
+- [Migrating from neuralSPOT](https://ambiqai.github.io/neuralspotx/getting-started/migrate-from-neuralspot/)
+- [Source code](https://github.com/AmbiqAI/neuralspotx)
+
 ## neuralSPOT is in maintenance
 
-neuralSPOT is no longer under active development. For new work, use [neuralSPOT-X](https://ambiqai.github.io/neuralspotx/) and the HELIA tools listed below. This site is kept for reference. Security fixes may still be released; see the [releases](https://github.com/AmbiqAI/neuralSPOT/releases).
+neuralSPOT is no longer under active development. For new work, use neuralSPOT-X and the HELIA tools listed below. Security fixes may still be released; see the [releases](https://github.com/AmbiqAI/neuralSPOT/releases).
 
 ## Where things moved
 
@@ -19,6 +28,6 @@ neuralSPOT is no longer under active development. For new work, use [neuralSPOT-
 | Audio demos (speech enhancement, keyword spotting, speaker ID) | [soundKIT](https://ambiqai.github.io/soundkit/) |
 | Web dashboards for EVB data | [Tileio](https://ambiqai.github.io/tileio/) |
 
-## Legacy documentation
+## Old documentation
 
-The original neuralSPOT documentation is still available from the navigation menu. Most pages note where their topic lives now. The source code is on [GitHub](https://github.com/AmbiqAI/neuralSPOT).
+The neuralSPOT documentation is no longer published on this site. Links to old pages redirect here or to the page that replaced them. The documentation source remains in the [repository](https://github.com/AmbiqAI/neuralSPOT), including at the [v1.4.1 tag](https://github.com/AmbiqAI/neuralSPOT/tree/v1.4.1).

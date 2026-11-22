@@ -8,10 +8,13 @@ use_directory_urls: False
 
 # The site publishes only the landing page and the assets it uses.
 # docs/hooks/redirects.py writes a redirect stub at every URL the full
-# documentation site published.
+# documentation site published. exclude_docs also filters theme files, so
+# /assets/ (theme CSS and JavaScript) must stay included; anything committed
+# under a root assets/ directory would be published too.
 exclude_docs: |
   /*
   !/index.md
+  !/assets/
   !/docs/images/favicon.png
   !/docs/images/neuralspot-banner.png
   !/docs/images/neuralspot-banner-dark.png

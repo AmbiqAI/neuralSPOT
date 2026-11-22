@@ -4,16 +4,16 @@ The site publishes only the landing page. ``redirect_pages.tsv`` lists every
 .html file the deployed documentation site served, as source path and output
 path.
 GitHub Pages has no server-side redirects, so after the build this hook writes a
-static HTML page at each output path that points readers to the first link of
+static HTML page at each output path that points readers to the ``link`` of
 the matching ``extra.legacy_pointers`` entry, resolved through
-``extra.legacy_links``. Pages whose entry lists no links, or that no entry
+``extra.legacy_links``. Pages whose entry has a null link, or that no entry
 matches, point to the landing page.
 
 An entry matches by exact source path, or by prefix when it ends in "/"; the
-first match wins. The build fails if an entry matches no listed page or names a
-link missing from ``legacy_links``, so a typo cannot silently send readers to
-the wrong place. It also fails if a stub would land on the output path of a
-file the build publishes.
+first match wins. The build fails if an entry matches no listed page, names a
+link missing from ``legacy_links``, or gives anything other than one link name
+or null, so a typo cannot silently send readers to the wrong place. It also
+fails if a stub would land on the output path of a file the build publishes.
 """
 
 import html
@@ -75,19 +75,24 @@ def _validate(pages, links, pointers):
                 errors.append(f"prefix '{page}' matches no page")
         elif page not in uris:
             errors.append(f"page '{page}' not found")
-        errors.extend(
-            f"page '{page}' names unknown link '{name}'"
-            for name in entry.get("links", [])
-            if name not in links
-        )
+        # An entry without exactly page and link is most likely the old
+        # multi-link form, whose extra links never reached a reader.
+        if set(entry) != {"page", "link"}:
+            errors.append(f"page '{page}' needs exactly the keys 'page' and 'link'")
+            continue
+        name = entry["link"]
+        if name is not None and not isinstance(name, str):
+            errors.append(f"page '{page}' link must be one link name or null")
+        elif name is not None and name not in links:
+            errors.append(f"page '{page}' names unknown link '{name}'")
     if errors:
         raise PluginError("legacy_pointers: " + "; ".join(errors))
 
 
 def _target(src_uri, dest_uri, links, pointers, site_name):
     entry = _match(src_uri, pointers)
-    if entry and entry.get("links"):
-        return links[entry["links"][0]]
+    if entry and entry["link"]:
+        return links[entry["link"]]
     # Relative, so the stub works under the GitHub Pages project subpath and
     # in a local build.
     url = posixpath.relpath("index.html", posixpath.dirname(dest_uri) or ".")

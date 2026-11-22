@@ -4,6 +4,7 @@ docs_dir: ./neuralspot
 site_description: Ambiq neuralSPOT - an AI SDK designed specifically for Ambiq's ultra-low power MCUs
 repo_name: AmbiqAI/neuralSPOT
 repo_url: https://github.com/AmbiqAI/neuralSPOT
+site_url: https://ambiqai.github.io/neuralSPOT/
 use_directory_urls: False
 
 # The site publishes only the landing page and the assets it uses.

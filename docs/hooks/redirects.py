@@ -12,7 +12,8 @@ matches, point to the landing page.
 An entry matches by exact source path, or by prefix when it ends in "/"; the
 first match wins. The build fails if an entry matches no listed page or names a
 link missing from ``legacy_links``, so a typo cannot silently send readers to
-the wrong place. It also fails if a stub would overwrite a published file.
+the wrong place. It also fails if a stub would land on the output path of a
+file the build publishes.
 """
 
 import html
@@ -22,6 +23,10 @@ import posixpath
 from mkdocs.exceptions import PluginError
 
 _PAGES = os.path.join(os.path.dirname(__file__), "redirect_pages.tsv")
+
+# Output paths of the files this build publishes. Checking these, not the site
+# directory, lets ``mkdocs build --dirty`` overwrite stubs from an earlier build.
+_published = set()
 
 _STUB = """<!doctype html>
 <html lang="en">
@@ -98,15 +103,21 @@ def on_config(config):
     return config
 
 
+def on_files(files, config):
+    _published.clear()
+    _published.update(f.dest_uri for f in files if f.inclusion.is_included())
+    return files
+
+
 def on_post_build(config):
     links = config.extra.get("legacy_links", {})
     pointers = config.extra.get("legacy_pointers", [])
     for src_uri, dest_uri in _load_pages():
-        path = os.path.join(config.site_dir, *dest_uri.split("/"))
-        if os.path.exists(path):
+        if dest_uri in _published:
             raise PluginError(
                 f"redirects: stub for '{src_uri}' would overwrite published file '{dest_uri}'"
             )
+        path = os.path.join(config.site_dir, *dest_uri.split("/"))
         target = _target(src_uri, dest_uri, links, pointers, config.site_name)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as f:

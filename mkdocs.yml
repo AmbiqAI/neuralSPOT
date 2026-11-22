@@ -6,137 +6,16 @@ repo_name: AmbiqAI/neuralSPOT
 repo_url: https://github.com/AmbiqAI/neuralSPOT
 use_directory_urls: False
 
+# The site publishes only the landing page and the assets it uses.
+# docs/hooks/redirects.py writes a redirect stub at every URL the full
+# documentation site published.
 exclude_docs: |
-  extern/*
-  docs/overrides/*
-  docs/hooks/*
-  projects/*
-  apps/experiments/*
-
-nav:
-  - Home: docs/index.md
-  - AI at Ambiq: docs/ai_at_ambiq.md
-  - Ambiq Model Zoo: docs/Ambiq-ModelZoo.md
-  - Getting Started:
-    - Introduction: docs/Introduction-to-neuralSPOT.md
-    - Tutorial: docs/Understanding-neuralSPOT-via-the-Basic-Tensorflow-Example.md
-    - Build Guide: docs/makefile-details.md
-    - Features: docs/features.md
-  - Developers:
-    - Developing with neuralSPOT: docs/Developing_with_NeuralSPOT.md
-    - Developing for neuralSPOT: docs/developer_guide.md
-    - Nests: docs/NeuralSPOT_Nests.md
-  - Tools:
-    - Automatic Testing, profiling, and deploying: "docs/From TF to EVB - testing, profiling, and deploying AI models.md"
-    - Autodeploy User Guide: tools/autodeploy.readme.md
-    - Batched Autodeploy User Guide: tools/ns_ad_batch.readme.md
-    - Tools Overview: tools/README.md
-  - Application Notes:
-    - neuralSPOT on Windows: docs/Application-Note-neuralSPOT-and-Windows.md
-    - neuralSPOT on Linux: docs/NeuralSPOT_RPC_and_AutoDeploy_on_Linux.md
-    - Optimizing Using neuralSPOT: docs/optimizing_using_neuralspot.md
-    - Release Notes: docs/release_notes.md
-    - Developer Notes: docs/developer_notes.md
-    - Edge Impulse Support: "docs/Deploying-EI-Models-using-neuralSPOT Nests.md"
-  - Examples:
-    - Kitchen Sink: apps/basic_tf_stub/README.md
-    - AI Examples:
-      - Keyword Spotting: apps/ai/kws/README.md
-      - Human Activity Recognition: apps/ai/har/README.md
-    - SDK Exmaples:
-      - ICM Inertial Sensor: apps/examples/icm/README.md
-      - Audio Capture: apps/ai/kws/README.md
-      - RPC EVB to PC: apps/examples/rpc_evb_to_pc/README.md
-      - RPC PC to EVB: apps/examples/rpc_pc_to_evb/README.md
-      - TFLM Profling: apps/examples/tflm_profiling/README.md
-      - PMU Profiling: apps/examples/pmu_profiling/README.md
-      - Quaternion Feature Extraction: apps/examples/quaternion/README.md
-      - UART: apps/examples/uart/README.md
-      - BLE: apps/demos/nnse/README.md
-      - WebUSB: apps/demos/nnse_usb/README.md
-      - Arducam: apps/examples/vision/README.md
-    - Demos:
-      - Image Classification: apps/demos/ic/README.md
-      - Speaker Identification: apps/demos/nnid/README.md
-      - Neural Network Speech Enhancement: apps/demos/nnse/README.md
-      - Neural Network Speech Enhancement over USB: apps/demos/nnse_usb/README.md
-  - Libraries:
-    - Audio: neuralspot/ns-audio/README.md
-    - Bluetooth: neuralspot/ns-ble/README.md
-    - i2c: neuralspot/ns-i2c/README.md
-    - SPI: neuralspot/ns-spi/README.md
-    - RPC: neuralspot/ns-rpc/README.md
-    - USB: neuralspot/ns-usb/README.md
-    - BLE: neuralspot/ns-ble/README.md
-    - IMU: neuralspot/ns-imu/README.md
-    - Feature Extraction: neuralspot/ns-features/README.md
-    - Power: neuralspot/ns-peripherals/README.md
-    - Buttons: neuralspot/ns-peripherals/README.md
-    - Utilities: neuralspot/ns-utils/README.md
-    - NNSP: neuralspot/ns-nnsp/README.md
-  - Code Documentation:
-    - Audio:
-      - Files: ns-audio/files.md
-      - Modules: ns-audio/modules.md
-      - Functions: ns-audio/functions.md
-      - Structs: ns-audio/annotated.md
-      - Variables: ns-audio/variables.md
-    - Bluetooth:
-      - Files: ns-ble/files.md
-      - Modules: ns-ble/modules.md
-      - Functions: ns-ble/functions.md
-      - Structs: ns-ble/annotated.md
-      - Variables: ns-ble/variables.md
-    - Remote Procedure Call:
-      - Files: ns-rpc/files.md
-      - Modules: ns-rpc/modules.md
-      - Functions: ns-rpc/functions.md
-      - Structs: ns-rpc/annotated.md
-      - Variables: ns-rpc/variables.md
-    - i2c:
-      - Files: ns-i2c/files.md
-      - Modules: ns-i2c/modules.md
-      - Functions: ns-i2c/functions.md
-      - Structs: ns-i2c/annotated.md
-      - Variables: ns-i2c/variables.md
-    - spi:
-      - Files: ns-spi/files.md
-      - Modules: ns-spi/modules.md
-      - Functions: ns-spi/functions.md
-      - Structs: ns-spi/annotated.md
-      - Variables: ns-spi/variables.md
-    - Utilities:
-      - Files: ns-utils/files.md
-      - Modules: ns-utils/modules.md
-      - Functions: ns-utils/functions.md
-      - Structs: ns-utils/annotated.md
-      - Variables: ns-utils/variables.md
-    - Power and power:
-      - Files: ns-power/files.md
-      - Modules: ns-power/modules.md
-      - Functions: ns-power/functions.md
-      - Structs: ns-power/annotated.md
-      - Variables: ns-power/variables.md
-    - Core:
-      - Files: ns-core/files.md
-      - Modules: ns-core/modules.md
-      - Functions: ns-core/functions.md
-      - Structs: ns-core/annotated.md
-      - Variables: ns-core/variables.md
-    - AmbiqSuite Harness:
-      - Files: ns-harness/files.md
-      - Modules: ns-harness/modules.md
-      - Functions: ns-harness/functions.md
-      - Structs: ns-harness/annotated.md
-      - Variables: ns-harness/variables.md
-    - Model Wrapper:
-      - Files: ns-model/files.md
-      - Modules: ns-model/modules.md
-      - Functions: ns-model/functions.md
-      - Structs: ns-model/annotated.md
-      - Variables: ns-model/variables.md
-  - Blog:
-      - docs/blog/index.md
+  /*
+  !/index.md
+  !/docs/images/favicon.png
+  !/docs/images/neuralspot-banner.png
+  !/docs/images/neuralspot-banner-dark.png
+  !/docs/css/custom.css
 
 markdown_extensions:
   - md_in_html
@@ -150,96 +29,13 @@ markdown_extensions:
   - attr_list
 
 plugins:
-  - blog:
-      blog_dir: docs/blog
   - glightbox
-  - mkdoxy:
-      full-doc: True
-      projects:
-        ns-audio:
-          src-dirs: neuralspot/neuralspot/ns-audio
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-ble:
-          src-dirs: neuralspot/neuralspot/ns-ble
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-i2c:
-          src-dirs: neuralspot/neuralspot/ns-i2c
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-spi:
-          src-dirs: neuralspot/neuralspot/ns-spi
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-power:
-          src-dirs: neuralspot/neuralspot/ns-peripherals
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-core:
-          src-dirs: neuralspot/neuralspot/ns-core
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-rpc:
-          src-dirs: neuralspot/neuralspot/ns-rpc
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-utils:
-          src-dirs: neuralspot/neuralspot/ns-utils
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-harness:
-          src-dirs: neuralspot/neuralspot/ns-harness
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-model:
-          src-dirs: neuralspot/neuralspot/ns-model
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
-        ns-camera:
-          src-dirs: neuralspot/neuralspot/ns-camera
-          full-doc: True
-          doxy-cfg:
-            FILE_PATTERNS: "*.h *.c *.cc"
-            RECURSIVE: True
-            EXTRACT_ALL: No
 
 hooks:
-  - neuralspot/docs/hooks/legacy_pointers.py
+  - neuralspot/docs/hooks/redirects.py
 
 theme:
   name: material
-  custom_dir: neuralspot/docs/overrides
   favicon: docs/images/favicon.png
   logo: docs/images/favicon.png
   icon:
@@ -275,8 +71,8 @@ extra_css:
   - docs/css/custom.css
 
 extra:
-  # Replacement-docs links by name, shared by the announcement bar and
-  # legacy_pointers. docs/hooks/legacy_pointers.py resolves and validates them.
+  # Redirect targets by name, used by legacy_pointers.
+  # docs/hooks/redirects.py resolves and validates them.
   legacy_links:
     nsx: {title: "neuralSPOT-X", url: "https://ambiqai.github.io/neuralspotx/"}
     nsx_migration: {title: "neuralSPOT-X migration guide", url: "https://ambiqai.github.io/neuralspotx/getting-started/migrate-from-neuralspot/"}
@@ -311,10 +107,10 @@ extra:
     nnse_demo: {title: "NNSE demo", url: "https://ambiqai.github.io/soundkit-nnse-demo/"}
     tileio: {title: "Tileio dashboards", url: "https://ambiqai.github.io/tileio/"}
     nsx_tflite_micro: {title: "nsx-tflite-micro", url: "https://github.com/AmbiqAI/nsx-tflite-micro"}
-  # Links for any page that no legacy_pointers entry matches.
-  legacy_default_links: [nsx, nsx_migration]
-  # Per-page pointers. A page matches by exact path, or by prefix when the entry
-  # ends in "/"; the first match wins. An empty list suppresses the note.
+  # Where each page in docs/hooks/redirect_pages.tsv redirects: the first link
+  # of the matching entry. A page matches by exact path, or by prefix when the
+  # entry ends in "/"; the first match wins. Pages with an empty list or no
+  # matching entry redirect to the landing page.
   legacy_pointers:
     - page: "docs/ai_at_ambiq.md"
       links: []
@@ -327,8 +123,6 @@ extra:
     - page: "docs/developer_notes.md"
       links: []
     - page: "docs/blog/"
-      links: []
-    - page: "index.md"
       links: []
     - page: "docs/autodeploy_user_guide.md"
       links: [hpx, hpx_profile, hpx_power, hpx_pmu, hpx_boards, hpx_analyze, helia_aot, helia_estimator]

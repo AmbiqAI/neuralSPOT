@@ -1,7 +1,8 @@
 """Write a redirect stub at the URL of every page the site no longer publishes.
 
 The site publishes only the landing page. ``redirect_pages.tsv`` lists every
-page the full documentation site published, as source path and output path.
+.html file the deployed documentation site served, as source path and output
+path.
 GitHub Pages has no server-side redirects, so after the build this hook writes a
 static HTML page at each output path that points readers to the first link of
 the matching ``extra.legacy_pointers`` entry, resolved through

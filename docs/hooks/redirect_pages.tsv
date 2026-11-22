@@ -1,6 +1,8 @@
-# Every page the full documentation site published, as source path and output path.
-# Plugin-generated pages (code documentation, blog) have no source in the build any more,
-# so this list, not the files on disk, defines which URLs keep a redirect stub.
+# Every .html file the deployed documentation site served (docs run 44956535647,
+# commit afc092f95), as source path and output path. Code documentation pages use
+# the output path with a .md suffix as their source, and static .html files their
+# own path. The site build no longer generates these pages, so this list, not the
+# files on disk, defines which URLs keep a redirect stub.
 AGENTS.md	AGENTS.html
 CHANGELOG.md	CHANGELOG.html
 apps/README.md	apps/index.html
@@ -42,6 +44,8 @@ docs/blog/posts/first-post-0001.md	docs/blog/2023/10/19/first.html
 docs/blog/posts/moving-edgeimpulse-to-new-repo.md	docs/blog/2023/10/20/neuralspots-edgeimpulse-examples-have-a-new-home.html
 docs/developer_guide.md	docs/developer_guide.html
 docs/developer_notes.md	docs/developer_notes.html
+docs/doxygen/custom_html/footer.html	docs/doxygen/custom_html/footer.html
+docs/doxygen/custom_html/user_guide.html	docs/doxygen/custom_html/user_guide.html
 docs/features.md	docs/features.html
 docs/index.md	docs/index.html
 docs/makefile-details.md	docs/makefile-details.html
@@ -63,6 +67,7 @@ neuralspot/ns-peripherals/README.md	neuralspot/ns-peripherals/index.html
 neuralspot/ns-rpc/README.md	neuralspot/ns-rpc/index.html
 neuralspot/ns-spi/README.md	neuralspot/ns-spi/index.html
 neuralspot/ns-usb/README.md	neuralspot/ns-usb/index.html
+neuralspot/ns-usb/tests/index.html	neuralspot/ns-usb/tests/index.html
 neuralspot/ns-utils/README.md	neuralspot/ns-utils/index.html
 ns-audio/annotated.md	ns-audio/annotated.html
 ns-audio/apollo330_2ns__pdm_8c.md	ns-audio/apollo330_2ns__pdm_8c.html
@@ -93,7 +98,7 @@ ns-audio/dir_df2255708d6b143ce8fcc7309a04d61d.md	ns-audio/dir_df2255708d6b143ce8
 ns-audio/dir_e822c2a0f7421229f6667853332154f0.md	ns-audio/dir_e822c2a0f7421229f6667853332154f0.html
 ns-audio/files.md	ns-audio/files.html
 ns-audio/functions.md	ns-audio/functions.html
-ns-audio/group__ns-_m_f_c_c.md	ns-audio/group__ns-_m_f_c_c.html
+ns-audio/group__ns-MFCC.md	ns-audio/group__ns-MFCC.html
 ns-audio/group__ns-audio.md	ns-audio/group__ns-audio.html
 ns-audio/hierarchy.md	ns-audio/hierarchy.html
 ns-audio/links.md	ns-audio/links.html
@@ -185,12 +190,12 @@ ns-ble/structns__ble__service__control.md	ns-ble/structns__ble__service__control
 ns-ble/structns__ble__uuid128__t.md	ns-ble/structns__ble__uuid128__t.html
 ns-ble/unionns__ble__msg__t.md	ns-ble/unionns__ble__msg__t.html
 ns-ble/variables.md	ns-ble/variables.html
-ns-camera/_arducam_camera_8c.md	ns-camera/_arducam_camera_8c.html
-ns-camera/_arducam_camera_8c_source.md	ns-camera/_arducam_camera_8c_source.html
-ns-camera/_arducam_camera_8h.md	ns-camera/_arducam_camera_8h.html
-ns-camera/_arducam_camera_8h_source.md	ns-camera/_arducam_camera_8h_source.html
-ns-camera/_platform_8h.md	ns-camera/_platform_8h.html
-ns-camera/_platform_8h_source.md	ns-camera/_platform_8h_source.html
+ns-camera/ArducamCamera_8c.md	ns-camera/ArducamCamera_8c.html
+ns-camera/ArducamCamera_8c_source.md	ns-camera/ArducamCamera_8c_source.html
+ns-camera/ArducamCamera_8h.md	ns-camera/ArducamCamera_8h.html
+ns-camera/ArducamCamera_8h_source.md	ns-camera/ArducamCamera_8h_source.html
+ns-camera/Platform_8h.md	ns-camera/Platform_8h.html
+ns-camera/Platform_8h_source.md	ns-camera/Platform_8h_source.html
 ns-camera/annotated.md	ns-camera/annotated.html
 ns-camera/class_member_enums.md	ns-camera/class_member_enums.html
 ns-camera/class_member_functions.md	ns-camera/class_member_functions.html
@@ -230,21 +235,21 @@ ns-camera/picojpeg_8c.md	ns-camera/picojpeg_8c.html
 ns-camera/picojpeg_8c_source.md	ns-camera/picojpeg_8c_source.html
 ns-camera/picojpeg_8h.md	ns-camera/picojpeg_8h.html
 ns-camera/picojpeg_8h_source.md	ns-camera/picojpeg_8h_source.html
-ns-camera/struct_arducam_camera.md	ns-camera/struct_arducam_camera.html
-ns-camera/struct_camera_info.md	ns-camera/struct_camera_info.html
-ns-camera/struct_class_camera.md	ns-camera/struct_class_camera.html
-ns-camera/struct_huff_table_t.md	ns-camera/struct_huff_table_t.html
-ns-camera/struct_sdk_date.md	ns-camera/struct_sdk_date.html
+ns-camera/structArducamCamera.md	ns-camera/structArducamCamera.html
+ns-camera/structCameraInfo.md	ns-camera/structCameraInfo.html
+ns-camera/structClassCamera.md	ns-camera/structClassCamera.html
+ns-camera/structHuffTableT.md	ns-camera/structHuffTableT.html
+ns-camera/structSdkDate.md	ns-camera/structSdkDate.html
 ns-camera/structjpeg__decoder__context__t.md	ns-camera/structjpeg__decoder__context__t.html
 ns-camera/structns__camera__cfg.md	ns-camera/structns__camera__cfg.html
 ns-camera/structpjpeg__image__info__t.md	ns-camera/structpjpeg__image__info__t.html
-ns-camera/union_sdk_info.md	ns-camera/union_sdk_info.html
+ns-camera/unionSdkInfo.md	ns-camera/unionSdkInfo.html
 ns-camera/variables.md	ns-camera/variables.html
 ns-core/annotated.md	ns-core/annotated.html
-ns-core/apollo330_p_2armclang_2startup__keil6_8c.md	ns-core/apollo330_p_2armclang_2startup__keil6_8c.html
-ns-core/apollo330_p_2armclang_2startup__keil6_8c_source.md	ns-core/apollo330_p_2armclang_2startup__keil6_8c_source.html
-ns-core/apollo330_p_2gcc_2startup__gcc_8c.md	ns-core/apollo330_p_2gcc_2startup__gcc_8c.html
-ns-core/apollo330_p_2gcc_2startup__gcc_8c_source.md	ns-core/apollo330_p_2gcc_2startup__gcc_8c_source.html
+ns-core/apollo330P_2armclang_2startup__keil6_8c.md	ns-core/apollo330P_2armclang_2startup__keil6_8c.html
+ns-core/apollo330P_2armclang_2startup__keil6_8c_source.md	ns-core/apollo330P_2armclang_2startup__keil6_8c_source.html
+ns-core/apollo330P_2gcc_2startup__gcc_8c.md	ns-core/apollo330P_2gcc_2startup__gcc_8c.html
+ns-core/apollo330P_2gcc_2startup__gcc_8c_source.md	ns-core/apollo330P_2gcc_2startup__gcc_8c_source.html
 ns-core/apollo3_2gcc_2startup__gcc_8c.md	ns-core/apollo3_2gcc_2startup__gcc_8c.html
 ns-core/apollo3_2gcc_2startup__gcc_8c_source.md	ns-core/apollo3_2gcc_2startup__gcc_8c_source.html
 ns-core/apollo3_2startup__gcc_8c.md	ns-core/apollo3_2startup__gcc_8c.html
@@ -255,14 +260,14 @@ ns-core/apollo4l_2gcc_2startup__gcc_8c.md	ns-core/apollo4l_2gcc_2startup__gcc_8c
 ns-core/apollo4l_2gcc_2startup__gcc_8c_source.md	ns-core/apollo4l_2gcc_2startup__gcc_8c_source.html
 ns-core/apollo4p_2gcc_2startup__gcc_8c.md	ns-core/apollo4p_2gcc_2startup__gcc_8c.html
 ns-core/apollo4p_2gcc_2startup__gcc_8c_source.md	ns-core/apollo4p_2gcc_2startup__gcc_8c_source.html
+ns-core/apollo510L_2armclang_2startup__keil6_8c.md	ns-core/apollo510L_2armclang_2startup__keil6_8c.html
+ns-core/apollo510L_2armclang_2startup__keil6_8c_source.md	ns-core/apollo510L_2armclang_2startup__keil6_8c_source.html
+ns-core/apollo510L_2gcc_2startup__gcc_8c.md	ns-core/apollo510L_2gcc_2startup__gcc_8c.html
+ns-core/apollo510L_2gcc_2startup__gcc_8c_source.md	ns-core/apollo510L_2gcc_2startup__gcc_8c_source.html
 ns-core/apollo510_2armclang_2startup__keil6_8c.md	ns-core/apollo510_2armclang_2startup__keil6_8c.html
 ns-core/apollo510_2armclang_2startup__keil6_8c_source.md	ns-core/apollo510_2armclang_2startup__keil6_8c_source.html
 ns-core/apollo510_2gcc_2startup__gcc_8c.md	ns-core/apollo510_2gcc_2startup__gcc_8c.html
 ns-core/apollo510_2gcc_2startup__gcc_8c_source.md	ns-core/apollo510_2gcc_2startup__gcc_8c_source.html
-ns-core/apollo510_l_2armclang_2startup__keil6_8c.md	ns-core/apollo510_l_2armclang_2startup__keil6_8c.html
-ns-core/apollo510_l_2armclang_2startup__keil6_8c_source.md	ns-core/apollo510_l_2armclang_2startup__keil6_8c_source.html
-ns-core/apollo510_l_2gcc_2startup__gcc_8c.md	ns-core/apollo510_l_2gcc_2startup__gcc_8c.html
-ns-core/apollo510_l_2gcc_2startup__gcc_8c_source.md	ns-core/apollo510_l_2gcc_2startup__gcc_8c_source.html
 ns-core/apollo510b_2armclang_2startup__keil6_8c.md	ns-core/apollo510b_2armclang_2startup__keil6_8c.html
 ns-core/apollo510b_2armclang_2startup__keil6_8c_source.md	ns-core/apollo510b_2armclang_2startup__keil6_8c_source.html
 ns-core/apollo510b_2gcc_2startup__gcc_8c.md	ns-core/apollo510b_2gcc_2startup__gcc_8c.html
@@ -341,7 +346,7 @@ ns-core/ns__core__tests_8h_source.md	ns-core/ns__core__tests_8h_source.html
 ns-core/pages.md	ns-core/pages.html
 ns-core/startup__clang_8c.md	ns-core/startup__clang_8c.html
 ns-core/startup__clang_8c_source.md	ns-core/startup__clang_8c_source.html
-ns-core/struct_a___b_l_o_c_k___l_i_n_k.md	ns-core/struct_a___b_l_o_c_k___l_i_n_k.html
+ns-core/structA__BLOCK__LINK.md	ns-core/structA__BLOCK__LINK.html
 ns-core/structns__core__api__t.md	ns-core/structns__core__api__t.html
 ns-core/structns__core__config__t.md	ns-core/structns__core__config__t.html
 ns-core/structns__desired__state__t.md	ns-core/structns__desired__state__t.html
@@ -409,8 +414,8 @@ ns-i2c/dir_f55e7d21ef04f94db3349f4cc91607e8.md	ns-i2c/dir_f55e7d21ef04f94db3349f
 ns-i2c/dir_f7f1d4900af4b39e0a62da3e877b1f7f.md	ns-i2c/dir_f7f1d4900af4b39e0a62da3e877b1f7f.html
 ns-i2c/files.md	ns-i2c/files.html
 ns-i2c/functions.md	ns-i2c/functions.html
-ns-i2c/group__ns-_m_a_x86150.md	ns-i2c/group__ns-_m_a_x86150.html
-ns-i2c/group__ns-_m_p_u6050.md	ns-i2c/group__ns-_m_p_u6050.html
+ns-i2c/group__ns-MAX86150.md	ns-i2c/group__ns-MAX86150.html
+ns-i2c/group__ns-MPU6050.md	ns-i2c/group__ns-MPU6050.html
 ns-i2c/group__ns-i2c.md	ns-i2c/group__ns-i2c.html
 ns-i2c/hierarchy.md	ns-i2c/hierarchy.html
 ns-i2c/links.md	ns-i2c/links.html
@@ -560,14 +565,14 @@ ns-power/structns__nvm__config__t.md	ns-power/structns__nvm__config__t.html
 ns-power/structns__power__config__t.md	ns-power/structns__power__config__t.html
 ns-power/structns__psram__config__t.md	ns-power/structns__psram__config__t.html
 ns-power/variables.md	ns-power/variables.html
-ns-rpc/_generic_data_operations___evb_to_pc_8h.md	ns-rpc/_generic_data_operations___evb_to_pc_8h.html
-ns-rpc/_generic_data_operations___evb_to_pc_8h_source.md	ns-rpc/_generic_data_operations___evb_to_pc_8h_source.html
-ns-rpc/_generic_data_operations___evb_to_pc__server_8h.md	ns-rpc/_generic_data_operations___evb_to_pc__server_8h.html
-ns-rpc/_generic_data_operations___evb_to_pc__server_8h_source.md	ns-rpc/_generic_data_operations___evb_to_pc__server_8h_source.html
-ns-rpc/_generic_data_operations___pc_to_evb_8h.md	ns-rpc/_generic_data_operations___pc_to_evb_8h.html
-ns-rpc/_generic_data_operations___pc_to_evb_8h_source.md	ns-rpc/_generic_data_operations___pc_to_evb_8h_source.html
-ns-rpc/_generic_data_operations___pc_to_evb__server_8h.md	ns-rpc/_generic_data_operations___pc_to_evb__server_8h.html
-ns-rpc/_generic_data_operations___pc_to_evb__server_8h_source.md	ns-rpc/_generic_data_operations___pc_to_evb__server_8h_source.html
+ns-rpc/GenericDataOperations__EvbToPc_8h.md	ns-rpc/GenericDataOperations__EvbToPc_8h.html
+ns-rpc/GenericDataOperations__EvbToPc_8h_source.md	ns-rpc/GenericDataOperations__EvbToPc_8h_source.html
+ns-rpc/GenericDataOperations__EvbToPc__server_8h.md	ns-rpc/GenericDataOperations__EvbToPc__server_8h.html
+ns-rpc/GenericDataOperations__EvbToPc__server_8h_source.md	ns-rpc/GenericDataOperations__EvbToPc__server_8h_source.html
+ns-rpc/GenericDataOperations__PcToEvb_8h.md	ns-rpc/GenericDataOperations__PcToEvb_8h.html
+ns-rpc/GenericDataOperations__PcToEvb_8h_source.md	ns-rpc/GenericDataOperations__PcToEvb_8h_source.html
+ns-rpc/GenericDataOperations__PcToEvb__server_8h.md	ns-rpc/GenericDataOperations__PcToEvb__server_8h.html
+ns-rpc/GenericDataOperations__PcToEvb__server_8h_source.md	ns-rpc/GenericDataOperations__PcToEvb__server_8h_source.html
 ns-rpc/annotated.md	ns-rpc/annotated.html
 ns-rpc/class_member_enums.md	ns-rpc/class_member_enums.html
 ns-rpc/class_member_functions.md	ns-rpc/class_member_functions.html
@@ -599,7 +604,7 @@ ns-rpc/ns__rpc__generic__data_8h.md	ns-rpc/ns__rpc__generic__data_8h.html
 ns-rpc/ns__rpc__generic__data_8h_source.md	ns-rpc/ns__rpc__generic__data_8h_source.html
 ns-rpc/pages.md	ns-rpc/pages.html
 ns-rpc/structbinary__t.md	ns-rpc/structbinary__t.html
-ns-rpc/structdata_block.md	ns-rpc/structdata_block.html
+ns-rpc/structdataBlock.md	ns-rpc/structdataBlock.html
 ns-rpc/structns__rpc__config__t.md	ns-rpc/structns__rpc__config__t.html
 ns-rpc/variables.md	ns-rpc/variables.html
 ns-spi/annotated.md	ns-spi/annotated.html
@@ -616,7 +621,7 @@ ns-spi/dir_b966c3a1db5c31a4ee97007b042e453f.md	ns-spi/dir_b966c3a1db5c31a4ee9700
 ns-spi/dir_e0f5da7958c5c830a8b53906a85fa945.md	ns-spi/dir_e0f5da7958c5c830a8b53906a85fa945.html
 ns-spi/files.md	ns-spi/files.html
 ns-spi/functions.md	ns-spi/functions.html
-ns-spi/group__neural_s_p_o_t-spi.md	ns-spi/group__neural_s_p_o_t-spi.html
+ns-spi/group__neuralSPOT-spi.md	ns-spi/group__neuralSPOT-spi.html
 ns-spi/hierarchy.md	ns-spi/hierarchy.html
 ns-spi/links.md	ns-spi/links.html
 ns-spi/macros.md	ns-spi/macros.html

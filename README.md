@@ -32,4 +32,4 @@ neuralSPOT is no longer under active development. For new work, use neuralSPOT-X
 
 ## Legacy neuralSPOT
 
-The neuralSPOT source and its documentation remain in this repository; the documentation source is under [docs](./docs). The [v1.4.1 tag](https://github.com/AmbiqAI/neuralSPOT/tree/v1.4.1) has the code and documentation as released in 1.4.1. The [neuralSPOT site](https://ambiqai.github.io/neuralSPOT) no longer publishes the old documentation; links to old pages redirect to their replacement or to the site home.
+The neuralSPOT source and its documentation remain in this repository; the documentation source is under [docs](./docs), [tools](./tools), [apps](./apps) and the library READMEs in [neuralspot](./neuralspot). The [v1.4.1 tag](https://github.com/AmbiqAI/neuralSPOT/tree/v1.4.1) has the code and documentation as released in 1.4.1. The [neuralSPOT site](https://ambiqai.github.io/neuralSPOT) no longer publishes the old documentation; links to old pages redirect to their replacement or to the site home.
